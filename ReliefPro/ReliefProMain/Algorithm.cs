@@ -8,6 +8,11 @@ namespace ReliefProMain
 {
     public static class Algorithm
     {
+        public static double GetTowerQ(double C1, double F, double Area)
+        {
+            return C1 * F * Math.Pow(Area, 0.82) * 3.6; //机算完后转换为KJ/hr
+        }
+
         public static double GetColumnArea(string Internal,int Trays,double L1,double L2,double L3,double Diameter)
         {
             double Area = 0;
@@ -93,7 +98,7 @@ namespace ReliefProMain
             else if (Orientation == "Vertical")
             {
 
-                if (HeadType == "Ellipse")
+                if (HeadType == "Eclipse")
                 {
                     if (BootHeight + Elevation <= 7.6)
                     {
