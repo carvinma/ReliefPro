@@ -1,0 +1,38 @@
+﻿<Window x:Class="ReliefAnalysis.View.CustomStream"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"                    
+        Title="1(Stream)" Height="489.552" Width="565.672" Loaded="Window_Loaded_1">
+        <Grid Name="grid1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="58*"/>
+            <RowDefinition Height="47*"/>
+            <RowDefinition Height="305*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Label Content="Stream Name:" HorizontalAlignment="Left" Margin="38,29,0,0" VerticalAlignment="Top" Width="98" Height="26"/>
+        <TextBox Name="txtName" HorizontalAlignment="Left" Height="23" Margin="155,29,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150" TextChanged="txtBox_TextChanged"/>
+        <Label Content="Description:" HorizontalAlignment="Left" Margin="50,9,0,0" VerticalAlignment="Top" Width="78" Height="26" Grid.Row="1"/>
+        <TextBox Name="txtDescription" HorizontalAlignment="Left" Height="23" Margin="155,9,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="360" Grid.Row="1"/>
+        <GroupBox Header="Condition" HorizontalAlignment="Left" Margin="38,24.657,0,0" VerticalAlignment="Top" Height="251" Width="477" Grid.Row="2"/>
+        <Label Content="VabFrac:" HorizontalAlignment="Left" Margin="139,55.657,0,0" VerticalAlignment="Top" Grid.Row="2"/>
+        <TextBox Name="txtVabFrac" HorizontalAlignment="Left" Height="23" Margin="212,55.657,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="txtBox_TextChanged" Grid.Row="2"/>
+        <Label Content="Temperature(C):" HorizontalAlignment="Left" Margin="95,93.657,0,0" VerticalAlignment="Top" Grid.Row="2" />
+        <TextBox Name="txtTemp" HorizontalAlignment="Left" Height="23" Margin="212,93.657,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="txtBox_TextChanged" Grid.Row="2"/>
+        <Label Content="Presressure(Mpag):" HorizontalAlignment="Left" Margin="78,131.657,0,0" VerticalAlignment="Top" Grid.Row="2"/>
+        <Label Content="Workflow(Kg/hr):" HorizontalAlignment="Left" Margin="90,162.657,0,0" VerticalAlignment="Top" Grid.Row="2"/>
+        <Label Content="Sp H(KJ/Kg):" HorizontalAlignment="Left" Margin="118,207.657,0,0" VerticalAlignment="Top" Grid.Row="2"/>        
+        <Label Content="H(KJ/hr):" HorizontalAlignment="Left" Margin="139,238.657,0,0" VerticalAlignment="Top" Grid.Row="2"/>
+        <TextBox Name="txtPres" HorizontalAlignment="Left" Height="23" Margin="212,131.657,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="txtBox_TextChanged" Grid.Row="2"/>
+        <TextBox Name="txtWf" HorizontalAlignment="Left" Height="23" Margin="212,167.657,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="txtBox_TextChanged" Grid.Row="2"/>
+        <TextBox Name="txtSph" HorizontalAlignment="Left" Height="23" Margin="212,207.657,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="txtBox_TextChanged" Grid.Row="2"/>
+        <TextBox Name="txtH" HorizontalAlignment="Left" Height="23" Margin="212,241.657,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="txtBox_TextChanged" Grid.Row="2"/>
+        <Border BorderBrush="black"    VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1" Margin="0,1,0,0" Grid.Row="3"/>
+        <Button Content="OK" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Height="25" Click="btnOK_Click" Margin="350,12,0,0" Grid.Row="3"/>
+        <Button Content="Cancel" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Height="25" Click="btnCancel_Click" Margin="445,12,0,0" Grid.Row="3"/>
+
+    </Grid>
+        
+</Window>

@@ -1,0 +1,172 @@
+﻿<UserControl x:Class="ReliefAnalysis.View.VisioDrawing"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1000" Loaded="UserControl_Loaded_1" BorderBrush="SlateBlue" BorderThickness="1,1,1,1">
+    <DockPanel LastChildFill="True">
+        <DockPanel DockPanel.Dock="Top" >
+            <DockPanel.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+            </DockPanel.Background>
+            <ToolBarTray >
+                <ToolBar Height="30" VerticalAlignment="Top"  HorizontalAlignment="Left" Width="998" BorderBrush="SlateBlue" BorderThickness="1,1,1,1"  >
+                    <Button Name="btnProperty" ToolTip="Property" VerticalAlignment="Center"  Click="ToolbarButton_Click">
+                        <Image Source="/images/property.png"  ></Image>
+                    </Button>
+                    <Separator/>
+                    <Button Name="btnPSV" ToolTip="PSV" VerticalAlignment="Center"  Click="ToolbarButton_Click">
+                        <Image Source="/images/compute.ico" x:Name="btnPSV1" ></Image>
+                    </Button>
+                    <Separator/>
+                    <Button Name="btnOptionCase" ToolTip="Select Case List" VerticalAlignment="Center"  Click="ToolbarButton_Click" >
+                        <Image Source="/images/casestudy.ico" x:Name="btnOptionCase1" ></Image>
+                    </Button>
+                    <Separator/>
+                    <Button Name="btnCaseStudy" ToolTip="Case Study" VerticalAlignment="Center"  Click="ToolbarButton_Click" >
+                        <Image Source="/images/compute.ico" x:Name="btnCaseStudy1" ></Image>
+                    </Button>
+                </ToolBar>
+            </ToolBarTray>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Right">
+            <Border BorderBrush="LightBlue" BorderThickness="1"  Margin="1">
+                <TabControl Name="toolsTab"   TabStripPlacement="Left" Height="auto"  Width="200"  >
+                    <TabControl.Resources>
+                        <Style TargetType="{x:Type TabItem}">
+                            <Setter Property="Padding" Value="20"></Setter>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TabItem}">
+                                        <Grid>
+                                            <Border Name="Border" Margin="0,0,0,0" Background="Transparent"
+                  BorderBrush="Gray" BorderThickness="1,1,1,1" CornerRadius="4">
+                                                <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              ContentSource="Header" Margin="12,2,12,2"
+                              RecognizesAccessKey="True">
+                                                    <ContentPresenter.LayoutTransform>
+                                                        <RotateTransform Angle="270" />
+                                                    </ContentPresenter.LayoutTransform>
+                                                </ContentPresenter>
+                                            </Border>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Panel.ZIndex" Value="100" />
+                                                <Setter TargetName="Border" Property="Background" Value="LIGHTSTEELBLUE" />
+                                                <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
+                                            </Trigger>
+
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TabControl.Resources>
+                    <TabItem Header="General" >
+                        <DockPanel>
+                            <ListView  VerticalAlignment="Stretch"   Name="lvGeneral" DockPanel.Dock="Top" BorderThickness="0"   >
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical"></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Image HorizontalAlignment="Left" Width="35px" Height="40px" Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove" />
+                                            <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Text="{Binding Name}" Grid.Row="1"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </DockPanel>
+                    </TabItem>
+                    <TabItem Header="Heat Exchanger">
+                        <DockPanel>
+                            <ListView   VerticalAlignment="Stretch"    Name="lvHeatExchanger" DockPanel.Dock="Top" BorderThickness="0" >
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical"></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Image HorizontalAlignment="Left" Width="35px" Height="40px" Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>
+                                            <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Text="{Binding Name}" Grid.Row="1"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </DockPanel>
+                    </TabItem>
+                    <TabItem Header="Tower" >
+                        <DockPanel>
+                            <ListView Name="lvTower"  VerticalAlignment="Stretch"    BorderThickness="0"  >
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical"></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Image HorizontalAlignment="Left" Width="35px" Height="40px" Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>
+                                            <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Text="{Binding Name}" Grid.Row="1"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </DockPanel>
+                    </TabItem>
+                    <TabItem Header="Compressor" >
+                        <DockPanel Background="#FFE5E5E5">
+                            <ListView Name="lvCompressor"  VerticalAlignment="Stretch"    BorderThickness="0"  >
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical"></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Image HorizontalAlignment="Left" Width="35px" Height="40px"  Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>
+                                            <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Text="{Binding Name}" Grid.Row="1"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </DockPanel>
+                    </TabItem>
+                </TabControl>
+            </Border>
+        </DockPanel>
+
+        <WindowsFormsHost Name="host" DockPanel.Dock="Left" Loaded="host_Loaded" Drop="host_Drop"  >
+
+        </WindowsFormsHost>
+
+
+    </DockPanel>
+</UserControl>

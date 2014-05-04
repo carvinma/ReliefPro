@@ -1,0 +1,626 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Windows.Threading;
+using System.Data;
+using System.Diagnostics;
+using System.Xml.Serialization;
+using System.IO;
+using System.Xml;
+using System.Resources;
+using System.Collections;
+using System.Configuration;
+using System.Collections.ObjectModel;
+using Microsoft.Win32;
+using System.Runtime.InteropServices;
+
+using Xceed.Wpf.AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout.Serialization;
+using Xceed.Wpf.AvalonDock;
+
+
+using ReliefProDAL;
+using ProII;
+using ReliefProCommon.CommonLib;
+using ReliefProBLL.Common;
+using ReliefProModel;
+using AxMicrosoft.Office.Interop.VisOcx;
+using Vo = Microsoft.Office.Interop.VisOcx;
+using Visio = Microsoft.Office.Interop.Visio;
+using ReliefProMain.View;
+
+namespace ReliefProMain
+{
+    /// <summary>
+    /// MainWindow.xaml 的交互逻辑
+    /// </summary>
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr _lopen(string lpPathName, int iReadWrite);
+
+        [DllImport("kernel32.dll")]
+        public static extern bool CloseHandle(IntPtr hObject);
+
+        public const int OF_READWRITE = 2;
+        public const int OF_SHARE_DENY_NONE = 0x40;
+        public readonly IntPtr HFILE_ERROR = new IntPtr(-1);
+
+        //版本信息
+        string version;
+        string defaultReliefProDir;
+        string tempReliefProWorkDir;
+        string currentPlantWorkFolder;
+        string currentPlantFile;
+        string currentPlantName;
+        string currentProtectedSystemFile;
+        AxDrawingControl visioControl = new AxDrawingControl();
+ 
+        public MainWindow()
+        {
+            InitializeComponent();            
+        }
+
+
+
+        #region TestBackground
+
+        /// <summary>
+        /// TestBackground Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty TestBackgroundProperty =
+            DependencyProperty.Register("TestBackground", typeof(Brush), typeof(MainWindow),
+                new FrameworkPropertyMetadata((Brush)null));
+
+        /// <summary>
+        /// Gets or sets the TestBackground property.  This dependency property 
+        /// indicates a randomly changing brush (just for testing).
+        /// </summary>
+        public Brush TestBackground
+        {
+            get { return (Brush)GetValue(TestBackgroundProperty); }
+            set { SetValue(TestBackgroundProperty, value); }
+        }
+
+        #endregion
+
+        
+        #region FocusedElement
+
+        /// <summary>
+        /// FocusedElement Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty FocusedElementProperty =
+            DependencyProperty.Register("FocusedElement", typeof(string), typeof(MainWindow),
+                new FrameworkPropertyMetadata((IInputElement)null));
+
+        /// <summary>
+        /// Gets or sets the FocusedElement property.  This dependency property 
+        /// indicates ....
+        /// </summary>
+        public string FocusedElement
+        {
+            get { return (string)GetValue(FocusedElementProperty); }
+            set { SetValue(FocusedElementProperty, value); }
+        }
+
+        #endregion
+
+        private void OnLayoutRootPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            var activeContent = ((LayoutRoot)sender).ActiveContent;
+            if (e.PropertyName == "ActiveContent")
+            {
+                Debug.WriteLine(string.Format("ActiveContent-> {0}", activeContent));
+            }
+        }
+
+        private void OnLoadLayout(object sender, RoutedEventArgs e)
+        {
+            var currentContentsList = dockManager.Layout.Descendents().OfType<LayoutContent>().Where(c => c.ContentId != null).ToArray();
+
+            string fileName = (sender as MenuItem).Header.ToString();
+            var serializer = new XmlLayoutSerializer(dockManager);
+            //serializer.LayoutSerializationCallback += (s, args) =>
+            //    {
+            //        var prevContent = currentContentsList.FirstOrDefault(c => c.ContentId == args.Model.ContentId);
+            //        if (prevContent != null)
+            //            args.Content = prevContent.Content;
+            //    };
+            using (var stream = new StreamReader(string.Format(@".\AvalonDock_{0}.config", fileName)))
+                serializer.Deserialize(stream);
+        }
+
+        private void OnSaveLayout(object sender, RoutedEventArgs e)
+        {
+            string fileName = (sender as MenuItem).Header.ToString();
+            var serializer = new XmlLayoutSerializer(dockManager);
+            using (var stream = new StreamWriter(string.Format(@".\AvalonDock_{0}.config", fileName)))
+                serializer.Serialize(stream);
+        }
+
+        private void OnShowWinformsWindow(object sender, RoutedEventArgs e)
+        {
+            var winFormsWindow = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "WinFormsWindow");
+            if (winFormsWindow.IsHidden)
+                winFormsWindow.Show();
+            else if (winFormsWindow.IsVisible)
+                winFormsWindow.IsActive = true;
+            else
+                winFormsWindow.AddToLayout(dockManager, AnchorableShowStrategy.Bottom | AnchorableShowStrategy.Most);
+        }
+
+        private void AddTwoDocuments_click(object sender, RoutedEventArgs e)
+        {
+            var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+            if (firstDocumentPane != null)
+            {
+                LayoutDocument doc = new LayoutDocument();
+                doc.Title = "Test1";
+                firstDocumentPane.Children.Add(doc);
+
+                LayoutDocument doc2 = new LayoutDocument();
+                doc2.Title = "Test2";
+                firstDocumentPane.Children.Add(doc2);
+            }
+
+            var leftAnchorGroup = dockManager.Layout.LeftSide.Children.FirstOrDefault();
+            if (leftAnchorGroup == null)
+            {
+                leftAnchorGroup = new LayoutAnchorGroup();
+                dockManager.Layout.LeftSide.Children.Add(leftAnchorGroup);
+            }
+
+            leftAnchorGroup.Children.Add(new LayoutAnchorable() { Title = "New Anchorable" });
+
+        }
+
+        private void OnShowToolWindow1(object sender, RoutedEventArgs e)
+        {
+            var toolWindow1 = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "toolWindow1");
+            if (toolWindow1.IsHidden)
+                toolWindow1.Show();
+            else if (toolWindow1.IsVisible)
+                toolWindow1.IsActive = true;
+            else
+                toolWindow1.AddToLayout(dockManager, AnchorableShowStrategy.Bottom | AnchorableShowStrategy.Most);
+        }
+
+        private void dockManager_DocumentClosing(object sender, DocumentClosingEventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show("Are you sure you want to save the document?", "Message Box", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    string vsdFile = visioControl.Src;
+                    visioControl.Document.SaveAs(vsdFile);
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void OnDumpToConsole(object sender, RoutedEventArgs e)
+        {
+            // Uncomment when TRACE is activated on AvalonDock project
+            // dockManager.Layout.ConsoleDump(0);
+        }
+
+        private void OnReloadManager(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void OnUnloadManager(object sender, RoutedEventArgs e)
+        {
+            if (layoutRoot.Children.Contains(dockManager))
+                layoutRoot.Children.Remove(dockManager);
+        }
+
+        private void OnLoadManager(object sender, RoutedEventArgs e)
+        {
+            if (!layoutRoot.Children.Contains(dockManager))
+                layoutRoot.Children.Add(dockManager);
+        }
+
+        private void OnToolWindow1Hiding(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to hide this tool?", "AvalonDock", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                e.Cancel = true;
+        }
+
+        private void OnloadUnitOfMeasure(object sender, RoutedEventArgs e)
+        {
+            FormatUnitsMeasure fum = new FormatUnitsMeasure();
+            if (fum.ShowDialog() == true)
+            {
+
+            }
+        }
+
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MenuItem item = (MenuItem)e.OriginalSource;
+                switch (item.Header.ToString())
+                {
+                    case "Open Plant":
+                        OpenPlant();                       
+                        break;
+                    case "Exit":
+                        this.Close();
+                        break;
+                    case "New Plant":
+                        CreatePlant();
+                        break;
+                    case "Save Plant":
+                        SavePlant();
+                        break;
+                       
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Action");
+            }
+        }
+
+        private void lvGeneral_MouseMove(object sender, MouseEventArgs e)
+        {
+            Image lvi = (Image)sender;
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                Visio.Page currentPage = visioControl.Document.Pages[1];
+                
+                if (lvi.Source.ToString().Contains("tower"))
+                {
+                    Visio.Document myCurrentStencil = visioControl.Document.Application.Documents.OpenEx(System.Environment.CurrentDirectory + @"/Tower.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+                    Visio.Master visioRectMaster = myCurrentStencil.Masters.get_ItemU(@"Dis");
+                    DragDropEffects dde1 = DragDrop.DoDragDrop(lvi, visioRectMaster, DragDropEffects.All);
+                    myCurrentStencil.Close();
+                    //openProperty();
+                    foreach (Visio.Shape shape in visioControl.Window.Selection)
+                    {
+                        shape.Cells["EventDblClick"].Formula = "=0";
+                    }
+                    visioControl.Window.DeselectAll();
+                }
+
+            }
+        }
+
+
+        
+        
+        private void initTower()
+        {
+            ObservableCollection<ListViewItemData> collections = new ObservableCollection<ListViewItemData>();
+            collections.Add(new ListViewItemData { Name = "Distillation", Pic = "/images/tower.ico" });
+            this.lvTower.ItemsSource = collections;
+        }
+
+       
+
+        private void SavePlant()
+        {
+           ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
+        }
+
+        private void OpenPlant()
+        {
+            try
+            {
+                Microsoft.Win32.OpenFileDialog dlgOpenDiagram = new Microsoft.Win32.OpenFileDialog();
+                dlgOpenDiagram.Filter = "Relief(*.ref) |*.ref";
+                if (dlgOpenDiagram.ShowDialog() == true)
+                {
+                    currentPlantFile = dlgOpenDiagram.FileName;
+                    currentPlantName = System.IO.Path.GetFileNameWithoutExtension(currentPlantFile);
+                    currentPlantWorkFolder = tempReliefProWorkDir + currentPlantName;
+
+                    if (Directory.Exists(currentPlantWorkFolder))
+                    {
+                        Directory.Delete(currentPlantWorkFolder, true);                    }
+
+                    ReliefProCommon.CommonLib.CSharpZip.ExtractZipFile(currentPlantFile, "1", currentPlantWorkFolder);
+                    string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
+
+                    TreeViewItem item = GetTreeViewItem(currentPlantName, currentPlantWorkFolder, 1, "images/plant.ico", dbPlant_target,null);
+
+                    DirectoryInfo dirPlant=new DirectoryInfo(currentPlantWorkFolder);
+                    
+                    foreach (DirectoryInfo device in dirPlant.GetDirectories())
+                    {
+                        TreeViewItem itemDevice = GetTreeViewItem(device.Name, device.FullName, 2, "images/plant.ico",dbPlant_target,null);
+                        item.Items.Add(itemDevice);
+                        foreach (DirectoryInfo dirProtectedSystem in device.GetDirectories())
+                        {
+                            string dbProtectSystem_target = dirProtectedSystem.FullName + @"\protectedsystem.mdb";
+                            TreeViewItem itemProtectSystem = GetTreeViewItem(dirProtectedSystem.Name, dirProtectedSystem.FullName, 3, "images/plant.ico", dbPlant_target, dbProtectSystem_target);
+                            itemDevice.Items.Add(itemProtectSystem);
+
+                            TreeViewItem itemProtectSystemfile = GetTreeViewItem(dirProtectedSystem.Name, dirProtectedSystem.FullName + @"\design.vsd", 4, "images/project.ico", dbPlant_target, dbProtectSystem_target);
+                            itemProtectSystem.Items.Add(itemProtectSystemfile);
+                        }
+                       
+                    }
+                   
+                    NavigationTreeView.Items.Add(item);
+                    item.ExpandSubtree();
+                    
+
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void CreatePlant()
+        {
+            try
+            {
+                System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+                saveFileDialog1.Filter = "ref files (*.ref)|*.ref";
+                saveFileDialog1.FilterIndex = 2;
+                saveFileDialog1.RestoreDirectory = true;
+                saveFileDialog1.Title = "New Plant";
+                saveFileDialog1.InitialDirectory = defaultReliefProDir;
+                if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    currentPlantFile = saveFileDialog1.FileName;
+                    currentPlantName = System.IO.Path.GetFileNameWithoutExtension(currentPlantFile);
+                    currentPlantWorkFolder = tempReliefProWorkDir + currentPlantName;
+                    if (Directory.Exists(currentPlantWorkFolder))
+                    {
+                        Directory.Delete(currentPlantWorkFolder, true);
+                    }
+                    Directory.CreateDirectory(currentPlantWorkFolder);
+                    string dbPlant = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\plant.mdb";
+                    string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
+                    System.IO.File.Copy(dbPlant, dbPlant_target, true);
+
+                    string unit1 = currentPlantWorkFolder + @"\Unit1";
+                    Directory.CreateDirectory(unit1);
+                    string protectsystem1 = unit1 + @"\ProtectedSystem1";
+                    Directory.CreateDirectory(protectsystem1);
+                    string dbProtectSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
+                    string dbProtectSystem_target = protectsystem1 + @"\protectedsystem.mdb";
+                    System.IO.File.Copy(dbProtectSystem, dbProtectSystem_target, true);
+                    string visioProtectSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.vsd";
+                    string visioProtectSystem_target = protectsystem1 + @"\design.vsd";
+                    System.IO.File.Copy(visioProtectSystem, visioProtectSystem_target, true);
+
+
+
+                    //using (var helper = new NHibernateHelper(dbPlant_target))
+                    //{
+                    //    dbUnit db = new dbUnit();
+                    //    Device device = new Device();
+                    //    device.DeviceName = "Unit1";
+                    //    db.Add(device, helper.GetCurrentSession());
+
+                    //    dbProtectSystem db2 = new dbProtectSystem();
+                    //    ProtectedSystem ps = new ProtectedSystem();
+                    //    ps.DeviceName = "Unit1";
+                    //    ps.ProtectedSystemName = "ProtectedSystem1";
+                    //    db2.Add(ps, helper.GetCurrentSession());
+                    //}
+                    ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
+
+                    TreeViewItem item = GetTreeViewItem(currentPlantName, currentPlantWorkFolder, 1, "images/plant.ico", dbPlant_target, null);
+
+                    TreeViewItem itemUnit = GetTreeViewItem("Unit1", unit1, 2, "images/plant.ico", dbPlant_target, null);
+                    item.Items.Add(itemUnit);
+
+                    TreeViewItem itemProtectSystem = GetTreeViewItem("ProtectedSystem1", protectsystem1, 3, "images/plant.ico", dbPlant_target, dbProtectSystem_target);
+                    itemUnit.Items.Add(itemProtectSystem);
+
+                    TreeViewItem itemProtectSystemfile = GetTreeViewItem("ProtectedSystem1", visioProtectSystem_target, 4, "images/project.ico", dbPlant_target, dbProtectSystem_target);
+                    itemProtectSystem.Items.Add(itemProtectSystemfile);
+
+                    NavigationTreeView.Items.Add(item);
+                    item.ExpandSubtree();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
+        }
+
+        private TreeViewItem GetTreeViewItem(string text,string fullname,int type, string imagepath,string dbPlantFile,string dbProtectedSystemFile)
+        {
+            
+            TreeViewItemData data = new TreeViewItemData();
+            data.Text = text;
+            data.Type = type;
+            data.FullName = fullname;
+            data.Pic = imagepath;
+            data.dbPlantFile = dbPlantFile;
+            data.dbProtectedSystemFile = dbProtectedSystemFile;
+            TreeViewItem newTreeViewItem = new TreeViewItem();
+            // create stack panel
+            StackPanel stack = new StackPanel();
+            stack.Orientation = Orientation.Horizontal;
+            stack.Height = 20;
+            // create Image
+            Image image = new Image();
+            image.Source = new BitmapImage(new Uri(imagepath, UriKind.Relative));
+            image.Width = 16;
+            image.Height = 16;
+            // Label
+            TextBlock lbl = new TextBlock();
+            lbl.Text = text;
+            // Add into stack
+            stack.Children.Add(image);
+            stack.Children.Add(lbl);
+            // assign stack to header
+            newTreeViewItem.Header = stack;
+            newTreeViewItem.Tag = data;
+            return newTreeViewItem;
+        }
+        
+
+
+        private void MainWindowApp_Loaded(object sender, RoutedEventArgs e)
+        {
+            version = ConfigurationManager.AppSettings["version"];
+            defaultReliefProDir = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\" + version + @"\";
+            if (!Directory.Exists(defaultReliefProDir))
+                Directory.CreateDirectory(defaultReliefProDir);
+            tempReliefProWorkDir = System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\" + version + @"\";
+            if (!Directory.Exists(tempReliefProWorkDir))
+                Directory.CreateDirectory(tempReliefProWorkDir);
+            initTower();
+        }
+
+        private void NavigationTreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                if (NavigationTreeView.SelectedItem == null)
+                    return;
+                TreeViewItem tvi = (TreeViewItem)NavigationTreeView.SelectedItem;
+                var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+                if (firstDocumentPane != null)
+                {
+                    TreeViewItemData data = tvi.Tag as TreeViewItemData;
+                    if (data.Type == 4)
+                    {
+                        bool b=false;
+                        foreach (LayoutDocument d in firstDocumentPane.Children)
+                        {
+                            if (d.Description == data.FullName)
+                            {
+                                b = true;
+                                d.IsActive = true;
+                                break;
+                            }
+                        }
+                        if (!b)
+                        {                            
+                            LayoutDocument doc = new LayoutDocument();
+                            doc.Title = data.Text;
+                            doc.Description = data.FullName;
+                            UCDrawingControl ucDrawingControl = new UCDrawingControl();
+                            doc.Content = ucDrawingControl;
+                            ucDrawingControl.Tag = data;
+                            
+                           
+                            firstDocumentPane.Children.Add(doc);
+                            visioControl = ucDrawingControl.visioControl;
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void NavigationTreeView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var treeViewItem = VisualUpwardSearch<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem;
+            if (treeViewItem != null)
+            {
+                treeViewItem.Focus();
+                e.Handled = true;
+                TreeViewItemData data = new TreeViewItemData();
+                if (treeViewItem.Tag != null)
+                {
+                    data = treeViewItem.Tag as TreeViewItemData;
+                }
+                ContextMenu rmenu = (ContextMenu)this.Resources["RightContextMenu"];
+                if (data.Type == 1)
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        MenuItem item = (MenuItem)rmenu.Items[i];
+                        item.IsEnabled = true;
+                    }
+                    MenuItem item2 = (MenuItem)rmenu.Items[2];
+                    item2.IsEnabled = false;
+                }
+                if (data.Type == 2)
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        MenuItem item = (MenuItem)rmenu.Items[i];
+                        item.IsEnabled = false;
+                    }
+                    MenuItem item2 = (MenuItem)rmenu.Items[2];
+                    item2.IsEnabled = true;
+                }
+                if (data.Type==4 || data.Type==3)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        MenuItem item = (MenuItem)rmenu.Items[i];
+                        item.IsEnabled = false;
+                    }
+                }
+                
+
+                
+
+            }
+        }
+        static DependencyObject VisualUpwardSearch<T>(DependencyObject source)
+        {
+            while (source != null && source.GetType() != typeof(T))
+                source = VisualTreeHelper.GetParent(source);
+
+            return source;
+        }
+
+       
+        public void ImportDataFromOther(object sender, RoutedEventArgs e)
+        {
+            if (NavigationTreeView.SelectedItem == null)
+                return;
+            TreeViewItem tvi = (TreeViewItem)NavigationTreeView.SelectedItem;
+            ImportDataView imptdata = new ImportDataView();
+            TreeViewItemData data = tvi.Tag as TreeViewItemData;
+            imptdata.dirInfo = data.FullName;
+            imptdata.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            imptdata.Owner = this;
+            imptdata.ShowDialog();
+
+        }
+
+
+    }
+    public class ListViewItemData
+    {
+        public string Name { get; set; }
+        public string Pic { get; set; }
+    }
+    
+   
+}

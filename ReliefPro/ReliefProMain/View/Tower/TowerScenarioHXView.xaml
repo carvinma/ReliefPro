@@ -1,0 +1,59 @@
+﻿<Window x:Class="ReliefProMain.View.TowerScenarioHXView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TowerHX" Height="300" Width="555.172" Loaded="Window_Loaded_1">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <ListView Grid.Row="1" Margin="0,0,0,0" ItemsSource="{Binding Path=Details}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="#"  DisplayMemberBinding="{Binding Path=ID}"></GridViewColumn>
+                    <GridViewColumn Header="Name"  DisplayMemberBinding="{Binding Path=DetailName}"></GridViewColumn>
+                    <GridViewColumn Header="Heat Medium"  DisplayMemberBinding="{Binding Path=Medium}"></GridViewColumn>
+                    <GridViewColumn Header="Duty Factor"  DisplayMemberBinding="{Binding Path=DutyCalcFactor}"></GridViewColumn>
+                    <!--<GridViewColumn Header="Stop"  DisplayMemberBinding="{Binding Path=DutyLost}"></GridViewColumn>
+                    <GridViewColumn Header="Pinch"  DisplayMemberBinding="{Binding Path=Pinch}"></GridViewColumn>-->
+                    <GridViewColumn Header="Stop">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=DutyLost}"></CheckBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Pinch">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=Pinch}"></CheckBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="Calculation">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Calculation" ></Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Button Content="OK" IsCancel="True" HorizontalAlignment="Right" Margin="0,5,20,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Button Content="Reflux Drum Surge Time" Command="{Binding CalculateSurgeTimeClick}"  HorizontalAlignment="Left" Margin="212,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="170"/>
+        <TextBlock HorizontalAlignment="Left"  Margin="193,8,0,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding SurgeTime}" VerticalAlignment="Top"/>
+        <CheckBox Content="Fooding" HorizontalAlignment="Left" Margin="40,5,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <CheckBox Content="" HorizontalAlignment="Left" Margin="188,10,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>

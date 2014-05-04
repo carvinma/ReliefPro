@@ -1,0 +1,40 @@
+﻿<Window x:Class="ReliefAnalysis.View.Sink"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
+        Title="Sink" Height="340.298" Width="526.054" Loaded="MetroWindow_Loaded_1">
+    
+        <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Sink Name:" HorizontalAlignment="Left" Margin="113,28,0,0" VerticalAlignment="Top" Width="79"/>
+        <TextBox x:Name="txtName"  HorizontalAlignment="Left" Height="23" Margin="207,28,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="169" TextChanged="txtBox_TextChanged"/>
+        <Label  Content="Description:" HorizontalAlignment="Left" Margin="113,19,0,0" VerticalAlignment="Top" Width="89" Grid.Row="1"/>
+        <TextBox Name="txtDescription" HorizontalAlignment="Left" Height="23" Margin="207,19,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="169" Grid.Row="1"/>
+        <Label Content="Sink Type:" HorizontalAlignment="Left" Margin="124,16,0,0" VerticalAlignment="Top" Width="94" Grid.Row="2" Grid.RowSpan="2"/>
+        <ComboBox Name="cbxType" HorizontalAlignment="Left" Margin="207,16,0,0" VerticalAlignment="Top" Width="169" Grid.Row="2">
+            <ComboBoxItem Content="Compressor（Motor"/>
+            <ComboBoxItem Content="Compressor（Steam Turbine Driven）"/>
+            <ComboBoxItem Content="Pump（Steam Turbine Driven）"/>
+            <ComboBoxItem Content="Pump（Motor）"/>
+            <ComboBoxItem Content="Vessel"/>
+            <ComboBoxItem Content="Boundary"/>
+        </ComboBox>
+        <Label Content="Max Possible Pres(Mpag):" HorizontalAlignment="Left" Margin="44,10,0,0" VerticalAlignment="Top" Width="158" Grid.Row="3"/>
+        <TextBox Name="txtMaxPressure" HorizontalAlignment="Left" Height="23" Margin="207,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="169" TextChanged="txtBox_TextChanged" Grid.Row="3"/>
+        <CheckBox Name="chkIsMaintained" Content="Normal flow is maintained when General Electrical power fails." HorizontalAlignment="Left" Margin="113,16,0,0" VerticalAlignment="Top" Width="401" Click="chkIsContinued_Click" Grid.Row="4"/>
+        <Border BorderBrush="black"    VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1" Margin="0,1,0,0" Grid.Row="5"/>
+        <Button Content="OK" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Height="25" Click="btnOK_Click" Margin="336,10,0,0" Grid.Row="5"/>
+        <Button Content="Cancel" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Height="25" Click="btnCancel_Click" Margin="431,10,0,0" Grid.Row="5"/>
+
+    </Grid>
+    
+</Window>

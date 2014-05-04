@@ -1,0 +1,610 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{516C4ABD-9C47-4307-BD24-A9650D4CB372}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ReliefProMain</RootNamespace>
+    <AssemblyName>ReliefProMain</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>G:\Project\PRAS\ReliefProframework\ReliefPro\ReliefProMain\bin\Debug\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Configuration">
+      <HintPath>G:\Project\PRAS\ReliefProframework\ReliefPro\ReliefProMain\bin\Debug\Autofac.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="AxInterop.Microsoft.Office.Interop.VisOcx">
+      <HintPath>F:\StreamAnalysis\StreamAnalysis\bin\Release\AxInterop.Microsoft.Office.Interop.VisOcx.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\packages\Iesi.Collections.3.3.2.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>E:\E\武汉\2013-04-26\Demo\Lib\Prism4.1\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.JetDriver">
+      <HintPath>..\packages\NHibernate.JetDriver.2.0.0.1001\lib\net35\NHibernate.JetDriver.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WeifenLuo.WinFormsUI.Docking">
+      <HintPath>..\packages\DockPanelSuite.2.9.0.0\lib\net40\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="Xceed.Wpf.AvalonDock">
+      <HintPath>C:\Users\mchlb\Desktop\avalondock-102592\Version2.0\AvalonDock.MVVMTestApp\bin\Debug\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010">
+      <HintPath>C:\Users\mchlb\Desktop\avalondock-102592\Version2.0\AvalonDock.MVVMTestApp\bin\Debug\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Algorithm.cs" />
+    <Compile Include="AutoFacManger.cs" />
+    <Compile Include="Commands\CommandReference.cs" />
+    <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="CustomControl\CustomComboBox.cs" />
+    <Compile Include="CustomControl\UnitConvertCommonView.xaml.cs">
+      <DependentUpon>UnitConvertCommonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\UnitConvertTextBox.cs" />
+    <Compile Include="Interface\IModalDialog.cs" />
+    <Compile Include="Interface\IServiceLocator.cs" />
+    <Compile Include="Model\FormatUnitsMeasureModel.cs" />
+    <Compile Include="Model\ModelBase.cs" />
+    <Compile Include="Service\ServiceProvider.cs" />
+    <Compile Include="Service\UnityServiceLocator.cs" />
+    <Compile Include="ViewModel\FormatUnitsMeasureVM.cs" />
+    <Compile Include="ViewModel\Mode.cs" />
+    <Compile Include="ViewModel\MultiValueConverter.cs" />
+    <Compile Include="ViewModel\SourceVM.cs" />
+    <Compile Include="ViewModel\TowerFire\TowerFireColumnDetailVM.cs" />
+    <Compile Include="ViewModel\TowerFire\TowerFireCoolerVM.cs" />
+    <Compile Include="ViewModel\TowerFire\TowerFireEqVM.cs" />
+    <Compile Include="ViewModel\TowerFire\TowerFireOtherVM.cs" />
+    <Compile Include="ViewModel\TowerFire\TowerFireDrumVM.cs" />
+    <Compile Include="ViewModel\TowerFire\TowerFireHXVM.cs" />
+    <Compile Include="ViewModel\TowerFire\TowerFireColumnVM.cs" />
+    <Compile Include="ViewModel\TowerFire\TowerFireVM.cs" />
+    <Compile Include="ViewModel\TowerHXDetailVM.cs" />
+    <Compile Include="ViewModel\TowerHXVM.cs" />
+    <Compile Include="ViewModel\TowerScenarioCalcVM.cs" />
+    <Compile Include="ViewModel\TowerScenarioHXVM.cs" />
+    <Compile Include="ViewModel\AccumulatorVM.cs" />
+    <Compile Include="ViewModel\PSVVM.cs" />
+    <Compile Include="View\FormatUnitsMeasure\BasicUnitInfo.xaml.cs">
+      <DependentUpon>BasicUnitInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Common\CustomStreamView.xaml.cs">
+      <DependentUpon>CustomStreamView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FormatUnitsMeasure\FormatUnitsMeasure.xaml.cs">
+      <DependentUpon>FormatUnitsMeasure.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Common\PSVView.xaml.cs">
+      <DependentUpon>PSVView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Common\SelectEquipmentView.xaml.cs">
+      <DependentUpon>SelectEquipmentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Common\SourceView.xaml.cs">
+      <DependentUpon>SourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TowerFire\TowerFireView.xaml.cs">
+      <DependentUpon>TowerFireView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TowerFire\TowerFireCoolerView.xaml.cs">
+      <DependentUpon>TowerFireCoolerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TowerFire\TowerFireDrumView.xaml.cs">
+      <DependentUpon>TowerFireDrumView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TowerFire\TowerFireColumnView.xaml.cs">
+      <DependentUpon>TowerFireColumnView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TowerFire\TowerFireHXView.xaml.cs">
+      <DependentUpon>TowerFireHXView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TowerFire\TowerFireOtherView.xaml.cs">
+      <DependentUpon>TowerFireOtherView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tower\AccumulatorView.xaml.cs">
+      <DependentUpon>AccumulatorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tower\TowerHXDetailView.xaml.cs">
+      <DependentUpon>TowerHXDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tower\TowerView.xaml.cs">
+      <DependentUpon>TowerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UCControl\UCDrawingControl.xaml.cs">
+      <DependentUpon>UCDrawingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UnitConvert.cs" />
+    <Compile Include="ViewModel\ListDemoViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\Common\ImportDataView.xaml.cs">
+      <DependentUpon>ImportDataView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CompressorBlocked\CompressorBlocked.xaml.cs">
+      <DependentUpon>CompressorBlocked.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CompressorBlocked\CompressorBlocked2.xaml.cs">
+      <DependentUpon>CompressorBlocked2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CriticalFluid\CriticalFluid.xaml.cs">
+      <DependentUpon>CriticalFluid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DEPR\DEPR.xaml.cs">
+      <DependentUpon>DEPR.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DEPR\DEPRColumnDetails.xaml.cs">
+      <DependentUpon>DEPRColumnDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DEPR\DEPRDetail.xaml.cs">
+      <DependentUpon>DEPRDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Drum_BlockedOutlet\Drum_BlockedOutlet.xaml.cs">
+      <DependentUpon>Drum_BlockedOutlet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Drum_fire\Drum_fire.xaml.cs">
+      <DependentUpon>Drum_fire.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Drum_fire\Drum_fire2.xaml.cs">
+      <DependentUpon>Drum_fire2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Drum_fire\Drum_fire3.xaml.cs">
+      <DependentUpon>Drum_fire3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HX\HX.xaml.cs">
+      <DependentUpon>HX.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ReactorLoop\BlockedOutlet.xaml.cs">
+      <DependentUpon>BlockedOutlet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ReactorLoop\GeneralCoolingWaterFailure.xaml.cs">
+      <DependentUpon>GeneralCoolingWaterFailure.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ReactorLoop\GeneralElectricPowerFailure.xaml.cs">
+      <DependentUpon>GeneralElectricPowerFailure.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ReactorLoop\LossOfColdFeed.xaml.cs">
+      <DependentUpon>LossOfColdFeed.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ReactorLoop\LossOfReactorQuench.xaml.cs">
+      <DependentUpon>LossOfReactorQuench.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ReactorLoop\UnitsInReactorLoop.xaml.cs">
+      <DependentUpon>UnitsInReactorLoop.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ReactorLoop\UnitsInReactorLoop2.xaml.cs">
+      <DependentUpon>UnitsInReactorLoop2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ReboilerPinch\ReboilerPinch.xaml.cs">
+      <DependentUpon>ReboilerPinch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ShowInfo.xaml.cs">
+      <DependentUpon>ShowInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StorageTank\StorageTank.xaml.cs">
+      <DependentUpon>StorageTank.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\StorageTank\StorageTank2.xaml.cs">
+      <DependentUpon>StorageTank2.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\Tower\TowerHXView.xaml.cs">
+      <DependentUpon>TowerHXView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tower\TowerScenarioView.xaml.cs">
+      <DependentUpon>TowerScenarioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tower\TowerScenarioCalcView.xaml.cs">
+      <DependentUpon>TowerScenarioCalcView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tower\TowerScenarioFeedView.xaml.cs">
+      <DependentUpon>TowerScenarioFeedView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tower\TowerScenarioHXView.xaml.cs">
+      <DependentUpon>TowerScenarioHXView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="CustomControl\UnitConvertCommonView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="View\FormatUnitsMeasure\BasicUnitInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Common\CustomStreamView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\FormatUnitsMeasure\FormatUnitsMeasure.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Common\PSVView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Common\SelectEquipmentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Common\SourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TowerFire\TowerFireView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TowerFire\TowerFireCoolerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TowerFire\TowerFireDrumView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TowerFire\TowerFireColumnView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TowerFire\TowerFireHXView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TowerFire\TowerFireOtherView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Tower\AccumulatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tower\TowerHXDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tower\TowerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UCControl\UCDrawingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Common\ImportDataView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\CompressorBlocked\CompressorBlocked.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\CompressorBlocked\CompressorBlocked2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\CriticalFluid\CriticalFluid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DEPR\DEPR.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DEPR\DEPRColumnDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DEPR\DEPRDetail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Drum_BlockedOutlet\Drum_BlockedOutlet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Drum_fire\Drum_fire.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Drum_fire\Drum_fire2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Drum_fire\Drum_fire3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\HX\HX.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ReactorLoop\BlockedOutlet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ReactorLoop\GeneralCoolingWaterFailure.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ReactorLoop\GeneralElectricPowerFailure.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ReactorLoop\LossOfColdFeed.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ReactorLoop\LossOfReactorQuench.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ReactorLoop\UnitsInReactorLoop.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ReactorLoop\UnitsInReactorLoop2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ReboilerPinch\ReboilerPinch.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ShowInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StorageTank\StorageTank.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StorageTank\StorageTank2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tower\TowerHXView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tower\TowerScenarioView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tower\TowerScenarioCalcView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tower\TowerScenarioFeedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tower\TowerScenarioHXView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Model\ListDemoModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\tower.ico" />
+    <Resource Include="Images\app.ico" />
+    <Resource Include="Images\Assistance.ico" />
+    <Resource Include="Images\back.png" />
+    <Resource Include="Images\calculator.ico" />
+    <Resource Include="Images\cancel.png" />
+    <Resource Include="Images\casestudy.ico" />
+    <Resource Include="Images\closeplant.ico" />
+    <Resource Include="Images\closeplant.png" />
+    <Resource Include="Images\compute.ico" />
+    <Resource Include="Images\newplant.ico" />
+    <Resource Include="Images\newplant.png" />
+    <Resource Include="Images\ok.png" />
+    <Resource Include="Images\openplant.ico" />
+    <Resource Include="Images\openplant.png" />
+    <Resource Include="Images\plant.ico" />
+    <Resource Include="Images\project.ico" />
+    <Resource Include="Images\property.png" />
+    <Resource Include="Images\property_icon.gif" />
+    <Resource Include="Images\property_icon.png" />
+    <Resource Include="Images\question.ico" />
+    <Resource Include="Images\save.png" />
+    <Resource Include="Images\saveall.png" />
+    <Resource Include="Images\tip.jpg" />
+    <Resource Include="Images\address-book--pencil.png" />
+    <Resource Include="Images\address-book-open.png" />
+    <Resource Include="Images\alarm-clock-blue.png" />
+    <Resource Include="license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\ReliefProCommon.csproj">
+      <Project>{5442dadc-acf1-4668-90e5-f27070b95cfd}</Project>
+      <Name>ReliefProCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImportLib\ImportLib.csproj">
+      <Project>{0b5e7e59-86c7-4f0d-a3e9-003067a8e008}</Project>
+      <Name>ImportLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProII91\ProII91.csproj">
+      <Project>{b3c0f1a9-dcc0-4e0a-afdb-d51f0933eaf0}</Project>
+      <Name>ProII91</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProIIIDAL\ProII.csproj">
+      <Project>{a5266b4f-56fa-413b-bc59-0f84ac0d9b64}</Project>
+      <Name>ProII</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReliefProBLL\ReliefProBLL.csproj">
+      <Project>{a969322c-d601-4b35-94f7-c7eb41a9d8a8}</Project>
+      <Name>ReliefProBLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReliefProDAL\ReliefProDAL.csproj">
+      <Project>{80d9c6df-a3ca-4c0c-93f4-8071b72470bd}</Project>
+      <Name>ReliefProDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReliefProModel\ReliefProModel.csproj">
+      <Project>{33484ecd-0474-4110-aaf0-c551b57087c7}</Project>
+      <Name>ReliefProModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Interop.Visio">
+      <Guid>{00021A98-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>4</VersionMajor>
+      <VersionMinor>14</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.VisOcx">
+      <Guid>{F1A8DFE4-BC61-48BA-AFDA-96DF10247AF0}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>2</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

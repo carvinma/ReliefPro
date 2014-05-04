@@ -1,0 +1,43 @@
+﻿<Window x:Class="ReliefProMain.View.CustomStreamView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"                    
+        Title="1(Stream)" Height="489.552" Width="565.672" Loaded="Window_Loaded_1">
+    <DockPanel LastChildFill="True">
+        <Grid Name="grid1" DockPanel.Dock="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Content="Stream Name:" HorizontalAlignment="Left" Margin="38,29,0,0" VerticalAlignment="Top" Width="98" Height="26"/>
+        <TextBox Name="txtName" HorizontalAlignment="Left" Height="23" Margin="155,29,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150" TextChanged="txtBox_TextChanged"/>
+        <Label Content="Description:" HorizontalAlignment="Left" Margin="50,67,0,0" VerticalAlignment="Top" Width="78" Height="26"/>
+        <TextBox Name="txtDescription" HorizontalAlignment="Left" Height="23" Margin="155,67,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="360"/>
+        <GroupBox Header="Condition" HorizontalAlignment="Left" Margin="38,130,0,0" VerticalAlignment="Top" Height="251" Width="477">
+                <TextBlock Height="30" TextWrapping="Wrap" Text="C" VerticalAlignment="Top" Margin="302,53,114,0"/>
+            </GroupBox>
+            <Label Content="VabFrac:" HorizontalAlignment="Left" Margin="139,161,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="txtVabFrac" HorizontalAlignment="Left" Height="23" Margin="212,161,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="txtBox_TextChanged"/>
+        <Label Content="Temperature:" HorizontalAlignment="Left" Margin="95,199,0,0" VerticalAlignment="Top" />
+        <TextBox Name="txtTemp" HorizontalAlignment="Left" Height="23" Margin="212,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="txtBox_TextChanged"/>
+        <Label Content="Presressure(Mpag):" HorizontalAlignment="Left" Margin="78,237,0,0" VerticalAlignment="Top"/>
+        <Label Content="Workflow(Kg/hr):" HorizontalAlignment="Left" Margin="90,268,0,0" VerticalAlignment="Top"/>
+        <Label Content="Sp H(KJ/Kg):" HorizontalAlignment="Left" Margin="118,313,0,0" VerticalAlignment="Top"/>        
+        <Label Content="H(KJ/hr):" HorizontalAlignment="Left" Margin="139,344,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="txtPres" HorizontalAlignment="Left" Height="23" Margin="212,237,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="txtBox_TextChanged"/>
+        <TextBox Name="txtWf" HorizontalAlignment="Left" Height="23" Margin="212,273,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="txtBox_TextChanged"/>
+        <TextBox Name="txtSph" HorizontalAlignment="Left" Height="23" Margin="212,313,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="txtBox_TextChanged"/>
+        <TextBox Name="txtH" HorizontalAlignment="Left" Height="23" Margin="212,347,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" TextChanged="txtBox_TextChanged"/>
+       
+    </Grid>
+        <Grid Margin="0,53,0,0">
+            <Border BorderBrush="black"  BorderThickness="1" DockPanel.Dock="Bottom" Margin="0,-17,0,0">
+                <Grid Margin="0,-11,0,0">
+                    <Button x:Name="btnOK" Content="OK" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Click="btnOK_Click" Margin="331,18,0,0"/>
+                    <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Click="btnCancel_Click" Margin="432,18,0,0"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </DockPanel>
+</Window>
