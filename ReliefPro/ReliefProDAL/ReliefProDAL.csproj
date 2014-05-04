@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{80D9C6DF-A3CA-4C0C-93F4-8071B72470BD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ReliefProDAL</RootNamespace>
+    <AssemblyName>ReliefProDAL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\NHibernate-3.3.3.SP1-bin\Required_Bins\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\NHibernate-3.3.3.SP1-bin\Required_Bins\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\ABaseDAL.cs" />
+    <Compile Include="Common\IBase.cs" />
+    <Compile Include="Common\IBaseDAL.cs" />
+    <Compile Include="dbBasicUnit.cs" />
+    <Compile Include="dbBasicUnitDefault.cs" />
+    <Compile Include="dbCustomStream.cs" />
+    <Compile Include="dbStream.cs" />
+    <Compile Include="dbSystemScenarioFactor.cs" />
+    <Compile Include="dbSystemUnit.cs" />
+    <Compile Include="dbTable.cs" />
+    <Compile Include="dbTower.cs" />
+    <Compile Include="dbTowerFire.cs" />
+    <Compile Include="dbTowerFireColumn.cs" />
+    <Compile Include="dbTowerFireColumnDetail.cs" />
+    <Compile Include="dbTowerFireCooler.cs" />
+    <Compile Include="dbTowerFlashProduct.cs" />
+    <Compile Include="dbUnitType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="dbUnit.cs" />
+    <Compile Include="dbProtectSystem.cs" />
+    <Compile Include="dbSource.cs" />
+    <Compile Include="dbPSV.cs" />
+    <Compile Include="dbTowerScenario.cs" />
+    <Compile Include="dbTowerHX.cs" />
+    <Compile Include="dbTowerHXDetail.cs" />
+    <Compile Include="dbTowerScenarioHX.hbm.cs" />
+    <Compile Include="dbAccumulator.cs" />
+    <Compile Include="dbLatent.cs" />
+    <Compile Include="dbLatentProduct.cs" />
+    <Compile Include="dbTowerFireOther.cs" />
+    <Compile Include="dbTowerFireDrum.cs" />
+    <Compile Include="dbTowerFireHX.cs" />
+    <Compile Include="dbTowerFireEq.cs" />
+    <Compile Include="dbSideColumn.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\ReliefProCommon.csproj">
+      <Project>{5442dadc-acf1-4668-90e5-f27070b95cfd}</Project>
+      <Name>ReliefProCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReliefProModel\ReliefProModel.csproj">
+      <Project>{33484ecd-0474-4110-aaf0-c551b57087c7}</Project>
+      <Name>ReliefProModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="dbTowerScenarioStream.cs" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
