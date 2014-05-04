@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5442DADC-ACF1-4668-90E5-F27070B95CFD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Pcitc.Common</RootNamespace>
+    <AssemblyName>Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml">
+      <HintPath>..\ReferencesDLL\RefDLLS\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>F:\StreamAnalysis\StreamAnalysis\bin\Release\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\ReferencesDLL\RefDLLS\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\ReferencesDLL\RefDLLS\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\ReferencesDLL\RefDLLS\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>..\ReferencesDLL\RefDLLS\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpCompress">
+      <HintPath>F:\StreamAnalysis\StreamAnalysis\bin\Release\SharpCompress.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CommonLib\BaseDataUtil.cs" />
+    <Compile Include="CommonLib\CommonFunc.cs" />
+    <Compile Include="CommonLib\CommonHelper.cs" />
+    <Compile Include="CommonLib\CompressUtil.cs" />
+    <Compile Include="CommonLib\ConvertExt.cs" />
+    <Compile Include="CommonLib\CSharpZip.cs" />
+    <Compile Include="CommonLib\ExcelDeserializer.cs" />
+    <Compile Include="CommonLib\ExcelHelper.cs" />
+    <Compile Include="CommonLib\ExcelMapping.cs" />
+    <Compile Include="CommonLib\ExcelUtils.cs" />
+    <Compile Include="CommonLib\FileUtil.cs" />
+    <Compile Include="CommonLib\GetEntity.cs" />
+    <Compile Include="CommonLib\GetSequence.cs" />
+    <Compile Include="CommonLib\LinqExtends.cs" />
+    <Compile Include="CommonLib\MappingNotFoundException.cs" />
+    <Compile Include="CommonLib\MimeTypeHelper.cs" />
+    <Compile Include="CommonLib\NumberToHanzi.cs" />
+    <Compile Include="CommonLib\ObjectListToJSON.cs" />
+    <Compile Include="CommonLib\PRIIFileOperator.cs" />
+    <Compile Include="CommonLib\RegularExpressionPatterns.cs" />
+    <Compile Include="CommonLib\SecurityWebSrv.cs" />
+    <Compile Include="CommonLib\Serializer.cs" />
+    <Compile Include="CommonLib\StringUtil.cs" />
+    <Compile Include="CommonLib\TreeViewItemData.cs" />
+    <Compile Include="CommonLib\UserSession.cs" />
+    <Compile Include="Enum\ChangeLogType.cs" />
+    <Compile Include="Enum\ContractScoreType.cs" />
+    <Compile Include="Enum\ContractSourceType.cs" />
+    <Compile Include="Enum\UserType.cs" />
+    <Compile Include="Exceptions\ReadableException.cs" />
+    <Compile Include="Exceptions\WriterExceptions.cs" />
+    <Compile Include="Logging\Logging.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="SessionShare\CrossDomainCookie.cs" />
+    <Compile Include="SessionShare\SessionModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="license.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
