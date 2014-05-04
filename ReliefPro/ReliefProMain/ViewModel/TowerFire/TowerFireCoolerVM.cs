@@ -16,10 +16,9 @@ namespace ReliefProMain.ViewModel.TowerFire
     public class TowerFireCoolerVM
     {
         public string dbProtectedSystemFile { get; set; }
-        public string dbPlantFile { get; set; } 
-
-        public TowerFireCooler model;
-
+        public string dbPlantFile { get; set; }
+        public TowerFireCooler model { get; set; } 
+        public double Area { get; set; }
         public TowerFireCoolerVM(int EqID, string dbPSFile, string dbPFile)
         {
             dbProtectedSystemFile = dbPSFile;
@@ -38,7 +37,12 @@ namespace ReliefProMain.ViewModel.TowerFire
                 var Session = helper.GetCurrentSession();
                 dbTowerFireCooler db = new dbTowerFireCooler();
                 model = db.GetModel(Session,EqID);
-                
+                if (model == null)
+                {
+                    model = new TowerFireCooler();
+                    model.PipingContingency = "10";
+                    db.Add(model,Session);
+                }
             }
             
         }
@@ -79,14 +83,17 @@ namespace ReliefProMain.ViewModel.TowerFire
                 TowerFireCooler m = db.GetModel(model.ID, Session);
                 m.WettedArea = model.WettedArea;
                 m.PipingContingency = model.PipingContingency;
-                db.Update(m, Session);
+                db.Update(m, Session);               
                 Session.Flush();
+                Area = double.Parse(m.WettedArea);
+                Area = Area + Area * double.Parse(model.PipingContingency) / 100;
+
             }
             System.Windows.Window wd = window as System.Windows.Window;
 
             if (wd != null)
             {
-                wd.Close();
+                wd.DialogResult = true;
             }
         }
     }

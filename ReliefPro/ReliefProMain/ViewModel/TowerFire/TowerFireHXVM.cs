@@ -17,8 +17,8 @@ namespace ReliefProMain.ViewModel.TowerFire
     public class TowerFireHXVM
     {
         public string dbProtectedSystemFile { get; set; }
-        public string dbPlantFile { get; set; } 
-
+        public string dbPlantFile { get; set; }
+        public double Area { get; set; }
         public TowerFireHX model;
 
         public TowerFireHXVM(int EqID, string dbPSFile, string dbPFile)
@@ -80,17 +80,15 @@ namespace ReliefProMain.ViewModel.TowerFire
                 m.Type = model.Type;
                 m.PipingContingency = model.PipingContingency;
                 db.Update(m, Session);
+                Session.Flush();
 
                 double length = double.Parse(m.Length);
                 double pipingContingency = double.Parse(m.PipingContingency);
                 double od = double.Parse(m.OD);
                 double D = double.Parse(m.Elevation);
-                double Area = Algorithm.GetHXArea(m.ExposedToFire, m.Type, length, pipingContingency, od, D);
+                Area = Algorithm.GetHXArea(m.ExposedToFire, m.Type, length, od, D);
+                Area = Area + Area * double.Parse(model.PipingContingency) / 100;
 
-               
-
-
-                Session.Flush();
             }
             System.Windows.Window wd = window as System.Windows.Window;
 

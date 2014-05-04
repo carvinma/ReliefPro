@@ -16,12 +16,15 @@ namespace ReliefProMain.ViewModel.TowerFire
     public class TowerFireDrumVM
     {
         public string dbProtectedSystemFile { get; set; }
-        public string dbPlantFile { get; set; } 
-
-        public TowerFireDrum model;
+        public string dbPlantFile { get; set; }
+        public double Area { get; set; }
+        public TowerFireDrum model { get; set; }
+        public List<string> Orientations { get; set; }
+        public List<string> HeadTypes { get; set; } 
 
         public TowerFireDrumVM(int EqID, string dbPSFile, string dbPFile)
         {
+            Orientations = getOrientations();
             dbProtectedSystemFile = dbPSFile;
             dbPlantFile = dbPFile;
             BasicUnit BU;
@@ -83,25 +86,16 @@ namespace ReliefProMain.ViewModel.TowerFire
                 m.PipingContingency = model.PipingContingency;
                 db.Update(m, Session);
 
-                double Area=0;
+                
                 double elevation=double.Parse(m.Elevation);
                 double diameter=double.Parse(m.Diameter);
                 double length=double.Parse(m.Length);
                 double NLL=double.Parse(m.NormalLiquidLevel);
                 double bootheight = double.Parse(m.BootHeight);
                 double bootdiameter = double.Parse(m.BootDiameter);
-                Area = Algorithm.GetDrumArea(m.Orientation, model.HeadType, elevation, diameter, length, NLL, bootheight, bootdiameter);
-                
-                Area = Area + Area * double.Parse(model.PipingContingency) / 100;
-
-
-
-
-
-
-
-
                 Session.Flush();
+                Area = Algorithm.GetDrumArea(m.Orientation, model.HeadType, elevation, diameter, length, NLL, bootheight, bootdiameter);               
+                Area = Area + Area * double.Parse(model.PipingContingency) / 100;
             }
             System.Windows.Window wd = window as System.Windows.Window;
 
@@ -110,5 +104,21 @@ namespace ReliefProMain.ViewModel.TowerFire
                 wd.Close();
             }
         }
+
+        private List<string> getOrientations()
+        {
+            List<string> list=new List<string>();
+            list.Add("Horiz");
+            list.Add("Vertical");            
+            return list;
+        }
+        private List<string> getHeadTypes()
+        {
+            List<string> list = new List<string>();
+            list.Add("Eclipse");
+            list.Add("Flat");
+            return list;
+        }
+
     }
 }

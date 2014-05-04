@@ -17,10 +17,11 @@ namespace ReliefProMain.ViewModel.TowerFire
     {
         public string dbProtectedSystemFile { get; set; }
         public string dbPlantFile { get; set; }
-
         public string Number { get; set; }
-        public TowerFireColumn model;
+        public double Area{ get; set; }
+        public TowerFireColumn model { get; set; } 
         public IList<TowerFireColumnDetail> Details { get; set; }
+        public IList<TowerFireColumnDetail> LastDetails { get; set; }
         public TowerFireColumnVM(int EqID, string dbPSFile, string dbPFile)
         {
             dbProtectedSystemFile = dbPSFile;
@@ -37,21 +38,28 @@ namespace ReliefProMain.ViewModel.TowerFire
             {
                 UnitConvert uc=new UnitConvert();
                 var Session = helper.GetCurrentSession();
+                dbTowerFireColumnDetail dbDetail = new dbTowerFireColumnDetail();
                 dbTowerFireColumn db = new dbTowerFireColumn();
                 model = db.GetModel(Session,EqID);
                 if (model == null)
                 {
                     model = new TowerFireColumn();
+                    db.Add(model, Session);
                 }
                 else
-                {
-                    dbTowerFireColumnDetail dbDetail = new dbTowerFireColumnDetail();
+                {                   
                     Details = dbDetail.GetAllList(Session, model.ID);
+                    LastDetails = Details;
                 }
+                for (int i = 0; i < LastDetails.Count; i++)
+                {
+                    dbDetail.Delete(LastDetails[i], Session);
+                }
+                
 
-                double Area=0;
                 foreach (TowerFireColumnDetail detail in Details)
                 {
+                    dbDetail.Add(detail, Session);
                     double L3 = double.Parse(model.Elevation);
                     double L1 = double.Parse(model.BNLL);
                     double hw = double.Parse(detail.Height);
@@ -63,18 +71,6 @@ namespace ReliefProMain.ViewModel.TowerFire
                 }
 
                 Area = Area + Area * double.Parse(model.PipingContingency)/100;
-                double Q = 0; // w--->KJ/hr
-                //根据eqid找到sid，找到isExist
-                bool IsExist=false;
-                if (IsExist)
-                {
-                    Q = 70900 * Math.Pow(Area, 0.82)*3.6;
-                }
-                else
-                {
-                    Q = 43200 * Math.Pow(Area, 0.82) * 3.6;
-                }
-
                 
             }
             

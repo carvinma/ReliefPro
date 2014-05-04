@@ -16,9 +16,9 @@ namespace ReliefProMain.ViewModel.TowerFire
     public class TowerFireOtherVM
     {
         public string dbProtectedSystemFile { get; set; }
-        public string dbPlantFile { get; set; } 
-
-        public TowerFireOther model;
+        public string dbPlantFile { get; set; }
+        public double Area { get; set; }
+        public TowerFireOther model { get; set; }
 
         public TowerFireOtherVM(int EqID, string dbPSFile, string dbPFile)
         {
@@ -38,7 +38,12 @@ namespace ReliefProMain.ViewModel.TowerFire
                 var Session = helper.GetCurrentSession();
                 dbTowerFireOther db = new dbTowerFireOther();
                 model = db.GetModel(Session,EqID);
-                
+                if (model == null)
+                {
+                    model = new TowerFireOther();
+                    model.PipingContingency = "10";
+                    db.Add(model, Session);
+                }
             }
             
         }
@@ -79,14 +84,16 @@ namespace ReliefProMain.ViewModel.TowerFire
                 TowerFireOther m = db.GetModel(model.ID, Session);
                 m.WettedArea = model.WettedArea;
                 m.PipingContingency = model.PipingContingency;
-                db.Update(m, Session);
+                db.Update(m, Session);                
                 Session.Flush();
+                Area = double.Parse(m.WettedArea);
+                Area = Area + Area * double.Parse(model.PipingContingency) / 100;
             }
             System.Windows.Window wd = window as System.Windows.Window;
 
             if (wd != null)
             {
-                wd.Close();
+                wd.DialogResult = true;
             }
         }
     }

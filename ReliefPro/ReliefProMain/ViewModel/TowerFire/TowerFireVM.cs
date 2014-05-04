@@ -42,7 +42,6 @@ namespace ReliefProMain.ViewModel.TowerFire
                 var Session = helper.GetCurrentSession();
                 dbTowerFire db = new dbTowerFire();
                 model = db.GetModel(Session, ScenarioID);
-
                 dbTowerFireEq dbtfeq = new dbTowerFireEq();
                 EqList = dbtfeq.GetAllList(Session,model.ID);
             }
@@ -122,10 +121,21 @@ namespace ReliefProMain.ViewModel.TowerFire
         {
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
+                double C1 = 0;
+                if (model.IsExist)
+                {
+                    C1 = 70900;
+                }
+                else
+                {
+                    C1 = 43200;
+                }
                 int id=int.Parse(obj.ToString());
                 var Session = helper.GetCurrentSession();
                 dbTowerFireEq db = new dbTowerFireEq();
                 TowerFireEq eq = db.GetModel(id, Session);
+                
+                
                 if (eq.Type == "Column" || eq.Type=="Side Column")
                 {
                     TowerFireColumnView v = new TowerFireColumnView();
@@ -133,6 +143,13 @@ namespace ReliefProMain.ViewModel.TowerFire
                     v.DataContext = vm;
                     v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                     v.ShowDialog();
+                    if (v.ShowDialog() == true)
+                    {
+                        eq.WettedArea = vm.Area.ToString(); ;
+                        eq.HeatInput = Algorithm.GetTowerQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
+                        db.Update(eq, Session);
+                        Session.Flush();
+                    }
                 }
                 else if (eq.Type == "Drum" )
                 {
@@ -141,6 +158,13 @@ namespace ReliefProMain.ViewModel.TowerFire
                     v.DataContext = vm;
                     v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                     v.ShowDialog();
+                    if (v.ShowDialog() == true)
+                    {
+                        eq.WettedArea = vm.Area.ToString();
+                        eq.HeatInput = Algorithm.GetTowerQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
+                        db.Update(eq, Session);
+                        Session.Flush();
+                    }
                 }
                 else if (eq.Type == "Shell-Tube HX")
                 {
@@ -149,6 +173,13 @@ namespace ReliefProMain.ViewModel.TowerFire
                     v.DataContext = vm;
                     v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                     v.ShowDialog();
+                    if (v.ShowDialog() == true)
+                    {
+                        eq.WettedArea = vm.Area.ToString();
+                        eq.HeatInput = Algorithm.GetTowerQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
+                        db.Update(eq, Session);
+                        Session.Flush();
+                    }
                 }
                 else if (eq.Type == "Air Cooler")
                 {
@@ -157,6 +188,13 @@ namespace ReliefProMain.ViewModel.TowerFire
                     v.DataContext = vm;
                     v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                     v.ShowDialog();
+                    if (v.ShowDialog() == true)
+                    {
+                        eq.WettedArea = vm.Area.ToString() ;
+                        eq.HeatInput = Algorithm.GetTowerQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
+                        db.Update(eq, Session);
+                        Session.Flush();
+                    }
                 }
                 else if (eq.Type == "Other HX")
                 {
@@ -164,7 +202,16 @@ namespace ReliefProMain.ViewModel.TowerFire
                     TowerFireOtherVM vm = new TowerFireOtherVM(eq.ID, dbProtectedSystemFile, dbPlantFile);
                     v.DataContext = vm;
                     v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                    v.ShowDialog();
+                    if (v.ShowDialog() == true)
+                    {
+                        eq.WettedArea = vm.Area.ToString();
+                        eq.HeatInput=Algorithm.GetTowerQ(C1,double.Parse(eq.FFactor),double.Parse(eq.WettedArea)).ToString();
+                        db.Update(eq, Session);
+                        Session.Flush();
+                    }
+
+                    
+
                 }
             }
             
