@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="ReliefProModel.TowerFireEq, ReliefProModel" table="tbTowerFireEq" >
+    <id name="ID" column="ID" type="Int32" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+    <property name="EqName" column="EqName" type="String" length="255" />
+    <property name="FireZone" column="FireZone" type="Boolean" />
+    <property name="Type" column="Type" type="String" length="255" />
+    <property name="Elevation" column="Elevation" type="String" length="255" />
+    <property name="FFactor" column="FFactor" type="String" length="255" />
+    <property name="WettedArea" column="WettedArea" type="String" length="255" />
+    <property name="HeatInput" column="HeatInput" type="Boolean" />
+    <property name="ReliefLoad" column="ReliefLoad" type="String" length="255" />  
+    <property name="FireID" column="FireID" type="Int32"  />  
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="ReliefProModel.PSV, ReliefProModel" table="tbPSV" >
+    <id name="ID" column="ID" type="Int32" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+    <property name="PSVName" column="PSVName" type="String" length="255" />
+    <property name="Description" column="Description" type="String" length="255" />
+    <property name="ValveNumber" column="ValveNumber" type="String" length="255" />
+    <property name="ValveType" column="ValveType" type="String" length="255" />
+    <property name="Pressure" column="Pressure" type="String" length="255" />
+    <property name="ReliefPressureFactor" column="ReliefPressureFactor" type="String" length="255" />
+    <property name="Location" column="Location" type="String" length="255" />
+    <property name="LocationDescription" column="LocationDescription" type="String" length="255" />
+    <property name="DrumPSVName" column="DrumPSVName" type="String" length="255" />
+    <property name="DrumPressure" column="DrumPressure" type="String" length="255" />
+    <property name="MWAP" column="MWAP" type="String" length="255" />
+    <property name="DischargeTo" column="DischargeTo" type="String" length="255" />
+   
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="ReliefProModel.LatentProduct, ReliefProModel" table="tbLatentProduct" >
+    <id name="ID" column="ID" type="Int32" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+    <property name="StreamName" column="StreamName" type="String" length="255" />
+    <property name="Pressure" column="pressure" type="String" length="255" />
+    <property name="Temperature" column="temperature" type="String" length="255" />
+    <property name="WeightFlow" column="weightflow" type="String" length="255" />
+    <property name="SpEnthalpy" column="spenthalpy" type="String" length="255" />
+
+    <property name="TotalMolarRate" column="TotalMolarRate" type="String" length="255" />
+    <property name="TotalComposition" column="TotalComposition" type="String" length="255" />
+    <property name="CompIn" column="CompIn" type="String" length="255" />
+    <property name="Componentid" column="Componentid" type="String" length="255" />
+    <property name="ProdType" column="ProdType" type="String" length="255" />
+    <property name="Tray" column="Tray"   type="String" length="255"/>
+    <property name="BulkDensityAct" column="BulkDensityAct"   type="String" length="255"/>
+  </class>
+</hibernate-mapping>

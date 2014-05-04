@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+<class name="ReliefProModel.BasicUnit, ReliefProModel" table="tbBasicUnit" >
+<id name="ID" column="ID" type="Int32" unsaved-value="0">
+<generator class="identity" />
+</id>
+  <property name="UnitName" column="UnitName" type="String" length="255" />
+  <property name="IsDefault" column="IsDefault" type="Int32"/>
+</class>
+</hibernate-mapping>

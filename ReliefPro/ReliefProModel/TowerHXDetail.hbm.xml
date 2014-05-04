@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="ReliefProModel.TowerHXDetail, ReliefProModel" table="tbTowerHXDetail" >
+    <id name="ID" column="ID" type="Int32" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+    <property name="DetailName" column="DetailName" type="String" length="255" />
+    <property name="ProcessSideFlowSource" column="ProcessSideFlowSource" type="String" length="255" />
+    <property name="Medium" column="Medium" type="String" length="255" />
+    <property name="MediumSideFlowSource" column="MediumSideFlowSource" type="String" length="255" />
+    <property name="DutyPercentage" column="DutyPercentage" type="String" length="255" />
+    <property name="Duty" column="Duty" type="String" length="255" />
+    <property name="HXID" column="HXID" type="Int32"  />
+
+  </class>
+</hibernate-mapping>

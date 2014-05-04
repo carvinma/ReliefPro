@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="ReliefProModel.DemoModel, ReliefProModel" table="tab" >
+    <id name="ID" column="ID" type="Int32" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+    <property name="col1" column="col1" type="double" length="10" />
+    <property name="colDate" column="colDate" type="DateTime" length="8" />
+    <property name="colString" column="colString" type="String" length="255" />
+  </class>
+</hibernate-mapping>

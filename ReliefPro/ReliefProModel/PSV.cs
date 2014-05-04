@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ReliefProModel
+{
+    public class PSV
+    {
+        public virtual int ID { get; set; }
+        public virtual string PSVName { get; set; }
+        public virtual string Description { get; set; }
+        public virtual string ValveNumber { get; set; }
+        public virtual string ValveType { get; set; }
+        public virtual string Pressure { get; set; }
+        public virtual string ReliefPressureFactor { get; set; }
+        public virtual string Location { get; set; }
+        public virtual string LocationDescription { get; set; }
+        public virtual string DrumPSVName { get; set; }
+        public virtual string DrumPressure { get; set; }
+        public virtual string MWAP { get; set; }
+        public virtual string DischargeTo { get; set; }
+        
+        //public virtual string PSVName_Color { get; set; }
+        //public virtual string Description_Color { get; set; }
+        //public virtual string ValveNumber_Color { get; set; }
+        //public virtual string Valvetype_Color { get; set; }
+        //public virtual string Pressure_Color { get; set; }
+        //public virtual string ReliefPressureFactor_Color { get; set; }
+        //public virtual string Location_Color { get; set; }
+        //public virtual string LocationDescription_Color { get; set; }
+    }
+}

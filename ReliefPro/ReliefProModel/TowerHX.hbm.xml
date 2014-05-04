@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="ReliefProModel.TowerHX, ReliefProModel" table="tbTowerHX" >
+    <id name="ID" column="ID" type="Int32" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+    <property name="HeaterName" column="HeaterName" type="String" length="255" />
+    <property name="HeaterDuty" column="HeaterDuty" type="String" length="255" />
+    <property name="Description" column="Description" type="String" length="255" />
+    <property name="HeaterName_Color" column="HeaterName_Color" type="String" length="255" />
+    <property name="HeaterDuty_Color" column="HeaterDuty_Color" type="String" length="255" />
+    <property name="Description_Color" column="Description_Color" type="String" length="255" />
+    <property name="HeaterType" column="HeaterType" type="Int32"  />
+
+  </class>
+</hibernate-mapping>

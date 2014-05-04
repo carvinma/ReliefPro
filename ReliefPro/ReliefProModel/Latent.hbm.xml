@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="ReliefProModel.Latent, ReliefProModel" table="tbLatent" >
+    <id name="ID" column="ID" type="Int32" unsaved-value="0">
+      <generator class="identity" />
+    </id>   
+    <property name="LatestEnthalpy" column="LatestEnthalpy" type="String" length="255" />
+    <property name="ReliefTemperature" column="ReliefTemperature" type="String" length="255" />
+    <property name="ReliefOHWeightFlow" column="ReliefOHWeightFlow" type="String" length="255" />
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="ReliefProModel.TowerFireColumn, ReliefProModel" table="tbTowerFireColumn" >
+    <id name="ID" column="ID" type="Int32" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+    <property name="Number" column="Number" type="String" length="255" />
+    <property name="Elevation" column="Elevation" type="String" length="255" />
+    <property name="BNLL" column="BNLL" type="String" length="255" />
+    <property name="LiquidHoldup" column="LiquidHoldup" type="String" length="255" />
+    <property name="PipingContingency" column="PipingContingency" type="String" length="255" />
+    <property name="EqID" column="EqID" type="Int32" />
+  </class>
+</hibernate-mapping>

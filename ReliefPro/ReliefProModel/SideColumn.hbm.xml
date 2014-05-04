@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+<class name="ReliefProModel.SideColumn, ReliefProModel" table="tbSideColumn" >
+<id name="ID" column="ID" type="Int32" unsaved-value="0">
+<generator class="identity" />
+</id>
+  <property name="EqName" column="EqName" type="String" length="255" />
+  
+</class>
+</hibernate-mapping>

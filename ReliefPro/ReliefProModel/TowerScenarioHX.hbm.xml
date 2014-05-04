@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="ReliefProModel.TowerScenarioHX, ReliefProModel" table="tbTowerScenarioHX" >
+    <id name="ID" column="ID" type="Int32" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+    <property name="ScenarioID" column="ScenarioID" type="Int32"  />
+    <property name="DetailID" column="DetailID" type="Int32"  />
+    <property name="DutyLost" column="DutyLost" type="Boolean"  />
+    <property name="DutyCalcFactor" column="DutyCalcFactor" type="String" length="255" />
+    <property name="Pinch" column="Pinch" type="Boolean"  />
+    <property name="DetailName" column="DetailName" type="String" length="255" />
+    <property name="HeaterType" column="HeaterType" type="Int32" />
+    <property name="Medium" column="Medium" type="String" length="255" />
+  </class>
+</hibernate-mapping>
