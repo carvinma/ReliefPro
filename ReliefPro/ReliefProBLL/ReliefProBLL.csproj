@@ -55,10 +55,10 @@
       <HintPath>E:\E\武汉\2013-04-26\Demo\Lib\Autofac\Autofac.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections">
-      <HintPath>..\NHibernate-3.3.3.SP1-bin\Required_Bins\Iesi.Collections.dll</HintPath>
+      <HintPath>..\ReliefProMain\bin\Debug\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
-      <HintPath>..\NHibernate-3.3.3.SP1-bin\Required_Bins\NHibernate.dll</HintPath>
+      <HintPath>..\ReliefProMain\bin\Debug\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

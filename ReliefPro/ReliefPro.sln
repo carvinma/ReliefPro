@@ -23,6 +23,30 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExportLib", "ExportLib\Expo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportLib", "ImportLib\ImportLib.csproj", "{0B5E7E59-86C7-4F0D-A3E9-003067A8E008}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{01C2B981-66B8-4EC2-8E19-D7E104FCEB6E}"
+	ProjectSection(SolutionItems) = preProject
+		Dependencies\Autofac.Configuration.dll = Dependencies\Autofac.Configuration.dll
+		Dependencies\Autofac.dll = Dependencies\Autofac.dll
+		Dependencies\AxInterop.Microsoft.Office.Interop.VisOcx.dll = Dependencies\AxInterop.Microsoft.Office.Interop.VisOcx.dll
+		Dependencies\DocumentFormat.OpenXml.dll = Dependencies\DocumentFormat.OpenXml.dll
+		Dependencies\ICSharpCode.SharpZipLib.dll = Dependencies\ICSharpCode.SharpZipLib.dll
+		Dependencies\Iesi.Collections.dll = Dependencies\Iesi.Collections.dll
+		Dependencies\Iesi.Collections.xml = Dependencies\Iesi.Collections.xml
+		Dependencies\Interop.P2Wrap91.dll = Dependencies\Interop.P2Wrap91.dll
+		Dependencies\log4net.dll = Dependencies\log4net.dll
+		Dependencies\log4net.xml = Dependencies\log4net.xml
+		Dependencies\Microsoft.Practices.Prism.dll = Dependencies\Microsoft.Practices.Prism.dll
+		Dependencies\Microsoft.Practices.Prism.pdb = Dependencies\Microsoft.Practices.Prism.pdb
+		Dependencies\Microsoft.Practices.Prism.xml = Dependencies\Microsoft.Practices.Prism.xml
+		Dependencies\Microsoft.Practices.ServiceLocation.dll = Dependencies\Microsoft.Practices.ServiceLocation.dll
+		Dependencies\Microsoft.Practices.ServiceLocation.xml = Dependencies\Microsoft.Practices.ServiceLocation.xml
+		Dependencies\Microsoft.Practices.Unity.dll = Dependencies\Microsoft.Practices.Unity.dll
+		Dependencies\NHibernate.dll = Dependencies\NHibernate.dll
+		Dependencies\NHibernate.JetDriver.dll = Dependencies\NHibernate.JetDriver.dll
+		Dependencies\NHibernate.xml = Dependencies\NHibernate.xml
+		Dependencies\NPOI.dll = Dependencies\NPOI.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

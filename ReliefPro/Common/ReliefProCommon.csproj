@@ -54,25 +54,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DocumentFormat.OpenXml">
-      <HintPath>..\ReferencesDLL\RefDLLS\DocumentFormat.OpenXml.dll</HintPath>
+      <HintPath>..\..\..\..\ReliefPro\Common\bin\Debug\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>F:\StreamAnalysis\StreamAnalysis\bin\Release\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\ReliefProMain\bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections">
-      <HintPath>..\ReferencesDLL\RefDLLS\Iesi.Collections.dll</HintPath>
+      <HintPath>..\ReliefProMain\bin\Debug\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\ReferencesDLL\RefDLLS\log4net.dll</HintPath>
+      <HintPath>..\ReliefProMain\bin\Debug\log4net.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
-      <HintPath>..\ReferencesDLL\RefDLLS\NHibernate.dll</HintPath>
+      <HintPath>..\ReliefProMain\bin\Debug\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="NPOI">
-      <HintPath>..\ReferencesDLL\RefDLLS\NPOI.dll</HintPath>
+      <HintPath>..\ReliefProMain\bin\Debug\NPOI.dll</HintPath>
     </Reference>
     <Reference Include="SharpCompress">
-      <HintPath>F:\StreamAnalysis\StreamAnalysis\bin\Release\SharpCompress.dll</HintPath>
+      <HintPath>..\ReliefProMain\bin\Debug\SharpCompress.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
