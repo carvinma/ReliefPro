@@ -29,7 +29,7 @@ namespace ReliefProMain
             }
             return Area;
         }
-        public static double GetHXArea(string ExposedToFire,string Type, double Length, double pipingContingency, double OD, double D)
+        public static double GetHXArea(string ExposedToFire,string Type, double Length,  double OD, double D)
         {
             double Area = 0;
             
