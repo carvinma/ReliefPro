@@ -57,22 +57,22 @@
       <HintPath>..\..\..\..\ReliefPro\Common\bin\Debug\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\ReliefProMain\bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\Dependencies\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections">
-      <HintPath>..\ReliefProMain\bin\Debug\Iesi.Collections.dll</HintPath>
+      <HintPath>..\Dependencies\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\ReliefProMain\bin\Debug\log4net.dll</HintPath>
+      <HintPath>..\Dependencies\log4net.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
-      <HintPath>..\ReliefProMain\bin\Debug\NHibernate.dll</HintPath>
+      <HintPath>..\Dependencies\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="NPOI">
-      <HintPath>..\ReliefProMain\bin\Debug\NPOI.dll</HintPath>
+      <HintPath>..\Dependencies\NPOI.dll</HintPath>
     </Reference>
     <Reference Include="SharpCompress">
-      <HintPath>..\ReliefProMain\bin\Debug\SharpCompress.dll</HintPath>
+      <HintPath>..\Dependencies\SharpCompress.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
