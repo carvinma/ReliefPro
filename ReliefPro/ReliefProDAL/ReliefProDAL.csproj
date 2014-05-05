@@ -42,7 +42,7 @@
       <HintPath>D:\ReliefPro\Common\bin\Debug\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
-      <HintPath>..\ReliefProMain\bin\Debug\NHibernate.dll</HintPath>
+      <HintPath>..\Dependencies\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
