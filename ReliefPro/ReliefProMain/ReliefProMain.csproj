@@ -55,13 +55,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac">
-      <HintPath>G:\Project\PRAS\ReliefProframework\ReliefPro\ReliefProMain\bin\Debug\Autofac.dll</HintPath>
+      <HintPath>..\Dependencies\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Configuration">
-      <HintPath>G:\Project\PRAS\ReliefProframework\ReliefPro\ReliefProMain\bin\Debug\Autofac.Configuration.dll</HintPath>
+      <HintPath>..\Dependencies\Autofac.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="AxInterop.Microsoft.Office.Interop.VisOcx">
-      <HintPath>F:\StreamAnalysis\StreamAnalysis\bin\Release\AxInterop.Microsoft.Office.Interop.VisOcx.dll</HintPath>
+      <HintPath>..\Dependencies\AxInterop.Microsoft.Office.Interop.VisOcx.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\Iesi.Collections.3.3.2.4000\lib\Net35\Iesi.Collections.dll</HintPath>
@@ -74,7 +74,7 @@
     </Reference>
     <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Microsoft.Practices.Unity.dll</HintPath>
+      <HintPath>..\Dependencies\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
@@ -104,10 +104,10 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
     <Reference Include="Xceed.Wpf.AvalonDock">
-      <HintPath>C:\Users\mchlb\Desktop\avalondock-102592\Version2.0\AvalonDock.MVVMTestApp\bin\Debug\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <HintPath>..\Dependencies\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010">
-      <HintPath>C:\Users\mchlb\Desktop\avalondock-102592\Version2.0\AvalonDock.MVVMTestApp\bin\Debug\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <HintPath>..\Dependencies\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
