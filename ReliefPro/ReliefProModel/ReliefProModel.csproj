@@ -70,9 +70,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Drum\DrumBlockedOutlet.cs" />
-    <Compile Include="Drum\DrumAllGas.cs" />
-    <Compile Include="Drum\DrumCalc.cs" />
-    <Compile Include="Drum\DrumSize.cs" />
+    <Compile Include="Drum\DrumFireAllGas.cs" />
+    <Compile Include="Drum\DrumFireCalc.cs" />
+    <Compile Include="Drum\DrumFireSize.cs" />
     <Compile Include="Latent.cs" />
     <Compile Include="LatentProduct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -146,9 +146,9 @@
     <EmbeddedResource Include="BasicUnit.hbm.xml" />
     <EmbeddedResource Include="BasicUnitDefault.hbm.xml" />
     <EmbeddedResource Include="Drum\DrumBlockedOutlet.hbm.xml" />
-    <EmbeddedResource Include="Drum\DrumCalc.hbm.xml" />
-    <EmbeddedResource Include="Drum\DrumSize.hbm.xml" />
-    <EmbeddedResource Include="Drum\DrumAllGas.hbm.xml" />
+    <EmbeddedResource Include="Drum\DrumFireCalc.hbm.xml" />
+    <EmbeddedResource Include="Drum\DrumFireSize.hbm.xml" />
+    <EmbeddedResource Include="Drum\DrumFireAllGas.hbm.xml" />
     <Content Include="license.txt" />
     <EmbeddedResource Include="TowerFlashProduct.hbm.xml" />
     <EmbeddedResource Include="SystemScenarioSource.hbm.xml" />

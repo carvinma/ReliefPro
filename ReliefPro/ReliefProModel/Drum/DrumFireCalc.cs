@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReliefProModel.Drum
 {
-    public class DrumCalc
+    public class DrumFireCalc
     {
         public virtual int ID { get; set; }
         public virtual int DrumID { get; set; }
