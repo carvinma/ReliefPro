@@ -4,7 +4,7 @@
 <id name="ID" column="ID" type="Int32" unsaved-value="0">
 <generator class="identity" />
 </id>
-  <property name="DrumCalcID" column="DrumCalcID" type="Int32"/>
+  <property name="DrumFireCalcID" column="DrumFireCalcID" type="Int32"/>
   <property name="GasVaporMW" column="GasVaporMW" type="Double"/>
   <property name="ExposedVesse" column="ExposedVesse" type="Double"/>
   <property name="NormaTemperature" column="NormaTemperature" type="Double"/>
