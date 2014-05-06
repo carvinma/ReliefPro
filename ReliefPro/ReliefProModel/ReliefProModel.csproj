@@ -69,6 +69,10 @@
     <Compile Include="DemoModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Drum\DrumBlockedOutlet.cs" />
+    <Compile Include="Drum\DrumAllGas.cs" />
+    <Compile Include="Drum\DrumCalc.cs" />
+    <Compile Include="Drum\DrumSize.cs" />
     <Compile Include="Latent.cs" />
     <Compile Include="LatentProduct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -141,6 +145,10 @@
     <EmbeddedResource Include="Accumulator.hbm.xml" />
     <EmbeddedResource Include="BasicUnit.hbm.xml" />
     <EmbeddedResource Include="BasicUnitDefault.hbm.xml" />
+    <EmbeddedResource Include="Drum\DrumBlockedOutlet.hbm.xml" />
+    <EmbeddedResource Include="Drum\DrumCalc.hbm.xml" />
+    <EmbeddedResource Include="Drum\DrumSize.hbm.xml" />
+    <EmbeddedResource Include="Drum\DrumAllGas.hbm.xml" />
     <Content Include="license.txt" />
     <EmbeddedResource Include="TowerFlashProduct.hbm.xml" />
     <EmbeddedResource Include="SystemScenarioSource.hbm.xml" />
@@ -161,6 +169,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

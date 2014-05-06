@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+<class name="ReliefProModel.Drum.DrumAllGas, ReliefProModel" table="tbDrumAllGas" >
+<id name="ID" column="ID" type="Int32" unsaved-value="0">
+<generator class="identity" />
+</id>
+  <property name="DrumCalcID" column="DrumCalcID" type="Int32"/>
+  <property name="GasVaporMW" column="GasVaporMW" type="Double"/>
+  <property name="ExposedVesse" column="ExposedVesse" type="Double"/>
+  <property name="NormaTemperature" column="NormaTemperature" type="Double"/>
+  <property name="NormalPressure" column="NormalPressure" type="Double"/>
+  <property name="PSVPressure" column="PSVPressure" type="Double"/>
+  <property name="TW" column="TW" type="Double"/>
+</class>
+</hibernate-mapping>
