@@ -66,6 +66,7 @@
     <Compile Include="Accumulator.cs" />
     <Compile Include="BasicUnit.cs" />
     <Compile Include="BasicUnitDefault.cs" />
+    <Compile Include="Critical.cs" />
     <Compile Include="DemoModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -75,6 +76,8 @@
     <Compile Include="Drum\DrumFireSize.cs" />
     <Compile Include="Latent.cs" />
     <Compile Include="LatentProduct.cs" />
+    <Compile Include="ProIIEqData.cs" />
+    <Compile Include="ProIIEqType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PSV.cs" />
     <Compile Include="Source.cs" />
@@ -101,6 +104,7 @@
     <Compile Include="CustomStream.cs" />
     <Compile Include="SystemScenarioSource.cs" />
     <Compile Include="SideColumn.cs" />
+    <Compile Include="ProIIStreamData.cs" />
     <EmbeddedResource Include="DemoModel.hbm.xml" />
     <EmbeddedResource Include="TowerHXDetail.hbm.xml" />
     <EmbeddedResource Include="TowerScenario.hbm.xml">
@@ -115,6 +119,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ProIIStreamData.hbm.xml" />
+    <EmbeddedResource Include="ProIIEqData.hbm.xml" />
+    <EmbeddedResource Include="ProIIEqType.hbm.xml" />
+    <EmbeddedResource Include="Critical.hbm.xml" />
     <EmbeddedResource Include="SideColumn.hbm.xml" />
     <EmbeddedResource Include="TowerFireHX.hbm.xml">
       <SubType>Designer</SubType>
@@ -169,7 +177,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
