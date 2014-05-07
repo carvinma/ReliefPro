@@ -140,11 +140,11 @@ namespace ReliefProMain.ViewModel.TowerFire
                 double C1 = 0;
                 if (model.CurrentTowerFire.IsExist)
                 {
-                    C1 = 70900;
+                    C1 = 43200;
                 }
                 else
                 {
-                    C1 = 43200;
+                    C1 = 70900;
                 }
                 int id=int.Parse(obj.ToString());
                 
@@ -289,8 +289,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 {
                     if (eq.FireZone)
                     {
-                        m.ReliefLoad = (double.Parse(m.ReliefLoad ?? "0") + double.Parse(eq.ReliefLoad ?? "0")).ToString();
-                       
+                        m.ReliefLoad = (double.Parse(m.ReliefLoad ?? "0") + double.Parse(eq.ReliefLoad ?? "0")).ToString();                      
                     }
                 }
                 db.Update(m, Session);

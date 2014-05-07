@@ -32,6 +32,8 @@ namespace ReliefProMain
             {
                 Area = (7.6 - L3 + 0.4 * Diameter) * 3.14159 * Diameter;
             }
+            if (Area < 0)
+                Area = 0;
             return Area;
         }
         public static double GetHXArea(string ExposedToFire,string Type, double Length,  double OD, double D)
@@ -64,6 +66,8 @@ namespace ReliefProMain
                     Area = 3.14159 * (Length + 0.4 * D) * D;
                 }
             }
+            if (Area < 0)
+                Area = 0;
             return Area;
         }
         public static double GetDrumArea(string Orientation,string HeadType, double Elevation, double Diameter, double Length, double NLL, double BootHeight, double BootDiameter)
@@ -121,6 +125,8 @@ namespace ReliefProMain
                     }
                 }
             }
+            if (Area < 0)
+                Area = 0;
             return Area;
         }
     }

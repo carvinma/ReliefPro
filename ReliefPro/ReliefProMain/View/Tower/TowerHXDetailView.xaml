@@ -4,11 +4,11 @@
         Title="TowerHXDetailView" Height="323.487" Width="515.891" Name="myWindow">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="41*"/>
-            <ColumnDefinition Width="170*"/>
-            <ColumnDefinition Width="179*"/>
-            <ColumnDefinition Width="75*"/>
-            <ColumnDefinition Width="51*"/>
+            <ColumnDefinition Width="12*"/>
+            <ColumnDefinition Width="92*"/>
+            <ColumnDefinition Width="88*"/>
+            <ColumnDefinition Width="37*"/>
+            <ColumnDefinition Width="25*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="25*"/>
@@ -20,20 +20,20 @@
             <RowDefinition Height="56*"/>
             <RowDefinition Height="43*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Right" Margin="0,10,0,0" TextWrapping="Wrap" Text="Name:" VerticalAlignment="Top" Grid.Row="1" Height="16" Width="37"  />
+        <Label Grid.Column="1" HorizontalAlignment="Right"  Content="Name:" Grid.Row="1" Width="68" Margin="0,0,0,9"  />
         <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding Path=DetailName}" VerticalAlignment="Top" Width="160" Grid.Row="1"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Row="2" TextWrapping="Wrap"   Text="Process Side Flow Source:" VerticalAlignment="Top" Height="16" Width="148" />
+        <Label Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Row="2"  Content="Process Side Flow Source:" VerticalAlignment="Top" Height="25" Width="167" />
         <ComboBox ItemsSource="{Binding Path=ProcessSideFlowSources}" SelectedItem="{Binding ProcessSideFlowSource}" Grid.Column="2" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="2"  VerticalAlignment="Top" Width="159" Height="22"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Row="3" TextWrapping="Wrap" Text="Medium:" VerticalAlignment="Top" Height="16" Width="51"/>
+        <Label Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Row="3" Content="Medium:" VerticalAlignment="Top" Height="25" Width="79"/>
         <ComboBox ItemsSource="{Binding Path=Mediums}" SelectedItem="{Binding Medium}" Grid.Column="2" HorizontalAlignment="Left" Margin="0,0,0,14" Grid.Row="3" Width="160"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="5,9,0,0" Grid.Row="4" TextWrapping="Wrap" Text="Medium Side Flow Source:" VerticalAlignment="Top" Width="155" Height="23"/>
+        <Label Grid.Column="1" HorizontalAlignment="Left" Margin="7,0,0,0" Grid.Row="4" Content="Medium Side Flow Source:" VerticalAlignment="Top" Width="167" Height="23"/>
         <ComboBox ItemsSource="{Binding Path=MediumSideFlowSources,Mode=OneWay}" SelectedItem="{Binding MediumSideFlowSource}"  Grid.Column="2" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="4" VerticalAlignment="Top" Width="159" Height="22"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Right" Margin="0,10,0,0" Grid.Row="5" TextWrapping="Wrap" Text="Duty Percentage:" VerticalAlignment="Top" Height="16" Width="111"/>
+        <Label Grid.Column="1" HorizontalAlignment="Right" Grid.Row="5" Content="Duty Percentage:" VerticalAlignment="Top" Height="26" Width="140"/>
         <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="0,0,0,0" Grid.Row="5" Text="{Binding Path=DutyPercentage}" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
         <Border BorderBrush="black"    VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1" Margin="0,1,0,0" Grid.Row="7"/>
         <Button Content="OK" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Height="25" Command="{Binding AddTowerHXDetail}" CommandParameter="{Binding ElementName=myWindow}" Margin="94,10,0,0" Grid.Row="7" Grid.Column="2"/>
-        <Button Content="Cancel" HorizontalAlignment="Left" IsCancel="True"  VerticalAlignment="Top" Width="75" Height="25"  Margin="0,10,0,0" Grid.Row="7" Grid.Column="3"/>
-        <TextBlock Grid.Column="3" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="5" TextWrapping="Wrap" Text="%" VerticalAlignment="Top"/>
+        <Button Content="Cancel" HorizontalAlignment="Left" IsCancel="True"  VerticalAlignment="Top" Width="75" Height="25"  Margin="0,10,0,0" Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="2"/>
+        <Label Grid.Column="3" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="5" Content="%" VerticalAlignment="Top" Height="25" Width="21"/>
 
     </Grid>
 </Window>

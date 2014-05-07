@@ -116,16 +116,15 @@ namespace ReliefProMain.View
                 stream.TotalComposition = dtStream.Rows[0]["TotalComposition"].ToString();
                 stream.TotalMolarRate = dtStream.Rows[0]["TotalMolarRate"].ToString();
 
-                //PHASECalculation PhaseCalc = new PHASECalculation();
-                //string PH="PH"+Guid.NewGuid().ToString().Substring(0,4);
-                //string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH,dirPhase);
-
+                PHASECalculation PhaseCalc = new PHASECalculation();
+                string PH="PH"+Guid.NewGuid().ToString().Substring(0,4);
+                string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH,dirPhase);
                
-                //ProIIReader picker1 = new ProIIReader();
-                //picker1.InitProIIPicker(phasef);
-                //string criticalPress = picker1.GetCriticalPressure(PH);               
-                //picker1.ReleaseProIIPicker();
-                //criticalPress = UnitConverter.unitConv(criticalPress, "KPA", "MPAG", "{0:0.0000}");
+                ProIIReader picker1 = new ProIIReader();
+                picker1.InitProIIPicker(phasef);
+                string criticalPress = picker1.GetCriticalPressure(PH);               
+                picker1.ReleaseProIIPicker();
+                criticalPress = UnitConverter.unitConv(criticalPress, "KPA", "MPAG", "{0:0.0000}");
                 
 
 
