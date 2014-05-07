@@ -19,10 +19,13 @@ namespace ReliefProMain.ViewModel.TowerFire
         public string dbProtectedSystemFile { get; set; }
         public string dbPlantFile { get; set; }
         public double Area { get; set; }
-        public TowerFireHX model;
-
+        public TowerFireHX model { get; set; }
+        public List<string> ExposedToFires { get; set; }
+        public List<string> Types { get; set; }
         public TowerFireHXVM(int EqID, string dbPSFile, string dbPFile)
         {
+            ExposedToFires = GetExposedToFires();
+            Types = GetTypes();
             dbProtectedSystemFile = dbPSFile;
             dbPlantFile = dbPFile;
             BasicUnit BU;
@@ -39,7 +42,13 @@ namespace ReliefProMain.ViewModel.TowerFire
                 var Session = helper.GetCurrentSession();
                 dbTowerFireHX db = new dbTowerFireHX();
                 model = db.GetModel(Session,EqID);
-                
+                if (model == null)
+                {
+                    model = new TowerFireHX();
+                    model.EqID = EqID;
+                    model.PipingContingency = "10";
+                    db.Add(model, Session);
+                }
             }
             
         }
@@ -78,6 +87,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 m.Length = model.Length;
                 m.OD = model.OD;
                 m.Type = model.Type;
+                m.Elevation = model.Elevation;
                 m.PipingContingency = model.PipingContingency;
                 db.Update(m, Session);
                 Session.Flush();
@@ -94,8 +104,25 @@ namespace ReliefProMain.ViewModel.TowerFire
 
             if (wd != null)
             {
-                wd.Close();
+                wd.DialogResult=true;
             }
+        }
+
+
+        public List<string> GetExposedToFires()
+        {
+            List<string> list = new List<string>();
+            list.Add("Shell");
+            list.Add("Tube");
+            return list;
+        }
+        public List<string> GetTypes()
+        {
+            List<string> list = new List<string>();
+            list.Add("Fixed");
+            list.Add("U-Tube");
+            list.Add("Floating head");
+            return list;
         }
     }
 }

@@ -25,6 +25,7 @@ namespace ReliefProMain.ViewModel.TowerFire
         public TowerFireDrumVM(int EqID, string dbPSFile, string dbPFile)
         {
             Orientations = getOrientations();
+            HeadTypes = getHeadTypes();
             dbProtectedSystemFile = dbPSFile;
             dbPlantFile = dbPFile;
             BasicUnit BU;
@@ -41,7 +42,12 @@ namespace ReliefProMain.ViewModel.TowerFire
                 var Session = helper.GetCurrentSession();
                 dbTowerFireDrum db = new dbTowerFireDrum();
                 model = db.GetModel(Session,EqID);
-                
+                if (model == null)
+                {
+                    model = new TowerFireDrum();
+                    model.EqID = EqID;
+                    db.Add(model,Session);
+                }
             }
             
         }
@@ -75,6 +81,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 var Session = helper.GetCurrentSession();
                 dbTowerFireDrum db = new dbTowerFireDrum();
                 TowerFireDrum m = db.GetModel(model.ID, Session);
+                m.Elevation = model.Elevation;
                 m.BootDiameter = model.BootDiameter;
                 m.BootHeight = model.BootHeight;
                 m.Diameter = model.Diameter;
@@ -84,7 +91,15 @@ namespace ReliefProMain.ViewModel.TowerFire
                 m.NormalLiquidLevel = model.NormalLiquidLevel;
                 m.Orientation = model.Orientation;
                 m.PipingContingency = model.PipingContingency;
-                db.Update(m, Session);
+                try
+                {
+                    db.Update(m, Session);
+
+                    Session.Flush();
+                }
+                catch (Exception ex)
+                {
+                }
 
                 
                 double elevation=double.Parse(m.Elevation);
@@ -93,7 +108,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 double NLL=double.Parse(m.NormalLiquidLevel);
                 double bootheight = double.Parse(m.BootHeight);
                 double bootdiameter = double.Parse(m.BootDiameter);
-                Session.Flush();
+                
                 Area = Algorithm.GetDrumArea(m.Orientation, model.HeadType, elevation, diameter, length, NLL, bootheight, bootdiameter);               
                 Area = Area + Area * double.Parse(model.PipingContingency) / 100;
             }
@@ -101,7 +116,7 @@ namespace ReliefProMain.ViewModel.TowerFire
 
             if (wd != null)
             {
-                wd.Close();
+                wd.DialogResult=true;
             }
         }
 

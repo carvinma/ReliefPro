@@ -39,8 +39,9 @@ namespace ReliefProMain.ViewModel.TowerFire
                 dbTowerFireOther db = new dbTowerFireOther();
                 model = db.GetModel(Session,EqID);
                 if (model == null)
-                {
+                {                    
                     model = new TowerFireOther();
+                    model.EqID = EqID;
                     model.PipingContingency = "10";
                     db.Add(model, Session);
                 }

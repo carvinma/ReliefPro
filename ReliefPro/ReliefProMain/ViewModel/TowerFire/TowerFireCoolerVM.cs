@@ -40,6 +40,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 if (model == null)
                 {
                     model = new TowerFireCooler();
+                    model.EqID = EqID;
                     model.PipingContingency = "10";
                     db.Add(model,Session);
                 }

@@ -83,7 +83,7 @@ namespace ReliefProMain.ViewModel.TowerFire
 
             if (wd != null)
             {
-                wd.Close();
+                wd.DialogResult = true;
             }
         }
     }

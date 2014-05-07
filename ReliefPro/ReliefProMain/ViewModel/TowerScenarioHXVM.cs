@@ -101,7 +101,7 @@ namespace ReliefProMain.ViewModel
                 double ohProductFlow = GetOHProductFlow(Session);
 
                 double density = GetLatentLiquidDensity(Session);
-                double totalCondenserDuty = ScenarioCondenserDuty;                
+                double totalCondenserDuty = Math.Abs(ScenarioCondenserDuty);                
                 double latent = GetLatent(Session);
                 double volumeflowrate = totalCondenserDuty / latent / density;
                 double totalVolumeticFlowRate = volumeflowrate - refluxFlow * refluxFlowStops - ohProductFlow * ohProductFlowStops;
