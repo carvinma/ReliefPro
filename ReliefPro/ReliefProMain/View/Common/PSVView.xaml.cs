@@ -77,9 +77,13 @@ namespace ReliefProMain.View
                 string tempdir = System.IO.Path.GetDirectoryName(dbProtectedSystemFile) + @"\temp\";
                 if (!Directory.Exists(tempdir))
                     Directory.CreateDirectory(tempdir);
-                string dirSP = tempdir + "Latest";
-                if (!Directory.Exists(dirSP))
-                    Directory.CreateDirectory(dirSP);
+
+                string dirPhase = tempdir + "Phase";
+                if (!Directory.Exists(dirPhase))
+                    Directory.CreateDirectory(dirPhase);
+                string dirLatent = tempdir + "Latent";
+                if (!Directory.Exists(dirLatent))
+                    Directory.CreateDirectory(dirLatent);
 
 
                 importdb = new ImportDB(dbProtectedSystemFile);
@@ -101,7 +105,7 @@ namespace ReliefProMain.View
                 PRIIFileOperator.DecompressProIIFile(przFile, tempdir);
                 string content = PRIIFileOperator.getUsableContent(dtStream.Rows[0]["streamname"].ToString(), tempdir);
 
-                FlashCalculation fcalc = new FlashCalculation();
+                
                 double ReliefPressure = double.Parse(this.txtPrelief.Text) * double.Parse(this.txtPress.Text);
                 CustomStream stream = new CustomStream();
                 stream.Temperature = strTray1Temperature;
@@ -111,9 +115,30 @@ namespace ReliefProMain.View
                 stream.StreamName = tray1_s;
                 stream.TotalComposition = dtStream.Rows[0]["TotalComposition"].ToString();
                 stream.TotalMolarRate = dtStream.Rows[0]["TotalMolarRate"].ToString();
-                string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, vapor, liquid, dirSP);
+
+                //PHASECalculation PhaseCalc = new PHASECalculation();
+                //string PH="PH"+Guid.NewGuid().ToString().Substring(0,4);
+                //string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH,dirPhase);
+
+               
+                //ProIIReader picker1 = new ProIIReader();
+                //picker1.InitProIIPicker(phasef);
+                //string criticalPress = picker1.GetCriticalPressure(PH);               
+                //picker1.ReleaseProIIPicker();
+                //criticalPress = UnitConverter.unitConv(criticalPress, "KPA", "MPAG", "{0:0.0000}");
+                
+
+
+                FlashCalculation fcalc = new FlashCalculation();
+                string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, vapor, liquid, dirLatent);
 
                 ImportDB importdb2 = new ImportDB(dbPlantFile);
+                //DataTable dtCritical = importdb2.GetDataByTableName("tbCritical", "1=0");
+                //DataRow drCritical = dtCritical.NewRow();
+                //drCritical["CriticalPressure"] = criticalPress;
+                //dtCritical.Rows.Add(drCritical);
+               // importdb2.SaveDataByTableName(dtCritical);
+
                 DataTable dtEqType = importdb2.GetDataByTableName("tbproiieqtype", "");
                 DataTable dtEqList = importdb2.GetDataByTableName("tbproiieqdata", "1=0");
                 DataTable dtStream2 = importdb2.GetDataByTableName("tbproiistreamdata", "1=0");
@@ -285,6 +310,7 @@ namespace ReliefProMain.View
                         latent.LatestEnthalpy = latentH.ToString();
                         latent.ReliefTemperature = ReliefTemperature.ToString();
                         latent.ReliefOHWeightFlow = liqidH[2];
+                        latent.ReliefPressure = (double.Parse(model.Pressure) * double.Parse(model.ReliefPressureFactor)).ToString();
                         dblatent.Add(latent, Session);
                     }
                     else
