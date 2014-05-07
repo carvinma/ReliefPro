@@ -4,7 +4,7 @@
     <id name="ID" column="ID" type="Int32" unsaved-value="0">
       <generator class="identity" />
     </id>
-    <property name="Number" column="Number" type="String" length="255" />
+    <property name="NumberOfSegment" column="NumberOfSegment" type="String" length="255" />
     <property name="Elevation" column="Elevation" type="String" length="255" />
     <property name="BNLL" column="BNLL" type="String" length="255" />
     <property name="LiquidHoldup" column="LiquidHoldup" type="String" length="255" />

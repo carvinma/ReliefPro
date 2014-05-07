@@ -14,5 +14,6 @@ namespace ReliefProModel
         public virtual string Height { get; set; }
         public virtual string Diameter { get; set; }
         public virtual int ColumnID { get; set; }
+        public virtual string Segment { get; set; }
     }
 }

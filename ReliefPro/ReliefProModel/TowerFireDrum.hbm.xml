@@ -10,7 +10,7 @@
     <property name="NormalLiquidLevel" column="NormalLiquidLevel" type="String" length="255" />
     <property name="HeadNumber" column="HeadNumber" type="String" length="255" />
     <property name="HeadType" column="HeadType" type="String" length="255" />
-    <property name="BootDiameter" column="BootDiameter" type="Boolean" />
+    <property name="BootDiameter" column="BootDiameter" type="String" />
     <property name="BootHeight" column="BootHeight" type="String" length="255" />  
     <property name="PipingContingency" column="PipingContingency" type="String" length="255" />
     <property name="EqID" column="EqID" type="Int32" />

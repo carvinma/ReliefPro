@@ -9,7 +9,7 @@ namespace ReliefProModel
     public class TowerFireColumn
     {
         public virtual int ID { get; set; }
-        public virtual string Number { get; set; }
+        public virtual string NumberOfSegment { get; set; }
         public virtual string Elevation { get; set; }
         public virtual string BNLL { get; set; }
         public virtual string LiquidHoldup { get; set; }        

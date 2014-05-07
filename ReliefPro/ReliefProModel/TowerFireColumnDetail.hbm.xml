@@ -9,5 +9,6 @@
     <property name="Height" column="Height" type="String" length="255" />
     <property name="Diameter" column="Diameter" type="String" length="255" />
     <property name="ColumnID" column="ColumnID" type="Int32"  />
+    <property name="Segment" column="Segment" type="String" length="255" />
   </class>
 </hibernate-mapping>
