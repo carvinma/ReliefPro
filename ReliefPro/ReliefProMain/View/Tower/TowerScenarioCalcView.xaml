@@ -22,13 +22,16 @@
         <TextBox HorizontalAlignment="Left" Name="txtReliefLoad"  Height="23" Margin="150,18,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <TextBlock HorizontalAlignment="Left" Margin="39,55,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Relief Temperature" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Name="txtTemperature" Height="23" Margin="153,48,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-        <TextBlock HorizontalAlignment="Left" Margin="39,97,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Relief MW" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Name="txtReliefMW" Height="23" Margin="153,90,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="44,119,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Relief MW" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Name="txtReliefMW" Height="23" Margin="153,112,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <TextBlock HorizontalAlignment="Left" Margin="281,18,0,0" Grid.Row="1" TextWrapping="Wrap" Text="kg/hr" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="294,55,0,0" Grid.Row="1" TextWrapping="Wrap" Text="C" VerticalAlignment="Top"/>
         <Border BorderBrush="black"    VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1" Margin="0,1,0,0" Grid.Row="2"/>
         <Button Content="OK" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Height="25"  Margin="110,10,0,0" Grid.Row="2"  Click="btnOK_Click"/>
         <Button Content="Cancel" HorizontalAlignment="Left" IsCancel="True"  VerticalAlignment="Top" Width="75" Height="25"  Margin="211,10,0,0" Grid.Row="2"/>
+        <Label Content="Relief Pressure" HorizontalAlignment="Left" Margin="44,76,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="150,79,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Label Content="MPag" HorizontalAlignment="Left" Margin="286,79,0,0" Grid.Row="1" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

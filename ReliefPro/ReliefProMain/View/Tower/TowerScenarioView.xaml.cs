@@ -150,6 +150,7 @@ namespace ReliefProMain.View
                            TowerFireEq eq = new TowerFireEq();
                            eq.EqName = tower.TowerName;
                            eq.Type = "Column";
+                           eq.FFactor = "1";
                            eq.FireZone = true;
                            eq.FireID = tf.ID;
                            dbtfeq.Add(eq, Session);
@@ -159,6 +160,7 @@ namespace ReliefProMain.View
                            eq = new TowerFireEq();
                            eq.EqName = accumulator.AccumulatorName;
                            eq.Type = "Drum";
+                           eq.FFactor = "1";
                            eq.FireZone = true;
                            eq.FireID = tf.ID;
                            dbtfeq.Add(eq, Session);
@@ -166,6 +168,7 @@ namespace ReliefProMain.View
                            eq = new TowerFireEq();
                            eq.EqName = "Other";
                            eq.Type = "Other HX";
+                           eq.FFactor = "1";
                            eq.FireZone = true;
                            eq.FireID = tf.ID;
                            dbtfeq.Add(eq, Session);
@@ -177,6 +180,7 @@ namespace ReliefProMain.View
                                eq = new TowerFireEq();
                                eq.EqName = s.EqName;
                                eq.Type = "Side Column";
+                               eq.FFactor = "1";
                                eq.FireZone = true;
                                eq.FireID = tf.ID;
                                dbtfeq.Add(eq, Session);
@@ -190,6 +194,7 @@ namespace ReliefProMain.View
                                eq = new TowerFireEq();
                                eq.EqName = s.DetailName;
                                eq.FireZone = true;
+                               eq.FFactor = "1";
                                eq.FireID = tf.ID;
                                if (s.Medium.Contains("Air"))
                                {
