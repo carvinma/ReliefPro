@@ -18,5 +18,18 @@
     <property name="IsProduct" column="IsProduct" type="Boolean"  />
     <property name="Tray" column="Tray" type="String" length="255" />
     <property name="BulkDensityAct" column="BulkDensityAct" type="String" length="255" />
+
+    <property name="VaporFraction" column="VaporFraction" type="String" length="255" />
+    <property name="BulkMwOfPhase" column="BulkMwOfPhase" type="String" length="255" />
+    <property name="BulkViscosity" column="BulkViscosity" type="String" length="255" />
+    <property name="BulkCPCVRatio" column="BulkCPCVRatio" type="String" length="255" />
+    <property name="VaporZFmKVal" column="VaporZFmKVal" type="String" length="255" />
+
+    <property name="BulkCP" column="BulkCP" type="String" length="255" />
+    <property name="BulkThermalCond" column="BulkThermalCond" type="String" length="255" />
+    <property name="BulkSurfTension" column="BulkSurfTension" type="String" length="255" />
+    <property name="TotalMolarEnthalpy" column="TotalMolarEnthalpy" type="String" length="255" />
+    <property name="InertWeightEnthalpy" column="InertWeightEnthalpy" type="String" length="255" />
+    <property name="InertWeightRate" column="InertWeightRate" type="String" length="255" />
   </class>
 </hibernate-mapping>

@@ -6,6 +6,7 @@
     </id>   
     <property name="LatestEnthalpy" column="LatestEnthalpy" type="String" length="255" />
     <property name="ReliefTemperature" column="ReliefTemperature" type="String" length="255" />
+    <property name="ReliefPressure" column="ReliefPressure" type="String" length="255" />
     <property name="ReliefOHWeightFlow" column="ReliefOHWeightFlow" type="String" length="255" />
   </class>
 </hibernate-mapping>

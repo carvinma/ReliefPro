@@ -22,5 +22,19 @@ namespace ReliefProModel
         public virtual string SpEnthalpy { get; set; }
         public virtual string Tray { get; set; }
         public virtual string BulkDensityAct { get; set; }
+
+        public string VaporFraction { get; set; }
+        public string BulkMwOfPhase { get; set; }
+        public string BulkViscosity { get; set; }
+        public string BulkCPCVRatio { get; set; }
+        public string VaporZFmKVal { get; set; }
+        public string BulkCP { get; set; }
+        public string BulkThermalCond { get; set; }
+        public string BulkSurfTension { get; set; }
+        public string TotalMolarEnthalpy { get; set; }
+        public string InertWeightEnthalpy { get; set; }
+        public string InertWeightRate { get; set; }
+
+
     }
 }
