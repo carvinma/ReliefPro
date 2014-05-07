@@ -26,13 +26,13 @@ namespace ProII91
         /// <param name="liquid"></param>
         /// <param name="dir"></param>
         /// <returns></returns>
-        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string dir)
+        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream,string PH, string dir)
         {
             CP2ServerClass cp2Srv = new CP2ServerClass();
             cp2Srv.Initialize();
 
             string streamData = getStreamData(iFirst, firstValue,iSecond,secondValue, stream);
-            string flashData = getPHASEData(iFirst, firstValue, iSecond, secondValue, stream);
+            string flashData = getPHASEData(iFirst, firstValue, iSecond, secondValue, stream, PH);
             StringBuilder sb = new StringBuilder();
             sb.Append(fileContent).Append(streamData).Append(flashData);
             string onlyFileName = dir + @"\" + Guid.NewGuid().ToString().Substring(0, 5);
@@ -79,14 +79,14 @@ namespace ProII91
             data1.Append("\t").Append(sbCom.Remove(0, 2)).Append("\n");
             return data1.ToString();
         }
-        private string getPHASEData(int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream)
+        private string getPHASEData(int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream,string PH)
         {
             StringBuilder data2 = new StringBuilder("UNIT OPERATIONS\n");
             string streamName = stream.StreamName;
-            string FlashName = "PH1" ;
+            string FlashName = PH;
 
             data2.Append("\tPHASE UID=").Append(FlashName).Append("\n");
-            data2.Append("\t EVAL  STREAM=1 ").Append(streamName.ToUpper()).Append(",IPLOT=ON\n");
+            data2.Append("\t EVAL  STREAM=").Append(streamName.ToUpper()).Append(",IPLOT=ON\n");
                         
             data2.Append("END");
             return data2.ToString();
