@@ -306,6 +306,17 @@ namespace ReliefProMain
                     }
                     visioControl.Window.DeselectAll();
                 }
+                if (lvi.Source.ToString().Contains("drum"))
+                {
+                    Visio.Document currentStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+                    Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Column");
+                    DragDropEffects dde1 = DragDrop.DoDragDrop(lvi, visioRectMaster, DragDropEffects.All);                   
+                    foreach (Visio.Shape shape in visioControl.Window.Selection)
+                    {
+                        shape.Cells["EventDblClick"].Formula = "=0";
+                    }
+                    visioControl.Window.DeselectAll();
+                }
 
             }
         }
@@ -317,6 +328,7 @@ namespace ReliefProMain
         {
             ObservableCollection<ListViewItemData> collections = new ObservableCollection<ListViewItemData>();
             collections.Add(new ListViewItemData { Name = "Distillation", Pic = "/images/tower.ico" });
+            collections.Add(new ListViewItemData { Name = "Drum", Pic = "/images/drum.ico" });
             this.lvTower.ItemsSource = collections;
         }
 
