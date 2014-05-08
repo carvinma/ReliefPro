@@ -126,10 +126,12 @@
     <Compile Include="CustomControl\UnitConvertTextBox.cs" />
     <Compile Include="Interface\IModalDialog.cs" />
     <Compile Include="Interface\IServiceLocator.cs" />
+    <Compile Include="Model\DrumBlockedOutletModel.cs" />
     <Compile Include="Model\FormatUnitsMeasureModel.cs" />
     <Compile Include="Model\ModelBase.cs" />
     <Compile Include="Service\ServiceProvider.cs" />
     <Compile Include="Service\UnityServiceLocator.cs" />
+    <Compile Include="ViewModel\Drum\DrumBlockedOutletVM.cs" />
     <Compile Include="ViewModel\FormatUnitsMeasureVM.cs" />
     <Compile Include="ViewModel\Mode.cs" />
     <Compile Include="ViewModel\MultiValueConverter.cs" />

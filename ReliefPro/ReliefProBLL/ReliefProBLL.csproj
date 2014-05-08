@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DrumBll.cs" />
     <Compile Include="ExportExcel.cs" />
     <Compile Include="ImportData.cs" />
     <Compile Include="NHibernateHelper.cs" />
