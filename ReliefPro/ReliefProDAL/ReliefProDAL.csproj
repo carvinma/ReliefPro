@@ -59,6 +59,8 @@
     <Compile Include="dbBasicUnit.cs" />
     <Compile Include="dbBasicUnitDefault.cs" />
     <Compile Include="dbCustomStream.cs" />
+    <Compile Include="dbProIIEqData.cs" />
+    <Compile Include="dbProIIEqType.cs" />
     <Compile Include="dbStream.cs" />
     <Compile Include="dbSystemScenarioFactor.cs" />
     <Compile Include="dbSystemUnit.cs" />
@@ -70,13 +72,16 @@
     <Compile Include="dbTowerFireCooler.cs" />
     <Compile Include="dbTowerFlashProduct.cs" />
     <Compile Include="dbUnitType.cs" />
+    <Compile Include="dbProIIStreamData.cs" />
+
     <Compile Include="Drum\dbDrumBlockedOutlet.cs" />
+
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="dbUnit.cs" />
     <Compile Include="dbProtectSystem.cs" />
     <Compile Include="dbSource.cs" />
     <Compile Include="dbPSV.cs" />
-    <Compile Include="dbTowerScenario.cs" />
+    <Compile Include="dbScenario.cs" />
     <Compile Include="dbTowerHX.cs" />
     <Compile Include="dbTowerHXDetail.cs" />
     <Compile Include="dbTowerScenarioHX.hbm.cs" />
