@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
-<class name="ReliefProModel.UnitType, ReliefProModel" table="tbUnitType" >
+<class name="ReliefProModel.Drum, ReliefProModel" table="tbDrum" >
 <id name="ID" column="ID" type="Int32" unsaved-value="0">
 <generator class="identity" />
 </id>
 <property name="Name" column="Name" type="String" length="255" />
+<property name="DrumType" column="DrumType" type="String" length="255" />
 <property name="ShortName" column="ShortName" type="String" length="255" />
-<property name="isCalc" column="isCalc" type="Int32" />
-
+  <property name="isCalc" column="isCalc" type="Int32"  />
 </class>
 </hibernate-mapping>
