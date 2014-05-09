@@ -9,7 +9,7 @@ using ReliefProDAL.Drum;
 using ReliefProModel;
 using ReliefProModel.Drum;
 
-namespace ReliefProLL
+namespace ReliefProBLL
 {
     public class DrumBll
     {
@@ -44,8 +44,8 @@ namespace ReliefProLL
                         Model.MaxPressure = MaxPressure;
                     }
                 }
-                dbTowerScenario towerScenario = new dbTowerScenario();
-                List<TowerScenario> listTowerScenario = towerScenario.GetAllList(Session).ToList();
+                dbScenario towerScenario = new dbScenario();
+                List<Scenario> listTowerScenario = towerScenario.GetAllList(Session).ToList();
                 if (listTowerScenario.Count() > 0)
                 {
                     double MaxStreamRate = 0;
