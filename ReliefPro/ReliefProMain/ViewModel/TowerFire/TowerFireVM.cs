@@ -151,7 +151,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 dbTowerFireEq db = new dbTowerFireEq();
                 TowerFireEq eq = db.GetModel(id, Session);
 
-                double latentEnthalpy = double.Parse(latent.LatestEnthalpy);
+                double latentEnthalpy = double.Parse(latent.LatentEnthalpy);
                 if (eq.Type == "Column" || eq.Type=="Side Column")
                 {
                     TowerFireColumnView v = new TowerFireColumnView();

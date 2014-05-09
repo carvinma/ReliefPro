@@ -92,8 +92,8 @@ namespace ReliefProMain.ViewModel
                 dbAccumulator dbaccumulator = new dbAccumulator();
                 CurrentAccumulator=dbaccumulator.GetModel(Session);
 
-                dbTowerScenario dbTS = new dbTowerScenario();
-                TowerScenario ts = dbTS.GetModel(ScenarioID, Session);
+                dbScenario dbTS = new dbScenario();
+                Scenario ts = dbTS.GetModel(ScenarioID, Session);
 
                 double refluxFlowStops = 0;
                 double refluxFlow = 0;
@@ -134,7 +134,7 @@ namespace ReliefProMain.ViewModel
             Latent model=db.GetModel(Session);
             if (model != null)
             {
-                r = double.Parse(model.LatestEnthalpy);
+                r = double.Parse(model.LatentEnthalpy);
             }
             return r;
         }

@@ -12,7 +12,7 @@ namespace ReliefProMain.ViewModel
 {
     public class TowerScenarioCalcVM:ViewModelBase
     {
-        public TowerScenario CurrentScenario { get; set; }
+        public Scenario CurrentScenario { get; set; }
 
 
     }
