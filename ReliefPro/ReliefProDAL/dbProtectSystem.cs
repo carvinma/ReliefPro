@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NHibernate;
 using ReliefProDAL.Common;
 using ReliefProModel;
+using NHibernate.Criterion;
 
 namespace ReliefProDAL
 {
