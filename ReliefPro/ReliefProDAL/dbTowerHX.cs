@@ -23,6 +23,19 @@ namespace ReliefProDAL
             }
             return list;
         }
+        public IList<TowerHX> GetAllList(ISession session,int HeaterType)
+        {
+            IList<TowerHX> list = null;
+            try
+            {
+                list = session.CreateCriteria<TowerHX>().Add(Expression.Eq("HeaterType", HeaterType)).List<TowerHX>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
         public TowerHX GetModel(ISession session, string name)
         {
             TowerHX model = null;
