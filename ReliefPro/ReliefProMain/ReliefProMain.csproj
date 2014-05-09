@@ -96,9 +96,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="WeifenLuo.WinFormsUI.Docking">
-      <HintPath>..\packages\DockPanelSuite.2.9.0.0\lib\net40\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -117,6 +114,7 @@
     </ApplicationDefinition>
     <Compile Include="Algorithm.cs" />
     <Compile Include="AutoFacManger.cs" />
+    <Compile Include="ComboxData.cs" />
     <Compile Include="Commands\CommandReference.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="CustomControl\CustomComboBox.cs" />
@@ -129,12 +127,21 @@
     <Compile Include="Model\DrumBlockedOutletModel.cs" />
     <Compile Include="Model\FormatUnitsMeasureModel.cs" />
     <Compile Include="Model\ModelBase.cs" />
+    <Compile Include="Model\ScenarioModel.cs" />
+    <Compile Include="Model\TowerFireColumnModel.cs" />
+    <Compile Include="Model\TowerFireModel.cs" />
+    <Compile Include="Model\TowerHXDetailModel.cs" />
+    <Compile Include="Model\TowerHXModel.cs" />
     <Compile Include="Service\ServiceProvider.cs" />
     <Compile Include="Service\UnityServiceLocator.cs" />
+    <Compile Include="ViewModel\DrumVM.cs" />
+
     <Compile Include="ViewModel\Drum\DrumBlockedOutletVM.cs" />
     <Compile Include="ViewModel\FormatUnitsMeasureVM.cs" />
     <Compile Include="ViewModel\Mode.cs" />
     <Compile Include="ViewModel\MultiValueConverter.cs" />
+    <Compile Include="ViewModel\ScenarioListVM.cs" />
+    <Compile Include="ViewModel\SelectEquipmentVM.cs" />
     <Compile Include="ViewModel\SourceVM.cs" />
     <Compile Include="ViewModel\TowerFire\TowerFireColumnDetailVM.cs" />
     <Compile Include="ViewModel\TowerFire\TowerFireCoolerVM.cs" />
@@ -144,12 +151,15 @@
     <Compile Include="ViewModel\TowerFire\TowerFireHXVM.cs" />
     <Compile Include="ViewModel\TowerFire\TowerFireColumnVM.cs" />
     <Compile Include="ViewModel\TowerFire\TowerFireVM.cs" />
-    <Compile Include="ViewModel\TowerHXDetailVM.cs" />
     <Compile Include="ViewModel\TowerHXVM.cs" />
     <Compile Include="ViewModel\TowerScenarioCalcVM.cs" />
     <Compile Include="ViewModel\TowerScenarioHXVM.cs" />
     <Compile Include="ViewModel\AccumulatorVM.cs" />
     <Compile Include="ViewModel\PSVVM.cs" />
+    <Compile Include="ViewModel\TowerVM.cs" />
+    <Compile Include="View\Drum\DrumView.xaml.cs">
+      <DependentUpon>DrumView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FormatUnitsMeasure\BasicUnitInfo.xaml.cs">
       <DependentUpon>BasicUnitInfo.xaml</DependentUpon>
     </Compile>
@@ -188,9 +198,6 @@
     </Compile>
     <Compile Include="View\Tower\AccumulatorView.xaml.cs">
       <DependentUpon>AccumulatorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Tower\TowerHXDetailView.xaml.cs">
-      <DependentUpon>TowerHXDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Tower\TowerView.xaml.cs">
       <DependentUpon>TowerView.xaml</DependentUpon>
@@ -275,8 +282,8 @@
     <Compile Include="View\Tower\TowerHXView.xaml.cs">
       <DependentUpon>TowerHXView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Tower\TowerScenarioView.xaml.cs">
-      <DependentUpon>TowerScenarioView.xaml</DependentUpon>
+    <Compile Include="View\Scenario\ScenarioListView.xaml.cs">
+      <DependentUpon>ScenarioListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Tower\TowerScenarioCalcView.xaml.cs">
       <DependentUpon>TowerScenarioCalcView.xaml</DependentUpon>
@@ -303,6 +310,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Drum\DrumView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\FormatUnitsMeasure\BasicUnitInfo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -352,10 +363,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Tower\AccumulatorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Tower\TowerHXDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -463,7 +470,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Tower\TowerScenarioView.xaml">
+    <Page Include="View\Scenario\ScenarioListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -505,19 +512,19 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="template\protectedsystem - 副本.vsd">
+    <None Include="Template\protectedsystem - 副本.vsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="template\protectedsystem.mdb1">
+    <None Include="Template\protectedsystem.mdb1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="template\protectedsystem.vsd">
+    <None Include="Template\protectedsystem.vsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="template\protectsystem.vsd">
+    <None Include="Template\protectsystem.vsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="template\protectsystem.vsd2">
+    <None Include="Template\protectsystem.vsd2">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -527,22 +534,23 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="template\common.mdb">
+    <Resource Include="Images\drum.ico" />
+    <Content Include="Template\common.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="template\plant - 副本.mdb">
+    <Content Include="Template\plant - 副本.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="template\plant.mdb">
+    <Content Include="Template\plant.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="template\plant2.mdb">
+    <Content Include="Template\plant2.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="template\protectedsystem.mdb">
+    <Content Include="Template\protectedsystem.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="template\protectsystem.mdb">
+    <Content Include="Template\protectsystem.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
