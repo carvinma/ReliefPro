@@ -20,6 +20,7 @@ using System.IO;
 using System.Collections;
 using ReliefProCommon.CommonLib;
 using ReliefProMain.ViewModel;
+using ReliefProModel;
 
 namespace ReliefProMain.View
 {
@@ -76,15 +77,13 @@ namespace ReliefProMain.View
                 {
                     try
                     {
-                        TowerView towerV = new TowerView();
-                        towerV.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                        TowerView v = new TowerView();
+                        TowerVM vm = new TowerVM(name, dbProtectedSystemFile, dbPlantFile);
+                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-                        towerV.dbPlantFile = dbPlantFile;
-                        towerV.dbProtectSystemFile = dbProtectedSystemFile;
-                        towerV.eqType = "Column";
-                        if (towerV.ShowDialog() == true)
+                        if (v.ShowDialog() == true)
                         {
-                            DrawTower(shp, towerV);
+                            DrawTower(shp, vm);
                         }
                     }
                     catch (Exception ex)
@@ -165,7 +164,7 @@ namespace ReliefProMain.View
             this.visioControl.Window.DeselectAll();
 
         }
-        private void DrawTower(Visio.Shape shape, TowerView frm)
+        private void DrawTower(Visio.Shape shape, TowerVM vm)
         {
 
             shape.get_Cells("Height").ResultIU = 2;
@@ -175,12 +174,7 @@ namespace ReliefProMain.View
             double pinX = shape.get_Cells("PinX").ResultIU;
             double pinY = shape.get_Cells("PinY").ResultIU;
 
-            if (frm.op == 1)
-            {
-                shape.Text = frm.txtName.Text;
-                //return;
-            }
-            shape.Text = frm.txtName.Text;
+            shape.Text = vm.TowerName;
             deleteShapesExcept(shape);
 
             Visio.Document currentStencil_1 = visioControl.Document.Application.Documents.OpenEx("PEHEAT_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
@@ -196,7 +190,7 @@ namespace ReliefProMain.View
             Visio.Master endMaster = startStencil.Masters.get_ItemU(@"Clarifier");
 
 
-            int stagenumber = int.Parse(frm.txtStageNumber.Text);
+            int stagenumber = int.Parse(vm.StageNumber);
             DataTable dtFeed = (DataTable)Application.Current.Properties["FeedData"];
             int start = 16;
             double multiple = 0.125;
@@ -221,13 +215,6 @@ namespace ReliefProMain.View
                 startShp.Cells["EventDblClick"].Formula = "=0";
             }
 
-            DataTable dtProd = (DataTable)Application.Current.Properties["ProdData"];
-            DataTable dtReboiler = (DataTable)Application.Current.Properties["Reboiler"];
-            DataTable dtHxReboiler = (DataTable)Application.Current.Properties["HxReboiler"];
-            DataTable dtCondenser = (DataTable)Application.Current.Properties["Condenser"];
-            DataTable dtHxCondenser = (DataTable)Application.Current.Properties["HxCondenser"];
-
-            dtReboiler.Merge(dtHxReboiler);
 
             Visio.Shape condenser;
             Visio.Shape condenserVessel = null;
@@ -235,7 +222,7 @@ namespace ReliefProMain.View
             double theight = 0;
             double tpinX = 0;
             double tpinY = 0;
-            if (dtCondenser.Rows.Count > 0)
+            if (vm.Condensers.Count > 0)
             {
                 condenser = visioControl.Window.Application.ActivePage.Drop(condenserMaster, pinX + 1, pinY + height / 2 + 0.2);
                 condenserVessel = visioControl.Window.Application.ActivePage.Drop(condenserVesselMaster, pinX + 1.5, pinY + height / 2 + 0.1);
@@ -258,20 +245,19 @@ namespace ReliefProMain.View
                 tpinX = condenserVessel.get_Cells("PinX").ResultIU;
                 tpinY = condenserVessel.get_Cells("PinY").ResultIU;
                 condenserVessel.Cells["EventDblClick"].Formula = "=0";
-                condenserVessel.Text = dtCondenser.Rows[0]["heatername"].ToString()+"_Accumulator";
-                condenser.Text = dtCondenser.Rows[0]["heatername"].ToString();
+                condenserVessel.Text = "ac1";
+                condenser.Text = vm.Condensers[0].HeaterName;
                 condenser.Cells["EventDblClick"].Formula = "=0";
             }
 
-            for (int i = 1; i <= dtHxCondenser.Rows.Count; i++)
+            for (int i = 1; i <= vm.HxCondensers.Count; i++)
             {
-                DataRow dr = dtHxCondenser.Rows[i - 1];
                 condenser = visioControl.Window.Application.ActivePage.Drop(condenserMaster, pinX, pinY + height / 2 - i * 0.4);
                 condenserVessel = visioControl.Window.Application.ActivePage.Drop(condenserVesselMaster, pinX + 1.5, pinY + height / 2 + 0.1);
                 condenserVessel.get_Cells("Height").ResultIU = 0.2;
                 condenser.get_Cells("Height").ResultIU = 0.2;
                 condenser.get_Cells("Width").ResultIU = 0.2;
-                condenser.Text = dr["heatername"].ToString();
+                condenser.Text = vm.HxCondensers[i - 1].HeaterName;
                 condenser.Cells["EventDblClick"].Formula = "=0";
             }
 
@@ -283,7 +269,7 @@ namespace ReliefProMain.View
             double bheight = 0;
             double bpinX = 0;
             double bpinY = 0;
-            if (dtReboiler.Rows.Count > 0)
+            if (vm.Reboilers.Count > 0)
             {
                 reboiler = visioControl.Window.Application.ActivePage.Drop(reboilerMaster, pinX + 1, pinY - height / 2 - 0.2);
                 Visio.Shape connector1 = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
@@ -293,7 +279,7 @@ namespace ReliefProMain.View
 
                 ConnectShapes(shape, 8, connector2, 0);//从加热器到塔
                 ConnectShapes(reboiler, 3, connector2, 1);
-                reboiler.Text = dtReboiler.Rows[0]["heatername"].ToString();
+                reboiler.Text = vm.Reboilers[0].HeaterName;
                 reboiler.Cells["EventDblClick"].Formula = "=0";
             }
 
@@ -302,20 +288,20 @@ namespace ReliefProMain.View
             center = 5;
             int topcount = 1;
             int bottomcount = 1;
-            foreach (DataRow dr in dtProd.Rows)
+            foreach (CustomStream cs in vm.Products)
             {
                 int tray = -1;
-                if (dr["tray"].ToString() != string.Empty)
+                if (!string.IsNullOrEmpty(cs.Tray))
                 {
-                    tray = int.Parse(dr["tray"].ToString());
+                    tray = int.Parse(cs.Tray);
                 }
                 if (tray == 1)
                 {
-                    if (dtCondenser.Rows.Count == 0)
+                    if (vm.Condensers.Count == 0)
                     {
                         Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
                         ConnectShapes(shape, 1, connector, 1);
-                        connector.Text = dr["streamname"].ToString();
+                        connector.Text = cs.StreamName;
                         Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 2, pinY - 2 - height / 2);
                         endShp.get_Cells("Height").ResultIU = 0.1;
                         endShp.get_Cells("Width").ResultIU = 0.2;
@@ -329,7 +315,7 @@ namespace ReliefProMain.View
                         {
                             Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
                             ConnectShapes(condenserVessel, 3, connector, 1);
-                            connector.Text = dr["streamname"].ToString();
+                            connector.Text = cs.StreamName;
 
                             Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, tpinX + 2, tpinY - 0.2);
                             endShp.get_Cells("Height").ResultIU = 0.1;
@@ -343,7 +329,7 @@ namespace ReliefProMain.View
                         {
                             Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
                             ConnectShapes(condenserVessel, 6, connector, 1);
-                            connector.Text = dr["streamname"].ToString();
+                            connector.Text = cs.StreamName;
 
                             Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, tpinX + 2, tpinY + 0.4);
                             endShp.get_Cells("Height").ResultIU = 0.1;
@@ -357,7 +343,7 @@ namespace ReliefProMain.View
                         {
                             Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
                             ConnectShapes(condenserVessel, 7, connector, 1);
-                            connector.Text = dr["streamname"].ToString();
+                            connector.Text = cs.StreamName;
 
 
                             Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, tpinX + 2, tpinY - 0.1);
@@ -373,11 +359,11 @@ namespace ReliefProMain.View
                 }
                 else if (tray == stagenumber)
                 {
-                    if (dtReboiler.Rows.Count == 0)
+                    if (vm.Reboilers.Count == 0)
                     {
                         Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
                         ConnectShapes(shape, 9, connector, 1);
-                        connector.Text = dr["streamname"].ToString();
+                        connector.Text = cs.StreamName;
                         Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 2, pinY + 0.5 - height / 2);
                         endShp.get_Cells("Height").ResultIU = 0.1;
                         endShp.get_Cells("Width").ResultIU = 0.2;
@@ -389,7 +375,7 @@ namespace ReliefProMain.View
                     {
                         Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
                         ConnectShapes(reboiler, 1, connector, 1);
-                        connector.Text = dr["streamname"].ToString();
+                        connector.Text = cs.StreamName;
                         Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 2, pinY - 0.5 - height / 2);
                         endShp.get_Cells("Height").ResultIU = 0.1;
                         endShp.get_Cells("Width").ResultIU = 0.2;
@@ -402,7 +388,7 @@ namespace ReliefProMain.View
                 {
                     Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
                     ConnectShapes(shape, start, connector, 1);
-                    connector.Text = dr["streamname"].ToString();
+                    connector.Text = cs.StreamName;
 
                     Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 2, pinY + (center - start) * multiple * height);
                     endShp.get_Cells("Height").ResultIU = 0.1;
@@ -424,12 +410,7 @@ namespace ReliefProMain.View
             currentStencil_2.Close();
             currentStencil_3.Close();
 
-            Application.Current.Properties.Remove("Condenser");
-            Application.Current.Properties.Remove("HxCondenser");
-            Application.Current.Properties.Remove("Reboiler");
-            Application.Current.Properties.Remove("HxReboiler");
-            Application.Current.Properties.Remove("FeedData");
-            Application.Current.Properties.Remove("ProdData");
+           
             visioControl.Document.SaveAs(visioControl.Src);
 
         }
@@ -514,11 +495,11 @@ namespace ReliefProMain.View
             }
             else if (btn.ToolTip.ToString() == "Scenario")
             {
-                TowerScenarioView ts = new TowerScenarioView();
-                ts.dbProtectedSystemFile = dbProtectedSystemFile;
-                ts.dbPlantFile = dbPlantFile;
-                ts.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                ts.ShowDialog();
+                ScenarioListView v = new ScenarioListView();
+                ScenarioListVM vm = new ScenarioListVM(dbProtectedSystemFile, dbPlantFile);
+                v.DataContext = vm;
+                v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                v.ShowDialog();
             }
         }
 
