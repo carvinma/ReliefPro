@@ -7,6 +7,6 @@
   
   <property name="DrumName" column="DrumName" type="String" length="255"/>
   <property name="DrumType" column="DrumType" type="String" length="255"/>
-  
+  <property name="Duty" column="Duty" type="String" length="255"/>
 </class>
 </hibernate-mapping>
