@@ -42,6 +42,7 @@
     <Compile Include="EnthalpyOfVaporizeCalucation.cs" />
     <Compile Include="FlashCalculation.cs" />
     <Compile Include="ProIIReader.cs" />
+    <Compile Include="ProIIReader2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PHASECalculation.cs" />
   </ItemGroup>
