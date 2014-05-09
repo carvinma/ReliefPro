@@ -306,7 +306,7 @@ namespace ReliefProMain.View
                         db.Add(model, Session);
 
                         Latent latent = new Latent();
-                        latent.LatestEnthalpy = latentH.ToString();
+                        latent.LatentEnthalpy = latentH.ToString();
                         latent.ReliefTemperature = ReliefTemperature.ToString();
                         latent.ReliefOHWeightFlow = liqidH[2];
                         latent.ReliefPressure = (double.Parse(model.Pressure) * double.Parse(model.ReliefPressureFactor)).ToString();

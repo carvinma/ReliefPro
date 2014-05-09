@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -10,21 +11,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.Data;
-using System.Data.OleDb;
-using ImportLib;
 
-namespace ReliefProMain.View
+namespace ReliefProMain.View.Drum
 {
     /// <summary>
-    /// Tower.xaml 的交互逻辑
+    /// DrumView.xaml 的交互逻辑
     /// </summary>
-    public partial class TowerView : Window
+    public partial class DrumView : Window
     {
-        public TowerView()
+        public DrumView()
         {
             InitializeComponent();
         }
-      
     }
 }

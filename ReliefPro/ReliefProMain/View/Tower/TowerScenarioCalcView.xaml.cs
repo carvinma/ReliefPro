@@ -137,7 +137,7 @@ namespace ReliefProMain.View
                     }
                 }
                 overHeadWeightFlow = double.Parse(latent.ReliefOHWeightFlow);
-                double latestH = double.Parse(latent.LatestEnthalpy);
+                double latestH = double.Parse(latent.LatentEnthalpy);
                 double totalH = FeedTotal - ProductTotal + HeatTotal;
                 double wAccumulation = totalH / latestH + overHeadWeightFlow;
                 double wRelief = wAccumulation;
@@ -151,17 +151,15 @@ namespace ReliefProMain.View
                 txtReliefLoad.Text = ReliefLoad.ToString();
                 txtReliefMW.Text = ReliefMW.ToString();
 
-                dbTowerScenario dbTS = new dbTowerScenario();
-                TowerScenario scenario = dbTS.GetModel(ScenarioID, Session);
+                dbScenario dbTS = new dbScenario();
+                Scenario scenario = dbTS.GetModel(ScenarioID, Session);
                 scenario.ReliefLoad = ReliefLoad.ToString();
                 scenario.ReliefMW = ReliefMW.ToString();
                 scenario.ReliefTemperature = latent.ReliefTemperature;
                 dbTS.Update(scenario, Session);
                 Session.Flush();
             }
-            this.DialogResult = true;
-
-
+            
            
         }
 
@@ -171,8 +169,8 @@ namespace ReliefProMain.View
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
                 var Session = helper.GetCurrentSession();
-                dbTowerScenario dbTS = new dbTowerScenario();
-                TowerScenario scenario = dbTS.GetModel(ScenarioID, Session);
+                dbScenario dbTS = new dbScenario();
+                Scenario scenario = dbTS.GetModel(ScenarioID, Session);
                 scenario.ReliefLoad = txtReliefLoad.Text;
                 scenario.ReliefMW = txtReliefMW.Text;
                 scenario.ReliefTemperature = txtTemperature.Text;
