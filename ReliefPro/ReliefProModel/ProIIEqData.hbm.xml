@@ -17,7 +17,7 @@
     <property name="LiquidVolumeFlow" column="LiquidVolumeFlow" type="String" length="255" />
     <property name="GasVolumeFlow" column="GasVolumeFlow" type="String" length="255" />
     <property name="Efficiency" column="Efficiency" type="String" length="255"  />
-    <property name="Head" column="Tray" type="Head" length="255" />
+    <property name="Head" column="Head" type="String" length="255" />
     <property name="Work" column="Work" type="String" length="255" />
 
     <property name="HotsideTemperature" column="HotsideTemperature" type="String" length="255" />
@@ -36,7 +36,6 @@
     <property name="FeedTrays" column="FeedTrays" type="String" length="255" />
     <property name="ProdTrays" column="ProdTrays" type="String" length="255" />
     <property name="ProdType" column="ProdType" type="String" length="255" />
-    <property name="ReboilerDuty" column="ReboilerDuty" type="String" length="255" />
     <property name="HeaterNames" column="HeaterNames" type="String" length="255" />
     <property name="HeaterDuties" column="HeaterDuties" type="String" length="255" />
     <property name="HeaterNumber" column="HeaterNumber" type="String" length="255" />

@@ -70,10 +70,11 @@
     <Compile Include="DemoModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Drum\Drum.cs" />
     <Compile Include="Drum\DrumBlockedOutlet.cs" />
     <Compile Include="Drum\DrumFireAllGas.cs" />
     <Compile Include="Drum\DrumFireCalc.cs" />
-    <Compile Include="Drum\DrumFireSize.cs" />
+    <Compile Include="Drum\DrumSize.cs" />
     <Compile Include="Latent.cs" />
     <Compile Include="LatentProduct.cs" />
     <Compile Include="ProIIEqData.cs" />
@@ -98,7 +99,7 @@
     <Compile Include="TowerHX.cs" />
     <Compile Include="Tower.cs" />
     <Compile Include="TowerScenarioHX.cs" />
-    <Compile Include="TowerScenario.cs" />
+    <Compile Include="Scenario.cs" />
     <Compile Include="TowerScenarioStream.cs" />
     <Compile Include="UnitType.cs" />
     <Compile Include="CustomStream.cs" />
@@ -107,7 +108,7 @@
     <Compile Include="ProIIStreamData.cs" />
     <EmbeddedResource Include="DemoModel.hbm.xml" />
     <EmbeddedResource Include="TowerHXDetail.hbm.xml" />
-    <EmbeddedResource Include="TowerScenario.hbm.xml">
+    <EmbeddedResource Include="Scenario.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TowerScenarioHX.hbm.xml" />
@@ -155,8 +156,9 @@
     <EmbeddedResource Include="BasicUnitDefault.hbm.xml" />
     <EmbeddedResource Include="Drum\DrumBlockedOutlet.hbm.xml" />
     <EmbeddedResource Include="Drum\DrumFireCalc.hbm.xml" />
-    <EmbeddedResource Include="Drum\DrumFireSize.hbm.xml" />
+    <EmbeddedResource Include="Drum\DrumSize.hbm.xml" />
     <EmbeddedResource Include="Drum\DrumFireAllGas.hbm.xml" />
+    <EmbeddedResource Include="Drum\Drum.hbm.xml" />
     <Content Include="license.txt" />
     <EmbeddedResource Include="TowerFlashProduct.hbm.xml" />
     <EmbeddedResource Include="SystemScenarioSource.hbm.xml" />

@@ -4,7 +4,7 @@
     <id name="ID" column="ID" type="Int32" unsaved-value="0">
       <generator class="identity" />
     </id>   
-    <property name="LatestEnthalpy" column="LatestEnthalpy" type="String" length="255" />
+    <property name="LatentEnthalpy" column="LatentEnthalpy" type="String" length="255" />
     <property name="ReliefTemperature" column="ReliefTemperature" type="String" length="255" />
     <property name="ReliefPressure" column="ReliefPressure" type="String" length="255" />
     <property name="ReliefOHWeightFlow" column="ReliefOHWeightFlow" type="String" length="255" />

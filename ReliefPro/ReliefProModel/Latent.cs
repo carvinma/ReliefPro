@@ -10,7 +10,7 @@ namespace ReliefProModel
     {
         public virtual int ID { get; set; }
         public virtual string ReliefTemperature { get; set; }
-        public virtual string LatestEnthalpy { get; set; }
+        public virtual string LatentEnthalpy { get; set; }
         public virtual string ReliefOHWeightFlow { get; set; }
         public virtual string ReliefPressure { get; set; }
     }
