@@ -211,8 +211,8 @@ namespace ProII91
                     object value = objBulkDrop.GetAttribute(col);
                     r[col] = ConvertExt.ObjectToString(value);
                 }
-                Marshal.FinalReleaseComObject(objBulkDrop);
-                GC.ReRegisterForFinalize(objBulkDrop);
+                //Marshal.FinalReleaseComObject(objBulkDrop);
+               // GC.ReRegisterForFinalize(objBulkDrop);
             }
 
             dtStream.Rows.Add(r);
@@ -415,14 +415,23 @@ namespace ProII91
                     object v = objBulkDrop.GetAttribute(s);
                     r[s] = ConvertExt.ObjectToString(v);
                 }
-                Marshal.FinalReleaseComObject(objBulkDrop);
-                GC.ReRegisterForFinalize(objBulkDrop);
+                //Marshal.FinalReleaseComObject(objBulkDrop);
+                //GC.ReRegisterForFinalize(objBulkDrop);
 
             }
 
             dtStream.Rows.Add(r);
         }
-            
+
+        public string GetCriticalPressure(string phaseName)
+        {
+            string otype = "PhaseEnvel";
+            string attr = "CriticalPress";
+            CP2Object eq = (CP2Object)cp2File.ActivateObject(otype, phaseName);
+            object value = eq.GetAttribute(attr);
+            return value.ToString();
+        }
+
     }
 
     public class ProductInfo
