@@ -79,6 +79,7 @@ namespace ReliefProMain.View
                     {
                         TowerView v = new TowerView();
                         TowerVM vm = new TowerVM(name, dbProtectedSystemFile, dbPlantFile);
+                        v.DataContext = vm;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
                         if (v.ShowDialog() == true)
