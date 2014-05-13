@@ -92,6 +92,9 @@
     <Compile Include="dbTowerFireHX.cs" />
     <Compile Include="dbTowerFireEq.cs" />
     <Compile Include="dbSideColumn.cs" />
+    <Compile Include="dbInletValveOpen.cs" />
+    <Compile Include="dbReboilerPinch.cs" />
+    <Compile Include="dbFeedBottomHX.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\ReliefProCommon.csproj">

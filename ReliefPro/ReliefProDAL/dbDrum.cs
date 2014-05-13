@@ -28,5 +28,23 @@ namespace ReliefProDAL
             }
             return list;
         }
+        public ReliefProModel.Drum.Drum GetModel(ISession session)
+        {
+            ReliefProModel.Drum.Drum m = null;
+            IList<ReliefProModel.Drum.Drum> list = null;
+            try
+            {
+                list = session.CreateCriteria<ReliefProModel.Drum.Drum>().List<ReliefProModel.Drum.Drum>();
+                if (list.Count > 0)
+                {
+                    m = list[0];
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return m;
+        }
     }
 }
