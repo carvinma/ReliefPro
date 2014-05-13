@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="ReliefProModel.FeedBottomHX, ReliefProModel" table="tbFeedBottomHX" >
+    <id name="ID" column="ID" type="Int32" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+    <property name="FeedNormaltin" column="FeedNormaltin" type="String" length="255" />    
+    <property name="FeedNormalENTHALPYin" column="FeedNormalENTHALPYin" type="String" length="255" />
+    <property name="StreamName" column="StreamName" type="String" length="255" />
+    <property name="BottomNormalTin" column="BottomNormalTin" type="String" length="255" />
+    <property name="BottomNormalTout" column="BottomNormalTout" type="String" length="255" />
+    <property name="BottomReliefTin" column="BottomReliefTin" type="String" length="255" />
+    <property name="QAQNGuess" column="QAQNGuess" type="String" length="255" />
+    <property name="TotalCount" column="TotalCount" type="String" length="255" />
+    <property name="FeedTemperature" column="FeedTemperature" type="String" length="255" />
+    <property name="FeedEnthalpy" column="FeedEnthalpy" type="String" length="255" />
+    <property name="QRQN" column="QRQN" type="String" length="255" />
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="ReliefProModel.InletValveOpen, ReliefProModel" table="tbInletValveOpen" >
+    <id name="ID" column="ID" type="Int32" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+    <property name="VesselName" column="VesselName" type="String" length="255" />    
+    <property name="UpStameName" column="UpStameName" type="String" length="255" />
+    <property name="OperatingPhase" column="OperatingPhase" type="String" length="255" />
+    <property name="MaxOperatingPressure" column="MaxOperatingPressure" type="String" length="255" />
+    <property name="DownStreamName" column="DownStreamName" type="String" length="255" />
+    <property name="TotlCV" column="TotlCV" type="String" length="255" />
+    <property name="ReliefLoad" column="ReliefLoad" type="String" length="255" />
+    <property name="ReliefTemperature" column="ReliefTemperature" type="String" length="255" />
+    <property name="ReliefPressure" column="ReliefPressure" type="String" length="255" />
+    <property name="ReliefMW" column="ReliefMW" type="String" length="255" />
+    
+  </class>
+</hibernate-mapping>
