@@ -8,5 +8,8 @@
   <property name="DrumName" column="DrumName" type="String" length="255"/>
   <property name="DrumType" column="DrumType" type="String" length="255"/>
   <property name="Duty" column="Duty" type="String" length="255"/>
+  <property name="Pressure" column="Pressure" type="String" length="255"/>
+  <property name="Temperature" column="Temperature" type="String" length="255"/>
+  <property name="PrzFile" column="PrzFile" type="String" length="255"/>
 </class>
 </hibernate-mapping>
