@@ -63,8 +63,8 @@ namespace ReliefProMain.ViewModel
         {
             TowerHXDetailModel d = new TowerHXDetailModel();
             d.HXID = model.ID;
-            d.SeqNumber =  model.Details.Count + 1;
-            d.DetailName = d.SeqNumber.ToString();
+            d.SeqNumber = model.Details.Count-1;
+            d.DetailName = model.HeaterName + "_" + (model.Details.Count+1).ToString();
             d.Parent = model;
             model.Details.Add(d);
         }
@@ -85,8 +85,14 @@ namespace ReliefProMain.ViewModel
 
         public void Delete(object obj)
         {
-            int idx=int.Parse(obj.ToString());
-            model.Details.RemoveAt(idx - 1);
+            int idx = int.Parse(obj.ToString());
+            model.Details.RemoveAt(idx);
+            for(int i=0;i<model.Details.Count;i++)
+            {
+                TowerHXDetailModel detail=model.Details[i];
+                detail.SeqNumber = i;
+            }
+
         }
 
 
@@ -113,20 +119,19 @@ namespace ReliefProMain.ViewModel
             {
                 var Session = helper.GetCurrentSession();
                 dbTowerHXDetail db = new dbTowerHXDetail();
+                IList<TowerHXDetail> list = db.GetAllList(Session);
+                for (int i = 0; i < list.Count; i++)
+                {
+                    db.Delete(list[i], Session);
+                }
+
+
                 foreach (TowerHXDetailModel m in model.Details)
                 {
-                    if (m.ID == 0)
-                    {
-                        TowerHXDetail detail = new TowerHXDetail();
-                        detail = ConvertToDBModel(detail, m);
-                        db.Add(detail,Session);
-                    }
-                    else
-                    {
-                        TowerHXDetail detail = db.GetModel(Session,m.ID);
-                        detail = ConvertToDBModel(detail, m);
-                        db.Update(detail, Session);
-                    }
+                    TowerHXDetail detail = new TowerHXDetail();
+                    detail = ConvertToDBModel(detail, m);
+                    db.Add(detail, Session);
+
                 }
                 Session.Flush();
             }

@@ -12,8 +12,7 @@
         <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=Scenarios}" SelectedItem="{Binding SelectedScenario}" Margin="0,0,0,0" Grid.Row="1" >
             <ListView.View>
                 <GridView >
-                    <GridViewColumn Width="40px"  Header="#"  DisplayMemberBinding="{Binding Path=SeqNumber,Mode=TwoWay}"></GridViewColumn>
-
+                    <GridViewColumn Width="0"    Header="#"   DisplayMemberBinding="{Binding Path=SeqNumber,Mode=TwoWay}"></GridViewColumn>
                     <GridViewColumn Header="Scenario Name" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -43,13 +42,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Relief Load, kg/hr" Width="200px" >
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox Text="{Binding Path=ReliefLoad,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="200px" ></TextBox>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    
                     <GridViewColumn Header="Relief MW" Width="200px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>

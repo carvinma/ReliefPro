@@ -19,15 +19,87 @@ namespace ReliefProMain.ViewModel
     {
         public string dbProtectedSystemFile;
         public string dbPlantFile;
-        public ObservableCollection<TowerScenarioHX> details = null;
+        public ObservableCollection<TowerScenarioHX> _Details;
         public int HeaterType { get; set; }
         public int ScenarioID { get; set; }
-        public bool IsFlooding { get; set; }
-        public bool IsSurgeTime { get; set; }
-        public double SurgeTime { get; set; }
-        public bool IsDisplay { get; set; }
+
         public double ScenarioCondenserDuty = 0;
         public Accumulator CurrentAccumulator { get; set; }
+
+        private string _IsDisplay;
+        public string IsDisplay
+        {
+            get
+            {
+                return this._IsDisplay;
+            }
+            set
+            {
+                this._IsDisplay = value;
+                OnPropertyChanged("IsDisplay");
+            }
+        }
+
+
+        private string _SurgeTime;
+        public string SurgeTime
+        {
+            get
+            {
+                return this._SurgeTime;
+            }
+            set
+            {
+                this._SurgeTime = value;
+                OnPropertyChanged("SurgeTime");
+            }
+        }
+        private bool _IsFlooding;
+        public bool IsFlooding
+        {
+            get
+            {
+                return this._IsFlooding;
+            }
+            set
+            {
+                this._IsFlooding = value;
+                if (_IsFlooding)
+                {
+                    IsSurgeTime = false;
+                    for(int i=0;i<Details.Count;i++)
+                    {
+                        TowerScenarioHX detail =Details[i];
+                        detail.DutyLost = true;
+                    }
+                }
+
+                OnPropertyChanged("IsFlooding");
+            }
+        }
+
+        private bool _IsSurgeTime;
+        public bool IsSurgeTime
+        {
+            get
+            {
+                return this._IsSurgeTime;
+            }
+            set
+            {
+                this._IsSurgeTime = value;
+                if (_IsSurgeTime)
+                {
+                    IsFlooding = false;
+
+                }
+                else
+                {
+
+                }
+                OnPropertyChanged("IsSurgeTime");
+            }
+        }
 
 
         public TowerScenarioHXVM(int type,int scenarioID, string dbPSFile, string dbPFile)
@@ -36,19 +108,19 @@ namespace ReliefProMain.ViewModel
             HeaterType = type;
             dbProtectedSystemFile = dbPSFile;
             dbPlantFile = dbPFile;
-            if (HeaterType == 0)
+            if (HeaterType ==1)
             {
-                IsDisplay = true;
+                IsDisplay = "Visible";
             }
             else
             {
-                IsDisplay = false;
+                IsDisplay = "Hidden";
             }
-            
+            Details = GetTowerHXScenarioDetails();
         }
         internal ObservableCollection<TowerScenarioHX> GetTowerHXScenarioDetails()
         {
-            details = new ObservableCollection<TowerScenarioHX>();
+            Details = new ObservableCollection<TowerScenarioHX>();
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
                 var Session = helper.GetCurrentSession();
@@ -60,18 +132,18 @@ namespace ReliefProMain.ViewModel
                 {
                     double duty = GetCondenserDetailDuty(Session,hx.DetailID);
                     ScenarioCondenserDuty =ScenarioCondenserDuty+ double.Parse(hx.DutyCalcFactor) * duty;
-                    details.Add(hx);
+                    Details.Add(hx);
                 }
             }
-            return details;
+            return Details;
         }
         //list of orders from the customer
         public ObservableCollection<TowerScenarioHX> Details
         {
-            get { return GetTowerHXScenarioDetails(); }
+            get { return _Details; }
             set
             {
-                details = value;
+                _Details = value;
                 OnPropertyChanged("Details");
             }
         }
@@ -121,7 +193,8 @@ namespace ReliefProMain.ViewModel
 
                 }
                 double surgeVolume = accumulatorTotalVolume - accumulatorPartialVolume;
-                SurgeTime = surgeVolume * 60 / totalVolumeticFlowRate;
+                double dSurgeTime = surgeVolume * 60 / totalVolumeticFlowRate;
+                SurgeTime = dSurgeTime.ToString();
             }
           
 
@@ -170,16 +243,47 @@ namespace ReliefProMain.ViewModel
             {
                 foreach (CustomStream s in list)
                 {
-                    double weightflow = double.Parse(s.WeightFlow);
-                    double bulkdensityact = double.Parse(s.BulkDensityAct);
-                    if (s.ProdType == "2" || s.ProdType=="6")
+                    if (s.TotalMolarRate != "0")
                     {
-                        r = r + weightflow / bulkdensityact;
+                        double weightflow = double.Parse(s.WeightFlow);
+                        double bulkdensityact = double.Parse(s.BulkDensityAct);
+                        if (s.ProdType == "2" || s.ProdType == "6")
+                        {
+                            r = r + weightflow / bulkdensityact;
+                        }
                     }
 
                 }
             }
             return r*3600;
         }
+
+        private ICommand _PinchCalcCommand;
+        public ICommand PinchCalcCommand
+        {
+            get { return _PinchCalcCommand ?? (_PinchCalcCommand = new RelayCommand(PinchCalc)); }
+        }
+
+
+        private void PinchCalc(object obj)
+        {
+            string HeaterName=obj.ToString();
+            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
+            {
+                var Session = helper.GetCurrentSession();
+                ReboilerPinchView v = new ReboilerPinchView();
+                ReboilerPinchVM vm = new ReboilerPinchVM(HeaterName, dbProtectedSystemFile, dbPlantFile);
+                v.DataContext = vm;
+                if (v.ShowDialog()==true)
+                {
+
+                }
+            }
+
+
+        }
+
+
+
     }
 }

@@ -10,7 +10,7 @@
             </Grid.RowDefinitions>
             <DataGrid  CanUserAddRows="False" AutoGenerateColumns="False" Name="myGrid" CellEditEnding="myGrid_CellEditEnding" SelectionChanged="myGrid_SelectionChanged" RowEditEnding="myGrid_RowEditEnding">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="#"  Binding="{Binding Path=ID}"></DataGridTextColumn>
+                   
                     <DataGridTextColumn Header="Stream Name" Binding="{Binding Path=StreamName}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Flow Source"  x:Name="SourceType" Binding="{Binding Path=SourceType}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Flow Factor"  x:Name="FlowCalcFactor" Binding="{Binding Path=FlowCalcFactor, Mode=TwoWay}"></DataGridTextColumn>

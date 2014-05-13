@@ -127,7 +127,9 @@ namespace ReliefProMain.View
 
                 for (int i = 1; i <= streamList.Count; i++)
                 {
-                    picker.getSteamInfo(streamList[i - 1].ToString(), ref dtStream);
+                    string name = streamList[i - 1].ToString();
+
+                    picker.getSteamInfo(name, ref dtStream);
                     int percents = ((eqCount + i) * 100) / total;
                     backgroundWorker.ReportProgress(percents);
                 }

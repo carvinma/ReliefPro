@@ -18,7 +18,7 @@ namespace ReliefProMain.ViewModel
     {      
        public string dbProtectedSystemFile { get; set; }
         public string dbPlantFile { get; set; }
-
+        private string przFile;
         private string _TowerName;
         public string TowerName
         {
@@ -61,6 +61,7 @@ namespace ReliefProMain.ViewModel
        
         public TowerVM(string towerName, string dbPSFile, string dbPFile)
         {
+            SideColumns = new List<SideColumn>();
             dbProtectedSystemFile = dbPSFile;
             dbPlantFile = dbPFile;
             TowerName = TowerName;
@@ -76,6 +77,10 @@ namespace ReliefProMain.ViewModel
                     Reboilers = GetHeaters(Session, 3);
                     HxReboilers = GetHeaters(Session, 4);
                 }
+            }
+            else
+            {
+                
             }
         }
 
@@ -167,7 +172,7 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private IList<SideColumn> SideColumns;
+        private List<SideColumn> SideColumns;
         private IList<ProIIEqData> SideColumnList;
         private ProIIEqData CurrentTower;
         Dictionary<string, string> dicFeeds = new Dictionary<string, string>();
@@ -201,19 +206,26 @@ namespace ReliefProMain.ViewModel
                     {
                         var Session = helper.GetCurrentSession();
                         dbProIIEqData dbEq = new dbProIIEqData();
-                        CurrentTower = dbEq.GetModel(Session, vm.SelectedFile, vm.SelectedEq, "Column");
+                        przFile = vm.SelectedFile + ".prz";
+                        CurrentTower = dbEq.GetModel(Session, przFile, vm.SelectedEq, "Column");
 
                         TowerName = CurrentTower.EqName;
                         StageNumber = CurrentTower.NumberOfTrays;
 
-                        SideColumnList = dbEq.GetAllList(Session, vm.SelectedFile, "SideColumn");
+                        SideColumnList = dbEq.GetAllList(Session, przFile, "SideColumn");
                         foreach (ProIIEqData d in SideColumnList)
                         {
                             SideColumn sc = new SideColumn();
                             sc.EqName = d.EqName;
                             SideColumns.Add(sc);
                         }
-
+                        Feeds = new ObservableCollection<CustomStream>();
+                        Products = new ObservableCollection<CustomStream>();
+                        Reboilers = new ObservableCollection<TowerHX>();
+                        HxReboilers = new ObservableCollection<TowerHX>();
+                        Condensers = new ObservableCollection<TowerHX>();
+                        HxCondensers = new ObservableCollection<TowerHX>();
+                        GetHeaters(CurrentTower);
                         GetMaincolumnRealFeedProduct(ref dicFeeds, ref dicProducts);
                         dbProIIStreamData dbStreamData=new dbProIIStreamData();
                         foreach (KeyValuePair<string,string> k in dicFeeds)
@@ -485,18 +497,77 @@ namespace ReliefProMain.ViewModel
             cs.Componentid = s.Componentid;
             cs.InertWeightEnthalpy = s.InertWeightEnthalpy;
             cs.InertWeightRate = s.InertWeightRate;
-            cs.Pressure = s.Pressure;
+            if (string.IsNullOrEmpty(s.Pressure))
+            {
+                cs.Pressure = UnitConverter.unitConv(s.Pressure, "KPA", "MPAG", "{0:0.0000}");
+            }
+            if (string.IsNullOrEmpty(s.Temperature))
+            {
+                cs.Temperature = UnitConverter.unitConv(s.Temperature, "K", "C", "{0:0.0000}");
+            }
             cs.ProdType = s.ProdType;
-            cs.SpEnthalpy = s.SpEnthalpy;
-            cs.Temperature = s.Temperature;
+           
+            
             cs.TotalComposition = s.TotalComposition;
             cs.TotalMolarEnthalpy = s.TotalMolarEnthalpy;
             cs.TotalMolarRate = s.TotalMolarRate;
             cs.Tray = s.Tray;
             cs.VaporFraction = s.VaporFraction;
             cs.VaporZFmKVal = s.VaporZFmKVal;
-            cs.WeightFlow = s.WeightFlow;
+            //cs.WeightFlow = s.WeightFlow;
+            // cs.SpEnthalpy = s.SpEnthalpy;
 
+            double TotalMolarRate = 0;
+            if (!string.IsNullOrEmpty(s.TotalMolarRate))
+                TotalMolarRate = double.Parse(s.TotalMolarRate);
+            string bulkmwofphase = s.BulkMwOfPhase;
+            if (!string.IsNullOrEmpty(bulkmwofphase))
+            {
+                double wf = TotalMolarRate * double.Parse(bulkmwofphase);
+                cs.WeightFlow = string.Format("{0:0.0000}", wf * 3600);  //Kg/h
+            }
+
+            //enthalpy=TotalMolarEnthalpy*TotalMolarRate+InertWeightEnthalpy*InertWeightRate;
+            double TotalMolarEnthalpy = 0;
+            string strTotalMolarEnthalpy = s.TotalMolarEnthalpy;
+            if (!string.IsNullOrEmpty(strTotalMolarEnthalpy))
+            {
+                TotalMolarEnthalpy = double.Parse(strTotalMolarEnthalpy);
+            }
+
+
+            double InertWeightEnthalpy = 0;
+            string strInertWeightEnthalpy = s.InertWeightEnthalpy;
+            if (strInertWeightEnthalpy != "")
+            {
+                InertWeightEnthalpy = double.Parse(strInertWeightEnthalpy);
+            }
+
+            double InertWeightRate = 0;
+            string strInertWeightRate = s.InertWeightRate;
+            if (strInertWeightRate != "")
+            {
+                InertWeightRate = double.Parse(strInertWeightRate);
+            }
+
+
+            double Enthalpy = TotalMolarEnthalpy * TotalMolarRate + InertWeightEnthalpy * InertWeightRate;
+            //cs.Enthalpy = string.Format("{0:0.0000}", Enthalpy * 3600); //KJ
+
+
+            double TotalMassRate = 0;
+            if (TotalMolarRate > 0 && bulkmwofphase != "")
+            {
+                TotalMassRate = TotalMolarRate * double.Parse(bulkmwofphase);
+            }
+
+
+            double SpEnthalpy = 0;
+            if (TotalMolarRate + InertWeightRate > 0)
+            {
+                SpEnthalpy = Enthalpy / (TotalMassRate + InertWeightRate);
+            }
+            cs.SpEnthalpy = string.Format("{0:0.0000}", SpEnthalpy);  //KJ/Kg
             return cs;
 
 
@@ -510,21 +581,58 @@ namespace ReliefProMain.ViewModel
             {
                 var Session = helper.GetCurrentSession();
                 dbTowerHX dbHx = new dbTowerHX();
+                dbTowerHXDetail dbDetail = new dbTowerHXDetail();
                 foreach (TowerHX hx in Condensers)
                 {
                     dbHx.Add(hx, Session);
+                    TowerHXDetail detail = new TowerHXDetail();
+                    detail.DetailName = hx.HeaterName + "_1";
+                    detail.Duty = hx.HeaterDuty;
+                    detail.DutyPercentage = "100";
+                    detail.HXID = hx.ID;
+                    detail.ProcessSideFlowSource = "Pressure Driven";
+                    detail.Medium = "Cooling Water";
+                    detail.MediumSideFlowSource = "Supply Header";
+                    dbDetail.Add(detail, Session);
                 }
                 foreach (TowerHX hx in HxCondensers)
                 {
                     dbHx.Add(hx, Session);
+                    TowerHXDetail detail = new TowerHXDetail();
+                    detail.DetailName = hx.HeaterName + "_1";
+                    detail.Duty = hx.HeaterDuty;
+                    detail.DutyPercentage = "100";
+                    detail.HXID = hx.ID;
+                    detail.ProcessSideFlowSource = "Pressure Driven";
+                    detail.Medium = "Process Stream";
+                    detail.MediumSideFlowSource = "Pump(Motor)";
+                    dbDetail.Add(detail, Session);
                 }
                 foreach (TowerHX hx in Reboilers)
                 {
                     dbHx.Add(hx, Session);
+                    TowerHXDetail detail = new TowerHXDetail();
+                    detail.DetailName = hx.HeaterName + "_1";
+                    detail.Duty = hx.HeaterDuty;
+                    detail.DutyPercentage = "100";
+                    detail.HXID = hx.ID;
+                    detail.ProcessSideFlowSource = "Pressure Driven";
+                    detail.Medium = "Steam";
+                    detail.MediumSideFlowSource = "Supply Header";
+                    dbDetail.Add(detail, Session);
                 }
                 foreach (TowerHX hx in HxReboilers)
                 {
                     dbHx.Add(hx, Session);
+                    TowerHXDetail detail = new TowerHXDetail();
+                    detail.DetailName = hx.HeaterName + "_1";
+                    detail.Duty = hx.HeaterDuty;
+                    detail.DutyPercentage = "100";
+                    detail.HXID = hx.ID;
+                    detail.ProcessSideFlowSource = "Pressure Driven";
+                    detail.Medium = "Steam";
+                    detail.MediumSideFlowSource = "Supply Header";
+                    dbDetail.Add(detail, Session);
                 }
 
                 dbAccumulator dbAc = new dbAccumulator();
@@ -533,11 +641,41 @@ namespace ReliefProMain.ViewModel
                 dbAc.Add(ac, Session);
 
                 dbSideColumn dbSC = new dbSideColumn();
-                foreach (SideColumn sc in SideColumns)
+                if (SideColumns != null)
                 {
-                    dbSC.Add(sc,Session);
+                    foreach (SideColumn sc in SideColumns)
+                    {
+                        dbSC.Add(sc, Session);
+                    }
                 }
 
+                dbCustomStream dbCS = new dbCustomStream();
+                dbSource dbsr = new dbSource();
+                foreach (CustomStream cs in Feeds)
+                {
+                    Source sr = new Source();
+                    sr.MaxPossiblePressure = cs.Pressure;
+                    sr.StreamName = cs.StreamName;
+                    sr.SourceType = "Compressor(Motor)";
+                    dbsr.Add(sr, Session);
+
+
+                    dbCS.Add(cs, Session);
+                }
+
+                
+                foreach (CustomStream cs in Products)
+                {
+                   
+                    dbCS.Add(cs, Session);
+                }
+
+                dbTower dbtower = new dbTower();
+                Tower tower = new Tower();
+                tower.TowerName = TowerName;
+                tower.StageNumber = StageNumber;
+                tower.PrzFile = przFile;
+                dbtower.Add(tower, Session);
 
 
                 Session.Flush();
@@ -551,4 +689,66 @@ namespace ReliefProMain.ViewModel
             }
         }
     }
+
+   public class UnitConverter
+   {
+       public static string unitConv(string param, string sourcetype, string targetype, string format)
+       {
+           //string.Format("{0:000.000}", 12.2);
+           string result = param;
+           if (sourcetype.ToUpper() == "K" && targetype == "C")
+           {
+               double temp = double.Parse(param) - 273.15;
+               result = string.Format(format, temp);
+           }
+           if (sourcetype.ToUpper() == "KPA" && targetype == "MPAG")
+           {
+               double temp = double.Parse(param) / 1000 - 0.10135;
+               result = string.Format(format, temp);
+           }
+           if (sourcetype.ToUpper() == "KG/SEC" && targetype == " KG/HR")
+           {
+               double temp = double.Parse(param) / 3600;
+               result = string.Format(format, temp);
+           }
+           if (sourcetype.ToUpper() == "M3/SEC" && targetype == "M3/HR")
+           {
+               double temp = double.Parse(param) / 3600;
+               result = string.Format(format, temp);
+           }
+
+           if (sourcetype.ToUpper() == "PAS" && targetype == "CP")
+           {
+               //1P=0.1PaS=100CP=100mPaS
+               double temp = double.Parse(param) * 1000;
+               result = string.Format(format, temp);
+           }
+           return result;
+       }
+
+       public static string convertData(object obj)
+       {
+           string rs = string.Empty;
+           if (obj is Array)
+           {
+               object[] objdata = (System.Object[])obj;
+               foreach (object s in objdata)
+               {
+                   if (s.ToString() != string.Empty)
+                   {
+                       rs = rs + "," + s;
+                   }
+               }
+               rs = rs.Substring(1);
+           }
+           else if (obj == null)
+           {
+               rs = "";
+           }
+           else
+               rs = obj.ToString();
+
+           return rs;
+       }
+   }
 }

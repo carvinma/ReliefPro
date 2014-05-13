@@ -135,7 +135,6 @@
     <Compile Include="Service\ServiceProvider.cs" />
     <Compile Include="Service\UnityServiceLocator.cs" />
     <Compile Include="ViewModel\DrumVM.cs" />
-
     <Compile Include="ViewModel\Drum\DrumBlockedOutletVM.cs" />
     <Compile Include="ViewModel\FormatUnitsMeasureVM.cs" />
     <Compile Include="ViewModel\Mode.cs" />
@@ -157,8 +156,13 @@
     <Compile Include="ViewModel\AccumulatorVM.cs" />
     <Compile Include="ViewModel\PSVVM.cs" />
     <Compile Include="ViewModel\TowerVM.cs" />
+    <Compile Include="ViewModel\ReboilerPinchVM.cs" />
+    <Compile Include="ViewModel\InletValveOpenVM.cs" />
     <Compile Include="View\Drum\DrumView.xaml.cs">
       <DependentUpon>DrumView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Common\FeedBottomHXView.xaml.cs">
+      <DependentUpon>FeedBottomHXView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FormatUnitsMeasure\BasicUnitInfo.xaml.cs">
       <DependentUpon>BasicUnitInfo.xaml</DependentUpon>
@@ -177,6 +181,9 @@
     </Compile>
     <Compile Include="View\Common\SourceView.xaml.cs">
       <DependentUpon>SourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Common\InletValveOpenView.xaml.cs">
+      <DependentUpon>InletValveOpenView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TowerFire\TowerFireView.xaml.cs">
       <DependentUpon>TowerFireView.xaml</DependentUpon>
@@ -265,8 +272,8 @@
     <Compile Include="View\ReactorLoop\UnitsInReactorLoop2.xaml.cs">
       <DependentUpon>UnitsInReactorLoop2.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ReboilerPinch\ReboilerPinch.xaml.cs">
-      <DependentUpon>ReboilerPinch.xaml</DependentUpon>
+    <Compile Include="View\ReboilerPinch\ReboilerPinchView.xaml.cs">
+      <DependentUpon>ReboilerPinchView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ShowInfo.xaml.cs">
       <DependentUpon>ShowInfo.xaml</DependentUpon>
@@ -314,6 +321,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Common\FeedBottomHXView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\FormatUnitsMeasure\BasicUnitInfo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -337,6 +348,10 @@
     <Page Include="View\Common\SourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Common\InletValveOpenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\TowerFire\TowerFireView.xaml">
       <SubType>Designer</SubType>
@@ -450,7 +465,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\ReboilerPinch\ReboilerPinch.xaml">
+    <Page Include="View\ReboilerPinch\ReboilerPinchView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -521,9 +536,6 @@
     <None Include="Template\protectedsystem.vsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Template\protectsystem.vsd">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Template\protectsystem.vsd2">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -548,9 +560,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Template\protectedsystem.mdb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Template\protectsystem.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -24,7 +24,7 @@
         <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="4" Grid.RowSpan="2">
             <TabItem Header="Feed">
                 <Grid Background="#FFE5E5E5" Margin="0,0,0,0">
-                    <ListView Name="lvFeed"  HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" ItemsSource="{Binding Feeds}" >
+                    <ListView Name="lvFeed"  HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch" ItemsSource="{Binding Feeds}" >
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="200px" Header="Stream Name" DisplayMemberBinding="{Binding StreamName}" />
@@ -45,7 +45,7 @@
                         <ColumnDefinition Width="13*"/>
                         <ColumnDefinition Width="591*"/>
                     </Grid.ColumnDefinitions>
-                    <ListView Name="lvCondenser" ItemsSource="{Binding Condensers}" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top"  Grid.ColumnSpan="2">
+                    <ListView Name="lvCondenser" ItemsSource="{Binding Condensers}" HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch"  Grid.ColumnSpan="2">
                         <ListView.View>
                             <GridView >
                                 <GridViewColumn Width="200px" Header="Condenser Name" DisplayMemberBinding="{Binding HeaterName}" />
@@ -53,7 +53,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView Name="lvHxCondenser" ItemsSource="{Binding HxCondensers}" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top"  Grid.ColumnSpan="2" Grid.Row="1">
+                    <ListView Name="lvHxCondenser" ItemsSource="{Binding HxCondensers}" HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch"  Grid.ColumnSpan="2" Grid.Row="1">
                         <ListView.View>
                             <GridView AllowsColumnReorder="True">
                                 <GridViewColumn Width="200px" Header="HX Name" DisplayMemberBinding="{Binding HeaterName}" />
@@ -63,13 +63,13 @@
                     </ListView>
                 </Grid>
             </TabItem>
-            <TabItem Header="Reboiler" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="61">
+            <TabItem Header="Reboiler" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" >
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="44*"/>
                         <RowDefinition Height="35*"/>
                     </Grid.RowDefinitions>
-                    <ListView Name="lvReboiler" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" ItemsSource="{Binding Reboilers}" >
+                    <ListView Name="lvReboiler" HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch" ItemsSource="{Binding Reboilers}" >
                         <ListView.View>
                             <GridView >
                                 <GridViewColumn Width="150px" Header="Reboiler Name" DisplayMemberBinding="{Binding HeaterName}" />
@@ -78,7 +78,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView Name="lvHxReboiler" ItemsSource="{Binding HxReboilers}" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top"  Grid.Row="1">
+                    <ListView Name="lvHxReboiler" ItemsSource="{Binding HxReboilers}" HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch"  Grid.Row="1">
                         <ListView.View>
                             <GridView AllowsColumnReorder="True">
                                 <GridViewColumn Width="150px" Header="Name" DisplayMemberBinding="{Binding HeaterName}" />
@@ -91,7 +91,7 @@
             </TabItem>
             <TabItem Header="Product"  HorizontalAlignment="Left"  VerticalAlignment="Top" >
                 <Grid Background="#FFE5E5E5" Margin="0,0,0,0">
-                    <ListView Name="lvProd" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" ItemsSource="{Binding Products}">
+                    <ListView Name="lvProd" HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch" ItemsSource="{Binding Products}">
                         <ListView.View>
                             <GridView >
                                 <GridViewColumn Width="200px" Header="Stream Name" DisplayMemberBinding="{Binding StreamName}" />

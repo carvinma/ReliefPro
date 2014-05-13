@@ -116,7 +116,7 @@ namespace ReliefProMain.View
                 stream.TotalComposition = dtStream.Rows[0]["TotalComposition"].ToString();
                 stream.TotalMolarRate = dtStream.Rows[0]["TotalMolarRate"].ToString();
 
-                PHASECalculation PhaseCalc = new PHASECalculation();
+               PHASECalculation PhaseCalc = new PHASECalculation();
                 string PH="PH"+Guid.NewGuid().ToString().Substring(0,4);
                 string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH,dirPhase);
                
@@ -131,13 +131,14 @@ namespace ReliefProMain.View
                 FlashCalculation fcalc = new FlashCalculation();
                 string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, vapor, liquid, dirLatent);
 
-                ImportDB importdb2 = new ImportDB(dbPlantFile);
-                //DataTable dtCritical = importdb2.GetDataByTableName("tbCritical", "1=0");
-                //DataRow drCritical = dtCritical.NewRow();
-                //drCritical["CriticalPressure"] = criticalPress;
-                //dtCritical.Rows.Add(drCritical);
-               // importdb2.SaveDataByTableName(dtCritical);
 
+                DataTable dtCritical = importdb.GetDataByTableName("tbCritical", "1=0");
+                DataRow drCritical = dtCritical.NewRow();
+                drCritical["CriticalPressure"] = criticalPress;
+                dtCritical.Rows.Add(drCritical);
+                importdb.SaveDataByTableName(dtCritical);
+
+                ImportDB importdb2 = new ImportDB(dbPlantFile);
                 DataTable dtEqType = importdb2.GetDataByTableName("tbproiieqtype", "");
                 DataTable dtEqList = importdb2.GetDataByTableName("tbproiieqdata", "1=0");
                 DataTable dtStream2 = importdb2.GetDataByTableName("tbproiistreamdata", "1=0");
@@ -323,6 +324,8 @@ namespace ReliefProMain.View
                             model.PSVName = txtName.Text;
                             model.ReliefPressureFactor = txtPrelief.Text;
                             model.Pressure = txtPress.Text;
+                            model.DrumPSVName = txtDrumPSVName.Text;
+                            model.DrumPressure = txtDrumPressure.Text;
                         }
                         db.Update(model, Session);
                         Session.Flush();

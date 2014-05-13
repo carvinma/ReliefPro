@@ -21,6 +21,8 @@ using System.Collections;
 using ReliefProCommon.CommonLib;
 using ReliefProMain.ViewModel;
 using ReliefProModel;
+using ReliefProModel.Drum;
+using ReliefProMain.ViewModel.Drum;
 
 namespace ReliefProMain.View
 {
@@ -85,6 +87,24 @@ namespace ReliefProMain.View
                         if (v.ShowDialog() == true)
                         {
                             DrawTower(shp, vm);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+                if (shp.NameU.ToLower().Contains("column"))
+                {
+                    try
+                    {
+                        Drum.DrumView v = new Drum.DrumView();
+                        DrumVM vm = new DrumVM(name, dbProtectedSystemFile, dbPlantFile);
+                        v.DataContext = vm;
+                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+                        if (v.ShowDialog() == true)
+                        {
+                            DrawDrum(shp, vm);
                         }
                     }
                     catch (Exception ex)
@@ -192,16 +212,16 @@ namespace ReliefProMain.View
 
 
             int stagenumber = int.Parse(vm.StageNumber);
-            DataTable dtFeed = (DataTable)Application.Current.Properties["FeedData"];
+            
             int start = 16;
             double multiple = 0.125;
             //double leftmultiple = 1.5;
             int center = 13;
-            foreach (DataRow dr in dtFeed.Rows)
+            foreach (CustomStream cs in vm.Feeds)
             {
                 Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
                 ConnectShapes(shape, start, connector, 0);
-                connector.Text = dr["streamname"].ToString();
+                connector.Text = cs.StreamName;
 
                 Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY + (start - center) * multiple * height);
                 startShp.get_Cells("Height").ResultIU = 0.1;
@@ -246,7 +266,7 @@ namespace ReliefProMain.View
                 tpinX = condenserVessel.get_Cells("PinX").ResultIU;
                 tpinY = condenserVessel.get_Cells("PinY").ResultIU;
                 condenserVessel.Cells["EventDblClick"].Formula = "=0";
-                condenserVessel.Text = "ac1";
+                condenserVessel.Text = "AC1";
                 condenser.Text = vm.Condensers[0].HeaterName;
                 condenser.Cells["EventDblClick"].Formula = "=0";
             }
@@ -416,6 +436,56 @@ namespace ReliefProMain.View
 
         }
 
+
+        private void DrawDrum(Visio.Shape shape, DrumVM vm)
+        {
+            shape.get_Cells("Height").ResultIU = 2;
+
+            double width = shape.get_Cells("Width").ResultIU;
+            double height = shape.get_Cells("Height").ResultIU;
+            double pinX = shape.get_Cells("PinX").ResultIU;
+            double pinY = shape.get_Cells("PinY").ResultIU;
+
+            shape.Text = vm.DrumName;
+            deleteShapesExcept(shape);
+
+            Visio.Document currentStencil_1 = visioControl.Document.Application.Documents.OpenEx("PEHEAT_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+            Visio.Document currentStencil_2 = visioControl.Document.Application.Documents.OpenEx("CONNEC_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+            Visio.Document currentStencil_3 = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+            Visio.Master condenserMaster = currentStencil_1.Masters.get_ItemU(@"Heat exchanger1");
+            Visio.Master reboilerMaster = currentStencil_1.Masters.get_ItemU(@"Kettle reboiler");
+            Visio.Master streamMaster = currentStencil_2.Masters.get_ItemU(@"Dynamic connector");
+            Visio.Master condenserVesselMaster = currentStencil_3.Masters.get_ItemU(@"Vessel");
+
+            Visio.Document startStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+            Visio.Master startMaster = startStencil.Masters.get_ItemU(@"Carrying vessel");
+            Visio.Master endMaster = startStencil.Masters.get_ItemU(@"Clarifier");
+
+            int start = 4;
+            double multiple = 0.125;
+            //double leftmultiple = 1.5;
+            int center = 5;
+            foreach (CustomStream cs in vm.Feeds)
+            {
+                Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
+                ConnectShapes(shape, start, connector, 0);
+                connector.Text = cs.StreamName;
+
+                Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY + (start+1 - center) * multiple * height);
+                startShp.get_Cells("Height").ResultIU = 0.1;
+                startShp.get_Cells("Width").ResultIU = 0.2;
+                startShp.Text = connector.Text + "_Source";
+                ConnectShapes(startShp, 2, connector, 1);
+                start = start + 1;
+                startShp.Cells["EventDblClick"].Formula = "=0";
+            }
+            
+
+
+        }
+
+
+
         private void ConnectShapes(Visio.Shape shape, int connectPoint, Visio.Shape connector, int direction)
         {
             // get the cell from the source side of the connector
@@ -492,6 +562,10 @@ namespace ReliefProMain.View
                 PSVView psv = new PSVView();
                 psv.dbProtectedSystemFile = dbProtectedSystemFile;
                 psv.dbPlantFile = dbPlantFile;
+
+                
+
+                
                 psv.ShowDialog();
             }
             else if (btn.ToolTip.ToString() == "Scenario")

@@ -93,9 +93,8 @@ namespace ReliefProMain.ViewModel
 
                 ScenarioModel d = new ScenarioModel();
                 d = ConvertToVModel(s, d);
-                d.SeqNumber = Scenarios.Count + 1;
+                d.SeqNumber = Scenarios.Count - 1;
                 Scenarios.Add(d);
-
             }
         }
 
@@ -116,7 +115,11 @@ namespace ReliefProMain.ViewModel
         public void Delete(object obj)
         {
             int idx=int.Parse(obj.ToString());
-            Scenarios.RemoveAt(idx - 1);
+            Scenarios.RemoveAt(idx);
+            for (int i = 0; i < Scenarios.Count; i++)
+            {
+                Scenarios[i].SeqNumber = i;
+            }
         }
 
         private ICommand _CalculateCommand;
@@ -152,6 +155,10 @@ namespace ReliefProMain.ViewModel
                     if (ScenarioName.Contains("Fire"))
                     {
                         CreateTowerFire(ScenarioID, Session);
+                    }
+                    else if (ScenarioName.Contains("Inlet"))
+                    {
+                        CreateInletValveOpen(ScenarioID, Session);
                     }
                     else
                     {
@@ -309,6 +316,16 @@ namespace ReliefProMain.ViewModel
             v.ShowDialog();
         }
 
+        private void CreateInletValveOpen(int ScenarioID,  NHibernate.ISession Session)
+        {
+            InletValveOpenView v = new InletValveOpenView();           
+            InletValveOpenVM vm = new InletValveOpenVM(ScenarioID,dbProtectedSystemFile,dbPlantFile);
+            v.DataContext = vm;
+            if (v.ShowDialog() == true)
+            {
+
+            }
+        }
 
 
         public Scenario ConvertToDBModel( ScenarioModel m,Scenario d)

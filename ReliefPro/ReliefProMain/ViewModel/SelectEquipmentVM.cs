@@ -55,8 +55,8 @@ namespace ReliefProMain.ViewModel
             dbProtectedSystemFile = dbPSFile;
             dbPlantFile = dbPFile;
             EqType = eqType;
-            SourceFiles = GetSourceFiles();            
-
+            SourceFiles = GetSourceFiles();
+            EqNames = GetEqNames();
         }
         private ObservableCollection<string> _SourceFiles;
         public ObservableCollection<string> SourceFiles
@@ -83,11 +83,12 @@ namespace ReliefProMain.ViewModel
         public ObservableCollection<string> GetEqNames()
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
+            using (var helper = new NHibernateHelper(dbPlantFile))
             {
                 var Session=helper.GetCurrentSession();
                 dbProIIEqData db = new dbProIIEqData();
-                IList<ProIIEqData> data = db.GetAllList(Session,SelectedFile,EqType);
+                string file = SelectedFile + ".prz";
+                IList<ProIIEqData> data = db.GetAllList(Session,file,EqType);
                 foreach (ProIIEqData d in data)
                 {
                     list.Add(d.EqName);
@@ -106,7 +107,7 @@ namespace ReliefProMain.ViewModel
             foreach (string f in files)
             {
                 FileInfo fi = new FileInfo(f);
-                if (fi.Extension.ToString().ToLower() == "prz")
+                if (fi.Extension.ToString().ToLower() == ".prz")
                 {
                     string filename=System.IO.Path.GetFileNameWithoutExtension(f);
                     list.Add(filename);
