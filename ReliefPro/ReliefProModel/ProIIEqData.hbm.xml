@@ -45,8 +45,11 @@
     <property name="HeaterRegOrPAFlag" column="HeaterRegOrPAFlag" type="String" length="255" />
     <property name="HeaterTrayLoc" column="HeaterTrayLoc" type="String" length="255" />
     <property name="HeaterTrayNumber" column="HeaterTrayNumber" type="String" length="255" />
-   
 
+    <property name="PressCalc" column="PressCalc" type="String" length="255" />
+    <property name="TempCalc" column="TempCalc" type="String" length="255" />
+    <property name="Type" column="Type" type="String" length="255" />
+    <property name="ProductStoreData" column="ProductStoreData" type="String" length="255" />
 
   </class>
 </hibernate-mapping>

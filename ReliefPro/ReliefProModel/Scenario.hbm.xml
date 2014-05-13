@@ -9,8 +9,6 @@
     <property name="ReliefTemperature" column="ReliefTemperature" type="String" length="255" />
     <property name="ReliefPressure" column="ReliefPressure" type="String" length="255" />
     <property name="ReliefMW" column="ReliefMW" type="String" length="255" />
-    <property name="Flooding" column="Flooding" type="Boolean" />
-    <property name="SurgeTime" column="SurgeTime" type="String" length="255" />
-    <property name="IsSurgeCalculation" column="IsSurgeCalculation" type="Boolean"  />
+   
   </class>
 </hibernate-mapping>

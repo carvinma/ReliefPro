@@ -66,6 +66,7 @@
     <Compile Include="Accumulator.cs" />
     <Compile Include="BasicUnit.cs" />
     <Compile Include="BasicUnitDefault.cs" />
+    <Compile Include="CondenserCalc.cs" />
     <Compile Include="Critical.cs" />
     <Compile Include="DemoModel.cs">
       <SubType>Code</SubType>
@@ -75,12 +76,15 @@
     <Compile Include="Drum\DrumFireAllGas.cs" />
     <Compile Include="Drum\DrumFireCalc.cs" />
     <Compile Include="Drum\DrumSize.cs" />
+    <Compile Include="FeedBottomHX.cs" />
+    <Compile Include="InletValveOpen.cs" />
     <Compile Include="Latent.cs" />
     <Compile Include="LatentProduct.cs" />
     <Compile Include="ProIIEqData.cs" />
     <Compile Include="ProIIEqType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PSV.cs" />
+    <Compile Include="ReboilerPinch.cs" />
     <Compile Include="Source.cs" />
     <Compile Include="SystemScenarioFactor.cs" />
     <Compile Include="SystemUnit.cs" />
@@ -120,7 +124,21 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ProIIStreamData.hbm.xml" />
+    <EmbeddedResource Include="CondenserCalc.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FeedBottomHX.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InletValveOpen.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReboilerPinch.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProIIStreamData.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="ProIIEqData.hbm.xml" />
     <EmbeddedResource Include="ProIIEqType.hbm.xml" />
     <EmbeddedResource Include="Critical.hbm.xml" />

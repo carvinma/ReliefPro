@@ -16,6 +16,6 @@
     <property name="DrumPressure" column="DrumPressure" type="String" length="255" />
     <property name="MWAP" column="MWAP" type="String" length="255" />
     <property name="DischargeTo" column="DischargeTo" type="String" length="255" />
-   
+    
   </class>
 </hibernate-mapping>

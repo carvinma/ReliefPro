@@ -18,9 +18,9 @@ namespace ReliefProModel
         public virtual string ProdType { get; set; }
         public virtual string Pressure { get; set; }
         public virtual string Temperature { get; set; }
-        public virtual bool IsProduct { get; set; }
-        public virtual string WeightFlow { get; set; }
-        public virtual string SpEnthalpy { get; set; }
+        //public virtual bool IsProduct { get; set; }
+        //public virtual string WeightFlow { get; set; }
+        //public virtual string SpEnthalpy { get; set; }
         public virtual string Tray { get; set; }
         public virtual string BulkDensityAct { get; set; }
 

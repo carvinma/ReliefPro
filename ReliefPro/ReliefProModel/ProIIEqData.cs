@@ -43,5 +43,10 @@ namespace ReliefProModel
         public virtual string HeaterRegOrPAFlag { get; set; }
         public virtual string HeaterTrayLoc { get; set; }
         public virtual string HeaterTrayNumber { get; set; }
+
+        public virtual string PressCalc { get; set; }
+        public virtual string TempCalc { get; set; }
+        public virtual string Type { get; set; }
+        public virtual string ProductStoreData{ get; set; }
     }
 }

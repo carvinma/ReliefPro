@@ -5,7 +5,6 @@
 <generator class="identity" />
 </id>
 <property name="Name" column="Name" type="String" length="255" />
-<property name="DrumType" column="DrumType" type="String" length="255" />
 <property name="ShortName" column="ShortName" type="String" length="255" />
   <property name="isCalc" column="isCalc" type="Int32"  />
 </class>
