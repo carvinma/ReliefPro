@@ -1,15 +1,13 @@
-﻿using System.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections;
-using System.Runtime.InteropServices;
 using System.Linq;
 using System.Text;
-using System.IO;
-using ProII;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using P2Wrap91;
 using ReliefProCommon.CommonLib;
-
+using ProII;
+using ReliefProModel;
 
 namespace ProII91
 {
@@ -18,28 +16,20 @@ namespace ProII91
         string[] arrStreamAttributes = { "Pressure", "Temperature", "VaporFraction", "VaporZFmKVal", "TotalComposition", "TotalMolarEnthalpy", "TotalMolarRate", "InertWeightEnthalpy", "InertWeightRate" };
         string[] arrBulkPropAttributes = { "BulkMwOfPhase", "BulkDensityAct", "BulkViscosity", "BulkCPCVRatio", "BulkCP", "BulkThermalCond", "BulkSurfTension" };
 
-        string[] arrColumnAttributes = { "NumberOfTrays", "HeaterNames", "HeaterDuties", "HeaterNumber", "HeaterPANumberfo", "HeaterRegOrPAFlag", "HeaterTrayLoc", "HeaterTrayNumber" };
+        string[] arrColumnAttributes = { "PressureDrop", "Duty", "NumberOfTrays", "HeaterNames", "HeaterDuties", "HeaterNumber", "HeaterPANumberfo", "HeaterRegOrPAFlag", "HeaterTrayLoc", "HeaterTrayNumber" };
         string[] arrColumnInAttributes = { "ProdType", "FeedTrays", "ProdTrays", "FeedData", "ProductData" };
-        string[] arrFlashAttributes = { "FeedData", "ProductData", "PressCalc", "TempCalc", "DutyCalc", "Type", "ProductStoreData" };
-
-        Dictionary<string, FeedInfo> dicFeedInfo = new Dictionary<string, FeedInfo>();
-        Dictionary<string, ProductInfo> dicProductInfo = new Dictionary<string, ProductInfo>();
 
         string przFileName;
-        //string przFileFullName;
         CP2File cp2File;
         CP2Object objCompCalc;
         CP2ServerClass cp2Srv;
 
         string ComponentIds = string.Empty;
         string CompIns = string.Empty;
+        Dictionary<string, ProIIStreamData> dicFeedInfo = new Dictionary<string, ProIIStreamData>();
+        Dictionary<string, ProIIStreamData> dicProductInfo = new Dictionary<string, ProIIStreamData>();
 
-        public string Read()
-        {
-            return "";
-        }
-
-        public void InitProIIPicker(string przFileFullName)
+        public void InitProIIReader(string przFileFullName)
         {
             przFileName = System.IO.Path.GetFileName(przFileFullName);
             cp2Srv = new CP2ServerClass();
@@ -57,16 +47,16 @@ namespace ProII91
 
 
         //获得设备和物流线的个数和名字信息
-        public int getAllEqAndStreamTotal(DataTable dtEqType, ref ArrayList eqList, ref ArrayList streamList)
+        public int GetAllEqAndStreamTotal(IList<ProIIEqType> eqTypeList, ref IList<ProIIEqData> eqList, ref IList<string> streamList)
         {
             int total = 0;
-            int eqCount = getEqTotal(dtEqType, ref eqList);
+            int eqCount = getEqTotal(eqTypeList, ref eqList);
             int streamCount = getStreamTotal(ref streamList);
             total = eqCount + streamCount;
             return total;
         }
 
-        private int getStreamTotal(ref ArrayList streamList)
+        private int getStreamTotal(ref IList<string> streamList)
         {
             int streamCount = cp2File.GetObjectCount("Stream");
             object streamnames = cp2File.GetObjectNames("Stream");
@@ -86,12 +76,12 @@ namespace ProII91
             return streamCount;
         }
 
-        private int getEqTotal(DataTable dtEqType, ref ArrayList eqList)
+        private int getEqTotal(IList<ProIIEqType> eqTypeList, ref IList<ProIIEqData> eqList)
         {
             int eqCount = 0;
-            foreach (DataRow dr in dtEqType.Rows)
+            foreach (ProIIEqType eqType in eqTypeList)
             {
-                string otype = dr["eqtypename"].ToString();
+                string otype = eqType.EqTypeName;
                 int objCount = cp2File.GetObjectCount(otype);
                 if (objCount > 0)
                 {
@@ -101,149 +91,232 @@ namespace ProII91
                         string[] oNames = (string[])objectnames;
                         foreach (string name in oNames)
                         {
-                            EqInfo eq = new EqInfo();
-                            eq.eqName = name;
-                            eq.eqType = otype;
-                            if (otype == "Column")
-                            {
-                                eq.isColumn = true;
-                            }
+                            ProIIEqData eq = new ProIIEqData();
+                            eq.EqName = name;
+                            eq.EqType = otype;
                             eqList.Add(eq);
                         }
                     }
                     else
                     {
-                        EqInfo eq = new EqInfo();
-                        eq.eqName = objectnames.ToString();
-                        eq.eqType = otype;
-                        if (otype == "Column")
-                        {
-                            eq.isColumn = true;
-                        }
+                        ProIIEqData eq = new ProIIEqData();
+                        eq.EqName = objectnames.ToString();
+                        eq.EqType = otype;
                         eqList.Add(eq);
                     }
-                    eqCount = eqCount + objCount;
                 }
-                
+                eqCount = eqCount + objCount;
             }
             return eqCount;
         }
 
-        public void getEqInfo(string otype, string name, ref DataTable dtEqList)
+        public void GetEqInfo(string otype, string name, ref IList<ProIIEqData> eqListData)
         {
-            DataRow drEq = dtEqList.NewRow();
+            ProIIEqData data = new ProIIEqData();
             CP2Object eq = (CP2Object)cp2File.ActivateObject(otype, name);
-            drEq["eqtype"] = otype;
-            drEq["eqname"] = name;
-            drEq["sourcefile"] = przFileName;
+            data.EqType = otype;
+            data.EqName = name;
+            data.SourceFile = przFileName;
             if (otype == "Column" || otype == "SideColumn")
             {
-                foreach (string col in arrColumnAttributes)
+                foreach (string s in arrColumnAttributes)
                 {
-                    object value = eq.GetAttribute(col);
-                    string strValue = ConvertExt.ObjectToString(value);
-                    drEq[col] = strValue;
+                    object v = eq.GetAttribute(s);
+                    string value = ConvertExt.ObjectToString(v);
+                    switch (s)
+                    {
+                        case "FeedData":
+                            data.FeedData = value;
+                            break;
+                        case "ProductData":
+                            data.ProductData = value;
+                            break;
+                        case "PressureDrop":
+                            data.PressureDrop = value;
+                            break;
+                        case "Duty":
+                            data.Duty = value;
+                            break;
+                        case "NumberOfTrays":
+                            data.NumberOfTrays = value;
+                            break;
+                        case "HeaterNames":
+                            data.HeaterNames = value;
+                            break;
+                        case "HeaterDuties":
+                            data.HeaterDuties = value;
+                            break;
+                        case "HeaterNumber":
+                            data.HeaterNumber = value;
+                            break;
+                        case "HeaterPANumberfo":
+                            data.HeaterPANumberfo = value;
+                            break;
+                        case "HeaterRegOrPAFlag":
+                            data.HeaterRegOrPAFlag = value;
+                            break;
+                        case "HeaterTrayLoc":
+                            data.HeaterTrayLoc = value;
+                            break;
+                        case "HeaterTrayNumber":
+                            data.HeaterTrayNumber = value;
+                            break;
+                    }
                 }
                 P2Wrap91.CP2Object objColumnIn = (P2Wrap91.CP2Object)cp2File.ActivateObject("ColumnIn", name);
-                foreach (string col in arrColumnInAttributes)
+
+                string[] arrColumnInAttributes = { "ProdType", "FeedTrays", "ProdTrays", "FeedData", "ProductData" };
+
+                foreach (string s in arrColumnInAttributes)
                 {
-                    object value = objColumnIn.GetAttribute(col);
-                    string strValue = ConvertExt.ObjectToString(value);
-                    drEq[col] = strValue;
+                    object v = objColumnIn.GetAttribute(s);
+                    string value = ConvertExt.ObjectToString(v);
+                    switch (s)
+                    {
+                        case "FeedData":
+                            data.FeedData = value;
+                            break;
+                        case "ProductData":
+                            data.ProductData = value;
+                            break;
+                        case "ProdType":
+                            data.ProdType = value;
+                            break;
+                        case "FeedTrays":
+                            data.FeedTrays = value;
+                            break;
+                        case "ProdTrays":
+                            data.ProdTrays = value;
+                            break;
+                    }
                 }
-                string[] feeds = drEq["feeddata"].ToString().Split(',');
-                string[] feedtrays = drEq["feedtrays"].ToString().Split(',');
-                string[] prods = drEq["ProductData"].ToString().Split(',');
-                string[] prodtypes = drEq["prodtype"].ToString().Split(',');
-                string[] prodtrays = drEq["prodtrays"].ToString().Split(',');
+                string[] feeds = data.FeedData.ToString().Split(',');
+                string[] feedtrays = data.FeedTrays.ToString().Split(',');
+                string[] prods = data.ProductData.ToString().Split(',');
+                string[] prodtypes = data.ProdType.ToString().Split(',');
+                string[] prodtrays = data.ProdTrays.ToString().Split(',');
                 for (int i = 0; i < feeds.Length; i++)
                 {
-                    FeedInfo info = new FeedInfo();
-                    info.FeedName = feeds[i];
-                    info.FeedTray = feedtrays[i];
-                    dicFeedInfo.Add(info.FeedName, info);
+                    ProIIStreamData info = new ProIIStreamData();
+                    info.StreamName = feeds[i];
+                    info.Tray = feedtrays[i];
+                    dicFeedInfo.Add(info.StreamName, info);
                 }
                 for (int i = 0; i < prods.Length; i++)
                 {
-                    ProductInfo info = new ProductInfo();
-                    info.ProductName = prods[i];
-                    info.ProductTray = prodtrays[i];
-                    info.ProductType = prodtypes[i];
-                    dicProductInfo.Add(info.ProductName, info);
+                    ProIIStreamData info = new ProIIStreamData();
+                    info.StreamName = prods[i];
+                    info.Tray = prodtrays[i];
+                    info.ProdType = prodtypes[i];
+                    dicProductInfo.Add(info.StreamName, info);
 
                 }
             }
-            else if (otype == "Flash")
-            {
-                foreach (string col in arrFlashAttributes)
-                {
-                    object value = eq.GetAttribute(col);
-                    string strValue = ConvertExt.ObjectToString(value);
-                    drEq[col] = strValue;
-                }
-            }
-            dtEqList.Rows.Add(drEq);
-
+            eqListData.Add(data);
         }
 
-        public void getSteamInfo(string name, ref DataTable dtStream)
+        public void GetSteamInfo(string name, ref IList<ProIIStreamData> streamListData)
         {
-            try
-            {
-                DataRow r = dtStream.NewRow();
-                r["streamname"] = name;
-                r["sourcefile"] = przFileName;
-                r["prodtype"] = "";
-                r["tray"] = "";
-                if (dicFeedInfo.Keys.Contains(name))
-                {
-                    r["tray"] = dicFeedInfo[name].FeedTray;
-                }
-                if (dicProductInfo.Keys.Contains(name))
-                {
-                    r["tray"] = dicProductInfo[name].ProductTray;
-                    r["prodtype"] = dicProductInfo[name].ProductType;
-                }
-                r["CompIn"] = CompIns;
-                r["ComponentId"] = ComponentIds;
-                try
-                {
-                    CP2Object objStream = (CP2Object)cp2File.ActivateObject("Stream", name);
-                    foreach (string col in arrStreamAttributes)
-                    {
-                        object value = objStream.GetAttribute(col);
-                        r[col] = ConvertExt.ObjectToString(value);
-                    }
-                    if (r["TotalMolarRate"].ToString() != "0")
-                    {
-                        Marshal.FinalReleaseComObject(objStream);
-                        GC.ReRegisterForFinalize(objStream);
+            ProIIStreamData data = new ProIIStreamData();
+            bool bCalulate = cp2File.CalculateStreamProps(name);
+            data.SourceFile = przFileName;
+            data.StreamName = name;
+            data.ProdType = "";
+            data.Tray = "";
 
-                        bool bCalulate = cp2File.CalculateStreamProps(name);
-                        if (bCalulate)
-                        {
-                            CP2Object objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
-                            foreach (string col in arrBulkPropAttributes)
-                            {
-                                object value = objBulkDrop.GetAttribute(col);
-                                r[col] = ConvertExt.ObjectToString(value);
-                            }
-                            //Marshal.FinalReleaseComObject(objBulkDrop);
-                            // GC.ReRegisterForFinalize(objBulkDrop);
-                        }
+            if (dicFeedInfo.Keys.Contains(name))
+            {
+                data.Tray = dicFeedInfo[name].Tray;
+            }
+            if (dicProductInfo.Keys.Contains(name))
+            {
+                data.Tray = dicProductInfo[name].Tray;
+                data.ProdType = dicProductInfo[name].ProdType;
+            }
+            data.CompIn = CompIns;
+            data.Componentid = ComponentIds;
+            CP2Object objStream = (CP2Object)cp2File.ActivateObject("Stream", name);
+            foreach (string s in arrStreamAttributes)
+            {
+                object v = objStream.GetAttribute(s);
+                string value = ConvertExt.ObjectToString(v);
+                switch (s)
+                {
+                    case "Pressure":
+                        data.Pressure = value;
+                        break;
+                    case "Temperature":
+                        data.Temperature = value;
+                        break;
+                    case "VaporFraction":
+                        data.VaporFraction = value;
+                        break;
+                    case "VaporZFmKVal":
+                        data.VaporZFmKVal = value;
+                        break;
+                    case "TotalComposition":
+                        data.TotalComposition = value;
+                        break;
+                    case "TotalMolarEnthalpy":
+                        data.TotalMolarEnthalpy = value;
+                        break;
+                    case "TotalMolarRate":
+                        data.TotalMolarRate = value;
+                        break;
+                    case "InertWeightEnthalpy":
+                        data.InertWeightEnthalpy = value;
+                        break;
+                    case "InertWeightRate":
+                        data.InertWeightRate = value;
+                        break;
+
+                }
+            }
+            Marshal.FinalReleaseComObject(objStream);
+            GC.ReRegisterForFinalize(objStream);
+            if (bCalulate)
+            {
+                CP2Object objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
+                foreach (string s in arrBulkPropAttributes)
+                {
+                    object v = objBulkDrop.GetAttribute(s);
+                    string value = ConvertExt.ObjectToString(v);
+                    switch (s)
+                    {
+                        case "BulkMwOfPhase":
+                            data.BulkMwOfPhase = value;
+                            break;
+                        case "BulkDensityAct":
+                            data.BulkDensityAct = value;
+                            break;
+                        case "VaporFraction":
+                            data.Pressure = value;
+                            break;
+                        case "BulkViscosity":
+                            data.BulkViscosity = value;
+                            break;
+                        case "BulkCPCVRatio":
+                            data.BulkCPCVRatio = value;
+                            break;
+                        case "BulkCP":
+                            data.BulkCP = value;
+                            break;
+                        case "BulkThermalCond":
+                            data.BulkThermalCond = value;
+                            break;
+                        case "BulkSurfTension":
+                            data.BulkSurfTension = value;
+                            break;
                     }
                 }
-                catch (Exception ex)
-                {
-                }
-                dtStream.Rows.Add(r);
+                //Marshal.FinalReleaseComObject(objBulkDrop);
+                // GC.ReRegisterForFinalize(objBulkDrop);
             }
-            catch (Exception ex2)
-            {
-            }
+
+            streamListData.Add(data);
         }
 
-        public void ReleaseProIIPicker()
+        public void ReleaseProIIReader()
         {
             Marshal.FinalReleaseComObject(cp2Srv);
             GC.ReRegisterForFinalize(cp2Srv);
@@ -255,31 +328,62 @@ namespace ProII91
         /// <param name="tray"></param>
         /// <param name="phase">0:liquid+vapor 1:vapor 2:liquid</param>
         /// <param name="trayFlow">1:net 2:total</param>
-        public void CopyStream(string columnName, int tray,int phase,int trayFlow ,ref DataTable dtStream)
+        public void CopyStream(string columnName, int tray, int phase, int trayFlow, ref CustomStream cstream)
         {
+            cstream = new CustomStream();
             string streamName = "temp" + Guid.NewGuid().ToString().Substring(0, 5).ToUpper();
             CP2Object tempStream = (CP2Object)cp2File.CreateObject("Stream", streamName);
 
             bool b = cp2File.CopyTrayToStream(columnName, (short)tray, (p2Phase)phase, 0, (p2TrayFlow)trayFlow, streamName);
 
             string bb = b.ToString();
-            DataRow dr = dtStream.NewRow();
             bool bCalulate = cp2File.CalculateStreamProps(streamName);
 
             CP2Object compCalc = (CP2Object)cp2File.ActivateObject("CompCalc", "CompCalc");
             object ComponentId = compCalc.GetAttribute("ComponentId");
-            dr["ComponentId"] = ConvertExt.ObjectToString(ComponentId);
             object CompIn = cp2File.GetObjectNames("CompIn");
-            dr["CompIn"] = ConvertExt.ObjectToString(CompIn);
-            dr["streamname"] = streamName;
-            
-            dr["tray"] = 1;
-            dr["prodtype"] = 2;
+
+            cstream.Componentid = ConvertExt.ObjectToString(ComponentId);
+            cstream.CompIn = ConvertExt.ObjectToString(CompIn);
+            cstream.StreamName = streamName;
+            cstream.Tray = "1";
+            cstream.ProdType = "2";
             CP2Object curStream = (CP2Object)cp2File.ActivateObject("Stream", streamName);
             foreach (string s in arrStreamAttributes)
             {
                 object v = curStream.GetAttribute(s);
-                dr[s] = ConvertExt.ObjectToString(v);
+                string value = ConvertExt.ObjectToString(v);
+                switch (s)
+                {
+                    case "Pressure":
+                        cstream.Pressure = value;
+                        break;
+                    case "Temperature":
+                        cstream.Temperature = value;
+                        break;
+                    case "VaporFraction":
+                        cstream.VaporFraction = value;
+                        break;
+                    case "VaporZFmKVal":
+                        cstream.VaporZFmKVal = value;
+                        break;
+                    case "TotalComposition":
+                        cstream.TotalComposition = value;
+                        break;
+                    case "TotalMolarEnthalpy":
+                        cstream.TotalMolarEnthalpy = value;
+                        break;
+                    case "TotalMolarRate":
+                        cstream.TotalMolarRate = value;
+                        break;
+                    case "InertWeightEnthalpy":
+                        cstream.InertWeightEnthalpy = value;
+                        break;
+                    case "InertWeightRate":
+                        cstream.InertWeightRate = value;
+                        break;
+
+                }
             }
             if (bCalulate)
             {
@@ -287,178 +391,217 @@ namespace ProII91
                 foreach (string s in arrBulkPropAttributes)
                 {
                     object v = bulkDrop.GetAttribute(s);
-                    dr[s] = ConvertExt.ObjectToString(v);
+                    string value = ConvertExt.ObjectToString(v);
+                    switch (s)
+                    {
+                        case "BulkMwOfPhase":
+                            cstream.BulkMwOfPhase = value;
+                            break;
+                        case "BulkDensityAct":
+                            cstream.BulkDensityAct = value;
+                            break;
+                        case "VaporFraction":
+                            cstream.Pressure = value;
+                            break;
+                        case "BulkViscosity":
+                            cstream.BulkViscosity = value;
+                            break;
+                        case "BulkCPCVRatio":
+                            cstream.BulkCPCVRatio = value;
+                            break;
+                        case "BulkCP":
+                            cstream.BulkCP = value;
+                            break;
+                        case "BulkThermalCond":
+                            cstream.BulkThermalCond = value;
+                            break;
+                        case "BulkSurfTension":
+                            cstream.BulkSurfTension = value;
+                            break;
+                    }
                 }
             }
 
             cp2File.DeleteObject("Stream", streamName);
-            dtStream.Rows.Add(dr);
+
 
         }
 
-
-        public void getDataFromFile(ref DataTable dtEqType, ref DataTable dtEqlist, ref DataTable dtStream)
+        public ProIIEqData GetEqInfo(string otype, string name)
         {
-            try
-            {
-                List<string> streamList = new List<string>();
-                objCompCalc = (CP2Object)cp2File.ActivateObject("CompCalc", "CompCalc");
-                foreach (DataRow dr in dtEqType.Rows)
-                {
-                    string otype = dr["eqtypename"].ToString();
-                    object objectnames = cp2File.GetObjectNames(otype);
-                    if (objectnames.ToString() != "")
-                    {
-                        if (objectnames is Array)
-                        {
-                            string[] oNames = (string[])objectnames;
-                            foreach (string name in oNames)
-                            {
-                                getEqDataFromFile(otype, name, ref streamList, ref dtEqlist, ref dtStream);
-                            }
-                        }
-                        else
-                        {
-                            string name = (string)objectnames;
-                            getEqDataFromFile(otype, name, ref streamList, ref dtEqlist, ref dtStream);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.ToString());
-            }
-            finally
-            {
-                //CloseReader();
-            }
-
-        }
-
-
-
-        private void getEqDataFromFile(string otype, string name, ref List<string> streamList, ref DataTable dtEqlist, ref DataTable dtStream)
-        {
-            DataRow r = dtEqlist.NewRow();
+            ProIIEqData data = new ProIIEqData();
             CP2Object eq = (CP2Object)cp2File.ActivateObject(otype, name);
-            object feeddata = eq.GetAttribute("FeedData");
-            object productdata = eq.GetAttribute("ProductData");
-            string strfeeddata = ConvertExt.ObjectToString(feeddata);
-            string strproductdata = ConvertExt.ObjectToString(productdata);
-            string strprodtype = string.Empty;
-            r["eqtype"] = otype;
-            r["eqname"] = name;
-            r["sourcefile"] = przFileName;
-            r["FeedData"] = strfeeddata;
-            r["ProductData"] = strproductdata;
-            if (otype == "Column")
+            data.EqType = otype;
+            data.EqName = name;
+            data.SourceFile = przFileName;
+            if (otype == "Column" || otype == "SideColumn")
             {
                 foreach (string s in arrColumnAttributes)
                 {
                     object v = eq.GetAttribute(s);
-                    string strV = ConvertExt.ObjectToString(v);
-                    r[s] = strV;
+                    string value = ConvertExt.ObjectToString(v);
+                    switch (s)
+                    {
+                        case "FeedData":
+                            data.FeedData = value;
+                            break;
+                        case "ProductData":
+                            data.ProductData = value;
+                            break;
+                        case "PressureDrop":
+                            data.PressureDrop = value;
+                            break;
+                        case "Duty":
+                            data.Duty = value;
+                            break;
+                        case "NumberOfTrays":
+                            data.NumberOfTrays = value;
+                            break;
+                        case "HeaterNames":
+                            data.HeaterNames = value;
+                            break;
+                        case "HeaterDuties":
+                            data.HeaterDuties = value;
+                            break;
+                        case "HeaterNumber":
+                            data.HeaterNumber = value;
+                            break;
+                        case "HeaterPANumberfo":
+                            data.HeaterPANumberfo = value;
+                            break;
+                        case "HeaterRegOrPAFlag":
+                            data.HeaterRegOrPAFlag = value;
+                            break;
+                        case "HeaterTrayLoc":
+                            data.HeaterTrayLoc = value;
+                            break;
+                        case "HeaterTrayNumber":
+                            data.HeaterTrayNumber = value;
+                            break;
+                    }
                 }
-                P2Wrap91.CP2Object obj = (P2Wrap91.CP2Object)cp2File.ActivateObject("ColumnIn", name);
+                P2Wrap91.CP2Object objColumnIn = (P2Wrap91.CP2Object)cp2File.ActivateObject("ColumnIn", name);
+
+                string[] arrColumnInAttributes = { "ProdType", "FeedTrays", "ProdTrays", "FeedData", "ProductData" };
+
                 foreach (string s in arrColumnInAttributes)
                 {
-                    object v = obj.GetAttribute(s);
-                    string strV = ConvertExt.ObjectToString(v);
-                    r[s] = strV;
+                    object v = objColumnIn.GetAttribute(s);
+                    string value = ConvertExt.ObjectToString(v);
+                    switch (s)
+                    {
+                        case "FeedData":
+                            data.FeedData = value;
+                            break;
+                        case "ProductData":
+                            data.ProductData = value;
+                            break;
+                        case "ProdType":
+                            data.ProdType = value;
+                            break;
+                        case "FeedTrays":
+                            data.FeedTrays = value;
+                            break;
+                        case "ProdTrays":
+                            data.ProdTrays = value;
+                            break;
+                    }
                 }
-
-
-                Marshal.FinalReleaseComObject(obj);
-                GC.ReRegisterForFinalize(obj);
-
             }
-            dtEqlist.Rows.Add(r);
-            Marshal.FinalReleaseComObject(eq);
-            GC.ReRegisterForFinalize(eq);
-
-
-            string[] feeds = r["feeddata"].ToString().Split(',');
-            string[] feedtrays = r["feedtrays"].ToString().Split(',');
-            for (int i = 0; i < feeds.Length; i++)
+            else
             {
-                string s = feeds[i];
-                if (!streamList.Contains(s))
-                {
-                    streamList.Add(s);
-                    if (otype == "Column")
-                        getStreamDataFromFile(s, "", feedtrays[i], ref dtStream);
-                    else
-                        getStreamDataFromFile(s, "", "", ref dtStream);
-
-                }
             }
-            string[] prods = r["ProductData"].ToString().Split(',');
-            string[] prodtypes = r["prodtype"].ToString().Split(',');
-            string[] prodtrays = r["prodtrays"].ToString().Split(',');
-            for (int i = 0; i < prods.Length; i++)
-            {
-                string s = prods[i];
-                if (!streamList.Contains(s))
-                {
-                    streamList.Add(s);
-                    if (otype == "Column")
-                        getStreamDataFromFile(s, prodtypes[i], prodtrays[i], ref dtStream);
-                    else
-                        getStreamDataFromFile(s, "", "", ref dtStream);
-
-                }
-            }
+            return data;
         }
-        private void getStreamDataFromFile(string name, string prodtype, string tray, ref DataTable dtStream)
+
+        public ProIIStreamData GetSteamInfo(string name)
         {
-            try
+            ProIIStreamData data = new ProIIStreamData();
+            bool bCalulate = cp2File.CalculateStreamProps(name);
+            data.SourceFile = przFileName;
+            data.StreamName = name;
+            data.ProdType = "";
+            data.Tray = "";
+            
+            data.CompIn = CompIns;
+            data.Componentid = ComponentIds;
+            CP2Object objStream = (CP2Object)cp2File.ActivateObject("Stream", name);
+            foreach (string s in arrStreamAttributes)
             {
-                DataRow r = dtStream.NewRow();
-
-                r["streamname"] = name;
-                r["sourcefile"] = przFileName;
-                r["prodtype"] = prodtype;
-                r["tray"] = tray;
-                object ComponentId = objCompCalc.GetAttribute("ComponentId");
-                r["ComponentId"] = ConvertExt.ObjectToString(ComponentId);
-                object CompIn = cp2File.GetObjectNames("CompIn");
-                r["CompIn"] = ConvertExt.ObjectToString(CompIn);
-                try
+                object v = objStream.GetAttribute(s);
+                string value = ConvertExt.ObjectToString(v);
+                switch (s)
                 {
-                    CP2Object objStream = (CP2Object)cp2File.ActivateObject("Stream", name);
+                    case "Pressure":
+                        data.Pressure = value;
+                        break;
+                    case "Temperature":
+                        data.Temperature = value;
+                        break;
+                    case "VaporFraction":
+                        data.VaporFraction = value;
+                        break;
+                    case "VaporZFmKVal":
+                        data.VaporZFmKVal = value;
+                        break;
+                    case "TotalComposition":
+                        data.TotalComposition = value;
+                        break;
+                    case "TotalMolarEnthalpy":
+                        data.TotalMolarEnthalpy = value;
+                        break;
+                    case "TotalMolarRate":
+                        data.TotalMolarRate = value;
+                        break;
+                    case "InertWeightEnthalpy":
+                        data.InertWeightEnthalpy = value;
+                        break;
+                    case "InertWeightRate":
+                        data.InertWeightRate = value;
+                        break;
 
-                    foreach (string s in arrStreamAttributes)
-                    {
-                        object v = objStream.GetAttribute(s);
-                        r[s] = ConvertExt.ObjectToString(v);
-                    }
-                    Marshal.FinalReleaseComObject(objStream);
-                    GC.ReRegisterForFinalize(objStream);
-
-                    bool bCalulate = cp2File.CalculateStreamProps(name);
-                    if (bCalulate)
-                    {
-                        CP2Object objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
-                        foreach (string s in arrBulkPropAttributes)
-                        {
-                            object v = objBulkDrop.GetAttribute(s);
-                            r[s] = ConvertExt.ObjectToString(v);
-                        }
-                        //Marshal.FinalReleaseComObject(objBulkDrop);
-                        //GC.ReRegisterForFinalize(objBulkDrop);
-
-                    }
                 }
-                catch (Exception ex)
-                {
-                }
-
-                dtStream.Rows.Add(r);
             }
-            catch (Exception ex2)
+            Marshal.FinalReleaseComObject(objStream);
+            GC.ReRegisterForFinalize(objStream);
+            if (bCalulate)
             {
+                CP2Object objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
+                foreach (string s in arrBulkPropAttributes)
+                {
+                    object v = objBulkDrop.GetAttribute(s);
+                    string value = ConvertExt.ObjectToString(v);
+                    switch (s)
+                    {
+                        case "BulkMwOfPhase":
+                            data.BulkMwOfPhase = value;
+                            break;
+                        case "BulkDensityAct":
+                            data.BulkDensityAct = value;
+                            break;
+                        case "VaporFraction":
+                            data.Pressure = value;
+                            break;
+                        case "BulkViscosity":
+                            data.BulkViscosity = value;
+                            break;
+                        case "BulkCPCVRatio":
+                            data.BulkCPCVRatio = value;
+                            break;
+                        case "BulkCP":
+                            data.BulkCP = value;
+                            break;
+                        case "BulkThermalCond":
+                            data.BulkThermalCond = value;
+                            break;
+                        case "BulkSurfTension":
+                            data.BulkSurfTension = value;
+                            break;
+                    }
+                }               
             }
+
+            return data;
         }
 
         public string GetCriticalPressure(string phaseName)
@@ -470,23 +613,6 @@ namespace ProII91
             return value.ToString();
         }
 
-    }
 
-    public class ProductInfo
-    {
-        public string ProductName;
-        public string ProductTray;
-        public string ProductType;
-    }
-    public class FeedInfo
-    {
-        public string FeedName;
-        public string FeedTray;
-    }
-    public class EqInfo
-    {
-        public string eqName;
-        public string eqType;
-        public bool isColumn;
     }
 }
