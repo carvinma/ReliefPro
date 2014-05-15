@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="ReliefProModel.FlashResult, ReliefProModel" table="tbFlashResult" >
+    <id name="ID" column="ID" type="Int32" unsaved-value="0">
+      <generator class="identity" />
+    </id>   
+    <property name="PrzFile" column="PrzFile" type="String" length="255" />
+    <property name="LiquidName" column="LiquidName" type="String" length="255" />
+    <property name="VaporName" column="VaporName" type="String" length="255" />
+    <property name="StreamName" column="StreamName" type="String" length="255" />
+    <property name="Tray" column="Tray" type="String" length="255" />
+    <property name="ProdType" column="ProdType" type="String" length="255" />
+
+  </class>
+</hibernate-mapping>

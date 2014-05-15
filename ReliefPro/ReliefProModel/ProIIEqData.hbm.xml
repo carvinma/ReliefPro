@@ -18,7 +18,7 @@
     <property name="GasVolumeFlow" column="GasVolumeFlow" type="String" length="255" />
     <property name="Efficiency" column="Efficiency" type="String" length="255"  />
     <property name="Head" column="Head" type="String" length="255" />
-    <property name="Work" column="Work" type="String" length="255" />
+    <property name="Work" column="EqWork" type="String" length="255" />
 
     <property name="HotsideTemperature" column="HotsideTemperature" type="String" length="255" />
     <property name="ColdsideTemperature" column="ColdsideTemperature" type="String" length="255" />
@@ -48,7 +48,7 @@
 
     <property name="PressCalc" column="PressCalc" type="String" length="255" />
     <property name="TempCalc" column="TempCalc" type="String" length="255" />
-    <property name="Type" column="Type" type="String" length="255" />
+    <property name="Type" column="DrumType" type="String" length="255" />
     <property name="ProductStoreData" column="ProductStoreData" type="String" length="255" />
 
   </class>
