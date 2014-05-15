@@ -11,14 +11,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
-using System.Data.OleDb;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Collections;
 using System.ComponentModel;
 using ProII;
-using ImportLib;
-using ProII91;
+using NHibernate;
+using ReliefProDAL;
+using ReliefProBLL.Common;
+using ReliefProModel;
 
 namespace ReliefProMain.View
 {
@@ -27,8 +28,10 @@ namespace ReliefProMain.View
     /// </summary>
     public partial class ImportDataView : Window
     {
-        ArrayList eqList = new ArrayList();
-        ArrayList streamList = new ArrayList();
+        IList<ProIIEqType> eqTypeList = null;
+        IList<ProIIEqData> eqListData = new List<ProIIEqData>();
+        IList<ProIIStreamData> streamListData = new List<ProIIStreamData>();
+        
         BackgroundWorker backgroundWorker = new BackgroundWorker();
        
         public ImportDataView()
@@ -40,7 +43,7 @@ namespace ReliefProMain.View
             backgroundWorker.ProgressChanged+=backgroundWorker_ProgressChanged;
         }
         public string dirInfo = string.Empty;
-        string dbFile = string.Empty;
+        string dbPlantFile = string.Empty;
         string selectedFile = string.Empty;
         string selectedFileName = string.Empty;       
         string curprzFile = string.Empty;
@@ -73,8 +76,14 @@ namespace ReliefProMain.View
                 }
                 curprzFile = dirInfo + @"\" + selectedFileName;
                 System.IO.File.Copy(selectedFile, curprzFile, true);
-                if (System.IO.File.Exists(dbFile) == true)
+                if (System.IO.File.Exists(dbPlantFile) == true)
                 {
+                    using (var helper = new NHibernateHelper(dbPlantFile))
+                    {
+                        ISession Session = helper.GetCurrentSession();
+                        dbProIIEqType db = new dbProIIEqType();
+                        eqTypeList = db.GetAllList(Session);
+                    }
                     progressBar.Visibility = Visibility.Visible;
                     btnCancel.IsEnabled = false;
                     btnOK.IsEnabled = false;
@@ -98,29 +107,27 @@ namespace ReliefProMain.View
 
         
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
-        {          
-            dbFile = dirInfo + @"\plant.mdb";
+        {
+            dbPlantFile = dirInfo + @"\plant.mdb";
         }
-        ProII91.ProIIReader picker;
-        ImportDB dbRelief;
-        DataTable dtEqList;
-        DataTable dtStream;
+        
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            
+            IList<ProIIEqData> eqList=new List<ProIIEqData>();
+            IList<string> streamList = new List<string>();         
             try
             {
-                dbRelief = new ImportDB(dbFile);
-                DataTable dtEqType = dbRelief.GetDataByTableName("tbProIIEqType","");
-                dtStream = dbRelief.GetTableStructureByTableName("tbProIIStreamData");
-                dtEqList = dbRelief.GetTableStructureByTableName("tbProIIEqData");
-                picker = new ProIIReader();
-                picker.InitProIIPicker(curprzFile);
-                int total = picker.getAllEqAndStreamTotal(dtEqType, ref eqList, ref streamList);
+                string version = ProIIFactory.GetProIIVerison(curprzFile, dirInfo);
+                IProIIReader reader = ProIIFactory.CreateReader(version);
+                reader.InitProIIReader(curprzFile);
+
+                int total = reader.GetAllEqAndStreamTotal(eqTypeList, ref eqList, ref streamList);
                 int eqCount = eqList.Count;
                 for (int i = 1; i <= eqList.Count; i++)
                 {
-                    EqInfo eq = (EqInfo)eqList[i - 1];
-                    picker.getEqInfo(eq.eqType, eq.eqName, ref dtEqList);
+                    ProIIEqData eq = eqList[i - 1];
+                    reader.GetEqInfo(eq.EqType, eq.EqName, ref eqListData);
                     int percents = (i * 100) / total;
                     backgroundWorker.ReportProgress(percents, i);
                 }
@@ -129,11 +136,11 @@ namespace ReliefProMain.View
                 {
                     string name = streamList[i - 1].ToString();
 
-                    picker.getSteamInfo(name, ref dtStream);
+                    reader.GetSteamInfo(name, ref streamListData);
                     int percents = ((eqCount + i) * 100) / total;
                     backgroundWorker.ReportProgress(percents);
                 }
-                picker.ReleaseProIIPicker();
+                reader.ReleaseProIIReader();
                 backgroundWorker.ReportProgress(100);
                 
             }
@@ -156,11 +163,21 @@ namespace ReliefProMain.View
         {
             try
             {
-                DataSet ds = new DataSet();
+                using (var helper = new NHibernateHelper(dbPlantFile))
+                {
+                    ISession Session = helper.GetCurrentSession();
+                    dbProIIEqData dbEq = new dbProIIEqData();
+                    foreach (ProIIEqData data in eqListData)
+                    {
+                        dbEq.Add(data, Session);
+                    }
 
-                ds.Tables.Add(dtStream.Copy());
-                ds.Tables.Add(dtEqList.Copy());
-                dbRelief.ImportDataByDataSet(ds);
+                    dbProIIStreamData dbStream = new dbProIIStreamData();
+                    foreach (ProIIStreamData data in streamListData)
+                    {
+                        dbStream.Add(data, Session);
+                    }
+                }
             }
             catch (Exception ex)
             {

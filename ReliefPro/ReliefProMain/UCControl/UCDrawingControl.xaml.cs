@@ -117,10 +117,7 @@ namespace ReliefProMain.View
                     
                     Window parentWindow = Window.GetWindow(this);
                     v.Owner = parentWindow;
-                    v.txtName.Text = shp.Text;
                     v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                    v.dbProtectedSystemFile = dbProtectedSystemFile;
-                    v.streamName = shp.Text;
                     if (v.ShowDialog() == true)
                     {
                         shp.Text = v.txtName.Text;

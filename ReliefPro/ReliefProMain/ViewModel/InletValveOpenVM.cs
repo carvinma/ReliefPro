@@ -239,7 +239,7 @@ namespace ReliefProMain.ViewModel
             string liquid=Guid.NewGuid().ToString().Substring(0,6);
             CustomStream cs=new CustomStream();
             double Wliquidvalve = Darcy(Rmass, Cv, UPStreamPressure, DownStreamPressure);
-            FlashWCalculation flashCalc = new FlashWCalculation();
+            FlashCalculateW flashCalc = new FlashCalculateW();
             string f= flashCalc.Calculate("", 1, DownStreamPressure, 5, "0",cs,vapor,liquid,Wliquidvalve.ToString(),dir);
 
             //读取vapor的weightflow

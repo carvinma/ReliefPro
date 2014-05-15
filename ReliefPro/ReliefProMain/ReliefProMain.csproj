@@ -132,6 +132,8 @@
     <Compile Include="Model\TowerFireModel.cs" />
     <Compile Include="Model\TowerHXDetailModel.cs" />
     <Compile Include="Model\TowerHXModel.cs" />
+    <Compile Include="ProIIFactory.cs" />
+    <Compile Include="ProIIToDefault.cs" />
     <Compile Include="Service\ServiceProvider.cs" />
     <Compile Include="Service\UnityServiceLocator.cs" />
     <Compile Include="ViewModel\DrumVM.cs" />
@@ -598,10 +600,6 @@
       <Project>{5442dadc-acf1-4668-90e5-f27070b95cfd}</Project>
       <Name>ReliefProCommon</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ImportLib\ImportLib.csproj">
-      <Project>{0b5e7e59-86c7-4f0d-a3e9-003067a8e008}</Project>
-      <Name>ImportLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ProII91\ProII91.csproj">
       <Project>{b3c0f1a9-dcc0-4e0a-afdb-d51f0933eaf0}</Project>
       <Name>ProII91</Name>
@@ -652,6 +650,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

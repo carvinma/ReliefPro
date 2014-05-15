@@ -12,7 +12,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data;
 using System.Data.OleDb;
-using ImportLib;
 
 namespace ReliefProMain.View
 {

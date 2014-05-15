@@ -19,8 +19,8 @@ using ReliefProCommon.CommonLib;
 using ReliefProDAL;
 using ReliefProBLL.Common;
 using ReliefProModel;
-using ProII91;
-using ImportLib;
+using ProII;
+
 namespace ReliefProMain.View
 {
     /// <summary>
@@ -31,8 +31,7 @@ namespace ReliefProMain.View
         public string dbProtectedSystemFile;
         public string dbPlantFile;
         public string przFile;
-        public string currentEqName;
-        public ImportDB importdb;
+        public string currentEqName;       
         public int op = 0;
         PSV model = new PSV();
         public PSVView()
@@ -85,127 +84,93 @@ namespace ReliefProMain.View
                 if (!Directory.Exists(dirLatent))
                     Directory.CreateDirectory(dirLatent);
 
+                string rootDir= System.IO.Path.GetDirectoryName(dbPlantFile);
 
-                importdb = new ImportDB(dbProtectedSystemFile);
-                ProIIReader picker = new ProIIReader();
-                picker.InitProIIPicker(przFile);
-                DataTable dtStream = importdb.GetDataByTableName("tbStream", "1=0");
-                picker.CopyStream(currentEqName, 1, 2, 1, ref dtStream);
-                picker.ReleaseProIIPicker();
+                CustomStream cStream=new CustomStream();
+                string version = ProIIFactory.GetProIIVerison(przFile, rootDir);
+                IProIIReader reader = ProIIFactory.CreateReader(version);
+                reader.InitProIIReader(przFile);
+                reader.CopyStream(currentEqName, 1, 2, 1, ref cStream);
+                reader.ReleaseProIIReader();
 
-                string strTray1Pressure = dtStream.Rows[0]["pressure"].ToString();
+                string strTray1Pressure = cStream.Pressure;
                 strTray1Pressure = unitConvert.Convert("KPA", "MPAG", double.Parse(strTray1Pressure)).ToString();
-                string strTray1Temperature = dtStream.Rows[0]["Temperature"].ToString();
+                string strTray1Temperature = cStream.Temperature;
                 strTray1Temperature = unitConvert.Convert("K", "C", double.Parse(strTray1Temperature)).ToString();
-                string tray1_s = dtStream.Rows[0]["streamname"].ToString().ToUpper();
+                string tray1_s = cStream.StreamName;
                 string gd = Guid.NewGuid().ToString();
                 string vapor = "S_" + gd.Substring(0, 5).ToUpper();
                 string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
 
                 PRIIFileOperator.DecompressProIIFile(przFile, tempdir);
-                string content = PRIIFileOperator.getUsableContent(dtStream.Rows[0]["streamname"].ToString(), tempdir);
+                string content = PRIIFileOperator.getUsableContent(cStream.StreamName, tempdir);
 
                 
                 double ReliefPressure = double.Parse(this.txtPrelief.Text) * double.Parse(this.txtPress.Text);
                 CustomStream stream = new CustomStream();
                 stream.Temperature = strTray1Temperature;
                 stream.Pressure = strTray1Pressure;
-                stream.CompIn = dtStream.Rows[0]["CompIn"].ToString();
-                stream.Componentid = dtStream.Rows[0]["Componentid"].ToString();
+                stream.CompIn = cStream.CompIn;
+                stream.Componentid = cStream.Componentid                    ;
                 stream.StreamName = tray1_s;
-                stream.TotalComposition = dtStream.Rows[0]["TotalComposition"].ToString();
-                stream.TotalMolarRate = dtStream.Rows[0]["TotalMolarRate"].ToString();
+                stream.TotalComposition =cStream.TotalComposition;
+                stream.TotalMolarRate = cStream.TotalMolarRate;
 
-               PHASECalculation PhaseCalc = new PHASECalculation();
+                IPHASECalculate PhaseCalc =ProIIFactory.CreatePHASECalculate(version);
                 string PH="PH"+Guid.NewGuid().ToString().Substring(0,4);
                 string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH,dirPhase);
-               
-                ProIIReader picker1 = new ProIIReader();
-                picker1.InitProIIPicker(phasef);
-                string criticalPress = picker1.GetCriticalPressure(PH);               
-                picker1.ReleaseProIIPicker();
-                criticalPress = UnitConverter.unitConv(criticalPress, "KPA", "MPAG", "{0:0.0000}");
+
+                reader = ProIIFactory.CreateReader(version);
+                reader.InitProIIReader(phasef);
+                string criticalPress = reader.GetCriticalPressure(PH);
+                reader.ReleaseProIIReader();
+                criticalPress = unitConvert.Convert( "KPA", "MPAG", double.Parse(criticalPress)).ToString();
                 
 
 
-                FlashCalculation fcalc = new FlashCalculation();
+                IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(version);
                 string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, vapor, liquid, dirLatent);
 
 
-                DataTable dtCritical = importdb.GetDataByTableName("tbCritical", "1=0");
-                DataRow drCritical = dtCritical.NewRow();
-                drCritical["CriticalPressure"] = criticalPress;
-                dtCritical.Rows.Add(drCritical);
-                importdb.SaveDataByTableName(dtCritical);
+                reader = ProIIFactory.CreateReader(version);
+                reader.InitProIIReader(tray1_f);
+                ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                ProIIStreamData proIILiquid=reader.GetSteamInfo(liquid);
+                reader.ReleaseProIIReader();
 
-                ImportDB importdb2 = new ImportDB(dbPlantFile);
-                DataTable dtEqType = importdb2.GetDataByTableName("tbproiieqtype", "");
-                DataTable dtEqList = importdb2.GetDataByTableName("tbproiieqdata", "1=0");
-                DataTable dtStream2 = importdb2.GetDataByTableName("tbproiistreamdata", "1=0");
-                ProIIReader picker2 = new ProIIReader();
-                picker2.InitProIIPicker(tray1_f);
+                CustomStream latentVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
+                CustomStream latentLiquid = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
 
-                picker2.getDataFromFile(ref dtEqType, ref dtEqList, ref dtStream2);
-                while (dtStream.Rows[0]["temperature"].ToString() == "")
+                double latentEnthalpy = double.Parse(latentVapor.SpEnthalpy) - double.Parse(latentLiquid.SpEnthalpy);
+                double ReliefTemperature = double.Parse(latentVapor.Temperature);
+
+                IList<CustomStream> products=null;
+                using (var helper = new NHibernateHelper(dbProtectedSystemFile))
                 {
-                    picker2.getDataFromFile(ref dtEqType, ref dtEqList, ref dtStream2);
+                    var Session = helper.GetCurrentSession();
+                    dbCustomStream dbstream=new dbCustomStream();
+                    products = dbstream.GetAllList(Session, true);
                 }
-                picker2.ReleaseProIIPicker();
 
-
-                //string[] feedH = importdb2.computeH(dtStream2, tray1_s.ToUpper());
-                string[] vaporH = importdb2.computeH(dtStream2, vapor);
-                string[] liqidH = importdb2.computeH(dtStream2, liquid);
-
-                DataTable dtLatentProduct = importdb.GetDataByTableName("tbLatentProduct", "1=0");
-
-                foreach (DataRow dr in dtStream2.Rows)
-                {
-                    string name = dr["streamname"].ToString();
-                    DataRow drLatentProduct = dtLatentProduct.NewRow();
-                    foreach (DataColumn dc in dtStream2.Columns)
-                    {
-                        if (dc.ColumnName != "SourceFile")
-                        {
-                            drLatentProduct[dc.ColumnName] = dr[dc];
-                        }
-                    }
-
-                    dtLatentProduct.Rows.Add(drLatentProduct);
-                }
-                importdb.SaveDataByTableName(dtLatentProduct);
-                double latentH = double.Parse(vaporH[1]) - double.Parse(liqidH[1]);
-                double ReliefTemperature = double.Parse(vaporH[3]);
-
-
-                DataTable dtStreamOut = importdb.GetDataByTableName("tbstream", "isproduct=true");
-                DataTable dtFlashResult = importdb.GetDataByTableName("flashresult", "1=0");
-                int count = dtStreamOut.Rows.Count;
+                List<FlashResult> listFlashResult = new List<FlashResult>();
+                int count = products.Count;
                 for (int i = 1; i <= count; i++)
                 {
-                    DataRow dr = dtStreamOut.Rows[i - 1];
-                    if (dr["TotalMolarRate"].ToString() != "0")
+                    CustomStream p=products[i-1];
+                    if (p.TotalMolarRate!= "0")
                     {
-                        FlashCalculation fc = new FlashCalculation();
+                        IFlashCalculate fc = ProIIFactory.CreateFlashCalculate(version);
                         string l = string.Empty;
                         string v = string.Empty;
-                        string prodtype = dr["prodtype"].ToString();
-                        string tray = dr["tray"].ToString();
-                        string streamname = dr["streamname"].ToString();
-                        string strPressure = dr["pressure"].ToString();
-                        string strTemperature = dr["Temperature"].ToString();
+                        string prodtype = p.ProdType;
+                        string tray = p.ProdType;
+                        string streamname = p.StreamName;
+                        string strPressure = p.Pressure;
+                        string strTemperature = p.Temperature;
                         string f = string.Empty;
 
-                        CustomStream sm = new CustomStream();
-                        sm.Temperature = strTemperature;
-                        sm.Pressure = strPressure;
-                        sm.CompIn = dr["CompIn"].ToString();
-                        sm.Componentid = dr["Componentid"].ToString();
-                        sm.StreamName = dr["streamname"].ToString();
-                        sm.TotalComposition = dr["TotalComposition"].ToString();
-                        sm.TotalMolarRate = dr["TotalMolarRate"].ToString();
-
-                        string dirflash = tempdir + sm.StreamName;
+                       
+                        string dirflash = tempdir + p.StreamName;
                         if (!Directory.Exists(dirflash))
                             Directory.CreateDirectory(dirflash);
                         double prodpressure = 0;
@@ -213,85 +178,65 @@ namespace ReliefProMain.View
                         {
                             prodpressure = double.Parse(strPressure);
                         }
-                        string usablecontent = PRIIFileOperator.getUsableContent(dr["streamname"].ToString(), tempdir);
+                        string usablecontent = PRIIFileOperator.getUsableContent(p.StreamName, tempdir);
 
                         if (prodtype == "4" || (prodtype == "2" && tray == "1")) // 2个条件是等同含义，后者是有气有液
                         {
-                            f = fc.Calculate(usablecontent, 1, ReliefPressure.ToString(), 4, "", sm, vapor, liquid, dirflash);
+                            f = fc.Calculate(usablecontent, 1, ReliefPressure.ToString(), 4, "", p, vapor, liquid, dirflash);
                         }
 
                         else if (prodtype == "6" || prodtype == "3") //3 气相  6 沉积水 
                         {
-                            f = fc.Calculate(usablecontent, 2, ReliefTemperature.ToString(), 4, "", sm, vapor, liquid, dirflash);
+                            f = fc.Calculate(usablecontent, 2, ReliefTemperature.ToString(), 4, "", p, vapor, liquid, dirflash);
                         }
                         else
                         {
-                            double p = ReliefPressure + (double.Parse(dr["pressure"].ToString()) - double.Parse(strTray1Pressure));
-                            f = fc.Calculate(usablecontent, 1, p.ToString(), 3, "", sm, vapor, liquid, dirflash);
+                            double press = ReliefPressure + (double.Parse(p.Pressure) - double.Parse(strTray1Pressure));
+                            f = fc.Calculate(usablecontent, 1, p.ToString(), 3, "", p, vapor, liquid, dirflash);
                         }
-                        DataRow drFlash = dtFlashResult.NewRow();
-                        drFlash["przfile"] = f;
-                        drFlash["liquid"] = liquid;
-                        drFlash["vapor"] = vapor;
-                        drFlash["stream"] = streamname;
-                        drFlash["prodtype"] = prodtype;
-                        drFlash["tray"] = tray;
-
-                        dtFlashResult.Rows.Add(drFlash);
-
-
-
+                        FlashResult fr = new FlashResult();
+                        fr.LiquidName = liquid;
+                        fr.VaporName = vapor;
+                        fr.StreamName = streamname;
+                        fr.PrzFile = f;
+                        fr.Tray = tray;
+                        fr.ProdType = prodtype;
+                        listFlashResult.Add(fr);
                     }
                 }
 
-                DataTable dtfrmcase_product_single = importdb.GetDataByTableName("tbTowerFlashProduct", "1=0");
-                count = dtFlashResult.Rows.Count;
+                List<TowerFlashProduct> listFlashProduct = new List<TowerFlashProduct>();
+                count = listFlashResult.Count;
                 for (int i = 1; i <= count; i++)
                 {
-                    DataRow dr = dtFlashResult.Rows[i - 1];
-                    string prodtype = dr["prodtype"].ToString();
-                    string tray = dr["tray"].ToString();
-                    if (dr["przfile"].ToString() != "")
+                    FlashResult fr = listFlashResult[i - 1];
+                    string prodtype = fr.ProdType;
+                    string tray =fr.Tray;
+                    if (fr.PrzFile != "")
                     {
-                        dtEqList.Rows.Clear();
-                        dtStream2.Rows.Clear();
-                        ProIIReader picker3 = new ProIIReader();
-                        picker3.InitProIIPicker(dr["przfile"].ToString());
-                        picker3.getDataFromFile(ref dtEqType, ref dtEqList, ref dtStream2);
-                        picker3.ReleaseProIIPicker();
-                        DataRow drout = dtfrmcase_product_single.NewRow();
-
-
+                        CustomStream cs=null;
+                        reader = ProIIFactory.CreateReader(version);
+                        TowerFlashProduct product = new TowerFlashProduct();
                         if (prodtype == "4" || (prodtype == "2" && tray == "1") || prodtype == "3" || prodtype == "6")
                         {
-                            string[] liquidH2 = importdb.computeH(dtStream2, dr["vapor"].ToString().ToUpper());
-                            drout["SpEnthalpy"] = liquidH2[1];
+                            ProIIStreamData data=reader.GetSteamInfo(fr.VaporName);
+                            cs=ProIIToDefault.ConvertProIIStreamToCustomStream(data);                                                   
                         }
                         else
                         {
-                            string[] liquidH2 = importdb.computeH(dtStream2, dr["liquid"].ToString().ToUpper());
-                            drout["SpEnthalpy"] = liquidH2[1];
+                            ProIIStreamData data = reader.GetSteamInfo(fr.LiquidName);
+                            cs = ProIIToDefault.ConvertProIIStreamToCustomStream(data);
+                           
                         }
-
-
-                        drout["StreamName"] = dr["stream"].ToString().ToUpper();
-                        drout["weightflow"] = 0;
-                        foreach (DataRow dro in dtStreamOut.Rows)
-                        {
-                            if (drout["streamname"].ToString() == dro["streamname"].ToString())
-                            {
-                                drout["weightflow"] = dro["weightflow"].ToString();
-                                drout["ProdType"] = dro["ProdType"].ToString();
-                            }
-                        }
-                        drout["tray"] = tray;
-
-                        dtfrmcase_product_single.Rows.Add(drout);
-
-
+                        product.SpEnthalpy = cs.SpEnthalpy;     
+                        product.StreamName=fr.StreamName;
+                        product.WeightFlow = cs.SpEnthalpy;
+                        product.ProdType = fr.ProdType;
+                        product.Tray=tray;
+                        listFlashProduct.Add(product);
                     }
                 }
-                importdb.SaveDataByTableName(dtfrmcase_product_single);
+                
 
                 using (var helper = new NHibernateHelper(dbProtectedSystemFile))
                 {
@@ -299,6 +244,7 @@ namespace ReliefProMain.View
                     dbPSV db = new dbPSV();
                     dbLatent dblatent = new dbLatent();
                     dbLatentProduct dblatentproduct = new dbLatentProduct();
+                    dbTowerFlashProduct dbFlashProduct = new dbTowerFlashProduct();
                     if (op == 0)
                     {
                         model.PSVName = txtName.Text.Trim();
@@ -307,11 +253,18 @@ namespace ReliefProMain.View
                         db.Add(model, Session);
 
                         Latent latent = new Latent();
-                        latent.LatentEnthalpy = latentH.ToString();
+                        latent.LatentEnthalpy = latentEnthalpy.ToString();
                         latent.ReliefTemperature = ReliefTemperature.ToString();
-                        latent.ReliefOHWeightFlow = liqidH[2];
+                        latent.ReliefOHWeightFlow = latentVapor.WeightFlow;
                         latent.ReliefPressure = (double.Parse(model.Pressure) * double.Parse(model.ReliefPressureFactor)).ToString();
                         dblatent.Add(latent, Session);
+
+                        foreach (TowerFlashProduct p in listFlashProduct)
+                        {
+                            dbFlashProduct.Add(p, Session);
+                        }
+
+
                     }
                     else
                     {
