@@ -48,7 +48,8 @@ namespace ReliefProBLL
         public string ReadData()
         {
             var pro9 = container.Resolve<IProIIReader>();
-            return pro9.Read();
+            //return pro9.Read();
+            return "";
         }
     }
 }
