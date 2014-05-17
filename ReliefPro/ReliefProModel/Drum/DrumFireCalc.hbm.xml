@@ -5,6 +5,7 @@
 <generator class="identity" />
 </id>
   <property name="DrumID" column="DrumID" type="Int32"/>
+  <property name="ScenarioID" column="ScenarioID" type="Int32"/>
   <property name="HeatInputModel" column="HeatInputModel" type="String" length="255"/>
   <property name="WettedArea" column="WettedArea" type="Double"/>
   <property name="LatentHeat" column="LatentHeat" type="Double"/>

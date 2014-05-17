@@ -10,6 +10,7 @@ namespace ReliefProModel.Drum
     {
         public virtual int ID { get; set; }
         public virtual int DrumID { get; set; }
+        public virtual int ScenarioID { get; set; }
         public virtual string HeatInputModel { get; set; }
         public virtual double WettedArea { get; set; }
         public virtual double LatentHeat { get; set; }
