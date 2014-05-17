@@ -120,7 +120,6 @@ namespace ReliefProMain.CustomControl
             UnitConvert unitConvert = new UnitConvert();
             ResultValue = unitConvert.Convert(UnitType, OriginUnit, TargetUnit, Value);
             this.DialogResult = true;
-            string str = "111";
         }
     }
 }
