@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"        
         xmlns:winformsIntegration="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
-        Title="MainWindow" Height="800" Width="1200" Name="MainWindowApp" Loaded="MainWindowApp_Loaded">
+        Title="MainWindow" Height="800" Width="1200" Name="MainWindowApp" Loaded="MainWindowApp_Loaded" Closing="MainWindowApp_Closing">
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
     </Window.Background>
@@ -11,9 +11,10 @@
     <Window.Resources>
         <ResourceDictionary>
             <ContextMenu x:Name="RightContextMenu" x:Key="RightContextMenu">
-                <MenuItem Header="New Unit"  Name="ritem1"/>
+                <MenuItem Header="ReName" Click="ReName"  Name="ritem0"/>
+                <MenuItem Header="New Unit" Click="CreateUnit"  Name="ritem1"/>                
                 <MenuItem Header="Import Data" Click="ImportDataFromOther"  Name="ritem2"  />
-                <MenuItem Header="New Protected System"  Name="ritem3"  />
+                <MenuItem Header="New Protected System" Click="CreateProtectedSystem"  Name="ritem3"  />
             </ContextMenu>
         </ResourceDictionary>
     </Window.Resources>
@@ -82,17 +83,17 @@
                     <ToolBar.Background>
                         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                     </ToolBar.Background>
-                    <Button Name="btnNewPlant" ToolTip="New Plant" VerticalAlignment="Center"  >
+                    <Button Name="btnNewPlant" ToolTip="New Plant" VerticalAlignment="Center" Click="Button_Click" >
                         <Image Source="images/newplant.ico" ></Image>
                     </Button>
-                    <Button Name="btnOpenPlant" ToolTip="Open Plant" VerticalAlignment="Center">
+                    <Button Name="btnOpenPlant" ToolTip="Open Plant" VerticalAlignment="Center" Click="Button_Click">
                         <Image Source="images/openplant.ico" ></Image>
                     </Button>
-                    <Button Name="btnClosePlant" ToolTip="Close Plant" VerticalAlignment="Center"  >
+                    <Button Name="btnClosePlant" ToolTip="Close Plant" VerticalAlignment="Center"  Click="Button_Click">
                         <Image Source="images/closeplant.ico"  ></Image>
                     </Button>
                     <Separator/>
-                    <Button Name="btnSaveProject" ToolTip="Save Project" VerticalAlignment="Center"  >
+                    <Button Name="btnSaveProject" ToolTip="Save Plant" VerticalAlignment="Center"  Click="Button_Click">
                         <Image Source="images/save.png"  ></Image>
                     </Button>
 

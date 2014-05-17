@@ -17,9 +17,85 @@ namespace ReliefProMain.ViewModel
     {
         public string dbProtectedSystemFile { get; set; }
         public string dbPlantFile { get; set; } 
-        public bool Horiz { get; set; }
-        public bool Vertical { get; set; }
        
+        private bool _Horiz;
+        public bool Horiz
+        {
+            get
+            {
+                return this._Horiz;
+            }
+            set
+            {
+                this._Horiz = value;
+                OnPropertyChanged("Horiz");
+            }
+        }
+
+        private bool _Vertical;
+        public bool Vertical
+        {
+            get
+            {
+                return this._Vertical;
+            }
+            set
+            {
+                this._Vertical = value;
+                OnPropertyChanged("Vertical");
+            }
+        }
+
+        private string _Diameter;
+        public string Diameter
+        {
+            get
+            {
+                return this._Diameter;
+            }
+            set
+            {
+                this._Diameter = value;
+                if (Horiz && string.IsNullOrEmpty(NormalLiquidLevel) && !string.IsNullOrEmpty(_Diameter))
+                {
+                    NormalLiquidLevel=(double.Parse(Diameter)/2).ToString();
+                }
+                OnPropertyChanged("Diameter");
+            }
+        }
+
+        private string _Length;
+        public string Length
+        {
+            get
+            {
+                return this._Length;
+            }
+            set
+            {
+                this._Length = value;
+                if (Vertical && string.IsNullOrEmpty(NormalLiquidLevel) && !string.IsNullOrEmpty(_Length))
+                {
+                    NormalLiquidLevel = (double.Parse(Length) / 2).ToString();
+                }
+                OnPropertyChanged("Length");
+            }
+        }
+        private string _NormalLiquidLevel;
+        public string NormalLiquidLevel
+        {
+            get
+            {
+                return this._NormalLiquidLevel;
+            }
+            set
+            {
+                this._NormalLiquidLevel = value;
+                OnPropertyChanged("NormalLiquidLevel");
+            }
+        }
+
+
 
         public List<string> AccumulatorTypes { get; set; }
         public Accumulator CurrentAccumulator { get; set; }
@@ -41,45 +117,48 @@ namespace ReliefProMain.ViewModel
             {
                 var Session = helper.GetCurrentSession();
                 dbBasicUnit dbBU = new dbBasicUnit();
-                IList<BasicUnit> list=dbBU.GetAllList(Session);
-                BU = list.Where(s=>s.IsDefault==1).Single();
+                IList<BasicUnit> list = dbBU.GetAllList(Session);
+                BU = list.Where(s => s.IsDefault == 1).Single();
             }
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
-                UnitConvert uc=new UnitConvert();
+                UnitConvert uc = new UnitConvert();
                 var Session = helper.GetCurrentSession();
                 dbAccumulator db = new dbAccumulator();
                 CurrentAccumulator = db.GetModel(Session);
+                Diameter = CurrentAccumulator.Diameter;
+                Length = CurrentAccumulator.Length;
+                NormalLiquidLevel = CurrentAccumulator.NormalLiquidLevel;
                 if (CurrentAccumulator.Orientation)
-                {
-                    Horiz = false;
-                    Vertical = true;
-                }
-                else
                 {
                     Horiz = true;
                     Vertical = false;
                 }
+                else
+                {
+                    Horiz = false;
+                    Vertical = true;
+                }
 
             }
-            
+
         }
 
-        private ICommand _Update;
-        public ICommand Update
+        private ICommand _SaveCommand;
+        public ICommand SaveCommand
         {
             get
             {
-                if (_Update == null)
+                if (_SaveCommand == null)
                 {
-                    _Update = new RelayCommand(OKClick);
+                    _SaveCommand = new RelayCommand(Save);
                     
                 }
-                return _Update;
+                return _SaveCommand;
             }
         }
         
-        private void OKClick(object window)
+        private void Save(object window)
         {
             CurrentAccumulator.AccumulatorName=CurrentAccumulator.AccumulatorName.Trim();
             if (CurrentAccumulator.AccumulatorName == "")
@@ -101,10 +180,13 @@ namespace ReliefProMain.ViewModel
                 Accumulator m = db.GetModel(Session);
 
                 m.AccumulatorName = CurrentAccumulator.AccumulatorName;
-                m.Diameter = CurrentAccumulator.Diameter;
-                m.Length = CurrentAccumulator.Length;
-                m.NormalLiquidLevel = CurrentAccumulator.NormalLiquidLevel;
-                m.Orientation = CurrentAccumulator.Orientation;
+                m.Diameter = Diameter;
+                m.Length = Length;
+                m.NormalLiquidLevel = NormalLiquidLevel;
+                if (Horiz)
+                    m.Orientation = true;
+                else
+                    m.Orientation = false;
                 db.Update(m, Session);
                 Session.Flush();
 
@@ -117,6 +199,6 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        //public Action CloseAction { get; set; }
+        
     }
 }

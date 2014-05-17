@@ -1,0 +1,23 @@
+﻿<Window x:Class="ReliefProMain.View.CreateProtectedSystemView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="New Protected System" Height="150" Width="449.425" Name="myWindow">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="69*"/>
+            <ColumnDefinition Width="110*"/>
+            <ColumnDefinition Width="11*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="13*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="27*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Protected System Name" Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Top" Height="26" Width="151"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Stretch"  Grid.Row="1" TextWrapping="Wrap" Text="{Binding ProtectedSystemName}" VerticalAlignment="Stretch" />
+        <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="2" HorizontalAlignment="Left" Margin="48,21,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Button Content="Cancel" IsCancel="True" Grid.Column="2" HorizontalAlignment="Left" Margin="144,21,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Height="22"/>
+
+    </Grid>
+</Window>

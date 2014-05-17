@@ -26,7 +26,7 @@
             </StackPanel>
         </Button>
         <TextBox Name="txtSourceFile" HorizontalAlignment="Left" Height="44" Margin="159,15.1,0,0"  IsEnabled="False" Text="" TextWrapping="Wrap"  AcceptsReturn="True" VerticalScrollBarVisibility="Visible"  VerticalAlignment="Top" Width="436" Grid.Row="1"/>
-        <ProgressBar Name="progressBar" HorizontalAlignment="Left" Margin="225,153,0,0" VerticalAlignment="Top" Width="340" Height="28" Visibility="Hidden" Grid.RowSpan="2"/>
+        <ProgressBar Name="progressBar" HorizontalAlignment="Left" Margin="37,12,0,0" VerticalAlignment="Top" Width="340" Height="28" Visibility="Hidden" Grid.Row="2"/>
 
         <Border BorderBrush="black"    VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1" Margin="0,1,0,0" Grid.Row="2"/>
         <Button Content="OK" Name="btnOK" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Height="25" Click="btnOK_Click" Margin="445,10,0,0" Grid.Row="2"/>

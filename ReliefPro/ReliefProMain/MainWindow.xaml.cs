@@ -38,6 +38,7 @@ using AxMicrosoft.Office.Interop.VisOcx;
 using Vo = Microsoft.Office.Interop.VisOcx;
 using Visio = Microsoft.Office.Interop.Visio;
 using ReliefProMain.View;
+using ReliefProMain.ViewModel;
 
 namespace ReliefProMain
 {
@@ -359,12 +360,11 @@ namespace ReliefProMain
                     string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
 
                     TreeViewItem item = GetTreeViewItem(currentPlantName, currentPlantWorkFolder, 1, "images/plant.ico", dbPlant_target,null);
+                    DirectoryInfo dirPlant = new DirectoryInfo(currentPlantWorkFolder);
 
-                    DirectoryInfo dirPlant=new DirectoryInfo(currentPlantWorkFolder);
-                    
                     foreach (DirectoryInfo device in dirPlant.GetDirectories())
                     {
-                        TreeViewItem itemDevice = GetTreeViewItem(device.Name, device.FullName, 2, "images/plant.ico",dbPlant_target,null);
+                        TreeViewItem itemDevice = GetTreeViewItem(device.Name, device.FullName, 2, "images/plant.ico", dbPlant_target, null);
                         item.Items.Add(itemDevice);
                         foreach (DirectoryInfo dirProtectedSystem in device.GetDirectories())
                         {
@@ -375,13 +375,11 @@ namespace ReliefProMain
                             TreeViewItem itemProtectSystemfile = GetTreeViewItem(dirProtectedSystem.Name, dirProtectedSystem.FullName + @"\design.vsd", 4, "images/project.ico", dbPlant_target, dbProtectSystem_target);
                             itemProtectSystem.Items.Add(itemProtectSystemfile);
                         }
-                       
+
                     }
-                   
+
                     NavigationTreeView.Items.Add(item);
                     item.ExpandSubtree();
-                    
-
                 }
             }
             catch (Exception ex)
@@ -415,30 +413,16 @@ namespace ReliefProMain
 
                     string unit1 = currentPlantWorkFolder + @"\Unit1";
                     Directory.CreateDirectory(unit1);
-                    string protectsystem1 = unit1 + @"\ProtectedSystem1";
-                    Directory.CreateDirectory(protectsystem1);
-                    string dbProtectSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
-                    string dbProtectSystem_target = protectsystem1 + @"\protectedsystem.mdb";
-                    System.IO.File.Copy(dbProtectSystem, dbProtectSystem_target, true);
-                    string visioProtectSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.vsd";
-                    string visioProtectSystem_target = protectsystem1 + @"\design.vsd";
-                    System.IO.File.Copy(visioProtectSystem, visioProtectSystem_target, true);
+                    string protectedsystem1 = unit1 + @"\ProtectedSystem1";
+                    Directory.CreateDirectory(protectedsystem1);
+                    string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
+                    string dbProtectedSystem_target = protectedsystem1 + @"\protectedsystem.mdb";
+                    System.IO.File.Copy(dbProtectedSystem, dbProtectedSystem_target, true);
+                    string visioProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.vsd";
+                    string visioProtectedSystem_target = protectedsystem1 + @"\design.vsd";
+                    System.IO.File.Copy(visioProtectedSystem, visioProtectedSystem_target, true);
 
 
-
-                    //using (var helper = new NHibernateHelper(dbPlant_target))
-                    //{
-                    //    dbUnit db = new dbUnit();
-                    //    Device device = new Device();
-                    //    device.DeviceName = "Unit1";
-                    //    db.Add(device, helper.GetCurrentSession());
-
-                    //    dbProtectSystem db2 = new dbProtectSystem();
-                    //    ProtectedSystem ps = new ProtectedSystem();
-                    //    ps.DeviceName = "Unit1";
-                    //    ps.ProtectedSystemName = "ProtectedSystem1";
-                    //    db2.Add(ps, helper.GetCurrentSession());
-                    //}
                     ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
 
                     TreeViewItem item = GetTreeViewItem(currentPlantName, currentPlantWorkFolder, 1, "images/plant.ico", dbPlant_target, null);
@@ -446,10 +430,10 @@ namespace ReliefProMain
                     TreeViewItem itemUnit = GetTreeViewItem("Unit1", unit1, 2, "images/plant.ico", dbPlant_target, null);
                     item.Items.Add(itemUnit);
 
-                    TreeViewItem itemProtectSystem = GetTreeViewItem("ProtectedSystem1", protectsystem1, 3, "images/plant.ico", dbPlant_target, dbProtectSystem_target);
+                    TreeViewItem itemProtectSystem = GetTreeViewItem("ProtectedSystem1", protectedsystem1, 3, "images/plant.ico", dbPlant_target, dbProtectedSystem_target);
                     itemUnit.Items.Add(itemProtectSystem);
 
-                    TreeViewItem itemProtectSystemfile = GetTreeViewItem("ProtectedSystem1", visioProtectSystem_target, 4, "images/project.ico", dbPlant_target, dbProtectSystem_target);
+                    TreeViewItem itemProtectSystemfile = GetTreeViewItem("ProtectedSystem1", visioProtectedSystem_target, 4, "images/project.ico", dbPlant_target, dbProtectedSystem_target);
                     itemProtectSystem.Items.Add(itemProtectSystemfile);
 
                     NavigationTreeView.Items.Add(item);
@@ -486,7 +470,7 @@ namespace ReliefProMain
             image.Height = 16;
             // Label
             TextBlock lbl = new TextBlock();
-            lbl.Text = text;
+            lbl.Text = text ;
             // Add into stack
             stack.Children.Add(image);
             stack.Children.Add(lbl);
@@ -570,31 +554,35 @@ namespace ReliefProMain
                 ContextMenu rmenu = (ContextMenu)this.Resources["RightContextMenu"];
                 if (data.Type == 1)
                 {
-                    for (int i = 0; i < 2; i++)
+                    for (int i = 0; i < 3; i++)
                     {
                         MenuItem item = (MenuItem)rmenu.Items[i];
                         item.IsEnabled = true;
                     }
-                    MenuItem item2 = (MenuItem)rmenu.Items[2];
+                    MenuItem item2 = (MenuItem)rmenu.Items[3];
                     item2.IsEnabled = false;
                 }
                 if (data.Type == 2)
                 {
-                    for (int i = 0; i < 2; i++)
+                    for (int i = 0; i < 4; i++)
                     {
                         MenuItem item = (MenuItem)rmenu.Items[i];
                         item.IsEnabled = false;
                     }
-                    MenuItem item2 = (MenuItem)rmenu.Items[2];
+                    MenuItem item2 = (MenuItem)rmenu.Items[3];
                     item2.IsEnabled = true;
+                    MenuItem item1 = (MenuItem)rmenu.Items[0];
+                    item1.IsEnabled = true;
                 }
                 if (data.Type==4 || data.Type==3)
                 {
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i < 4; i++)
                     {
                         MenuItem item = (MenuItem)rmenu.Items[i];
                         item.IsEnabled = false;
                     }
+                    MenuItem item1 = (MenuItem)rmenu.Items[0];
+                    item1.IsEnabled = true;
                 }
                 
 
@@ -625,7 +613,127 @@ namespace ReliefProMain
             imptdata.ShowDialog();
 
         }
+        
+        public void CreateUnit(object sender, RoutedEventArgs e)
+        {
+            if (NavigationTreeView.SelectedItem == null)
+                return;
+            TreeViewItem tvi = (TreeViewItem)NavigationTreeView.SelectedItem;           
+            TreeViewItemData data = tvi.Tag as TreeViewItemData;
+            CreateUnitView v = new CreateUnitView();
+            CreateUnitVM vm = new CreateUnitVM(data.FullName);
+            v.DataContext = vm;
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
+            v.Owner = this;
+            if (v.ShowDialog() == true)
+            {
+                
+                TreeViewItem itemUnit = GetTreeViewItem( vm.UnitName,vm.dirUnit, 2, "images/plant.ico", data.dbPlantFile, null);
+                tvi.Items.Add(itemUnit);
+
+                TreeViewItem itemProtectSystem = GetTreeViewItem("ProtectedSystem1", vm.dirProtectedSystem, 3, "images/plant.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
+                itemUnit.Items.Add(itemProtectSystem);
+
+                TreeViewItem itemProtectSystemfile = GetTreeViewItem("ProtectedSystem1", vm.visioProtectedSystem, 4, "images/project.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
+                itemProtectSystem.Items.Add(itemProtectSystemfile);
+
+                tvi.ExpandSubtree();
+            }
+
+        }
+
+        public void CreateProtectedSystem(object sender, RoutedEventArgs e)
+        {
+            if (NavigationTreeView.SelectedItem == null)
+                return;
+            TreeViewItem tvi = (TreeViewItem)NavigationTreeView.SelectedItem;
+            TreeViewItemData data = tvi.Tag as TreeViewItemData;
+            CreateProtectedSystemView v = new CreateProtectedSystemView();
+            CreateProtectedSystemVM vm = new CreateProtectedSystemVM(data.FullName);
+            v.DataContext = vm;
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            v.Owner = this;
+            if (v.ShowDialog() == true)
+            {               
+                TreeViewItem itemProtectSystem = GetTreeViewItem(vm.ProtectedSystemName, vm.dirProtectedSystem, 3, "images/plant.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
+                tvi.Items.Add(itemProtectSystem);
+
+                TreeViewItem itemProtectSystemfile = GetTreeViewItem(vm.ProtectedSystemName, vm.visioProtectedSystem, 4, "images/project.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
+                itemProtectSystem.Items.Add(itemProtectSystemfile);
+
+                tvi.ExpandSubtree();
+            }
+
+        }
+
+        public void ReName(object sender, RoutedEventArgs e)
+        {
+            if (NavigationTreeView.SelectedItem == null)
+                return;
+            TreeViewItem tvi = (TreeViewItem)NavigationTreeView.SelectedItem;
+            TreeViewItemData data = tvi.Tag as TreeViewItemData;
+            ReNameView v = new ReNameView();
+            ReNameVM vm = new ReNameVM(data.Text,data.FullName,data.Type);
+            v.DataContext = vm;
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            v.Owner = this;
+            if (v.ShowDialog() == true)
+            {
+                data.Text = vm.NewName;
+                data.FullName = vm.NewDir;
+
+               
+                StackPanel SP = (StackPanel)tvi.Header;
+                foreach (UIElement uie in SP.Children)
+                {
+                    if (uie.GetType().ToString() == "TextBlock")
+                    {
+                        TextBlock lbl = (TextBlock)uie;
+                        lbl.Text = data.Text;
+                    }
+                }
+                tvi.Header = SP;
+                
+            }
+
+        }
+
+
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Button item = (Button)sender;
+                switch (item.ToolTip.ToString())
+                {
+                    case "Open Plant":
+                        OpenPlant();
+                        break;                   
+                    case "New Plant":
+                        CreatePlant();
+                        break;
+                    case "Save Plant":
+                        SavePlant();
+                        break;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Action");
+            }
+        }
+
+        private void MainWindowApp_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            
+        }
+        
 
     }
     public class ListViewItemData

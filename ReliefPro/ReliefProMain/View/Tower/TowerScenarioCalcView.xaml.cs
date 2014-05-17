@@ -97,6 +97,8 @@ namespace ReliefProMain.View
                 dbTowerScenarioStream db = new dbTowerScenarioStream();
                 dbTowerFlashProduct dbFlashP = new dbTowerFlashProduct();
                 IList<TowerScenarioStream> listStream = db.GetAllList(Session, ScenarioID);
+
+                overHeadWeightFlow = 0;
                 foreach (TowerScenarioStream s in listStream)
                 {
                     CustomStream cstream = dbCS.GetModel(Session, s.StreamName);
@@ -109,6 +111,10 @@ namespace ReliefProMain.View
                             if (cstream.ProdType == "6")
                             {
                                 waterWeightFlow = double.Parse(cstream.WeightFlow);
+                            }
+                            if (cstream.ProdType == "4")
+                            {
+                                overHeadWeightFlow = double.Parse(cstream.WeightFlow);
                             }
                         }
                     }
@@ -136,7 +142,7 @@ namespace ReliefProMain.View
                         HeatTotal = HeatTotal + double.Parse(shx.DutyCalcFactor) * double.Parse(detail.Duty);
                     }
                 }
-                overHeadWeightFlow = double.Parse(latent.ReliefOHWeightFlow);
+                
                 double latestH = double.Parse(latent.LatentEnthalpy);
                 double totalH = FeedTotal - ProductTotal + HeatTotal;
                 double wAccumulation = totalH / latestH + overHeadWeightFlow;
@@ -145,15 +151,16 @@ namespace ReliefProMain.View
                 {
                     wRelief = 0;
                 }
-                double ReliefLoad = wAccumulation + double.Parse(latent.ReliefOHWeightFlow);
+                double ReliefLoad = wAccumulation + waterWeightFlow;
                 double ReliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / double.Parse(latent.ReliefOHWeightFlow) + waterWeightFlow / 18);
                 txtTemperature.Text = latent.ReliefTemperature;
                 txtReliefLoad.Text = ReliefLoad.ToString();
                 txtReliefMW.Text = ReliefMW.ToString();
-
+                txtPressure.Text = latent.ReliefPressure;
                 dbScenario dbTS = new dbScenario();
                 Scenario scenario = dbTS.GetModel(ScenarioID, Session);
                 scenario.ReliefLoad = ReliefLoad.ToString();
+                scenario.ReliefPressure = latent.ReliefPressure;
                 scenario.ReliefMW = ReliefMW.ToString();
                 scenario.ReliefTemperature = latent.ReliefTemperature;
                 dbTS.Update(scenario, Session);

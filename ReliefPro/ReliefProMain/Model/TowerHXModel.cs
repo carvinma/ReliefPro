@@ -105,7 +105,7 @@ namespace ReliefProMain.Model
             {
                 var Session = helper.GetCurrentSession();
                 dbTowerHXDetail db = new dbTowerHXDetail();
-                int i = 1;
+                int i = 0;
                 foreach (var obj in db.GetAllList(Session, ID))
                 {
                     TowerHXDetailModel d = new TowerHXDetailModel();

@@ -30,7 +30,7 @@
         <Button Content="OK" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Height="25"  Margin="110,10,0,0" Grid.Row="2"  Click="btnOK_Click"/>
         <Button Content="Cancel" HorizontalAlignment="Left" IsCancel="True"  VerticalAlignment="Top" Width="75" Height="25"  Margin="211,10,0,0" Grid.Row="2"/>
         <Label Content="Relief Pressure" HorizontalAlignment="Left" Margin="44,76,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="150,79,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="txtPressure" HorizontalAlignment="Left" Height="23" Margin="150,79,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <Label Content="MPag" HorizontalAlignment="Left" Margin="286,79,0,0" Grid.Row="1" VerticalAlignment="Top"/>
 
     </Grid>

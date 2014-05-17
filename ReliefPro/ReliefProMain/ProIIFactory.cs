@@ -30,7 +30,7 @@ namespace ReliefProMain
             }
             else if (version == "9.2")
             {
-                reader = new ProII91.ProIIReader();
+                reader = new ProII92.ProIIReader();
             }
             return reader;
         }
@@ -44,7 +44,7 @@ namespace ReliefProMain
             }
             else if (version == "9.2")
             {
-                calc = new ProII91.FlashCalculate();
+                calc = new ProII92.FlashCalculate();
             }
             return calc;
         }
@@ -57,7 +57,7 @@ namespace ReliefProMain
             }
             else if (version == "9.2")
             {
-                calc = new ProII91.FlashCalculateW();
+                calc = new ProII92.FlashCalculateW();
             }
             return calc;
         }
@@ -70,7 +70,7 @@ namespace ReliefProMain
             }
             else if (version == "9.2")
             {
-                calc = new ProII91.PHASECalculate();
+                calc = new ProII92.PHASECalculate();
             }
             return calc;
         }

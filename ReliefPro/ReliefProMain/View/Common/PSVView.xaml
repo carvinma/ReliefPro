@@ -49,7 +49,7 @@
         <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Left" Margin="162,10,0,0" Grid.Row="7" VerticalAlignment="Top" Width="75" Height="22" Grid.Column="4"/>
         <Button Content="Calculate Critical Pressure" Grid.Column="4" HorizontalAlignment="Left" Margin="25,14,0,0" Grid.Row="3" VerticalAlignment="Top" Width="178" Height="22"/>
         <Label Content="Critical Pressure" Grid.Column="1" HorizontalAlignment="Left" Margin="17,10,0,0" Grid.Row="6" VerticalAlignment="Top" Height="26" Width="83"/>
-        <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="14,10,0,0" Grid.Row="6" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="txtCritical" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="14,10,0,0" Grid.Row="6" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
         <GroupBox Name="g1" Grid.Column="4" Header="Additional PSV on Reflux Drum" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="4" VerticalAlignment="Top" Height="166" Grid.RowSpan="3" Width="331">
             <Grid>
                 <Label Content="PSV Name" HorizontalAlignment="Left" Margin="26,22,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.605,0.175"/>

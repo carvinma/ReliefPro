@@ -246,7 +246,13 @@ namespace ReliefProMain.ViewModel
             ReliefProMain.View.TowerFire.TowerFireView v = new View.TowerFire.TowerFireView();
             TowerFire.TowerFireVM vm = new TowerFire.TowerFireVM(ScenarioID, dbProtectedSystemFile, dbPlantFile);
             v.DataContext = vm;
-            v.ShowDialog();
+            if (v.ShowDialog() == true)
+            {
+                //SelectedScenario.ReliefLoad = vm.model.CurrentTowerFire.ReliefLoad;
+                //SelectedScenario.ReliefPressure = vm.model.CurrentTowerFire.ReliefPressure;
+                //SelectedScenario.ReliefTemperature = vm.model.CurrentTowerFire.ReliefTemperature;
+                //SelectedScenario.ReliefMW = vm.model.CurrentTowerFire.ReliefMW;
+            }
         }
 
         private void CreateTowerCommon(int ScenarioID,string ScenarioName, NHibernate.ISession Session)
@@ -304,6 +310,13 @@ namespace ReliefProMain.ViewModel
                     tsHX.DetailName = detail.DetailName;
                     tsHX.Medium = detail.Medium;
                     tsHX.HeaterType = hx.HeaterType;
+
+                    if (ScenarioName=="BlockedOutlet" && double.Parse(detail.Duty)<0)
+                    {
+                        tsHX.DutyLost = true;
+                    }
+
+
                     dbTSHX.Add(tsHX, Session);
                 }
             }
@@ -313,7 +326,13 @@ namespace ReliefProMain.ViewModel
             v.dbProtectedSystemFile = dbProtectedSystemFile;
             TowerScenarioCalcVM vm = new TowerScenarioCalcVM();
             v.DataContext = vm;
-            v.ShowDialog();
+            if (v.ShowDialog() == true)
+            {
+                //SelectedScenario.ReliefLoad = vm.CurrentScenario.ReliefLoad;
+                //SelectedScenario.ReliefPressure = vm.CurrentScenario.ReliefPressure;
+                //SelectedScenario.ReliefTemperature = vm.CurrentScenario.ReliefTemperature;
+                //SelectedScenario.ReliefMW = vm.CurrentScenario.ReliefMW;
+            }
         }
 
         private void CreateInletValveOpen(int ScenarioID,  NHibernate.ISession Session)
@@ -323,7 +342,7 @@ namespace ReliefProMain.ViewModel
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {
-
+                
             }
         }
 

@@ -83,7 +83,8 @@ namespace ReliefProMain.View
                         TowerVM vm = new TowerVM(name, dbProtectedSystemFile, dbPlantFile);
                         v.DataContext = vm;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
+                        Window parentWindow = Window.GetWindow(this);
+                        v.Owner = parentWindow;    
                         if (v.ShowDialog() == true)
                         {
                             DrawTower(shp, vm);
@@ -101,7 +102,8 @@ namespace ReliefProMain.View
                         DrumVM vm = new DrumVM(name, dbProtectedSystemFile, dbPlantFile);
                         v.DataContext = vm;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
+                        Window parentWindow = Window.GetWindow(this);
+                        v.Owner = parentWindow;    
                         if (v.ShowDialog() == true)
                         {
                             DrawDrum(shp, vm);

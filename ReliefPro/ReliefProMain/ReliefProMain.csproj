@@ -136,6 +136,7 @@
     <Compile Include="ProIIToDefault.cs" />
     <Compile Include="Service\ServiceProvider.cs" />
     <Compile Include="Service\UnityServiceLocator.cs" />
+    <Compile Include="ViewModel\CreateUnitVM.cs" />
     <Compile Include="ViewModel\DrumVM.cs" />
     <Compile Include="ViewModel\Drum\DrumBlockedOutletVM.cs" />
     <Compile Include="ViewModel\FormatUnitsMeasureVM.cs" />
@@ -160,6 +161,17 @@
     <Compile Include="ViewModel\TowerVM.cs" />
     <Compile Include="ViewModel\ReboilerPinchVM.cs" />
     <Compile Include="ViewModel\InletValveOpenVM.cs" />
+    <Compile Include="ViewModel\ReNameVM.cs" />
+    <Compile Include="ViewModel\CreateProtectedSystemVM.cs" />
+    <Compile Include="View\Common\CreateProtectedSystemView.xaml.cs">
+      <DependentUpon>CreateProtectedSystemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Common\CreateUnitView.xaml.cs">
+      <DependentUpon>CreateUnitView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Common\ReNameView.xaml.cs">
+      <DependentUpon>ReNameView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Drum\DrumView.xaml.cs">
       <DependentUpon>DrumView.xaml</DependentUpon>
     </Compile>
@@ -319,6 +331,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Common\CreateProtectedSystemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Common\CreateUnitView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Common\ReNameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Drum\DrumView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -603,6 +627,10 @@
     <ProjectReference Include="..\ProII91\ProII91.csproj">
       <Project>{b3c0f1a9-dcc0-4e0a-afdb-d51f0933eaf0}</Project>
       <Name>ProII91</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProII92\ProII92.csproj">
+      <Project>{91faab28-f38d-4b71-944b-f9f597dcb954}</Project>
+      <Name>ProII92</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProIIIDAL\ProII.csproj">
       <Project>{a5266b4f-56fa-413b-bc59-0f84ac0d9b64}</Project>

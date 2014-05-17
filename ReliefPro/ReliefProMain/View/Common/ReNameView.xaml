@@ -1,0 +1,23 @@
+﻿<Window x:Class="ReliefProMain.View.ReNameView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ReName" Height="150" Width="400" Name="myWindow">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="22*"/>
+            <ColumnDefinition Width="131*"/>
+            <ColumnDefinition Width="248*"/>
+            <ColumnDefinition Width="24*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="13*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="27*"/>
+        </Grid.RowDefinitions>
+        <Label Content="New Name" Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Top" Height="26" Width="84"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Stretch"  Grid.Row="1" TextWrapping="Wrap" Text="{Binding Name}" VerticalAlignment="Stretch" />
+        <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="2" HorizontalAlignment="Left" Margin="48,21,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Cancel" IsCancel="True" Grid.Column="2" HorizontalAlignment="Left" Margin="144,21,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75"/>
+
+    </Grid>
+</Window>
