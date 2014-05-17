@@ -10,6 +10,7 @@ using ReliefProDAL;
 using ReliefProBLL.Common;
 using ReliefProMain.Interface;
 using ReliefProMain.Service;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel.TowerFire
 {
@@ -17,7 +18,7 @@ namespace ReliefProMain.ViewModel.TowerFire
     {
         public string dbProtectedSystemFile { get; set; }
         public string dbPlantFile { get; set; }
-        public TowerFireCooler model { get; set; } 
+        public TowerFireCooler model { get; set; }
         public double Area { get; set; }
         public TowerFireCoolerVM(int EqID, string dbPSFile, string dbPFile)
         {
@@ -28,24 +29,24 @@ namespace ReliefProMain.ViewModel.TowerFire
             {
                 var Session = helper.GetCurrentSession();
                 dbBasicUnit dbBU = new dbBasicUnit();
-                IList<BasicUnit> list=dbBU.GetAllList(Session);
-                BU = list.Where(s=>s.IsDefault==1).Single();
+                IList<BasicUnit> list = dbBU.GetAllList(Session);
+                BU = list.Where(s => s.IsDefault == 1).Single();
             }
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
-                UnitConvert uc=new UnitConvert();
+                UnitConvert uc = new UnitConvert();
                 var Session = helper.GetCurrentSession();
                 dbTowerFireCooler db = new dbTowerFireCooler();
-                model = db.GetModel(Session,EqID);
+                model = db.GetModel(Session, EqID);
                 if (model == null)
                 {
                     model = new TowerFireCooler();
                     model.EqID = EqID;
                     model.PipingContingency = "10";
-                    db.Add(model,Session);
+                    db.Add(model, Session);
                 }
             }
-            
+
         }
 
         private ICommand _OKClick;
@@ -56,7 +57,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 if (_OKClick == null)
                 {
                     _OKClick = new RelayCommand(Update);
-                    
+
                 }
                 return _OKClick;
             }
@@ -84,7 +85,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 TowerFireCooler m = db.GetModel(model.ID, Session);
                 m.WettedArea = model.WettedArea;
                 m.PipingContingency = model.PipingContingency;
-                db.Update(m, Session);               
+                db.Update(m, Session);
                 Session.Flush();
                 Area = double.Parse(m.WettedArea);
                 Area = Area + Area * double.Parse(model.PipingContingency) / 100;

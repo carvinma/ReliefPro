@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ReliefProBLL;
+using UOMLib;
 
 namespace ReliefProMain.View
 {
@@ -46,7 +47,7 @@ namespace ReliefProMain.View
             }
         }
 
-       
+
         private void txtName_TextChanged(object sender, TextChangedEventArgs e)
         {
             this.lblWarning.Visibility = Visibility.Hidden;

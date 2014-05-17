@@ -10,6 +10,7 @@ using ReliefProDAL;
 using ReliefProBLL.Common;
 using ReliefProMain.Interface;
 using ReliefProMain.Service;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel
 {
@@ -56,17 +57,17 @@ namespace ReliefProMain.ViewModel
             {
                 var Session = helper.GetCurrentSession();
                 dbBasicUnit dbBU = new dbBasicUnit();
-                IList<BasicUnit> list=dbBU.GetAllList(Session);
-                BU = list.Where(s=>s.IsDefault==1).Single();
+                IList<BasicUnit> list = dbBU.GetAllList(Session);
+                BU = list.Where(s => s.IsDefault == 1).Single();
             }
 
 
 
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
-                UnitConvert uc=new UnitConvert();
+                UnitConvert uc = new UnitConvert();
                 var Session = helper.GetCurrentSession();
-               
+
 
                 dbSource db = new dbSource();
                 Source source = db.GetModel(Session, SourceName);
@@ -76,7 +77,7 @@ namespace ReliefProMain.ViewModel
                 IsMaintained = source.IsMaintained;
                 PressureUnit = pressureUnit;
             }
-            
+
         }
 
         private ICommand _Update;

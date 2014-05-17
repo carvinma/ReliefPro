@@ -10,16 +10,17 @@ using ReliefProDAL;
 using ReliefProBLL.Common;
 using ReliefProMain.Interface;
 using ReliefProMain.Service;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel
 {
     public class PSVVM : ViewModelBase
     {
         public string dbProtectedSystemFile { get; set; }
-        public string dbPlantFile { get; set; } 
+        public string dbPlantFile { get; set; }
         public bool Horiz { get; set; }
         public bool Vertical { get; set; }
-       
+
 
         public List<string> AccumulatorTypes { get; set; }
         public Accumulator CurrentAccumulator { get; set; }
@@ -41,12 +42,12 @@ namespace ReliefProMain.ViewModel
             {
                 var Session = helper.GetCurrentSession();
                 dbBasicUnit dbBU = new dbBasicUnit();
-                IList<BasicUnit> list=dbBU.GetAllList(Session);
-                BU = list.Where(s=>s.IsDefault==1).Single();
+                IList<BasicUnit> list = dbBU.GetAllList(Session);
+                BU = list.Where(s => s.IsDefault == 1).Single();
             }
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
-                UnitConvert uc=new UnitConvert();
+                UnitConvert uc = new UnitConvert();
                 var Session = helper.GetCurrentSession();
                 dbAccumulator db = new dbAccumulator();
                 CurrentAccumulator = db.GetModel(Session);
@@ -62,7 +63,7 @@ namespace ReliefProMain.ViewModel
                 }
 
             }
-            
+
         }
 
         private ICommand _Save;
@@ -73,15 +74,15 @@ namespace ReliefProMain.ViewModel
                 if (_Save == null)
                 {
                     _Save = new RelayCommand(OKClick);
-                    
+
                 }
                 return _Save;
             }
         }
-        
+
         private void OKClick(object window)
         {
-            CurrentAccumulator.AccumulatorName=CurrentAccumulator.AccumulatorName.Trim();
+            CurrentAccumulator.AccumulatorName = CurrentAccumulator.AccumulatorName.Trim();
             if (CurrentAccumulator.AccumulatorName == "")
             {
                 throw new ArgumentException("Please type in a name for the Accumulator.");

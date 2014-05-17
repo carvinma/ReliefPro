@@ -226,7 +226,6 @@
     <Compile Include="UCControl\UCDrawingControl.xaml.cs">
       <DependentUpon>UCDrawingControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UnitConvert.cs" />
     <Compile Include="ViewModel\ListDemoViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\Common\ImportDataView.xaml.cs">
@@ -647,6 +646,10 @@
     <ProjectReference Include="..\ReliefProModel\ReliefProModel.csproj">
       <Project>{33484ecd-0474-4110-aaf0-c551b57087c7}</Project>
       <Name>ReliefProModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UOMLib\UOMLib.csproj">
+      <Project>{9fb1af20-7585-4bb9-a0bb-810e1a0f6f30}</Project>
+      <Name>UOMLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

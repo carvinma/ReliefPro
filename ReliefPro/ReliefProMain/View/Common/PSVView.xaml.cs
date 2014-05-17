@@ -20,6 +20,7 @@ using ReliefProDAL;
 using ReliefProBLL.Common;
 using ReliefProModel;
 using ProII;
+using UOMLib;
 
 namespace ReliefProMain.View
 {
@@ -31,7 +32,7 @@ namespace ReliefProMain.View
         public string dbProtectedSystemFile;
         public string dbPlantFile;
         public string przFile;
-        public string currentEqName;       
+        public string currentEqName;
         private int op = 0;
         PSV model = new PSV();
         public PSVView()
@@ -77,7 +78,7 @@ namespace ReliefProMain.View
                     PSV psv = db.GetModel(Session);
                     if (psv == null)
                     {
-                        
+
                         model.PSVName = txtName.Text.Trim();
                         model.ReliefPressureFactor = this.txtPrelief.Text;
                         model.Pressure = txtPress.Text;
@@ -96,7 +97,7 @@ namespace ReliefProMain.View
                         db.Update(model, Session);
                         Session.Flush();
                     }
-                    
+
 
                     dbTower dbtower = new dbTower();
                     IList<Tower> list = dbtower.GetAllList(Session);
@@ -346,14 +347,14 @@ namespace ReliefProMain.View
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
                 var Session = helper.GetCurrentSession();
-               
+
                 dbLatent dblatent = new dbLatent();
                 //dbLatentProduct dblatentproduct = new dbLatentProduct();
                 dbTowerFlashProduct dbFlashProduct = new dbTowerFlashProduct();
 
                 if (op == 0)
                 {
-                   
+
                     // Critical c = new Critical();
                     // c.CriticalPressure = criticalPress;
                     // dbCritical dbcritical = new dbCritical();
@@ -377,7 +378,7 @@ namespace ReliefProMain.View
                 {
                     //直接删除再新增
 
-                    
+
 
                 }
             }

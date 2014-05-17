@@ -33,6 +33,14 @@ namespace ReliefProMain.ViewModel.Drum
         }
         private void CalcResult(object obj)
         {
+            if (drum.PfeedUpstream(dbPSFile) > drum.PSet(dbPSFile))
+            {
+                if (Model.DrumType == "Flashing Drum")
+                {
+                }
+            }
+            else
+            { }
             drum.SaveDrumBlockedOutlet(Model, dbPSFile);
         }
     }

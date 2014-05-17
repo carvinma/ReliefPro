@@ -12,6 +12,7 @@ using ReliefProBLL.Common;
 using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using ReliefProMain.Model;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel.TowerFire
 {
@@ -20,7 +21,7 @@ namespace ReliefProMain.ViewModel.TowerFire
         public string dbProtectedSystemFile { get; set; }
         public string dbPlantFile { get; set; }
         public TowerFireColumnModel model { get; set; }
-        public double Area{ get; set; }
+        public double Area { get; set; }
         public ObservableCollection<string> Internals { get; set; }
         public ObservableCollection<TowerFireColumnDetail> LastDetails { get; set; }
         public TowerFireColumnVM(int EqID, string dbPSFile, string dbPFile)
@@ -33,8 +34,8 @@ namespace ReliefProMain.ViewModel.TowerFire
             {
                 var Session = helper.GetCurrentSession();
                 dbBasicUnit dbBU = new dbBasicUnit();
-                IList<BasicUnit> list=dbBU.GetAllList(Session);
-                BU = list.Where(s=>s.IsDefault==1).Single();
+                IList<BasicUnit> list = dbBU.GetAllList(Session);
+                BU = list.Where(s => s.IsDefault == 1).Single();
             }
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
@@ -73,7 +74,7 @@ namespace ReliefProMain.ViewModel.TowerFire
 
 
             }
-            
+
         }
 
         private ICommand _OKClick;
@@ -84,7 +85,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 if (_OKClick == null)
                 {
                     _OKClick = new RelayCommand(Update);
-                    
+
                 }
                 return _OKClick;
             }
@@ -92,7 +93,7 @@ namespace ReliefProMain.ViewModel.TowerFire
 
         private void Update(object window)
         {
-           
+
             BasicUnit BU;
             using (var helper = new NHibernateHelper(dbPlantFile))
             {
@@ -134,18 +135,18 @@ namespace ReliefProMain.ViewModel.TowerFire
                     double diameter = double.Parse(detail.Diameter);
                     Area = Area + Algorithm.GetColumnArea(detail.Internal, n, L1, L2, L3, diameter);
 
-                } 
+                }
                 Session.Flush();
 
                 Area = Area + Area * double.Parse(model.Instance.PipingContingency) / 100;
 
-               
+
             }
             System.Windows.Window wd = window as System.Windows.Window;
 
             if (wd != null)
             {
-                wd.DialogResult=true;
+                wd.DialogResult = true;
             }
         }
 

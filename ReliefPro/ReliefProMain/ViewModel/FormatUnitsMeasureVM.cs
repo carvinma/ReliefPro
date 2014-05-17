@@ -10,6 +10,7 @@ using ReliefProBLL;
 using ReliefProMain.Model;
 using ReliefProModel;
 using ReliefProMain.View;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel
 {
@@ -32,7 +33,7 @@ namespace ReliefProMain.ViewModel
         {
             unitInfo = new UnitInfo();
             this.model = new FormatUnitsMeasureModel();
-           
+
 
             lstBasicUnit = unitInfo.GetBasicUnit();
 
@@ -154,14 +155,14 @@ namespace ReliefProMain.ViewModel
         /// </summary>
         private void InitModelInfo(object obj)
         {
-            model.BasicUnitselectLocation = lstBasicUnit[lstBasicUnit.ToList().FindIndex(p => p.IsDefault == 1)];            
+            model.BasicUnitselectLocation = lstBasicUnit[lstBasicUnit.ToList().FindIndex(p => p.IsDefault == 1)];
             model.ObBasicUnit = new ObservableCollection<BasicUnit>(lstBasicUnit);
 
             //BasicUnitDefault systemUnit = lstBasciUnitDefault.Where(s => s.BasicUnitID == model.BasicUnitselectLocation.ID && s.UnitTypeID == 1).Single();
-            
+
             //model.TemperatureSelectLocation = lstSystemUnit[lstSystemUnit.ToList().FindIndex(p =>p.ID==int.Parse(lstBasciUnitDefault.Where(s => s.BasicUnitID == model.BasicUnitselectLocation.ID && s.UnitTypeID == 1).Single().SystemUnitID))];
             model.ObcTemperature = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 1));
-            
+
             //model.PressureSelectLocation = lstSystemUnit[lstSystemUnit.ToList().FindIndex(p =>p.ID==int.Parse(lstBasciUnitDefault.Where(s => s.BasicUnitID == model.BasicUnitselectLocation.ID && s.UnitTypeID == 2).Single().SystemUnitID))];            
             model.ObcPressure = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 2));
 
@@ -174,7 +175,7 @@ namespace ReliefProMain.ViewModel
             //model.StandardVolumeRateSelectLocation = lstSystemUnit[int.Parse(lstBasciUnitDefault.Where(s => s.BasicUnitID == model.BasicUnitselectLocation.ID && s.UnitTypeID == 5).Single().SystemUnitID)]; 
             model.ObcStandardVolumeRate = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 5));
 
-           // model.ViscositySelectLocation =lstSystemUnit[lstSystemUnit.ToList().FindIndex(p =>p.ID==int.Parse(lstBasciUnitDefault.Where(s => s.BasicUnitID == model.BasicUnitselectLocation.ID && s.UnitTypeID == 6).Single().SystemUnitID))]; 
+            // model.ViscositySelectLocation =lstSystemUnit[lstSystemUnit.ToList().FindIndex(p =>p.ID==int.Parse(lstBasciUnitDefault.Where(s => s.BasicUnitID == model.BasicUnitselectLocation.ID && s.UnitTypeID == 6).Single().SystemUnitID))]; 
             model.ObcViscosity = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 6));
 
             //model.HeatCapacitySelectLocation = lstSystemUnit[lstSystemUnit.ToList().FindIndex(p =>p.ID==int.Parse(lstBasciUnitDefault.Where(s => s.BasicUnitID == model.BasicUnitselectLocation.ID && s.UnitTypeID == 7).Single().SystemUnitID))]; 
@@ -189,7 +190,7 @@ namespace ReliefProMain.ViewModel
             //model.SurfaceTensionSelectLocation = lstSystemUnit[lstSystemUnit.ToList().FindIndex(p =>p.ID==int.Parse(lstBasciUnitDefault.Where(s => s.BasicUnitID == model.BasicUnitselectLocation.ID && s.UnitTypeID == 10).Single().SystemUnitID))]; 
             model.ObcSurfaceTension = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 10));
 
-            
+
             //model.MachineSpeedSelectLocation = lstSystemUnit[int.Parse(lstBasciUnitDefault.Where(s => s.BasicUnitID == model.BasicUnitselectLocation.ID && s.UnitTypeID == 12).Single().SystemUnitID)]; 
             model.ObcMachineSpeed = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 12));
 

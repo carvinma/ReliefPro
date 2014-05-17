@@ -10,14 +10,15 @@ using ReliefProDAL;
 using ReliefProBLL.Common;
 using ReliefProMain.Interface;
 using ReliefProMain.Service;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel
 {
     public class AccumulatorVM : ViewModelBase
     {
         public string dbProtectedSystemFile { get; set; }
-        public string dbPlantFile { get; set; } 
-       
+        public string dbPlantFile { get; set; }
+
         private bool _Horiz;
         public bool Horiz
         {
@@ -58,7 +59,7 @@ namespace ReliefProMain.ViewModel
                 this._Diameter = value;
                 if (Horiz && string.IsNullOrEmpty(NormalLiquidLevel) && !string.IsNullOrEmpty(_Diameter))
                 {
-                    NormalLiquidLevel=(double.Parse(Diameter)/2).ToString();
+                    NormalLiquidLevel = (double.Parse(Diameter) / 2).ToString();
                 }
                 OnPropertyChanged("Diameter");
             }
@@ -152,15 +153,15 @@ namespace ReliefProMain.ViewModel
                 if (_SaveCommand == null)
                 {
                     _SaveCommand = new RelayCommand(Save);
-                    
+
                 }
                 return _SaveCommand;
             }
         }
-        
+
         private void Save(object window)
         {
-            CurrentAccumulator.AccumulatorName=CurrentAccumulator.AccumulatorName.Trim();
+            CurrentAccumulator.AccumulatorName = CurrentAccumulator.AccumulatorName.Trim();
             if (CurrentAccumulator.AccumulatorName == "")
             {
                 throw new ArgumentException("Please type in a name for the Accumulator.");
@@ -199,6 +200,6 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        
+
     }
 }

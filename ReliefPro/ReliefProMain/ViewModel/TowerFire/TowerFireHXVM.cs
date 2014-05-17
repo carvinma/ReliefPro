@@ -11,6 +11,7 @@ using ReliefProBLL.Common;
 using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using ReliefProMain;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel.TowerFire
 {

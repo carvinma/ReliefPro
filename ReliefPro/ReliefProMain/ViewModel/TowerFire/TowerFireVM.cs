@@ -14,6 +14,7 @@ using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using ReliefProMain.View.TowerFire;
 using ReliefProMain.Model;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel.TowerFire
 {
@@ -21,7 +22,7 @@ namespace ReliefProMain.ViewModel.TowerFire
     {
         public string dbProtectedSystemFile { get; set; }
         public string dbPlantFile { get; set; }
-       
+
         public TowerFireModel model { get; set; }
         public List<string> HeatInputModels { get; set; }
         private Latent latent;
@@ -36,30 +37,30 @@ namespace ReliefProMain.ViewModel.TowerFire
             {
                 var Session = helper.GetCurrentSession();
                 dbBasicUnit dbBU = new dbBasicUnit();
-                IList<BasicUnit> list=dbBU.GetAllList(Session);
-                BU = list.Where(s=>s.IsDefault==1).Single();
+                IList<BasicUnit> list = dbBU.GetAllList(Session);
+                BU = list.Where(s => s.IsDefault == 1).Single();
             }
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
-                UnitConvert uc=new UnitConvert();
+                UnitConvert uc = new UnitConvert();
                 var Session = helper.GetCurrentSession();
                 dbTowerFire db = new dbTowerFire();
                 model.CurrentTowerFire = db.GetModel(Session, ScenarioID);
-                
+
                 dbTowerFireEq dbtfeq = new dbTowerFireEq();
-                IList<TowerFireEq> list = dbtfeq.GetAllList(Session,model.CurrentTowerFire.ID);
+                IList<TowerFireEq> list = dbtfeq.GetAllList(Session, model.CurrentTowerFire.ID);
                 model.EqList = new ObservableCollection<TowerFireEq>();
                 foreach (TowerFireEq eq in list)
-                {                   
+                {
                     model.EqList.Add(eq);
                 }
-                
+
                 dbLatent dblatent = new dbLatent();
                 latent = dblatent.GetModel(Session);
-                
+
 
             }
-           
+
         }
 
         private ICommand _OKClick;
@@ -70,7 +71,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 if (_OKClick == null)
                 {
                     _OKClick = new RelayCommand(Update);
-                    
+
                 }
                 return _OKClick;
             }
@@ -78,7 +79,7 @@ namespace ReliefProMain.ViewModel.TowerFire
 
         private void Update(object window)
         {
-           
+
             BasicUnit BU;
             using (var helper = new NHibernateHelper(dbPlantFile))
             {
@@ -114,7 +115,7 @@ namespace ReliefProMain.ViewModel.TowerFire
         public List<string> GetHeatInputModels()
         {
             List<string> list = new List<string>();
-            list.Add("API 521");            
+            list.Add("API 521");
             return list;
         }
 
@@ -146,13 +147,13 @@ namespace ReliefProMain.ViewModel.TowerFire
                 {
                     C1 = 70900;
                 }
-                int id=int.Parse(obj.ToString());
-                
+                int id = int.Parse(obj.ToString());
+
                 dbTowerFireEq db = new dbTowerFireEq();
                 TowerFireEq eq = db.GetModel(id, Session);
 
                 double latentEnthalpy = double.Parse(latent.LatentEnthalpy);
-                if (eq.Type == "Column" || eq.Type=="Side Column")
+                if (eq.Type == "Column" || eq.Type == "Side Column")
                 {
                     TowerFireColumnView v = new TowerFireColumnView();
                     TowerFireColumnVM vm = new TowerFireColumnVM(eq.ID, dbProtectedSystemFile, dbPlantFile);
@@ -169,11 +170,11 @@ namespace ReliefProMain.ViewModel.TowerFire
                         foreach (TowerFireEq q in list)
                         {
                             model.EqList.Add(q);
-                        }  
+                        }
                         Session.Flush();
                     }
                 }
-                else if (eq.Type == "Drum" )
+                else if (eq.Type == "Drum")
                 {
                     TowerFireDrumView v = new TowerFireDrumView();
                     TowerFireDrumVM vm = new TowerFireDrumVM(eq.ID, dbProtectedSystemFile, dbPlantFile);
@@ -190,7 +191,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                         foreach (TowerFireEq q in list)
                         {
                             model.EqList.Add(q);
-                        }  
+                        }
                         Session.Flush();
                     }
                 }
@@ -211,7 +212,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                         foreach (TowerFireEq q in list)
                         {
                             model.EqList.Add(q);
-                        }   
+                        }
                         Session.Flush();
                     }
                 }
@@ -224,15 +225,15 @@ namespace ReliefProMain.ViewModel.TowerFire
                     if (v.ShowDialog() == true)
                     {
                         model.EqList.Clear();
-                        eq.WettedArea = vm.Area.ToString() ;
+                        eq.WettedArea = vm.Area.ToString();
                         eq.HeatInput = Algorithm.GetTowerQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
                         eq.ReliefLoad = (double.Parse(eq.HeatInput) / latentEnthalpy).ToString();
                         db.Update(eq, Session);
                         IList<TowerFireEq> list = db.GetAllList(Session, model.CurrentTowerFire.ID);
                         foreach (TowerFireEq q in list)
-                        {                            
+                        {
                             model.EqList.Add(q);
-                        }  
+                        }
                         Session.Flush();
                     }
                 }
@@ -246,19 +247,19 @@ namespace ReliefProMain.ViewModel.TowerFire
                     {
                         model.EqList.Clear();
                         eq.WettedArea = vm.Area.ToString();
-                        eq.HeatInput=Algorithm.GetTowerQ(C1,double.Parse(eq.FFactor),double.Parse(eq.WettedArea)).ToString();
+                        eq.HeatInput = Algorithm.GetTowerQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
                         eq.ReliefLoad = (double.Parse(eq.HeatInput) / latentEnthalpy).ToString();
                         db.Update(eq, Session);
                         IList<TowerFireEq> list = db.GetAllList(Session, model.CurrentTowerFire.ID);
                         foreach (TowerFireEq q in list)
                         {
                             model.EqList.Add(q);
-                        }                      
+                        }
                         Session.Flush();
                     }
                 }
             }
-            
+
         }
 
 
@@ -289,14 +290,14 @@ namespace ReliefProMain.ViewModel.TowerFire
                 {
                     if (eq.FireZone)
                     {
-                        m.ReliefLoad = (double.Parse(m.ReliefLoad ?? "0") + double.Parse(eq.ReliefLoad ?? "0")).ToString();                      
+                        m.ReliefLoad = (double.Parse(m.ReliefLoad ?? "0") + double.Parse(eq.ReliefLoad ?? "0")).ToString();
                     }
                 }
                 db.Update(m, Session);
                 model.CurrentTowerFire = m;
                 Session.Flush();
             }
-           
+
         }
 
     }

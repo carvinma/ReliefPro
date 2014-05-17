@@ -11,6 +11,7 @@ using ReliefProDAL;
 using ReliefProBLL.Common;
 using ReliefProMain.Interface;
 using ReliefProMain.Service;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel
 {
@@ -45,7 +46,7 @@ namespace ReliefProMain.ViewModel
         public ObservableCollection<string> GetSourceTypes()
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
-            list.Add("Hot Oil/water");          
+            list.Add("Hot Oil/water");
             list.Add("Steam");
             return list;
         }
@@ -59,19 +60,19 @@ namespace ReliefProMain.ViewModel
             {
                 var Session = helper.GetCurrentSession();
                 dbBasicUnit dbBU = new dbBasicUnit();
-                IList<BasicUnit> list=dbBU.GetAllList(Session);
-                BU = list.Where(s=>s.IsDefault==1).Single();
+                IList<BasicUnit> list = dbBU.GetAllList(Session);
+                BU = list.Where(s => s.IsDefault == 1).Single();
             }
 
 
 
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
-                UnitConvert uc=new UnitConvert();
+                UnitConvert uc = new UnitConvert();
                 var Session = helper.GetCurrentSession();
-               
+
             }
-            
+
         }
 
         private void HeatMediumMethod(double productTin, double productTout, double reliefProductTout, double reboilerTin, double reboilerTout, double coeff, double area, double duty, bool isUseSteam, double qaenGuess, double MaxErrorRate, ref double factor, ref bool isPinch, ref int iterateNumber)

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ReliefProBLL;
 using ReliefProModel;
+using UOMLib;
 
 namespace ReliefProMain.CustomControl
 {
