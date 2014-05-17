@@ -10,6 +10,7 @@ namespace ReliefProModel.Drum
     {
         public virtual int ID { get; set; }
         public virtual int DrumID { get; set; }
+        public virtual int ScenarioID { get; set; }
         public virtual double MaxPressure { get; set; }
         public virtual double MaxStreamRate { get; set; }
         public virtual string DrumType { get; set; }

@@ -5,6 +5,7 @@
 <generator class="identity" />
 </id>
   <property name="DrumID" column="DrumID" type="Int32"/>
+  <property name="ScenarioID" column="ScenarioID" type="Int32"/>
   <property name="MaxPressure" column="MaxPressure" type="Double"/>
   <property name="MaxStreamRate" column="MaxStreamRate" type="Double"/>
   <property name="DrumType" column="DrumType" type="String"/>
