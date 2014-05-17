@@ -14,6 +14,7 @@
     <property name="TotalComposition" column="TotalComposition" type="String" length="255" />
     <property name="CompIn" column="CompIn" type="String" length="255" />
     <property name="Componentid" column="Componentid" type="String" length="255" />
+    <property name="PrintNumber" column="PrintNumber" type="String" length="255" />
     <property name="ProdType" column="ProdType" type="String" length="255" />
    
     <property name="Tray" column="Tray" type="String" length="255" />

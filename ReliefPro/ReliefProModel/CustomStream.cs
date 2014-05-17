@@ -14,6 +14,7 @@ namespace ReliefProModel
         public virtual string TotalComposition { get; set; }
         public virtual string CompIn { get; set; }
         public virtual string Componentid { get; set; }
+        public virtual string PrintNumber { get; set; }
         public virtual string ProdType { get; set; }
         public virtual string Pressure { get; set; }
         public virtual string Temperature { get; set; }
