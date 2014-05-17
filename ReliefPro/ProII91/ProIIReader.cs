@@ -18,7 +18,7 @@ namespace ProII91
 
         string[] arrColumnAttributes = { "PressureDrop", "Duty", "NumberOfTrays", "HeaterNames", "HeaterDuties", "HeaterNumber", "HeaterPANumberfo", "HeaterRegOrPAFlag", "HeaterTrayLoc", "HeaterTrayNumber" };
         string[] arrColumnInAttributes = { "ProdType", "FeedTrays", "ProdTrays", "FeedData", "ProductData" };
-
+        string[] arrFlashAttributes = { "FeedData", "ProductData", "PressCalc", "TempCalc", "DutyCalc", "Type", "ProductStoreData" };
         string przFileName;
         CP2File cp2File;
         CP2Object objCompCalc;
@@ -212,6 +212,36 @@ namespace ProII91
 
                 }
             }
+            else if (otype == "Flash")
+            {
+                foreach (string s in arrFlashAttributes)
+                {
+                    object v = eq.GetAttribute(s);
+                    string value = ConvertExt.ObjectToString(v);
+                    switch (s)
+                    {
+                        case "FeedData":
+                            data.FeedData = value;
+                            break;
+                        case "ProductData":
+                            data.ProductData = value;
+                            break;
+                        case "PressCalc":
+                            data.PressCalc = value;
+                            break;
+                        case "DutyCalc":
+                            data.DutyCalc = value;
+                            break;
+                        case "Type":
+                            data.Type = value;
+                            break;
+                        case "ProductStoreData":
+                            data.ProductStoreData = value;
+                            break;
+                    }
+                }
+            }
+           
             eqListData.Add(data);
         }
 
