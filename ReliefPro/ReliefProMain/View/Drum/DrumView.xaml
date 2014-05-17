@@ -12,16 +12,16 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="21*"/>
-            <RowDefinition Height="33*"/>
-            <RowDefinition Height="37*"/>
-            <RowDefinition Height="130*"/>
+            <RowDefinition Height="28*"/>
+            <RowDefinition Height="32*"/>
+            <RowDefinition Height="140*"/>
             <RowDefinition Height="49*"/>
         </Grid.RowDefinitions>
-        <Label Content="Drum Name"  Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <Label Content="Drum Type" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Label Content="Drum Name"  Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Height="26" Width="80"/>
+        <Label Content="Drum Type" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="74"/>
         <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Height="23" Margin="0,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding DrumName}" VerticalAlignment="Top" />
-        <ComboBox ItemsSource="{Binding DrumTypes}" SelectedItem="{Binding DrumType}" Grid.Column="2" HorizontalAlignment="Stretch" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Top" />
-        <Button Content="Import From Database" Command="{Binding ImportCommand}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="143"/>
+        <TextBox IsEnabled="False" Text="{Binding DrumType}" Grid.Column="2" HorizontalAlignment="Stretch" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Top" Height="22" />
+        <Button Content="Import From Database" Command="{Binding ImportCommand}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="143" Height="22"/>
         <TabControl Grid.ColumnSpan="3" Grid.Column="1" HorizontalAlignment="Stretch"  Margin="0,0,0,0" Grid.Row="3" VerticalAlignment="Stretch" >
             <TabItem Header="Feed">
                 <Grid Background="#FFE5E5E5" Margin="0,0,0,0">
@@ -46,8 +46,8 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="3" HorizontalAlignment="Left" Margin="47,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Cancel" IsCancel="True" Grid.Column="3" HorizontalAlignment="Left" Margin="143,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="75"/>
+        <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="3" HorizontalAlignment="Left" Margin="47,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Button Content="Cancel" IsCancel="True" Grid.Column="3" HorizontalAlignment="Left" Margin="143,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="75" Height="22"/>
 
     </Grid>
 </Window>

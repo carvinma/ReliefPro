@@ -13,6 +13,7 @@ using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using ReliefProMain.View;
 using ReliefProMain.Model;
+using NHibernate;
 
 namespace ReliefProMain.ViewModel
 {
@@ -43,15 +44,19 @@ namespace ReliefProMain.ViewModel
         public string dbProtectedSystemFile { set; get; }
         public string dbPlantFile { set; get; }
         public List<string> ScenarioNameList { set; get; }
+        private string eqType;
         public ScenarioListVM( string dbPSFile, string dbPFile)
-        {
-            ScenarioNameList = GetScenarioNames();
+        {           
             dbProtectedSystemFile = dbPSFile;
             dbPlantFile = dbPFile;
             Scenarios= new ObservableCollection<ScenarioModel>();
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
                 var Session = helper.GetCurrentSession();
+                eqType = GetEqType(Session);
+                ScenarioNameList = GetScenarioNames(eqType);
+
+
                 dbScenario db = new dbScenario();
                 IList<Scenario> list = db.GetAllList(Session);
                 foreach (Scenario s in list)
@@ -67,6 +72,22 @@ namespace ReliefProMain.ViewModel
             }
         }
 
+        private string GetEqType(ISession Session)
+        {
+            string eqType="Tower";
+            dbTower dbtower = new dbTower();
+            Tower tower = dbtower.GetModel(Session);
+            if(tower!=null)
+                eqType = "Tower";
+
+            dbDrum dbdrum = new dbDrum();
+            ReliefProModel.Drum.Drum drum = dbdrum.GetModel(Session);
+            if (drum != null)
+                eqType = "Drum";
+
+            return eqType;
+
+        }
         
         private ICommand _AddCommand;
         public ICommand AddCommand
@@ -152,17 +173,39 @@ namespace ReliefProMain.ViewModel
                     sce.ScenarioName = SelectedScenario.ScenarioName;
                     db.Update(sce, Session);
                     string ScenarioName = SelectedScenario.ScenarioName.Replace(" ", string.Empty);
-                    if (ScenarioName.Contains("Fire"))
+                    if (eqType == "Tower")
                     {
-                        CreateTowerFire(ScenarioID, Session);
+                        if (ScenarioName.Contains("Fire"))
+                        {
+                            CreateTowerFire(ScenarioID, Session);
+                        }
+                        else if (ScenarioName.Contains("Inlet"))
+                        {
+                            CreateInletValveOpen(eqType, ScenarioID, Session);
+                        }
+                        else
+                        {
+                            CreateTowerCommon(ScenarioID, ScenarioName, Session);
+                        }
                     }
-                    else if (ScenarioName.Contains("Inlet"))
+                    else if (eqType == "Drum")
                     {
-                        CreateInletValveOpen(ScenarioID, Session);
-                    }
-                    else
-                    {
-                        CreateTowerCommon(ScenarioID, ScenarioName, Session);
+                        if (ScenarioName.Contains("Outlet"))
+                        {
+                            //CreateDrumOutlet(ScenarioID, Session);
+                        }
+                        else if (ScenarioName.Contains("Fire"))
+                        {
+                            //CreateDrumFire(ScenarioID, Session);
+                        }
+                        else if (ScenarioName.Contains("Inlet"))
+                        {
+                            //CreateInletValveOpen(eqType, ScenarioID, Session);
+                        }
+                        else if (ScenarioName.Contains("Depressuring"))
+                        {
+                            //CreateDrumDepressuring(ScenarioID, ScenarioName, Session);
+                        }
                     }
 
                 }
@@ -335,10 +378,10 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private void CreateInletValveOpen(int ScenarioID,  NHibernate.ISession Session)
+        private void CreateInletValveOpen(string EqType,int ScenarioID,  NHibernate.ISession Session)
         {
             InletValveOpenView v = new InletValveOpenView();           
-            InletValveOpenVM vm = new InletValveOpenVM(ScenarioID,dbProtectedSystemFile,dbPlantFile);
+            InletValveOpenVM vm = new InletValveOpenVM(EqType,ScenarioID,dbProtectedSystemFile,dbPlantFile);
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {
@@ -370,21 +413,32 @@ namespace ReliefProMain.ViewModel
         }
 
 
-        private List<string> GetScenarioNames()
+        private List<string> GetScenarioNames(string eqType)
         {
             List<string> list = new List<string>();
-            list.Add("Blocked Outlet");
-            list.Add("Reflux Failure");
-            list.Add("Electric Power Failure");
-            list.Add("Cooling Water Failure");
-            list.Add("Refrigerant Failure");
-            list.Add("PumpAround Failure");
-            list.Add("Abnormal Heat Input");
-            list.Add("Cold Feed Stops");
-            list.Add("Inlet Valve Fails Open");
-            list.Add("Fire");
-            list.Add("Steam Failure");
-            list.Add("Automatic Controls Failure");
+            if (eqType == "Tower")
+            {
+                list.Add("Blocked Outlet");
+                list.Add("Reflux Failure");
+                list.Add("Electric Power Failure");
+                list.Add("Partial Electric Power Failure");
+                list.Add("Cooling Water Failure");
+                list.Add("Refrigerant Failure");
+                list.Add("PumpAround Failure");
+                list.Add("Abnormal Heat Input");
+                list.Add("Cold Feed Stops");
+                list.Add("Inlet Valve Fails Open");
+                list.Add("Fire");
+                list.Add("Steam Failure");
+                list.Add("Automatic Controls Failure");
+            }
+            else if(eqType == "Drum")
+            {
+                list.Add("Blocked Outlet");               
+                list.Add("Inlet Valve Fails Open");
+                list.Add("Fire");
+                list.Add("Depressuring");               
+            }
 
             return list;
         }

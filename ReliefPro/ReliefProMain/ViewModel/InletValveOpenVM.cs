@@ -22,6 +22,7 @@ namespace ReliefProMain.ViewModel
         public string dbPlantFile { get; set; }
         private string SourceFile;
         private string EqName;
+        private string EqType;
         public List<string> OperatingPhases { get; set; }
 
 
@@ -103,12 +104,13 @@ namespace ReliefProMain.ViewModel
             }
         }
         private Dictionary<string, ProIIEqData> dicEqData = new Dictionary<string, ProIIEqData>();
-        
-        public InletValveOpenVM(int ScenarioID, string dbPSFile, string dbPFile)
+
+        public InletValveOpenVM(string eqType,int ScenarioID, string dbPSFile, string dbPFile)
         {
             OperatingPhases=GetOperatingPhases();
             dbProtectedSystemFile = dbPSFile;
             dbPlantFile = dbPFile;
+            EqType = eqType;
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
                 var Session = helper.GetCurrentSession();
