@@ -35,9 +35,11 @@ namespace ReliefProMain.CustomControl
         public typeUnit UnitType { get; set; }
         public string UnitOrigin
         {
-            get;
-            set;
+            get { return GetValue(UnitOriginProperty).ToString(); }
+            set { SetValue(UnitOriginProperty, value); }
         }
+        public static readonly DependencyProperty UnitOriginProperty =
+           DependencyProperty.Register("UnitOrigin", typeof(string), typeof(UnitConvertTextBox), new PropertyMetadata());
         public UnitConvertTextBox()
         {
         }

@@ -118,6 +118,9 @@
     <Compile Include="Commands\CommandReference.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="CustomControl\CustomComboBox.cs" />
+    <Compile Include="CustomControl\UCTextBoxLbl.xaml.cs">
+      <DependentUpon>UCTextBoxLbl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\UnitConvertCommonView.xaml.cs">
       <DependentUpon>UnitConvertCommonView.xaml</DependentUpon>
     </Compile>
@@ -314,6 +317,10 @@
     <Compile Include="View\Tower\TowerScenarioHXView.xaml.cs">
       <DependentUpon>TowerScenarioHXView.xaml</DependentUpon>
     </Compile>
+    <Page Include="CustomControl\UCTextBoxLbl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CustomControl\UnitConvertCommonView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
