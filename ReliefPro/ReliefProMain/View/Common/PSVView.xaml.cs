@@ -139,7 +139,7 @@ namespace ReliefProMain.View
                     txtPress.Text = model.Pressure;
 
                     Critical c = dbcritical.GetModel(Session);
-                    txtCritical.Text = c.CriticalPressure;
+                    //txtCritical.Text = c.CriticalPressure;
 
                 }
                 dbTower dbt = new dbTower();
