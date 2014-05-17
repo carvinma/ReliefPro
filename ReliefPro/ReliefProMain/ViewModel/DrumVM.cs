@@ -156,9 +156,6 @@ namespace ReliefProMain.ViewModel
                 
             }
         }
-
-
-
         private ICommand _ImportCommand;
         public ICommand ImportCommand
         {
