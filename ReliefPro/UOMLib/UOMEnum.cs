@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ReliefProModel;
 
 namespace UOMLib
 {
-    public static class UOMEnum
+    public class UOMEnum
     {
         public const string Temperature = "C";
         public const string Pressure = "MPag";
@@ -23,7 +24,29 @@ namespace UOMLib
         public const string SpecificEnthalpy = "KJ/kg";
         public const string Density = "kg/m3";
 
+        public readonly string UserSetTemperature;
+        public readonly string UserWeightFlow;
+        public readonly string UserPressure;
+        public readonly string UserEnthalpyDuty;
 
+        public UOMEnum(string dbPlantFile)
+        {
+            UnitInfo unitInfo = new UnitInfo();
+            var basicUnit = unitInfo.GetBasicUnitUOM(dbPlantFile);
+            IList<BasicUnitDefault> lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(dbPlantFile);
+
+            UserSetTemperature = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Temperature, basicUnit.ID);
+            UserWeightFlow = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.WeightFlow, basicUnit.ID);
+            UserPressure = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Pressure, basicUnit.ID);
+            UserEnthalpyDuty = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.EnthalpyDuty, basicUnit.ID);
+        }
+        private string GetDefalutUnit(IList<BasicUnitDefault> lstBasicUnitDefault, UnitTypeEnum unitTypeEnum, int basicUnitID)
+        {
+            var basicUnitDefault = lstBasicUnitDefault.Where(p => p.BasicUnitID == basicUnitID && p.UnitTypeID == int.Parse(unitTypeEnum.ToString("d"))).FirstOrDefault();
+            if (basicUnitDefault != null)
+                return basicUnitDefault.SystemUnitInfo.Name;
+            return "";
+        }
         public enum UnitTypeEnum
         {
             Temperature = 1,
