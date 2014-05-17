@@ -88,5 +88,36 @@ namespace ReliefProBLL
             outletModel.NormalFlashDuty = uc.Convert(unitInfo.GetBasicUnitDefaultUserSet(UOMLib.UOMEnum.UnitTypeEnum.EnthalpyDuty, dbPlantFile), UOMLib.UOMEnum.EnthalpyDuty.ToString(), outletModel.MaxPressure);
             return outletModel;
         }
+
+        public double PfeedUpstream(string dbProtectedSystemFile)
+        {
+            dbStream stream = new dbStream();
+            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
+            {
+                var Session = helper.GetCurrentSession();
+                var streamModel = stream.GetAllList(Session).FirstOrDefault();
+                if (streamModel != null)
+                {
+                    if (!string.IsNullOrEmpty(streamModel.Pressure))
+                        return double.Parse(streamModel.Pressure);
+                }
+            }
+            return 0;
+        }
+        public double PSet(string dbProtectedSystemFile)
+        {
+            dbPSV psv = new dbPSV();
+            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
+            {
+                var Session = helper.GetCurrentSession();
+                var psvModel = psv.GetAllList(Session).FirstOrDefault();
+                if (psvModel != null)
+                {
+                    if (!string.IsNullOrEmpty(psvModel.Pressure))
+                        return double.Parse(psvModel.Pressure);
+                }
+            }
+            return 0;
+        }
     }
 }
