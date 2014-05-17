@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NHibernate;
 using ReliefProDAL;
 using ReliefProModel;
+using System.ComponentModel;
 
 namespace UOMLib
 {
@@ -22,7 +23,16 @@ namespace UOMLib
             }
             return lstBasicUnit;
         }
-
+        public BasicUnit GetBasicUnitUOM(string dbPlanFile)
+        {
+            IList<BasicUnit> lstBasicUnit;
+            dbBasicUnit db = new dbBasicUnit();
+            using (var helper = new UOMLNHibernateHelper(dbPlanFile))
+            {
+                lstBasicUnit = db.GetAllList(helper.GetCurrentSession());
+            }
+            return lstBasicUnit.Where(p => p.IsDefault == 1).First();
+        }
         public IList<BasicUnitDefault> GetBasicUnitDefault()
         {
             IList<BasicUnitDefault> lstBasicUnitDefault;
@@ -33,7 +43,22 @@ namespace UOMLib
             }
             return lstBasicUnitDefault;
         }
-
+        public string GetBasicUnitDefaultUserSet(UOMLib.UOMEnum.UnitTypeEnum unitTypeEnum, string dbPlanFile)
+        {
+            int unitTypeID = int.Parse(unitTypeEnum.ToString("d"));
+            BasicUnit basicUnit = GetBasicUnitUOM(dbPlanFile);
+            dbBasicUnitDefault db = new dbBasicUnitDefault();
+            using (var helper = new UOMLNHibernateHelper(dbPlanFile))
+            {
+                var lstBasicUnitDefault = db.GetAllList(helper.GetCurrentSession());
+                var basicUnitDefault = lstBasicUnitDefault.Where(p => p.BasicUnitID == basicUnit.ID && p.UnitTypeID == unitTypeID).FirstOrDefault();
+                if (basicUnitDefault != null)
+                {
+                    return basicUnitDefault.SystemUnitInfo.Name;
+                }
+            }
+            return "";
+        }
         public IList<SystemUnit> GetSystemUnit()
         {
             IList<SystemUnit> lstSystemUnit;
@@ -114,4 +139,6 @@ namespace UOMLib
             }
         }
     }
+
+
 }

@@ -20,19 +20,20 @@ namespace ReliefProMain.ViewModel.Drum
         public DrumBlockedOutlet Model;
         public List<string> lstDrumType;
         public ICommand CalcCMD;
+        private string dbPSFile;
 
-
-        public DrumBlockedOutletVM(string dbPSFile, string dbProtectedSystemFile)
+        public DrumBlockedOutletVM(string dbPSFile, string dbPlantFile)
         {
+            this.dbPSFile = dbPSFile;
             Model = new DrumBlockedOutlet();
             drum = new DrumBll();
-            int drumID = 0;
             Model = drum.GetBlockedOutletModel(dbPSFile);
+            drum.ReadConvertModel(Model, dbPlantFile);
             CalcCMD = new DelegateCommand<object>(CalcResult);
         }
         private void CalcResult(object obj)
         {
-            //drum.SaveDrumBlockedOutlet(Model);
+            drum.SaveDrumBlockedOutlet(Model, dbPSFile);
         }
     }
 }

@@ -67,12 +67,25 @@ namespace ReliefProBLL
             return Model;
         }
 
-        public DrumBlockedOutlet ConvertModel(DrumBlockedOutlet model,string dbPlantFile)
+        public DrumBlockedOutlet WriteConvertModel(DrumBlockedOutlet model, string dbPlantFile)
         {
             DrumBlockedOutlet outletModel = new DrumBlockedOutlet();
-            outletModel = model;
+            return outletModel;
+        }
+        public DrumBlockedOutlet ReadConvertModel(DrumBlockedOutlet model, string dbPlantFile)
+        {
+            UnitInfo unitInfo = new UnitInfo();
+            BasicUnit basicUnit = unitInfo.GetBasicUnitUOM(dbPlantFile);
+            if (basicUnit.UnitName == "StInternal")
+            {
+                return model;
+            }
+            DrumBlockedOutlet outletModel = new DrumBlockedOutlet();
             UnitConvert uc = new UnitConvert();
-            //uc.Convert();
+            outletModel = model;
+            outletModel.MaxPressure = uc.Convert(unitInfo.GetBasicUnitDefaultUserSet(UOMLib.UOMEnum.UnitTypeEnum.Pressure, dbPlantFile), UOMLib.UOMEnum.Pressure.ToString(), outletModel.MaxPressure);
+            outletModel.MaxStreamRate = uc.Convert(unitInfo.GetBasicUnitDefaultUserSet(UOMLib.UOMEnum.UnitTypeEnum.WeightFlow, dbPlantFile), UOMLib.UOMEnum.WeightFlow.ToString(), outletModel.MaxPressure);
+            outletModel.NormalFlashDuty = uc.Convert(unitInfo.GetBasicUnitDefaultUserSet(UOMLib.UOMEnum.UnitTypeEnum.EnthalpyDuty, dbPlantFile), UOMLib.UOMEnum.EnthalpyDuty.ToString(), outletModel.MaxPressure);
             return outletModel;
         }
     }
