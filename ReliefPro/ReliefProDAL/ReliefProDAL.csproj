@@ -96,6 +96,7 @@
     <Compile Include="dbReboilerPinch.cs" />
     <Compile Include="dbFeedBottomHX.cs" />
     <Compile Include="dbFlashResult.cs" />
+    <Compile Include="dbCritical.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\ReliefProCommon.csproj">
