@@ -20,31 +20,19 @@ namespace ReliefProMain.ViewModel.Drum
         public DrumBlockedOutlet Model;
         public List<string> lstDrumType;
         public ICommand CalcCMD;
-        private string selectedDrumType;
-        public string SelectedDrumType
-        {
-            get { return selectedDrumType; }
-            set
-            {
-                selectedDrumType = value;
-                OnPropertyChanged("SelectedDrumType");
-            }
-        }
-        public DrumBlockedOutletVM()
+
+
+        public DrumBlockedOutletVM(string dbPSFile, string dbProtectedSystemFile)
         {
             Model = new DrumBlockedOutlet();
             drum = new DrumBll();
             int drumID = 0;
-            Model = drum.GetBlockedOutletModel(drumID);
-            lstDrumType = new List<string>();
-            lstDrumType.Add("General Seperator");
-            lstDrumType.Add("Flashing Drum");
-
+            Model = drum.GetBlockedOutletModel(dbPSFile);
             CalcCMD = new DelegateCommand<object>(CalcResult);
         }
         private void CalcResult(object obj)
         {
-            drum.SaveDrumBlockedOutlet(Model);
+            //drum.SaveDrumBlockedOutlet(Model);
         }
     }
 }

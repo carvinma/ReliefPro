@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReliefProMain", "ReliefProMain\ReliefProMain.csproj", "{516C4ABD-9C47-4307-BD24-A9650D4CB372}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9FB1AF20-7585-4BB9-A0BB-810E1A0F6F30} = {9FB1AF20-7585-4BB9-A0BB-810E1A0F6F30}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReliefProModel", "ReliefProModel\ReliefProModel.csproj", "{33484ECD-0474-4110-AAF0-C551B57087C7}"
 EndProject
