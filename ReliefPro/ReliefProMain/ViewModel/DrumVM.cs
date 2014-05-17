@@ -90,7 +90,16 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-
+        private ObservableCollection<string> _DrumTypes;
+        public ObservableCollection<string> DrumTypes
+        {
+            get { return _DrumTypes; }
+            set
+            {
+                _DrumTypes = value;
+                OnPropertyChanged("DrumTypes");
+            }
+        }
 
         private ObservableCollection<CustomStream> _Feeds;
         public ObservableCollection<CustomStream> Feeds
@@ -117,7 +126,7 @@ namespace ReliefProMain.ViewModel
         List<string> dicProductTypes = new List<string>();
         public DrumVM(string drumName, string dbPSFile, string dbPFile)
         {
-            
+            DrumTypes = GetDrumTypes();
             dbProtectedSystemFile = dbPSFile;
             dbPlantFile = dbPFile;
             DrumName = drumName;
@@ -133,9 +142,11 @@ namespace ReliefProMain.ViewModel
                     CurrentDrum=dbdrum.GetModel(Session);
                     if (CurrentDrum != null)
                     {
+                        DrumName = CurrentDrum.DrumName;
                         Duty = CurrentDrum.Duty;
                         Pressure = CurrentDrum.Pressure;
                         Temperature = CurrentDrum.Temperature;
+                        DrumType = CurrentDrum.DrumType;
                     }
                    
                 }
@@ -341,5 +352,12 @@ namespace ReliefProMain.ViewModel
             }
         }
 
+        private ObservableCollection<string> GetDrumTypes()
+        {
+            ObservableCollection<string> list = new ObservableCollection<string>();
+            list.Add("General Seperator");
+            list.Add("Flashing Drum");
+            return list;
+        }
     }
 }

@@ -20,7 +20,7 @@
         <Label Content="Drum Name"  Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <Label Content="Drum Type" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Top"/>
         <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Height="23" Margin="0,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding DrumName}" VerticalAlignment="Top" />
-        <ComboBox Grid.Column="2" HorizontalAlignment="Stretch" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Top" />
+        <ComboBox ItemsSource="{Binding DrumTypes}" SelectedItem="{Binding DrumType}" Grid.Column="2" HorizontalAlignment="Stretch" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Top" />
         <Button Content="Import From Database" Command="{Binding ImportCommand}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="143"/>
         <TabControl Grid.ColumnSpan="3" Grid.Column="1" HorizontalAlignment="Stretch"  Margin="0,0,0,0" Grid.Row="3" VerticalAlignment="Stretch" >
             <TabItem Header="Feed">
