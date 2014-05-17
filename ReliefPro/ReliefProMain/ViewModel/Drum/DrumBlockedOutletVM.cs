@@ -11,6 +11,7 @@ using ReliefProBLL;
 
 using System.Windows.Input;
 using ReliefProMain.Commands;
+using ProII;
 
 namespace ReliefProMain.ViewModel.Drum
 {
@@ -33,15 +34,24 @@ namespace ReliefProMain.ViewModel.Drum
         }
         private void CalcResult(object obj)
         {
+            double reliefLoad = 0, reliefMW = 0, reliefT = 0;
             if (drum.PfeedUpstream(dbPSFile) > drum.PSet(dbPSFile))
             {
                 if (Model.DrumType == "Flashing Drum")
                 {
+                    //string version = "9.1";
+                    // IFlashCalculateW flashCalc = ProIIFactory.CreateFlashCalculateW(version);
+                    // string filePath = flashCalc.Calculate();
                 }
+                else
+                { }
             }
             else
-            { }
-            drum.SaveDrumBlockedOutlet(Model, dbPSFile);
+            {
+                reliefLoad = 0;
+            }
+
+            drum.SaveDrumBlockedOutlet(Model, dbPSFile, reliefLoad, reliefMW, reliefT);
         }
     }
 }
