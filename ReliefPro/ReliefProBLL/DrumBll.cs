@@ -16,12 +16,20 @@ namespace ReliefProBLL
     public class DrumBll
     {
         private dbDrumBlockedOutlet dbBlockedOutlet = new dbDrumBlockedOutlet();
-        public void SaveDrumBlockedOutlet(DrumBlockedOutlet model, string dbProtectedSystemFile)
+        public void SaveDrumBlockedOutlet(DrumBlockedOutlet model, string dbProtectedSystemFile, double reliefLoad, double reliefMW, double reliefT)
         {
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
                 var Session = helper.GetCurrentSession();
                 dbBlockedOutlet.SaveDrumBlockedOutlet(Session, model);
+                dbScenario db = new dbScenario();
+                var sModel = db.GetModel(model.ScenarioID, Session);
+
+                sModel.ReliefLoad = reliefLoad.ToString();
+                sModel.ReliefMW = reliefMW.ToString();
+                sModel.ReliefTemperature = reliefT.ToString();
+                sModel.ReliefPressure = ScenarioReliefPressure(dbProtectedSystemFile).ToString();
+                db.Update(sModel, Session);
             }
         }
         public DrumBlockedOutlet GetBlockedOutletModel(string dbProtectedSystemFile)
@@ -104,6 +112,21 @@ namespace ReliefProBLL
             }
             return 0;
         }
+        public double ScenarioReliefPressure(string dbProtectedSystemFile)
+        {
+            dbPSV psv = new dbPSV();
+            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
+            {
+                var Session = helper.GetCurrentSession();
+                var psvModel = psv.GetAllList(Session).FirstOrDefault();
+                if (psvModel != null)
+                {
+                    if (!string.IsNullOrEmpty(psvModel.Pressure))
+                        return double.Parse(psvModel.Pressure) * double.Parse(psvModel.ReliefPressureFactor);
+                }
+            }
+            return 0;
+        }
         public double PSet(string dbProtectedSystemFile)
         {
             dbPSV psv = new dbPSV();
@@ -119,5 +142,6 @@ namespace ReliefProBLL
             }
             return 0;
         }
+
     }
 }
