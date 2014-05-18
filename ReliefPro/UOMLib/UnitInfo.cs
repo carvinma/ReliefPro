@@ -13,6 +13,7 @@ namespace UOMLib
     public class UnitInfo
     {
         private readonly string dbConnectPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\plant.mdb";
+
         public IList<BasicUnit> GetBasicUnit()
         {
             IList<BasicUnit> lstBasicUnit;
@@ -37,10 +38,11 @@ namespace UOMLib
         {
             IList<BasicUnitDefault> lstBasicUnitDefault;
             dbBasicUnitDefault db = new dbBasicUnitDefault();
-            using (var helper = new UOMLNHibernateHelper(dbConnectPath))
-            {
-                lstBasicUnitDefault = db.GetAllList(helper.GetCurrentSession());
-            }
+            //using (var helper = new UOMLNHibernateHelper(dbConnectPath))
+            //{
+            //    lstBasicUnitDefault = db.GetAllList(TempleSession.Session);
+            //}
+            lstBasicUnitDefault = db.GetAllList(TempleSession.Session);
             return lstBasicUnitDefault;
         }
         public IList<BasicUnitDefault> GetBasicUnitDefaultUserSet(string dbPlanFile)
@@ -56,20 +58,22 @@ namespace UOMLib
         {
             IList<SystemUnit> lstSystemUnit;
             dbSystemUnit db = new dbSystemUnit();
-            using (var helper = new UOMLNHibernateHelper(dbConnectPath))
-            {
-                lstSystemUnit = db.GetAllList(helper.GetCurrentSession());
-            }
+            //using (var helper = new UOMLNHibernateHelper(dbConnectPath))
+            //{
+            //    lstSystemUnit = db.GetAllList(helper.GetCurrentSession());
+            //}
+            lstSystemUnit = db.GetAllList(TempleSession.Session);
             return lstSystemUnit;
         }
         public IList<UnitType> GetUnitType()
         {
             IList<UnitType> lstUnitType;
             dbUnitType db = new dbUnitType();
-            using (var helper = new UOMLNHibernateHelper(dbConnectPath))
-            {
-                lstUnitType = db.GetAllList(helper.GetCurrentSession());
-            }
+            //using (var helper = new UOMLNHibernateHelper(dbConnectPath))
+            //{
+            //    lstUnitType = db.GetAllList(helper.GetCurrentSession());
+            //}
+            lstUnitType = db.GetAllList(TempleSession.Session);
             return lstUnitType;
         }
         public int BasicUnitAdd(BasicUnit model)
