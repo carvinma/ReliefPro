@@ -29,7 +29,7 @@ namespace ReliefProMain.ViewModel.Drum
             Model = new DrumBlockedOutlet();
             drum = new DrumBll();
             Model = drum.GetBlockedOutletModel(dbPSFile);
-            //Model.DrumID
+            Model.DrumID = drum.GetDrumID(dbPSFile);
             Model.ScenarioID = ScenarioID;
             drum.ReadConvertModel(Model, dbPlantFile);
             CalcCMD = new DelegateCommand<object>(CalcResult);

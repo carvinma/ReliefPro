@@ -16,6 +16,18 @@ namespace ReliefProBLL
     public class DrumBll
     {
         private dbDrumBlockedOutlet dbBlockedOutlet = new dbDrumBlockedOutlet();
+        public int GetDrumID(string dbProtectedSystemFile)
+        {
+            dbDrum db = new dbDrum();
+            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
+            {
+                var Session = helper.GetCurrentSession();
+                Drum model = db.GetModel(Session);
+                if (model != null)
+                    return model.ID;
+            }
+            return 0;
+        }
         public void SaveDrumBlockedOutlet(DrumBlockedOutlet model, string dbProtectedSystemFile, double reliefLoad, double reliefMW, double reliefT)
         {
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
