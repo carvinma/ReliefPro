@@ -23,14 +23,19 @@ namespace ReliefProMain.CustomControl
             TC,
             HTC,
             ST,
-            C,
             MS,
             VOL,
             LEN,
             A,
             E,
             TM,
-            FC
+            FC,
+            MR,
+            VR,
+            D,
+            SPE,
+            Duty,
+            FL
         }
         public typeUnit UnitType { get; set; }
         public string UnitOrigin
@@ -51,6 +56,7 @@ namespace ReliefProMain.CustomControl
                 if (double.TryParse(this.Text.Trim(), out UnitValue))
                 {
                     UnitConvertCommonView unitConvertCommonView = new UnitConvertCommonView(UnitType.ToString(), UnitOrigin, UnitValue);
+                    unitConvertCommonView.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                     if (unitConvertCommonView.ShowDialog() == true)
                     {
                         this.UnitOrigin = unitConvertCommonView.TargetUnit;

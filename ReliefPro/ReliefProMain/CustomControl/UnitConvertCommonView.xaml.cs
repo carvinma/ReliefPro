@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -117,7 +118,9 @@ namespace ReliefProMain.CustomControl
 
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
+            //var sw = Stopwatch.StartNew();
             UnitConvert unitConvert = new UnitConvert();
+           // long t1 = sw.ElapsedMilliseconds;
             ResultValue = unitConvert.Convert(UnitType, OriginUnit, TargetUnit, Value);
             this.DialogResult = true;
         }

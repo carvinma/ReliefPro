@@ -14,10 +14,11 @@ using ReliefProMain.Service;
 using ReliefProMain.View;
 using ReliefProMain.Model;
 using NHibernate;
+using ReliefProMain.ViewModel.Drum;
 
 namespace ReliefProMain.ViewModel
 {
-    public class ScenarioListVM:ViewModelBase
+    public class ScenarioListVM : ViewModelBase
     {
         private ObservableCollection<ScenarioModel> _Scenarios;
         public ObservableCollection<ScenarioModel> Scenarios
@@ -45,11 +46,11 @@ namespace ReliefProMain.ViewModel
         public string dbPlantFile { set; get; }
         public List<string> ScenarioNameList { set; get; }
         private string eqType;
-        public ScenarioListVM( string dbPSFile, string dbPFile)
-        {           
+        public ScenarioListVM(string dbPSFile, string dbPFile)
+        {
             dbProtectedSystemFile = dbPSFile;
             dbPlantFile = dbPFile;
-            Scenarios= new ObservableCollection<ScenarioModel>();
+            Scenarios = new ObservableCollection<ScenarioModel>();
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
                 var Session = helper.GetCurrentSession();
@@ -74,10 +75,10 @@ namespace ReliefProMain.ViewModel
 
         private string GetEqType(ISession Session)
         {
-            string eqType="Tower";
+            string eqType = "Tower";
             dbTower dbtower = new dbTower();
             Tower tower = dbtower.GetModel(Session);
-            if(tower!=null)
+            if (tower != null)
                 eqType = "Tower";
 
             dbDrum dbdrum = new dbDrum();
@@ -88,7 +89,7 @@ namespace ReliefProMain.ViewModel
             return eqType;
 
         }
-        
+
         private ICommand _AddCommand;
         public ICommand AddCommand
         {
@@ -104,7 +105,7 @@ namespace ReliefProMain.ViewModel
         }
 
         public void Add()
-        {            
+        {
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
                 var Session = helper.GetCurrentSession();
@@ -135,7 +136,7 @@ namespace ReliefProMain.ViewModel
 
         public void Delete(object obj)
         {
-            int idx=int.Parse(obj.ToString());
+            int idx = int.Parse(obj.ToString());
             Scenarios.RemoveAt(idx);
             for (int i = 0; i < Scenarios.Count; i++)
             {
@@ -192,6 +193,17 @@ namespace ReliefProMain.ViewModel
                     {
                         if (ScenarioName.Contains("Outlet"))
                         {
+                            Drum_BlockedOutlet v = new Drum_BlockedOutlet();
+                            v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                            DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, dbProtectedSystemFile, dbPlantFile);
+                            v.DataContext = vm;
+                            if (v.ShowDialog() == true)
+                            {
+                                //SelectedScenario.ReliefLoad = vm.model.CurrentTowerFire.ReliefLoad;
+                                //SelectedScenario.ReliefPressure = vm.model.CurrentTowerFire.ReliefPressure;
+                                //SelectedScenario.ReliefTemperature = vm.model.CurrentTowerFire.ReliefTemperature;
+                                //SelectedScenario.ReliefMW = vm.model.CurrentTowerFire.ReliefMW;
+                            }
                             //CreateDrumOutlet(ScenarioID, Session);
                         }
                         else if (ScenarioName.Contains("Fire"))
@@ -214,7 +226,7 @@ namespace ReliefProMain.ViewModel
 
 
 
-        private void CreateTowerFire(int ScenarioID,NHibernate.ISession Session)
+        private void CreateTowerFire(int ScenarioID, NHibernate.ISession Session)
         {
             dbTowerFire dbtf = new dbTowerFire();
             ReliefProModel.TowerFire tf = new ReliefProModel.TowerFire();
@@ -298,9 +310,9 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private void CreateTowerCommon(int ScenarioID,string ScenarioName, NHibernate.ISession Session)
+        private void CreateTowerCommon(int ScenarioID, string ScenarioName, NHibernate.ISession Session)
         {
-            
+
             dbSource dbSource = new dbSource();
             List<Source> listSource = dbSource.GetAllList(Session).ToList();
             dbTowerScenarioStream dbTowerSS = new dbTowerScenarioStream();
@@ -354,7 +366,7 @@ namespace ReliefProMain.ViewModel
                     tsHX.Medium = detail.Medium;
                     tsHX.HeaterType = hx.HeaterType;
 
-                    if (ScenarioName=="BlockedOutlet" && double.Parse(detail.Duty)<0)
+                    if (ScenarioName == "BlockedOutlet" && double.Parse(detail.Duty) < 0)
                     {
                         tsHX.DutyLost = true;
                     }
@@ -378,19 +390,19 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private void CreateInletValveOpen(string EqType,int ScenarioID,  NHibernate.ISession Session)
+        private void CreateInletValveOpen(string EqType, int ScenarioID, NHibernate.ISession Session)
         {
-            InletValveOpenView v = new InletValveOpenView();           
-            InletValveOpenVM vm = new InletValveOpenVM(EqType,ScenarioID,dbProtectedSystemFile,dbPlantFile);
+            InletValveOpenView v = new InletValveOpenView();
+            InletValveOpenVM vm = new InletValveOpenVM(EqType, ScenarioID, dbProtectedSystemFile, dbPlantFile);
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {
-                
+
             }
         }
 
 
-        public Scenario ConvertToDBModel( ScenarioModel m,Scenario d)
+        public Scenario ConvertToDBModel(ScenarioModel m, Scenario d)
         {
             d.ID = m.ID;
             d.ReliefLoad = m.ReliefLoad;
@@ -401,7 +413,7 @@ namespace ReliefProMain.ViewModel
             return d;
         }
 
-        public ScenarioModel ConvertToVModel(Scenario m,ScenarioModel d)
+        public ScenarioModel ConvertToVModel(Scenario m, ScenarioModel d)
         {
             d.ID = m.ID;
             d.ReliefLoad = m.ReliefLoad;
@@ -432,12 +444,12 @@ namespace ReliefProMain.ViewModel
                 list.Add("Steam Failure");
                 list.Add("Automatic Controls Failure");
             }
-            else if(eqType == "Drum")
+            else if (eqType == "Drum")
             {
-                list.Add("Blocked Outlet");               
+                list.Add("Blocked Outlet");
                 list.Add("Inlet Valve Fails Open");
                 list.Add("Fire");
-                list.Add("Depressuring");               
+                list.Add("Depressuring");
             }
 
             return list;
@@ -511,4 +523,3 @@ namespace ReliefProMain.ViewModel
 
     }
 }
- 

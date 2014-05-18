@@ -87,11 +87,6 @@ namespace ReliefProBLL
             return Model;
         }
 
-        public DrumBlockedOutlet WriteConvertModel(DrumBlockedOutlet model, string dbPlantFile)
-        {
-            DrumBlockedOutlet outletModel = new DrumBlockedOutlet();
-            return outletModel;
-        }
         public DrumBlockedOutlet ReadConvertModel(DrumBlockedOutlet model, string dbPlantFile)
         {
             UnitInfo unitInfo = new UnitInfo();

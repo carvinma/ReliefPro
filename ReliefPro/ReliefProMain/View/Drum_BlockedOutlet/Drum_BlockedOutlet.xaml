@@ -19,6 +19,13 @@
             <Setter Property="Width" Value="120"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
         </Style>
+        <Style TargetType="{x:Type CustomControl:UnitConvertTextBox}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
         <Style x:Key="LabelLeftStyle">
             <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
             <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
@@ -53,20 +60,22 @@
         <Label Content="Drum Type"  Grid.Row="3"/>
         <Label Content="Normal Flashing Duty" Grid.Row="4"/>
         <Label Content="Flashing Duty @ Relief Condition" Grid.Row="5"/>
-        <TextBox Text="{Binding Model.MaxPressure}" Grid.Column="1"  Grid.Row="1" />
-        <TextBox Text="{Binding Model.MaxStreamRate}" Grid.Column="1"  Grid.Row="2"/>
-        <TextBox Text="{Binding Model.DrumType}" Grid.Column="1"  Grid.Row="3" IsEnabled="False" />
-        <TextBox Text="{Binding Model.NormalFlashDuty}" Grid.Column="1"  Grid.Row="4"/>
-        <TextBox Text="{Binding Model.FDReliefCondition}"  Grid.Column="1"  Grid.Row="5"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.MaxPressure,Mode=OneWay}" UnitType="P" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="1" />
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.MaxStreamRate}" UnitType="W" UnitOrigin="{Binding ElementName=lblStreamRate,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="2"/>
+        <TextBox Text="{Binding Path=model.DrumType}" Grid.Column="1"  Grid.Row="3" IsEnabled="False" />
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.NormalFlashDuty}" UnitType="Duty" UnitOrigin="{Binding ElementName=lblFlashingDuty,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="4"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.FDReliefCondition}" UnitType="Duty" UnitOrigin="{Binding ElementName=lblReliefCondition,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="5"/>
 
-        <Label x:Name="lblPressure"  Content="MPag" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="1"/>
-        <Label Content="kg/hr" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="2"/>
-        <Label Content="MW" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="4"/>
-        <Label Content="MW" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="5"/>
-        <CheckBox Content="Feed/Btm HX"  IsChecked="{Binding Model.Feed}" HorizontalAlignment="Left" Margin="25,10,0,0" Grid.Row="6" VerticalAlignment="Top"/>
-        <CheckBox Content="Reboiler Pinch"  IsChecked="{Binding Model.ReboilerPinch}" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="6" VerticalAlignment="Center"/>
+        <Label x:Name="lblPressure"  Content="{Binding unitModel.PressureUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="1"/>
+        <Label x:Name="lblStreamRate" Content="{Binding unitModel.StreamRateUnit}"   Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="2"/>
+        <Label x:Name="lblFlashingDuty" Content="{Binding unitModel.FlashingDutyUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="4"/>
+        <Label x:Name="lblReliefCondition" Content="{Binding unitModel.ReliefConditionUnit}"  Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="5"/>
+        
+        <CheckBox Content="Feed/Btm HX"  IsChecked="{Binding model.Feed}" HorizontalAlignment="Left" Margin="25,10,0,0" Grid.Row="6" VerticalAlignment="Top"/>
+        <CheckBox Content="Reboiler Pinch"  IsChecked="{Binding model.ReboilerPinch}" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="6" VerticalAlignment="Center"/>
+       
         <Button Content="OK" HorizontalAlignment="Right" VerticalAlignment="Center" Width="75" Height="25" Grid.Row="7" Grid.Column="0" />
         <Button Content="Cancel" HorizontalAlignment="Right" IsCancel="True"  VerticalAlignment="Center" Width="75" Height="25" Grid.Row="7" Grid.Column="1" />
-        <CustomControl:UnitConvertTextBox  UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Margin="160,8,0,0" Grid.Row="6" TextWrapping="Wrap" Text="100"  VerticalAlignment="Top" UnitType="M"/>
+        <CustomControl:UnitConvertTextBox  Text="{Binding Path=model.MaxPressure,Mode=OneWay}" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Margin="160,8,0,0" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Top" UnitType="P"/>
     </Grid>
 </Window>
