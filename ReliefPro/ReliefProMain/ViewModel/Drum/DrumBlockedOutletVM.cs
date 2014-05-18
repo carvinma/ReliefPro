@@ -23,7 +23,7 @@ namespace ReliefProMain.ViewModel.Drum
         public ICommand CalcCMD;
         private string dbPSFile;
 
-        public DrumBlockedOutletVM(int DrumID, int ScenarioID, string dbPSFile, string dbPlantFile)
+        public DrumBlockedOutletVM(int ScenarioID, string dbPSFile, string dbPlantFile)
         {
             this.dbPSFile = dbPSFile;
             Model = new DrumBlockedOutlet();
