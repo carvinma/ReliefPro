@@ -190,35 +190,26 @@ namespace ReliefProMain.View
 
             string rootDir = System.IO.Path.GetDirectoryName(dbPlantFile);
 
-            CustomStream cStream = new CustomStream();
+            
             string version = ProIIFactory.GetProIIVerison(przFile, rootDir);
             IProIIReader reader = ProIIFactory.CreateReader(version);
             reader.InitProIIReader(przFile);
-            reader.CopyStream(currentEqName, 1, 2, 1, ref cStream);
+            ProIIStreamData proIITray1StreamData =reader.CopyStream(currentEqName, 1, 2, 1);
             reader.ReleaseProIIReader();
+            CustomStream stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
+           
 
-            string strTray1Pressure = cStream.Pressure;
-            strTray1Pressure = unitConvert.Convert("KPA", "MPAG", double.Parse(strTray1Pressure)).ToString();
-            string strTray1Temperature = cStream.Temperature;
-            strTray1Temperature = unitConvert.Convert("K", "C", double.Parse(strTray1Temperature)).ToString();
-            string tray1_s = cStream.StreamName;
             string gd = Guid.NewGuid().ToString();
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
 
             PRIIFileOperator.DecompressProIIFile(przFile, tempdir);
-            string content = PRIIFileOperator.getUsableContent(cStream.StreamName, tempdir);
+            string content = PRIIFileOperator.getUsableContent(stream.StreamName, tempdir);
 
 
             double ReliefPressure = double.Parse(this.txtPrelief.Text) * double.Parse(this.txtPress.Text);
-            CustomStream stream = new CustomStream();
-            stream.Temperature = strTray1Temperature;
-            stream.Pressure = strTray1Pressure;
-            stream.CompIn = cStream.CompIn;
-            stream.Componentid = cStream.Componentid;
-            stream.StreamName = tray1_s;
-            stream.TotalComposition = cStream.TotalComposition;
-            stream.TotalMolarRate = cStream.TotalMolarRate;
+            
+           
 
             //IPHASECalculate PhaseCalc = ProIIFactory.CreatePHASECalculate(version);
             //string PH = "PH" + Guid.NewGuid().ToString().Substring(0, 4);
@@ -295,7 +286,7 @@ namespace ReliefProMain.View
                     }
                     else
                     {
-                        double press = ReliefPressure + (double.Parse(p.Pressure) - double.Parse(strTray1Pressure));
+                        double press = ReliefPressure + (double.Parse(p.Pressure) - double.Parse(stream.Pressure));
                         f = fc.Calculate(usablecontent, 1, press.ToString(), 3, "", p, vapor, liquid, dirflash);
                     }
                     FlashResult fr = new FlashResult();

@@ -22,8 +22,10 @@ namespace ReliefProMain
             cs.BulkSurfTension = s.BulkSurfTension;
             cs.BulkThermalCond = s.BulkThermalCond;
             cs.BulkViscosity = s.BulkViscosity;
+            cs.ProdType = s.ProdType;
             cs.CompIn = s.CompIn;
             cs.Componentid = s.Componentid;
+            cs.PrintNumber = s.PrintNumber;
             cs.InertWeightEnthalpy = s.InertWeightEnthalpy;
             cs.InertWeightRate = s.InertWeightRate;
             if (!string.IsNullOrEmpty(s.Pressure))
