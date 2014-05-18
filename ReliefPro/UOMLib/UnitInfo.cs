@@ -45,20 +45,12 @@ namespace UOMLib
         }
         public IList<BasicUnitDefault> GetBasicUnitDefaultUserSet(string dbPlanFile)
         {
-            //int unitTypeID = int.Parse(unitTypeEnum.ToString("d"));
-            // BasicUnit basicUnit = GetBasicUnitUOM(dbPlanFile);
             dbBasicUnitDefault db = new dbBasicUnitDefault();
             using (var helper = new UOMLNHibernateHelper(dbPlanFile))
             {
                 var lstBasicUnitDefault = db.GetAllList(helper.GetCurrentSession());
                 return lstBasicUnitDefault;
-                //var basicUnitDefault = lstBasicUnitDefault.Where(p => p.BasicUnitID == basicUnit.ID && p.UnitTypeID == unitTypeID).FirstOrDefault();
-                //if (basicUnitDefault != null)
-                //{
-                //    return basicUnitDefault.SystemUnitInfo.Name;
-                //}
             }
-            return null;
         }
         public IList<SystemUnit> GetSystemUnit()
         {
