@@ -13,7 +13,7 @@ namespace ProII
         int GetAllEqAndStreamTotal(IList<ProIIEqType> eqTypeList, ref IList<ProIIEqData> eqList, ref IList<string> streamList);
         void GetSteamInfo(string name, ref IList<ProIIStreamData> streamListData);
         void GetEqInfo(string otype, string name, ref IList<ProIIEqData> eqListData);
-        void CopyStream(string columnName, int tray, int phase, int trayFlow, ref CustomStream cstream);
+        ProIIStreamData CopyStream(string columnName, int tray, int phase, int trayFlow);
         ProIIEqData GetEqInfo(string otype, string name);
         ProIIStreamData GetSteamInfo(string name);
         string GetCriticalPressure(string PH);
