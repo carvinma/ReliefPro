@@ -26,7 +26,7 @@ namespace ProII92
 
         string ComponentIds = string.Empty;
         string CompIns = string.Empty;
-        string PrintNumber = string.Empty;
+        string PrintNumbers = string.Empty;
         Dictionary<string, ProIIStreamData> dicFeedInfo = new Dictionary<string, ProIIStreamData>();
         Dictionary<string, ProIIStreamData> dicProductInfo = new Dictionary<string, ProIIStreamData>();
 
@@ -39,7 +39,8 @@ namespace ProII92
 
             objCompCalc = (CP2Object)cp2File.ActivateObject("CompCalc", "CompCalc");
             object ComponentId = objCompCalc.GetAttribute("ComponentId");
-            PrintNumber = objCompCalc.GetAttribute("PrintNumber").ToString();
+            object PrintNumber = objCompCalc.GetAttribute("PrintNumber");
+            PrintNumbers = ConvertExt.ObjectToString(PrintNumber);
             ComponentIds = ConvertExt.ObjectToString(ComponentId);
             object CompIn = cp2File.GetObjectNames("CompIn");
             CompIns = ConvertExt.ObjectToString(CompIn);
@@ -135,103 +136,15 @@ namespace ProII92
         /// <param name="tray"></param>
         /// <param name="phase">0:liquid+vapor 1:vapor 2:liquid</param>
         /// <param name="trayFlow">1:net 2:total</param>
-        public void CopyStream(string columnName, int tray, int phase, int trayFlow, ref CustomStream cstream)
+        public ProIIStreamData CopyStream(string columnName, int tray, int phase, int trayFlow)
         {
-            cstream = new CustomStream();
+            ProIIStreamData proIIStream = new ProIIStreamData();
             string streamName = "temp" + Guid.NewGuid().ToString().Substring(0, 5).ToUpper();
             CP2Object tempStream = (CP2Object)cp2File.CreateObject("Stream", streamName);
-
             bool b = cp2File.CopyTrayToStream(columnName, (short)tray, (p2Phase)phase, 0, (p2TrayFlow)trayFlow, streamName);
-
-            string bb = b.ToString();
-            bool bCalulate = cp2File.CalculateStreamProps(streamName);
-
-            CP2Object compCalc = (CP2Object)cp2File.ActivateObject("CompCalc", "CompCalc");
-            object ComponentId = compCalc.GetAttribute("ComponentId");
-            object CompIn = cp2File.GetObjectNames("CompIn");
-
-            cstream.Componentid = ConvertExt.ObjectToString(ComponentId);
-            cstream.CompIn = ConvertExt.ObjectToString(CompIn);
-            cstream.StreamName = streamName;
-            cstream.Tray = "1";
-            cstream.ProdType = "2";
-            CP2Object curStream = (CP2Object)cp2File.ActivateObject("Stream", streamName);
-            foreach (string s in arrStreamAttributes)
-            {
-                object v = curStream.GetAttribute(s);
-                string value = ConvertExt.ObjectToString(v);
-                switch (s)
-                {
-                    case "Pressure":
-                        cstream.Pressure = value;
-                        break;
-                    case "Temperature":
-                        cstream.Temperature = value;
-                        break;
-                    case "VaporFraction":
-                        cstream.VaporFraction = value;
-                        break;
-                    case "VaporZFmKVal":
-                        cstream.VaporZFmKVal = value;
-                        break;
-                    case "TotalComposition":
-                        cstream.TotalComposition = value;
-                        break;
-                    case "TotalMolarEnthalpy":
-                        cstream.TotalMolarEnthalpy = value;
-                        break;
-                    case "TotalMolarRate":
-                        cstream.TotalMolarRate = value;
-                        break;
-                    case "InertWeightEnthalpy":
-                        cstream.InertWeightEnthalpy = value;
-                        break;
-                    case "InertWeightRate":
-                        cstream.InertWeightRate = value;
-                        break;
-
-                }
-            }
-            if (bCalulate)
-            {
-                CP2Object bulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", streamName);
-                foreach (string s in arrBulkPropAttributes)
-                {
-                    object v = bulkDrop.GetAttribute(s);
-                    string value = ConvertExt.ObjectToString(v);
-                    switch (s)
-                    {
-                        case "BulkMwOfPhase":
-                            cstream.BulkMwOfPhase = value;
-                            break;
-                        case "BulkDensityAct":
-                            cstream.BulkDensityAct = value;
-                            break;
-                        case "VaporFraction":
-                            cstream.Pressure = value;
-                            break;
-                        case "BulkViscosity":
-                            cstream.BulkViscosity = value;
-                            break;
-                        case "BulkCPCVRatio":
-                            cstream.BulkCPCVRatio = value;
-                            break;
-                        case "BulkCP":
-                            cstream.BulkCP = value;
-                            break;
-                        case "BulkThermalCond":
-                            cstream.BulkThermalCond = value;
-                            break;
-                        case "BulkSurfTension":
-                            cstream.BulkSurfTension = value;
-                            break;
-                    }
-                }
-            }
-
+            proIIStream = GetSteamInfo(streamName);
             cp2File.DeleteObject("Stream", streamName);
-
-
+            return proIIStream;
         }
 
         public ProIIEqData GetEqInfo(string otype, string name)
@@ -358,7 +271,7 @@ namespace ProII92
 
             data.CompIn = CompIns;
             data.Componentid = ComponentIds;
-            data.PrintNumber = PrintNumber;
+            data.PrintNumber = PrintNumbers;
             CP2Object objStream = (CP2Object)cp2File.ActivateObject("Stream", name);
             foreach (string s in arrStreamAttributes)
             {
