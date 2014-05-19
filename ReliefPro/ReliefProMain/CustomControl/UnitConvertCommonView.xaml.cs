@@ -26,7 +26,7 @@ namespace ReliefProMain.CustomControl
         private ILookup<int, SystemUnit> lkpSystemUnit;
         private ILookup<string, UnitType> lkpUnitType;
         private UnitInfo unitInfo;
-        private string UnitType;
+        private int UnitTypeID;
         private string OriginUnit;
         public string TargetUnit;
         private double Value;
@@ -35,21 +35,19 @@ namespace ReliefProMain.CustomControl
         {
             InitializeComponent();
         }
-        public UnitConvertCommonView(string UnitType, string OriginUnit, double value)
+        public UnitConvertCommonView(string OriginUnit, double value)
             : this()
         {
-            this.UnitType = UnitType;
             this.OriginUnit = OriginUnit;
             this.Value = value;
-            InitInfo(UnitType, OriginUnit);
-            InitListBox(UnitType);
+            InitInfo(OriginUnit);
+            InitListBox();
         }
-        private void InitListBox(string UnitType)
+        private void InitListBox()
         {
             try
             {
-                UnitType unitType = lkpUnitType[UnitType.ToLower()].First();
-                this.ltboxUnit.ItemsSource = lkpSystemUnit[unitType.ID].ToList();
+                this.ltboxUnit.ItemsSource = lkpSystemUnit[this.UnitTypeID].ToList();
                 this.ltboxUnit.DisplayMemberPath = "Name";
             }
             catch (Exception ex)
@@ -57,7 +55,7 @@ namespace ReliefProMain.CustomControl
                 throw ex;
             }
         }
-        private void InitInfo(string UnitType, string Unit)
+        private void InitInfo(string Unit)
         {
             try
             {
@@ -65,6 +63,11 @@ namespace ReliefProMain.CustomControl
                 var tmpSystemUnit = unitInfo.GetSystemUnit();
                 if (null != tmpSystemUnit)
                 {
+                    var systemUnit = tmpSystemUnit.Where(p => p.Name.ToLower() == Unit.ToLower()).FirstOrDefault();
+                    if (systemUnit != null)
+                    {
+                        UnitTypeID = systemUnit.UnitType;
+                    }
                     lkpSystemUnit = tmpSystemUnit.ToLookup(p => p.UnitType);
                     if (tmpSystemUnit.Count > 0)
                     {
@@ -120,8 +123,9 @@ namespace ReliefProMain.CustomControl
         {
             //var sw = Stopwatch.StartNew();
             UnitConvert unitConvert = new UnitConvert();
-           // long t1 = sw.ElapsedMilliseconds;
-            ResultValue = unitConvert.Convert(UnitType, OriginUnit, TargetUnit, Value);
+            // long t1 = sw.ElapsedMilliseconds;
+            //ResultValue = unitConvert.Convert(UnitType, OriginUnit, TargetUnit, Value);
+            ResultValue = unitConvert.Convert(OriginUnit, TargetUnit, Value);
             this.DialogResult = true;
         }
     }

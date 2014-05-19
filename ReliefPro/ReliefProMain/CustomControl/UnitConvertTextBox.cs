@@ -11,33 +11,6 @@ namespace ReliefProMain.CustomControl
 {
     public class UnitConvertTextBox : TextBox
     {
-        public enum typeUnit
-        {
-            T,
-            P,
-            W,
-            M,
-            SVR,
-            V,
-            HC,
-            TC,
-            HTC,
-            ST,
-            MS,
-            VOL,
-            LEN,
-            A,
-            E,
-            TM,
-            FC,
-            MR,
-            VR,
-            D,
-            SPE,
-            Duty,
-            FL
-        }
-        public typeUnit UnitType { get; set; }
         public string UnitOrigin
         {
             get { return GetValue(UnitOriginProperty).ToString(); }
@@ -55,7 +28,7 @@ namespace ReliefProMain.CustomControl
                 double UnitValue;
                 if (double.TryParse(this.Text.Trim(), out UnitValue))
                 {
-                    UnitConvertCommonView unitConvertCommonView = new UnitConvertCommonView(UnitType.ToString(), UnitOrigin, UnitValue);
+                    UnitConvertCommonView unitConvertCommonView = new UnitConvertCommonView(UnitOrigin, UnitValue);
                     unitConvertCommonView.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                     if (unitConvertCommonView.ShowDialog() == true)
                     {
