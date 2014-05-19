@@ -14,14 +14,14 @@ using ReliefProMain.Commands;
 using ProII;
 using ReliefProMain.Model;
 using UOMLib;
+using System.Diagnostics;
 
 namespace ReliefProMain.ViewModel.Drum
 {
     public class DrumBlockedOutletVM : ViewModelBase
     {
         private DrumBll drum;
-        public DrumBlockedOutlet model { get; set; }
-        public DrumBlockedOutletModel unitModel { get; set; }
+        public DrumBlockedOutletModel model { get; set; }
         public ICommand CalcCMD { get; set; }
         private string dbPSFile;
         private string dbPlantFile;
@@ -30,24 +30,23 @@ namespace ReliefProMain.ViewModel.Drum
         {
             this.dbPSFile = dbPSFile;
             this.dbPlantFile = dbPlantFile;
-            model = new DrumBlockedOutlet();
-            unitModel = new DrumBlockedOutletModel();
             drum = new DrumBll();
-            model = drum.GetBlockedOutletModel(dbPSFile);
-            model.DrumID = drum.GetDrumID(dbPSFile);
-            model.ScenarioID = ScenarioID;
-            model = drum.ReadConvertModel(model, dbPlantFile);
+
+            var outletModel = drum.GetBlockedOutletModel(dbPSFile);
+            outletModel = drum.ReadConvertModel(outletModel, dbPlantFile);
+
+            model = new DrumBlockedOutletModel(outletModel);
+            model.dbmodel.DrumID = drum.GetDrumID(dbPSFile);
+            model.dbmodel.ScenarioID = ScenarioID;
             CalcCMD = new DelegateCommand<object>(CalcResult);
-            DrumBlockedOutletModel dd = new DrumBlockedOutletModel();
         }
         private void WriteConvertModel()
         {
             UnitConvert uc = new UnitConvert();
-            UOMLib.UOMEnum uomEnum = new UOMEnum(dbPlantFile);
-            model.MaxPressure = uc.Convert(unitModel.PressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.MaxPressure);
-            //model.MaxStreamRate = uc.Convert(unitModel.StreamRateUnit, UOMLib.UOMEnum.Pressure.ToString(), model.MaxPressure);
-            //model.NormalFlashDuty = uc.Convert(unitModel.FlashingDutyUnit, UOMLib.UOMEnum.Pressure.ToString(), model.MaxPressure);
-            //model.FDReliefCondition = uc.Convert(unitModel.ReliefConditionUnit, UOMLib.UOMEnum.Pressure.ToString(), model.MaxPressure);
+            model.dbmodel.MaxPressure = uc.Convert(model.PressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.MaxPressure);
+            //model.dbmodel.MaxStreamRate = uc.Convert(model.StreamRateUnit, UOMLib.UOMEnum.Pressure.ToString(), model.MaxPressure);
+            //model.dbmodel.NormalFlashDuty = uc.Convert(model.FlashingDutyUnit, UOMLib.UOMEnum.Pressure.ToString(), model.MaxPressure);
+            //model.dbmodel.FDReliefCondition = uc.Convert(model.ReliefConditionUnit, UOMLib.UOMEnum.Pressure.ToString(), model.MaxPressure);
         }
         private void CalcResult(object obj)
         {
@@ -68,7 +67,7 @@ namespace ReliefProMain.ViewModel.Drum
                 reliefLoad = 0;
             }
             WriteConvertModel();
-            drum.SaveDrumBlockedOutlet(model, dbPSFile, reliefLoad, reliefMW, reliefT);
+            drum.SaveDrumBlockedOutlet(model.dbmodel, dbPSFile, reliefLoad, reliefMW, reliefT);
         }
     }
 }
