@@ -208,6 +208,11 @@ namespace ReliefProMain.ViewModel
                         }
                         else if (ScenarioName.Contains("Fire"))
                         {
+                            Drum_fire v = new Drum_fire();
+                            v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                            DrumFireVM vm = new DrumFireVM(ScenarioID, dbProtectedSystemFile, dbPlantFile);
+                            v.DataContext = vm;
+                            v.ShowDialog();
                             //CreateDrumFire(ScenarioID, Session);
                         }
                         else if (ScenarioName.Contains("Inlet"))

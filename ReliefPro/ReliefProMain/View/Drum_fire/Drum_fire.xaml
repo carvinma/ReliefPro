@@ -55,7 +55,7 @@
             <ColumnDefinition Width="125"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Button Content="All Gas/Supercritical Fluid" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Height="27" />
+        <Button Content="All Gas/Supercritical Fluid" Command="{Binding FluidCMD}" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Height="27" />
         <Label Content="Heat Input Model"  Grid.Row="2"/>
         <Label Content="Wetted Area" Grid.Row="5"/>
         <Label Content="Latent Heat"  Grid.Row="6"/>
@@ -81,10 +81,9 @@
         <Label Content="kg/hr" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="9"/>
         <Label Content="MPag" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="10"/>
         <Label Content="℃" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="11"/>
-        <Button Content="Drum Size" Grid.Column="0"   Grid.Row="1"  Width="75"  Height="21" Margin="30,8,255,2"/>
         <Button Content="Run Calculation" Grid.Column="0"   Grid.Row="4"  Width="125"  Height="21" Margin="30,5,205,5"/>
         <Button Content="OK" Grid.Column="0" Grid.Row="15"  Width="75"  Height="25"/>
-        <Button Content="Cancle" Grid.Column="1"  Grid.Row="15" Width="75" Height="25"/>
+        <Button Content="Cancel" IsCancel="True" Grid.Column="1"  Grid.Row="15" Width="75" Height="25"/>
         <CheckBox Content="Heavy Oil Fluid" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="29,10,0,7"/>
         <CheckBox Content="" HorizontalAlignment="Right" Margin="65,10,0,0" VerticalAlignment="Center"/>
         <ComboBox  Grid.Column="1" Height="25" Grid.Row="2" Width="120"/>

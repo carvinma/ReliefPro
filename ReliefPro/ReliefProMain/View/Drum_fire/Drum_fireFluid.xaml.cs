@@ -17,9 +17,9 @@ namespace ReliefProMain.View
     /// <summary>
     /// StorageTank.xaml 的交互逻辑
     /// </summary>
-    public partial class Drum_fire3 : Window
+    public partial class Drum_fireFluid : Window
     {
-        public Drum_fire3()
+        public Drum_fireFluid()
         {
             InitializeComponent();
         }

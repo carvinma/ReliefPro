@@ -142,6 +142,8 @@
     <Compile Include="ViewModel\CreateUnitVM.cs" />
     <Compile Include="ViewModel\DrumVM.cs" />
     <Compile Include="ViewModel\Drum\DrumBlockedOutletVM.cs" />
+    <Compile Include="ViewModel\Drum\DrumFireFluidVM.cs" />
+    <Compile Include="ViewModel\Drum\DrumFireVM.cs" />
     <Compile Include="ViewModel\FormatUnitsMeasureVM.cs" />
     <Compile Include="ViewModel\Mode.cs" />
     <Compile Include="ViewModel\MultiValueConverter.cs" />
@@ -261,8 +263,8 @@
     <Compile Include="View\Drum_fire\Drum_fire2.xaml.cs">
       <DependentUpon>Drum_fire2.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Drum_fire\Drum_fire3.xaml.cs">
-      <DependentUpon>Drum_fire3.xaml</DependentUpon>
+    <Compile Include="View\Drum_fire\Drum_fireFluid.xaml.cs">
+      <DependentUpon>Drum_fireFluid.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\HX\HX.xaml.cs">
       <DependentUpon>HX.xaml</DependentUpon>
@@ -461,7 +463,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Drum_fire\Drum_fire3.xaml">
+    <Page Include="View\Drum_fire\Drum_fireFluid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

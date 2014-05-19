@@ -68,6 +68,14 @@ namespace ReliefProMain.ViewModel.Drum
             }
             WriteConvertModel();
             drum.SaveDrumBlockedOutlet(model.dbmodel, dbPSFile, reliefLoad, reliefMW, reliefT);
+            if (obj != null)
+            {
+                System.Windows.Window wd = obj as System.Windows.Window;
+                if (wd != null)
+                {
+                    wd.DialogResult = true;
+                }
+            }
         }
     }
 }
