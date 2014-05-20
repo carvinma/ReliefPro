@@ -11,7 +11,7 @@ namespace ReliefProModel
         public virtual int ID { get; set; }
         public virtual int BasicUnitID { get; set; }
         public virtual int UnitTypeID { get; set; }
-        public virtual string SystemUnitID { get; set; }
+        public virtual int SystemUnitID { get; set; }
         public virtual SystemUnit SystemUnitInfo { get; set; }
     }
 }
