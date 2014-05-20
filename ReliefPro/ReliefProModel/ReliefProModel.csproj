@@ -111,6 +111,8 @@
     <Compile Include="SideColumn.cs" />
     <Compile Include="ProIIStreamData.cs" />
     <Compile Include="FlashResult.cs" />
+    <Compile Include="HeatSource.cs" />
+    <Compile Include="TowerScenarioHeatSource.cs" />
     <EmbeddedResource Include="DemoModel.hbm.xml" />
     <EmbeddedResource Include="TowerHXDetail.hbm.xml" />
     <EmbeddedResource Include="Scenario.hbm.xml">
@@ -125,6 +127,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="TowerScenarioHeatSource.hbm.xml" />
+    <EmbeddedResource Include="HeatSource.hbm.xml" />
     <EmbeddedResource Include="FlashResult.hbm.xml" />
     <EmbeddedResource Include="CondenserCalc.hbm.xml">
       <SubType>Designer</SubType>

@@ -32,7 +32,7 @@
                 <Label Content="Name" HorizontalAlignment="Left" Margin="4,10,0,0" VerticalAlignment="Top" Height="26" Width="44" Grid.Column="1"/>
                 <ComboBox ItemsSource="{Binding Vessels}" SelectedItem="{Binding SelectedVessel}" HorizontalAlignment="Left" Margin="5,8,0,0" VerticalAlignment="Top" Width="120" Height="22" Grid.Column="2"/>
                 <Label Content="Up Stream" HorizontalAlignment="Left" Margin="4,10,0,0" Grid.Row="1" VerticalAlignment="Top" Grid.Column="1" Height="26" Width="71"/>
-                <ComboBox ItemsSource="{Binding UpStreamNames}" SelectedItem="{Binding SelectedUpStreamName}" HorizontalAlignment="Left" Margin="5,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Grid.Column="2" Height="22"/>
+                <ComboBox ItemsSource="{Binding UpStreamNames}" SelectedItem="{Binding SelectedUpStream}" HorizontalAlignment="Left" Margin="5,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Grid.Column="2" Height="22"/>
                 <Label Content="Operating Phase" Grid.Column="1" HorizontalAlignment="Left" Margin="4,10,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="120"/>
                 <ComboBox ItemsSource="{Binding OperatingPhases}" SelectedItem="{Binding SelectedOperatingPhase}" Grid.Column="2" HorizontalAlignment="Left" Margin="5,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Height="22"/>
                 <Label Content="Max Operating Pressure" Grid.Column="1" HorizontalAlignment="Left" Margin="4,3,0,0" Grid.Row="3" VerticalAlignment="Top" Height="26" Width="159"/>

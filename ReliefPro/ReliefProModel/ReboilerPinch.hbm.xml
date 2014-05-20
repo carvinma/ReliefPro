@@ -4,8 +4,8 @@
     <id name="ID" column="ID" type="Int32" unsaved-value="0">
       <generator class="identity" />
     </id>
-    <property name="CodetIn" column="CodetIn" type="String" length="255" />    
-    <property name="Codetout" column="Codetout" type="String" length="255" />
+    <property name="ColdtIn" column="ColdtIn" type="String" length="255" />    
+    <property name="Coldtout" column="Coldtout" type="String" length="255" />
     <property name="HeatTin" column="HeatTin" type="String" length="255" />
     <property name="HeatTout" column="HeatTout" type="String" length="255" />
     <property name="SourceType" column="SourceType" type="String" length="255" />

@@ -27,13 +27,13 @@ namespace ProII91
         /// <param name="liquid"></param>
         /// <param name="dir"></param>
         /// <returns></returns>
-        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string vapor, string liquid,string w, string dir)
+        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string vapor, string liquid,string flash,string w, string dir)
         {
             CP2ServerClass cp2Srv = new CP2ServerClass();
             cp2Srv.Initialize();
 
             string streamData = getStreamData(iFirst, firstValue,iSecond,secondValue, stream,w);
-            string flashData = getFlashData(iFirst, firstValue, iSecond, secondValue, stream, vapor, liquid);
+            string flashData = getFlashData(iFirst, firstValue, iSecond, secondValue, stream, vapor, liquid,flash);
             StringBuilder sb = new StringBuilder();
             sb.Append(fileContent).Append(streamData).Append(flashData);
             string onlyFileName = dir + @"\" + Guid.NewGuid().ToString().Substring(0, 5);
@@ -78,13 +78,13 @@ namespace ProII91
             data1.Append("\t").Append(sbCom.Remove(0, 2)).Append("\n");
             return data1.ToString();
         }
-        private string getFlashData(int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string vapor, string liquid)
+        private string getFlashData(int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string vapor, string liquid,string flash)
         {
             StringBuilder data2 = new StringBuilder("UNIT OPERATIONS\n");
             string streamName = stream.StreamName;
             Guid guid = Guid.NewGuid();
             Guid guid2 = Guid.NewGuid();
-            string FlashName = "F_" + guid.ToString().Substring(0, 5).ToUpper();
+            string FlashName = flash;
             
             data2.Append("\tFLASH UID=").Append(FlashName).Append("\n");
             data2.Append("\t FEED ").Append(streamName.ToUpper()).Append("\n");
