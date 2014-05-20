@@ -11,6 +11,14 @@ using ReliefProModel;
 
 namespace ProII91
 {
+    /// <summary>
+    /// 读取PRZ文件信息的类库
+    /// 
+    /// 对于Flash  ProductStoreData的值： 1-Vapor 2-Liquid 3-Solid 4-Mixed
+    /// 
+    /// 
+    /// 
+    /// </summary>
     public class ProIIReader : IProIIReader
     {
         string[] arrStreamAttributes = { "Pressure", "Temperature", "VaporFraction", "VaporZFmKVal", "TotalComposition", "TotalMolarEnthalpy", "TotalMolarRate", "InertWeightEnthalpy", "InertWeightRate" };
@@ -19,6 +27,9 @@ namespace ProII91
         string[] arrColumnAttributes = { "PressureDrop", "Duty", "NumberOfTrays", "HeaterNames", "HeaterDuties", "HeaterNumber", "HeaterPANumberfo", "HeaterRegOrPAFlag", "HeaterTrayLoc", "HeaterTrayNumber" };
         string[] arrColumnInAttributes = { "ProdType", "FeedTrays", "ProdTrays", "FeedData", "ProductData" };
         string[] arrFlashAttributes = { "FeedData", "ProductData", "PressCalc", "TempCalc", "DutyCalc", "Type", "ProductStoreData" };
+
+
+
         string przFileName;
         CP2File cp2File;
         CP2Object objCompCalc;
@@ -163,13 +174,7 @@ namespace ProII91
                     object v = eq.GetAttribute(s);
                     string value = ConvertExt.ObjectToString(v);
                     switch (s)
-                    {
-                        case "FeedData":
-                            data.FeedData = value;
-                            break;
-                        case "ProductData":
-                            data.ProductData = value;
-                            break;
+                    {                       
                         case "PressureDrop":
                             data.PressureDrop = value;
                             break;
@@ -275,6 +280,7 @@ namespace ProII91
             data.Componentid = ComponentIds;
             data.PrintNumber = PrintNumbers;
             CP2Object objStream = (CP2Object)cp2File.ActivateObject("Stream", name);
+           
             foreach (string s in arrStreamAttributes)
             {
                 object v = objStream.GetAttribute(s);
@@ -351,6 +357,33 @@ namespace ProII91
             }
 
             return data;
+        }
+
+        public Dictionary<string,ProIIStreamData> GetTowerStreamInfoExtra( string otype, string eqname)
+        {
+            Dictionary<string, ProIIStreamData> dic = new Dictionary<string, ProIIStreamData>();
+            CP2Object eq = (CP2Object)cp2File.ActivateObject(otype, eqname);
+            object pd = eq.GetAttribute("ProductData");
+            string productdata = ConvertExt.ObjectToString(pd);
+            string[] productdatas = productdata.Split(',');
+
+            object ptype = eq.GetAttribute("ProdType");
+            string producttype = ConvertExt.ObjectToString(ptype);
+            string[] producttypes = producttype.Split(',');
+
+            object ptray = eq.GetAttribute("ProdTrays");
+            string prodtray = ConvertExt.ObjectToString(ptray);
+            string[] prodtrays = prodtray.Split(',');
+            int count=productdatas.Length;
+            for (int i = 0; i < count; i++)
+            {
+                ProIIStreamData data = new ProIIStreamData();
+                data.Tray = prodtrays[i];
+                data.ProdType = producttypes[i];
+                dic.Add(productdatas[i], data);
+
+            }
+            return dic;
         }
 
         public string GetCriticalPressure(string phaseName)

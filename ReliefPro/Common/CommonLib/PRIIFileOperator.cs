@@ -48,6 +48,7 @@ namespace ReliefProCommon.CommonLib
 
         public static string getUsableContent(string streamName, string rootDir)
         {
+            string[] keys = { "srk", "srkh", "srkm", "srkp", "srks", "pr", "prh", "prm", "prp" };
             StringBuilder sb = new StringBuilder();
             string[] files = Directory.GetFiles(rootDir, "*.inp");
             string sourceFile = files[0];
@@ -57,6 +58,17 @@ namespace ReliefProCommon.CommonLib
             while (i < lines.Length)
             {
                 string s = lines[i];
+                if (s.Trim().IndexOf("METHOD SYSTEM=")>-1)
+                {
+                    int start = s.IndexOf("=");
+                    int end = s.IndexOf(",");
+                    string key = s.Substring(start + 1, end - start-1);
+                    if(!keys.Contains(key.ToLower()))
+                    {
+                        s=s.Replace(key,"srk");
+                    }
+                    sb.Append(s);
+                }
                 if (s.Trim().IndexOf("NAME") == 0 || s.Trim().IndexOf("UNIT") == 0)
                 {
                     break;

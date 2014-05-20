@@ -113,7 +113,7 @@ namespace ReliefProMain.View
         
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            
+            ArrayList list = new ArrayList();
             IList<ProIIEqData> eqList=new List<ProIIEqData>();
             IList<string> streamList = new List<string>();         
             try
@@ -127,7 +127,7 @@ namespace ReliefProMain.View
                 for (int i = 1; i <= eqList.Count; i++)
                 {
                     ProIIEqData eq = eqList[i - 1];
-                    reader.GetEqInfo(eq.EqType, eq.EqName, ref eqListData);
+                    reader.GetEqInfo(eq.EqType, eq.EqName, ref eqListData);                    
                     int percents = (i * 100) / total;
                     backgroundWorker.ReportProgress(percents, i);
                 }

@@ -33,6 +33,32 @@ namespace ReliefProMain.ViewModel
         public string IsMaintained_Color { get; set; }
         public string StreamName { get; set; }
 
+        public bool _IsSteam;
+        public bool IsSteam
+        {
+            get
+            {
+                return this._IsSteam;
+            }
+            set
+            {
+                this._IsSteam = value;
+                OnPropertyChanged("IsSteam");
+            }
+        }
+        public bool _IsHeatSource;
+        public bool IsHeatSource
+        {
+            get
+            {
+                return this._IsHeatSource;
+            }
+            set
+            {
+                this._IsHeatSource = value;
+                OnPropertyChanged("IsHeatSource");
+            }
+        }
         public List<string> SourceTypes { get; set; }
         public Source CurrentSource { get; set; }
         public List<string> GetSourceTypes()
@@ -45,6 +71,10 @@ namespace ReliefProMain.ViewModel
             list.Add("Pressurized Vessel");
             return list;
         }
+
+
+
+
         public SourceVM(string name, string dbPSFile, string dbPFile)
         {
 

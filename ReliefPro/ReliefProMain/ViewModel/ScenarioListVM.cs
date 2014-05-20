@@ -491,6 +491,9 @@ namespace ReliefProMain.ViewModel
                     case "ElectricPowerFailure":
                         factor = model.ElectricPowerFailure;
                         break;
+                    case "PartialElectricPowerFailure":
+                        factor = model.ElectricPowerFailure;
+                        break;
                     case "CoolingWaterFailure":
                         factor = model.CoolingWaterFailure;
                         break;

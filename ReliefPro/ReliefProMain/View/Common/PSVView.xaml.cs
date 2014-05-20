@@ -139,7 +139,7 @@ namespace ReliefProMain.View
                     txtPress.Text = model.Pressure;
 
                     Critical c = dbcritical.GetModel(Session);
-                    //txtCritical.Text = c.CriticalPressure;
+                    txtCritical.Text = c.CriticalPressure;
 
                 }
                 dbTower dbt = new dbTower();
@@ -211,15 +211,15 @@ namespace ReliefProMain.View
             
            
 
-            //IPHASECalculate PhaseCalc = ProIIFactory.CreatePHASECalculate(version);
-            //string PH = "PH" + Guid.NewGuid().ToString().Substring(0, 4);
-            // string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH, dirPhase);
+            IPHASECalculate PhaseCalc = ProIIFactory.CreatePHASECalculate(version);
+            string PH = "PH" + Guid.NewGuid().ToString().Substring(0, 4);
+             string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH, dirPhase);
 
-            // reader = ProIIFactory.CreateReader(version);
-            // reader.InitProIIReader(phasef);
-            //  string criticalPress = reader.GetCriticalPressure(PH);
-            //   reader.ReleaseProIIReader();
-            //  criticalPress = unitConvert.Convert("KPA", "MPAG", double.Parse(criticalPress)).ToString();
+             reader = ProIIFactory.CreateReader(version);
+             reader.InitProIIReader(phasef);
+              string criticalPress = reader.GetCriticalPressure(PH);
+               reader.ReleaseProIIReader();
+              criticalPress = unitConvert.Convert("KPA", "MPAG", double.Parse(criticalPress)).ToString();
 
 
 
@@ -258,7 +258,7 @@ namespace ReliefProMain.View
                     string l = string.Empty;
                     string v = string.Empty;
                     string prodtype = p.ProdType;
-                    string tray = p.ProdType;
+                    string tray = p.Tray;
                     string streamname = p.StreamName;
                     string strPressure = p.Pressure;
                     string strTemperature = p.Temperature;
@@ -346,10 +346,10 @@ namespace ReliefProMain.View
                 if (op == 0)
                 {
 
-                    // Critical c = new Critical();
-                    // c.CriticalPressure = criticalPress;
-                    // dbCritical dbcritical = new dbCritical();
-                    // dbcritical.Add(c, Session);
+                     Critical c = new Critical();
+                     c.CriticalPressure = criticalPress;
+                     dbCritical dbcritical = new dbCritical();
+                     dbcritical.Add(c, Session);
 
 
 

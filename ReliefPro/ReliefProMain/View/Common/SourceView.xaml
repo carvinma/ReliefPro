@@ -26,10 +26,13 @@
         <TextBox Name="txtMaxPressure" HorizontalAlignment="Left" Height="23" Margin="242,25,0,0" TextWrapping="Wrap" Text="{Binding Path=MaxPossiblePressure}" VerticalAlignment="Top" Width="169"  Grid.Row="3"/>
         <CheckBox Name="chkIsMaintained" Content="Normal flow is maintained when General Electrical power fails." HorizontalAlignment="Left" Margin="127,6.517,-1,0" VerticalAlignment="Top" Width="401"  Grid.Row="4"/>
         <TextBlock HorizontalAlignment="Left" Margin="428,25,0,0" TextWrapping="Wrap" Text="{Binding Path=PressureUnit}" VerticalAlignment="Top" Grid.Row="3"/>
-        <Border BorderBrush="black"  BorderThickness="1"  Margin="0,0,0,0" Grid.RowSpan="5"></Border>
+       
 
         <Button x:Name="btnOK" Content="OK" Command="{Binding Update}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75"  Margin="353,10,0,0" Grid.Row="5"/>
         <Button x:Name="btnCancel" IsCancel="True" Content="Cancel" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Margin="433,10,0,0" Grid.Row="5"  />
+        <CheckBox Content="Steam" IsChecked="{Binding IsSteam}" HorizontalAlignment="Left" Margin="428,25,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.13,0.883"/>
+        <CheckBox Content="" IsChecked="{Binding IsHeatSource}" HorizontalAlignment="Left" Margin="78,16,0,0" Grid.Row="5" VerticalAlignment="Top"/>
+        <Button Content="Heat Source" IsEnabled="{Binding IsHeatSource}" HorizontalAlignment="Left" Margin="117,10,0,0" Grid.Row="5" VerticalAlignment="Top" Width="94"/>
 
 
     </Grid>

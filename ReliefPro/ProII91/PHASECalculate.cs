@@ -64,19 +64,23 @@ namespace ProII91
             string com = stream.TotalComposition;
             string Componentid =stream.Componentid;
             string CompIn = stream.CompIn;
+            string PrintNumber = stream.PrintNumber;
             Dictionary<string, string> compdict = new Dictionary<string, string>();
             data1.Append("\t COMP=&\n");
             string[] coms = com.Split(',');
+            string[] PrintNumbers = PrintNumber.Split(',');
+            StringBuilder sbCom = new StringBuilder();
             string[] Componentids = Componentid.Split(',');
             string[] CompIns = CompIn.Split(',');
-            StringBuilder sbCom = new StringBuilder();
-            for (int i = 0; i < coms.Length; i++)
+            int comCount = coms.Length;
+            for (int i = 0; i < comCount; i++)
             {
                 compdict.Add(Componentids[i], coms[i]);
             }
-            foreach (string s in CompIns)
+            for (int i = 0; i < comCount; i++)
             {
-                sbCom.Append("/&\n").Append(compdict[s]);
+                //string s = CompIns[i];
+                sbCom.Append("/&\n").Append(PrintNumbers[i]).Append(",").Append(coms[i]);
             }
             data1.Append("\t").Append(sbCom.Remove(0, 2)).Append("\n");
             return data1.ToString();

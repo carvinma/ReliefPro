@@ -182,10 +182,12 @@ namespace ReliefProMain.ViewModel
 
         private List<SideColumn> SideColumns;
         private IList<ProIIEqData> SideColumnList;
+        Dictionary<string, string> sideColumnTray = new Dictionary<string, string>();
+        Dictionary<string, string> sideColumnProdType = new Dictionary<string, string>();
         private ProIIEqData CurrentTower;
         Dictionary<string, string> dicFeeds = new Dictionary<string, string>();
         Dictionary<string, string> dicProducts = new Dictionary<string, string>();
-
+        Dictionary<string, string> dicProdTypes = new Dictionary<string, string>();
         private ICommand _ImportCommand;
         public ICommand ImportCommand
         {
@@ -244,6 +246,7 @@ namespace ReliefProMain.ViewModel
                             CustomStream cstream =ProIIToDefault.ConvertProIIStreamToCustomStream(d);
                             cstream.Tray = k.Value;
                             cstream.IsProduct = false;
+                            
                             Feeds.Add(cstream);
                         }
                         foreach (KeyValuePair<string, string> k in dicProducts)
@@ -252,6 +255,10 @@ namespace ReliefProMain.ViewModel
                             CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
                             cstream.Tray = k.Value;
                             cstream.IsProduct = true;
+                            if (dicProdTypes.Keys.Contains(k.Key))
+                            {
+                                cstream.ProdType = dicProdTypes[k.Key];
+                            }
                             Products.Add(cstream);
                         }
 
@@ -336,25 +343,30 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        public void GetEqFeedProduct(ProIIEqData data, ref Dictionary<string, string> dicFeeds, ref Dictionary<string, string> dicProducts)
+        public void GetEqFeedProduct(ProIIEqData data, ref Dictionary<string, string> cFeeds, ref Dictionary<string, string> cProducts,ref Dictionary<string,string> cProdTypes)
         {
             string feeddata = data.FeedData;
             string productdata = data.ProductData;
+            string prodtype = data.ProdType;
             string feedtrays = data.FeedTrays;
             string prodtrays = data.ProdTrays;
             string[] arrFeeds = feeddata.Split(',');
             string[] arrProducts = productdata.Split(',');
+            string[] arrProdTypes = prodtype.Split(',');
             string[] arrFeedtrays = feedtrays.Split(',');
             string[] arrProdtrays = prodtrays.Split(',');
             for (int i = 0; i < arrFeeds.Length; i++)
             {
-                dicFeeds.Add(arrFeeds[i], arrFeedtrays[i]);
+                cFeeds.Add(arrFeeds[i], arrFeedtrays[i]);
             }
             for (int i = 0; i < arrProducts.Length; i++)
             {
-                dicProducts.Add(arrProducts[i], arrProdtrays[i]);
+                cProducts.Add(arrProducts[i], arrProdtrays[i]);
             }
-
+            for (int i = 0; i < arrProdTypes.Length; i++)
+            {
+                cProdTypes.Add(arrProducts[i], arrProdTypes[i]);
+            }
         }
 
         public void GetAllSideColumnFeedProductData(ref Dictionary<string, string[]> dictFeed, ref Dictionary<string, string[]> dictProdcut)
@@ -372,14 +384,15 @@ namespace ReliefProMain.ViewModel
                
         }
 
-        private string GetSideColumnTray(string[] sideColumnFeeds, Dictionary<string, string> dicProducts)
+        private string[] GetSideColumnTrayAndProdType(string[] sideColumnFeeds, Dictionary<string, string> dicColumnProducts,Dictionary<string,string> dicColumnProdTypes )
         {
-            string result = string.Empty;
+            string[] result = new string[2];
             foreach (string feed in sideColumnFeeds)
             {
-                if (dicProducts.Keys.Contains(feed))
+                if (dicColumnProducts.Keys.Contains(feed))
                 {
-                    result = dicProducts[feed];
+                    result[0] = dicColumnProducts[feed];
+                    result[1] = dicColumnProdTypes[feed];
                     break;
                 }
             }
@@ -390,9 +403,10 @@ namespace ReliefProMain.ViewModel
         {
             Dictionary<string, string> tempFeeds = new Dictionary<string, string>();
             Dictionary<string, string> tempProducts = new Dictionary<string, string>();
+            Dictionary<string, string> tempProdTypes = new Dictionary<string, string>();
             Dictionary<string, string[]> sideColumnFeeds = new Dictionary<string, string[]>();
             Dictionary<string, string[]> sideColumnProducts = new Dictionary<string, string[]>();
-            GetEqFeedProduct(CurrentTower, ref tempFeeds, ref tempProducts);
+            GetEqFeedProduct(CurrentTower, ref tempFeeds, ref tempProducts, ref tempProdTypes);
             GetAllSideColumnFeedProductData(ref sideColumnFeeds, ref sideColumnProducts);
             foreach (KeyValuePair<string, string> feed in tempFeeds)
             {
@@ -427,11 +441,13 @@ namespace ReliefProMain.ViewModel
                 }
             }
 
-            Dictionary<string, string> sideColumnTray = new Dictionary<string, string>();
+
             foreach (KeyValuePair<string, string[]> p in sideColumnFeeds)
             {
-                string tray = GetSideColumnTray(p.Value, tempProducts);
-                sideColumnTray.Add(p.Key, tray);
+                string[] trayandprodtype = GetSideColumnTrayAndProdType(p.Value, tempProducts, tempProdTypes);
+
+                sideColumnTray.Add(p.Key, trayandprodtype[0]);
+                sideColumnProdType.Add(p.Key, trayandprodtype[1]);
                 foreach (string feed in p.Value)
                 {
                     if (feed != string.Empty)
@@ -445,31 +461,37 @@ namespace ReliefProMain.ViewModel
                         {
                             if (dicFeeds.Keys.Contains(feed) == false)
                             {
-                                dicFeeds.Add(feed, tray);
+                                dicFeeds.Add(feed, trayandprodtype[0]);
                             }
                         }
                     }
                 }
+
 
             }
 
             foreach (KeyValuePair<string, string[]> p in sideColumnProducts)
             {
                 string tray = sideColumnTray[p.Key];
-                foreach (string product in p.Value)
+                string prodtype = sideColumnProdType[p.Key];
+                if (tray != string.Empty)
                 {
-                    if (product != string.Empty)
+                    foreach (string product in p.Value)
                     {
-                        bool isInternal = false;
-                        if (tempFeeds.Keys.Contains(product))
+                        if (product != string.Empty)
                         {
-                            isInternal = true;
-                        }
-                        if (!isInternal)
-                        {
-                            if (dicProducts.Keys.Contains(product) == false)
+                            bool isInternal = false;
+                            if (tempFeeds.Keys.Contains(product))
                             {
-                                dicProducts.Add(product, tray);
+                                isInternal = true;
+                            }
+                            if (!isInternal)
+                            {
+                                if (dicProducts.Keys.Contains(product) == false)
+                                {
+                                    dicProducts.Add(product, tray);
+                                    dicProdTypes.Add(product, prodtype);
+                                }
                             }
                         }
                     }
@@ -478,6 +500,21 @@ namespace ReliefProMain.ViewModel
             }
         }
 
+        private bool IsSteam(CustomStream s)
+        {
+            bool b=false;
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            string[] Componentids = s.Componentid.Split(',');
+            string[] Coms = s.TotalComposition.Split(',');
+            int comCount = Coms.Length;
+            for (int i = 0; i < comCount; i++)
+            {
+                dic.Add(Componentids[i], Coms[i]);
+            }
+            if (dic["H2O"] == "1")
+                b = true;
+            return b;
+        }
         private ICommand _SaveCommand;
         public ICommand SaveCommand
         {
@@ -631,6 +668,8 @@ namespace ReliefProMain.ViewModel
                         sr.SourceName = cs.StreamName + "_Source";
                         sr.SourceType = "Compressor(Motor)";
                         sr.StreamName = cs.StreamName;
+                        sr.IsSteam = IsSteam(cs);
+                        sr.IsHeatSource = false;
                         dbsr.Add(sr, Session);
 
 

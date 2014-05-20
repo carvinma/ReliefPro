@@ -20,5 +20,7 @@ namespace ReliefProModel
         public virtual string MaxPossiblePressure_Color { get; set; }
         public virtual string IsMaintained_Color { get; set; }
         public virtual string StreamName { get; set; }
+        public virtual bool IsSteam { get; set; }
+        public virtual bool IsHeatSource { get; set; }
     }
 }
