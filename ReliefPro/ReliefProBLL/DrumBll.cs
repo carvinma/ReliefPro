@@ -99,7 +99,7 @@ namespace ReliefProBLL
             UnitConvert uc = new UnitConvert();
             outletModel = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(dbPlantFile);
-            outletModel.MaxPressure = uc.Convert(uomEnum.UserSetTemperature, UOMLib.UOMEnum.Pressure.ToString(), outletModel.MaxPressure);
+            outletModel.MaxPressure = uc.Convert(uomEnum.UserTemperature, UOMLib.UOMEnum.Pressure.ToString(), outletModel.MaxPressure);
             outletModel.MaxStreamRate = uc.Convert(uomEnum.UserWeightFlow, UOMLib.UOMEnum.WeightFlow.ToString(), outletModel.MaxStreamRate);
             outletModel.NormalFlashDuty = uc.Convert(uomEnum.UserEnthalpyDuty, UOMLib.UOMEnum.EnthalpyDuty.ToString(), outletModel.NormalFlashDuty);
             return outletModel;
