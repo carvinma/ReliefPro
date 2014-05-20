@@ -60,6 +60,7 @@ namespace ReliefProMain.Model
             this.fdReliefCondition = dbmodel.FDReliefCondition;
             this.feed = dbmodel.Feed;
             this.reboilerPinch = dbmodel.ReboilerPinch;
+           
         }
         public DrumBlockedOutlet dbmodel { get; set; }
 

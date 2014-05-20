@@ -79,15 +79,13 @@ namespace ReliefProMain.ViewModel
         }
         private int GetUnitDefalut(int unitTypeid, int basicid)
         {
-            int tmpValue = 0;
             if (lstBasciUnitDefault != null && lstBasciUnitDefault.Count > 0)
             {
                 var basciUnitDefault = lstBasciUnitDefault.Where(p => p.BasicUnitID == basicid && p.UnitTypeID == unitTypeid).FirstOrDefault();
                 if (basciUnitDefault != null)
-                    if (int.TryParse(basciUnitDefault.SystemUnitID, out tmpValue))
-                        return tmpValue;
+                    return basciUnitDefault.SystemUnitID;
             }
-            return tmpValue;
+            return 0;
         }
         private void InitBasicUnitDefalut(object systemUnit)
         {
@@ -101,13 +99,13 @@ namespace ReliefProMain.ViewModel
                     item.ID = 0;
                     item.BasicUnitID = model.BasicUnitselectLocation.ID;
                     item.UnitTypeID = changeSystemUnit.UnitType;
-                    item.SystemUnitID = changeSystemUnit.ID.ToString();
+                    item.SystemUnitID = changeSystemUnit.ID;
                     lstBasciUnitDefault.Add(item);
                 }
                 else
                 {
                     lstBasciUnitDefault.Remove(findThisUnit);
-                    findThisUnit.SystemUnitID = changeSystemUnit.ID.ToString();
+                    findThisUnit.SystemUnitID = changeSystemUnit.ID;
                     lstBasciUnitDefault.Add(findThisUnit);
                 }
             }

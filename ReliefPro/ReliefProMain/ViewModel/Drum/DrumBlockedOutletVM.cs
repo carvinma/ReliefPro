@@ -32,6 +32,7 @@ namespace ReliefProMain.ViewModel.Drum
             this.dbPlantFile = dbPlantFile;
             drum = new DrumBll();
 
+
             var outletModel = drum.GetBlockedOutletModel(dbPSFile);
             outletModel = drum.ReadConvertModel(outletModel, dbPlantFile);
 
@@ -39,6 +40,12 @@ namespace ReliefProMain.ViewModel.Drum
             model.dbmodel.DrumID = drum.GetDrumID(dbPSFile);
             model.dbmodel.ScenarioID = ScenarioID;
             CalcCMD = new DelegateCommand<object>(CalcResult);
+
+            UOMLib.UOMEnum uomEnum = new UOMEnum(dbPlantFile);
+            model.PressureUnit = uomEnum.UserPressure;
+            model.StreamRateUnit = uomEnum.UserMassRate;
+            model.FlashingDutyUnit = uomEnum.UserEnthalpyDuty;
+            model.ReliefConditionUnit = uomEnum.UserEnthalpyDuty;
         }
         private void WriteConvertModel()
         {
