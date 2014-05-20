@@ -24,26 +24,27 @@ namespace UOMLib
         public const string SpecificEnthalpy = "KJ/kg";
         public const string Density = "kg/m3";
 
-        public readonly string UserSetTemperature;
+        public readonly string UserTemperature;
         public readonly string UserWeightFlow;
         public readonly string UserPressure;
         public readonly string UserEnthalpyDuty;
-
+        public readonly string UserMassRate;
         public UOMEnum(string dbPlantFile)
         {
             UnitInfo unitInfo = new UnitInfo();
             var basicUnit = unitInfo.GetBasicUnitUOM(dbPlantFile);
             IList<BasicUnitDefault> lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(dbPlantFile);
 
-            UserSetTemperature = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Temperature, basicUnit.ID);
+            UserTemperature = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Temperature, basicUnit.ID);
             UserWeightFlow = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.WeightFlow, basicUnit.ID);
             UserPressure = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Pressure, basicUnit.ID);
             UserEnthalpyDuty = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.EnthalpyDuty, basicUnit.ID);
+            UserMassRate = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.MassRate, basicUnit.ID);
         }
         private string GetDefalutUnit(IList<BasicUnitDefault> lstBasicUnitDefault, UnitTypeEnum unitTypeEnum, int basicUnitID)
         {
             var basicUnitDefault = lstBasicUnitDefault.Where(p => p.BasicUnitID == basicUnitID && p.UnitTypeID == int.Parse(unitTypeEnum.ToString("d"))).FirstOrDefault();
-            if (basicUnitDefault != null)
+            if (basicUnitDefault != null && basicUnitDefault.SystemUnitInfo != null)
                 return basicUnitDefault.SystemUnitInfo.Name;
             return "";
         }
@@ -59,20 +60,20 @@ namespace UOMLib
             ThermalConductivity = 8,
             HeatTransCoeffcient = 9,
             SurfaceTension = 10,
-            MachineSpeed = 11,
-            Volume = 12,
-            Length = 13,
-            Aera = 14,
-            Energy = 15,
-            Time = 16,
-            FlowConductance = 17,
-            MassRate = 18,
-            VolumeRate = 19,
-            Density = 20,
-            SpecificEnthalpy = 21,
-            EnthalpyDuty = 22,
-            FineLength = 23,
-            WeightFlow = 24
+            MachineSpeed = 12,
+            Volume = 13,
+            Length = 14,
+            Aera = 15,
+            Energy = 16,
+            Time = 17,
+            FlowConductance = 18,
+            MassRate = 19,
+            VolumeRate = 20,
+            Density = 21,
+            SpecificEnthalpy = 22,
+            EnthalpyDuty = 23,
+            FineLength = 24,
+            WeightFlow = 25
         }
     }
 }

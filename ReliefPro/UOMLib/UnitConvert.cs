@@ -94,11 +94,11 @@ namespace UOMLib
             int originSystemUnitID = 0;
             var originModel = lstBasicUnitDefault.Where(p => p.BasicUnitID == originBasicID && p.UnitTypeID == unitTypeID).FirstOrDefault();
             if (originModel != null)
-                originSystemUnitID = int.Parse(originModel.SystemUnitID);
+                originSystemUnitID = originModel.SystemUnitID;
             int targetSystemUnitID = 0;
             var targetModel = lstBasicUnitDefault.Where(p => p.BasicUnitID == targetBasicID && p.UnitTypeID == unitTypeID).FirstOrDefault();
             if (targetModel != null)
-                targetSystemUnitID = int.Parse(targetModel.SystemUnitID);
+                targetSystemUnitID = targetModel.SystemUnitID;
 
 
             if (originSystemUnitID > 0 && targetSystemUnitID > 0)
