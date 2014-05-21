@@ -12,7 +12,7 @@ using ProII;
 
 namespace ProII92
 {
-    public class PHASECalculate:IPHASECalculate
+    public class PHASECalculate : IPHASECalculate
     {
         /// <summary>
         /// 
@@ -27,12 +27,12 @@ namespace ProII92
         /// <param name="liquid"></param>
         /// <param name="dir"></param>
         /// <returns></returns>
-        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream,string PH, string dir)
+        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string PH, string dir)
         {
             CP2ServerClass cp2Srv = new CP2ServerClass();
             cp2Srv.Initialize();
 
-            string streamData = getStreamData(iFirst, firstValue,iSecond,secondValue, stream);
+            string streamData = getStreamData(iFirst, firstValue, iSecond, secondValue, stream);
             string flashData = getPHASEData(iFirst, firstValue, iSecond, secondValue, stream, PH);
             StringBuilder sb = new StringBuilder();
             string[] arrfileContent = fileContent.Split(new string[] { "STREAM DATA" }, StringSplitOptions.None);
@@ -62,26 +62,30 @@ namespace ProII92
                 rate = "1";
             data1.Append("\t RATE(KGM/S)=").Append(rate).Append(",&\n");
             string com = stream.TotalComposition;
-            string Componentid =stream.Componentid;
+            string Componentid = stream.Componentid;
             string CompIn = stream.CompIn;
+            string PrintNumber = stream.PrintNumber;
             Dictionary<string, string> compdict = new Dictionary<string, string>();
             data1.Append("\t COMP=&\n");
             string[] coms = com.Split(',');
+            string[] PrintNumbers = PrintNumber.Split(',');
+            StringBuilder sbCom = new StringBuilder();
             string[] Componentids = Componentid.Split(',');
             string[] CompIns = CompIn.Split(',');
-            StringBuilder sbCom = new StringBuilder();
-            for (int i = 0; i < coms.Length; i++)
+            int comCount = coms.Length;
+            for (int i = 0; i < comCount; i++)
             {
                 compdict.Add(Componentids[i], coms[i]);
             }
-            foreach (string s in CompIns)
+            for (int i = 0; i < comCount; i++)
             {
-                sbCom.Append("/&\n").Append(compdict[s]);
+                //string s = CompIns[i];
+                sbCom.Append("/&\n").Append(PrintNumbers[i]).Append(",").Append(coms[i]);
             }
             data1.Append("\t").Append(sbCom.Remove(0, 2)).Append("\n");
             return data1.ToString();
         }
-        private string getPHASEData(int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream,string PH)
+        private string getPHASEData(int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string PH)
         {
             StringBuilder data2 = new StringBuilder("UNIT OPERATIONS\n");
             string streamName = stream.StreamName;
@@ -89,10 +93,10 @@ namespace ProII92
 
             data2.Append("\tPHASE UID=").Append(FlashName).Append("\n");
             data2.Append("\t EVAL  STREAM=").Append(streamName.ToUpper()).Append(",IPLOT=ON\n");
-                        
+
             data2.Append("END");
             return data2.ToString();
         }
-       
+
     }
 }

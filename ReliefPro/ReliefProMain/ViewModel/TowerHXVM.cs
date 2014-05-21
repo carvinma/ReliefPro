@@ -119,7 +119,7 @@ namespace ReliefProMain.ViewModel
             {
                 var Session = helper.GetCurrentSession();
                 dbTowerHXDetail db = new dbTowerHXDetail();
-                IList<TowerHXDetail> list = db.GetAllList(Session);
+                IList<TowerHXDetail> list = db.GetAllList(Session,model.ID);
                 for (int i = 0; i < list.Count; i++)
                 {
                     db.Delete(list[i], Session);

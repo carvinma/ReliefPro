@@ -67,9 +67,10 @@ namespace ReliefProCommon.CommonLib
                     {
                         s=s.Replace(key,"srk");
                     }
-                    sb.Append(s);
+                    sb.Append(s).Append("\n");
+                    i++;
                 }
-                if (s.Trim().IndexOf("NAME") == 0 || s.Trim().IndexOf("UNIT") == 0)
+                else if (s.Trim().IndexOf("NAME") == 0 || s.Trim().IndexOf("UNIT") == 0)
                 {
                     break;
                 }

@@ -12,7 +12,7 @@ using ProII;
 
 namespace ProII92
 {
-    public class FlashCalculateW:IFlashCalculateW
+    public class FlashCalculateW : IFlashCalculateW
     {
         /// <summary>
         /// 
@@ -27,12 +27,12 @@ namespace ProII92
         /// <param name="liquid"></param>
         /// <param name="dir"></param>
         /// <returns></returns>
-        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string vapor, string liquid,string w, string dir)
+        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string vapor, string liquid, string w, string dir)
         {
             CP2ServerClass cp2Srv = new CP2ServerClass();
             cp2Srv.Initialize();
 
-            string streamData = getStreamData(iFirst, firstValue,iSecond,secondValue, stream,w);
+            string streamData = getStreamData(iFirst, firstValue, iSecond, secondValue, stream, w);
             string flashData = getFlashData(iFirst, firstValue, iSecond, secondValue, stream, vapor, liquid);
             StringBuilder sb = new StringBuilder();
             sb.Append(fileContent).Append(streamData).Append(flashData);
@@ -49,7 +49,7 @@ namespace ProII92
 
             return przFile;
         }
-        private string getStreamData(int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream,string w)
+        private string getStreamData(int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string w)
         {
             StringBuilder data1 = new StringBuilder();
             string streamName = stream.StreamName;
@@ -59,7 +59,7 @@ namespace ProII92
             string rate = w;
             data1.Append("\t RATE(KJ/hr)=").Append(rate).Append(",&\n");
             string com = stream.TotalComposition;
-            string Componentid =stream.Componentid;
+            string Componentid = stream.Componentid;
             string CompIn = stream.CompIn;
             Dictionary<string, string> compdict = new Dictionary<string, string>();
             data1.Append("\t COMP=&\n");
@@ -84,8 +84,8 @@ namespace ProII92
             string streamName = stream.StreamName;
             Guid guid = Guid.NewGuid();
             Guid guid2 = Guid.NewGuid();
-            string FlashName = "F_" + guid.ToString().Substring(0, 5).ToUpper();
-            
+            string FlashName = "F_" + Guid.NewGuid().ToString().Substring(0, 5);
+
             data2.Append("\tFLASH UID=").Append(FlashName).Append("\n");
             data2.Append("\t FEED ").Append(streamName.ToUpper()).Append("\n");
             data2.Append("\t PRODUCT V=").Append(vapor).Append(",&\n");
@@ -106,17 +106,17 @@ namespace ProII92
                     data2.Append("\t ISO TEMPERATURE(C)=").Append(secondValue).Append(",");
                     data2.Append(sbPT.ToString());
                     break;
-                case 3:                    
+                case 3:
                     data2.Append("\t Bubble ");
                     data2.Append(sbPT.ToString());
                     data2.Append("\t DEFINE ERAT AS 1\n");
                     break;
-                case 4:                  
+                case 4:
                     data2.Append("\t Dew ");
                     data2.Append(sbPT.ToString());
                     data2.Append("\t DEFINE ERAT AS 1\n");
                     break;
-                case 5:                    
+                case 5:
                     data2.Append("\t ADIABATIC Duty=").Append(secondValue).Append(",");
                     data2.Append(sbPT.ToString());
                     break;
@@ -131,10 +131,10 @@ namespace ProII92
                     break;
 
             }
-            
+
             data2.Append("END");
             return data2.ToString();
         }
-       
+
     }
 }

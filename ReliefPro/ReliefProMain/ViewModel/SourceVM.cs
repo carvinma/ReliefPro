@@ -106,6 +106,7 @@ namespace ReliefProMain.ViewModel
                 Description = source.Description;
                 IsMaintained = source.IsMaintained;
                 PressureUnit = pressureUnit;
+                IsSteam = source.IsSteam;
             }
 
         }

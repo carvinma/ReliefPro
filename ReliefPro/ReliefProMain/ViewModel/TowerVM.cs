@@ -511,8 +511,12 @@ namespace ReliefProMain.ViewModel
             {
                 dic.Add(Componentids[i], Coms[i]);
             }
-            if (dic["H2O"] == "1")
-                b = true;
+            string H2O = "H2O";
+            if (dic.Keys.Contains(H2O))
+            {
+                if (dic[H2O] == "1" &&s.VaporFraction=="1")
+                    b = true;
+            }
             return b;
         }
         private ICommand _SaveCommand;
