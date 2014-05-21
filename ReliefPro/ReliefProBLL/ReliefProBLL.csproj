@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="DrumBll.cs" />
     <Compile Include="DrumBlockedOutletModel.cs" />
+    <Compile Include="DrumFireFluidBLL.cs" />
     <Compile Include="ExportExcel.cs" />
     <Compile Include="ImportData.cs" />
     <Compile Include="NHibernateHelper.cs" />

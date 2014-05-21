@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NHibernate;
 using ReliefProBLL.Common;
 using ReliefProDAL;
 using ReliefProDAL.Drum;
@@ -16,81 +17,72 @@ namespace ReliefProBLL
     public class DrumBll
     {
         private dbDrumBlockedOutlet dbBlockedOutlet = new dbDrumBlockedOutlet();
-        public int GetDrumID(string dbProtectedSystemFile)
+        public int GetDrumID(ISession SessionPS)
         {
             dbDrum db = new dbDrum();
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-            {
-                var Session = helper.GetCurrentSession();
-                Drum model = db.GetModel(Session);
-                if (model != null)
-                    return model.ID;
-            }
+            Drum model = db.GetModel(SessionPS);
+            if (model != null)
+                return model.ID;
             return 0;
         }
-        public void SaveDrumBlockedOutlet(DrumBlockedOutlet model, string dbProtectedSystemFile, double reliefLoad, double reliefMW, double reliefT)
+        public void SaveDrumBlockedOutlet(DrumBlockedOutlet model, ISession SessionPS, double reliefLoad, double reliefMW, double reliefT)
         {
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-            {
-                var Session = helper.GetCurrentSession();
-                dbBlockedOutlet.SaveDrumBlockedOutlet(Session, model);
-                dbScenario db = new dbScenario();
-                var sModel = db.GetModel(model.ScenarioID, Session);
 
-                sModel.ReliefLoad = reliefLoad.ToString();
-                sModel.ReliefMW = reliefMW.ToString();
-                sModel.ReliefTemperature = reliefT.ToString();
-                sModel.ReliefPressure = ScenarioReliefPressure(dbProtectedSystemFile).ToString();
-                db.Update(sModel, Session);
-            }
+            dbBlockedOutlet.SaveDrumBlockedOutlet(SessionPS, model);
+            dbScenario db = new dbScenario();
+            var sModel = db.GetModel(model.ScenarioID, SessionPS);
+
+            sModel.ReliefLoad = reliefLoad.ToString();
+            sModel.ReliefMW = reliefMW.ToString();
+            sModel.ReliefTemperature = reliefT.ToString();
+            sModel.ReliefPressure = ScenarioReliefPressure(SessionPS).ToString();
+            db.Update(sModel, SessionPS);
+
         }
-        public DrumBlockedOutlet GetBlockedOutletModel(string dbProtectedSystemFile)
+        public DrumBlockedOutlet GetBlockedOutletModel(ISession SessionPS)
         {
             DrumBlockedOutlet Model = new DrumBlockedOutlet();
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
+            dbDrum dbdrum = new dbDrum();
+            List<Drum> lstDrum = dbdrum.GetAllList(SessionPS).ToList();
+            if (lstDrum.Count() > 0)
             {
-                var Session = helper.GetCurrentSession();
-                dbDrum dbdrum = new dbDrum();
-                List<Drum> lstDrum = dbdrum.GetAllList(Session).ToList();
-                if (lstDrum.Count() > 0)
-                {
-                    Model.DrumType = lstDrum[0].DrumType;
-                    Model.NormalFlashDuty = double.Parse(lstDrum[0].Duty);
-                    Model.DrumID = lstDrum[0].ID;
-                }
+                Model.DrumType = lstDrum[0].DrumType;
+                Model.NormalFlashDuty = double.Parse(lstDrum[0].Duty);
+                Model.DrumID = lstDrum[0].ID;
+            }
 
-                var tmpModel = dbBlockedOutlet.GetModelByDrumID(Session, Model.DrumID);
-                if (tmpModel != null)
+            var tmpModel = dbBlockedOutlet.GetModelByDrumID(SessionPS, Model.DrumID);
+            if (tmpModel != null)
+            {
+                Model = tmpModel;
+                return Model;
+            }
+            dbSource dbSource = new dbSource();
+            List<Source> listSource = dbSource.GetAllList(SessionPS).ToList();
+            if (listSource.Count() > 0)
+            {
+                double MaxPressure = 0;
+                if (double.TryParse(listSource.First().MaxPossiblePressure, out MaxPressure))
                 {
-                    Model = tmpModel;
-                    return Model;
-                }
-                dbSource dbSource = new dbSource();
-                List<Source> listSource = dbSource.GetAllList(Session).ToList();
-                if (listSource.Count() > 0)
-                {
-                    double MaxPressure = 0;
-                    if (double.TryParse(listSource.First().MaxPossiblePressure, out MaxPressure))
-                    {
-                        Model.MaxPressure = MaxPressure;
-                    }
-                }
-                dbScenario towerScenario = new dbScenario();
-                List<Scenario> listTowerScenario = towerScenario.GetAllList(Session).ToList();
-                if (listTowerScenario.Count() > 0)
-                {
-                    double MaxStreamRate = 0;
-                    if (double.TryParse(listTowerScenario.First().ReliefLoad, out MaxStreamRate))
-                        Model.MaxStreamRate = MaxStreamRate;
+                    Model.MaxPressure = MaxPressure;
                 }
             }
+            dbScenario towerScenario = new dbScenario();
+            List<Scenario> listTowerScenario = towerScenario.GetAllList(SessionPS).ToList();
+            if (listTowerScenario.Count() > 0)
+            {
+                double MaxStreamRate = 0;
+                if (double.TryParse(listTowerScenario.First().ReliefLoad, out MaxStreamRate))
+                    Model.MaxStreamRate = MaxStreamRate;
+            }
+
             return Model;
         }
 
-        public DrumBlockedOutlet ReadConvertModel(DrumBlockedOutlet model, string dbPlantFile)
+        public DrumBlockedOutlet ReadConvertModel(DrumBlockedOutlet model, ISession SessionPlan)
         {
             UnitInfo unitInfo = new UnitInfo();
-            BasicUnit basicUnit = unitInfo.GetBasicUnitUOM(dbPlantFile);
+            BasicUnit basicUnit = unitInfo.GetBasicUnitUOM(SessionPlan);
             if (basicUnit.UnitName == "StInternal")
             {
                 return model;
@@ -98,55 +90,46 @@ namespace ReliefProBLL
             DrumBlockedOutlet outletModel = new DrumBlockedOutlet();
             UnitConvert uc = new UnitConvert();
             outletModel = model;
-            UOMLib.UOMEnum uomEnum = new UOMEnum(dbPlantFile);
-            outletModel.MaxPressure = uc.Convert(uomEnum.UserTemperature, UOMLib.UOMEnum.Pressure.ToString(), outletModel.MaxPressure);
+            UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPlan);
+            outletModel.MaxPressure = uc.Convert(uomEnum.UserPressure, UOMLib.UOMEnum.Pressure.ToString(), outletModel.MaxPressure);
             outletModel.MaxStreamRate = uc.Convert(uomEnum.UserWeightFlow, UOMLib.UOMEnum.WeightFlow.ToString(), outletModel.MaxStreamRate);
             outletModel.NormalFlashDuty = uc.Convert(uomEnum.UserEnthalpyDuty, UOMLib.UOMEnum.EnthalpyDuty.ToString(), outletModel.NormalFlashDuty);
             return outletModel;
         }
 
-        public double PfeedUpstream(string dbProtectedSystemFile)
+        public double PfeedUpstream(ISession SessionPS)
         {
             dbStream stream = new dbStream();
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
+
+            var streamModel = stream.GetAllList(SessionPS).FirstOrDefault();
+            if (streamModel != null)
             {
-                var Session = helper.GetCurrentSession();
-                var streamModel = stream.GetAllList(Session).FirstOrDefault();
-                if (streamModel != null)
-                {
-                    if (!string.IsNullOrEmpty(streamModel.Pressure))
-                        return double.Parse(streamModel.Pressure);
-                }
+                if (!string.IsNullOrEmpty(streamModel.Pressure))
+                    return double.Parse(streamModel.Pressure);
+            }
+
+            return 0;
+        }
+        public double ScenarioReliefPressure(ISession SessionPS)
+        {
+            dbPSV psv = new dbPSV();
+            var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
+            if (psvModel != null)
+            {
+                if (!string.IsNullOrEmpty(psvModel.Pressure))
+                    return double.Parse(psvModel.Pressure) * double.Parse(psvModel.ReliefPressureFactor);
             }
             return 0;
         }
-        public double ScenarioReliefPressure(string dbProtectedSystemFile)
+        public double PSet(ISession SessionPS)
         {
             dbPSV psv = new dbPSV();
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
+
+            var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
+            if (psvModel != null)
             {
-                var Session = helper.GetCurrentSession();
-                var psvModel = psv.GetAllList(Session).FirstOrDefault();
-                if (psvModel != null)
-                {
-                    if (!string.IsNullOrEmpty(psvModel.Pressure))
-                        return double.Parse(psvModel.Pressure) * double.Parse(psvModel.ReliefPressureFactor);
-                }
-            }
-            return 0;
-        }
-        public double PSet(string dbProtectedSystemFile)
-        {
-            dbPSV psv = new dbPSV();
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-            {
-                var Session = helper.GetCurrentSession();
-                var psvModel = psv.GetAllList(Session).FirstOrDefault();
-                if (psvModel != null)
-                {
-                    if (!string.IsNullOrEmpty(psvModel.Pressure))
-                        return double.Parse(psvModel.Pressure);
-                }
+                if (!string.IsNullOrEmpty(psvModel.Pressure))
+                    return double.Parse(psvModel.Pressure);
             }
             return 0;
         }
