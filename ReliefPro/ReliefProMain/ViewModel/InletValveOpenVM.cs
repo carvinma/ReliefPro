@@ -322,7 +322,7 @@ namespace ReliefProMain.ViewModel
                         UpStreamLiquidData = ProIIToDefault.ConvertProIIStreamToCustomStream(s);                     
 
                     }
-                    else if (arrProdTypes[i] == "1")
+                    else if (arrProdTypes[i] == "3")
                     {
                         ProIIStreamData s = db.GetModel(Session, pName);
                         UpVesselNormalVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(s);
@@ -386,7 +386,7 @@ namespace ReliefProMain.ViewModel
             
             double Wliquidvalve = Darcy(Rmass, Cv, UPStreamPressure, DownStreamPressure);
             IFlashCalculateW flashCalc = ProIIFactory.CreateFlashCalculateW(version);
-            string content = PRIIFileOperator.getUsableContent(UpStreamLiquidData.StreamName, dirInletValveOpen);
+            string content = PRIIFileOperator.getUsableContent(UpStreamLiquidData.StreamName, rootdir);
             string f = flashCalc.Calculate(content, 1, DownStreamPressure, 5, "0", UpStreamLiquidData, vapor, liquid, Wliquidvalve.ToString(), dirInletValveOpen);
 
             IProIIReader reader = ProIIFactory.CreateReader(version);
