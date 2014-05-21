@@ -46,6 +46,8 @@ namespace ReliefProMain.ViewModel
         public string dbPlantFile { set; get; }
         public List<string> ScenarioNameList { set; get; }
         private string eqType;
+        private ISession SessionPS;
+        private ISession SessionPF;
         public ScenarioListVM(string dbPSFile, string dbPFile)
         {
             dbProtectedSystemFile = dbPSFile;
@@ -54,6 +56,7 @@ namespace ReliefProMain.ViewModel
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
                 var Session = helper.GetCurrentSession();
+                SessionPS = Session;
                 eqType = GetEqType(Session);
                 ScenarioNameList = GetScenarioNames(eqType);
 
@@ -70,6 +73,11 @@ namespace ReliefProMain.ViewModel
                     m.ReliefMW = s.ReliefMW;
                     Scenarios.Add(m);
                 }
+            }
+            using (var helper = new NHibernateHelper(dbPFile))
+            {
+                var Session = helper.GetCurrentSession();
+                SessionPF = Session;
             }
         }
 
@@ -195,7 +203,7 @@ namespace ReliefProMain.ViewModel
                         {
                             Drum_BlockedOutlet v = new Drum_BlockedOutlet();
                             v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                            DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, dbProtectedSystemFile, dbPlantFile);
+                            DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, SessionPS, SessionPF);
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {
@@ -210,7 +218,7 @@ namespace ReliefProMain.ViewModel
                         {
                             Drum_fire v = new Drum_fire();
                             v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                            DrumFireVM vm = new DrumFireVM(ScenarioID, dbProtectedSystemFile, dbPlantFile);
+                            DrumFireVM vm = new DrumFireVM(ScenarioID, SessionPS, SessionPF);
                             v.DataContext = vm;
                             v.ShowDialog();
                             //CreateDrumFire(ScenarioID, Session);
