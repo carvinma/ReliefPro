@@ -73,7 +73,7 @@
     </Compile>
     <Compile Include="Drum\Drum.cs" />
     <Compile Include="Drum\DrumBlockedOutlet.cs" />
-    <Compile Include="Drum\DrumFireAllGas.cs" />
+    <Compile Include="Drum\DrumFireFluid.cs" />
     <Compile Include="Drum\DrumFireCalc.cs" />
     <Compile Include="Drum\DrumSize.cs" />
     <Compile Include="FeedBottomHX.cs" />
@@ -181,7 +181,7 @@
     <EmbeddedResource Include="Drum\DrumBlockedOutlet.hbm.xml" />
     <EmbeddedResource Include="Drum\DrumFireCalc.hbm.xml" />
     <EmbeddedResource Include="Drum\DrumSize.hbm.xml" />
-    <EmbeddedResource Include="Drum\DrumFireAllGas.hbm.xml" />
+    <EmbeddedResource Include="Drum\DrumFireFluid.xml" />
     <EmbeddedResource Include="Drum\Drum.hbm.xml" />
     <Content Include="license.txt" />
     <EmbeddedResource Include="TowerFlashProduct.hbm.xml" />
