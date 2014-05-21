@@ -70,34 +70,59 @@ namespace ReliefProCommon.CommonLib
                     sb.Append(s).Append("\n");
                     i++;
                 }
+                else if (s.Trim().IndexOf("OUTPUT") > -1)
+                {
+                    while (lines[i].Contains("&"))
+                    {
+                        i = i + 1;
+                    }
+                    if (!lines[i].Contains("&")) //表示该output最后一行
+                    {
+                        i = i + 1;
+                    }
+                }
+                else if (s.Trim().ToUpper().IndexOf(streamName.ToUpper()) > -1)
+                {
+                    while (lines[i].Contains("&"))
+                    {
+                        i = i + 1;
+                    }
+                    if (!lines[i].Contains("&"))
+                    {
+                        i = i + 1;
+                    }
+
+                }
                 else if (s.Trim().IndexOf("NAME") == 0 || s.Trim().IndexOf("UNIT") == 0)
                 {
                     break;
                 }
-                else
+
+                else if (s.IndexOf("REFSTREAM") > -1)
                 {
                     int idx = s.IndexOf("REFSTREAM");
-                    if (idx == -1)
+
+                    string subS = s.Substring(idx);
+                    int spitIdx = subS.IndexOf(",");
+                    if (spitIdx > -1)
                     {
-                        sb.Append(s).Append("\n");
+                        string old = subS.Substring(0, spitIdx);
+                        s = s.Replace(old, "REFSTREAM=" + streamName);
                     }
                     else
                     {
-                        string subS = s.Substring(idx);
-                        int spitIdx = subS.IndexOf(",");
-                        if (spitIdx > -1)
-                        {
-                            string old = subS.Substring(0, spitIdx);
-                            s = s.Replace(old, "REFSTREAM=" + streamName);
-                        }
-                        else
-                        {
-                            s = s.Replace(subS, "REFSTREAM=" + streamName);
-                        }
-                        sb.Append(s).Append("\n");
+                        s = s.Replace(subS, "REFSTREAM=" + streamName);
                     }
+                    sb.Append(s).Append("\n");
+
                     i++;
                 }
+                else
+                {
+                    sb.Append(s).Append("\n");
+                    i++;
+                }
+
 
             }
 

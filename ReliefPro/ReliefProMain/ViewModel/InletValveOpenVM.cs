@@ -18,6 +18,9 @@ using System.IO;
 using UOMLib;
 namespace ReliefProMain.ViewModel
 {
+    /// <summary>
+    /// 对于入口阀全开，ReliefPressure=Pset，和之前其他的case不同
+    /// </summary>
     public class InletValveOpenVM : ViewModelBase
     {
         public string dbProtectedSystemFile { get; set; }
@@ -51,6 +54,7 @@ namespace ReliefProMain.ViewModel
                 if (UpVesselType == "Column")
                 {
                     UpStreamNames = GetTowerProducts(dicEqData[SelectedVessel]);
+                    MaxOperatingPressure= UpStreamVaporData.Pressure;
                 }
                 else
                 {
@@ -106,18 +110,7 @@ namespace ReliefProMain.ViewModel
 
 
 
-        private string _SelectedUpStream { get; set; }
-        public string SelectedUpStream
-        {
-            get { return _SelectedUpStream; }
-            set
-            {
-                _SelectedUpStream = value;
-                MaxOperatingPressure = GetProIIStreamDataPressure(_SelectedUpStream);
-                OnPropertyChanged("SelectedUpStream");
-            }
-        }
-
+       
         private string _MaxOperatingPressure { get; set; }
         public string MaxOperatingPressure
         {
@@ -172,13 +165,16 @@ namespace ReliefProMain.ViewModel
             }
         }
         private Dictionary<string, ProIIEqData> dicEqData = new Dictionary<string, ProIIEqData>();
-        private List<CustomStream> arrStreamData = new List<CustomStream>();
+        private CustomStream UpStreamVaporData = new CustomStream();
+        private CustomStream UpStreamLiquidData = new CustomStream();
+        private CustomStream UpVesselNormalVapor = new CustomStream();
         private string rMass;
         private string version;
         private string rootdir;
         private string tempdir;
         private string przFile;
         private string UpVesselType;
+        
         public InletValveOpenVM(string eqType, int ScenarioID, string dbPSFile, string dbPFile)
         {
             OperatingPhases = GetOperatingPhases();
@@ -191,7 +187,7 @@ namespace ReliefProMain.ViewModel
                 var Session = helper.GetCurrentSession();
                 dbPSV dbpsv = new dbPSV();
                 PSV psv = dbpsv.GetModel(Session);
-                ReliefPressure = (double.Parse(psv.Pressure) * double.Parse(psv.ReliefPressureFactor)).ToString();
+                ReliefPressure = psv.Pressure;
                 dbTower dbtower = new dbTower();
                 Tower m = dbtower.GetModel(Session);
                 if (m != null)
@@ -287,7 +283,16 @@ namespace ReliefProMain.ViewModel
                         list.Add(pName);
                         ProIIStreamData s = db.GetModel(Session, pName);
                         CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(s);
-                        arrStreamData.Add(cs);
+
+                        if (arrProductTypes[i] == "1")
+                        {
+                            UpStreamVaporData = cs;
+                            UpVesselNormalVapor = cs;
+                        }
+                        else
+                        {
+                            UpStreamLiquidData = cs;
+                        }
                     }
                 }
             }
@@ -303,20 +308,24 @@ namespace ReliefProMain.ViewModel
             string prodtype=data.ProdType;
             string[] arrProducts = productdata.Split(',');
             string[] arrProdTypes = prodtype.Split(',');
-            for (int i = 0; i < arrProducts.Length; i++)
+            using (var helper = new NHibernateHelper(dbPlantFile))
             {
-                if (arrProdTypes[i] == "5")
+                dbProIIStreamData db = new dbProIIStreamData();
+                var Session = helper.GetCurrentSession();
+                for (int i = 0; i < arrProducts.Length; i++)
                 {
                     string pName = arrProducts[i];
-                    list.Add(pName);
-                    
-                    using (var helper = new NHibernateHelper(dbPlantFile))
-                    {
-                        var Session = helper.GetCurrentSession();                        
-                        dbProIIStreamData db = new dbProIIStreamData();
+                    if (arrProdTypes[i] == "5")
+                    {                        
+                        list.Add(pName);
                         ProIIStreamData s = db.GetModel(Session, pName);
-                        CustomStream LiquidStream = ProIIToDefault.ConvertProIIStreamToCustomStream(s) ;
-                        arrStreamData.Add( LiquidStream);
+                        UpStreamLiquidData = ProIIToDefault.ConvertProIIStreamToCustomStream(s);                     
+
+                    }
+                    else if (arrProdTypes[i] == "1")
+                    {
+                        ProIIStreamData s = db.GetModel(Session, pName);
+                        UpVesselNormalVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(s);
                     }
                 }
             }
@@ -327,8 +336,8 @@ namespace ReliefProMain.ViewModel
             reader.InitProIIReader(przFile);
             ProIIStreamData vapor = reader.CopyStream(data.EqName, int.Parse(data.NumberOfTrays), 1, 1);
             list.Add(vapor.StreamName);
-            CustomStream vaporStream = ProIIToDefault.ConvertProIIStreamToCustomStream(vapor);
-            arrStreamData.Add(vaporStream);
+            UpStreamVaporData = ProIIToDefault.ConvertProIIStreamToCustomStream(vapor);
+            
             return list;
         }
 
@@ -364,93 +373,42 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private void LiquidFlashing(string Rmass, string Cv, string UPStreamPressure, string DownStreamPressure,string przFile)
+        private void LiquidFlashing(string Rmass, string Cv, string UPStreamPressure, string DownStreamPressure, string przFile, ref string FLReliefLoad, ref string FLReliefMW, ref string FLReliefTemperature)
         {
              string rMass=string.Empty; 
             
             string dirInletValveOpen = tempdir + "InletValveOpen";
             if (!Directory.Exists(dirInletValveOpen))
                 Directory.CreateDirectory(dirInletValveOpen);
-            CustomStream LiquidStream = new CustomStream();
-            if(UpVesselType=="Column")
-            {
-                LiquidStream=arrStreamData[0];
-            }
-            else
-            {
-                foreach (CustomStream cs in arrStreamData)
-                {
-                    if (cs.ProdType == "2")
-                    {
-                        LiquidStream = cs;
-                    }
-                }
-            }
             
             string vapor = Guid.NewGuid().ToString().Substring(0, 6);
             string liquid = Guid.NewGuid().ToString().Substring(0, 6);           
             
             double Wliquidvalve = Darcy(Rmass, Cv, UPStreamPressure, DownStreamPressure);
             IFlashCalculateW flashCalc = ProIIFactory.CreateFlashCalculateW(version);
-            string content = PRIIFileOperator.getUsableContent(LiquidStream.StreamName, dirInletValveOpen);
-            string f = flashCalc.Calculate(content, 1, DownStreamPressure, 5, "0", LiquidStream, vapor, liquid, Wliquidvalve.ToString(), dirInletValveOpen);
+            string content = PRIIFileOperator.getUsableContent(UpStreamLiquidData.StreamName, dirInletValveOpen);
+            string f = flashCalc.Calculate(content, 1, DownStreamPressure, 5, "0", UpStreamLiquidData, vapor, liquid, Wliquidvalve.ToString(), dirInletValveOpen);
 
             IProIIReader reader = ProIIFactory.CreateReader(version);
             reader.InitProIIReader(f);
             ProIIStreamData proIIStreamData = reader.GetSteamInfo(vapor);
             reader.ReleaseProIIReader();
             CustomStream vaporStream=ProIIToDefault.ConvertProIIStreamToCustomStream(proIIStreamData);
-            ReliefLoad = vaporStream.WeightFlow;
+            FLReliefLoad = (double.Parse(vaporStream.WeightFlow)-double.Parse(UpVesselNormalVapor.WeightFlow)).ToString();
+            FLReliefMW = vaporStream.BulkMwOfPhase;
+            FLReliefTemperature = vaporStream.Temperature;
             
         }
 
-        private void VaporBreakthrough()
-        {       
-            
+        private void VaporBreakthrough(ref string VBReliefLoad, ref string VBReliefMW, ref string VBReliefTemperature)
+        {                   
             string dirInletValveOpen = tempdir + "InletValveOpen";
             if (!Directory.Exists(dirInletValveOpen))
                 Directory.CreateDirectory(dirInletValveOpen);
-
-            if (UpVesselType == "Column")
-            {
-                ProIIEqData eq=dicEqData[SelectedVessel];
-                int tray=int.Parse(eq.NumberOfTrays);
-                string version=ProIIFactory.GetProIIVerison(przFile,dirInletValveOpen);
-                //Copy 塔底的最后一块塔板的Vapor
-                IProIIReader reader=ProIIFactory.CreateReader(version);
-                reader.InitProIIReader(przFile);
-                ProIIStreamData proIIStream= reader.CopyStream(EqName,tray,1,1);
-                reader.ReleaseProIIReader();
-                CustomStream cs=ProIIToDefault.ConvertProIIStreamToCustomStream(proIIStream);
-                rMass=cs.BulkDensityAct;
-            }
-            else if (UpVesselType == "Flash")
-            {
-                //正常Vapor 的压力
-                ProIIEqData eq = dicEqData[SelectedVessel];
-                string[] productdata = eq.ProductData.Split(',');
-                string[] producttype = eq.ProductStoreData.Split(',');
-                int count = producttype.Length;
-                string vapor = string.Empty;
-
-                for (int i = 0; i < count; i++)
-                {
-                    if (producttype[i] == "1")
-                    {
-                        vapor = productdata[i];
-                    }
-                }
-                using (var helper = new NHibernateHelper(dbPlantFile))
-                {
-                    var Session = helper.GetCurrentSession();
-                    dbProIIStreamData db = new dbProIIStreamData();
-                    ProIIStreamData proIIStream = db.GetModel(Session, vapor);
-                    CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIStream);
-                    rMass = cs.BulkDensityAct;
-                }
-            }
            double reliefLoad = Darcy(rMass, CV, MaxOperatingPressure, ReliefPressure);
-           ReliefLoad = reliefLoad.ToString();
+           VBReliefLoad = (reliefLoad-double.Parse(UpVesselNormalVapor.WeightFlow)).ToString();
+           VBReliefMW = UpVesselNormalVapor.BulkMwOfPhase;
+           VBReliefTemperature = UpVesselNormalVapor.Temperature;
         }
 
 
@@ -470,15 +428,50 @@ namespace ReliefProMain.ViewModel
 
         private void Calculate(object window)
         {
-            rMass = arrStreamData[0].BulkDensityAct;
-            string UpStreamPress=arrStreamData[0].Pressure;
+            string flReliefLoad = string.Empty;
+            string flReliefMW = string.Empty;
+            string flReliefTemperature = string.Empty;
+            if (UpStreamLiquidData != null)
+            {
+                rMass = UpStreamLiquidData.BulkDensityAct;               
+                LiquidFlashing(rMass, CV, MaxOperatingPressure, ReliefPressure, przFile, ref flReliefLoad, ref flReliefMW, ref flReliefTemperature);
+                              
+            }
             if (SelectedOperatingPhase == "Full Liquid")
             {
-                LiquidFlashing(rMass, CV, UpStreamPress, ReliefPressure, przFile);
+                ReliefLoad = flReliefLoad;
+                ReliefMW = flReliefMW;
+                ReliefTemperature = flReliefTemperature;
             }
             else
             {
-                VaporBreakthrough();
+                if (UpStreamVaporData == null)
+                {
+                    ReliefLoad = "0";
+                }
+                else
+                {
+                    string vbReliefLoad = string.Empty;
+                    string vbReliefMW = string.Empty;
+                    string vbReliefTemperature = string.Empty;
+                    rMass = UpStreamVaporData.BulkDensityAct;
+                    VaporBreakthrough(ref vbReliefLoad, ref vbReliefMW,ref vbReliefTemperature);
+                    if (double.Parse(vbReliefLoad) > double.Parse(flReliefLoad))
+                    {
+                        ReliefLoad = vbReliefLoad;
+                        ReliefMW = vbReliefMW;
+                        ReliefTemperature = vbReliefTemperature;
+                    }
+                    else
+                    {
+                        ReliefLoad = flReliefLoad;
+                        ReliefMW = flReliefMW;
+                        ReliefTemperature = flReliefTemperature;
+                    }
+
+
+                }
+                
             }
             
         }

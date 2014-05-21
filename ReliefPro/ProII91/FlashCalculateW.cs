@@ -35,7 +35,9 @@ namespace ProII91
             string streamData = getStreamData(iFirst, firstValue,iSecond,secondValue, stream,w);
             string flashData = getFlashData(iFirst, firstValue, iSecond, secondValue, stream, vapor, liquid);
             StringBuilder sb = new StringBuilder();
-            sb.Append(fileContent).Append(streamData).Append(flashData);
+            string[] arrfileContent = fileContent.Split(new string[] { "STREAM DATA" }, StringSplitOptions.None);
+            sb.Append(arrfileContent[0]).Append("\nSTREAM DATA\n").Append(streamData).Append(arrfileContent[1]).Append(flashData);
+            
             string onlyFileName = dir + @"\" + Guid.NewGuid().ToString().Substring(0, 5);
             string inpFile = onlyFileName + ".inp";
             File.WriteAllText(inpFile, sb.ToString());
@@ -57,23 +59,27 @@ namespace ProII91
             data1.Append("\t PRESSURE(MPAG)=").Append(stream.Pressure).Append(",&\n");
             data1.Append("\t TEMPERATURE(C)=").Append(stream.Temperature).Append(",&\n");
             string rate = w;
-            data1.Append("\t RATE(KJ/hr)=").Append(rate).Append(",&\n");
+            data1.Append("\t RATE(Kg/hr)=").Append(rate).Append(",&\n");
             string com = stream.TotalComposition;
-            string Componentid =stream.Componentid;
+            string Componentid = stream.Componentid;
             string CompIn = stream.CompIn;
+            string PrintNumber = stream.PrintNumber;
             Dictionary<string, string> compdict = new Dictionary<string, string>();
             data1.Append("\t COMP=&\n");
             string[] coms = com.Split(',');
+            string[] PrintNumbers = PrintNumber.Split(',');
+            StringBuilder sbCom = new StringBuilder();
             string[] Componentids = Componentid.Split(',');
             string[] CompIns = CompIn.Split(',');
-            StringBuilder sbCom = new StringBuilder();
-            for (int i = 0; i < coms.Length; i++)
+            int comCount = coms.Length;
+            for (int i = 0; i < comCount; i++)
             {
                 compdict.Add(Componentids[i], coms[i]);
             }
-            foreach (string s in CompIns)
+            for (int i = 0; i < comCount; i++)
             {
-                sbCom.Append("/&\n").Append(compdict[s]);
+                //string s = CompIns[i];
+                sbCom.Append("/&\n").Append(PrintNumbers[i]).Append(",").Append(coms[i]);
             }
             data1.Append("\t").Append(sbCom.Remove(0, 2)).Append("\n");
             return data1.ToString();
