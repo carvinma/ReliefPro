@@ -69,10 +69,10 @@ namespace ReliefProMain.CustomControl
                         UnitTypeID = systemUnit.UnitType;
                     }
                     lkpSystemUnit = tmpSystemUnit.ToLookup(p => p.UnitType);
-                    if (tmpSystemUnit.Count > 0)
+                    if (tmpSystemUnit.Count > 0 && UnitTypeID > 0)
                     {
-                        TargetUnit = tmpSystemUnit[0].Name;
-                        this.lblInfo.Content = string.Format("Change {0} To {1}", Unit, tmpSystemUnit[0].Name);
+                        TargetUnit = lkpSystemUnit[UnitTypeID].First().Name;
+                        this.lblInfo.Content = string.Format("Change {0} To {1}", Unit, TargetUnit);
                     }
                 }
                 var tmpUnitType = unitInfo.GetUnitType();
