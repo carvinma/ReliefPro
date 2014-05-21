@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NHibernate;
 using ReliefProModel;
 
 namespace UOMLib
@@ -23,23 +24,26 @@ namespace UOMLib
         public const string EnthalpyDuty = "KJ/hr";
         public const string SpecificEnthalpy = "KJ/kg";
         public const string Density = "kg/m3";
+        public const string Area = "m2";
 
         public readonly string UserTemperature;
         public readonly string UserWeightFlow;
         public readonly string UserPressure;
         public readonly string UserEnthalpyDuty;
         public readonly string UserMassRate;
-        public UOMEnum(string dbPlantFile)
+        public readonly string UserArea;
+        public UOMEnum(ISession SessionPlant)
         {
             UnitInfo unitInfo = new UnitInfo();
-            var basicUnit = unitInfo.GetBasicUnitUOM(dbPlantFile);
-            IList<BasicUnitDefault> lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(dbPlantFile);
+            var basicUnit = unitInfo.GetBasicUnitUOM(SessionPlant);
+            IList<BasicUnitDefault> lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(SessionPlant);
 
             UserTemperature = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Temperature, basicUnit.ID);
             UserWeightFlow = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.WeightFlow, basicUnit.ID);
             UserPressure = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Pressure, basicUnit.ID);
             UserEnthalpyDuty = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.EnthalpyDuty, basicUnit.ID);
             UserMassRate = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.MassRate, basicUnit.ID);
+            UserArea = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Aera, basicUnit.ID);
         }
         private string GetDefalutUnit(IList<BasicUnitDefault> lstBasicUnitDefault, UnitTypeEnum unitTypeEnum, int basicUnitID)
         {

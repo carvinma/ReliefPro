@@ -24,14 +24,11 @@ namespace UOMLib
             }
             return lstBasicUnit;
         }
-        public BasicUnit GetBasicUnitUOM(string dbPlanFile)
+        public BasicUnit GetBasicUnitUOM(ISession SessionPlan)
         {
             IList<BasicUnit> lstBasicUnit;
             dbBasicUnit db = new dbBasicUnit();
-            using (var helper = new UOMLNHibernateHelper(dbPlanFile))
-            {
-                lstBasicUnit = db.GetAllList(helper.GetCurrentSession());
-            }
+            lstBasicUnit = db.GetAllList(SessionPlan);
             return lstBasicUnit.Where(p => p.IsDefault == 1).First();
         }
         public IList<BasicUnitDefault> GetBasicUnitDefault()
@@ -45,14 +42,11 @@ namespace UOMLib
             lstBasicUnitDefault = db.GetAllList(TempleSession.Session);
             return lstBasicUnitDefault;
         }
-        public IList<BasicUnitDefault> GetBasicUnitDefaultUserSet(string dbPlanFile)
+        public IList<BasicUnitDefault> GetBasicUnitDefaultUserSet(ISession SessionPlan)
         {
             dbBasicUnitDefault db = new dbBasicUnitDefault();
-            using (var helper = new UOMLNHibernateHelper(dbPlanFile))
-            {
-                var lstBasicUnitDefault = db.GetAllList(helper.GetCurrentSession());
-                return lstBasicUnitDefault;
-            }
+            var lstBasicUnitDefault = db.GetAllList(SessionPlan);
+            return lstBasicUnitDefault;
         }
         public IList<SystemUnit> GetSystemUnit()
         {
