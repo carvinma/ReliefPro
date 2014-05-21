@@ -15,6 +15,7 @@ using ProII;
 using ReliefProMain.Model;
 using UOMLib;
 using System.Diagnostics;
+using NHibernate;
 
 namespace ReliefProMain.ViewModel.Drum
 {
@@ -23,25 +24,25 @@ namespace ReliefProMain.ViewModel.Drum
         private DrumBll drum;
         public DrumBlockedOutletModel model { get; set; }
         public ICommand CalcCMD { get; set; }
-        private string dbPSFile;
-        private string dbPlantFile;
 
-        public DrumBlockedOutletVM(int ScenarioID, string dbPSFile, string dbPlantFile)
+        private ISession SessionPS;
+        private ISession SessionPF;
+        public DrumBlockedOutletVM(int ScenarioID, ISession SessionPS, ISession SessionPF)
         {
-            this.dbPSFile = dbPSFile;
-            this.dbPlantFile = dbPlantFile;
+            this.SessionPS = SessionPS;
+            this.SessionPF = SessionPF;
             drum = new DrumBll();
 
 
-            var outletModel = drum.GetBlockedOutletModel(dbPSFile);
-            outletModel = drum.ReadConvertModel(outletModel, dbPlantFile);
+            var outletModel = drum.GetBlockedOutletModel(SessionPS);
+            outletModel = drum.ReadConvertModel(outletModel, SessionPF);
 
             model = new DrumBlockedOutletModel(outletModel);
-            model.dbmodel.DrumID = drum.GetDrumID(dbPSFile);
+            model.dbmodel.DrumID = drum.GetDrumID(SessionPS);
             model.dbmodel.ScenarioID = ScenarioID;
             CalcCMD = new DelegateCommand<object>(CalcResult);
 
-            UOMLib.UOMEnum uomEnum = new UOMEnum(dbPlantFile);
+            UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
             model.PressureUnit = uomEnum.UserPressure;
             model.StreamRateUnit = uomEnum.UserMassRate;
             model.FlashingDutyUnit = uomEnum.UserEnthalpyDuty;
@@ -58,7 +59,7 @@ namespace ReliefProMain.ViewModel.Drum
         private void CalcResult(object obj)
         {
             double reliefLoad = 0, reliefMW = 0, reliefT = 0;
-            if (drum.PfeedUpstream(dbPSFile) > drum.PSet(dbPSFile))
+            if (drum.PfeedUpstream(SessionPS) > drum.PSet(SessionPS))
             {
                 if (model.DrumType == "Flashing Drum")
                 {
@@ -74,7 +75,7 @@ namespace ReliefProMain.ViewModel.Drum
                 reliefLoad = 0;
             }
             WriteConvertModel();
-            drum.SaveDrumBlockedOutlet(model.dbmodel, dbPSFile, reliefLoad, reliefMW, reliefT);
+            drum.SaveDrumBlockedOutlet(model.dbmodel, SessionPS, reliefLoad, reliefMW, reliefT);
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;
