@@ -75,6 +75,7 @@
     <Compile Include="dbUnitType.cs" />
     <Compile Include="dbProIIStreamData.cs" />
     <Compile Include="Drum\dbDrumBlockedOutlet.cs" />
+    <Compile Include="Drum\dbDrumFireFluid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="dbUnit.cs" />
     <Compile Include="dbProtectSystem.cs" />
