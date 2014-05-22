@@ -64,7 +64,7 @@
 			<ColumnDefinition Width="125"></ColumnDefinition>
 			<ColumnDefinition Width="*"></ColumnDefinition>
 		</Grid.ColumnDefinitions>
-		<Button Content="All Gas/Supercritical Fluid" Command="{Binding FluidCMD}" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Height="27" />
+        <Button Content="All Gas/Supercritical Fluid" IsEnabled="{Binding ElementName=chkFluid,Path=IsChecked}"  Command="{Binding FluidCMD}" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Height="27" />
 		<Label Content="Heat Input Model"  Grid.Row="2"/>
 		<Label Content="Wetted Area" Grid.Row="5"/>
 		<Label Content="Latent Heat"  Grid.Row="6"/>
@@ -92,7 +92,7 @@
         <Label x:Name="lblTemper" Content="{Binding model.ReliefTemperatureUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="11"/>
 		
         <CheckBox IsChecked="{Binding model.HeavyOilFluid}" Content="Heavy Oil Fluid" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="29,10,0,0"/>
-        <CheckBox IsChecked="{Binding model.AllGas}" Content="" HorizontalAlignment="Right" Margin="65,10,0,0" VerticalAlignment="Center"/>
+        <CheckBox x:Name="chkFluid" IsChecked="{Binding model.AllGas}" Content="" HorizontalAlignment="Right" Margin="65,10,0,0" VerticalAlignment="Center"/>
         <ComboBox  ItemsSource="{Binding lstHeatInputModel, Mode=OneWay}" 
 						SelectedItem="{Binding SelectedHeatInputModel,Mode=TwoWay}"
 				   Grid.Column="1" Height="25" Grid.Row="2" Width="120"/>
