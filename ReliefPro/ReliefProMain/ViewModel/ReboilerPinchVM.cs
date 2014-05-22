@@ -31,16 +31,59 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private string _SelectedSourceType;
-        public string SelectedSourceType
+        private string _SourceType;
+        public string SourceType
         {
-            get { return _SelectedSourceType; }
+            get { return _SourceType; }
             set
             {
-                _SelectedSourceType = value;
-                OnPropertyChanged("SelectedSourceType");
+                _SourceType = value;
+                OnPropertyChanged("SourceType");
             }
         }
+
+        private string _Coldtin;
+        public string Coldtin
+        {
+            get { return _Coldtin; }
+            set
+            {
+                _Coldtin = value;
+                OnPropertyChanged("Coldtin");
+            }
+        }
+        private string _Coldtout;
+        public string Coldtout
+        {
+            get { return _Coldtout; }
+            set
+            {
+                _Coldtout = value;
+                OnPropertyChanged("Coldtout");
+            }
+        }
+        private string _HeatTin;
+        public string HeatTin
+        {
+            get { return _HeatTin; }
+            set
+            {
+                _HeatTin = value;
+                OnPropertyChanged("HeatTin");
+            }
+        }
+        private string _HeatTOut;
+        public string HeatTOut
+        {
+            get { return _HeatTOut; }
+            set
+            {
+                _HeatTOut = value;
+                OnPropertyChanged("HeatTOut");
+            }
+        }
+
+
 
         public ReboilerPinch CurrentReboilerPinch { get; set; }
         public ObservableCollection<string> GetSourceTypes()
@@ -50,9 +93,10 @@ namespace ReliefProMain.ViewModel
             list.Add("Steam");
             return list;
         }
-        public ReboilerPinchVM(string name, string dbPSFile, string dbPFile)
+
+        dbTowerScenarioHX dbtshx;
+        public ReboilerPinchVM(string HeaterName, string dbPSFile, string dbPFile)
         {
-            SourceTypes = GetSourceTypes();
             dbProtectedSystemFile = dbPSFile;
             dbPlantFile = dbPFile;
             BasicUnit BU;
@@ -70,7 +114,9 @@ namespace ReliefProMain.ViewModel
             {
                 UnitConvert uc = new UnitConvert();
                 var Session = helper.GetCurrentSession();
-
+                dbtshx = new dbTowerScenarioHX();
+                //TowerScenarioHX hx = dbtshx.GetModel(hxID, Session);
+                //SourceType = hx.Medium;
             }
 
         }

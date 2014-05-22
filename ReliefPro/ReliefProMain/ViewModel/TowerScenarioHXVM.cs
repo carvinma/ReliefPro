@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using ReliefProMain.View;
+using NHibernate;
 
 namespace ReliefProMain.ViewModel
 {
@@ -101,9 +102,10 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-
+        public ISession SessionPlant;
+        public ISession SessionProtectedSystem;
         public TowerScenarioHXVM(int type,int scenarioID, string dbPSFile, string dbPFile)
-        {
+        {           
             ScenarioID=scenarioID;
             HeaterType = type;
             dbProtectedSystemFile = dbPSFile;
@@ -116,6 +118,10 @@ namespace ReliefProMain.ViewModel
             {
                 IsDisplay = "Hidden";
             }
+            var helper1=new NHibernateHelper(dbPlantFile);
+            SessionPlant = helper1.GetCurrentSession();
+            var helper2 = new NHibernateHelper(dbProtectedSystemFile);
+            SessionProtectedSystem = helper2.GetCurrentSession();
             Details = GetTowerHXScenarioDetails();
         }
         internal ObservableCollection<TowerScenarioHX> GetTowerHXScenarioDetails()
@@ -124,8 +130,6 @@ namespace ReliefProMain.ViewModel
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
                 var Session = helper.GetCurrentSession();
-                
-
                 dbTowerScenarioHX db = new dbTowerScenarioHX();
                 IList<TowerScenarioHX> list = db.GetAllList(Session, ScenarioID, HeaterType).ToList();               
                 foreach (TowerScenarioHX hx in list)
