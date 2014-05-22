@@ -20,7 +20,7 @@ namespace ReliefProModel
         public virtual bool IsHotStreamInProII { get; set; }
         public virtual string UDesign { get; set; }
         public virtual string UClean { get; set; }
-        public virtual string CodetoutRelief { get; set; }
+        public virtual string ColdtoutRelief { get; set; }
         public virtual string HeatTinRelief { get; set; }
         public virtual string Duty { get; set; }
         public virtual string ReliefDuty { get; set; }

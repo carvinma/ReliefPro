@@ -9,6 +9,7 @@
     <property name="ReliefTemperature" column="ReliefTemperature" type="String" length="255" />
     <property name="ReliefPressure" column="ReliefPressure" type="String" length="255" />
     <property name="ReliefMW" column="ReliefMW" type="String" length="255" />
-   
+    <property name="ReliefCpCv" column="ReliefCpCv" type="String" length="255" />
+    <property name="ReliefZ" column="ReliefZ" type="String" length="255" />
   </class>
 </hibernate-mapping>

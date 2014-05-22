@@ -13,8 +13,9 @@
     <property name="SupplyHeadPressure" column="SupplyHeadPressure" type="String" length="255" />
     <property name="UDesign" column="UDesign" type="String" length="255" />
     <property name="UClean" column="UClean" type="String" length="255" />
-    <property name="CodetoutRelief" column="CodetoutRelief" type="String" length="255" />
+    <property name="ColdtoutRelief" column="ColdtoutRelief" type="String" length="255" />
     <property name="HeatTinRelief" column="HeatTinRelief" type="String" length="255" />
+    <property name="Duty" column="Duty" type="String" length="255" />
     <property name="ReliefDuty" column="ReliefDuty" type="String" length="255" />
     <property name="TotalCount" column="TotalCount" type="String" length="255" />
     <property name="QRQN" column="QRQN" type="String" length="255" />
