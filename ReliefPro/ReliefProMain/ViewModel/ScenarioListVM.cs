@@ -230,6 +230,7 @@ namespace ReliefProMain.ViewModel
                         else if (ScenarioName.Contains("Depressuring"))
                         {
                             DrumDepressuring v = new DrumDepressuring();
+                            v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                             DrumDepressuringVM vm = new DrumDepressuringVM(ScenarioID, SessionPS, SessionPF);
                             v.DataContext = vm;
                             v.ShowDialog();
