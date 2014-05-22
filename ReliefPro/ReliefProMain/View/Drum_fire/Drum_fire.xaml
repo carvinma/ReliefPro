@@ -98,7 +98,7 @@
 				   Grid.Column="1" Height="25" Grid.Row="2" Width="120"/>
         <CheckBox IsChecked="{Binding model.EquipmentExist}" Content="Adequate drainage and firefighting equipment exist" HorizontalAlignment="Left" Margin="31,12,0,0" Grid.Row="3" VerticalAlignment="Top"/>
         
-        <Button Content="Run Calculation" Grid.Column="0"   Grid.Row="4"  Width="125"  Height="21" Margin="30,0,205,0"/>
+        <Button Content="Run Calculation" Grid.Column="0" Grid.Row="4"  Width="125"  Height="21" Margin="30,0,205,0"/>
         <Button Content="OK" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=DrumFireWin}" Grid.Column="0" Grid.Row="15"  Width="75"  Height="25"/>
         <Button Content="Cancel" IsCancel="True" Grid.Column="1"  Grid.Row="15" Width="75" Height="25"/>
     </Grid>
