@@ -229,6 +229,10 @@ namespace ReliefProMain.ViewModel
                         }
                         else if (ScenarioName.Contains("Depressuring"))
                         {
+                            DrumDepressuring v = new DrumDepressuring();
+                            DrumDepressuringVM vm = new DrumDepressuringVM(ScenarioID, SessionPS, SessionPF);
+                            v.DataContext = vm;
+                            v.ShowDialog();
                             //CreateDrumDepressuring(ScenarioID, ScenarioName, Session);
                         }
                     }
