@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using NHibernate;
-using ReliefProLL;
+using ReliefProBLL;
 using ReliefProMain.Commands;
 using ReliefProMain.Model;
 
