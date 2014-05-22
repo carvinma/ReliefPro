@@ -242,7 +242,7 @@ namespace ReliefProMain.ViewModel
                         dbProIIStreamData dbStreamData=new dbProIIStreamData();
                         foreach (KeyValuePair<string,string> k in dicFeeds)
                         {
-                            ProIIStreamData d = dbStreamData.GetModel(Session, k.Key);
+                            ProIIStreamData d = dbStreamData.GetModel(Session, k.Key,przFile);
                             CustomStream cstream =ProIIToDefault.ConvertProIIStreamToCustomStream(d);
                             cstream.Tray = k.Value;
                             cstream.IsProduct = false;
@@ -251,7 +251,7 @@ namespace ReliefProMain.ViewModel
                         }
                         foreach (KeyValuePair<string, string> k in dicProducts)
                         {
-                            ProIIStreamData d = dbStreamData.GetModel(Session, k.Key);
+                            ProIIStreamData d = dbStreamData.GetModel(Session, k.Key, przFile);
                             CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
                             cstream.Tray = k.Value;
                             cstream.IsProduct = true;
@@ -438,6 +438,7 @@ namespace ReliefProMain.ViewModel
                 if (!isInternal)
                 {
                     dicProducts.Add(product.Key, product.Value);
+                    dicProdTypes.Add(product.Key, tempProdTypes[product.Key]);
                 }
             }
 
@@ -676,14 +677,12 @@ namespace ReliefProMain.ViewModel
                         sr.IsHeatSource = false;
                         dbsr.Add(sr, Session);
 
-
                         dbCS.Add(cs, Session);
                     }
 
 
                     foreach (CustomStream cs in Products)
                     {
-
                         dbCS.Add(cs, Session);
                     }
 

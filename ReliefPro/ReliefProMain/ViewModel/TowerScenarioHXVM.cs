@@ -20,7 +20,7 @@ namespace ReliefProMain.ViewModel
     {
         public string dbProtectedSystemFile;
         public string dbPlantFile;
-        public ObservableCollection<TowerScenarioHX> _Details;
+        
         public int HeaterType { get; set; }
         public int ScenarioID { get; set; }
 
@@ -142,6 +142,7 @@ namespace ReliefProMain.ViewModel
             return Details;
         }
         //list of orders from the customer
+        public ObservableCollection<TowerScenarioHX> _Details;
         public ObservableCollection<TowerScenarioHX> Details
         {
             get { return _Details; }
@@ -271,12 +272,12 @@ namespace ReliefProMain.ViewModel
 
         private void PinchCalc(object obj)
         {
-            string HeaterName=obj.ToString();
+            int ID=int.Parse(obj.ToString());
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
                 var Session = helper.GetCurrentSession();
                 ReboilerPinchView v = new ReboilerPinchView();
-                ReboilerPinchVM vm = new ReboilerPinchVM(HeaterName, dbProtectedSystemFile, dbPlantFile);
+                ReboilerPinchVM vm = new ReboilerPinchVM(ID, dbProtectedSystemFile, dbPlantFile);
                 v.DataContext = vm;
                 if (v.ShowDialog()==true)
                 {

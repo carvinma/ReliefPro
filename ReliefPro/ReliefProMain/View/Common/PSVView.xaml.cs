@@ -330,6 +330,8 @@ namespace ReliefProMain.View
                     product.WeightFlow = cs.WeightFlow;
                     product.ProdType = fr.ProdType;
                     product.Tray = tray;
+                    product.Temperature = cs.Temperature;
+
                     listFlashProduct.Add(product);
                 }
             }

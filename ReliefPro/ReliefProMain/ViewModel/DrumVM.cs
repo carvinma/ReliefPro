@@ -195,7 +195,7 @@ namespace ReliefProMain.ViewModel
                         
                         foreach (string k in dicFeeds)
                         {
-                            ProIIStreamData d = dbStreamData.GetModel(Session, k);
+                            ProIIStreamData d = dbStreamData.GetModel(Session, k,przFile);
                             CustomStream cstream = ConvertProIIStreamToCustomStream(d);
                             cstream.IsProduct = false;
                             Feeds.Add(cstream);
@@ -203,7 +203,7 @@ namespace ReliefProMain.ViewModel
                         for(int i=0;i<dicProducts.Count;i++)
                         {
                             string k=dicProducts[i];
-                            ProIIStreamData d = dbStreamData.GetModel(Session, k);
+                            ProIIStreamData d = dbStreamData.GetModel(Session, k,przFile);
                             CustomStream cstream = ConvertProIIStreamToCustomStream(d);
                             cstream.IsProduct = true;
                             cstream.ProdType=dicProductTypes[i];

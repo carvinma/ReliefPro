@@ -281,7 +281,7 @@ namespace ReliefProMain.ViewModel
                     {
                         string pName=arrProducts[i];
                         list.Add(pName);
-                        ProIIStreamData s = db.GetModel(Session, pName);
+                        ProIIStreamData s = db.GetModel(Session, pName, SourceFile);
                         CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(s);
 
                         if (arrProductTypes[i] == "1")
@@ -318,13 +318,13 @@ namespace ReliefProMain.ViewModel
                     if (arrProdTypes[i] == "5")
                     {                        
                         list.Add(pName);
-                        ProIIStreamData s = db.GetModel(Session, pName);
+                        ProIIStreamData s = db.GetModel(Session, pName, SourceFile);
                         UpStreamLiquidData = ProIIToDefault.ConvertProIIStreamToCustomStream(s);                     
 
                     }
                     else if (arrProdTypes[i] == "3")
                     {
-                        ProIIStreamData s = db.GetModel(Session, pName);
+                        ProIIStreamData s = db.GetModel(Session, pName, SourceFile);
                         UpVesselNormalVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(s);
                     }
                 }
@@ -349,7 +349,7 @@ namespace ReliefProMain.ViewModel
                 var Session = helper.GetCurrentSession();
                 dbProIIStreamData db = new dbProIIStreamData();
 
-                ProIIStreamData data = db.GetModel(Session, streamName);
+                ProIIStreamData data = db.GetModel(Session, streamName, SourceFile);
                 CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(data);
                 press = cs.Pressure;
             }

@@ -38,7 +38,7 @@
                     <GridViewColumn Header="Calculation">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Calculation" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.PinchCalcCommand}" CommandParameter="{Binding DetailName}" ></Button>
+                                <Button Content="Calculation" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.PinchCalcCommand}" CommandParameter="{Binding ID}" ></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

@@ -85,24 +85,24 @@
         <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding Coldtin}"/>
         <TextBox Grid.Column="2" Grid.Row="4" Text="{Binding Coldtout}"/>
         <TextBox Grid.Column="2" Grid.Row="5" Text="{Binding HeatTin}"/>
-        <TextBox Grid.Column="2" Grid.Row="6" Text="{Binding HeatTOut}"/>
-        <TextBox Grid.Column="2" Grid.Row="7" Text="{Binding UDesign}"/>
+        <TextBox Grid.Column="2" Grid.Row="6" Text="{Binding HeatTout}"/>
+        <TextBox Grid.Column="2" Grid.Row="7" Text="{Binding UDesign}" IsEnabled="False"/>
         <TextBox Grid.Column="2" Grid.Row="8" Text="{Binding UClean}"/>
-        <TextBox Grid.Column="2" Grid.Row="9" Text="{Binding UDesign}"/>
-        <TextBox Grid.Column="2" Grid.Row="10" Text="{Binding UDesign}"/>
-        <TextBox Grid.Column="2" Grid.Row="11" Text="{Binding UDesign}"/>
-        <TextBox Grid.Column="2" Grid.Row="12" Text="{Binding CodetoutRelief}"/>
-        <TextBox Grid.Column="2" Grid.Row="13" Text="{Binding HeatTinRelief}"/>
+        <TextBox Grid.Column="2" Grid.Row="9" Text="{Binding Area}"/>
+        <TextBox Grid.Column="2" Grid.Row="10" Text="{Binding UDesignArea}" IsEnabled="False"/>
+        <TextBox Grid.Column="2" Grid.Row="11" Text="{Binding UCD}" IsEnabled="False"/>
+        <TextBox Grid.Column="2" Grid.Row="12" Text="{Binding ReliefColdtout}"/>
+        <TextBox Grid.Column="2" Grid.Row="13" Text="{Binding ReliefHeatTin}"/>
         <TextBox Grid.Column="2" Grid.Row="14" Text="{Binding Duty}"/>
         <TextBox Grid.Column="2" Grid.Row="16" Text="{Binding ReliefDuty}"/>
         <TextBox Grid.Column="5" HorizontalAlignment="Left" Width="60" Grid.Row="1"/>
         <TextBox Grid.Column="5" HorizontalAlignment="Left" Width="60" Grid.Row="2" Text="S105"/>
-        <Button Content="Pinch Calculation" Grid.Column="1" Grid.Row="15" Width="120" Height="19"/>
+        <Button Content="Pinch Calculation" Command="{Binding PinchCalcCommand}" Grid.Column="1" Grid.Row="15" Width="120" Height="19"/>
         <Button Content="Use Pinch Duty" Grid.Column="3" Grid.Row="16" Width="100" HorizontalAlignment="Right" Height="22"/>
         <Button Content="Browse" Grid.Column="4" Grid.Row="2" Width="100" HorizontalAlignment="Center" Height="22"/>
         <Button Content="Use Normal Duty"  Grid.Column="4" Grid.Row="16" Width="120" HorizontalAlignment="Center" Height="22"/>
         <Button Content="Discard" IsCancel="True" Grid.Column="5" Grid.Row="16" Width="80" HorizontalAlignment="Center" Height="22"/>
-        <TextBox IsEnabled="False" Text="{Binding Medium}" Grid.Column="2" Grid.Row="1" Height="25" Width="120"/>
+        <TextBox IsEnabled="False" Text="{Binding SourceType}" Grid.Column="2" Grid.Row="1" Height="25" Width="120"/>
         <Label Content="Input"  Grid.Row="3"/>
         <Label Content="Output"  Grid.Row="16"/>
         <Label Content="Duty @ relief condition" Grid.Column="1" Grid.Row="16"/>
