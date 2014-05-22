@@ -86,9 +86,8 @@
 		<Button Content="Cancel" IsCancel="True" Grid.Column="1"  Grid.Row="15" Width="75" Height="25"/>
 		<CheckBox Content="Heavy Oil Fluid" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="29,10,0,7"/>
 		<CheckBox Content="" HorizontalAlignment="Right" Margin="65,10,0,0" VerticalAlignment="Center"/>
-		<ComboBox  ItemsSource="{Binding model.ObBasicUnit, Mode=OneWay}" 
-						SelectedValuePath="ID" DisplayMemberPath="UnitName"
-						SelectedItem="{Binding model.BasicUnitselectLocation,Mode=TwoWay}"
+        <ComboBox  ItemsSource="{Binding lstHeatInputModel, Mode=OneWay}" 
+						SelectedItem="{Binding SelectedHeatInputModel,Mode=TwoWay}"
 				   Grid.Column="1" Height="25" Grid.Row="2" Width="120"/>
 		<CheckBox Content="Adequate drainage and firefighting equipment exist" HorizontalAlignment="Left" Margin="31,12,0,0" Grid.Row="3" VerticalAlignment="Top"/>
 	</Grid>
