@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ReliefProMain</RootNamespace>
     <AssemblyName>ReliefProMain</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -64,10 +65,10 @@
       <HintPath>..\Dependencies\AxInterop.Microsoft.Office.Interop.VisOcx.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections">
-      <HintPath>..\packages\Iesi.Collections.3.3.2.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+      <HintPath>..\Dependencies\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+      <HintPath>..\Dependencies\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>E:\E\武汉\2013-04-26\Demo\Lib\Prism4.1\Microsoft.Practices.Prism.dll</HintPath>
@@ -77,10 +78,10 @@
       <HintPath>..\Dependencies\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
-      <HintPath>..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
+      <HintPath>..\Dependencies\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate.JetDriver">
-      <HintPath>..\packages\NHibernate.JetDriver.2.0.0.1001\lib\net35\NHibernate.JetDriver.dll</HintPath>
+      <HintPath>..\Dependencies\NHibernate.JetDriver.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -128,6 +129,7 @@
     <Compile Include="Interface\IModalDialog.cs" />
     <Compile Include="Interface\IServiceLocator.cs" />
     <Compile Include="Model\DrumBlockedOutletModel.cs" />
+    <Compile Include="Model\DrumFireFluidModel.cs" />
     <Compile Include="Model\FormatUnitsMeasureModel.cs" />
     <Compile Include="Model\ModelBase.cs" />
     <Compile Include="Model\ScenarioModel.cs" />
