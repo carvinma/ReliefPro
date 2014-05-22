@@ -145,6 +145,7 @@
     <Compile Include="ViewModel\CreateUnitVM.cs" />
     <Compile Include="ViewModel\DrumVM.cs" />
     <Compile Include="ViewModel\Drum\DrumBlockedOutletVM.cs" />
+    <Compile Include="ViewModel\Drum\DrumDepressuringVM.cs" />
     <Compile Include="ViewModel\Drum\DrumFireFluidVM.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -250,8 +251,8 @@
     <Compile Include="View\CriticalFluid\CriticalFluid.xaml.cs">
       <DependentUpon>CriticalFluid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DEPR\DEPR.xaml.cs">
-      <DependentUpon>DEPR.xaml</DependentUpon>
+    <Compile Include="View\DEPR\DrumDepressuring.xaml.cs">
+      <DependentUpon>DrumDepressuring.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DEPR\DEPRColumnDetails.xaml.cs">
       <DependentUpon>DEPRColumnDetails.xaml</DependentUpon>
@@ -444,7 +445,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\DEPR\DEPR.xaml">
+    <Page Include="View\DEPR\DrumDepressuring.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

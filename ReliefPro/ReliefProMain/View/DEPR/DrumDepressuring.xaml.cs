@@ -17,9 +17,9 @@ namespace ReliefProMain.View
     /// <summary>
     /// StorageTank2.xaml 的交互逻辑
     /// </summary>
-    public partial class DEPR : Window
+    public partial class DrumDepressuring : Window
     {
-        public DEPR()
+        public DrumDepressuring()
         {
             InitializeComponent();
         }

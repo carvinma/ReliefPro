@@ -1,4 +1,4 @@
-﻿<Window x:Class="ReliefProMain.View.DEPR"
+﻿<Window x:Class="ReliefProMain.View.DrumDepressuring"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="DEPR" Height="550" Width="700">
