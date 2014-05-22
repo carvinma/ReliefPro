@@ -4,7 +4,7 @@
     <id name="ID" column="ID" type="Int32" unsaved-value="0">
       <generator class="identity" />
     </id>
-    <property name="ColdtIn" column="ColdtIn" type="String" length="255" />    
+    <property name="Coldtin" column="Coldtin" type="String" length="255" />    
     <property name="Coldtout" column="Coldtout" type="String" length="255" />
     <property name="HeatTin" column="HeatTin" type="String" length="255" />
     <property name="HeatTout" column="HeatTout" type="String" length="255" />

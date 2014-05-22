@@ -9,7 +9,7 @@ namespace ReliefProModel
     public  class ReboilerPinch
     {
         public virtual int ID { get; set; }
-        public virtual string ColdtIn { get; set; }
+        public virtual string Coldtin { get; set; }
         public virtual string Coldtout { get; set; }
         public virtual string HeatTin { get; set; }
         public virtual string HeatTout { get; set; }
@@ -22,6 +22,7 @@ namespace ReliefProModel
         public virtual string UClean { get; set; }
         public virtual string CodetoutRelief { get; set; }
         public virtual string HeatTinRelief { get; set; }
+        public virtual string Duty { get; set; }
         public virtual string ReliefDuty { get; set; }
         public virtual string TotalCount { get; set; }
         public virtual string QRQN { get; set; }
