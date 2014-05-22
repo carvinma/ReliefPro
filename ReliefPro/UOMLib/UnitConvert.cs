@@ -119,6 +119,9 @@ namespace UOMLib
         }
         public double Convert(string OriginUnit, string TargetUnit, double value)
         {
+            if (value == 0) return 0;
+            if (string.IsNullOrEmpty(OriginUnit) || string.IsNullOrEmpty(TargetUnit))
+                return value;
             if (OriginUnit.ToLower() == TargetUnit.ToLower())
                 return value;
             var originUnitModel = lkpSystemUnit[OriginUnit.ToLower()];

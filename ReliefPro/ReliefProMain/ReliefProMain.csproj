@@ -130,6 +130,7 @@
     <Compile Include="Interface\IServiceLocator.cs" />
     <Compile Include="Model\DrumBlockedOutletModel.cs" />
     <Compile Include="Model\DrumFireFluidModel.cs" />
+    <Compile Include="Model\DrumFireModel.cs" />
     <Compile Include="Model\FormatUnitsMeasureModel.cs" />
     <Compile Include="Model\ModelBase.cs" />
     <Compile Include="Model\ScenarioModel.cs" />

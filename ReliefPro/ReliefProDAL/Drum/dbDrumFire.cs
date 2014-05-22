@@ -9,14 +9,14 @@ using ReliefProModel.Drum;
 
 namespace ReliefProDAL.Drum
 {
-    public class dbDrumFireFluid
+    public class dbDrumFire
     {
-        public IList<DrumFireFluid> GetAllList(ISession session)
+        public IList<DrumFireCalc> GetAllList(ISession session)
         {
-            IList<DrumFireFluid> list = null;
+            IList<DrumFireCalc> list = null;
             try
             {
-                list = session.CreateCriteria<DrumFireFluid>().List<DrumFireFluid>();
+                list = session.CreateCriteria<DrumFireCalc>().List<DrumFireCalc>();
             }
             catch (Exception ex)
             {
@@ -24,16 +24,16 @@ namespace ReliefProDAL.Drum
             }
             return list;
         }
-        public DrumFireFluid GetModelByDrumID(ISession session, int drumFireCalcID)
+        public DrumFireCalc GetModelByDrumID(ISession session, int drumFireCalcID)
         {
-            var list = session.CreateCriteria<DrumFireFluid>().Add(Expression.Eq("DrumFireCalcID", drumFireCalcID)).List<DrumFireFluid>();
+            var list = session.CreateCriteria<DrumFireCalc>().Add(Expression.Eq("ID", drumFireCalcID)).List<DrumFireCalc>();
             if (list.Count() > 0)
             {
                 return list[0];
             }
             return null;
         }
-        public void SaveDrumFireFluid(ISession session, DrumFireFluid model)
+        public void SaveDrumFireCalc(ISession session, DrumFireCalc model)
         {
             using (ITransaction tx = session.BeginTransaction())
             {
@@ -43,7 +43,7 @@ namespace ReliefProDAL.Drum
                     session.Flush();
                     tx.Commit();
                 }
-                catch (HibernateException hx)
+                catch (HibernateException)
                 {
                     tx.Rollback();
                     throw;

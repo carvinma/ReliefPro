@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DrumBll.cs" />
+    <Compile Include="DrumFireBLL.cs" />
     <Compile Include="DrumFireFluidBLL.cs" />
     <Compile Include="ExportExcel.cs" />
     <Compile Include="ImportData.cs" />

@@ -32,6 +32,7 @@ namespace UOMLib
         public readonly string UserEnthalpyDuty;
         public readonly string UserMassRate;
         public readonly string UserArea;
+        public readonly string UserSpecificEnthalpy;
         public UOMEnum(ISession SessionPlant)
         {
             UnitInfo unitInfo = new UnitInfo();
@@ -44,6 +45,7 @@ namespace UOMLib
             UserEnthalpyDuty = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.EnthalpyDuty, basicUnit.ID);
             UserMassRate = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.MassRate, basicUnit.ID);
             UserArea = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Aera, basicUnit.ID);
+            UserSpecificEnthalpy = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.SpecificEnthalpy, basicUnit.ID);
         }
         private string GetDefalutUnit(IList<BasicUnitDefault> lstBasicUnitDefault, UnitTypeEnum unitTypeEnum, int basicUnitID)
         {
