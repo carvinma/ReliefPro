@@ -72,7 +72,9 @@
   <ItemGroup>
     <Compile Include="DrumBll.cs" />
     <Compile Include="DrumFireBLL.cs" />
-    <Compile Include="DrumFireFluidBLL.cs" />
+    <Compile Include="DrumFireFluidBLL.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ExportExcel.cs" />
     <Compile Include="ImportData.cs" />
     <Compile Include="NHibernateHelper.cs" />
