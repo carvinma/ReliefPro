@@ -23,6 +23,9 @@ using ReliefProMain.ViewModel;
 using ReliefProModel;
 using ReliefProModel.Drum;
 using ReliefProMain.ViewModel.Drum;
+using NHibernate;
+using ReliefProBLL.Common;
+
 
 namespace ReliefProMain.View
 {
@@ -579,11 +582,20 @@ namespace ReliefProMain.View
 
         private string dbPlantFile;
         private string dbProtectedSystemFile;
+        ISession SessionPlant;
+        ISession SessionProtectedSystem;
+        string DirPlant;
+        string DirProtectedSystem;
+
         private void UserControl_Loaded_1(object sender, RoutedEventArgs e)
         {
             TreeViewItemData data = this.Tag as TreeViewItemData;
             dbPlantFile = data.dbPlantFile;
             dbProtectedSystemFile = data.dbProtectedSystemFile;
+            NHibernateHelper helperPlant = new NHibernateHelper(dbPlantFile);
+            SessionPlant = helperPlant.GetCurrentSession();
+
+            NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlantFile);
         }
     
 

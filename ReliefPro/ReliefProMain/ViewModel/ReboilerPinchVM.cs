@@ -273,7 +273,7 @@ namespace ReliefProMain.ViewModel
 
                 reliefCoeff = coeff;
                 reliefArea = area;
-                reliefDuty = reliefLtmd * reliefCoeff * reliefArea;
+                reliefDuty = reliefLtmd * reliefCoeff * reliefArea*3.6;
                 assumedQA = duty * nextQaenGuess;
                 calculatedQR = reliefDuty;
                 QRQA = calculatedQR / assumedQA;
@@ -286,12 +286,17 @@ namespace ReliefProMain.ViewModel
                 }
 
             }
-            if (QRQA < 1)
+            double QRQN = calculatedQR / duty;
+            if (QRQN < 1)
             {
                 isPinch = true;
-                ReliefDuty = reliefDuty;
+                factor = QRQN;
+                ReliefDuty = reliefDuty.ToString();
             }
-            factor = QRQA;
+            else
+            {
+                ReliefDuty = duty.ToString();
+            }
             
 
         }
@@ -345,7 +350,7 @@ namespace ReliefProMain.ViewModel
                 {
                     double area = double.Parse(Area);
                     double duty = double.Parse(Duty);
-                    double udesign = duty * lmtd / area;
+                    double udesign = duty / lmtd /area/3.6;
                     UDesign= udesign.ToString();
                     UDesignArea = (udesign * area).ToString();
                     if(!string.IsNullOrEmpty(UClean))

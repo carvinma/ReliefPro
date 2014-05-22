@@ -15,20 +15,37 @@ using ReliefProMain.Service;
 using ReliefProMain.View.TowerFire;
 using ReliefProMain.Model;
 using UOMLib;
+using ReliefProMain.ViewModel;
 
 namespace ReliefProMain.ViewModel.TowerFire
 {
-    public class TowerFireVM
+    public class TowerFireVM:ViewModelBase
     {
         public string dbProtectedSystemFile { get; set; }
         public string dbPlantFile { get; set; }
+        private List<string> HeatInputModels { get; set; }
+        private Latent latent;
 
         public TowerFireModel model { get; set; }
-        public List<string> HeatInputModels { get; set; }
-        private Latent latent;
+        public TowerFireModel CurrentModel { get; set; }
+        private ObservableCollection<TowerFireEq> _EqList;
+        public ObservableCollection<TowerFireEq> EqList
+        {
+            get
+            {
+                return this._EqList;
+            }
+            set
+            {
+                this._EqList = value;
+                OnPropertyChanged("EqList");
+            }
+        }
+
+       
         public TowerFireVM(int ScenarioID, string dbPSFile, string dbPFile)
         {
-            model = new TowerFireModel();
+            CurrentModel = new TowerFireModel();
             HeatInputModels = GetHeatInputModels();
             dbProtectedSystemFile = dbPSFile;
             dbPlantFile = dbPFile;

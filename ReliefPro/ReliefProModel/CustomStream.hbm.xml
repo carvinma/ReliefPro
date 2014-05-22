@@ -32,5 +32,6 @@
     <property name="TotalMolarEnthalpy" column="TotalMolarEnthalpy" type="String" length="255" />
     <property name="InertWeightEnthalpy" column="InertWeightEnthalpy" type="String" length="255" />
     <property name="InertWeightRate" column="InertWeightRate" type="String" length="255" />
+    
   </class>
 </hibernate-mapping>

@@ -35,7 +35,7 @@ namespace ReliefProModel
         public virtual string TotalMolarEnthalpy { get; set; }
         public virtual string InertWeightEnthalpy { get; set; }
         public virtual string InertWeightRate { get; set; }
-
+       
 
     }
 }

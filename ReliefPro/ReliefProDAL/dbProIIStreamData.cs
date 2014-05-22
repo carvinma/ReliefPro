@@ -15,13 +15,13 @@ namespace ReliefProDAL
     {
         
 
-        public ProIIStreamData GetModel(ISession session,string streamName)
+        public ProIIStreamData GetModel(ISession session,string streamName,string sourceFile)
         {
             ProIIStreamData model = null;
             IList<ProIIStreamData> list = null;
             try
             {
-                list = session.CreateCriteria<ProIIStreamData>().Add(Expression.Eq("StreamName", streamName)).List<ProIIStreamData>();
+                list = session.CreateCriteria<ProIIStreamData>().Add(Expression.Eq("SourceFile", sourceFile)).Add(Expression.Eq("StreamName", streamName)).List<ProIIStreamData>();
                 if (list.Count > 0)
                 {
                     model = list[0];

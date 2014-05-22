@@ -174,6 +174,9 @@
     <Compile Include="ViewModel\InletValveOpenVM.cs" />
     <Compile Include="ViewModel\ReNameVM.cs" />
     <Compile Include="ViewModel\CreateProtectedSystemVM.cs" />
+    <Compile Include="View\Tower\AbnormalHeatInputView.xaml.cs">
+      <DependentUpon>AbnormalHeatInputView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Common\CreateProtectedSystemView.xaml.cs">
       <DependentUpon>CreateProtectedSystemView.xaml</DependentUpon>
     </Compile>
@@ -345,6 +348,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Tower\AbnormalHeatInputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Common\CreateProtectedSystemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
