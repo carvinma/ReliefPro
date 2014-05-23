@@ -15,11 +15,18 @@ using ReliefProMain.View;
 using ReliefProMain.Model;
 using NHibernate;
 using ReliefProMain.ViewModel.Drum;
+using System.Windows;
 
 namespace ReliefProMain.ViewModel
 {
     public class ScenarioListVM : ViewModelBase
     {
+        private ISession SessionPlant { set; get; }
+        private ISession SessionProtectedSystem { set; get; }
+        private string DirPlant { set; get; }
+        private string DirProtectedSystem { set; get; }
+        private string PrzFile;
+        private string PrzVersion;
         private ObservableCollection<ScenarioModel> _Scenarios;
         public ObservableCollection<ScenarioModel> Scenarios
         {
@@ -42,60 +49,46 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        public string dbProtectedSystemFile { set; get; }
-        public string dbPlantFile { set; get; }
         public List<string> ScenarioNameList { set; get; }
-        private string eqType;
-        private ISession SessionPS;
-        private ISession SessionPF;
-        public ScenarioListVM(string dbPSFile, string dbPFile)
+        private string EqType;
+        private string EqName;
+        public ScenarioListVM(string eqName, string eqType, string przFile, string version, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            dbProtectedSystemFile = dbPSFile;
-            dbPlantFile = dbPFile;
-            Scenarios = new ObservableCollection<ScenarioModel>();
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-            {
-                var Session = helper.GetCurrentSession();
-                SessionPS = Session;
-                eqType = GetEqType(Session);
-                ScenarioNameList = GetScenarioNames(eqType);
+            EqName = eqName;
+            EqName = eqType;
+            EqType = eqType;
+            PrzFile = przFile;
+            PrzVersion = version;
+            SessionPlant = sessionPlant;
+            SessionProtectedSystem = sessionProtectedSystem;
 
+            Scenarios = GetScenarios() ;
+            ScenarioNameList = GetScenarioNames(eqType);
 
-                dbScenario db = new dbScenario();
-                IList<Scenario> list = db.GetAllList(Session);
-                foreach (Scenario s in list)
-                {
-                    ScenarioModel m = new ScenarioModel();
-                    m.ID = s.ID;
-                    m.ScenarioName = s.ScenarioName;
-                    m.ReliefTemperature = s.ReliefTemperature;
-                    m.ReliefPressure = s.ReliefPressure;
-                    m.ReliefMW = s.ReliefMW;
-                    Scenarios.Add(m);
-                }
-            }
-            using (var helper = new NHibernateHelper(dbPFile))
-            {
-                var Session = helper.GetCurrentSession();
-                SessionPF = Session;
-            }
+           
+
         }
 
-        private string GetEqType(ISession Session)
+        private ObservableCollection<ScenarioModel> GetScenarios()
         {
-            string eqType = "Tower";
-            dbTower dbtower = new dbTower();
-            Tower tower = dbtower.GetModel(Session);
-            if (tower != null)
-                eqType = "Tower";
-
-            dbDrum dbdrum = new dbDrum();
-            ReliefProModel.Drum.Drum drum = dbdrum.GetModel(Session);
-            if (drum != null)
-                eqType = "Drum";
-
-            return eqType;
-
+             ObservableCollection<ScenarioModel> scenarios = new ObservableCollection<ScenarioModel>();
+             dbScenario db = new dbScenario();
+            IList<Scenario> list = db.GetAllList(SessionProtectedSystem);
+            int count = list.Count;
+            for (int i = 0; i < count; i++)
+            {
+                Scenario s = list[i];
+                ScenarioModel m = new ScenarioModel();
+                m.ID = s.ID;
+                m.ScenarioName = s.ScenarioName;
+                m.ReliefLoad = s.ReliefLoad;
+                m.ReliefTemperature = s.ReliefTemperature;
+                m.ReliefPressure = s.ReliefPressure;
+                m.ReliefMW = s.ReliefMW;
+                m.SeqNumber = i;
+                scenarios.Add(m);
+            }
+            return scenarios;
         }
 
         private ICommand _AddCommand;
@@ -114,18 +107,16 @@ namespace ReliefProMain.ViewModel
 
         public void Add()
         {
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-            {
-                var Session = helper.GetCurrentSession();
-                dbScenario db = new dbScenario();
-                Scenario s = new Scenario();
-                db.Add(s, Session);
 
-                ScenarioModel d = new ScenarioModel();
-                d = ConvertToVModel(s, d);
-                d.SeqNumber = Scenarios.Count - 1;
-                Scenarios.Add(d);
-            }
+            dbScenario db = new dbScenario();
+            Scenario s = new Scenario();
+            db.Add(s, SessionProtectedSystem);
+
+            ScenarioModel d = new ScenarioModel();
+            d = ConvertToVModel(s, d);
+            d.SeqNumber = Scenarios.Count;
+            Scenarios.Add(d);
+
         }
 
         private ICommand _DeleteCommand;
@@ -144,11 +135,22 @@ namespace ReliefProMain.ViewModel
 
         public void Delete(object obj)
         {
-            int idx = int.Parse(obj.ToString());
-            Scenarios.RemoveAt(idx);
-            for (int i = 0; i < Scenarios.Count; i++)
+            MessageBoxResult r = MessageBox.Show("Are you sure for deleting this S?", "Message Box", MessageBoxButton.YesNoCancel);
+            if (r == MessageBoxResult.Yes)
             {
-                Scenarios[i].SeqNumber = i;
+                int idx = int.Parse(obj.ToString());
+                ScenarioModel s = Scenarios[idx];
+                Scenarios.RemoveAt(idx);
+                //从db里删除
+
+                dbScenario db = new dbScenario();
+                Scenario sc = db.GetModel(s.ID, SessionProtectedSystem);
+                db.Delete(sc, SessionProtectedSystem);
+
+                for (int i = 0; i < Scenarios.Count; i++)
+                {
+                    Scenarios[i].SeqNumber = i;
+                }
             }
         }
 
@@ -174,71 +176,72 @@ namespace ReliefProMain.ViewModel
                                 select s).Single();
             if (!string.IsNullOrEmpty(SelectedScenario.ScenarioName))
             {
-                using (var helper = new NHibernateHelper(dbProtectedSystemFile))
+
+                dbScenario db = new dbScenario();
+                Scenario sce = db.GetModel(ScenarioID, SessionProtectedSystem);
+                sce.ScenarioName = SelectedScenario.ScenarioName;
+                db.Update(sce, SessionProtectedSystem);
+                string ScenarioName = SelectedScenario.ScenarioName.Replace(" ", string.Empty);
+
+                if (EqType == "Tower")
                 {
-                    var Session = helper.GetCurrentSession();
-                    dbScenario db = new dbScenario();
-                    Scenario sce = db.GetModel(ScenarioID, Session);
-                    sce.ScenarioName = SelectedScenario.ScenarioName;
-                    db.Update(sce, Session);
-                    string ScenarioName = SelectedScenario.ScenarioName.Replace(" ", string.Empty);
-                    if (eqType == "Tower")
+                    if (ScenarioName.Contains("Fire"))
                     {
-                        if (ScenarioName.Contains("Fire"))
-                        {
-                            CreateTowerFire(ScenarioID, Session);
-                        }
-                        else if (ScenarioName.Contains("Inlet"))
-                        {
-                            CreateInletValveOpen(eqType, ScenarioID, Session);
-                        }
-                        else
-                        {
-                            CreateTowerCommon(ScenarioID, ScenarioName, Session);
-                        }
+                        CreateTowerFire(ScenarioID, SessionProtectedSystem);
                     }
-                    else if (eqType == "Drum")
+                    else if (ScenarioName.Contains("Inlet"))
                     {
-                        if (ScenarioName.Contains("Outlet"))
+                        CreateInletValveOpen(EqType, ScenarioID, SessionProtectedSystem);
+                    }
+                    else
+                    {
+                        CreateTowerCommon(ScenarioID, ScenarioName, SessionProtectedSystem);
+                    }
+                }
+                else if (EqType == "Drum")
+                {
+                    if (ScenarioName.Contains("Outlet"))
+                    {
+                        Drum_BlockedOutlet v = new Drum_BlockedOutlet();
+                        v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                        DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, SessionProtectedSystem, SessionPlant);
+                        v.DataContext = vm;
+                        if (v.ShowDialog() == true)
                         {
-                            Drum_BlockedOutlet v = new Drum_BlockedOutlet();
-                            v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                            DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, SessionPS, SessionPF);
-                            v.DataContext = vm;
-                            if (v.ShowDialog() == true)
-                            {
-                                //SelectedScenario.ReliefLoad = vm.model.CurrentTowerFire.ReliefLoad;
-                                //SelectedScenario.ReliefPressure = vm.model.CurrentTowerFire.ReliefPressure;
-                                //SelectedScenario.ReliefTemperature = vm.model.CurrentTowerFire.ReliefTemperature;
-                                //SelectedScenario.ReliefMW = vm.model.CurrentTowerFire.ReliefMW;
-                            }
-                            //CreateDrumOutlet(ScenarioID, Session);
+                            //SelectedScenario.ReliefLoad = vm.model.CurrentTowerFire.ReliefLoad;
+                            //SelectedScenario.ReliefPressure = vm.model.CurrentTowerFire.ReliefPressure;
+                            //SelectedScenario.ReliefTemperature = vm.model.CurrentTowerFire.ReliefTemperature;
+                            //SelectedScenario.ReliefMW = vm.model.CurrentTowerFire.ReliefMW;
                         }
-                        else if (ScenarioName.Contains("Fire"))
-                        {
-                            Drum_fire v = new Drum_fire();
-                            v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                            DrumFireVM vm = new DrumFireVM(ScenarioID, SessionPS, SessionPF);
-                            v.DataContext = vm;
-                            v.ShowDialog();
-                            //CreateDrumFire(ScenarioID, Session);
-                        }
-                        else if (ScenarioName.Contains("Inlet"))
-                        {
-                            //CreateInletValveOpen(eqType, ScenarioID, Session);
-                        }
-                        else if (ScenarioName.Contains("Depressuring"))
-                        {
-                            DrumDepressuring v = new DrumDepressuring();
-                            v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                            DrumDepressuringVM vm = new DrumDepressuringVM(ScenarioID, SessionPS, SessionPF);
-                            v.DataContext = vm;
-                            v.ShowDialog();
-                            //CreateDrumDepressuring(ScenarioID, ScenarioName, Session);
-                        }
+                        //CreateDrumOutlet(ScenarioID, Session);
+                    }
+                    else if (ScenarioName.Contains("Fire"))
+                    {
+                        Drum_fire v = new Drum_fire();
+                        v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                        DrumFireVM vm = new DrumFireVM(ScenarioID, SessionProtectedSystem, SessionPlant);
+                        v.DataContext = vm;
+                        v.ShowDialog();
+                        //CreateDrumFire(ScenarioID, Session);
+                    }
+                    else if (ScenarioName.Contains("Inlet"))
+                    {
+                        //CreateInletValveOpen(eqType, ScenarioID, Session);
+                    }
+                    else if (ScenarioName.Contains("Depressuring"))
+                    {
+                        DrumDepressuring v = new DrumDepressuring();
+                        v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                        DrumDepressuringVM vm = new DrumDepressuringVM(ScenarioID, SessionProtectedSystem, SessionPlant);
+                        v.DataContext = vm;
+                        v.ShowDialog();
+                        //CreateDrumDepressuring(ScenarioID, ScenarioName, Session);
                     }
 
                 }
+
+
+
             }
         }
 
@@ -247,171 +250,172 @@ namespace ReliefProMain.ViewModel
         private void CreateTowerFire(int ScenarioID, NHibernate.ISession Session)
         {
             dbTowerFire dbtf = new dbTowerFire();
-            ReliefProModel.TowerFire tf = new ReliefProModel.TowerFire();
-            tf.ScenarioID = ScenarioID;
-            tf.IsExist = false;
-            tf.HeatInputModel = "API 521";
-            dbtf.Add(tf, Session);
-
-            dbTowerFireEq dbtfeq = new dbTowerFireEq();
-            dbTower dbtower = new dbTower();
-            Tower tower = dbtower.GetModel(Session);
-            TowerFireEq eq = new TowerFireEq();
-            eq.EqName = tower.TowerName;
-            eq.Type = "Column";
-            eq.FFactor = "1";
-            eq.FireZone = true;
-            eq.FireID = tf.ID;
-            dbtfeq.Add(eq, Session);
-
-            dbAccumulator dbaccumulator = new dbAccumulator();
-            Accumulator accumulator = dbaccumulator.GetModel(Session);
-            eq = new TowerFireEq();
-            eq.EqName = accumulator.AccumulatorName;
-            eq.Type = "Drum";
-            eq.FFactor = "1";
-            eq.FireZone = true;
-            eq.FireID = tf.ID;
-            dbtfeq.Add(eq, Session);
-
-            eq = new TowerFireEq();
-            eq.EqName = "Other";
-            eq.Type = "Other HX";
-            eq.FFactor = "1";
-            eq.FireZone = true;
-            eq.FireID = tf.ID;
-            dbtfeq.Add(eq, Session);
-
-            dbSideColumn dbsidecolumn = new dbSideColumn();
-            IList<SideColumn> listSideColumn = dbsidecolumn.GetAllList(Session);
-            foreach (SideColumn s in listSideColumn)
+            ReliefProModel.TowerFire t = dbtf.GetModel(Session, ScenarioID);
+            if (t == null)
             {
-                eq = new TowerFireEq();
-                eq.EqName = s.EqName;
-                eq.Type = "Side Column";
+                ReliefProModel.TowerFire tf = new ReliefProModel.TowerFire();
+                tf.ScenarioID = ScenarioID;
+                tf.IsExist = false;
+                tf.HeatInputModel = "API 521";
+                dbtf.Add(tf, Session);
+
+                dbTowerFireEq dbtfeq = new dbTowerFireEq();
+                dbTower dbtower = new dbTower();
+                Tower tower = dbtower.GetModel(Session);
+                TowerFireEq eq = new TowerFireEq();
+                eq.EqName = tower.TowerName;
+                eq.Type = "Column";
                 eq.FFactor = "1";
                 eq.FireZone = true;
                 eq.FireID = tf.ID;
                 dbtfeq.Add(eq, Session);
-            }
 
-
-            dbTowerHXDetail dbhx = new dbTowerHXDetail();
-            IList<TowerHXDetail> listHX = dbhx.GetAllList(Session);
-            foreach (TowerHXDetail s in listHX)
-            {
+                dbAccumulator dbaccumulator = new dbAccumulator();
+                Accumulator accumulator = dbaccumulator.GetModel(Session);
                 eq = new TowerFireEq();
-                eq.EqName = s.DetailName;
-                eq.FireZone = true;
+                eq.EqName = accumulator.AccumulatorName;
+                eq.Type = "Drum";
                 eq.FFactor = "1";
+                eq.FireZone = true;
                 eq.FireID = tf.ID;
-                if (s.Medium.Contains("Air"))
-                {
-                    eq.Type = "Air Cooler";
-                }
-                else
-                {
-                    eq.Type = "Shell-Tube HX";
-                }
                 dbtfeq.Add(eq, Session);
+
+                eq = new TowerFireEq();
+                eq.EqName = "Other";
+                eq.Type = "Other HX";
+                eq.FFactor = "1";
+                eq.FireZone = true;
+                eq.FireID = tf.ID;
+                dbtfeq.Add(eq, Session);
+
+                dbSideColumn dbsidecolumn = new dbSideColumn();
+                IList<SideColumn> listSideColumn = dbsidecolumn.GetAllList(Session);
+                foreach (SideColumn s in listSideColumn)
+                {
+                    eq = new TowerFireEq();
+                    eq.EqName = s.EqName;
+                    eq.Type = "Side Column";
+                    eq.FFactor = "1";
+                    eq.FireZone = true;
+                    eq.FireID = tf.ID;
+                    dbtfeq.Add(eq, Session);
+                }
+
+
+                dbTowerHXDetail dbhx = new dbTowerHXDetail();
+                IList<TowerHXDetail> listHX = dbhx.GetAllList(Session);
+                foreach (TowerHXDetail s in listHX)
+                {
+                    eq = new TowerFireEq();
+                    eq.EqName = s.DetailName;
+                    eq.FireZone = true;
+                    eq.FFactor = "1";
+                    eq.FireID = tf.ID;
+                    if (s.Medium.Contains("Air"))
+                    {
+                        eq.Type = "Air Cooler";
+                    }
+                    else
+                    {
+                        eq.Type = "Shell-Tube HX";
+                    }
+                    dbtfeq.Add(eq, Session);
+                }
             }
 
             ReliefProMain.View.TowerFire.TowerFireView v = new View.TowerFire.TowerFireView();
-            TowerFire.TowerFireVM vm = new TowerFire.TowerFireVM(ScenarioID, dbProtectedSystemFile, dbPlantFile);
+            TowerFire.TowerFireVM vm = new TowerFire.TowerFireVM(ScenarioID, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {
-                //SelectedScenario.ReliefLoad = vm.model.CurrentTowerFire.ReliefLoad;
-                //SelectedScenario.ReliefPressure = vm.model.CurrentTowerFire.ReliefPressure;
-                //SelectedScenario.ReliefTemperature = vm.model.CurrentTowerFire.ReliefTemperature;
-                //SelectedScenario.ReliefMW = vm.model.CurrentTowerFire.ReliefMW;
+                Scenarios = GetScenarios();
             }
         }
-
+        
         private void CreateTowerCommon(int ScenarioID, string ScenarioName, NHibernate.ISession Session)
         {
-
-            dbSource dbSource = new dbSource();
-            List<Source> listSource = dbSource.GetAllList(Session).ToList();
             dbTowerScenarioStream dbTowerSS = new dbTowerScenarioStream();
-            foreach (Source s in listSource)
+            IList<TowerScenarioStream> list = dbTowerSS.GetAllList(Session, ScenarioID);
+            if (list.Count == 0)
             {
-                TowerScenarioStream tss = new TowerScenarioStream();
-                tss.ScenarioID = ScenarioID;
-                tss.StreamName = s.StreamName;
-                tss.FlowCalcFactor = GetSystemScenarioFactor("4", s.SourceType, ScenarioName);
-                tss.FlowStop = false;
-                tss.SourceType = s.SourceType;
-                tss.IsProduct = false;
-                dbTowerSS.Add(tss, Session);
-            }
-            dbTowerFlashProduct dbTFP = new dbTowerFlashProduct();
-            List<TowerFlashProduct> listProduct = dbTFP.GetAllList(Session).ToList();
-            foreach (TowerFlashProduct p in listProduct)
-            {
-                TowerScenarioStream tss = new TowerScenarioStream();
-                tss.ScenarioID = ScenarioID;
-                tss.StreamName = p.StreamName;
-                tss.FlowCalcFactor = "1";
-                tss.FlowStop = false;
-                tss.IsProduct = true;
-                tss.SourceType = string.Empty;
-                dbTowerSS.Add(tss, Session);
-            }
+                dbSource dbSource = new dbSource();
+                List<Source> listSource = dbSource.GetAllList(Session).ToList();
 
-
-
-
-            dbTowerScenarioHX dbTSHX = new dbTowerScenarioHX();
-            dbTowerHX dbHX = new dbTowerHX();
-            List<TowerHX> tHXs = dbHX.GetAllList(Session).ToList();
-            foreach (TowerHX hx in tHXs)
-            {
-                dbTowerHXDetail dbTHXDetail = new dbTowerHXDetail();
-                List<TowerHXDetail> listTowerHXDetail = dbTHXDetail.GetAllList(Session, hx.ID).ToList();
-                foreach (TowerHXDetail detail in listTowerHXDetail)
+                foreach (Source s in listSource)
                 {
-                    string ProcessSideFlowSourceFactor = GetSystemScenarioFactor("1", detail.ProcessSideFlowSource, ScenarioName);
-                    string MediumFactor = GetSystemScenarioFactor("2", detail.Medium, ScenarioName);
-                    string MediumSideFlowSource = GetSystemScenarioFactor("3", detail.MediumSideFlowSource, ScenarioName);
-                    double factor = double.Parse(ProcessSideFlowSourceFactor) * double.Parse(MediumFactor) * double.Parse(MediumSideFlowSource);
-                    TowerScenarioHX tsHX = new TowerScenarioHX();
-                    tsHX.DetailID = detail.ID;
-                    tsHX.ScenarioID = ScenarioID;
-                    tsHX.DutyLost = false;
-                    tsHX.DutyCalcFactor = factor.ToString();
-                    tsHX.DetailName = detail.DetailName;
-                    tsHX.Medium = detail.Medium;
-                    tsHX.HeaterType = hx.HeaterType;
+                    TowerScenarioStream tss = new TowerScenarioStream();
+                    tss.ScenarioID = ScenarioID;
+                    tss.StreamName = s.StreamName;
+                    tss.FlowCalcFactor = GetSystemScenarioFactor("4", s.SourceType, ScenarioName);
+                    tss.FlowStop = false;
+                    tss.SourceType = s.SourceType;
+                    tss.IsProduct = false;
+                    dbTowerSS.Add(tss, Session);
+                }
+                dbTowerFlashProduct dbTFP = new dbTowerFlashProduct();
+                List<TowerFlashProduct> listProduct = dbTFP.GetAllList(Session).ToList();
+                foreach (TowerFlashProduct p in listProduct)
+                {
+                    TowerScenarioStream tss = new TowerScenarioStream();
+                    tss.ScenarioID = ScenarioID;
+                    tss.StreamName = p.StreamName;
+                    tss.FlowCalcFactor = "1";
+                    tss.FlowStop = false;
+                    tss.IsProduct = true;
+                    tss.SourceType = string.Empty;
+                    dbTowerSS.Add(tss, Session);
+                }
 
-                    if (ScenarioName == "BlockedOutlet" && double.Parse(detail.Duty) < 0)
+                dbTowerScenarioHX dbTSHX = new dbTowerScenarioHX();
+                dbTowerHX dbHX = new dbTowerHX();
+                List<TowerHX> tHXs = dbHX.GetAllList(Session).ToList();
+                foreach (TowerHX hx in tHXs)
+                {
+                    dbTowerHXDetail dbTHXDetail = new dbTowerHXDetail();
+                    List<TowerHXDetail> listTowerHXDetail = dbTHXDetail.GetAllList(Session, hx.ID).ToList();
+                    foreach (TowerHXDetail detail in listTowerHXDetail)
                     {
-                        tsHX.DutyLost = true;
+                        string ProcessSideFlowSourceFactor = GetSystemScenarioFactor("1", detail.ProcessSideFlowSource, ScenarioName);
+                        string MediumFactor = GetSystemScenarioFactor("2", detail.Medium, ScenarioName);
+                        string MediumSideFlowSource = GetSystemScenarioFactor("3", detail.MediumSideFlowSource, ScenarioName);
+                        double factor = double.Parse(ProcessSideFlowSourceFactor) * double.Parse(MediumFactor) * double.Parse(MediumSideFlowSource);
+                        TowerScenarioHX tsHX = new TowerScenarioHX();
+                        tsHX.DetailID = detail.ID;
+                        tsHX.ScenarioID = ScenarioID;
+                        tsHX.DutyLost = false;
+                        tsHX.DutyCalcFactor = factor.ToString();
+                        tsHX.DetailName = detail.DetailName;
+                        tsHX.Medium = detail.Medium;
+                        tsHX.HeaterType = hx.HeaterType;
+
+                        if (ScenarioName == "BlockedOutlet" && double.Parse(detail.Duty) < 0)
+                        {
+                            tsHX.DutyLost = true;
+                        }
+
+
+                        dbTSHX.Add(tsHX, Session);
                     }
-
-
-                    dbTSHX.Add(tsHX, Session);
                 }
             }
+
             TowerScenarioCalcView v = new TowerScenarioCalcView();
-            v.ScenarioID = ScenarioID;
-            v.dbPlantFile = dbPlantFile;
-            v.dbProtectedSystemFile = dbProtectedSystemFile;
-            TowerScenarioCalcVM vm = new TowerScenarioCalcVM();
+            TowerScenarioCalcVM vm = new TowerScenarioCalcVM(ScenarioID, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {
-                //SelectedScenario.ReliefLoad = vm.CurrentScenario.ReliefLoad;
-                //SelectedScenario.ReliefPressure = vm.CurrentScenario.ReliefPressure;
-                //SelectedScenario.ReliefTemperature = vm.CurrentScenario.ReliefTemperature;
-                //SelectedScenario.ReliefMW = vm.CurrentScenario.ReliefMW;
+                SelectedScenario.ReliefLoad = vm.ReliefLoad;
+                SelectedScenario.ReliefPressure = vm.ReliefPressure;
+                SelectedScenario.ReliefTemperature = vm.ReliefTemperature;
+                SelectedScenario.ReliefMW = vm.ReliefMW;
+                //Scenarios = GetScenarios();
             }
         }
 
         private void CreateInletValveOpen(string EqType, int ScenarioID, NHibernate.ISession Session)
         {
             InletValveOpenView v = new InletValveOpenView();
-            InletValveOpenVM vm = new InletValveOpenVM(EqType, ScenarioID, dbProtectedSystemFile, dbPlantFile);
+            InletValveOpenVM vm = new InletValveOpenVM(ScenarioID, EqName, EqType, PrzFile, PrzVersion, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {
@@ -475,68 +479,60 @@ namespace ReliefProMain.ViewModel
 
         private List<SystemScenarioFactor> GetSystemScenarioFactors()
         {
-            using (var helper = new NHibernateHelper(dbPlantFile))
-            {
-                dbSystemScenarioFactor db = new dbSystemScenarioFactor();
-                var Session = helper.GetCurrentSession();
-                IList<SystemScenarioFactor> list = db.GetAllList(Session);
-                return list.ToList();
-            }
+
+            dbSystemScenarioFactor db = new dbSystemScenarioFactor();
+            IList<SystemScenarioFactor> list = db.GetAllList(SessionProtectedSystem);
+            return list.ToList();
 
         }
 
         private string GetSystemScenarioFactor(string category, string categoryvalue, string ScenarioName)
         {
             string factor = "0";
-            using (var helper = new NHibernateHelper(dbPlantFile))
+
+            dbSystemScenarioFactor db = new dbSystemScenarioFactor();
+            SystemScenarioFactor model = db.GetSystemScenarioFactor(SessionPlant, category, categoryvalue);
+            switch (ScenarioName)
             {
-                dbSystemScenarioFactor db = new dbSystemScenarioFactor();
-                var Session = helper.GetCurrentSession();
-                SystemScenarioFactor model = db.GetSystemScenarioFactor(Session, category, categoryvalue);
-                switch (ScenarioName)
-                {
-                    case "BlockedOutlet":
-                        factor = model.BlockedOutlet;
-                        break;
-                    case "RefluxFailure":
-                        factor = model.RefluxFailure;
-                        break;
-                    case "ElectricPowerFailure":
-                        factor = model.ElectricPowerFailure;
-                        break;
-                    case "PartialElectricPowerFailure":
-                        factor = model.ElectricPowerFailure;
-                        break;
-                    case "CoolingWaterFailure":
-                        factor = model.CoolingWaterFailure;
-                        break;
-                    case "RefrigerantFailure":
-                        factor = model.RefrigerantFailure;
-                        break;
-                    case "PumpAroundFailure":
-                        factor = model.PumpAroundFailure;
-                        break;
-                    case "AbnormalHeatInput":
-                        factor = model.AbnormalHeatInput;
-                        break;
-                    case "ColdFeedStops":
-                        factor = model.ColdFeedStops;
-                        break;
-                    case "InletValveFailsOpen":
-                        factor = model.InletValveFailsOpen;
-                        break;
-                    case "Fire":
-                        factor = model.Fire;
-                        break;
-                    case "SteamFailure":
-                        factor = model.SteamFailure;
-                        break;
-                    case "AutomaticControlsFailure":
-                        factor = model.AutomaticControlsFailure;
-                        break;
-                }
-
-
+                case "BlockedOutlet":
+                    factor = model.BlockedOutlet;
+                    break;
+                case "RefluxFailure":
+                    factor = model.RefluxFailure;
+                    break;
+                case "ElectricPowerFailure":
+                    factor = model.ElectricPowerFailure;
+                    break;
+                case "PartialElectricPowerFailure":
+                    factor = model.ElectricPowerFailure;
+                    break;
+                case "CoolingWaterFailure":
+                    factor = model.CoolingWaterFailure;
+                    break;
+                case "RefrigerantFailure":
+                    factor = model.RefrigerantFailure;
+                    break;
+                case "PumpAroundFailure":
+                    factor = model.PumpAroundFailure;
+                    break;
+                case "AbnormalHeatInput":
+                    factor = model.AbnormalHeatInput;
+                    break;
+                case "ColdFeedStops":
+                    factor = model.ColdFeedStops;
+                    break;
+                case "InletValveFailsOpen":
+                    factor = model.InletValveFailsOpen;
+                    break;
+                case "Fire":
+                    factor = model.Fire;
+                    break;
+                case "SteamFailure":
+                    factor = model.SteamFailure;
+                    break;
+                case "AutomaticControlsFailure":
+                    factor = model.AutomaticControlsFailure;
+                    break;
             }
             return factor;
         }

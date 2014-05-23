@@ -15,10 +15,10 @@ namespace ReliefProMain
     {
         public static string GetProIIVerison(string przFile, string rootDir)
         {
-            PRIIFileOperator.DecompressProIIFile(przFile, rootDir);
+            PROIIFileOperator.DecompressProIIFile(przFile, rootDir);
             string[] files = Directory.GetFiles(rootDir, "*.inp");
             string inpFile = files[0];
-            string version = PRIIFileOperator.CheckProIIVersion(inpFile);
+            string version = PROIIFileOperator.CheckProIIVersion(inpFile);
             return version;
         }
         public static IProIIReader CreateReader(string version)

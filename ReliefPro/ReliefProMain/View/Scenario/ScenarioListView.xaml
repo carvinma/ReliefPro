@@ -9,7 +9,7 @@
             <RowDefinition Height="49*"/>
             <RowDefinition Height="38*"/>
         </Grid.RowDefinitions>
-        <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=Scenarios}" SelectedItem="{Binding SelectedScenario}" Margin="0,0,0,0" Grid.Row="1" >
+        <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=Scenarios,Mode=TwoWay}" SelectedItem="{Binding SelectedScenario,Mode=TwoWay}" Margin="0,0,0,0" Grid.Row="1" >
             <ListView.View>
                 <GridView >
                     <GridViewColumn Width="0"    Header="#"   DisplayMemberBinding="{Binding Path=SeqNumber,Mode=TwoWay}"></GridViewColumn>
@@ -60,7 +60,7 @@
                     <GridViewColumn Header="" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.DeleteCommand}" CommandParameter="{Binding ID,Mode=TwoWay}" ></Button>
+                                <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.DeleteCommand}" CommandParameter="{Binding SeqNumber,Mode=TwoWay}" ></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

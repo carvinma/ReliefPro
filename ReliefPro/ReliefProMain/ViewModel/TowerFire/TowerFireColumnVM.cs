@@ -13,67 +13,53 @@ using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using ReliefProMain.Model;
 using UOMLib;
+using NHibernate;
 
 namespace ReliefProMain.ViewModel.TowerFire
 {
     public class TowerFireColumnVM
     {
-        public string dbProtectedSystemFile { get; set; }
-        public string dbPlantFile { get; set; }
+        private ISession SessionPlant { set; get; }
+        private ISession SessionProtectedSystem { set; get; }
         public TowerFireColumnModel model { get; set; }
         public double Area { get; set; }
         public ObservableCollection<string> Internals { get; set; }
         public ObservableCollection<TowerFireColumnDetail> LastDetails { get; set; }
-        public TowerFireColumnVM(int EqID, string dbPSFile, string dbPFile)
+        public TowerFireColumnVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
+            SessionPlant = sessionPlant;
+            SessionProtectedSystem = sessionProtectedSystem;
             Internals = getInternals();
-            dbProtectedSystemFile = dbPSFile;
-            dbPlantFile = dbPFile;
-            BasicUnit BU;
-            using (var helper = new NHibernateHelper(dbPlantFile))
+
+            dbTowerFireColumnDetail dbDetail = new dbTowerFireColumnDetail();
+            dbTowerFireColumn db = new dbTowerFireColumn();
+            model = new TowerFireColumnModel();
+            model.Instance = db.GetModel(sessionProtectedSystem, EqID);
+            if (model.Instance == null)
             {
-                var Session = helper.GetCurrentSession();
-                dbBasicUnit dbBU = new dbBasicUnit();
-                IList<BasicUnit> list = dbBU.GetAllList(Session);
-                BU = list.Where(s => s.IsDefault == 1).Single();
+                model.Instance = new TowerFireColumn();
+                model.Instance.NumberOfSegment = "0";
+                model.Instance = new TowerFireColumn();
+                model.Instance.NumberOfSegment = "0";
+                model.Instance.EqID = EqID;
+                model.Instance.PipingContingency = "10";
+                try
+                {
+                    db.Add(model.Instance, sessionProtectedSystem);
+                }
+                catch (Exception ex)
+                {
+                }
             }
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
+
+            IList<TowerFireColumnDetail> list = dbDetail.GetAllList(sessionProtectedSystem, model.Instance.ID);
+            model.Details = new ObservableCollection<TowerFireColumnDetail>();
+            foreach (TowerFireColumnDetail detail in list)
             {
-                UnitConvert uc = new UnitConvert();
-                var Session = helper.GetCurrentSession();
-                dbTowerFireColumnDetail dbDetail = new dbTowerFireColumnDetail();
-                dbTowerFireColumn db = new dbTowerFireColumn();
-                model = new TowerFireColumnModel();
-                model.Instance = db.GetModel(Session, EqID);
-                if (model.Instance == null)
-                {
-                    model.Instance = new TowerFireColumn();
-                    model.Instance.NumberOfSegment = "0";
-                    model.Instance = new TowerFireColumn();
-                    model.Instance.NumberOfSegment = "0";
-                    model.Instance.EqID = EqID;
-                    model.Instance.PipingContingency = "10";
-                    try
-                    {
-                        db.Add(model.Instance, Session);
-                    }
-                    catch (Exception ex)
-                    {
-                    }
-                }
-
-                IList<TowerFireColumnDetail> list = dbDetail.GetAllList(Session, model.Instance.ID);
-                model.Details = new ObservableCollection<TowerFireColumnDetail>();
-                foreach (TowerFireColumnDetail detail in list)
-                {
-                    model.Details.Add(detail);
-                }
-
-                LastDetails = model.Details;
-
-
-
+                model.Details.Add(detail);
             }
+
+            LastDetails = model.Details;
 
         }
 
@@ -94,54 +80,43 @@ namespace ReliefProMain.ViewModel.TowerFire
         private void Update(object window)
         {
 
-            BasicUnit BU;
-            using (var helper = new NHibernateHelper(dbPlantFile))
+            dbTowerFireColumn db = new dbTowerFireColumn();
+            TowerFireColumn m = db.GetModel(model.Instance.ID, SessionProtectedSystem);
+            m.BNLL = model.Instance.BNLL;
+            m.NumberOfSegment = model.Instance.NumberOfSegment;
+            m.LiquidHoldup = model.Instance.LiquidHoldup;
+            m.PipingContingency = model.Instance.PipingContingency;
+            m.Elevation = model.Instance.Elevation;
+            db.Update(m, SessionProtectedSystem);
+
+
+            dbTowerFireColumnDetail dbDetail = new dbTowerFireColumnDetail();
+            for (int i = 0; i < LastDetails.Count; i++)
             {
-                var Session = helper.GetCurrentSession();
-                dbBasicUnit dbBU = new dbBasicUnit();
-                IList<BasicUnit> list = dbBU.GetAllList(Session);
-                BU = list.Where(s => s.IsDefault == 1).Single();
+                if (LastDetails[i].ID != 0)
+                {
+                    dbDetail.Delete(LastDetails[i], SessionProtectedSystem);
+                }
             }
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
+
+            foreach (TowerFireColumnDetail detail in model.Details)
             {
-                var Session = helper.GetCurrentSession();
-                dbTowerFireColumn db = new dbTowerFireColumn();
-                TowerFireColumn m = db.GetModel(model.Instance.ID, Session);
-                m.BNLL = model.Instance.BNLL;
-                m.NumberOfSegment = model.Instance.NumberOfSegment;
-                m.LiquidHoldup = model.Instance.LiquidHoldup;
-                m.PipingContingency = model.Instance.PipingContingency;
-                m.Elevation = model.Instance.Elevation;
-                db.Update(m, Session);
-
-
-                dbTowerFireColumnDetail dbDetail = new dbTowerFireColumnDetail();
-                for (int i = 0; i < LastDetails.Count; i++)
-                {
-                    if (LastDetails[i].ID != 0)
-                    {
-                        dbDetail.Delete(LastDetails[i], Session);
-                    }
-                }
-
-                foreach (TowerFireColumnDetail detail in model.Details)
-                {
-                    dbDetail.Add(detail, Session);
-                    double L3 = double.Parse(model.Instance.Elevation);
-                    double L1 = double.Parse(model.Instance.BNLL);
-                    double hw = double.Parse(detail.Height);
-                    int n = int.Parse(detail.Trays); ;
-                    double L2 = (hw + 0.05) * n;
-                    double diameter = double.Parse(detail.Diameter);
-                    Area = Area + Algorithm.GetColumnArea(detail.Internal, n, L1, L2, L3, diameter);
-
-                }
-                Session.Flush();
-
-                Area = Area + Area * double.Parse(model.Instance.PipingContingency) / 100;
-
+                dbDetail.Add(detail, SessionProtectedSystem);
+                double L3 = double.Parse(model.Instance.Elevation);
+                double L1 = double.Parse(model.Instance.BNLL);
+                double hw = double.Parse(detail.Height);
+                int n = int.Parse(detail.Trays); ;
+                double L2 = (hw + 0.05) * n;
+                double diameter = double.Parse(detail.Diameter);
+                Area = Area + Algorithm.GetColumnArea(detail.Internal, n, L1, L2, L3, diameter);
 
             }
+            SessionProtectedSystem.Flush();
+
+            Area = Area + Area * double.Parse(model.Instance.PipingContingency) / 100;
+
+
+
             System.Windows.Window wd = window as System.Windows.Window;
 
             if (wd != null)

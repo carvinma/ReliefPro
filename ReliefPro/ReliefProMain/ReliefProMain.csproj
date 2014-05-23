@@ -133,11 +133,13 @@
     <Compile Include="Model\DrumFireModel.cs" />
     <Compile Include="Model\FormatUnitsMeasureModel.cs" />
     <Compile Include="Model\ModelBase.cs" />
+    <Compile Include="Model\PSVModel.cs" />
     <Compile Include="Model\ScenarioModel.cs" />
     <Compile Include="Model\TowerFireColumnModel.cs" />
     <Compile Include="Model\TowerFireModel.cs" />
     <Compile Include="Model\TowerHXDetailModel.cs" />
     <Compile Include="Model\TowerHXModel.cs" />
+    <Compile Include="Model\TowerScenarioStreamModel.cs" />
     <Compile Include="ProIIFactory.cs" />
     <Compile Include="ProIIToDefault.cs" />
     <Compile Include="Service\ServiceProvider.cs" />
@@ -166,6 +168,7 @@
     <Compile Include="ViewModel\TowerFire\TowerFireVM.cs" />
     <Compile Include="ViewModel\TowerHXVM.cs" />
     <Compile Include="ViewModel\TowerScenarioCalcVM.cs" />
+    <Compile Include="ViewModel\TowerScenarioFeedVM.cs" />
     <Compile Include="ViewModel\TowerScenarioHXVM.cs" />
     <Compile Include="ViewModel\AccumulatorVM.cs" />
     <Compile Include="ViewModel\PSVVM.cs" />

@@ -1,31 +1,41 @@
 ﻿<Window x:Class="ReliefProMain.View.TowerScenarioFeedView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Feed Stream" Height="300" Width="524.138" Loaded="Window_Loaded_1">
-    <Grid>
-        <Grid Margin="0,0,0,0">
+        Title="Feed Stream" Height="300" Width="755.138"  Name="myWindow">
+    <Grid>       
             <Grid.RowDefinitions>
                 <RowDefinition Height="113*"/>
                 <RowDefinition Height="22*"/>
             </Grid.RowDefinitions>
-            <DataGrid  CanUserAddRows="False" AutoGenerateColumns="False" Name="myGrid" CellEditEnding="myGrid_CellEditEnding" SelectionChanged="myGrid_SelectionChanged" RowEditEnding="myGrid_RowEditEnding">
-                <DataGrid.Columns>
-                   
-                    <DataGridTextColumn Header="Stream Name" Binding="{Binding Path=StreamName}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Flow Source"  x:Name="SourceType" Binding="{Binding Path=SourceType}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Flow Factor"  x:Name="FlowCalcFactor" Binding="{Binding Path=FlowCalcFactor, Mode=TwoWay}"></DataGridTextColumn>
-                    <DataGridCheckBoxColumn  Header="Stop"   x:Name="FlowStop" Binding="{Binding Path=FlowStop}"></DataGridCheckBoxColumn>
-                    <DataGridTemplateColumn Header="Heat Source">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="Heat Source"  ></Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+            <ListView Grid.Row="0" Margin="0,0,0,0" ItemsSource="{Binding Path=Feeds}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Stream Name" Width="200px"  DisplayMemberBinding="{Binding Path=StreamName}"></GridViewColumn>
+                        <GridViewColumn Header="Flow Source" Width="200px"  DisplayMemberBinding="{Binding Path=SourceType}"></GridViewColumn>
+                        <GridViewColumn Header="Flow Factor" Width="100px"  DisplayMemberBinding="{Binding Path=FlowCalcFactor}"></GridViewColumn>
 
-                </DataGrid.Columns>
+                        <GridViewColumn Header="Stop" Width="50px">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Path=FlowStop}"></CheckBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-            </DataGrid>
-        </Grid>
+
+                    <GridViewColumn Header="Heat Source">
+                        <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Calculation" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.HeatSourceCommand}" CommandParameter="{Binding ID}" ></Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        <Button Content="OK" IsCancel="True" HorizontalAlignment="Left" Margin="548,12,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"/>
+
+
     </Grid>
 </Window>

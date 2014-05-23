@@ -11,13 +11,14 @@ using ReliefProMain.Commands;
 using ReliefProDAL;
 using ReliefProBLL.Common;
 using System.Collections.ObjectModel;
+using NHibernate;
 
 namespace ReliefProMain.ViewModel
 {
    public class SelectEquipmentVM:ViewModelBase
     {
-       private string dbProtectedSystemFile;
-        private string dbPlantFile;
+        private ISession SessionPlant { set; get; }       
+        private string DirPlant { set; get; }
         private string EqType;
         private string _SelectedFile;
         public string SelectedFile
@@ -50,10 +51,10 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        public SelectEquipmentVM(string eqType, string dbPSFile, string dbPFile)
+        public SelectEquipmentVM(string eqType, ISession sessionPlant,  string dirPlant)
         {
-            dbProtectedSystemFile = dbPSFile;
-            dbPlantFile = dbPFile;
+            SessionPlant = sessionPlant;
+            DirPlant = dirPlant;
             EqType = eqType;
             SourceFiles = GetSourceFiles();
             EqNames = GetEqNames();
@@ -83,27 +84,23 @@ namespace ReliefProMain.ViewModel
         public ObservableCollection<string> GetEqNames()
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
-            using (var helper = new NHibernateHelper(dbPlantFile))
-            {
-                var Session=helper.GetCurrentSession();
+            
                 dbProIIEqData db = new dbProIIEqData();
                 string file = SelectedFile + ".prz";
-                IList<ProIIEqData> data = db.GetAllList(Session,file,EqType);
+                IList<ProIIEqData> data = db.GetAllList(SessionPlant, file, EqType);
                 foreach (ProIIEqData d in data)
                 {
                     list.Add(d.EqName);
                 }
 
-            }
+            
             return list;
         }
 
         public ObservableCollection<string> GetSourceFiles()
         {
-            ObservableCollection<string> list = new ObservableCollection<string>();
-            string strDir = System.IO.Path.GetDirectoryName(dbPlantFile);
-
-            string[] files = Directory.GetFiles(strDir);
+            ObservableCollection<string> list = new ObservableCollection<string>();           
+            string[] files = Directory.GetFiles(DirPlant);
             foreach (string f in files)
             {
                 FileInfo fi = new FileInfo(f);

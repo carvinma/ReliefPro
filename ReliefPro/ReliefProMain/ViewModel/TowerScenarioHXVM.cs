@@ -18,9 +18,8 @@ namespace ReliefProMain.ViewModel
 {
     public class TowerScenarioHXVM : ViewModelBase
     {
-        public string dbProtectedSystemFile;
-        public string dbPlantFile;
-        
+        private ISession SessionPlant { set; get; }
+        private ISession SessionProtectedSystem { set; get; }
         public int HeaterType { get; set; }
         public int ScenarioID { get; set; }
 
@@ -102,14 +101,13 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        public ISession SessionPlant;
-        public ISession SessionProtectedSystem;
-        public TowerScenarioHXVM(int type,int scenarioID, string dbPSFile, string dbPFile)
-        {           
+        public TowerScenarioHXVM(int type, int scenarioID, ISession sessionPlant, ISession sessionProtectedSystem)
+        {
+            SessionPlant = sessionPlant;
+            SessionProtectedSystem = sessionProtectedSystem;
             ScenarioID=scenarioID;
             HeaterType = type;
-            dbProtectedSystemFile = dbPSFile;
-            dbPlantFile = dbPFile;
+            
             if (HeaterType ==1)
             {
                 IsDisplay = "Visible";
@@ -117,28 +115,22 @@ namespace ReliefProMain.ViewModel
             else
             {
                 IsDisplay = "Hidden";
-            }
-            var helper1=new NHibernateHelper(dbPlantFile);
-            SessionPlant = helper1.GetCurrentSession();
-            var helper2 = new NHibernateHelper(dbProtectedSystemFile);
-            SessionProtectedSystem = helper2.GetCurrentSession();
+            }            
             Details = GetTowerHXScenarioDetails();
         }
         internal ObservableCollection<TowerScenarioHX> GetTowerHXScenarioDetails()
         {
             Details = new ObservableCollection<TowerScenarioHX>();
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-            {
-                var Session = helper.GetCurrentSession();
+            
                 dbTowerScenarioHX db = new dbTowerScenarioHX();
-                IList<TowerScenarioHX> list = db.GetAllList(Session, ScenarioID, HeaterType).ToList();               
+                IList<TowerScenarioHX> list = db.GetAllList(SessionPlant, ScenarioID, HeaterType).ToList();               
                 foreach (TowerScenarioHX hx in list)
                 {
-                    double duty = GetCondenserDetailDuty(Session,hx.DetailID);
+                    double duty = GetCondenserDetailDuty(SessionProtectedSystem, hx.DetailID);
                     ScenarioCondenserDuty =ScenarioCondenserDuty+ double.Parse(hx.DutyCalcFactor) * duty;
                     Details.Add(hx);
                 }
-            }
+            
             return Details;
         }
         //list of orders from the customer
@@ -163,23 +155,21 @@ namespace ReliefProMain.ViewModel
         private void CalculateSurgeTime(object win)
         {
             
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-            {
-                var Session = helper.GetCurrentSession();
+           
                 dbAccumulator dbaccumulator = new dbAccumulator();
-                CurrentAccumulator=dbaccumulator.GetModel(Session);
+                CurrentAccumulator=dbaccumulator.GetModel(SessionProtectedSystem);
 
                 dbScenario dbTS = new dbScenario();
-                Scenario ts = dbTS.GetModel(ScenarioID, Session);
+                Scenario ts = dbTS.GetModel(ScenarioID, SessionProtectedSystem);
 
                 double refluxFlowStops = 0;
                 double refluxFlow = 0;
                 double ohProductFlowStops = 0;
-                double ohProductFlow = GetOHProductFlow(Session);
+                double ohProductFlow = GetOHProductFlow(SessionProtectedSystem);
 
-                double density = GetLatentLiquidDensity(Session);
-                double totalCondenserDuty = Math.Abs(ScenarioCondenserDuty);                
-                double latent = GetLatent(Session);
+                double density = GetLatentLiquidDensity(SessionProtectedSystem);
+                double totalCondenserDuty = Math.Abs(ScenarioCondenserDuty);
+                double latent = GetLatent(SessionProtectedSystem);
                 double volumeflowrate = totalCondenserDuty / latent / density;
                 double totalVolumeticFlowRate = volumeflowrate - refluxFlow * refluxFlowStops - ohProductFlow * ohProductFlowStops;
                 double accumulatorTotalVolume = 0;
@@ -200,7 +190,7 @@ namespace ReliefProMain.ViewModel
                 double surgeVolume = accumulatorTotalVolume - accumulatorPartialVolume;
                 double dSurgeTime = surgeVolume * 60 / totalVolumeticFlowRate;
                 SurgeTime = dSurgeTime.ToString();
-            }
+            
           
 
         }
@@ -273,17 +263,15 @@ namespace ReliefProMain.ViewModel
         private void PinchCalc(object obj)
         {
             int ID=int.Parse(obj.ToString());
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-            {
-                var Session = helper.GetCurrentSession();
+            
                 ReboilerPinchView v = new ReboilerPinchView();
-                ReboilerPinchVM vm = new ReboilerPinchVM(ID, dbProtectedSystemFile, dbPlantFile);
+                ReboilerPinchVM vm = new ReboilerPinchVM(ID, SessionPlant, SessionProtectedSystem);
                 v.DataContext = vm;
                 if (v.ShowDialog()==true)
                 {
 
                 }
-            }
+            
 
 
         }

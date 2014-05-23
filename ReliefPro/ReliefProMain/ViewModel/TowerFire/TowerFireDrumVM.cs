@@ -11,46 +11,35 @@ using ReliefProBLL.Common;
 using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using UOMLib;
+using NHibernate;
 
 namespace ReliefProMain.ViewModel.TowerFire
 {
     public class TowerFireDrumVM
     {
-        public string dbProtectedSystemFile { get; set; }
-        public string dbPlantFile { get; set; }
+        private ISession SessionPlant { set; get; }
+        private ISession SessionProtectedSystem { set; get; }
         public double Area { get; set; }
         public TowerFireDrum model { get; set; }
         public List<string> Orientations { get; set; }
-        public List<string> HeadTypes { get; set; } 
+        public List<string> HeadTypes { get; set; }
 
-        public TowerFireDrumVM(int EqID, string dbPSFile, string dbPFile)
+        public TowerFireDrumVM(int EqID,  ISession sessionPlant, ISession sessionProtectedSystem)
         {
+            SessionPlant = sessionPlant;
+            SessionProtectedSystem = sessionProtectedSystem;
             Orientations = getOrientations();
             HeadTypes = getHeadTypes();
-            dbProtectedSystemFile = dbPSFile;
-            dbPlantFile = dbPFile;
-            BasicUnit BU;
-            using (var helper = new NHibernateHelper(dbPlantFile))
+
+            dbTowerFireDrum db = new dbTowerFireDrum();
+            model = db.GetModel(SessionProtectedSystem, EqID);
+            if (model == null)
             {
-                var Session = helper.GetCurrentSession();
-                dbBasicUnit dbBU = new dbBasicUnit();
-                IList<BasicUnit> list=dbBU.GetAllList(Session);
-                BU = list.Where(s=>s.IsDefault==1).Single();
+                model = new TowerFireDrum();
+                model.EqID = EqID;
+                db.Add(model, SessionProtectedSystem);
             }
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-            {
-                UnitConvert uc=new UnitConvert();
-                var Session = helper.GetCurrentSession();
-                dbTowerFireDrum db = new dbTowerFireDrum();
-                model = db.GetModel(Session,EqID);
-                if (model == null)
-                {
-                    model = new TowerFireDrum();
-                    model.EqID = EqID;
-                    db.Add(model,Session);
-                }
-            }
-            
+
         }
 
         private ICommand _OKClick;
@@ -69,19 +58,9 @@ namespace ReliefProMain.ViewModel.TowerFire
 
         private void Update(object window)
         {            
-            BasicUnit BU;
-            using (var helper = new NHibernateHelper(dbPlantFile))
-            {
-                var Session = helper.GetCurrentSession();
-                dbBasicUnit dbBU = new dbBasicUnit();
-                IList<BasicUnit> list = dbBU.GetAllList(Session);
-                BU = list.Where(s => s.IsDefault == 1).Single();
-            }
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-            {
-                var Session = helper.GetCurrentSession();
+            
                 dbTowerFireDrum db = new dbTowerFireDrum();
-                TowerFireDrum m = db.GetModel(model.ID, Session);
+                TowerFireDrum m = db.GetModel(model.ID, SessionProtectedSystem);
                 m.Elevation = model.Elevation;
                 m.BootDiameter = model.BootDiameter;
                 m.BootHeight = model.BootHeight;
@@ -94,9 +73,9 @@ namespace ReliefProMain.ViewModel.TowerFire
                 m.PipingContingency = model.PipingContingency;
                 try
                 {
-                    db.Update(m, Session);
+                    db.Update(m, SessionProtectedSystem);
 
-                    Session.Flush();
+                    SessionProtectedSystem.Flush();
                 }
                 catch (Exception ex)
                 {
@@ -112,7 +91,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 
                 Area = Algorithm.GetDrumArea(m.Orientation, model.HeadType, elevation, diameter, length, NLL, bootheight, bootdiameter);               
                 Area = Area + Area * double.Parse(model.PipingContingency) / 100;
-            }
+            
             System.Windows.Window wd = window as System.Windows.Window;
 
             if (wd != null)

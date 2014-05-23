@@ -25,7 +25,7 @@ using ReliefProModel.Drum;
 using ReliefProMain.ViewModel.Drum;
 using NHibernate;
 using ReliefProBLL.Common;
-
+using ReliefProDAL;
 
 namespace ReliefProMain.View
 {
@@ -34,6 +34,17 @@ namespace ReliefProMain.View
     /// </summary>
     public partial class UCDrawingControl : UserControl
     {
+        private string dbPlantFile { set; get; }
+        private string dbProtectedSystemFile { set; get; }
+        private ISession SessionPlant { set; get; }
+        private ISession SessionProtectedSystem { set; get; }
+        private string DirPlant { set; get; }
+        private string DirProtectedSystem { set; get; }
+        private string EqName { set; get; }
+        private string EqType { set; get; }
+        private string PrzFile { set; get; }
+        private string PrzVersion { set; get; }
+
         public AxDrawingControl visioControl = new AxDrawingControl();
 
         public UCDrawingControl()
@@ -50,10 +61,10 @@ namespace ReliefProMain.View
                 TreeViewItemData data = this.Tag as TreeViewItemData;
                 AxDrawingControl dc = host.Child as AxDrawingControl;
                 visioControl = dc;
-                //visioControl.Window.Zoom = 1;
-                //visioControl.Window.ShowGrid = 0;
-                // visioControl.Window.ShowRulers = 0;
-                // visioControl.Window.ShowConnectPoints = -1;
+                visioControl.Window.Zoom = 1;
+                visioControl.Window.ShowGrid = 0;
+                visioControl.Window.ShowRulers = 0;
+                visioControl.Window.ShowConnectPoints = -1;
                 visioControl.Src = data.FullName;
                 visioControl.Window.ShowPageTabs = false;
             }
@@ -83,14 +94,19 @@ namespace ReliefProMain.View
                     try
                     {
                         TowerView v = new TowerView();
-                        TowerVM vm = new TowerVM(name, dbProtectedSystemFile, dbPlantFile);
+                        TowerVM vm = new TowerVM(name,SessionPlant,SessionProtectedSystem,DirPlant,DirProtectedSystem);
                         v.DataContext = vm;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         Window parentWindow = Window.GetWindow(this);
                         v.Owner = parentWindow;    
                         if (v.ShowDialog() == true)
                         {
+                            PrzFile = DirPlant + @"\" + vm.przFile;
+                            PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                            EqName = vm.TowerName;
+                            EqType = "Tower";
                             DrawTower(shp, vm);
+                            
                         }
                     }
                     catch (Exception ex)
@@ -102,13 +118,17 @@ namespace ReliefProMain.View
                     try
                     {
                         Drum.DrumView v = new Drum.DrumView();
-                        DrumVM vm = new DrumVM(name, dbProtectedSystemFile, dbPlantFile);
+                        DrumVM vm = new DrumVM(name, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
                         v.DataContext = vm;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         Window parentWindow = Window.GetWindow(this);
                         v.Owner = parentWindow;    
                         if (v.ShowDialog() == true)
                         {
+                            PrzFile = DirPlant + @"\" + vm.przFile;
+                            PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                            EqName = vm.DrumName;
+                            EqType = "Drum";
                             DrawDrum(shp, vm);
                         }
                     }
@@ -132,7 +152,7 @@ namespace ReliefProMain.View
                 else if (shp.NameU.Contains("Vessel"))
                 {
                     AccumulatorView v = new AccumulatorView();
-                    AccumulatorVM vm = new AccumulatorVM(name, dbProtectedSystemFile, dbPlantFile);
+                    AccumulatorVM vm = new AccumulatorVM(name, SessionPlant, SessionProtectedSystem);
                     v.DataContext = vm;
                     Window parentWindow = Window.GetWindow(this);
                     v.Owner = parentWindow;
@@ -561,41 +581,72 @@ namespace ReliefProMain.View
             Button btn = sender as Button;
             if (btn.ToolTip.ToString() == "PSV")
             {
-                PSVView psv = new PSVView();
-                psv.dbProtectedSystemFile = dbProtectedSystemFile;
-                psv.dbPlantFile = dbPlantFile;
-
-                
-
-                
-                psv.ShowDialog();
+                if (SessionProtectedSystem == null)
+                {
+                    MessageBox.Show("数据还未导入");
+                    return;
+                }
+                PSVView v = new PSVView();
+                PSVVM vm = new PSVVM(EqName, EqType, PrzFile, PrzVersion, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
+                v.DataContext = vm;
+                v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                v.ShowDialog();
             }
             else if (btn.ToolTip.ToString() == "Scenario")
             {
+                if (SessionProtectedSystem == null)
+                {
+                    MessageBox.Show("数据还未导入");
+                    return;
+                }
+
+                dbPSV dbpsv = new dbPSV();
+                PSV psv= dbpsv.GetModel(SessionProtectedSystem);
+                if (psv == null)
+                {
+                    MessageBox.Show("Psv 还未计算");
+                    return;
+                }
                 ScenarioListView v = new ScenarioListView();
-                ScenarioListVM vm = new ScenarioListVM(dbProtectedSystemFile, dbPlantFile);
+                ScenarioListVM vm = new ScenarioListVM(EqName,EqType,PrzFile,PrzVersion,SessionPlant,SessionProtectedSystem);
                 v.DataContext = vm;
                 v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 v.ShowDialog();
             }
         }
 
-        private string dbPlantFile;
-        private string dbProtectedSystemFile;
-        ISession SessionPlant;
-        ISession SessionProtectedSystem;
-        string DirPlant;
-        string DirProtectedSystem;
-
+        
         private void UserControl_Loaded_1(object sender, RoutedEventArgs e)
         {
             TreeViewItemData data = this.Tag as TreeViewItemData;
             dbPlantFile = data.dbPlantFile;
             dbProtectedSystemFile = data.dbProtectedSystemFile;
+            DirPlant = System.IO.Path.GetDirectoryName(dbPlantFile);
+            DirProtectedSystem = System.IO.Path.GetDirectoryName(dbProtectedSystemFile);
             NHibernateHelper helperPlant = new NHibernateHelper(dbPlantFile);
             SessionPlant = helperPlant.GetCurrentSession();
+            NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystemFile);
+            SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
+            dbTower dbtower = new dbTower();
+            Tower tower = dbtower.GetModel(SessionProtectedSystem);
+            if (tower != null)
+            {
+                EqType = "Tower";
+                EqName = tower.TowerName;
+                PrzFile = DirPlant +@"\"+ tower.PrzFile;
+                PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+            }
+            dbDrum dbdrum = new dbDrum();
+            ReliefProModel.Drum.Drum drum = dbdrum.GetModel(SessionProtectedSystem);
+            if (drum != null)
+            {
+                EqType = "Drum";
+                EqName = drum.DrumName;
+                PrzFile = DirPlant + @"\" + drum.PrzFile;
+                PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+            }
+            
 
-            NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlantFile);
         }
     
 

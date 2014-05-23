@@ -12,46 +12,35 @@ using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using ReliefProMain;
 using UOMLib;
+using NHibernate;
 
 namespace ReliefProMain.ViewModel.TowerFire
 {
     public class TowerFireHXVM
     {
-        public string dbProtectedSystemFile { get; set; }
-        public string dbPlantFile { get; set; }
+        private ISession SessionPlant { set; get; }
+        private ISession SessionProtectedSystem { set; get; }
         public double Area { get; set; }
         public TowerFireHX model { get; set; }
         public List<string> ExposedToFires { get; set; }
         public List<string> Types { get; set; }
-        public TowerFireHXVM(int EqID, string dbPSFile, string dbPFile)
+        public TowerFireHXVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             ExposedToFires = GetExposedToFires();
             Types = GetTypes();
-            dbProtectedSystemFile = dbPSFile;
-            dbPlantFile = dbPFile;
-            BasicUnit BU;
-            using (var helper = new NHibernateHelper(dbPlantFile))
+            SessionPlant = sessionPlant;
+            SessionProtectedSystem = sessionProtectedSystem;
+
+            dbTowerFireHX db = new dbTowerFireHX();
+            model = db.GetModel(SessionProtectedSystem, EqID);
+            if (model == null)
             {
-                var Session = helper.GetCurrentSession();
-                dbBasicUnit dbBU = new dbBasicUnit();
-                IList<BasicUnit> list=dbBU.GetAllList(Session);
-                BU = list.Where(s=>s.IsDefault==1).Single();
+                model = new TowerFireHX();
+                model.EqID = EqID;
+                model.PipingContingency = "10";
+                db.Add(model, SessionProtectedSystem);
             }
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-            {
-                UnitConvert uc=new UnitConvert();
-                var Session = helper.GetCurrentSession();
-                dbTowerFireHX db = new dbTowerFireHX();
-                model = db.GetModel(Session,EqID);
-                if (model == null)
-                {
-                    model = new TowerFireHX();
-                    model.EqID = EqID;
-                    model.PipingContingency = "10";
-                    db.Add(model, Session);
-                }
-            }
-            
+
         }
 
         private ICommand _OKClick;
@@ -71,27 +60,16 @@ namespace ReliefProMain.ViewModel.TowerFire
         private void Update(object window)
         {
            
-            BasicUnit BU;
-            using (var helper = new NHibernateHelper(dbPlantFile))
-            {
-                var Session = helper.GetCurrentSession();
-                dbBasicUnit dbBU = new dbBasicUnit();
-                IList<BasicUnit> list = dbBU.GetAllList(Session);
-                BU = list.Where(s => s.IsDefault == 1).Single();
-            }
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-            {
-                var Session = helper.GetCurrentSession();
                 dbTowerFireHX db = new dbTowerFireHX();
-                TowerFireHX m = db.GetModel(model.ID, Session);
+                TowerFireHX m = db.GetModel(model.ID, SessionProtectedSystem);
                 m.ExposedToFire = model.ExposedToFire;
                 m.Length = model.Length;
                 m.OD = model.OD;
                 m.Type = model.Type;
                 m.Elevation = model.Elevation;
                 m.PipingContingency = model.PipingContingency;
-                db.Update(m, Session);
-                Session.Flush();
+                db.Update(m, SessionProtectedSystem);
+                SessionProtectedSystem.Flush();
 
                 double length = double.Parse(m.Length);
                 double pipingContingency = double.Parse(m.PipingContingency);
@@ -100,7 +78,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 Area = Algorithm.GetHXArea(m.ExposedToFire, m.Type, length, od, D);
                 Area = Area + Area * double.Parse(model.PipingContingency) / 100;
 
-            }
+            
             System.Windows.Window wd = window as System.Windows.Window;
 
             if (wd != null)

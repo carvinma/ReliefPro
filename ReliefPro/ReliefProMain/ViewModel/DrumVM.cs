@@ -17,9 +17,11 @@ namespace ReliefProMain.ViewModel
 {
     public class DrumVM:ViewModelBase
     {
-        public string dbProtectedSystemFile { get; set; }
-        public string dbPlantFile { get; set; }
-        private string przFile;
+        private ISession SessionPlant { set; get; }
+        private ISession SessionProtectedSystem { set; get; }
+        private string DirPlant { set; get; }
+        private string DirProtectedSystem { set; get; }
+        public string przFile { set; get; }
         private ProIIEqData ProIIDrum;
         private string _DrumName;
         public string DrumName
@@ -115,21 +117,21 @@ namespace ReliefProMain.ViewModel
         List<string> dicFeeds = new List<string>();
         List<string> dicProducts = new List<string>();
         List<string> dicProductTypes = new List<string>();
-        public DrumVM(string drumName, string dbPSFile, string dbPFile)
-        {          
-            dbProtectedSystemFile = dbPSFile;
-            dbPlantFile = dbPFile;
+        public DrumVM(string drumName, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
+        {
+            SessionPlant = sessionPlant;
+            SessionProtectedSystem = sessionProtectedSystem;
+            DirPlant = dirPlant;
+            DirProtectedSystem = dirProtectedSystem;
             DrumName = drumName;
             if (!string.IsNullOrEmpty(DrumName))
             {
-                using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-                {
-                    var Session = helper.GetCurrentSession();
-                    Feeds = GetStreams(Session, false);
-                    Products = GetStreams(Session, true);
+
+                Feeds = GetStreams(SessionProtectedSystem, false);
+                Products = GetStreams(SessionProtectedSystem, true);
 
                     dbDrum dbdrum=new dbDrum();
-                    CurrentDrum=dbdrum.GetModel(Session);
+                    CurrentDrum = dbdrum.GetModel(SessionProtectedSystem);
                     if (CurrentDrum != null)
                     {
                         DrumName = CurrentDrum.DrumName;
@@ -139,7 +141,7 @@ namespace ReliefProMain.ViewModel
                         DrumType = CurrentDrum.DrumType;
                     }
                    
-                }
+                
             }
             else
             {
@@ -162,7 +164,7 @@ namespace ReliefProMain.ViewModel
         private void Import(object obj)
         {
             SelectEquipmentView v = new SelectEquipmentView();
-            SelectEquipmentVM vm = new SelectEquipmentVM("Flash", dbProtectedSystemFile, dbPlantFile);
+            SelectEquipmentVM vm = new SelectEquipmentVM("Flash",  SessionPlant, DirPlant);
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.DataContext = vm;
             if (v.ShowDialog() == true)
@@ -171,12 +173,10 @@ namespace ReliefProMain.ViewModel
                 {
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
 
-                    using (var helper = new NHibernateHelper(dbPlantFile))
-                    {
-                        var Session = helper.GetCurrentSession();
+                   
                         dbProIIEqData dbEq = new dbProIIEqData();
                         przFile = vm.SelectedFile + ".prz";
-                        ProIIDrum = dbEq.GetModel(Session, przFile, vm.SelectedEq, "Flash");
+                        ProIIDrum = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Flash");
                         DrumName = ProIIDrum.EqName;
                         Duty = ProIIDrum.DutyCalc;
                         Temperature = ProIIDrum.TempCalc;
@@ -195,7 +195,7 @@ namespace ReliefProMain.ViewModel
                         
                         foreach (string k in dicFeeds)
                         {
-                            ProIIStreamData d = dbStreamData.GetModel(Session, k,przFile);
+                            ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
                             CustomStream cstream = ConvertProIIStreamToCustomStream(d);
                             cstream.IsProduct = false;
                             Feeds.Add(cstream);
@@ -203,14 +203,14 @@ namespace ReliefProMain.ViewModel
                         for(int i=0;i<dicProducts.Count;i++)
                         {
                             string k=dicProducts[i];
-                            ProIIStreamData d = dbStreamData.GetModel(Session, k,przFile);
+                            ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
                             CustomStream cstream = ConvertProIIStreamToCustomStream(d);
                             cstream.IsProduct = true;
                             cstream.ProdType=dicProductTypes[i];
                             Products.Add(cstream);
                         }
 
-                    }
+                    
 
 
                 }
@@ -298,10 +298,7 @@ namespace ReliefProMain.ViewModel
         }
         public void Save(object obj)
         {
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-            {
-                var Session = helper.GetCurrentSession();
-               
+            
                 dbCustomStream dbCS = new dbCustomStream();
                 dbSource dbsr = new dbSource();
                 foreach (CustomStream cs in Feeds)
@@ -310,16 +307,16 @@ namespace ReliefProMain.ViewModel
                     sr.MaxPossiblePressure = cs.Pressure;
                     sr.StreamName = cs.StreamName;
                     sr.SourceType = "Compressor(Motor)";
-                    dbsr.Add(sr, Session);
+                    dbsr.Add(sr, SessionProtectedSystem);
 
 
-                    dbCS.Add(cs, Session);
+                    dbCS.Add(cs, SessionProtectedSystem);
                 }
 
 
                 foreach (CustomStream cs in Products)
-                {                   
-                    dbCS.Add(cs, Session);
+                {
+                    dbCS.Add(cs, SessionProtectedSystem);
                 }
 
                 dbDrum dbdrum = new dbDrum();
@@ -330,11 +327,11 @@ namespace ReliefProMain.ViewModel
                 drum.PrzFile = przFile;
                 drum.Pressure = Pressure;
                 drum.Temperature = Temperature;
-                dbdrum.Add(drum, Session);
+                dbdrum.Add(drum, SessionProtectedSystem);
 
 
-                Session.Flush();
-            }
+                SessionProtectedSystem.Flush();
+            
 
             System.Windows.Window wd = obj as System.Windows.Window;
 

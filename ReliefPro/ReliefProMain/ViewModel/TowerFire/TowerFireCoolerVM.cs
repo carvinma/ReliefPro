@@ -11,41 +11,29 @@ using ReliefProBLL.Common;
 using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using UOMLib;
-
+using NHibernate;
 namespace ReliefProMain.ViewModel.TowerFire
 {
     public class TowerFireCoolerVM
     {
-        public string dbProtectedSystemFile { get; set; }
-        public string dbPlantFile { get; set; }
+        private ISession SessionPlant { set; get; }
+        private ISession SessionProtectedSystem { set; get; }
         public TowerFireCooler model { get; set; }
         public double Area { get; set; }
-        public TowerFireCoolerVM(int EqID, string dbPSFile, string dbPFile)
+        public TowerFireCoolerVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            dbProtectedSystemFile = dbPSFile;
-            dbPlantFile = dbPFile;
-            BasicUnit BU;
-            using (var helper = new NHibernateHelper(dbPlantFile))
-            {
-                var Session = helper.GetCurrentSession();
-                dbBasicUnit dbBU = new dbBasicUnit();
-                IList<BasicUnit> list = dbBU.GetAllList(Session);
-                BU = list.Where(s => s.IsDefault == 1).Single();
-            }
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-            {
-                UnitConvert uc = new UnitConvert();
-                var Session = helper.GetCurrentSession();
+            SessionPlant = sessionPlant;
+            SessionProtectedSystem = sessionProtectedSystem;
                 dbTowerFireCooler db = new dbTowerFireCooler();
-                model = db.GetModel(Session, EqID);
+                model = db.GetModel(SessionProtectedSystem, EqID);
                 if (model == null)
                 {
                     model = new TowerFireCooler();
                     model.EqID = EqID;
                     model.PipingContingency = "10";
-                    db.Add(model, Session);
+                    db.Add(model, SessionProtectedSystem);
                 }
-            }
+            
 
         }
 
@@ -70,27 +58,17 @@ namespace ReliefProMain.ViewModel.TowerFire
             {
                 throw new ArgumentException("Please type in WettedArea.");
             }
-            BasicUnit BU;
-            using (var helper = new NHibernateHelper(dbPlantFile))
-            {
-                var Session = helper.GetCurrentSession();
-                dbBasicUnit dbBU = new dbBasicUnit();
-                IList<BasicUnit> list = dbBU.GetAllList(Session);
-                BU = list.Where(s => s.IsDefault == 1).Single();
-            }
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-            {
-                var Session = helper.GetCurrentSession();
+           
                 dbTowerFireCooler db = new dbTowerFireCooler();
-                TowerFireCooler m = db.GetModel(model.ID, Session);
+                TowerFireCooler m = db.GetModel(model.ID, SessionProtectedSystem);
                 m.WettedArea = model.WettedArea;
                 m.PipingContingency = model.PipingContingency;
-                db.Update(m, Session);
-                Session.Flush();
+                db.Update(m, SessionProtectedSystem);
+                SessionProtectedSystem.Flush();
                 Area = double.Parse(m.WettedArea);
                 Area = Area + Area * double.Parse(model.PipingContingency) / 100;
 
-            }
+            
             System.Windows.Window wd = window as System.Windows.Window;
 
             if (wd != null)

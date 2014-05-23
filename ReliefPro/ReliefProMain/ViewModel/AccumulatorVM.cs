@@ -11,13 +11,14 @@ using ReliefProBLL.Common;
 using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using UOMLib;
+using NHibernate;
 
 namespace ReliefProMain.ViewModel
 {
     public class AccumulatorVM : ViewModelBase
     {
-        public string dbProtectedSystemFile { get; set; }
-        public string dbPlantFile { get; set; }
+        private ISession SessionPlant { set; get; }
+        private ISession SessionProtectedSystem { set; get; }
 
         private bool _Horiz;
         public bool Horiz
@@ -108,41 +109,27 @@ namespace ReliefProMain.ViewModel
             list.Add("Pump(Turbine)");
             return list;
         }
-        public AccumulatorVM(string name, string dbPSFile, string dbPFile)
+        public AccumulatorVM(string name, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             AccumulatorTypes = GetAccumulatorTypes();
-            dbProtectedSystemFile = dbPSFile;
-            dbPlantFile = dbPFile;
-            BasicUnit BU;
-            using (var helper = new NHibernateHelper(dbPlantFile))
-            {
-                var Session = helper.GetCurrentSession();
-                dbBasicUnit dbBU = new dbBasicUnit();
-                IList<BasicUnit> list = dbBU.GetAllList(Session);
-                BU = list.Where(s => s.IsDefault == 1).Single();
-            }
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-            {
-                UnitConvert uc = new UnitConvert();
-                var Session = helper.GetCurrentSession();
-                dbAccumulator db = new dbAccumulator();
-                CurrentAccumulator = db.GetModel(Session);
-                Diameter = CurrentAccumulator.Diameter;
-                Length = CurrentAccumulator.Length;
-                NormalLiquidLevel = CurrentAccumulator.NormalLiquidLevel;
-                if (CurrentAccumulator.Orientation)
-                {
-                    Horiz = true;
-                    Vertical = false;
-                }
-                else
-                {
-                    Horiz = false;
-                    Vertical = true;
-                }
+            SessionPlant = sessionPlant;
+            SessionProtectedSystem = sessionProtectedSystem;
 
+            dbAccumulator db = new dbAccumulator();
+            CurrentAccumulator = db.GetModel(SessionProtectedSystem);
+            Diameter = CurrentAccumulator.Diameter;
+            Length = CurrentAccumulator.Length;
+            NormalLiquidLevel = CurrentAccumulator.NormalLiquidLevel;
+            if (CurrentAccumulator.Orientation)
+            {
+                Horiz = true;
+                Vertical = false;
             }
-
+            else
+            {
+                Horiz = false;
+                Vertical = true;
+            }
         }
 
         private ICommand _SaveCommand;
@@ -166,32 +153,22 @@ namespace ReliefProMain.ViewModel
             {
                 throw new ArgumentException("Please type in a name for the Accumulator.");
             }
-            BasicUnit BU;
-            using (var helper = new NHibernateHelper(dbPlantFile))
-            {
-                var Session = helper.GetCurrentSession();
-                dbBasicUnit dbBU = new dbBasicUnit();
-                IList<BasicUnit> list = dbBU.GetAllList(Session);
-                BU = list.Where(s => s.IsDefault == 1).Single();
-            }
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-            {
-                var Session = helper.GetCurrentSession();
-                dbAccumulator db = new dbAccumulator();
-                Accumulator m = db.GetModel(Session);
 
-                m.AccumulatorName = CurrentAccumulator.AccumulatorName;
-                m.Diameter = Diameter;
-                m.Length = Length;
-                m.NormalLiquidLevel = NormalLiquidLevel;
-                if (Horiz)
-                    m.Orientation = true;
-                else
-                    m.Orientation = false;
-                db.Update(m, Session);
-                Session.Flush();
+            dbAccumulator db = new dbAccumulator();
+            Accumulator m = db.GetModel(SessionProtectedSystem);
 
-            }
+            m.AccumulatorName = CurrentAccumulator.AccumulatorName;
+            m.Diameter = Diameter;
+            m.Length = Length;
+            m.NormalLiquidLevel = NormalLiquidLevel;
+            if (Horiz)
+                m.Orientation = true;
+            else
+                m.Orientation = false;
+            db.Update(m, SessionProtectedSystem);
+            SessionProtectedSystem.Flush();
+
+
             System.Windows.Window wd = window as System.Windows.Window;
 
             if (wd != null)

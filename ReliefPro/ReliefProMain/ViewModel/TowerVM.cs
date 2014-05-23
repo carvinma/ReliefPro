@@ -10,16 +10,19 @@ using ReliefProModel;
 using ReliefProMain.Commands;
 using ReliefProDAL;
 using ReliefProBLL.Common;
+using ReliefProCommon.CommonLib;
 using NHibernate;
 using ReliefProMain.View;
 
 namespace ReliefProMain.ViewModel
 {
    public class TowerVM:ViewModelBase
-    {      
-       public string dbProtectedSystemFile { get; set; }
-        public string dbPlantFile { get; set; }
-        private string przFile;
+    {
+        private ISession SessionPlant { set; get; }
+        private ISession SessionProtectedSystem { set; get; }
+        private string DirPlant { set; get; }
+        private string DirProtectedSystem { set; get; }
+        public string przFile { set; get; }
         private string _TowerName;
         public string TowerName
         {
@@ -59,37 +62,32 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("StageNumber");
             }
         }
-
-        private int op = 0; //0 :新增或者发生变化 1 未更改
-        public TowerVM(string towerName, string dbPSFile, string dbPFile)
+        dbTower dbtower;
+        Tower tower;
+        int op = 1;
+        public TowerVM(string towerName, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
+            SessionPlant = sessionPlant;
+            SessionProtectedSystem = sessionProtectedSystem;
+            DirPlant = dirPlant;
+            DirProtectedSystem = dirProtectedSystem;
             SideColumns = new List<SideColumn>();
-            dbProtectedSystemFile = dbPSFile;
-            dbPlantFile = dbPFile;
             TowerName = towerName;
             if (!string.IsNullOrEmpty(TowerName))
             {
-                op = 0;
-                using (var helper = new NHibernateHelper(dbProtectedSystemFile))
-                {
-                    var Session = helper.GetCurrentSession();
-                    dbTower dbtower = new dbTower();
-                    Tower model = dbtower.GetModel(Session);
-                    TowerName = model.TowerName;
-                    Desciption = model.Description;
-                    StageNumber = model.StageNumber;
-                    Feeds = GetStreams(Session, false);
-                    Products = GetStreams(Session, true);
-                    Condensers = GetHeaters(Session, 1);
-                    HxCondensers = GetHeaters(Session, 2);
-                    Reboilers = GetHeaters(Session, 3);
-                    HxReboilers = GetHeaters(Session, 4);
-                }
+                dbtower= new dbTower();
+                tower = dbtower.GetModel(SessionProtectedSystem);
+                TowerName = tower.TowerName;
+                Desciption = tower.Description;
+                StageNumber = tower.StageNumber;
+                Feeds = GetStreams(SessionProtectedSystem, false);
+                Products = GetStreams(SessionProtectedSystem, true);
+                Condensers = GetHeaters(SessionProtectedSystem, 1);
+                HxCondensers = GetHeaters(SessionProtectedSystem, 2);
+                Reboilers = GetHeaters(SessionProtectedSystem, 3);
+                HxReboilers = GetHeaters(SessionProtectedSystem, 4);
             }
-            else
-            {
-                
-            }
+           
         }
 
         private ObservableCollection<CustomStream> GetStreams(ISession Session,bool IsProduct)
@@ -204,7 +202,7 @@ namespace ReliefProMain.ViewModel
         private void Import(object obj)
         {
             SelectEquipmentView v = new SelectEquipmentView();
-            SelectEquipmentVM vm = new SelectEquipmentVM("Column", dbProtectedSystemFile, dbPlantFile);
+            SelectEquipmentVM vm = new SelectEquipmentVM("Column", SessionPlant, DirPlant);
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.DataContext = vm;
             if (v.ShowDialog() == true)
@@ -212,19 +210,15 @@ namespace ReliefProMain.ViewModel
                 op = 0;
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
                 {
-                    //根据设该设备名称来获取对应的物流线信息和其他信息。
-
-                    using (var helper = new NHibernateHelper(dbPlantFile))
-                    {
-                        var Session = helper.GetCurrentSession();
+                    //根据设该设备名称来获取对应的物流线信息和其他信息。                    
                         dbProIIEqData dbEq = new dbProIIEqData();
                         przFile = vm.SelectedFile + ".prz";
-                        CurrentTower = dbEq.GetModel(Session, przFile, vm.SelectedEq, "Column");
+                        CurrentTower = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Column");
 
                         TowerName = CurrentTower.EqName;
                         StageNumber = CurrentTower.NumberOfTrays;
 
-                        SideColumnList = dbEq.GetAllList(Session, przFile, "SideColumn");
+                        SideColumnList = dbEq.GetAllList(SessionPlant, przFile, "SideColumn");
                         foreach (ProIIEqData d in SideColumnList)
                         {
                             SideColumn sc = new SideColumn();
@@ -242,7 +236,7 @@ namespace ReliefProMain.ViewModel
                         dbProIIStreamData dbStreamData=new dbProIIStreamData();
                         foreach (KeyValuePair<string,string> k in dicFeeds)
                         {
-                            ProIIStreamData d = dbStreamData.GetModel(Session, k.Key,przFile);
+                            ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k.Key, przFile);
                             CustomStream cstream =ProIIToDefault.ConvertProIIStreamToCustomStream(d);
                             cstream.Tray = k.Value;
                             cstream.IsProduct = false;
@@ -251,7 +245,7 @@ namespace ReliefProMain.ViewModel
                         }
                         foreach (KeyValuePair<string, string> k in dicProducts)
                         {
-                            ProIIStreamData d = dbStreamData.GetModel(Session, k.Key, przFile);
+                            ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k.Key, przFile);
                             CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
                             cstream.Tray = k.Value;
                             cstream.IsProduct = true;
@@ -262,7 +256,7 @@ namespace ReliefProMain.ViewModel
                             Products.Add(cstream);
                         }
 
-                    }
+                    
 
 
                 }
@@ -544,158 +538,157 @@ namespace ReliefProMain.ViewModel
             }
             if (op == 0)
             {
-                using (var helper = new NHibernateHelper(dbProtectedSystemFile))
+                string przFilePath = DirPlant + @"\" + przFile;
+                string version = ProIIFactory.GetProIIVerison(przFilePath, DirPlant);
+                dbTowerHX dbHx = new dbTowerHX();
+                dbTowerHXDetail dbDetail = new dbTowerHXDetail();
+                dbAccumulator dbAc = new dbAccumulator();
+                dbSideColumn dbSC = new dbSideColumn();
+                dbCustomStream dbCS = new dbCustomStream();
+                dbSource dbsr = new dbSource();
+                dbTower dbtower = new dbTower();
+
+
+                IList<Accumulator> listAccumulator = dbAc.GetAllList(SessionProtectedSystem);
+                foreach (Accumulator m in listAccumulator)
                 {
-                    var Session = helper.GetCurrentSession();
-                    dbTowerHX dbHx = new dbTowerHX();
-                    dbTowerHXDetail dbDetail = new dbTowerHXDetail();
-                    dbAccumulator dbAc = new dbAccumulator();                    
-                    dbSideColumn dbSC = new dbSideColumn();
-                    dbCustomStream dbCS = new dbCustomStream();
-                    dbSource dbsr = new dbSource();
-                    dbTower dbtower = new dbTower();
-
-
-                    IList<Accumulator> listAccumulator = dbAc.GetAllList(Session);
-                    foreach (Accumulator m in listAccumulator)
-                    {
-                        dbAc.Delete(m, Session);
-                    }
-
-                    IList<CustomStream> listCustomStream = dbCS.GetAllList(Session);
-                    foreach (CustomStream m in listCustomStream)
-                    {
-                        dbCS.Delete(m, Session);
-                    }
-
-
-                    IList<Source> listSource = dbsr.GetAllList(Session);
-                    foreach (Source m in listSource)
-                    {
-                        dbsr.Delete(m, Session);
-                    }
-                    IList<SideColumn> listSideColumn = dbSC.GetAllList(Session);
-                    foreach (SideColumn m in listSideColumn)
-                    {
-                        dbSC.Delete(m, Session);
-                    }
-
-                    IList<Tower> listTower = dbtower.GetAllList(Session);
-                    foreach (Tower m in listTower)
-                    {
-                        dbtower.Delete(m, Session);
-                    }
-                    IList<TowerHX> listTowerHX = dbHx.GetAllList(Session);
-                    foreach (TowerHX m in listTowerHX)
-                    {
-                        dbHx.Delete(m, Session);
-                    }
-                    IList<TowerHXDetail> listTowerHXDetail = dbDetail.GetAllList(Session);
-                    foreach (TowerHXDetail m in listTowerHXDetail)
-                    {
-                        dbDetail.Delete(m, Session);
-                    }
-
-
-
-                    foreach (TowerHX hx in Condensers)
-                    {
-                        dbHx.Add(hx, Session);
-                        TowerHXDetail detail = new TowerHXDetail();
-                        detail.DetailName = hx.HeaterName + "_1";
-                        detail.Duty = hx.HeaterDuty;
-                        detail.DutyPercentage = "100";
-                        detail.HXID = hx.ID;
-                        detail.ProcessSideFlowSource = "Pressure Driven";
-                        detail.Medium = "Cooling Water";
-                        detail.MediumSideFlowSource = "Supply Header";
-                        dbDetail.Add(detail, Session);
-                    }
-                    foreach (TowerHX hx in HxCondensers)
-                    {
-                        dbHx.Add(hx, Session);
-                        TowerHXDetail detail = new TowerHXDetail();
-                        detail.DetailName = hx.HeaterName + "_1";
-                        detail.Duty = hx.HeaterDuty;
-                        detail.DutyPercentage = "100";
-                        detail.HXID = hx.ID;
-                        detail.ProcessSideFlowSource = "Pressure Driven";
-                        detail.Medium = "Process Stream";
-                        detail.MediumSideFlowSource = "Pump(Motor)";
-                        dbDetail.Add(detail, Session);
-                    }
-                    foreach (TowerHX hx in Reboilers)
-                    {
-                        dbHx.Add(hx, Session);
-                        TowerHXDetail detail = new TowerHXDetail();
-                        detail.DetailName = hx.HeaterName + "_1";
-                        detail.Duty = hx.HeaterDuty;
-                        detail.DutyPercentage = "100";
-                        detail.HXID = hx.ID;
-                        detail.ProcessSideFlowSource = "Pressure Driven";
-                        detail.Medium = "Steam";
-                        detail.MediumSideFlowSource = "Supply Header";
-                        dbDetail.Add(detail, Session);
-                    }
-                    foreach (TowerHX hx in HxReboilers)
-                    {
-                        dbHx.Add(hx, Session);
-                        TowerHXDetail detail = new TowerHXDetail();
-                        detail.DetailName = hx.HeaterName + "_1";
-                        detail.Duty = hx.HeaterDuty;
-                        detail.DutyPercentage = "100";
-                        detail.HXID = hx.ID;
-                        detail.ProcessSideFlowSource = "Pressure Driven";
-                        detail.Medium = "Steam";
-                        detail.MediumSideFlowSource = "Supply Header";
-                        dbDetail.Add(detail, Session);
-                    }
-
-                    Accumulator ac = new Accumulator();
-                    ac.AccumulatorName = "AC1";
-                    dbAc.Add(ac, Session);
-
-                    
-                    if (SideColumns != null)
-                    {
-                        foreach (SideColumn sc in SideColumns)
-                        {
-                            dbSC.Add(sc, Session);
-                        }
-                    }
-
-                   
-                    foreach (CustomStream cs in Feeds)
-                    {
-                        Source sr = new Source();
-                        sr.MaxPossiblePressure = cs.Pressure;
-                        sr.StreamName = cs.StreamName;
-                        sr.SourceName = cs.StreamName + "_Source";
-                        sr.SourceType = "Compressor(Motor)";
-                        sr.StreamName = cs.StreamName;
-                        sr.IsSteam = IsSteam(cs);
-                        sr.IsHeatSource = false;
-                        dbsr.Add(sr, Session);
-
-                        dbCS.Add(cs, Session);
-                    }
-
-
-                    foreach (CustomStream cs in Products)
-                    {
-                        dbCS.Add(cs, Session);
-                    }
-
-                    
-                    Tower tower = new Tower();
-                    tower.TowerName = TowerName;
-                    tower.StageNumber = StageNumber;
-                    tower.PrzFile = przFile;
-                    dbtower.Add(tower, Session);
-
-
-                    Session.Flush();
+                    dbAc.Delete(m, SessionProtectedSystem);
                 }
+
+                IList<CustomStream> listCustomStream = dbCS.GetAllList(SessionProtectedSystem);
+                foreach (CustomStream m in listCustomStream)
+                {
+                    dbCS.Delete(m, SessionProtectedSystem);
+                }
+
+
+                IList<Source> listSource = dbsr.GetAllList(SessionProtectedSystem);
+                foreach (Source m in listSource)
+                {
+                    dbsr.Delete(m, SessionProtectedSystem);
+                }
+                IList<SideColumn> listSideColumn = dbSC.GetAllList(SessionProtectedSystem);
+                foreach (SideColumn m in listSideColumn)
+                {
+                    dbSC.Delete(m, SessionProtectedSystem);
+                }
+
+                IList<Tower> listTower = dbtower.GetAllList(SessionProtectedSystem);
+                foreach (Tower m in listTower)
+                {
+                    dbtower.Delete(m, SessionProtectedSystem);
+                }
+                IList<TowerHX> listTowerHX = dbHx.GetAllList(SessionProtectedSystem);
+                foreach (TowerHX m in listTowerHX)
+                {
+                    dbHx.Delete(m, SessionProtectedSystem);
+                }
+                IList<TowerHXDetail> listTowerHXDetail = dbDetail.GetAllList(SessionProtectedSystem);
+                foreach (TowerHXDetail m in listTowerHXDetail)
+                {
+                    dbDetail.Delete(m, SessionProtectedSystem);
+                }
+
+
+
+                foreach (TowerHX hx in Condensers)
+                {
+                    dbHx.Add(hx, SessionProtectedSystem);
+                    TowerHXDetail detail = new TowerHXDetail();
+                    detail.DetailName = hx.HeaterName + "_1";
+                    detail.Duty = hx.HeaterDuty;
+                    detail.DutyPercentage = "100";
+                    detail.HXID = hx.ID;
+                    detail.ProcessSideFlowSource = "Pressure Driven";
+                    detail.Medium = "Cooling Water";
+                    detail.MediumSideFlowSource = "Supply Header";
+                    dbDetail.Add(detail, SessionProtectedSystem);
+                }
+                foreach (TowerHX hx in HxCondensers)
+                {
+                    dbHx.Add(hx, SessionProtectedSystem);
+                    TowerHXDetail detail = new TowerHXDetail();
+                    detail.DetailName = hx.HeaterName + "_1";
+                    detail.Duty = hx.HeaterDuty;
+                    detail.DutyPercentage = "100";
+                    detail.HXID = hx.ID;
+                    detail.ProcessSideFlowSource = "Pressure Driven";
+                    detail.Medium = "Process Stream";
+                    detail.MediumSideFlowSource = "Pump(Motor)";
+                    dbDetail.Add(detail, SessionProtectedSystem);
+                }
+                foreach (TowerHX hx in Reboilers)
+                {
+                    dbHx.Add(hx, SessionProtectedSystem);
+                    TowerHXDetail detail = new TowerHXDetail();
+                    detail.DetailName = hx.HeaterName + "_1";
+                    detail.Duty = hx.HeaterDuty;
+                    detail.DutyPercentage = "100";
+                    detail.HXID = hx.ID;
+                    detail.ProcessSideFlowSource = "Pressure Driven";
+                    detail.Medium = "Steam";
+                    detail.MediumSideFlowSource = "Supply Header";
+                    dbDetail.Add(detail, SessionProtectedSystem);
+                }
+                foreach (TowerHX hx in HxReboilers)
+                {
+                    dbHx.Add(hx, SessionProtectedSystem);
+                    TowerHXDetail detail = new TowerHXDetail();
+                    detail.DetailName = hx.HeaterName + "_1";
+                    detail.Duty = hx.HeaterDuty;
+                    detail.DutyPercentage = "100";
+                    detail.HXID = hx.ID;
+                    detail.ProcessSideFlowSource = "Pressure Driven";
+                    detail.Medium = "Steam";
+                    detail.MediumSideFlowSource = "Supply Header";
+                    dbDetail.Add(detail, SessionProtectedSystem);
+                }
+
+                Accumulator ac = new Accumulator();
+                ac.AccumulatorName = "AC1";
+                dbAc.Add(ac, SessionProtectedSystem);
+
+
+                if (SideColumns != null)
+                {
+                    foreach (SideColumn sc in SideColumns)
+                    {
+                        dbSC.Add(sc, SessionProtectedSystem);
+                    }
+                }
+
+
+                foreach (CustomStream cs in Feeds)
+                {
+                    Source sr = new Source();
+                    sr.MaxPossiblePressure = cs.Pressure;
+                    sr.StreamName = cs.StreamName;
+                    sr.SourceName = cs.StreamName + "_Source";
+                    sr.SourceType = "Compressor(Motor)";
+                    sr.StreamName = cs.StreamName;
+                    sr.IsSteam = IsSteam(cs);
+                    sr.IsHeatSource = false;
+                    dbsr.Add(sr, SessionProtectedSystem);
+
+                    dbCS.Add(cs, SessionProtectedSystem);
+                }
+
+
+                foreach (CustomStream cs in Products)
+                {
+                    dbCS.Add(cs, SessionProtectedSystem);
+                }
+
+
+                Tower tower = new Tower();
+                tower.TowerName = TowerName;
+                tower.StageNumber = StageNumber;
+                tower.PrzFile = przFile;
+                dbtower.Add(tower, SessionProtectedSystem);
+
+
+                SessionProtectedSystem.Flush();
+
 
 
                 System.Windows.Window wd = obj as System.Windows.Window;
