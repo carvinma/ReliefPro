@@ -111,7 +111,7 @@
     <Compile Include="CommonLib\MimeTypeHelper.cs" />
     <Compile Include="CommonLib\NumberToHanzi.cs" />
     <Compile Include="CommonLib\ObjectListToJSON.cs" />
-    <Compile Include="CommonLib\PRIIFileOperator.cs" />
+    <Compile Include="CommonLib\PROIIFileOperator.cs" />
     <Compile Include="CommonLib\RegularExpressionPatterns.cs" />
     <Compile Include="CommonLib\SecurityWebSrv.cs" />
     <Compile Include="CommonLib\Serializer.cs" />
