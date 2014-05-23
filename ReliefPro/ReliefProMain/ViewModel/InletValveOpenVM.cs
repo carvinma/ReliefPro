@@ -61,16 +61,19 @@ namespace ReliefProMain.ViewModel
                 _SelectedVessel = value;
                 
                 UnitConvert uc=new UnitConvert();
-                UpVesselType = dicEqData[SelectedVessel].EqType;
-                if (UpVesselType == "Column")
+                if (!string.IsNullOrEmpty(SelectedVessel))
                 {
-                    UpStreamNames = GetTowerProducts(dicEqData[SelectedVessel]);
-                    MaxOperatingPressure= UpStreamVaporData.Pressure;
-                }
-                else
-                {
-                    UpStreamNames = GetFlashProducts(dicEqData[SelectedVessel]);
-                    MaxOperatingPressure = uc.Convert("KPA", "MPAG", double.Parse(dicEqData[_SelectedVessel].PressCalc)).ToString();
+                    UpVesselType = dicEqData[SelectedVessel].EqType;
+                    if (UpVesselType == "Column")
+                    {
+                        UpStreamNames = GetTowerProducts(dicEqData[SelectedVessel]);
+                        MaxOperatingPressure = UpStreamVaporData.Pressure;
+                    }
+                    else
+                    {
+                        UpStreamNames = GetFlashProducts(dicEqData[SelectedVessel]);
+                        MaxOperatingPressure = uc.Convert("KPA", "MPAG", double.Parse(dicEqData[_SelectedVessel].PressCalc)).ToString();
+                    }
                 }
 
                 OnPropertyChanged("SelectedVessel");
@@ -178,6 +181,7 @@ namespace ReliefProMain.ViewModel
         dbScenario dbsc;
         public InletValveOpenVM(int scenarioID, string eqName, string eqType, string przFile, string version, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
+            ScenarioID = scenarioID;
             EqName = eqName;
             EqType = eqType;
             DirPlant = dirPlant;
@@ -194,23 +198,23 @@ namespace ReliefProMain.ViewModel
             dbinlet = new dbInletValveOpen();
             //读取当前入口阀全开的信息
            model=dbinlet.GetModel(SessionProtectedSystem);
-            if(model==null)
-            {
-                dbPSV dbpsv = new dbPSV();
-            PSV psv = dbpsv.GetModel(sessionProtectedSystem);
-            ReliefPressure = psv.Pressure;
-            }
-            else
-            {
-                ReliefLoad=model.ReliefLoad;
-                ReliefMW=model.ReliefMW;
-                ReliefPressure=model.ReliefPressure;
-                ReliefTemperature=model.ReliefTemperature;
-                SelectedVessel=model.VesselName;
-                SelectedOperatingPhase=model.OperatingPhase;
-                MaxOperatingPressure=model.MaxOperatingPressure;
-                CV=model.CV;
-            }
+           if (model == null)
+           {
+               dbPSV dbpsv = new dbPSV();
+               PSV psv = dbpsv.GetModel(sessionProtectedSystem);
+               ReliefPressure = psv.Pressure;
+           }
+           else
+           {
+               ReliefLoad = model.ReliefLoad;
+               ReliefMW = model.ReliefMW;
+               ReliefPressure = model.ReliefPressure;
+               ReliefTemperature = model.ReliefTemperature;
+               SelectedVessel = model.VesselName;
+               SelectedOperatingPhase = model.OperatingPhase;
+               MaxOperatingPressure = model.MaxOperatingPressure;
+               CV = model.CV;
+           }
             
         }
         private ICommand _SaveCommand;
@@ -269,7 +273,7 @@ namespace ReliefProMain.ViewModel
 
             if (wd != null)
             {
-                wd.Close();
+                wd.DialogResult = true;
             }
         }
 

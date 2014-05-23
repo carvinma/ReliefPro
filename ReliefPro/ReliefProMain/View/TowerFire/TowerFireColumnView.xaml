@@ -10,7 +10,7 @@
             <ColumnDefinition Width="38*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30*"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="54*"/>
             <RowDefinition Height="134*"/>
             <RowDefinition Height="44*"/>
@@ -23,14 +23,14 @@
         <ListView Grid.Column="1" HorizontalAlignment="Stretch" Height="127"  Grid.Row="2" VerticalAlignment="Top" Grid.ColumnSpan="2" ItemsSource="{Binding model.Details}" >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Segment"  >
+                    <GridViewColumn Header="Segment" Width="100"  >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Segment}"  />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Internal"  >
+                    <GridViewColumn Header="Internal"  Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox 
@@ -44,24 +44,24 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Trays"  >
+                    <GridViewColumn Header="Trays" Width="100" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Trays}" />
+                                <TextBox Text="{Binding Trays}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Height,m"  >
+                    <GridViewColumn Header="Height,m" Width="100" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Height}" />
+                                <TextBox Text="{Binding Height}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Diameter,m"  >
+                    <GridViewColumn Header="Diameter,m" Width="100" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Diameter}" />
+                                <TextBox Text="{Binding Diameter}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

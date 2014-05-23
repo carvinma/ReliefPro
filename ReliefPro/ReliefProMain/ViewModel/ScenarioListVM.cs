@@ -328,7 +328,10 @@ namespace ReliefProMain.ViewModel
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {
-                Scenarios = GetScenarios();
+                SelectedScenario.ReliefLoad = vm.CurrentModel.ReliefLoad;
+                SelectedScenario.ReliefMW = vm.CurrentModel.ReliefMW;
+                SelectedScenario.ReliefPressure = vm.CurrentModel.ReliefPressure;
+                SelectedScenario.ReliefTemperature = vm.CurrentModel.ReliefTemperature;
             }
         }
         
@@ -413,13 +416,16 @@ namespace ReliefProMain.ViewModel
         }
 
         private void CreateInletValveOpen(string EqType, int ScenarioID, NHibernate.ISession Session)
-        {
+        {           
             InletValveOpenView v = new InletValveOpenView();
             InletValveOpenVM vm = new InletValveOpenVM(ScenarioID, EqName, EqType, PrzFile, PrzVersion, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {
-
+                SelectedScenario.ReliefLoad = vm.ReliefLoad;
+                SelectedScenario.ReliefMW = vm.ReliefMW;
+                SelectedScenario.ReliefPressure = vm.ReliefPressure;
+                SelectedScenario.ReliefTemperature = vm.ReliefTemperature;
             }
         }
 

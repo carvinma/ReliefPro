@@ -25,10 +25,10 @@ namespace ReliefProMain.ViewModel.TowerFire
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
-        private List<string> HeatInputModels { get; set; }
+        public ObservableCollection<string> HeatInputModels { get; set; }
         private Latent latent;
 
-        public ReliefProModel.TowerFire model { get; set; }
+        //public ReliefProModel.TowerFire model { get; set; }
         public ReliefProModel.TowerFire CurrentModel { get; set; }
         private ObservableCollection<TowerFireEq> _EqList;
         public ObservableCollection<TowerFireEq> EqList
@@ -50,8 +50,7 @@ namespace ReliefProMain.ViewModel.TowerFire
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
             HeatInputModels = GetHeatInputModels();
-
-
+            
             UnitConvert uc = new UnitConvert();
             dbTowerFire db = new dbTowerFire();
             CurrentModel = db.GetModel(SessionProtectedSystem, ScenarioID);
@@ -102,13 +101,13 @@ namespace ReliefProMain.ViewModel.TowerFire
 
             if (wd != null)
             {
-                wd.Close();
+                wd.DialogResult = true;
             }
         }
 
-        public List<string> GetHeatInputModels()
+        public ObservableCollection<string> GetHeatInputModels()
         {
-            List<string> list = new List<string>();
+            ObservableCollection<string> list = new ObservableCollection<string>();
             list.Add("API 521");
             return list;
         }
@@ -270,22 +269,17 @@ namespace ReliefProMain.ViewModel.TowerFire
 
         private void Run(object obj)
         {
-            
-                dbTowerFire db = new dbTowerFire();
-                ReliefProModel.TowerFire m = db.GetModel(SessionProtectedSystem, CurrentModel.ID);
-
-                foreach (TowerFireEq eq in EqList)
+            double reliefload = 0;
+            foreach (TowerFireEq eq in EqList)
+            {
+                if (eq.FireZone)
                 {
-                    if (eq.FireZone)
-                    {
-                        m.ReliefLoad = (double.Parse(m.ReliefLoad ?? "0") + double.Parse(eq.ReliefLoad ?? "0")).ToString();
-                    }
+                    reliefload = reliefload + double.Parse(eq.ReliefLoad ?? "0");
                 }
-                db.Update(m, SessionProtectedSystem);
-                CurrentModel = m;
-                SessionProtectedSystem.Flush();
-            
+            }
+            CurrentModel.ReliefLoad = reliefload.ToString();
 
+            
         }
 
     }

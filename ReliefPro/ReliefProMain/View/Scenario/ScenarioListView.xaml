@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.ScenarioListView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Scenario List" Height="488.506" Width="1000" >
+        Title="Scenario List" Height="500" Width="911" >
     <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="19*"/>
@@ -13,40 +13,40 @@
             <ListView.View>
                 <GridView >
                     <GridViewColumn Width="0"    Header="#"   DisplayMemberBinding="{Binding Path=SeqNumber,Mode=TwoWay}"></GridViewColumn>
-                    <GridViewColumn Header="Scenario Name" Width="100">
+                    <GridViewColumn Header="Scenario Name" Width="200">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.ScenarioNameList}" SelectedItem="{Binding Path=ScenarioName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="400"></ComboBox>
+                                <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.ScenarioNameList}" SelectedItem="{Binding Path=ScenarioName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="180"></ComboBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="Relief Load, kg/hr" Width="200px" >
+                    <GridViewColumn Header="Relief Load, kg/hr" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Path=ReliefLoad,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="200px" ></TextBox>
+                                <TextBox IsEnabled="False" Text="{Binding Path=ReliefLoad,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Relief Pressure,MPag" Width="200px" >
+                    <GridViewColumn Header="Relief Pressure,MPag" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Path=ReliefPressure,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="200px" ></TextBox>
+                                <TextBox IsEnabled="False" Text="{Binding Path=ReliefPressure,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Relief Temperature, C" Width="200px" >
+                    <GridViewColumn Header="Relief Temperature, C" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Path=ReliefTemperature,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="200px" ></TextBox>
+                                <TextBox IsEnabled="False" Text="{Binding Path=ReliefTemperature,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     
-                    <GridViewColumn Header="Relief MW" Width="200px" >
+                    <GridViewColumn Header="Relief MW" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Path=ReliefMW,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="200px" ></TextBox>
+                                <TextBox IsEnabled="False" Text="{Binding Path=ReliefMW,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -67,8 +67,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Add" Command="{Binding AddCommand}" HorizontalAlignment="Left" Margin="885,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Height="22"/>
-        <Button Content="OK" IsCancel="True" HorizontalAlignment="Left" Margin="885,8,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Button Content="Add" Command="{Binding AddCommand}" HorizontalAlignment="Left" Margin="729,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Button Content="OK" IsCancel="True" HorizontalAlignment="Left" Margin="729,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Height="22"/>
         
 
     </Grid>

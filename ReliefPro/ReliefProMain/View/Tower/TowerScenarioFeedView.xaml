@@ -12,9 +12,15 @@
                     <GridView>
                         <GridViewColumn Header="Stream Name" Width="200px"  DisplayMemberBinding="{Binding Path=StreamName}"></GridViewColumn>
                         <GridViewColumn Header="Flow Source" Width="200px"  DisplayMemberBinding="{Binding Path=SourceType}"></GridViewColumn>
-                        <GridViewColumn Header="Flow Factor" Width="100px"  DisplayMemberBinding="{Binding Path=FlowCalcFactor}"></GridViewColumn>
-
-                        <GridViewColumn Header="Stop" Width="50px">
+                        
+                    <GridViewColumn Header="Flow Factor" Width="100px">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Path=FlowCalcFactor}"></TextBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Stop" Width="50px">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <CheckBox IsChecked="{Binding Path=FlowStop}"></CheckBox>
@@ -34,7 +40,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-        <Button Content="OK" IsCancel="True" HorizontalAlignment="Left" Margin="548,12,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"/>
+        <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  HorizontalAlignment="Left" Margin="548,12,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"/>
 
 
     </Grid>

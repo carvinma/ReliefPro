@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.InletValveOpenView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="InletValveOpen" Height="550" Width="600">
+        Title="InletValveOpen" Height="550" Width="600" Name="myWindow">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="14*"/>
@@ -47,7 +47,7 @@
         <TextBox HorizontalAlignment="Left" Height="23" Margin="205,10,0,0" Grid.Row="5" TextWrapping="Wrap" Text="{Binding ReliefTemperature}" VerticalAlignment="Top" Width="120"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="205,10,0,0" Grid.Row="6" TextWrapping="Wrap" Text="{Binding ReliefPressure}" VerticalAlignment="Top" Width="120"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="205,10,0,0" Grid.Row="7" TextWrapping="Wrap" Text="{Binding ReliefMW}" VerticalAlignment="Top" Width="120"/>
-        <Button Content="OK" Command="{Binding SaveCommand}" HorizontalAlignment="Left" Margin="373,10,0,0" Grid.Row="9" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Left" Margin="373,10,0,0" Grid.Row="9" VerticalAlignment="Top" Width="75" Height="22" />
         <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Left" Margin="482,10,0,0" Grid.Row="9" VerticalAlignment="Top" Width="75" Height="22"/>
 
     </Grid>
