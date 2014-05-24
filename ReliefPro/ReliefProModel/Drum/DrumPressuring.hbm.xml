@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+<class name="ReliefProModel.Drum.DrumPressuring, ReliefProModel" table="tbDrumPressuring" >
+<id name="ID" column="ID" type="Int32" unsaved-value="0">
+<generator class="identity" />
+</id>
+  <property name="InitialPressure" column="InitialPressure" type="Double"/>
+  <property name="VaporDensity" column="VaporDensity" type="Double"/>
+  <property name="TotalVaporVolume" column="TotalVaporVolume" type="Double"/>
+  <property name="Vesseldesignpressure" column="Vesseldesignpressure" type="Double"/>
+  <property name="DepressuringRequirements" column="DepressuringRequirements" type="String"/>
+  <property name="TotalWettedArea" column="TotalWettedArea" type="Double"/>
+  <property name="HeatInputModel" column="HeatInputModel" type="String" />
+  <property name="ValveConstantforSonicFlow" column="ValveConstantforSonicFlow" type="Double"/>
+  <property name="InitialDepressuringRate" column="InitialDepressuringRate" type="Double"/>
+  <property name="Timespecify" column="Timespecify" type="Double"/>
+  <property name="CalculatedVesselPressure" column="CalculatedVesselPressure" type="Double"/>
+  <property name="CalculatedDepressuringRate" column="CalculatedDepressuringRate" type="Double"/>
+</class>
+</hibernate-mapping>
