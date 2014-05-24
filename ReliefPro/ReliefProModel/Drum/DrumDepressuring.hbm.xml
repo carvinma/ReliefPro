@@ -19,5 +19,9 @@
   <property name="Timespecify" column="Timespecify" type="Double"/>
   <property name="CalculatedVesselPressure" column="CalculatedVesselPressure" type="Double"/>
   <property name="CalculatedDepressuringRate" column="CalculatedDepressuringRate" type="Double"/>
+
+  <property name="DeltaP" column="DeltaP" type="Double"/>
+  <property name="DeltaPTime" column="DeltaPTime" type="Double"/>
+  <property name="TimeStep" column="TimeStep" type="Double"/>
 </class>
 </hibernate-mapping>

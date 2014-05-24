@@ -25,5 +25,8 @@ namespace ReliefProModel.Drum
         public virtual double CalculatedVesselPressure { get; set; }
         public virtual double CalculatedDepressuringRate { get; set; }
 
+        public virtual double DeltaP { get; set; }
+        public virtual double DeltaPTime { get; set; }
+        public virtual double TimeStep { get; set; }
     }
 }
