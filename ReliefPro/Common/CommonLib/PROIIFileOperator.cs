@@ -48,6 +48,7 @@ namespace ReliefProCommon.CommonLib
 
         public static string getUsableContent(string streamName, string rootDir)
         {
+            string PropStream = "PROPERTY STREAM=" + streamName.ToUpper();
             string[] keys = { "srk", "srkh", "srkm", "srkp", "srks", "pr", "prh", "prm", "prp" };
             StringBuilder sb = new StringBuilder();
             string[] files = Directory.GetFiles(rootDir, "*.inp");
@@ -81,7 +82,7 @@ namespace ReliefProCommon.CommonLib
                         i = i + 1;
                     }
                 }
-                else if (s.Trim().ToUpper().IndexOf(streamName.ToUpper()) > -1)
+                else if (s.Trim().ToUpper().IndexOf(PropStream) > -1)
                 {
                     while (lines[i].Contains("&"))
                     {

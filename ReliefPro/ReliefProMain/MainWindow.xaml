@@ -134,7 +134,7 @@
                 <avalonDock:LayoutPanel Orientation="Horizontal">
                     <avalonDock:LayoutAnchorablePane DockWidth="250">
                         <avalonDock:LayoutAnchorable x:Name="Navigation"  ContentId="Navigation" Title="Plant Explorer" ToolTip="Plant Explorer" CanHide="False" CanClose="False" >
-                            <TreeView Name="NavigationTreeView" MouseDoubleClick="NavigationTreeView_MouseDoubleClick" ContextMenu="{StaticResource RightContextMenu}" PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
+                            <TreeView Name="NavigationTreeView"  MouseDoubleClick="NavigationTreeView_MouseDoubleClick" ContextMenu="{StaticResource RightContextMenu}" PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
                                 <TreeView.ItemTemplate   >
                                     <HierarchicalDataTemplate>
                                         <StackPanel Orientation="Horizontal">

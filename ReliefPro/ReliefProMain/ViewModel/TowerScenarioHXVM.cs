@@ -123,7 +123,7 @@ namespace ReliefProMain.ViewModel
             Details = new ObservableCollection<TowerScenarioHX>();
             
                 dbTowerScenarioHX db = new dbTowerScenarioHX();
-                IList<TowerScenarioHX> list = db.GetAllList(SessionPlant, ScenarioID, HeaterType).ToList();               
+                IList<TowerScenarioHX> list = db.GetAllList(SessionProtectedSystem, ScenarioID, HeaterType).ToList();               
                 foreach (TowerScenarioHX hx in list)
                 {
                     double duty = GetCondenserDetailDuty(SessionProtectedSystem, hx.DetailID);
