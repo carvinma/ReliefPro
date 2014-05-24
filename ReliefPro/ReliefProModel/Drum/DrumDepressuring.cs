@@ -5,12 +5,12 @@ using System.Text;
 
 namespace ReliefProModel.Drum
 {
-    public class DrumPressuring
+    public class DrumDepressuring
     {
         public virtual int ID { get; set; }
         public virtual int ScenarioID { get; set; }
         public virtual double InitialPressure { get; set; }
-        public virtual double VaporDensity { get; set; }
+        public virtual double? VaporDensity { get; set; }
         public virtual double TotalVaporVolume { get; set; }
         public virtual double Vesseldesignpressure { get; set; }
         public virtual string DepressuringRequirements { get; set; }

@@ -76,7 +76,7 @@
     <Compile Include="Drum\DrumBlockedOutlet.cs" />
     <Compile Include="Drum\DrumFireFluid.cs" />
     <Compile Include="Drum\DrumFireCalc.cs" />
-    <Compile Include="Drum\DrumPressuring.cs" />
+    <Compile Include="Drum\DrumDepressuring.cs" />
     <Compile Include="Drum\DrumSize.cs" />
     <Compile Include="FeedBottomHX.cs" />
     <Compile Include="InletValveOpen.cs" />
@@ -185,7 +185,7 @@
     <EmbeddedResource Include="Drum\DrumSize.hbm.xml" />
     <EmbeddedResource Include="Drum\DrumFireFluid.hbm.xml" />
     <EmbeddedResource Include="Drum\Drum.hbm.xml" />
-    <EmbeddedResource Include="Drum\DrumPressuring.hbm.xml" />
+    <EmbeddedResource Include="Drum\DrumDepressuring.hbm.xml" />
     <Content Include="license.txt" />
     <EmbeddedResource Include="TowerFlashProduct.hbm.xml" />
     <EmbeddedResource Include="SystemScenarioSource.hbm.xml" />

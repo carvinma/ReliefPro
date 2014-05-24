@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
-<class name="ReliefProModel.Drum.DrumPressuring, ReliefProModel" table="tbDrumPressuring" >
+<class name="ReliefProModel.Drum.DrumDepressuring, ReliefProModel" table="tbDrumDepressuring" >
 <id name="ID" column="ID" type="Int32" unsaved-value="0">
 <generator class="identity" />
 </id>
   <property name="ScenarioID" column="ScenarioID" type="Int32"/>
   <property name="InitialPressure" column="InitialPressure" type="Double"/>
-  <property name="VaporDensity" column="VaporDensity" type="Double"/>
+  <property name="VaporDensity" column="VaporDensity" not-null="false" type="Double"/>
   <property name="TotalVaporVolume" column="TotalVaporVolume" type="Double"/>
   <property name="Vesseldesignpressure" column="Vesseldesignpressure" type="Double"/>
   <property name="DepressuringRequirements" column="DepressuringRequirements" type="String"/>
