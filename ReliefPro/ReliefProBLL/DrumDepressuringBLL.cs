@@ -11,12 +11,12 @@ using UOMLib;
 
 namespace ReliefProLL
 {
-    public class DrumPressuringBLL
+    public class DrumDepressuringBLL
     {
         private ISession SessionPS;
         private ISession SessionPF;
         private dbDrumDepressuring dbdrum = new dbDrumDepressuring();
-        public DrumPressuringBLL(ISession SessionPS, ISession SessionPF)
+        public DrumDepressuringBLL(ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
