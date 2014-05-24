@@ -78,7 +78,7 @@
     <Compile Include="Drum\dbDrumBlockedOutlet.cs" />
     <Compile Include="Drum\dbDrumFireFluid.cs" />
     <Compile Include="Drum\dbDrumFire.cs" />
-    <Compile Include="Drum\dbDrumPressuring.cs" />
+    <Compile Include="Drum\dbDrumDepressuring.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="dbUnit.cs" />
     <Compile Include="dbProtectSystem.cs" />

@@ -8,14 +8,14 @@ using ReliefProModel.Drum;
 
 namespace ReliefProDAL.Drum
 {
-    public class dbDrumPressuring
+    public class dbDrumDepressuring
     {
-        public IList<DrumPressuring> GetAllList(ISession session)
+        public IList<DrumDepressuring> GetAllList(ISession session)
         {
-            IList<DrumPressuring> list = null;
+            IList<DrumDepressuring> list = null;
             try
             {
-                list = session.CreateCriteria<DrumPressuring>().List<DrumPressuring>();
+                list = session.CreateCriteria<DrumDepressuring>().List<DrumDepressuring>();
             }
             catch (Exception ex)
             {
@@ -23,16 +23,16 @@ namespace ReliefProDAL.Drum
             }
             return list;
         }
-        public DrumPressuring GetModelByDrumID(ISession session, int drumFireCalcID)
+        public DrumDepressuring GetModelByDrumID(ISession session, int drumFireCalcID)
         {
-            var list = session.CreateCriteria<DrumPressuring>().Add(Expression.Eq("ID", drumFireCalcID)).List<DrumPressuring>();
+            var list = session.CreateCriteria<DrumDepressuring>().Add(Expression.Eq("ID", drumFireCalcID)).List<DrumDepressuring>();
             if (list.Count() > 0)
             {
                 return list[0];
             }
             return null;
         }
-        public void SaveDrumPressuring(ISession session, DrumPressuring model)
+        public void SaveDrumPressuring(ISession session, DrumDepressuring model)
         {
             using (ITransaction tx = session.BeginTransaction())
             {
