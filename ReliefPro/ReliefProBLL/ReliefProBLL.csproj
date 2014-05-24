@@ -75,6 +75,7 @@
     <Compile Include="DrumFireFluidBLL.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DrumPressuringBLL.cs" />
     <Compile Include="ExportExcel.cs" />
     <Compile Include="ImportData.cs" />
     <Compile Include="NHibernateHelper.cs" />
