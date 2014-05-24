@@ -119,16 +119,16 @@ namespace ReliefProMain.ViewModel.Drum
         private void WriteConvertModel()
         {
             UnitConvert uc = new UnitConvert();
-            model.dbmodel.InitialPressure = uc.Convert(model.InitialPressureUnit, UOMLib.UOMEnum.Area.ToString(), model.InitialPressure);
-            model.dbmodel.VaporDensity = uc.Convert(model.VaporDensityUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.VaporDensity.Value);
-            model.dbmodel.TotalVaporVolume = uc.Convert(model.TotalVaporVolumeUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.TotalVaporVolume);
-            model.dbmodel.Vesseldesignpressure = uc.Convert(model.VesseldesignpressureUnit, UOMLib.UOMEnum.WeightFlow.ToString(), model.Vesseldesignpressure);
-            model.dbmodel.TotalWettedArea = uc.Convert(model.TotalWettedAreaUnit, UOMLib.UOMEnum.Pressure.ToString(), model.TotalWettedArea);
-            //model.dbmodel.ValveConstantforSonicFlow = uc.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
             model.dbmodel.InitialPressure = uc.Convert(model.InitialPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.InitialPressure);
-            model.dbmodel.Timespecify = uc.Convert(model.InitialPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.Timespecify);
+            model.dbmodel.VaporDensity = uc.Convert(model.VaporDensityUnit, UOMLib.UOMEnum.Density.ToString(), model.VaporDensity.Value);
+            model.dbmodel.TotalVaporVolume = uc.Convert(model.TotalVaporVolumeUnit, UOMLib.UOMEnum.Volume.ToString(), model.TotalVaporVolume);
+            model.dbmodel.Vesseldesignpressure = uc.Convert(model.VesseldesignpressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.Vesseldesignpressure);
+            model.dbmodel.TotalWettedArea = uc.Convert(model.TotalWettedAreaUnit, UOMLib.UOMEnum.Area.ToString(), model.TotalWettedArea);
+            //model.dbmodel.ValveConstantforSonicFlow = uc.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
+            model.dbmodel.InitialDepressuringRate = uc.Convert(model.InitialPressureUnit, UOMLib.UOMEnum.WeightFlow.ToString(), model.InitialDepressuringRate);
+            model.dbmodel.Timespecify = uc.Convert(model.InitialPressureUnit, UOMLib.UOMEnum.Time.ToString(), model.Timespecify);
             model.dbmodel.CalculatedDepressuringRate = uc.Convert(model.InitialPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.CalculatedDepressuringRate);
-            model.dbmodel.CalculatedVesselPressure = uc.Convert(model.InitialPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.CalculatedVesselPressure);
+            model.dbmodel.CalculatedVesselPressure = uc.Convert(model.InitialPressureUnit, UOMLib.UOMEnum.WeightFlow.ToString(), model.CalculatedVesselPressure);
 
             model.dbmodel.DeltaP = uc.Convert(model.DetailPUnit, UOMLib.UOMEnum.Pressure.ToString(), model.DetailP);
             model.dbmodel.DeltaPTime = uc.Convert(model.DetailPTimeUnit, UOMLib.UOMEnum.Time.ToString(), model.DetailPTime);
