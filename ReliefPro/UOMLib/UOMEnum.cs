@@ -83,8 +83,8 @@ namespace UOMLib
             VolumeRate = 20,
             Density = 21,
             SpecificEnthalpy = 22,
-            EnthalpyDuty = 23,
-            FineLength = 24,
+            FineLength = 23,
+            EnthalpyDuty = 24,
             WeightFlow = 25
         }
     }
