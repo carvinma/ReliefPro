@@ -107,6 +107,37 @@ namespace ReliefProMain.Model
             }
         }
 
+        private string detailPUnit;
+        public string DetailPUnit
+        {
+            get { return detailPUnit; }
+            set
+            {
+                detailPUnit = value;
+                NotifyPropertyChanged("DetailPUnit");
+            }
+        }
+
+        private string detailPTimeUnit;
+        public string DetailPTimeUnit
+        {
+            get { return detailPTimeUnit; }
+            set
+            {
+                detailPTimeUnit = value;
+                NotifyPropertyChanged("DetailPTimeUnit");
+            }
+        }
+        private string timeStepUnit;
+        public string TimeStepUnit
+        {
+            get { return timeStepUnit; }
+            set
+            {
+                timeStepUnit = value;
+                NotifyPropertyChanged("TimeStepUnit");
+            }
+        }
         public DrumDepressuring dbmodel { get; set; }
         public DrumDepressuringModel(DrumDepressuring drumModel)
         {
@@ -125,6 +156,10 @@ namespace ReliefProMain.Model
             this.timespecify = dbmodel.Timespecify;
             this.calculatedDepressuringRate = dbmodel.CalculatedDepressuringRate;
             this.calculatedVesselPressure = dbmodel.CalculatedVesselPressure;
+
+            this.detailP = dbmodel.DeltaP;
+            this.detailPTime = dbmodel.DeltaPTime;
+            this.timeStep = dbmodel.TimeStep;
         }
 
         private string depressuringRequirements;
@@ -256,6 +291,37 @@ namespace ReliefProMain.Model
             {
                 calculatedDepressuringRate = value;
                 NotifyPropertyChanged("CalculatedDepressuringRate");
+            }
+        }
+        private double detailP;
+        public double DetailP
+        {
+            get { return detailP; }
+            set
+            {
+                detailP = value;
+                NotifyPropertyChanged("DetailP");
+            }
+        }
+
+        private double detailPTime;
+        public double DetailPTime
+        {
+            get { return detailPTime; }
+            set
+            {
+                detailPTime = value;
+                NotifyPropertyChanged("DetailPTime");
+            }
+        }
+        private double timeStep;
+        public double TimeStep
+        {
+            get { return timeStep; }
+            set
+            {
+                timeStep = value;
+                NotifyPropertyChanged("TimeStep");
             }
         }
     }
