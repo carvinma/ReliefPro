@@ -28,8 +28,10 @@ namespace ReliefProLL
             List<DrumFireCalc> lstDrumFire = drumFire.GetAllList(SessionPS).ToList();
             if (lstDrumFire.Count() > 0)
             {
-                return lstDrumFire.Where(p => p.ScenarioID == ScenarioID).FirstOrDefault();
+                firemodel = lstDrumFire.Where(p => p.ScenarioID == ScenarioID).FirstOrDefault();
             }
+            if (firemodel != null)
+                return firemodel;
             else
             {
                 firemodel = GetScenarioInfo(ScenarioID, firemodel);
