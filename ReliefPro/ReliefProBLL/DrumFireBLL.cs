@@ -30,7 +30,7 @@ namespace ReliefProLL
             {
                 firemodel = lstDrumFire.Where(p => p.ScenarioID == ScenarioID).FirstOrDefault();
             }
-            if (firemodel != null)
+            if (firemodel.ID > 0)
                 return firemodel;
             else
             {

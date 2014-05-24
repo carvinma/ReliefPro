@@ -29,7 +29,7 @@ namespace ReliefProLL
             {
                 drumModel = lstDrum.Where(p => p.ScenarioID == ScenarioID).FirstOrDefault();
             }
-            if (drumModel != null)
+            if (drumModel.ID > 0)
                 return drumModel;
             else
             {
