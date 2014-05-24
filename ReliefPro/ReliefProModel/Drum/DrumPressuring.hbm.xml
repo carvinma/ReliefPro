@@ -4,6 +4,7 @@
 <id name="ID" column="ID" type="Int32" unsaved-value="0">
 <generator class="identity" />
 </id>
+  <property name="ScenarioID" column="ScenarioID" type="Int32"/>
   <property name="InitialPressure" column="InitialPressure" type="Double"/>
   <property name="VaporDensity" column="VaporDensity" type="Double"/>
   <property name="TotalVaporVolume" column="TotalVaporVolume" type="Double"/>
