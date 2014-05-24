@@ -5,6 +5,8 @@
 <generator class="identity" />
 </id>
   <property name="ScenarioID" column="ScenarioID" type="Int32"/>
+  <property name="ShortCut" column="ShortCut" type="String"/>
+  <property name="FireHeatInput" column="FireHeatInput" type="Boolean"/>
   <property name="InitialPressure" column="InitialPressure" type="Double"/>
   <property name="VaporDensity" column="VaporDensity" not-null="false" type="Double"/>
   <property name="TotalVaporVolume" column="TotalVaporVolume" type="Double"/>

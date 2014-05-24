@@ -9,6 +9,8 @@ namespace ReliefProModel.Drum
     {
         public virtual int ID { get; set; }
         public virtual int ScenarioID { get; set; }
+        public virtual string ShortCut { get; set; }
+        public virtual bool FireHeatInput { get; set; }
         public virtual double InitialPressure { get; set; }
         public virtual double? VaporDensity { get; set; }
         public virtual double TotalVaporVolume { get; set; }
