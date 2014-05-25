@@ -132,6 +132,7 @@
     <Compile Include="Model\DrumDepressuringModel.cs" />
     <Compile Include="Model\DrumFireFluidModel.cs" />
     <Compile Include="Model\DrumFireModel.cs" />
+    <Compile Include="Model\DrumSizeModel.cs" />
     <Compile Include="Model\FormatUnitsMeasureModel.cs" />
     <Compile Include="Model\ModelBase.cs" />
     <Compile Include="Model\PSVModel.cs" />
@@ -153,6 +154,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\Drum\DrumFireVM.cs" />
+    <Compile Include="ViewModel\Drum\DrumSizeVM.cs" />
     <Compile Include="ViewModel\FormatUnitsMeasureVM.cs" />
     <Compile Include="ViewModel\Mode.cs" />
     <Compile Include="ViewModel\MultiValueConverter.cs" />
@@ -273,8 +275,8 @@
     <Compile Include="View\Drum_fire\Drum_fire.xaml.cs">
       <DependentUpon>Drum_fire.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Drum_fire\Drum_fire2.xaml.cs">
-      <DependentUpon>Drum_fire2.xaml</DependentUpon>
+    <Compile Include="View\Drum_fire\Drum_Size.xaml.cs">
+      <DependentUpon>Drum_Size.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Drum_fire\Drum_fireFluid.xaml.cs">
       <DependentUpon>Drum_fireFluid.xaml</DependentUpon>
@@ -476,7 +478,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Drum_fire\Drum_fire2.xaml">
+    <Page Include="View\Drum_fire\Drum_Size.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
