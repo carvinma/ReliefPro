@@ -9,16 +9,18 @@ namespace ReliefProModel
     public  class FeedBottomHX
     {
         public virtual int ID { get; set; }
-        public virtual string FeedNormaltin { get; set; }
-        public virtual string FeedNormalENTHALPYin { get; set; }
         public virtual string StreamName { get; set; }
-        public virtual string BottomNormalTin { get; set; }
-        public virtual string BottomNormalTout { get; set; }
+        public virtual string FeedTin { get; set; }
+        public virtual string FeedTout { get; set; }
+        public virtual string FeedMassRate { get; set; }
+        public virtual string FeedEin { get; set; }
+        public virtual string FeedEout { get; set; }      
+        public virtual string BottomTin { get; set; }
+        public virtual string BottomTout { get; set; }
         public virtual string BottomReliefTin { get; set; }
-        public virtual string QAQNGuess { get; set; }
-        public virtual string TotalCount { get; set; }
-        public virtual string FeedTemperature { get; set; }
-        public virtual string FeedEnthalpy { get; set; }
-        public virtual string QRQN { get; set; }
+        public virtual string BottomMassRate { get; set; }
+        public virtual string Duty { get; set; }
+        public virtual int HeatSourceID { get; set; }
+        public virtual string Factor { get; set; }
     }
 }

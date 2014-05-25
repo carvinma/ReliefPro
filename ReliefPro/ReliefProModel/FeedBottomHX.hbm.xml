@@ -4,16 +4,18 @@
     <id name="ID" column="ID" type="Int32" unsaved-value="0">
       <generator class="identity" />
     </id>
-    <property name="FeedNormaltin" column="FeedNormaltin" type="String" length="255" />    
-    <property name="FeedNormalENTHALPYin" column="FeedNormalENTHALPYin" type="String" length="255" />
+    <property name="FeedTin" column="FeedTin" type="String" length="255" />    
+    <property name="FeedTout" column="FeedTout" type="String" length="255" />
     <property name="StreamName" column="StreamName" type="String" length="255" />
-    <property name="BottomNormalTin" column="BottomNormalTin" type="String" length="255" />
-    <property name="BottomNormalTout" column="BottomNormalTout" type="String" length="255" />
+    <property name="FeedEin" column="FeedEin" type="String" length="255" />
+    <property name="FeedEout" column="FeedEout" type="String" length="255" />
     <property name="BottomReliefTin" column="BottomReliefTin" type="String" length="255" />
-    <property name="QAQNGuess" column="QAQNGuess" type="String" length="255" />
-    <property name="TotalCount" column="TotalCount" type="String" length="255" />
-    <property name="FeedTemperature" column="FeedTemperature" type="String" length="255" />
-    <property name="FeedEnthalpy" column="FeedEnthalpy" type="String" length="255" />
-    <property name="QRQN" column="QRQN" type="String" length="255" />
+    <property name="FeedMassRate" column="FeedMassRate" type="String" length="255" />
+    <property name="BottomTin" column="BottomTin" type="String" length="255" />
+    <property name="BottomTout" column="BottomTout" type="String" length="255" />
+    <property name="BottomMassRate" column="BottomMassRate" type="String" length="255" />
+    <property name="Duty" column="Duty" type="String" length="255" />
+    <property name="HeatSourceID" column="HeatSourceID" type="Int32"  />
+    <property name="Factor" column="Factor" type="String" length="255"  />
   </class>
 </hibernate-mapping>
