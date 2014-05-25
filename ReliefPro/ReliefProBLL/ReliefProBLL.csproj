@@ -84,6 +84,7 @@
     <Compile Include="ReadFromPro.cs" />
     <Compile Include="SystemUnitInfo.cs" />
     <Compile Include="UnitTypeInfo.cs" />
+    <Compile Include="DrumSizeBLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\ReliefProCommon.csproj">
