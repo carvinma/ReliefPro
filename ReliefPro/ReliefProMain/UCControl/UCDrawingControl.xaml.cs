@@ -163,7 +163,7 @@ namespace ReliefProMain.View
                 }
                 else if (shp.NameU.Contains("Kettle reboiler"))
                 {                    
-                    TowerHXVM vm = new TowerHXVM(name,dbProtectedSystemFile,dbPlantFile);
+                    TowerHXVM vm = new TowerHXVM(name,SessionPlant,SessionProtectedSystem);
                     TowerHXView v = new TowerHXView();
                     v.DataContext = vm;                  
                     Window parentWindow = Window.GetWindow(this);
@@ -176,11 +176,8 @@ namespace ReliefProMain.View
                     try
                     {
                         SourceView v = new SourceView();
-                        SourceVM vm = new SourceVM(name, dbProtectedSystemFile, dbPlantFile);
-                        v.DataContext = vm;
-                        //if (vm.CloseAction == null)
-                        //    vm.CloseAction = new Action(() => v.Close());
-
+                        SourceVM vm = new SourceVM(name, SessionPlant, SessionProtectedSystem);
+                        v.DataContext = vm;                       
                         Window parentWindow = Window.GetWindow(this);
                         v.Owner = parentWindow;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -192,7 +189,7 @@ namespace ReliefProMain.View
                 }
                 else if (shp.NameU.Contains("Heat exchanger1"))
                 {
-                    TowerHXVM vm = new TowerHXVM(name, dbProtectedSystemFile, dbPlantFile);
+                    TowerHXVM vm = new TowerHXVM(name, SessionPlant, SessionProtectedSystem);
                     TowerHXView v = new TowerHXView();
                     v.DataContext = vm;
                     Window parentWindow = Window.GetWindow(this);
