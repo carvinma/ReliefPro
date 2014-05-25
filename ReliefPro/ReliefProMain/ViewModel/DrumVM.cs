@@ -12,6 +12,7 @@ using ReliefProDAL;
 using ReliefProBLL.Common;
 using NHibernate;
 using ReliefProMain.View;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel
 {
@@ -173,14 +174,15 @@ namespace ReliefProMain.ViewModel
                 {
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
 
-                   
+                    UnitConvert unitConvert = new UnitConvert();
                         dbProIIEqData dbEq = new dbProIIEqData();
                         przFile = vm.SelectedFile + ".prz";
                         ProIIDrum = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Flash");
                         DrumName = ProIIDrum.EqName;
-                        Duty = ProIIDrum.DutyCalc;
-                        Temperature = ProIIDrum.TempCalc;
-                        Pressure = ProIIDrum.PressCalc;
+                        Duty = (double.Parse(ProIIDrum.DutyCalc)*3600).ToString();
+                        Temperature = unitConvert.Convert("K", "C", double.Parse(ProIIDrum.TempCalc)).ToString(); ;
+                        Pressure = unitConvert.Convert("KPA", "MPAG", double.Parse(ProIIDrum.PressCalc)).ToString(); ;
+                        
                         DrumType = "Flashing Drum";
                         if (Duty == "0")
                         {
