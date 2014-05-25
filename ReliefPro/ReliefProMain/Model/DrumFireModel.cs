@@ -210,7 +210,19 @@ namespace ReliefProMain.Model
             set
             {
                 allGas = value;
+                NoneAllGas = !value;
                 NotifyPropertyChanged("AllGas");
+            }
+        }
+
+        private bool noneallGas = false;
+        public bool NoneAllGas
+        {
+            get { return noneallGas; }
+            set
+            {
+                noneallGas = value;
+                NotifyPropertyChanged("NoneAllGas");
             }
         }
         private bool equipmentExist;
