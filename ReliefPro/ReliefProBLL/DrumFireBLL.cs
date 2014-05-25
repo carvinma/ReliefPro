@@ -73,12 +73,12 @@ namespace ReliefProLL
             UnitConvert uc = new UnitConvert();
             fireModel = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
-            fireModel.WettedArea = uc.Convert(uomEnum.UserArea, UOMLib.UOMEnum.Area.ToString(), fireModel.WettedArea);
-            fireModel.LatentHeat = uc.Convert(uomEnum.UserSpecificEnthalpy, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), fireModel.LatentHeat);
-            fireModel.CrackingHeat = uc.Convert(uomEnum.UserSpecificEnthalpy, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), fireModel.CrackingHeat);
-            fireModel.ReliefLoad = uc.Convert(uomEnum.UserWeightFlow, UOMLib.UOMEnum.WeightFlow.ToString(), fireModel.ReliefLoad);
-            fireModel.ReliefPressure = uc.Convert(uomEnum.UserPressure, UOMLib.UOMEnum.Pressure.ToString(), fireModel.ReliefPressure);
-            fireModel.ReliefTemperature = uc.Convert(uomEnum.UserTemperature, UOMLib.UOMEnum.Temperature.ToString(), fireModel.ReliefTemperature);
+            fireModel.WettedArea = uc.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, fireModel.WettedArea);
+            fireModel.LatentHeat = uc.Convert(UOMLib.UOMEnum.SpecificEnthalpy.ToString(), uomEnum.UserSpecificEnthalpy, fireModel.LatentHeat);
+            fireModel.CrackingHeat = uc.Convert(UOMLib.UOMEnum.SpecificEnthalpy.ToString(), uomEnum.UserSpecificEnthalpy, fireModel.CrackingHeat);
+            fireModel.ReliefLoad = uc.Convert(UOMLib.UOMEnum.WeightFlow.ToString(), uomEnum.UserWeightFlow, fireModel.ReliefLoad);
+            fireModel.ReliefPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, fireModel.ReliefPressure);
+            fireModel.ReliefTemperature = uc.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.ReliefTemperature);
             return fireModel;
         }
 
@@ -103,6 +103,13 @@ namespace ReliefProLL
             sModel.ReliefZ = model.ReliefZ.ToString();
             db.Update(sModel, SessionPS);
 
+        }
+
+        public DrumSize GetDrumSizeModel()
+        {
+            // dbDrumSize dbSize = new dbDrumSize();
+            // dbSize.GetAllList
+            return null;
         }
     }
 }
