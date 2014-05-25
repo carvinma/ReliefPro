@@ -96,6 +96,7 @@ namespace ReliefProLL
             }
             if (sizeModel != null)
             {
+                sizeModel.DrumFireCalcID = model.ID;
                 dbDrumSize dbSize = new dbDrumSize();
                 dbSize.SaveDrumSize(SessionPS, sizeModel);
             }
