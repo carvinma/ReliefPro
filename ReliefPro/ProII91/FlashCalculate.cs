@@ -122,7 +122,7 @@ namespace ProII91
                     data2.Append("\t DEFINE ERAT AS 1\n");
                     break;
                 case 5:
-                    data2.Append("\t ADIABATIC Duty=").Append(secondValue).Append(",");
+                    data2.Append("\t ADIABATIC Duty(KJ/hr)=").Append(secondValue).Append(",");
                     data2.Append(sbPT.ToString());
                     break;
                 case 6:

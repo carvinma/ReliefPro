@@ -252,6 +252,9 @@ namespace ProII91
                         case "PressCalc":
                             data.PressCalc = value;
                             break;
+                        case "TempCalc":
+                            data.TempCalc = value;
+                            break;
                         case "DutyCalc":
                             data.DutyCalc = value;
                             break;
