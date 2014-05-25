@@ -128,8 +128,8 @@ namespace ProII91
                 case 6:
                     data2.Append("\t TPSPEC ");
                     data2.Append(sbPT.ToString());
-                    data2.Append("\t SPEC STREAM=").Append(vapor).Append(",RATE(KGM/H),TOTAL,WET, DIVIDE, REFFEED,\n");
-                    data2.Append("RATE(KGM/H),WET, VALUE=").Append(secondValue).Append(",&\n");
+                    data2.Append("\t SPEC STREAM=").Append(vapor).Append(",RATE(KGM/H),TOTAL,WET, DIVIDE, REFFEED,&\n");
+                    data2.Append("RATE(KGM/H),WET, VALUE=").Append(secondValue).Append("\n");
                     break;
 
                 default:

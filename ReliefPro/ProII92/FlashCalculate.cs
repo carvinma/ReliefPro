@@ -122,14 +122,14 @@ namespace ProII92
                     data2.Append("\t DEFINE ERAT AS 1\n");
                     break;
                 case 5:
-                    data2.Append("\t ADIABATIC Duty=").Append(secondValue).Append(",");
+                    data2.Append("\t ADIABATIC Duty(KJ/hr)=").Append(secondValue).Append(",");
                     data2.Append(sbPT.ToString());
                     break;
                 case 6:
                     data2.Append("\t TPSPEC ");
                     data2.Append(sbPT.ToString());
-                    data2.Append("\t SPEC STREAM=").Append(vapor).Append(",RATE(KGM/H),TOTAL,WET, DIVIDE, REFFEED,\n");
-                    data2.Append("RATE(KGM/H),WET, VALUE=").Append(secondValue).Append(",&\n");
+                    data2.Append("\t SPEC STREAM=").Append(vapor).Append(",RATE(KGM/H),TOTAL,WET, DIVIDE, REFFEED,&\n");
+                    data2.Append("RATE(KGM/H),WET, VALUE=").Append(secondValue).Append("\n");
                     break;
 
                 default:

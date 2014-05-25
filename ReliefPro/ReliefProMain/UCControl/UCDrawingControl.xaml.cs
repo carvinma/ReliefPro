@@ -176,7 +176,7 @@ namespace ReliefProMain.View
                     try
                     {
                         SourceView v = new SourceView();
-                        SourceVM vm = new SourceVM(name, SessionPlant, SessionProtectedSystem);
+                        SourceVM vm = new SourceVM(name,PrzFile, SessionPlant, SessionProtectedSystem);
                         v.DataContext = vm;                       
                         Window parentWindow = Window.GetWindow(this);
                         v.Owner = parentWindow;

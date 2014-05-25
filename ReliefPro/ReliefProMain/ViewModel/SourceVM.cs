@@ -19,6 +19,7 @@ namespace ReliefProMain.ViewModel
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
+        private string PrzFile;
         public string PressureUnit { get; set; }
         private string pressureUnit;
         public int ID { get; set; }
@@ -76,9 +77,9 @@ namespace ReliefProMain.ViewModel
 
 
 
-        public SourceVM(string name, ISession sessionPlant, ISession sessionProtectedSystem)
+        public SourceVM(string name,string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-
+            this.PrzFile = PrzFile;
             SourceTypes = GetSourceTypes();
             SourceName = name;
             SessionPlant = sessionPlant;
@@ -162,7 +163,7 @@ namespace ReliefProMain.ViewModel
         public void ShowHeatSourceList()
         {
             HeatSourceListView v = new HeatSourceListView();
-            HeatSourceListVM vm = new HeatSourceListVM(ID, SessionPlant, SessionProtectedSystem);
+            HeatSourceListVM vm = new HeatSourceListVM(ID,PrzFile, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             v.ShowDialog();
         }

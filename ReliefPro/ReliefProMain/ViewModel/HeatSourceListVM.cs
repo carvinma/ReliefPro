@@ -15,14 +15,18 @@ using ReliefProMain.Model;
 using NHibernate;
 using ReliefProMain.ViewModel.Drum;
 using System.Windows;
+using System.IO;
+
 namespace ReliefProMain.ViewModel
 {
     public class HeatSourceListVM:ViewModelBase
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
+        private string PrzFile;
         private dbHeatSource db;
         private int SourceID;
+        private Dictionary<string, ProIIEqData> dicHX;
         private ObservableCollection<HeatSourceModel> _HeatSources;
         public ObservableCollection<HeatSourceModel> HeatSources
         {
@@ -43,22 +47,49 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("SelectedHeatSource");
             }
         }
-        public HeatSourceListVM(int SourceID, ISession SessionPlant, ISession SessionProtectedSystem)
+
+        private ObservableCollection<string> _HeatSourceNames;
+        public ObservableCollection<string> HeatSourceNames
+        {
+            get { return _HeatSourceNames; }
+            set
+            {
+                _HeatSourceNames = value;
+                OnPropertyChanged("HeatSourceNames");
+            }
+        }
+
+        private ObservableCollection<string> _HeatSourceTypes;
+        public ObservableCollection<string> HeatSourceTypes
+        {
+            get { return _HeatSourceTypes; }
+            set
+            {
+                _HeatSourceTypes = value;
+                OnPropertyChanged("HeatSourceTypes");
+            }
+        }
+
+
+        public HeatSourceListVM(int SourceID,string PrzFile,  ISession SessionPlant, ISession SessionProtectedSystem)
         {
             this.SourceID = SourceID;
-            db=new dbHeatSource();
+            this.PrzFile = PrzFile;
+            db = new dbHeatSource();
             this.SessionPlant = SessionPlant;
             this.SessionProtectedSystem = SessionProtectedSystem;
+            dicHX = new Dictionary<string, ProIIEqData>();
             HeatSources = new ObservableCollection<HeatSourceModel>();
-           IList<HeatSource> list= db.GetAllList(SessionProtectedSystem,SourceID);
-           for(int i=0;i<list.Count;i++)
-           {
-               HeatSource m = list[i];
-               HeatSourceModel model=new HeatSourceModel(m);
-               model.SeqNumber = i;
-               HeatSources.Add(model);
-           }
-            
+            IList<HeatSource> list = db.GetAllList(SessionProtectedSystem, SourceID);
+            for (int i = 0; i < list.Count; i++)
+            {
+                HeatSource m = list[i];
+                HeatSourceModel model = new HeatSourceModel(m);
+                model.SeqNumber = i;
+                HeatSources.Add(model);
+            }
+            HeatSourceNames = GetHeatSourceNames();
+            HeatSourceTypes = GetHeatSourceTypes();
         }
 
         private ICommand _AddCommand;
@@ -147,5 +178,26 @@ namespace ReliefProMain.ViewModel
             }
         }
 
+        private ObservableCollection<string> GetHeatSourceNames()
+        {
+            string fileName = System.IO.Path.GetFileName(PrzFile);
+            ObservableCollection<string> list = new ObservableCollection<string>();
+            dbProIIEqData dbproiieq = new dbProIIEqData();
+            IList<ProIIEqData> eqs = dbproiieq.GetAllList(SessionPlant,fileName,"Hx");
+            foreach(ProIIEqData eq in eqs)
+            {
+                list.Add(eq.EqName);
+                dicHX.Add(eq.EqName,eq);
+            }
+            return list;
+        }
+        private ObservableCollection<string> GetHeatSourceTypes()
+        {
+            ObservableCollection<string> list = new ObservableCollection<string>();
+            list.Add("Fired Heater");
+            list.Add("HX");
+            list.Add("Feed/Bottom HX");
+            return list;
+        }
     }
 }

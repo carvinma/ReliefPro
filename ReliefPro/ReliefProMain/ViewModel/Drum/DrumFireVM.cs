@@ -161,14 +161,14 @@ namespace ReliefProMain.ViewModel.Drum
             //闪蒸计算
             string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
             string liquid = "L_" + Guid.NewGuid().ToString().Substring(0, 6);
-            string tempdir = DirProtectedSystem + @"\BlockedOutlet";
+            string tempdir = DirProtectedSystem + @"\DrumFire";
             if (!Directory.Exists(tempdir))
             {
                 Directory.CreateDirectory(tempdir);
             }
             string content = PROIIFileOperator.getUsableContent(liquidStream.StreamName, DirPlant);
-            IFlashCalculateW flashcalc = ProIIFactory.CreateFlashCalculateW(PrzVersion);
-            string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, "0", liquidStream, vapor, liquid, "0.05", tempdir);
+            IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
+            string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 6, "0.05", liquidStream, vapor, liquid,  tempdir);
             IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
             reader.InitProIIReader(f);
             ProIIStreamData proIIvapor = reader.GetSteamInfo(vapor);

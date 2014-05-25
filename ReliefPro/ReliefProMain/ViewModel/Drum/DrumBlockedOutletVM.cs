@@ -83,13 +83,13 @@ namespace ReliefProMain.ViewModel.Drum
             string duty = "0";
             if (drum.PfeedUpstream(SessionPS) > drum.PSet(SessionPS))
             {
-                string content = PROIIFileOperator.getUsableContent(drum.VaporStream.StreamName, DirPlant);
+                string content = PROIIFileOperator.getUsableContent(drum.Feeds[0].StreamName, DirPlant);
                 if (model.DrumType == "Flashing Drum")
                 {
                     duty = (model.NormalFlashDuty/Math.Pow(10,6)).ToString();
                 }
                 IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
-                string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, drum.VaporStream, vapor, liquid, tempdir);
+                string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, drum.Feeds[0], vapor, liquid, tempdir);
                 IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
                 reader.InitProIIReader(f);
                 ProIIStreamData proIIvapor = reader.GetSteamInfo(vapor);

@@ -26,7 +26,7 @@ namespace ReliefProMain.Model
             set
             {
 
-                SeqNumber = value;
+                _SeqNumber = value;
                 NotifyPropertyChanged("SeqNumber");
 
             }
