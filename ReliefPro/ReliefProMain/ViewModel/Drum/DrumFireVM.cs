@@ -111,7 +111,7 @@ namespace ReliefProMain.ViewModel.Drum
             double Qfire=0;
             double Area=0;
             //求出面积---你查看下把durmsize的 数据传进来。
-            // Area = Algorithm.GetDrumArea();
+            //Area = Algorithm.GetDrumArea();
 
             //计算Qfire
             double C1 = 0;
