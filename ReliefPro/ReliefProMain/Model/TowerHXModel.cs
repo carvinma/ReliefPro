@@ -88,58 +88,6 @@ namespace ReliefProMain.Model
             }
         }
 
-        private ObservableCollection<TowerHXDetailModel> _Details = null;
-        public ObservableCollection<TowerHXDetailModel> Details
-        {
-            get { return _Details; }
-            set
-            {
-                _Details = value;
-                NotifyPropertyChanged("Details");
-            }
-        }
-        internal ObservableCollection<TowerHXDetailModel> GetTowerHXDetails()
-        {
-            _Details = new ObservableCollection<TowerHXDetailModel>();
-            using (var helper = new NHibernateHelper(_dbProtectedSystemFile))
-            {
-                var Session = helper.GetCurrentSession();
-                dbTowerHXDetail db = new dbTowerHXDetail();
-                int i = 0;
-                foreach (var obj in db.GetAllList(Session, ID))
-                {
-                    TowerHXDetailModel d = new TowerHXDetailModel();
-                    d.Parent = this;
-                    d.SeqNumber = i;
-                    d.DetailName = obj.DetailName;
-                    d.ProcessSideFlowSource = obj.ProcessSideFlowSource;
-                    d.Medium = obj.Medium;
-                    d.MediumSideFlowSource = obj.MediumSideFlowSource;
-                    d.ID = obj.ID;
-                    d.HXID = obj.HXID;
-                    d.Duty = obj.Duty;
-                    d.DutyPercentage = obj.DutyPercentage;
-
-                    _Details.Add(d);
-                    i = i + 1;
-
-                }
-            }
-            return _Details;
-        }
-
-        private TowerHXDetailModel _SelectedDetail;
-        public TowerHXDetailModel SelectedDetail
-        {
-            get
-            {
-                return this._SelectedDetail;
-            }
-            set
-            {
-                this._SelectedDetail = value;
-                NotifyPropertyChanged("SelectedDetail");
-            }
-        }
+        
     }
 }
