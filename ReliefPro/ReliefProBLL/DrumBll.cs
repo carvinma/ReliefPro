@@ -16,6 +16,7 @@ namespace ReliefProBLL
 {
     public class DrumBll
     {
+        public CustomStream VaporStream;
         private dbDrumBlockedOutlet dbBlockedOutlet = new dbDrumBlockedOutlet();
         public int GetDrumID(ISession SessionPS)
         {
@@ -41,6 +42,7 @@ namespace ReliefProBLL
         }
         public DrumBlockedOutlet GetBlockedOutletModel(ISession SessionPS)
         {
+            dbStream dbsteam = new dbStream();
             DrumBlockedOutlet Model = new DrumBlockedOutlet();
             dbDrum dbdrum = new dbDrum();
             List<Drum> lstDrum = dbdrum.GetAllList(SessionPS).ToList();
@@ -49,6 +51,18 @@ namespace ReliefProBLL
                 Model.DrumType = lstDrum[0].DrumType;
                 Model.NormalFlashDuty = double.Parse(lstDrum[0].Duty);
                 Model.DrumID = lstDrum[0].ID;
+            }
+
+            List<CustomStream> listvaporstream = dbsteam.GetAllList(SessionPS, true).ToList();
+            if (listvaporstream.Count() > 0)
+            {
+                foreach(CustomStream cs in listvaporstream)
+                {
+                    if (cs.ProdType == "1")
+                    {
+                        VaporStream = cs;
+                    }
+                }
             }
 
             var tmpModel = dbBlockedOutlet.GetModelByDrumID(SessionPS, Model.DrumID);
@@ -67,15 +81,16 @@ namespace ReliefProBLL
                     Model.MaxPressure = MaxPressure;
                 }
             }
-            dbScenario towerScenario = new dbScenario();
-            List<Scenario> listTowerScenario = towerScenario.GetAllList(SessionPS).ToList();
-            if (listTowerScenario.Count() > 0)
+           
+            List<CustomStream> liststream = dbsteam.GetAllList(SessionPS, false).ToList();
+            if (liststream.Count() > 0)
             {
                 double MaxStreamRate = 0;
-                if (double.TryParse(listTowerScenario.First().ReliefLoad, out MaxStreamRate))
-                    Model.MaxStreamRate = MaxStreamRate;
+                if (double.TryParse(liststream.First().WeightFlow, out MaxStreamRate))
+                {
+                    Model.MaxStreamRate = MaxStreamRate;                    
+                }
             }
-
             return Model;
         }
 

@@ -196,7 +196,7 @@ namespace ReliefProMain.ViewModel
                         foreach (string k in dicFeeds)
                         {
                             ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
-                            CustomStream cstream = ConvertProIIStreamToCustomStream(d);
+                            CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
                             cstream.IsProduct = false;
                             Feeds.Add(cstream);
                         }
@@ -204,7 +204,7 @@ namespace ReliefProMain.ViewModel
                         {
                             string k=dicProducts[i];
                             ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
-                            CustomStream cstream = ConvertProIIStreamToCustomStream(d);
+                            CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
                             cstream.IsProduct = true;
                             cstream.ProdType=dicProductTypes[i];
                             Products.Add(cstream);
@@ -240,37 +240,7 @@ namespace ReliefProMain.ViewModel
 
         }
 
-        private CustomStream ConvertProIIStreamToCustomStream(ProIIStreamData s)
-        {
-            CustomStream cs = new CustomStream();
-            cs.StreamName = s.StreamName;
-            cs.BulkCP = s.BulkCP;
-            cs.BulkCPCVRatio = cs.BulkCPCVRatio;
-            cs.BulkDensityAct = s.BulkDensityAct;
-            cs.BulkMwOfPhase = s.BulkMwOfPhase;
-            cs.BulkSurfTension = s.BulkSurfTension;
-            cs.BulkThermalCond = s.BulkThermalCond;
-            cs.BulkViscosity = s.BulkViscosity;
-            cs.CompIn = s.CompIn;
-            cs.Componentid = s.Componentid;
-            cs.InertWeightEnthalpy = s.InertWeightEnthalpy;
-            cs.InertWeightRate = s.InertWeightRate;
-            cs.Pressure = s.Pressure;
-            cs.ProdType = s.ProdType;
-            // cs.SpEnthalpy = s.SpEnthalpy;
-            cs.Temperature = s.Temperature;
-            cs.TotalComposition = s.TotalComposition;
-            cs.TotalMolarEnthalpy = s.TotalMolarEnthalpy;
-            cs.TotalMolarRate = s.TotalMolarRate;
-            cs.Tray = s.Tray;
-            cs.VaporFraction = s.VaporFraction;
-            cs.VaporZFmKVal = s.VaporZFmKVal;
-            //cs.WeightFlow = s.WeightFlow;
-
-            return cs;
-
-
-        }
+        
         private ObservableCollection<CustomStream> GetStreams(ISession Session, bool IsProduct)
         {
             ObservableCollection<CustomStream> list = new ObservableCollection<CustomStream>();

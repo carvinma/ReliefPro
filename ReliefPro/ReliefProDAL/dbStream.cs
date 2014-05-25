@@ -26,6 +26,19 @@ namespace ReliefProDAL
             }
             return list;
         }
+        public IList<CustomStream> GetAllList(ISession session,bool isProduct)
+        {
+            IList<CustomStream> list = null;
+            try
+            {
+                list = session.CreateCriteria<CustomStream>().Add(Expression.Eq("IsProduct", isProduct)).List<CustomStream>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
         public CustomStream GetModel(ISession session, string name)
         {
             CustomStream model = null;

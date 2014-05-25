@@ -52,13 +52,15 @@ namespace ReliefProMain.ViewModel
         public List<string> ScenarioNameList { set; get; }
         private string EqType;
         private string EqName;
-        public ScenarioListVM(string eqName, string eqType, string przFile, string version, ISession sessionPlant, ISession sessionProtectedSystem)
+        public ScenarioListVM(string eqName, string eqType, string przFile, string version, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
             EqName = eqName;
             EqName = eqType;
             EqType = eqType;
             PrzFile = przFile;
             PrzVersion = version;
+            DirPlant = dirPlant;
+            DirProtectedSystem = dirProtectedSystem;
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
 
@@ -204,7 +206,7 @@ namespace ReliefProMain.ViewModel
                     {
                         Drum_BlockedOutlet v = new Drum_BlockedOutlet();
                         v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                        DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, SessionProtectedSystem, SessionPlant);
+                        DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, PrzFile,  PrzVersion, SessionProtectedSystem, SessionPlant,DirPlant,DirProtectedSystem);
                         v.DataContext = vm;
                         if (v.ShowDialog() == true)
                         {

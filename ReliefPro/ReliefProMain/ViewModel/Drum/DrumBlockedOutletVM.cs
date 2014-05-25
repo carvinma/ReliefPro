@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using ReliefProBLL.Common;
 using ReliefProDAL;
 using ReliefProModel;
 using ReliefProModel.Drum;
 using ReliefProBLL;
-
+using ReliefProCommon.CommonLib;
 using System.Windows.Input;
 using ReliefProMain.Commands;
 using ProII;
@@ -27,10 +28,19 @@ namespace ReliefProMain.ViewModel.Drum
 
         private ISession SessionPS;
         private ISession SessionPF;
-        public DrumBlockedOutletVM(int ScenarioID, ISession SessionPS, ISession SessionPF)
+        private string DirPlant { set; get; }
+        private string DirProtectedSystem { set; get; }
+        private string PrzFile;
+        private string PrzVersion;
+
+        public DrumBlockedOutletVM(int ScenarioID,string przFile,string version, ISession SessionPS, ISession SessionPF,string dirPlant,string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
+            this.PrzFile = przFile;
+            this.PrzVersion = version;
+             DirPlant = dirPlant;
+            DirProtectedSystem = dirProtectedSystem;
             drum = new DrumBll();
 
 
@@ -61,16 +71,32 @@ namespace ReliefProMain.ViewModel.Drum
         private void CalcResult(object obj)
         {
             double reliefLoad = 0, reliefMW = 0, reliefT = 0;
+            double reliefPressure=drum.ScenarioReliefPressure(SessionPS);
+            string vapor="V_"+Guid.NewGuid().ToString().Substring(0,6);
+            string liquid="L_"+Guid.NewGuid().ToString().Substring(0,6);
+            string tempdir = DirProtectedSystem + @"\BlockedOutlet";
+            if(!Directory.Exists(tempdir))
+            {
+                Directory.CreateDirectory(tempdir);
+            }
+            string reboilduty = "0";
             if (drum.PfeedUpstream(SessionPS) > drum.PSet(SessionPS))
             {
+                string content = PROIIFileOperator.getUsableContent(drum.VaporStream.StreamName, DirPlant);
                 if (model.DrumType == "Flashing Drum")
                 {
-                    //string version = "9.1";
-                    // IFlashCalculateW flashCalc = ProIIFactory.CreateFlashCalculateW(version);
-                    // string filePath = flashCalc.Calculate();
+                    reboilduty = "10";
                 }
-                else
-                { }
+                IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
+                string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, reboilduty, drum.VaporStream, vapor, liquid, tempdir);
+                IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+                reader.InitProIIReader(f);
+                ProIIStreamData proIIvapor = reader.GetSteamInfo(vapor);
+                reader.ReleaseProIIReader();
+                CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
+                reliefMW = double.Parse(cs.BulkMwOfPhase);
+                reliefT = double.Parse(cs.Temperature);
+                reliefLoad = double.Parse(cs.WeightFlow);
             }
             else
             {

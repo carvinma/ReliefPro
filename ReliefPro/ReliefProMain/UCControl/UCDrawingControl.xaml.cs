@@ -608,7 +608,7 @@ namespace ReliefProMain.View
                     return;
                 }
                 ScenarioListView v = new ScenarioListView();
-                ScenarioListVM vm = new ScenarioListVM(EqName,EqType,PrzFile,PrzVersion,SessionPlant,SessionProtectedSystem);
+                ScenarioListVM vm = new ScenarioListVM(EqName,EqType,PrzFile,PrzVersion,SessionPlant,SessionProtectedSystem,DirPlant,DirProtectedSystem);
                 v.DataContext = vm;
                 v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 v.ShowDialog();
