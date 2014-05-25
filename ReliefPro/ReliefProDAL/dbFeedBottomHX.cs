@@ -10,12 +10,12 @@ namespace ReliefProDAL
 {
     public class dbFeedBottomHX : IBaseDAL<FeedBottomHX>
     {
-        public IList<FeedBottomHX> GetAllList(ISession session)
+        public IList<FeedBottomHX> GetAllList(ISession session,int SourceID)
         {
             IList<FeedBottomHX> list = null;
             try
             {
-                list = session.CreateCriteria<FeedBottomHX>().List<FeedBottomHX>();
+                list = session.CreateCriteria<FeedBottomHX>().Add(Expression.Eq("SourceID", SourceID)).List<FeedBottomHX>();
             }
             catch (Exception ex)
             {
@@ -23,13 +23,13 @@ namespace ReliefProDAL
             }
             return list;
         }
-        public FeedBottomHX GetModel(ISession session)
+        public FeedBottomHX GetModel(ISession session, int HeatSourceID)
         {
             FeedBottomHX model = null;
             IList<FeedBottomHX> list = null;
             try
             {
-                list = session.CreateCriteria<FeedBottomHX>().List<FeedBottomHX>();
+                list = session.CreateCriteria<FeedBottomHX>().Add(Expression.Eq("HeatSourceID", HeatSourceID)).List<FeedBottomHX>();
                 if (list.Count > 0)
                 {
                     model = list[0];
@@ -41,10 +41,10 @@ namespace ReliefProDAL
             {
                 model = null;
                 throw ex;
-                
+
             }
-            
+
             return model;
-        }
+        } 
     }
 }
