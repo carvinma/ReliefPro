@@ -16,7 +16,7 @@ namespace ReliefProBLL
 {
     public class DrumBll
     {
-        public CustomStream VaporStream;
+        public IList<CustomStream> Feeds;
         private dbDrumBlockedOutlet dbBlockedOutlet = new dbDrumBlockedOutlet();
         public int GetDrumID(ISession SessionPS)
         {
@@ -53,18 +53,8 @@ namespace ReliefProBLL
                 Model.DrumID = lstDrum[0].ID;
             }
 
-            List<CustomStream> listvaporstream = dbsteam.GetAllList(SessionPS, true).ToList();
-            if (listvaporstream.Count() > 0)
-            {
-                foreach (CustomStream cs in listvaporstream)
-                {
-                    if (cs.ProdType == "1")
-                    {
-                        VaporStream = cs;
-                    }
-                }
-            }
-
+            Feeds = dbsteam.GetAllList(SessionPS, true);
+            
             var tmpModel = dbBlockedOutlet.GetModelByDrumID(SessionPS, Model.DrumID);
             if (tmpModel != null)
             {
