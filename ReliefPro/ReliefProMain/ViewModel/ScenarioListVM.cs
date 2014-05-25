@@ -221,10 +221,13 @@ namespace ReliefProMain.ViewModel
                     {
                         Drum_fire v = new Drum_fire();
                         v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                        DrumFireVM vm = new DrumFireVM(ScenarioID, SessionProtectedSystem, SessionPlant);
+                        DrumFireVM vm = new DrumFireVM(ScenarioID, PrzFile, PrzVersion, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
                         v.DataContext = vm;
-                        v.ShowDialog();
-                        //CreateDrumFire(ScenarioID, Session);
+                        if (v.ShowDialog() == true)
+                        {
+                            //需要把ReliefLoad等值传回给SelectedScenario.ReliefLoad。 参考CreateInletValveOpen
+                        }
+                        
                     }
                     else if (ScenarioName.Contains("Inlet"))
                     {

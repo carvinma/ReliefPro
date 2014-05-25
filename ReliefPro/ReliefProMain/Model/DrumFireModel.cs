@@ -223,5 +223,7 @@ namespace ReliefProMain.Model
                 NotifyPropertyChanged("EquipmentExist");
             }
         }
+
+
     }
 }

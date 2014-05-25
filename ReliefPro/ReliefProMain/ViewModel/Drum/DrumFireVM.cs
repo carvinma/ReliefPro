@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.IO;
 using NHibernate;
 using ReliefProLL;
 using ReliefProMain.Commands;
@@ -11,7 +12,10 @@ using ReliefProMain.Model;
 using ReliefProMain.View;
 using ReliefProModel.Drum;
 using UOMLib;
-
+using ProII;
+using ReliefProDAL;
+using ReliefProModel;
+using ReliefProCommon.CommonLib;
 namespace ReliefProMain.ViewModel.Drum
 {
     public class DrumFireVM : ViewModelBase
@@ -33,14 +37,24 @@ namespace ReliefProMain.ViewModel.Drum
         public DrumFireModel model { get; set; }
         private ISession SessionPS;
         private ISession SessionPF;
+        private string DirPlant { set; get; }
+        private string DirProtectedSystem { set; get; }
+        private string PrzFile;
+        private string PrzVersion;
+
+        private double reliefPressure;
         private int ScenarioID;
         private DrumFireBLL fireBLL;
         private DrumFireFluid fireFluidModle;
-        public DrumFireVM(int ScenarioID, ISession SessionPS, ISession SessionPF)
+        public DrumFireVM(int ScenarioID, string przFile, string version, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.ScenarioID = ScenarioID;
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
+            this.PrzFile = przFile;
+            this.PrzVersion = version;
+            DirPlant = dirPlant;
+            DirProtectedSystem = dirProtectedSystem;
             FluidCMD = new DelegateCommand<object>(OpenFluidWin);
             CalcCMD = new DelegateCommand<object>(Calc);
             OKCMD = new DelegateCommand<object>(Save);
@@ -62,6 +76,8 @@ namespace ReliefProMain.ViewModel.Drum
             model.ReliefLoadUnit = uomEnum.UserWeightFlow;
             model.ReliefPressureUnit = uomEnum.UserPressure;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
+
+            reliefPressure = ScenarioReliefPressure(SessionPS);
         }
         private void WriteConvertModel()
         {
@@ -92,6 +108,59 @@ namespace ReliefProMain.ViewModel.Drum
         }
         private void Calc(object obj)
         {
+            double Qfire=0;
+            double Area=0;
+            //求出面积---你查看下把durmsize的 数据传进来。
+            // Area = Algorithm.GetDrumArea();
+
+            //计算Qfire
+            double C1 = 0;
+            if (model.EquipmentExist)
+            {
+                C1 = 43200;
+            }
+            else
+            {
+                C1 = 70900;
+            }
+           Qfire= Algorithm.GetQ(C1, 1, Area);
+
+
+            //取出liquid stream
+            dbCustomStream dbcs = new dbCustomStream();
+            IList<CustomStream> listStream = dbcs.GetAllList(SessionPS, true);
+            CustomStream liquidStream = new CustomStream();
+            foreach (CustomStream s in listStream)
+            {
+                if (s.ProdType == "2")
+                {
+                    liquidStream = s;
+                }
+            }
+            //闪蒸计算
+            string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
+             string liquid="L_"+Guid.NewGuid().ToString().Substring(0,6);
+            string tempdir = DirProtectedSystem + @"\BlockedOutlet";
+            if(!Directory.Exists(tempdir))
+            {
+                Directory.CreateDirectory(tempdir);
+            }
+            string content = PROIIFileOperator.getUsableContent(liquidStream.StreamName, DirPlant);
+            IFlashCalculateW flashcalc = ProIIFactory.CreateFlashCalculateW(PrzVersion);
+            string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, "0", liquidStream, vapor, liquid, "0.05", tempdir);
+            IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+            reader.InitProIIReader(f);
+            ProIIStreamData proIIvapor = reader.GetSteamInfo(vapor);
+            ProIIStreamData proIIliquid = reader.GetSteamInfo(liquid);
+            reader.ReleaseProIIReader();
+            CustomStream csVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
+            CustomStream csLiquid = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIliquid);
+            double latent = double.Parse(csVapor.SpEnthalpy) - double.Parse(csLiquid.SpEnthalpy);
+
+            double reliefLoad = Qfire / latent;
+            double reliefMW = double.Parse(csVapor.BulkMwOfPhase);
+            double reliefT = double.Parse(csVapor.Temperature);
+
         }
         private void Save(object obj)
         {
@@ -105,6 +174,17 @@ namespace ReliefProMain.ViewModel.Drum
                     wd.DialogResult = true;
                 }
             }
+        }
+        public double ScenarioReliefPressure(ISession SessionPS)
+        {
+            dbPSV psv = new dbPSV();
+            var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
+            if (psvModel != null)
+            {
+                if (!string.IsNullOrEmpty(psvModel.Pressure))
+                    return double.Parse(psvModel.Pressure) * double.Parse(psvModel.ReliefPressureFactor);
+            }
+            return 0;
         }
     }
 }

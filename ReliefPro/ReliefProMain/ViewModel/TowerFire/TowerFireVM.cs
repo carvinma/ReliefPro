@@ -153,7 +153,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 {
                     EqList.Clear();
                     eq.WettedArea = vm.Area.ToString(); ;
-                    eq.HeatInput = Algorithm.GetTowerQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
+                    eq.HeatInput = Algorithm.GetQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
                     eq.ReliefLoad = (double.Parse(eq.HeatInput) / latentEnthalpy).ToString();
                     db.Update(eq, SessionProtectedSystem);
                     IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, CurrentModel.ID);
@@ -174,7 +174,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 {
                     EqList.Clear();
                     eq.WettedArea = vm.Area.ToString();
-                    eq.HeatInput = Algorithm.GetTowerQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
+                    eq.HeatInput = Algorithm.GetQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
                     eq.ReliefLoad = (double.Parse(eq.HeatInput) / latentEnthalpy).ToString();
                     db.Update(eq, SessionProtectedSystem);
                     IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, CurrentModel.ID);
@@ -195,7 +195,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 {
                     EqList.Clear();
                     eq.WettedArea = vm.Area.ToString();
-                    eq.HeatInput = Algorithm.GetTowerQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
+                    eq.HeatInput = Algorithm.GetQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
                     eq.ReliefLoad = (double.Parse(eq.HeatInput) / latentEnthalpy).ToString();
                     db.Update(eq, SessionProtectedSystem);
                     IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, CurrentModel.ID);
@@ -216,7 +216,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 {
                     EqList.Clear();
                     eq.WettedArea = vm.Area.ToString();
-                    eq.HeatInput = Algorithm.GetTowerQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
+                    eq.HeatInput = Algorithm.GetQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
                     eq.ReliefLoad = (double.Parse(eq.HeatInput) / latentEnthalpy).ToString();
                     db.Update(eq, SessionProtectedSystem);
                     IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, CurrentModel.ID);
@@ -237,7 +237,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 {
                     EqList.Clear();
                     eq.WettedArea = vm.Area.ToString();
-                    eq.HeatInput = Algorithm.GetTowerQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
+                    eq.HeatInput = Algorithm.GetQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
                     eq.ReliefLoad = (double.Parse(eq.HeatInput) / latentEnthalpy).ToString();
                     db.Update(eq, SessionProtectedSystem);
                     IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, CurrentModel.ID);

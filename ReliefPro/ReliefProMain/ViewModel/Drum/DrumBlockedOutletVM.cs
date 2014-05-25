@@ -94,6 +94,7 @@ namespace ReliefProMain.ViewModel.Drum
                 ProIIStreamData proIIvapor = reader.GetSteamInfo(vapor);
                 reader.ReleaseProIIReader();
                 CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
+
                 reliefMW = double.Parse(cs.BulkMwOfPhase);
                 reliefT = double.Parse(cs.Temperature);
                 reliefLoad = double.Parse(cs.WeightFlow);
