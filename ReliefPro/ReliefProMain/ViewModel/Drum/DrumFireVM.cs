@@ -79,6 +79,7 @@ namespace ReliefProMain.ViewModel.Drum
             model.ReliefLoadUnit = uomEnum.UserMassRate;
             model.ReliefPressureUnit = uomEnum.UserPressure;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
+            model.NoneAllGas = !model.AllGas;
 
             reliefPressure = ScenarioReliefPressure(SessionPS);
         }
@@ -108,6 +109,15 @@ namespace ReliefProMain.ViewModel.Drum
             if (win.ShowDialog() == true)
             {
                 sizeModel = vm.model.dbmodel;
+                double Area = 0;
+                if (sizeModel == null)
+                {
+                    DrumSizeBLL sizeBll = new DrumSizeBLL(SessionPS, SessionPF);
+                    sizeModel = sizeBll.GetSizeModel(model.dbmodel.ID);
+                }
+                if (sizeModel != null)
+                    Area = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, sizeModel.NormalLiquidLevel, sizeModel.BootHeight, sizeModel.BootDiameter);
+                model.WettedArea = Area;
             }
         }
 
@@ -120,12 +130,13 @@ namespace ReliefProMain.ViewModel.Drum
             if (win.ShowDialog() == true)
             {
                 fireFluidModel = vm.model.dbmodel;
+                //求出面积---你查看下把durmsize的 数据传进来。
             }
         }
         private void Calc(object obj)
         {
             double Qfire = 0;
-            double Area = 0;
+            double Area = model.WettedArea;
             //求出面积---你查看下把durmsize的 数据传进来。
             if (sizeModel == null)
             {
