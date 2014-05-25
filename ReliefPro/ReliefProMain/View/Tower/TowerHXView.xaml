@@ -24,7 +24,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <ListView Name="lv" SelectionMode="Single"  ItemsSource="{Binding Path=model.Details}" SelectedItem="{Binding model.SelectedDetail}" >
+                <ListView Name="lv" SelectionMode="Single"  ItemsSource="{Binding Path=Details,Mode=TwoWay}" SelectedItem="{Binding SelectedDetail,Mode=TwoWay}" >
                     <ListView.View>
                         <GridView >
                             <GridViewColumn Width="0"    Header="#"   DisplayMemberBinding="{Binding Path=SeqNumber,Mode=TwoWay}"></GridViewColumn>
