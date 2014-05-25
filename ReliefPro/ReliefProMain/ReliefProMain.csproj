@@ -156,6 +156,7 @@
     </Compile>
     <Compile Include="ViewModel\Drum\DrumFireVM.cs" />
     <Compile Include="ViewModel\Drum\DrumSizeVM.cs" />
+    <Compile Include="ViewModel\FeedBottomHXVM.cs" />
     <Compile Include="ViewModel\FormatUnitsMeasureVM.cs" />
     <Compile Include="ViewModel\HeatSourceListVM.cs" />
     <Compile Include="ViewModel\Mode.cs" />
@@ -184,6 +185,9 @@
     <Compile Include="ViewModel\CreateProtectedSystemVM.cs" />
     <Compile Include="View\Common\HeatSourceListView.xaml.cs">
       <DependentUpon>HeatSourceListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FeedBottomHX.xaml.cs">
+      <DependentUpon>FeedBottomHX.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Tower\AbnormalHeatInputView.xaml.cs">
       <DependentUpon>AbnormalHeatInputView.xaml</DependentUpon>
@@ -360,6 +364,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\Common\HeatSourceListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FeedBottomHX.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
