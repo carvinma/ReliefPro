@@ -54,10 +54,10 @@ namespace ReliefProBLL
             UnitConvert uc = new UnitConvert();
             fireModel = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
-            fireModel.ExposedVesse = uc.Convert(uomEnum.UserArea, UOMLib.UOMEnum.Area.ToString(), fireModel.ExposedVesse);
-            fireModel.NormaTemperature = uc.Convert(uomEnum.UserTemperature, UOMLib.UOMEnum.Temperature.ToString(), fireModel.NormaTemperature);
-            fireModel.NormalPressure = uc.Convert(uomEnum.UserPressure, UOMLib.UOMEnum.Pressure.ToString(), fireModel.NormalPressure);
-            fireModel.PSVPressure = uc.Convert(uomEnum.UserPressure, UOMLib.UOMEnum.Pressure.ToString(), fireModel.PSVPressure);
+            fireModel.ExposedVesse = uc.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, fireModel.ExposedVesse);
+            fireModel.NormaTemperature = uc.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.NormaTemperature);
+            fireModel.NormalPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, fireModel.NormalPressure);
+            fireModel.PSVPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, fireModel.PSVPressure);
             return fireModel;
         }
         private Tuple<double, double, double, double> GetFluidInfo()
