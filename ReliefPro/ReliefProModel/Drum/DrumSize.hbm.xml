@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
-<class name="ReliefProModel.Drum.DrumSize, ReliefProModel" table="tbDrumSize" >
+<class name="ReliefProModel.Drum.DrumSize, ReliefProModel" table="tbDrumFireSize" >
 <id name="ID" column="ID" type="Int32" unsaved-value="0">
 <generator class="identity" />
 </id>
