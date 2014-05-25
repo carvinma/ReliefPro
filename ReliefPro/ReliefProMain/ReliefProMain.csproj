@@ -142,6 +142,7 @@
     <Compile Include="Model\TowerHXDetailModel.cs" />
     <Compile Include="Model\TowerHXModel.cs" />
     <Compile Include="Model\TowerScenarioStreamModel.cs" />
+    <Compile Include="Model\HeatSourceModel.cs" />
     <Compile Include="ProIIFactory.cs" />
     <Compile Include="ProIIToDefault.cs" />
     <Compile Include="Service\ServiceProvider.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="ViewModel\Drum\DrumFireVM.cs" />
     <Compile Include="ViewModel\Drum\DrumSizeVM.cs" />
     <Compile Include="ViewModel\FormatUnitsMeasureVM.cs" />
+    <Compile Include="ViewModel\HeatSourceListVM.cs" />
     <Compile Include="ViewModel\Mode.cs" />
     <Compile Include="ViewModel\MultiValueConverter.cs" />
     <Compile Include="ViewModel\ScenarioListVM.cs" />
@@ -180,6 +182,9 @@
     <Compile Include="ViewModel\InletValveOpenVM.cs" />
     <Compile Include="ViewModel\ReNameVM.cs" />
     <Compile Include="ViewModel\CreateProtectedSystemVM.cs" />
+    <Compile Include="View\Common\HeatSourceListView.xaml.cs">
+      <DependentUpon>HeatSourceListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Tower\AbnormalHeatInputView.xaml.cs">
       <DependentUpon>AbnormalHeatInputView.xaml</DependentUpon>
     </Compile>
@@ -354,6 +359,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Common\HeatSourceListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Tower\AbnormalHeatInputView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
