@@ -64,17 +64,17 @@ namespace ReliefProMain.ViewModel
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
 
-            Scenarios = GetScenarios() ;
+            Scenarios = GetScenarios();
             ScenarioNameList = GetScenarioNames(eqType);
 
-           
+
 
         }
 
         private ObservableCollection<ScenarioModel> GetScenarios()
         {
-             ObservableCollection<ScenarioModel> scenarios = new ObservableCollection<ScenarioModel>();
-             dbScenario db = new dbScenario();
+            ObservableCollection<ScenarioModel> scenarios = new ObservableCollection<ScenarioModel>();
+            dbScenario db = new dbScenario();
             IList<Scenario> list = db.GetAllList(SessionProtectedSystem);
             int count = list.Count;
             for (int i = 0; i < count; i++)
@@ -206,14 +206,17 @@ namespace ReliefProMain.ViewModel
                     {
                         Drum_BlockedOutlet v = new Drum_BlockedOutlet();
                         v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                        DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, PrzFile,  PrzVersion, SessionProtectedSystem, SessionPlant,DirPlant,DirProtectedSystem);
+                        DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, PrzFile, PrzVersion, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
                         v.DataContext = vm;
                         if (v.ShowDialog() == true)
                         {
-                            //SelectedScenario.ReliefLoad = vm.model.CurrentTowerFire.ReliefLoad;
-                            //SelectedScenario.ReliefPressure = vm.model.CurrentTowerFire.ReliefPressure;
-                            //SelectedScenario.ReliefTemperature = vm.model.CurrentTowerFire.ReliefTemperature;
-                            //SelectedScenario.ReliefMW = vm.model.CurrentTowerFire.ReliefMW;
+                            if (vm.CalcTuple != null)
+                            {
+                                SelectedScenario.ReliefLoad = vm.CalcTuple.Item1.ToString();
+                                SelectedScenario.ReliefPressure = vm.CalcTuple.Item4.ToString();
+                                SelectedScenario.ReliefTemperature = vm.CalcTuple.Item3.ToString();
+                                SelectedScenario.ReliefMW = vm.CalcTuple.Item2.ToString();
+                            }
                         }
                         //CreateDrumOutlet(ScenarioID, Session);
                     }
@@ -226,8 +229,12 @@ namespace ReliefProMain.ViewModel
                         if (v.ShowDialog() == true)
                         {
                             //需要把ReliefLoad等值传回给SelectedScenario.ReliefLoad。 参考CreateInletValveOpen
+                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad.ToString();
+                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW.ToString();
+                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure.ToString();
+                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature.ToString();
                         }
-                        
+
                     }
                     else if (ScenarioName.Contains("Inlet"))
                     {
@@ -339,7 +346,7 @@ namespace ReliefProMain.ViewModel
                 SelectedScenario.ReliefTemperature = vm.CurrentModel.ReliefTemperature;
             }
         }
-        
+
         private void CreateTowerCommon(int ScenarioID, string ScenarioName, NHibernate.ISession Session)
         {
             dbTowerScenarioStream dbTowerSS = new dbTowerScenarioStream();
@@ -421,7 +428,7 @@ namespace ReliefProMain.ViewModel
         }
 
         private void CreateInletValveOpen(string EqType, int ScenarioID, NHibernate.ISession Session)
-        {           
+        {
             InletValveOpenView v = new InletValveOpenView();
             InletValveOpenVM vm = new InletValveOpenVM(ScenarioID, EqName, EqType, PrzFile, PrzVersion, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
             v.DataContext = vm;
