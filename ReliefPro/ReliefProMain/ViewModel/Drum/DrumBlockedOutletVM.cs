@@ -33,13 +33,14 @@ namespace ReliefProMain.ViewModel.Drum
         private string PrzFile;
         private string PrzVersion;
 
-        public DrumBlockedOutletVM(int ScenarioID,string przFile,string version, ISession SessionPS, ISession SessionPF,string dirPlant,string dirProtectedSystem)
+        public Tuple<double, double, double, double> CalcTuple { get; set; }
+        public DrumBlockedOutletVM(int ScenarioID, string przFile, string version, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
             this.PrzFile = przFile;
             this.PrzVersion = version;
-             DirPlant = dirPlant;
+            DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
             drum = new DrumBll();
 
@@ -71,11 +72,11 @@ namespace ReliefProMain.ViewModel.Drum
         private void CalcResult(object obj)
         {
             double reliefLoad = 0, reliefMW = 0, reliefT = 0;
-            double reliefPressure=drum.ScenarioReliefPressure(SessionPS);
-            string vapor="V_"+Guid.NewGuid().ToString().Substring(0,6);
-            string liquid="L_"+Guid.NewGuid().ToString().Substring(0,6);
+            double reliefPressure = drum.ScenarioReliefPressure(SessionPS);
+            string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
+            string liquid = "L_" + Guid.NewGuid().ToString().Substring(0, 6);
             string tempdir = DirProtectedSystem + @"\BlockedOutlet";
-            if(!Directory.Exists(tempdir))
+            if (!Directory.Exists(tempdir))
             {
                 Directory.CreateDirectory(tempdir);
             }
@@ -104,6 +105,7 @@ namespace ReliefProMain.ViewModel.Drum
                 reliefLoad = 0;
             }
             WriteConvertModel();
+            CalcTuple = new Tuple<double, double, double, double>(reliefLoad, reliefMW, reliefT, reliefPressure);
             drum.SaveDrumBlockedOutlet(model.dbmodel, SessionPS, reliefLoad, reliefMW, reliefT);
             if (obj != null)
             {
