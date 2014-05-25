@@ -80,16 +80,16 @@ namespace ReliefProMain.ViewModel.Drum
             {
                 Directory.CreateDirectory(tempdir);
             }
-            string reboilduty = "0";
+            string duty = "0";
             if (drum.PfeedUpstream(SessionPS) > drum.PSet(SessionPS))
             {
                 string content = PROIIFileOperator.getUsableContent(drum.VaporStream.StreamName, DirPlant);
                 if (model.DrumType == "Flashing Drum")
                 {
-                    reboilduty = "10";
+                    duty = (model.NormalFlashDuty/Math.Pow(10,6)).ToString();
                 }
                 IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
-                string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, reboilduty, drum.VaporStream, vapor, liquid, tempdir);
+                string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, drum.VaporStream, vapor, liquid, tempdir);
                 IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
                 reader.InitProIIReader(f);
                 ProIIStreamData proIIvapor = reader.GetSteamInfo(vapor);
