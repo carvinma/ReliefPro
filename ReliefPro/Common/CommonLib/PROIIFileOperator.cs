@@ -71,6 +71,17 @@ namespace ReliefProCommon.CommonLib
                     sb.Append(s).Append("\n");
                     i++;
                 }
+                else if (s.Trim().IndexOf("SEQUENCE") > -1)
+                {
+                    while (lines[i].Contains("&"))
+                    {
+                        i = i + 1;
+                    }
+                    if (!lines[i].Contains("&")) //表示该SEQUENCE最后一行
+                    {
+                        i = i + 1;
+                    }
+                }
                 else if (s.Trim().IndexOf("OUTPUT") > -1)
                 {
                     while (lines[i].Contains("&"))
