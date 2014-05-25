@@ -9,7 +9,7 @@ namespace ReliefProModel.Drum
     public class DrumSize
     {
         public virtual int ID { get; set; }
-        public virtual int DrumID { get; set; }
+        public virtual int DrumFireCalcID { get; set; }
         public virtual string Orientation { get; set; }
         public virtual string HeadType { get; set; }
         public virtual double Elevation { get; set; }

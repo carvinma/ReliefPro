@@ -4,7 +4,7 @@
 <id name="ID" column="ID" type="Int32" unsaved-value="0">
 <generator class="identity" />
 </id>
-  <property name="DrumID" column="DrumID" type="Int32"/>
+  <property name="DrumFireCalcID" column="DrumFireCalcID" type="Int32"/>
   <property name="Orientation" column="Orientation" type="String" length="255"/>
   <property name="HeadType" column="HeadType" type="String" length="255"/>
   <property name="Elevation" column="Elevation" type="Double"/>
