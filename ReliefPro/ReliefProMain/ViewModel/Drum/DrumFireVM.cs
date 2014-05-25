@@ -23,6 +23,7 @@ namespace ReliefProMain.ViewModel.Drum
         public ICommand FluidCMD { get; set; }
         public ICommand CalcCMD { get; set; }
         public ICommand OKCMD { get; set; }
+        public ICommand DrumSizeCMD { get; set; }
         private string selectedHeatInputModel = "API 521";
         public string SelectedHeatInputModel
         {
@@ -45,7 +46,8 @@ namespace ReliefProMain.ViewModel.Drum
         private double reliefPressure;
         private int ScenarioID;
         private DrumFireBLL fireBLL;
-        private DrumFireFluid fireFluidModle;
+        private DrumFireFluid fireFluidModel;
+        private DrumSize sizeModel;
         public DrumFireVM(int ScenarioID, string przFile, string version, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.ScenarioID = ScenarioID;
@@ -58,6 +60,7 @@ namespace ReliefProMain.ViewModel.Drum
             FluidCMD = new DelegateCommand<object>(OpenFluidWin);
             CalcCMD = new DelegateCommand<object>(Calc);
             OKCMD = new DelegateCommand<object>(Save);
+            DrumSizeCMD = new DelegateCommand<object>(OpenDrumSize);
             lstHeatInputModel = new List<string>();
             lstHeatInputModel.Add("API 521");
             lstHeatInputModel.Add("API 2000");
@@ -96,23 +99,41 @@ namespace ReliefProMain.ViewModel.Drum
             model.dbmodel.EquipmentExist = model.EquipmentExist;
             model.dbmodel.HeatInputModel = selectedHeatInputModel;
         }
+        private void OpenDrumSize(object obj)
+        {
+            Drum_Size win = new Drum_Size();
+            win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            DrumSizeVM vm = new DrumSizeVM(model.dbmodel.ID, SessionPS, SessionPF);
+            win.DataContext = vm;
+            if (win.ShowDialog() == true)
+            {
+                sizeModel = vm.model.dbmodel;
+            }
+        }
+
         private void OpenFluidWin(object obj)
         {
             Drum_fireFluid win = new Drum_fireFluid();
+            win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             DrumFireFluidVM vm = new DrumFireFluidVM(model.dbmodel.ID, SessionPS, SessionPF);
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
-                fireFluidModle = vm.model.dbmodel;
+                fireFluidModel = vm.model.dbmodel;
             }
         }
         private void Calc(object obj)
         {
-            double Qfire=0;
-            double Area=0;
+            double Qfire = 0;
+            double Area = 0;
             //求出面积---你查看下把durmsize的 数据传进来。
-            //Area = Algorithm.GetDrumArea();
-
+            if (sizeModel == null)
+            {
+                DrumSizeBLL sizeBll = new DrumSizeBLL(SessionPS, SessionPF);
+                sizeModel = sizeBll.GetSizeModel(model.dbmodel.ID);
+            }
+            if (sizeModel != null)
+                Area = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, sizeModel.NormalLiquidLevel, sizeModel.BootHeight, sizeModel.BootDiameter);
             //计算Qfire
             double C1 = 0;
             if (model.EquipmentExist)
@@ -123,7 +144,7 @@ namespace ReliefProMain.ViewModel.Drum
             {
                 C1 = 70900;
             }
-           Qfire= Algorithm.GetQ(C1, 1, Area);
+            Qfire = Algorithm.GetQ(C1, 1, Area);
 
 
             //取出liquid stream
@@ -139,9 +160,9 @@ namespace ReliefProMain.ViewModel.Drum
             }
             //闪蒸计算
             string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
-             string liquid="L_"+Guid.NewGuid().ToString().Substring(0,6);
+            string liquid = "L_" + Guid.NewGuid().ToString().Substring(0, 6);
             string tempdir = DirProtectedSystem + @"\BlockedOutlet";
-            if(!Directory.Exists(tempdir))
+            if (!Directory.Exists(tempdir))
             {
                 Directory.CreateDirectory(tempdir);
             }
@@ -165,7 +186,7 @@ namespace ReliefProMain.ViewModel.Drum
         private void Save(object obj)
         {
             WriteConvertModel();
-            fireBLL.SaveData(model.dbmodel, fireFluidModle, SessionPS);
+            fireBLL.SaveData(model.dbmodel, fireFluidModel,sizeModel, SessionPS);
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;
