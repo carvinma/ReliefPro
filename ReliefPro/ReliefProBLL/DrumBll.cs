@@ -107,7 +107,7 @@ namespace ReliefProBLL
             outletModel = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPlan);
             outletModel.MaxPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, outletModel.MaxPressure);
-            outletModel.MaxStreamRate = uc.Convert(UOMLib.UOMEnum.WeightFlow.ToString(), uomEnum.UserWeightFlow, outletModel.MaxStreamRate);
+            outletModel.MaxStreamRate = uc.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserWeightFlow, outletModel.MaxStreamRate);
             outletModel.NormalFlashDuty = uc.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(), uomEnum.UserEnthalpyDuty, outletModel.NormalFlashDuty);
             return outletModel;
         }

@@ -58,10 +58,10 @@ namespace ReliefProLL
             drumModel.Vesseldesignpressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, drumModel.Vesseldesignpressure);
             drumModel.TotalWettedArea = uc.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, drumModel.TotalWettedArea);
             // drumModel.ValveConstantforSonicFlow = uc.Convert(uomEnum.UserPressure, UOMLib.UOMEnum.Pressure.ToString(), drumModel.ValveConstantforSonicFlow);
-            drumModel.InitialDepressuringRate = uc.Convert(UOMLib.UOMEnum.WeightFlow.ToString(), uomEnum.UserWeightFlow, drumModel.InitialDepressuringRate);
+            drumModel.InitialDepressuringRate = uc.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserWeightFlow, drumModel.InitialDepressuringRate);
             drumModel.Timespecify = uc.Convert(UOMLib.UOMEnum.Time.ToString(), uomEnum.UserTime, drumModel.Timespecify);
             drumModel.CalculatedVesselPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, drumModel.CalculatedVesselPressure);
-            drumModel.CalculatedDepressuringRate = uc.Convert(UOMLib.UOMEnum.WeightFlow.ToString(), uomEnum.UserWeightFlow, drumModel.CalculatedDepressuringRate);
+            drumModel.CalculatedDepressuringRate = uc.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserWeightFlow, drumModel.CalculatedDepressuringRate);
             return drumModel;
         }
 

@@ -106,11 +106,11 @@ namespace ReliefProMain.ViewModel.Drum
             model.TotalVaporVolumeUnit = uomEnum.UserVolume;
             model.VesseldesignpressureUnit = uomEnum.UserPressure;
             model.TotalWettedAreaUnit = uomEnum.UserArea;
-            model.InitialDepressuringRateUnit = uomEnum.UserWeightFlow;
+            model.InitialDepressuringRateUnit = uomEnum.UserMassRate;
 
             model.TimespecifyUnit = uomEnum.UserTime;
             model.CalculatedVesselPressureUnit = uomEnum.UserPressure;
-            model.CalculatedDepressuringRateUnit = uomEnum.UserWeightFlow;
+            model.CalculatedDepressuringRateUnit = uomEnum.UserMassRate;
 
             model.DetailPUnit = uomEnum.UserPressure;
             model.DetailPTimeUnit = uomEnum.UserTime;
@@ -125,10 +125,10 @@ namespace ReliefProMain.ViewModel.Drum
             model.dbmodel.Vesseldesignpressure = uc.Convert(model.VesseldesignpressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.Vesseldesignpressure);
             model.dbmodel.TotalWettedArea = uc.Convert(model.TotalWettedAreaUnit, UOMLib.UOMEnum.Area.ToString(), model.TotalWettedArea);
             //model.dbmodel.ValveConstantforSonicFlow = uc.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
-            model.dbmodel.InitialDepressuringRate = uc.Convert(model.InitialDepressuringRateUnit, UOMLib.UOMEnum.WeightFlow.ToString(), model.InitialDepressuringRate);
+            model.dbmodel.InitialDepressuringRate = uc.Convert(model.InitialDepressuringRateUnit, UOMLib.UOMEnum.MassRate.ToString(), model.InitialDepressuringRate);
             model.dbmodel.Timespecify = uc.Convert(model.TimespecifyUnit, UOMLib.UOMEnum.Time.ToString(), model.Timespecify);
             model.dbmodel.CalculatedVesselPressure = uc.Convert(model.CalculatedVesselPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.CalculatedVesselPressure);
-            model.dbmodel.CalculatedDepressuringRate = uc.Convert(model.CalculatedDepressuringRateUnit, UOMLib.UOMEnum.WeightFlow.ToString(), model.CalculatedDepressuringRate);
+            model.dbmodel.CalculatedDepressuringRate = uc.Convert(model.CalculatedDepressuringRateUnit, UOMLib.UOMEnum.MassRate.ToString(), model.CalculatedDepressuringRate);
 
             model.dbmodel.DeltaP = uc.Convert(model.DetailPUnit, UOMLib.UOMEnum.Pressure.ToString(), model.DetailP);
             model.dbmodel.DeltaPTime = uc.Convert(model.DetailPTimeUnit, UOMLib.UOMEnum.Time.ToString(), model.DetailPTime);

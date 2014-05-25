@@ -20,7 +20,7 @@ namespace UOMLib
         public const string Time = "hr";
         public const string FlowConductance = "(kg/sec)/sqrt(kPa-kg/m3)";
         public const string FineLength = "in";
-        public const string WeightFlow = "Kg/hr";
+        public const string MassRate = "Kg/hr";
         public const string EnthalpyDuty = "KJ/hr";
         public const string SpecificEnthalpy = "KJ/kg";
         public const string Density = "kg/m3";
@@ -44,7 +44,6 @@ namespace UOMLib
             IList<BasicUnitDefault> lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(SessionPlant);
 
             UserTemperature = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Temperature, basicUnit.ID);
-            UserWeightFlow = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.WeightFlow, basicUnit.ID);
             UserPressure = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Pressure, basicUnit.ID);
             UserEnthalpyDuty = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.EnthalpyDuty, basicUnit.ID);
             UserMassRate = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.MassRate, basicUnit.ID);
@@ -87,7 +86,6 @@ namespace UOMLib
             SpecificEnthalpy = 22,
             FineLength = 23,
             EnthalpyDuty = 24,
-            WeightFlow = 25
         }
     }
 }

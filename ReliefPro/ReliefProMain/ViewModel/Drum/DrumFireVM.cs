@@ -76,7 +76,7 @@ namespace ReliefProMain.ViewModel.Drum
             model.WettedAreaUnit = uomEnum.UserArea;
             model.LatentHeatUnit = uomEnum.UserSpecificEnthalpy;
             model.CrackingHeatUnit = uomEnum.UserSpecificEnthalpy;
-            model.ReliefLoadUnit = uomEnum.UserWeightFlow;
+            model.ReliefLoadUnit = uomEnum.UserMassRate;
             model.ReliefPressureUnit = uomEnum.UserPressure;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
 
@@ -88,7 +88,7 @@ namespace ReliefProMain.ViewModel.Drum
             model.dbmodel.WettedArea = uc.Convert(model.WettedAreaUnit, UOMLib.UOMEnum.Area.ToString(), model.WettedArea);
             model.dbmodel.LatentHeat = uc.Convert(model.LatentHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.LatentHeat);
             model.dbmodel.CrackingHeat = uc.Convert(model.CrackingHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.CrackingHeat);
-            model.dbmodel.ReliefLoad = uc.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.WeightFlow.ToString(), model.ReliefLoad);
+            model.dbmodel.ReliefLoad = uc.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad);
             model.dbmodel.ReliefPressure = uc.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
             model.dbmodel.ReliefTemperature = uc.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
             model.dbmodel.ReliefMW = model.ReliefMW;
@@ -186,7 +186,7 @@ namespace ReliefProMain.ViewModel.Drum
         private void Save(object obj)
         {
             WriteConvertModel();
-            fireBLL.SaveData(model.dbmodel, fireFluidModel,sizeModel, SessionPS);
+            fireBLL.SaveData(model.dbmodel, fireFluidModel, sizeModel, SessionPS);
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;
