@@ -56,7 +56,7 @@ namespace ReliefProBLL
             List<CustomStream> listvaporstream = dbsteam.GetAllList(SessionPS, true).ToList();
             if (listvaporstream.Count() > 0)
             {
-                foreach(CustomStream cs in listvaporstream)
+                foreach (CustomStream cs in listvaporstream)
                 {
                     if (cs.ProdType == "1")
                     {
@@ -81,14 +81,14 @@ namespace ReliefProBLL
                     Model.MaxPressure = MaxPressure;
                 }
             }
-           
+
             List<CustomStream> liststream = dbsteam.GetAllList(SessionPS, false).ToList();
             if (liststream.Count() > 0)
             {
                 double MaxStreamRate = 0;
                 if (double.TryParse(liststream.First().WeightFlow, out MaxStreamRate))
                 {
-                    Model.MaxStreamRate = MaxStreamRate;                    
+                    Model.MaxStreamRate = MaxStreamRate;
                 }
             }
             return Model;
@@ -106,9 +106,9 @@ namespace ReliefProBLL
             UnitConvert uc = new UnitConvert();
             outletModel = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPlan);
-            outletModel.MaxPressure = uc.Convert(uomEnum.UserPressure, UOMLib.UOMEnum.Pressure.ToString(), outletModel.MaxPressure);
-            outletModel.MaxStreamRate = uc.Convert(uomEnum.UserWeightFlow, UOMLib.UOMEnum.WeightFlow.ToString(), outletModel.MaxStreamRate);
-            outletModel.NormalFlashDuty = uc.Convert(uomEnum.UserEnthalpyDuty, UOMLib.UOMEnum.EnthalpyDuty.ToString(), outletModel.NormalFlashDuty);
+            outletModel.MaxPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, outletModel.MaxPressure);
+            outletModel.MaxStreamRate = uc.Convert(UOMLib.UOMEnum.WeightFlow.ToString(), uomEnum.UserWeightFlow, outletModel.MaxStreamRate);
+            outletModel.NormalFlashDuty = uc.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(), uomEnum.UserEnthalpyDuty, outletModel.NormalFlashDuty);
             return outletModel;
         }
 
