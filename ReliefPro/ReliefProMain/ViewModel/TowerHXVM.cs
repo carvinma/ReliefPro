@@ -13,35 +13,80 @@ using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using ReliefProMain.View;
 using ReliefProMain.Model;
+using NHibernate;
 
 namespace ReliefProMain.ViewModel
 {
-    public class TowerHXVM
-    {       
-        
-        public string dbProtectedSystemFile { set; get; }
-        public string dbPlantFile { set; get; }
+    public class TowerHXVM:ViewModelBase
+    {
+
+        private ISession SessionPlant { set; get; }
+        private ISession SessionProtectedSystem { set; get; }
         public TowerHXModel model { set; get; }
 
-        public TowerHXVM(string name,string dbPSFile,string dbPFile)
+        private ObservableCollection<TowerHXDetailModel> _Details = null;
+        public ObservableCollection<TowerHXDetailModel> Details
         {
-            //ShowAddCommand = new DelegateCommand<object>(ShowAddDialog);
-            dbProtectedSystemFile = dbPSFile;
-            dbPlantFile = dbPFile;
-            model = new TowerHXModel(dbProtectedSystemFile);
-            model.HeaterName = name;
-            
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
+            get { return _Details; }
+            set
             {
-                var Session = helper.GetCurrentSession();
-                dbTowerHX db = new dbTowerHX();
-                TowerHX hx = db.GetModel(Session, model.HeaterName);
-                model.ID = hx.ID;
-                model.HeaterDuty = hx.HeaterDuty;
-                model.HeaterType = hx.HeaterType;
-                model.Details = model.GetTowerHXDetails();
-
+                _Details = value;
+                OnPropertyChanged("Details");
             }
+        }
+        internal ObservableCollection<TowerHXDetailModel> GetTowerHXDetails()
+        {
+            _Details = new ObservableCollection<TowerHXDetailModel>();
+            
+                dbTowerHXDetail db = new dbTowerHXDetail();
+                int i = 0;
+                foreach (var obj in db.GetAllList(SessionProtectedSystem, model.ID))
+                {
+                    TowerHXDetailModel d = new TowerHXDetailModel();
+                    d.Parent = model;
+                    d.SeqNumber = i;
+                    d.DetailName = obj.DetailName;
+                    d.ProcessSideFlowSource = obj.ProcessSideFlowSource;
+                    d.Medium = obj.Medium;
+                    d.MediumSideFlowSource = obj.MediumSideFlowSource;
+                    d.ID = obj.ID;
+                    d.HXID = obj.HXID;
+                    d.Duty = obj.Duty;
+                    d.DutyPercentage = obj.DutyPercentage;
+
+                    _Details.Add(d);
+                    i = i + 1;
+
+                }
+            
+            return _Details;
+        }
+
+        private TowerHXDetailModel _SelectedDetail;
+        public TowerHXDetailModel SelectedDetail
+        {
+            get
+            {
+                return this._SelectedDetail;
+            }
+            set
+            {
+                this._SelectedDetail = value;
+                OnPropertyChanged("SelectedDetail");
+            }
+        }
+        public TowerHXVM(string name, ISession sessionPlant, ISession sessionProtectedSystem)
+        {
+            SessionPlant = sessionPlant;
+            SessionProtectedSystem = sessionProtectedSystem;
+
+            dbTowerHX db = new dbTowerHX();
+            TowerHX hx = db.GetModel(SessionProtectedSystem, model.HeaterName);
+            model.ID = hx.ID;
+            model.HeaterDuty = hx.HeaterDuty;
+            model.HeaterType = hx.HeaterType;
+            Details = GetTowerHXDetails();
+
         }
 
         
@@ -63,10 +108,10 @@ namespace ReliefProMain.ViewModel
         {
             TowerHXDetailModel d = new TowerHXDetailModel();
             d.HXID = model.ID;
-            d.SeqNumber = model.Details.Count-1;
-            d.DetailName = model.HeaterName + "_" + (model.Details.Count+1).ToString();
+            d.SeqNumber = Details.Count-1;
+            d.DetailName = model.HeaterName + "_" + (Details.Count+1).ToString();
             d.Parent = model;
-            model.Details.Add(d);
+            Details.Add(d);
         }
 
         private ICommand _DeleteCommand;
@@ -86,10 +131,10 @@ namespace ReliefProMain.ViewModel
         public void Delete(object obj)
         {
             int idx = int.Parse(obj.ToString());
-            model.Details.RemoveAt(idx);
-            for(int i=0;i<model.Details.Count;i++)
+            Details.RemoveAt(idx);
+            for(int i=0;i<Details.Count;i++)
             {
-                TowerHXDetailModel detail=model.Details[i];
+                TowerHXDetailModel detail=Details[i];
                 detail.SeqNumber = i;
             }
 
@@ -115,32 +160,30 @@ namespace ReliefProMain.ViewModel
 
         public void Save(object obj)
         {
-            using (var helper = new NHibernateHelper(dbProtectedSystemFile))
+
+            dbTowerHXDetail db = new dbTowerHXDetail();
+            IList<TowerHXDetail> list = db.GetAllList(SessionProtectedSystem, model.ID);
+            for (int i = 0; i < list.Count; i++)
             {
-                var Session = helper.GetCurrentSession();
-                dbTowerHXDetail db = new dbTowerHXDetail();
-                IList<TowerHXDetail> list = db.GetAllList(Session,model.ID);
-                for (int i = 0; i < list.Count; i++)
-                {
-                    db.Delete(list[i], Session);
-                }
-
-
-                foreach (TowerHXDetailModel m in model.Details)
-                {
-                    TowerHXDetail detail = new TowerHXDetail();
-                    detail = ConvertToDBModel(detail, m);
-                    db.Add(detail, Session);
-
-                }
-                Session.Flush();
+                db.Delete(list[i], SessionProtectedSystem);
             }
+
+
+            foreach (TowerHXDetailModel m in Details)
+            {
+                TowerHXDetail detail = new TowerHXDetail();
+                detail = ConvertToDBModel(detail, m);
+                db.Add(detail, SessionProtectedSystem);
+
+            }
+            SessionProtectedSystem.Flush();
+
 
             System.Windows.Window wd = obj as System.Windows.Window;
 
             if (wd != null)
             {
-                wd.DialogResult=true;
+                wd.DialogResult = true;
             }
         }
 
