@@ -11,22 +11,47 @@ using UOMLib;
 
 namespace ReliefProMain.ViewModel.Drum
 {
-    public class DrumSizeVM
+    public class DrumSizeVM : ViewModelBase
     {
         public ICommand OKCMD { get; set; }
         public DrumSizeModel model { get; set; }
         private ISession SessionPS;
         private ISession SessionPF;
+        public List<string> lstOrientation { get; set; }
+        public List<string> lstHeadType { get; set; }
+
+        private string selectedOrientation = "Vertical";
+        public string SelectedOrientation
+        {
+            get { return selectedOrientation; }
+            set
+            {
+                selectedOrientation = value;
+                OnPropertyChanged("SelectedOrientation");
+            }
+        }
+        private string selectedHeadType = "Eclipse";
+        public string SelectedHeadType
+        {
+            get { return selectedHeadType; }
+            set
+            {
+                selectedHeadType = value;
+                OnPropertyChanged("SelectedHeadType");
+            }
+        }
         public DrumSizeVM(int DrumFireCalcID, ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
-
+            lstOrientation = new List<string> { "Vertical", "Horizontal", "Spherical", "Non-standard" };
+            lstHeadType = new List<string> { "Eclipse", "Sphere" };
             DrumSizeBLL fluidBll = new DrumSizeBLL(SessionPS, SessionPF);
 
             var sizeModel = fluidBll.GetSizeModel(DrumFireCalcID);
             sizeModel = fluidBll.ReadConvertModel(sizeModel);
             model = new DrumSizeModel(sizeModel);
+            //if(string.IsNullOrEmpty(model.Orientation))
 
             UOMLib.UOMEnum uomEnum = new UOMLib.UOMEnum(SessionPF);
             model.ElevationUnit = uomEnum.UserLength;
@@ -40,9 +65,9 @@ namespace ReliefProMain.ViewModel.Drum
         private void WriteConvertModel()
         {
             UnitConvert uc = new UnitConvert();
-            model.dbmodel.Orientation = model.Orientation;
+            model.dbmodel.Orientation = selectedOrientation;
             model.dbmodel.HeadNumber = model.Headnumber;
-            model.dbmodel.HeadType = model.HeadType;
+            model.dbmodel.HeadType = selectedHeadType;
 
             model.dbmodel.Elevation = uc.Convert(model.ElevationUnit, UOMLib.UOMEnum.Length.ToString(), model.Elevation);
             model.dbmodel.Diameter = uc.Convert(model.DiameterUnit, UOMLib.UOMEnum.Length.ToString(), model.Diameter);
