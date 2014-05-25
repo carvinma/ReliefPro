@@ -31,9 +31,9 @@ namespace ReliefProMain.ViewModel
         private string DirProtectedSystem { set; get; }       
         private ISession SessionProtectedSystem { set; get; }
         private Dictionary<string, ProIIEqData> dicEqData = new Dictionary<string, ProIIEqData>();
-        private CustomStream UpStreamVaporData = new CustomStream();
-        private CustomStream UpStreamLiquidData = new CustomStream();
-        private CustomStream UpVesselNormalVapor = new CustomStream();
+        private CustomStream UpStreamVaporData ;
+        private CustomStream UpStreamLiquidData ;
+        private CustomStream UpVesselNormalVapor ;
         private string rMass;
         private string PrzVersion;
         private string tempdir;
@@ -192,7 +192,7 @@ namespace ReliefProMain.ViewModel
             OperatingPhases = GetOperatingPhases();
 
             
-            SourceFile = przFile;
+            SourceFile = System.IO.Path.GetFileName(przFile);
             Vessels = GetVessels(SessionPlant);
             tempdir = dirProtectedSystem + @"\temp\";
             dbinlet = new dbInletValveOpen();
@@ -463,8 +463,11 @@ namespace ReliefProMain.ViewModel
             string flReliefTemperature = string.Empty;
             if (UpStreamLiquidData != null)
             {
-                rMass = UpStreamLiquidData.BulkDensityAct;               
-                LiquidFlashing(rMass, CV, MaxOperatingPressure, ReliefPressure, PrzFile, ref flReliefLoad, ref flReliefMW, ref flReliefTemperature);
+                rMass = UpStreamLiquidData.BulkDensityAct;
+                if (rMass != "" && rMass != "0")
+                {
+                    LiquidFlashing(rMass, CV, MaxOperatingPressure, ReliefPressure, PrzFile, ref flReliefLoad, ref flReliefMW, ref flReliefTemperature);
+                }
                               
             }
             if (SelectedOperatingPhase == "Full Liquid")

@@ -55,7 +55,6 @@ namespace ReliefProMain.ViewModel
         public ScenarioListVM(string eqName, string eqType, string przFile, string version, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
             EqName = eqName;
-            EqName = eqType;
             EqType = eqType;
             PrzFile = przFile;
             PrzVersion = version;
@@ -193,7 +192,7 @@ namespace ReliefProMain.ViewModel
                     }
                     else if (ScenarioName.Contains("Inlet"))
                     {
-                        CreateInletValveOpen(EqType, ScenarioID, SessionProtectedSystem);
+                        CreateInletValveOpen(ScenarioID);
                     }
                     else
                     {
@@ -238,7 +237,7 @@ namespace ReliefProMain.ViewModel
                     }
                     else if (ScenarioName.Contains("Inlet"))
                     {
-                        //CreateInletValveOpen(eqType, ScenarioID, Session);
+                        CreateInletValveOpen(ScenarioID);
                     }
                     else if (ScenarioName.Contains("Depressuring"))
                     {
@@ -423,11 +422,10 @@ namespace ReliefProMain.ViewModel
                 SelectedScenario.ReliefPressure = vm.ReliefPressure;
                 SelectedScenario.ReliefTemperature = vm.ReliefTemperature;
                 SelectedScenario.ReliefMW = vm.ReliefMW;
-                //Scenarios = GetScenarios();
             }
         }
 
-        private void CreateInletValveOpen(string EqType, int ScenarioID, NHibernate.ISession Session)
+        private void CreateInletValveOpen(int ScenarioID)
         {
             InletValveOpenView v = new InletValveOpenView();
             InletValveOpenVM vm = new InletValveOpenVM(ScenarioID, EqName, EqType, PrzFile, PrzVersion, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
