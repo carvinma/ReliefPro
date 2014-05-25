@@ -20,7 +20,7 @@ namespace ReliefProLL
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
         }
-        public DrumSize GetFireFluidModel(int DrumFireCalcID)
+        public DrumSize GetSizeModel(int DrumFireCalcID)
         {
             DrumSize Model = new DrumSize();
             dbDrumSize dbSize = new dbDrumSize();
@@ -33,11 +33,7 @@ namespace ReliefProLL
             }
             else
             {
-                //var info = GetFluidInfo();
-                //Model.GasVaporMW = info.Item1;
-                //Model.NormalPressure = info.Item2;
-                //Model.NormaTemperature = info.Item3;
-                //Model.PSVPressure = info.Item4;
+
             }
             return Model;
         }

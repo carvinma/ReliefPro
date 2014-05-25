@@ -82,7 +82,7 @@ namespace ReliefProLL
             return fireModel;
         }
 
-        public void SaveData(DrumFireCalc model, DrumFireFluid fluidModel, ISession SessionPS)
+        public void SaveData(DrumFireCalc model, DrumFireFluid fluidModel, DrumSize sizeModel, ISession SessionPS)
         {
 
             dbdrumFire.SaveDrumFireCalc(SessionPS, model);
@@ -94,7 +94,11 @@ namespace ReliefProLL
                 dbDrumFireFluid dbFluid = new dbDrumFireFluid();
                 dbFluid.SaveDrumFireFluid(SessionPS, fluidModel);
             }
-
+            if (sizeModel != null)
+            {
+                dbDrumSize dbSize = new dbDrumSize();
+                dbSize.SaveDrumSize(SessionPS, sizeModel);
+            }
             sModel.ReliefLoad = model.ReliefLoad.ToString();
             sModel.ReliefPressure = model.ReliefPressure.ToString();
             sModel.ReliefTemperature = model.ReliefTemperature.ToString();
@@ -103,13 +107,6 @@ namespace ReliefProLL
             sModel.ReliefZ = model.ReliefZ.ToString();
             db.Update(sModel, SessionPS);
 
-        }
-
-        public DrumSize GetDrumSizeModel()
-        {
-            // dbDrumSize dbSize = new dbDrumSize();
-            // dbSize.GetAllList
-            return null;
         }
     }
 }
