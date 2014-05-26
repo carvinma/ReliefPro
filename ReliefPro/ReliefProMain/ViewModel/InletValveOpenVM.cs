@@ -35,12 +35,14 @@ namespace ReliefProMain.ViewModel
         private Dictionary<string, ProIIEqData> dicEqData = new Dictionary<string, ProIIEqData>();
         private CustomStream UpStreamVaporData ;
         private CustomStream UpStreamLiquidData ;
-        private CustomStream UpVesselNormalVapor ;
+        //private CustomStream UpVesselNormalVapor;
+        private CustomStream CurrentEqNormalVapor;
         private string rMass;
         private string PrzVersion;
         private string tempdir;
         private string PrzFile;
         private string UpVesselType;
+        
         public List<string> OperatingPhases { get; set; }
 
 
@@ -193,6 +195,28 @@ namespace ReliefProMain.ViewModel
             SessionProtectedSystem = sessionProtectedSystem;
             OperatingPhases = GetOperatingPhases();
 
+            dbTower dbtower=new dbTower();
+            Tower tower=dbtower.GetModel(SessionProtectedSystem);
+            
+            dbStream dbstream = new dbStream();
+            IList<CustomStream> list = dbstream.GetAllList(this.SessionProtectedSystem,true);
+            foreach (CustomStream s in list)
+            {
+                if (eqType == "Tower")
+                {
+                    if (s.ProdType == "3" ||(s.ProdType=="1" && s.Tray==tower.StageNumber))
+                    {
+                        CurrentEqNormalVapor = s;
+                    }
+                }
+                else if (eqType == "Drum")
+                {
+                    if (s.ProdType == "1")
+                    {
+                        CurrentEqNormalVapor = s;
+                    }
+                }
+            }
             
             SourceFile = System.IO.Path.GetFileName(przFile);
             Vessels = GetVessels(SessionPlant);
@@ -219,6 +243,9 @@ namespace ReliefProMain.ViewModel
            }
             
         }
+        
+        
+        
         private ICommand _SaveCommand;
         public ICommand SaveCommand
         {
@@ -325,7 +352,7 @@ namespace ReliefProMain.ViewModel
                     if (arrProductTypes[i] == "1")
                     {
                         UpStreamVaporData = cs;
-                        UpVesselNormalVapor = cs;
+                        //UpVesselNormalVapor = cs;
                     }
                     else
                     {
@@ -358,11 +385,11 @@ namespace ReliefProMain.ViewModel
                         UpStreamLiquidData = ProIIToDefault.ConvertProIIStreamToCustomStream(s);                     
 
                     }
-                    else if (arrProdTypes[i] == "3")
-                    {
-                        ProIIStreamData s = db.GetModel(SessionPlant, pName, SourceFile);
-                        UpVesselNormalVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(s);
-                    }
+                    //else if (arrProdTypes[i] == "3")
+                   // {
+                   //     ProIIStreamData s = db.GetModel(SessionPlant, pName, SourceFile);
+                   //     UpVesselNormalVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(s);
+                   // }
                 }
             
             
@@ -426,9 +453,9 @@ namespace ReliefProMain.ViewModel
             ProIIStreamData proIIStreamData = reader.GetSteamInfo(vapor);
             reader.ReleaseProIIReader();
             CustomStream vaporStream=ProIIToDefault.ConvertProIIStreamToCustomStream(proIIStreamData);
-            if (!string.IsNullOrEmpty(vaporStream.WeightFlow) && UpVesselNormalVapor!=null)
+            if (!string.IsNullOrEmpty(vaporStream.WeightFlow) && CurrentEqNormalVapor != null)
             {
-                FLReliefLoad = (double.Parse(vaporStream.WeightFlow) - double.Parse(UpVesselNormalVapor.WeightFlow)).ToString();
+                FLReliefLoad = (double.Parse(vaporStream.WeightFlow) - double.Parse(CurrentEqNormalVapor.WeightFlow)).ToString();
                 FLReliefMW = vaporStream.BulkMwOfPhase;
                 FLReliefTemperature = vaporStream.Temperature;
             }
@@ -441,9 +468,12 @@ namespace ReliefProMain.ViewModel
             if (!Directory.Exists(dirInletValveOpen))
                 Directory.CreateDirectory(dirInletValveOpen);
            double reliefLoad = Darcy(rMass, CV, MaxOperatingPressure, ReliefPressure);
-           VBReliefLoad = (reliefLoad-double.Parse(UpVesselNormalVapor.WeightFlow)).ToString();
-           VBReliefMW = UpVesselNormalVapor.BulkMwOfPhase;
-           VBReliefTemperature = UpVesselNormalVapor.Temperature;
+           if (CurrentEqNormalVapor != null)
+           {
+               VBReliefLoad = (reliefLoad - double.Parse(CurrentEqNormalVapor.WeightFlow)).ToString();
+               VBReliefMW = this.UpStreamVaporData.BulkMwOfPhase;
+               VBReliefTemperature = UpStreamVaporData.Temperature;
+           }
         }
 
 
