@@ -74,7 +74,7 @@ namespace ReliefProBLL
             if (lstDrum.Count > 0)
             {
                 double.TryParse(lstDrum[0].Temperature, out drumt);
-                double.TryParse(lstDrum[0].Temperature, out drump);
+                double.TryParse(lstDrum[1].Temperature, out drump);
             }
             dbPSV dbpsv = new dbPSV();
             var lstPsv = dbpsv.GetAllList(SessionPS);

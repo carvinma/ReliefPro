@@ -134,6 +134,7 @@ namespace ReliefProMain.ViewModel.Drum
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
+                fireFluidModel = vm.model.dbmodel;
                 //需要转换成算法GetFullVaporW 要求的单位。
                 double dmw = fireFluidModel.GasVaporMW;
                 double dp1 = fireFluidModel.PSVPressure * 1.21;
