@@ -21,8 +21,11 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="Relief Load, kg/hr" Width="150px" >
-                        <GridViewColumn.CellTemplate>
+                    <GridViewColumn  Width="150px" >
+                        <GridViewColumn.Header>
+                            <GridViewColumnHeader Content="Relief Load, kg/hr"/>
+                        </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox IsEnabled="False" Text="{Binding Path=ReliefLoad,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
