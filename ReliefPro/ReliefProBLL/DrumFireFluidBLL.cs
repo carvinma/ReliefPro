@@ -36,8 +36,8 @@ namespace ReliefProBLL
             {
                 var info = GetFluidInfo();
                 Model.GasVaporMW = info.Item1;
-                Model.NormalPressure = info.Item2;
-                Model.NormaTemperature = info.Item3;
+                Model.NormalPressure = info.Item3;
+                Model.NormaTemperature = info.Item2;
                 Model.PSVPressure = info.Item4;
             }
             return Model;
