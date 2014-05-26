@@ -121,6 +121,10 @@ namespace ReliefProMain.ViewModel.Drum
             }
         }
 
+        /// <summary>
+        /// 全气相的操作
+        /// </summary>
+        /// <param name="obj"></param>
         private void OpenFluidWin(object obj)
         {
             Drum_fireFluid win = new Drum_fireFluid();
@@ -129,8 +133,20 @@ namespace ReliefProMain.ViewModel.Drum
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
+                //需要转换成算法GetFullVaporW 要求的单位。
+                
                 fireFluidModel = vm.model.dbmodel;
-                //求出面积---你查看下把durmsize的 数据传进来。
+                double mw = fireFluidModel.GasVaporMW;
+                double p1 =  fireFluidModel.PSVPressure * 1.21;
+                double area = fireFluidModel.ExposedVesse;
+                double tw = fireFluidModel.TW;
+                double tn = fireFluidModel.NormaTemperature;
+                double pn = fireFluidModel.NormalPressure;
+
+                double t1 = 0;
+                double reliefLoad = Algorithm.GetFullVaporW(mw, p1, area, tw, pn, tn,ref t1);
+
+
             }
         }
         private void Calc(object obj)

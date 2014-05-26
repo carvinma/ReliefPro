@@ -129,5 +129,31 @@ namespace ReliefProMain
                 Area = 0;
             return Area;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="MW">分子量</param>
+        /// <param name="P1">泄放压力  unit: psia</param>
+        /// <param name="Area">面积  ft2</param>
+        /// <param name="Tw">温度  R</param>
+        /// <param name="Pn"></param>
+        /// <param name="Tn"></param>
+        /// <returns></returns>
+        public static double GetFullVaporW(double MW,double P1,double Area,double Tw,double Pn,double Tn,ref double T1 )
+        {
+            double result = 0;
+            if (Pn != 0)              
+            {
+                T1 = Tn * P1 / Pn;
+                result=0.1406*(Math.Pow(MW*P1,0.5)*Area*Math.Pow((Tw-T1),1.25)/Math.Pow(T1,1.1506);
+            }
+            return result;
+        }
+    
+    
+    
+    
+    
     }
 }

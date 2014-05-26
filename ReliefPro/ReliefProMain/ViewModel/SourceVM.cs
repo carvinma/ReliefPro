@@ -99,6 +99,7 @@ namespace ReliefProMain.ViewModel
             IsMaintained = source.IsMaintained;
             PressureUnit = pressureUnit;
             IsSteam = source.IsSteam;
+            IsHeatSource = source.IsHeatSource;
             ID = source.ID;
 
         }
@@ -135,6 +136,8 @@ namespace ReliefProMain.ViewModel
             CurrentSource.MaxPossiblePressure = uc.BasicConvert("P", BU.UnitName, "StInternal", out pressureUnit, double.Parse(MaxPossiblePressure)).ToString();
             CurrentSource.Description = Description;
             CurrentSource.IsMaintained = IsMaintained;
+            CurrentSource.IsSteam = IsSteam;
+            CurrentSource.IsHeatSource = IsHeatSource;
             db.Update(CurrentSource, SessionProtectedSystem);
             SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction
 
