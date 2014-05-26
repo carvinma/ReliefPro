@@ -127,6 +127,7 @@ namespace ReliefProMain.ViewModel.Drum
         /// <param name="obj"></param>
         private void OpenFluidWin(object obj)
         {
+            UnitConvert uc = new UnitConvert();
             Drum_fireFluid win = new Drum_fireFluid();
             win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             DrumFireFluidVM vm = new DrumFireFluidVM(model.dbmodel.ID, SessionPS, SessionPF);
@@ -134,18 +135,32 @@ namespace ReliefProMain.ViewModel.Drum
             if (win.ShowDialog() == true)
             {
                 //需要转换成算法GetFullVaporW 要求的单位。
-                
+                double dmw = fireFluidModel.GasVaporMW;
+                double dp1 = fireFluidModel.PSVPressure * 1.21;
+                double darea = fireFluidModel.ExposedVesse;
+                double dtw = fireFluidModel.TW;
+                double dtn = fireFluidModel.NormaTemperature;
+                double dpn = fireFluidModel.NormalPressure;
+
+
+
                 fireFluidModel = vm.model.dbmodel;
-                double mw = fireFluidModel.GasVaporMW;
-                double p1 =  fireFluidModel.PSVPressure * 1.21;
-                double area = fireFluidModel.ExposedVesse;
-                double tw = fireFluidModel.TW;
-                double tn = fireFluidModel.NormaTemperature;
-                double pn = fireFluidModel.NormalPressure;
+                double mw = dmw;
+                double p1 =  uc.Convert("P","Mpag","psia",dmw);
+                double area = uc.Convert("A", "m2", "ft2", darea);
+                double tw = uc.Convert("T", "C", "R", dtw);
+                double tn = uc.Convert("T", "C", "R", dtn);
+                double pn = uc.Convert("P", "Mpag", "psia", dpn);
 
                 double t1 = 0;
-                double reliefLoad = Algorithm.GetFullVaporW(mw, p1, area, tw, pn, tn,ref t1);
+                double load = Algorithm.GetFullVaporW(mw, p1, area, tw, pn, tn,ref t1);
+                double dt1 = uc.Convert("T", "R", "C", t1);
+                double dreliefLoad = uc.Convert("MR", "lb/hr", "kg/hr", load);
 
+                double reliefPressure = dp1;
+                double reliefMW = dmw;
+                double reliefLoad = dreliefLoad;
+                double reliefTemperature = dt1;
 
             }
         }
