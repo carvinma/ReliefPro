@@ -39,6 +39,7 @@ namespace ReliefProBLL
                 Model.NormalPressure = info.Item3;
                 Model.NormaTemperature = info.Item2;
                 Model.PSVPressure = info.Item4;
+                Model.TW = 593;
             }
             return Model;
         }
