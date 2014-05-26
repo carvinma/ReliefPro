@@ -147,7 +147,7 @@ namespace ReliefProMain.ViewModel.Drum
 
                 fireFluidModel = vm.model.dbmodel;
                 double mw = dmw;
-                double p1 =  uc.Convert("P","Mpag","psia",dmw);
+                double p1 =  uc.Convert("P","Mpag","psia",dp1);
                 double area = uc.Convert("A", "m2", "ft2", darea);
                 double tw = uc.Convert("T", "C", "R", dtw);
                 double tn = uc.Convert("T", "C", "R", dtn);

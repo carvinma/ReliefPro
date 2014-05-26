@@ -459,6 +459,12 @@ namespace ReliefProMain.ViewModel
                 FLReliefMW = vaporStream.BulkMwOfPhase;
                 FLReliefTemperature = vaporStream.Temperature;
             }
+            else
+            {
+                FLReliefLoad = "0";
+                FLReliefMW = "0";
+                FLReliefTemperature = "0";
+            }
             
         }
 
