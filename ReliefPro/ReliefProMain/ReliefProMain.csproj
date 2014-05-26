@@ -128,6 +128,7 @@
     <Compile Include="CustomControl\UnitConvertTextBox.cs" />
     <Compile Include="Interface\IModalDialog.cs" />
     <Compile Include="Interface\IServiceLocator.cs" />
+    <Compile Include="Model\CustomStreamModel.cs" />
     <Compile Include="Model\DrumBlockedOutletModel.cs" />
     <Compile Include="Model\DrumDepressuringModel.cs" />
     <Compile Include="Model\DrumFireFluidModel.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Service\ServiceProvider.cs" />
     <Compile Include="Service\UnityServiceLocator.cs" />
     <Compile Include="ViewModel\CreateUnitVM.cs" />
+    <Compile Include="ViewModel\CustomStreamVM.cs" />
     <Compile Include="ViewModel\DrumVM.cs" />
     <Compile Include="ViewModel\Drum\DrumBlockedOutletVM.cs" />
     <Compile Include="ViewModel\Drum\DrumDepressuringVM.cs" />

@@ -16,6 +16,8 @@ using ProII;
 using ReliefProCommon.CommonLib;
 using System.IO;
 using UOMLib;
+using System.Windows;
+
 namespace ReliefProMain.ViewModel
 {
     /// <summary>
@@ -424,9 +426,12 @@ namespace ReliefProMain.ViewModel
             ProIIStreamData proIIStreamData = reader.GetSteamInfo(vapor);
             reader.ReleaseProIIReader();
             CustomStream vaporStream=ProIIToDefault.ConvertProIIStreamToCustomStream(proIIStreamData);
-            FLReliefLoad = (double.Parse(vaporStream.WeightFlow)-double.Parse(UpVesselNormalVapor.WeightFlow)).ToString();
-            FLReliefMW = vaporStream.BulkMwOfPhase;
-            FLReliefTemperature = vaporStream.Temperature;
+            if (!string.IsNullOrEmpty(vaporStream.WeightFlow) && UpVesselNormalVapor!=null)
+            {
+                FLReliefLoad = (double.Parse(vaporStream.WeightFlow) - double.Parse(UpVesselNormalVapor.WeightFlow)).ToString();
+                FLReliefMW = vaporStream.BulkMwOfPhase;
+                FLReliefTemperature = vaporStream.Temperature;
+            }
             
         }
 
@@ -458,6 +463,26 @@ namespace ReliefProMain.ViewModel
 
         private void Calculate(object window)
         {
+            if (string.IsNullOrEmpty(SelectedVessel))
+            {
+                MessageBox.Show("Please Select Vessel.","Message Box");
+                return;
+            }
+            if (string.IsNullOrEmpty(SelectedOperatingPhase))
+            {
+                MessageBox.Show("Please Select Operating Phase.", "Message Box");
+                return;
+            }
+            if (string.IsNullOrEmpty(CV))
+            {
+                MessageBox.Show("Please Input CV.", "Message Box");
+                return;
+            }
+            if (string.IsNullOrEmpty(MaxOperatingPressure))
+            {
+                MessageBox.Show("Max Operating Pressure can't be empty.", "Message Box");
+                return;
+            }
             string flReliefLoad = string.Empty;
             string flReliefMW = string.Empty;
             string flReliefTemperature = string.Empty;

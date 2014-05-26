@@ -109,6 +109,21 @@ namespace ReliefProMain.ViewModel
 
         private void Save(object window)
         {
+            if (string.IsNullOrEmpty(CurrentModel.PSVName))
+            {
+                MessageBox.Show("PSV Name can't be empty.", "Message Box");
+                return;
+            }
+            if (string.IsNullOrEmpty(CurrentModel.Pressure))
+            {
+                MessageBox.Show("PSV Pressure can't be empty.", "Message Box");
+                return;
+            }
+            if (string.IsNullOrEmpty(CurrentModel.ReliefPressureFactor))
+            {
+                MessageBox.Show("Relief Pressure Factor can't be empty.", "Message Box");
+                return;
+            }
             try
             {
                 if (CurrentModel.ID == 0)

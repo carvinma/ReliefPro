@@ -139,7 +139,9 @@ namespace ReliefProMain.View
                 else if (shp.NameU.Contains("connector"))
                 {
                     CustomStreamView v = new CustomStreamView();
-                    
+                    CustomStreamVM vm = new CustomStreamVM(name, SessionPlant, SessionProtectedSystem);
+                    v.DataContext = vm;
+
                     Window parentWindow = Window.GetWindow(this);
                     v.Owner = parentWindow;
                     v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
