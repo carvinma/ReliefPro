@@ -146,7 +146,7 @@ namespace ReliefProMain
             if (Pn != 0)              
             {
                 T1 = Tn * P1 / Pn;
-                result=0.1406*(Math.Pow(MW*P1,0.5)*Area*Math.Pow((Tw-T1),1.25)/Math.Pow(T1,1.1506);
+                result=0.1406*Math.Pow(MW*P1,0.5)*Area*Math.Pow((Tw-T1),1.25)/Math.Pow(T1,1.1506);
             }
             return result;
         }

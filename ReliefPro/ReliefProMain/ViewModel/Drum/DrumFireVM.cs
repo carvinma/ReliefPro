@@ -157,6 +157,7 @@ namespace ReliefProMain.ViewModel.Drum
                 double dt1 = uc.Convert("T", "R", "C", t1);
                 double dreliefLoad = uc.Convert("MR", "lb/hr", "kg/hr", load);
 
+                //泄放结果。 老李需要保存到数据库里。
                 double reliefPressure = dp1;
                 double reliefMW = dmw;
                 double reliefLoad = dreliefLoad;
