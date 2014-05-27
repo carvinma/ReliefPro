@@ -250,6 +250,20 @@ namespace ReliefProMain.ViewModel
                     }
 
                 }
+                else if (EqType == "Compresser")
+                {
+                    if (ScenarioName.Contains("Outlet"))
+                    {
+                        //我今天晚点会加一个tbCompresser表， 这样就可以从该表里获取设备的类型 
+                        string CompresserType = "Centrifugal";
+                        if (CompresserType == "Centrifugal")
+                        {
+                        }
+                        else if (CompresserType == "Piston")
+                        {
+                        }
+                    }
+                }
 
 
 
