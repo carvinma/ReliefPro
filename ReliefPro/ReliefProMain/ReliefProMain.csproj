@@ -147,6 +147,7 @@
     <Compile Include="Model\TowerHXModel.cs" />
     <Compile Include="Model\TowerScenarioStreamModel.cs" />
     <Compile Include="Model\HeatSourceModel.cs" />
+    <Compile Include="Model\ScenarioHeatSourceModel.cs" />
     <Compile Include="ProIIFactory.cs" />
     <Compile Include="ProIIToDefault.cs" />
     <Compile Include="Service\ServiceProvider.cs" />
@@ -190,17 +191,12 @@
     <Compile Include="ViewModel\InletValveOpenVM.cs" />
     <Compile Include="ViewModel\ReNameVM.cs" />
     <Compile Include="ViewModel\CreateProtectedSystemVM.cs" />
+    <Compile Include="ViewModel\ScenarioHeatSourceListVM.cs" />
     <Compile Include="View\Common\HeatSourceListView.xaml.cs">
       <DependentUpon>HeatSourceListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Scenario\FeedBottomHX.xaml.cs">
-      <DependentUpon>FeedBottomHX.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Scenario\ScenarioHeatSourceListView.xaml.cs">
       <DependentUpon>ScenarioHeatSourceListView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Tower\AbnormalHeatInputView.xaml.cs">
-      <DependentUpon>AbnormalHeatInputView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Common\CreateProtectedSystemView.xaml.cs">
       <DependentUpon>CreateProtectedSystemView.xaml</DependentUpon>
@@ -214,7 +210,7 @@
     <Compile Include="View\Drum\DrumView.xaml.cs">
       <DependentUpon>DrumView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Common\FeedBottomHXView.xaml.cs">
+    <Compile Include="View\Scenario\FeedBottomHXView.xaml.cs">
       <DependentUpon>FeedBottomHXView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FormatUnitsMeasure\BasicUnitInfo.xaml.cs">
@@ -327,9 +323,6 @@
     <Compile Include="View\ReboilerPinch\ReboilerPinchView.xaml.cs">
       <DependentUpon>ReboilerPinchView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ShowInfo.xaml.cs">
-      <DependentUpon>ShowInfo.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\StorageTank\StorageTank.xaml.cs">
       <DependentUpon>StorageTank.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -377,17 +370,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Scenario\FeedBottomHX.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\Scenario\ScenarioHeatSourceListView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Tower\AbnormalHeatInputView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Common\CreateProtectedSystemView.xaml">
       <SubType>Designer</SubType>
@@ -405,7 +390,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Common\FeedBottomHXView.xaml">
+    <Page Include="View\Scenario\FeedBottomHXView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -552,10 +537,6 @@
     <Page Include="View\ReboilerPinch\ReboilerPinchView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\ShowInfo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\StorageTank\StorageTank.xaml">
       <SubType>Designer</SubType>

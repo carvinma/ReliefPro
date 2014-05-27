@@ -32,7 +32,7 @@
                     <GridViewColumn Header="Heat Source">
                         <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Calculation" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.HeatSourceCommand}" CommandParameter="{Binding ID}" ></Button>
+                                <Button Content="Calculate" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.CalculateCommand}" CommandParameter="{Binding ID}" ></Button>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

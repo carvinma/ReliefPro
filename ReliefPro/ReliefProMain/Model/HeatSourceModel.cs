@@ -8,7 +8,6 @@ using ReliefProModel;
 using NHibernate;
 using ReliefProBLL.Common;
 using ReliefProDAL;
-using ReliefProModel;
 
 namespace ReliefProMain.Model
 {     
@@ -78,7 +77,6 @@ namespace ReliefProMain.Model
                 }
             }
         }
-        private int _SourceID;
         public int SourceID
         {
             get

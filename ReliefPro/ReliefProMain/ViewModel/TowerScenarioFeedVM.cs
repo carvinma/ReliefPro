@@ -109,5 +109,31 @@ namespace ReliefProMain.ViewModel
                 wd.Close();
             }
         }
+
+        private ICommand _CalculateCommand;
+        public ICommand CalculateCommand
+        {
+            get
+            {
+                if (_CalculateCommand == null)
+                {
+                    _CalculateCommand = new RelayCommand(Calculate);
+
+                }
+                return _CalculateCommand;
+            }
+        }
+
+        private void Calculate(object obj)
+        {
+            int SourceID = int.Parse(obj.ToString());
+            ScenarioHeatSourceListView v = new ScenarioHeatSourceListView();
+            ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SourceID, SessionPlant, SessionProtectedSystem);
+            v.DataContext = vm;
+            if (v.ShowDialog() == true)
+            {
+
+            }
+        }
     }
 }

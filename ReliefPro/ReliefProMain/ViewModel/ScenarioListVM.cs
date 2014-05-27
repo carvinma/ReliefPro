@@ -367,6 +367,8 @@ namespace ReliefProMain.ViewModel
             if (list.Count == 0)
             {
                 dbSource dbSource = new dbSource();
+                dbHeatSource dbhs = new dbHeatSource();
+                dbScenarioHeatSource dbshs=new dbScenarioHeatSource();
                 List<Source> listSource = dbSource.GetAllList(Session).ToList();
 
                 foreach (Source s in listSource)
@@ -379,7 +381,18 @@ namespace ReliefProMain.ViewModel
                     tss.SourceType = s.SourceType;
                     tss.IsProduct = false;
                     dbTowerSS.Add(tss, Session);
+
+                    IList<HeatSource> listHeatSource = dbhs.GetAllList(Session, s.ID);
+                    foreach (HeatSource hs in listHeatSource)
+                    {
+                        ScenarioHeatSource shs = new ScenarioHeatSource();
+                        shs.HeatSourceID = s.ID;
+                        shs.DutyFactor = "1";
+                        shs.ScenarioStreamID = tss.ID;
+                        dbshs.Add(shs, SessionProtectedSystem);
+                    }
                 }
+                
                 dbTowerFlashProduct dbTFP = new dbTowerFlashProduct();
                 List<TowerFlashProduct> listProduct = dbTFP.GetAllList(Session).ToList();
                 foreach (TowerFlashProduct p in listProduct)

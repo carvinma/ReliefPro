@@ -105,6 +105,7 @@
     <Compile Include="dbFlashResult.cs" />
     <Compile Include="dbCritical.cs" />
     <Compile Include="dbHeatSource.cs" />
+    <Compile Include="dbScenarioHeatSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\ReliefProCommon.csproj">
