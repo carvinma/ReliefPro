@@ -16,6 +16,7 @@ using ReliefProMain.Model;
 using NHibernate;
 using ReliefProMain.ViewModel.Drum;
 using System.Windows;
+using ReliefProMain.CustomControl;
 
 namespace ReliefProMain.ViewModel
 {
@@ -66,8 +67,7 @@ namespace ReliefProMain.ViewModel
             Scenarios = GetScenarios();
             ScenarioNameList = GetScenarioNames(eqType);
 
-
-
+            cud += new ChangeUnitDelegate(ExcuteThumbMoved);
         }
 
         private ObservableCollection<ScenarioModel> GetScenarios()
@@ -553,6 +553,10 @@ namespace ReliefProMain.ViewModel
             return factor;
         }
 
-
+        public ChangeUnitDelegate cud { get; set; }
+        public void ExcuteThumbMoved(object ColInfo)
+        {
+            string str = ColInfo.ToString();
+        }
     }
 }
