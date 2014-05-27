@@ -262,11 +262,11 @@
     <Compile Include="View\Common\ImportDataView.xaml.cs">
       <DependentUpon>ImportDataView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\CompressorBlocked\CompressorBlocked.xaml.cs">
-      <DependentUpon>CompressorBlocked.xaml</DependentUpon>
+    <Compile Include="View\CompressorBlocked\CentrifugalCompressorBlocked.xaml.cs">
+      <DependentUpon>CentrifugalCompressorBlocked.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\CompressorBlocked\CompressorBlocked2.xaml.cs">
-      <DependentUpon>CompressorBlocked2.xaml</DependentUpon>
+    <Compile Include="View\CompressorBlocked\PistonCompressorBlocked.xaml.cs">
+      <DependentUpon>PistonCompressorBlocked.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CriticalFluid\CriticalFluid.xaml.cs">
       <DependentUpon>CriticalFluid.xaml</DependentUpon>
@@ -465,11 +465,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\CompressorBlocked\CompressorBlocked.xaml">
+    <Page Include="View\CompressorBlocked\CentrifugalCompressorBlocked.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\CompressorBlocked\CompressorBlocked2.xaml">
+    <Page Include="View\CompressorBlocked\PistonCompressorBlocked.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -728,7 +728,9 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="View\NewFolder1\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
