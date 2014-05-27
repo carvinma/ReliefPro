@@ -151,6 +151,8 @@
     <Compile Include="ProIIToDefault.cs" />
     <Compile Include="Service\ServiceProvider.cs" />
     <Compile Include="Service\UnityServiceLocator.cs" />
+    <Compile Include="ViewModel\CompressorBlocked\CentrifugalVM.cs" />
+    <Compile Include="ViewModel\CompressorBlocked\PistonVM.cs" />
     <Compile Include="ViewModel\CreateUnitVM.cs" />
     <Compile Include="ViewModel\CustomStreamVM.cs" />
     <Compile Include="ViewModel\DrumVM.cs" />
