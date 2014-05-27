@@ -119,6 +119,7 @@
     <Compile Include="Commands\CommandReference.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="CustomControl\CustomComboBox.cs" />
+    <Compile Include="CustomControl\GVColumnHeader.cs" />
     <Compile Include="CustomControl\UCTextBoxLbl.xaml.cs">
       <DependentUpon>UCTextBoxLbl.xaml</DependentUpon>
     </Compile>
