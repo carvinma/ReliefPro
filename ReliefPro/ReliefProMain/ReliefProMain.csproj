@@ -188,8 +188,11 @@
     <Compile Include="View\Common\HeatSourceListView.xaml.cs">
       <DependentUpon>HeatSourceListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FeedBottomHX.xaml.cs">
+    <Compile Include="View\Scenario\FeedBottomHX.xaml.cs">
       <DependentUpon>FeedBottomHX.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Scenario\ScenarioHeatSourceListView.xaml.cs">
+      <DependentUpon>ScenarioHeatSourceListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Tower\AbnormalHeatInputView.xaml.cs">
       <DependentUpon>AbnormalHeatInputView.xaml</DependentUpon>
@@ -369,9 +372,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FeedBottomHX.xaml">
+    <Page Include="View\Scenario\FeedBottomHX.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Scenario\ScenarioHeatSourceListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Tower\AbnormalHeatInputView.xaml">
       <SubType>Designer</SubType>
@@ -728,9 +735,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="View\NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
