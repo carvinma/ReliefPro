@@ -67,6 +67,8 @@
     <Compile Include="Accumulator.cs" />
     <Compile Include="BasicUnit.cs" />
     <Compile Include="BasicUnitDefault.cs" />
+    <Compile Include="CompressorBlocked\Centrifugal.cs" />
+    <Compile Include="CompressorBlocked\Piston.cs" />
     <Compile Include="CondenserCalc.cs" />
     <Compile Include="Critical.cs" />
     <Compile Include="DemoModel.cs">
@@ -186,6 +188,8 @@
     <EmbeddedResource Include="Drum\DrumFireFluid.hbm.xml" />
     <EmbeddedResource Include="Drum\Drum.hbm.xml" />
     <EmbeddedResource Include="Drum\DrumDepressuring.hbm.xml" />
+    <EmbeddedResource Include="CompressorBlocked\Piston.hbm.xml" />
+    <EmbeddedResource Include="CompressorBlocked\Centrifugal.hbm.xml" />
     <Content Include="license.txt" />
     <EmbeddedResource Include="TowerFlashProduct.hbm.xml" />
     <EmbeddedResource Include="SystemScenarioSource.hbm.xml" />
