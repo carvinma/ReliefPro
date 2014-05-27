@@ -29,6 +29,11 @@ namespace ReliefProMain.View
         {
             InitializeComponent();                      
         }
+
+        private void GVColumnHeader_BarCodeEvent()
+        {
+
+        }
         /*
         public List<Scenario> TowerScenarios { get; set; }
         public List<string> Scenarios { get; set; }

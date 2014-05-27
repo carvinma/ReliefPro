@@ -1,6 +1,8 @@
 ﻿<Window x:Class="ReliefProMain.View.ScenarioListView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         Title="Scenario List" Height="500" Width="911" >
     <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
@@ -23,7 +25,8 @@
 
                     <GridViewColumn  Width="150px" >
                         <GridViewColumn.Header>
-                            <GridViewColumnHeader Content="Relief Load, kg/hr"/>
+                            <CustomControl:GVColumnHeader UOrigin="kg/hr" ColInfo="test" ChangeUnitEvent="{Binding cud}" Content="Relief Load, kg/hr">
+                            </CustomControl:GVColumnHeader>
                         </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                             <DataTemplate>
