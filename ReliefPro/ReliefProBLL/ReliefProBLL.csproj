@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompressorBlockedBLL.cs" />
     <Compile Include="DrumBll.cs" />
     <Compile Include="DrumFireBLL.cs" />
     <Compile Include="DrumFireFluidBLL.cs">
