@@ -28,7 +28,7 @@ namespace ReliefProLL
             model = dbcentrifugal.GetModelByScenarioID(SessionPS, ScenarioID);
             return model;
         }
-        public Piston GetCentrifugalModel(int ScenarioID)
+        public Piston GetPistonModel(int ScenarioID)
         {
             Piston model = new Piston();
             model = dbpiston.GetModelByScenarioID(SessionPS, ScenarioID);
