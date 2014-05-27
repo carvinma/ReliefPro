@@ -129,6 +129,8 @@
     <Compile Include="CustomControl\UnitConvertTextBox.cs" />
     <Compile Include="Interface\IModalDialog.cs" />
     <Compile Include="Interface\IServiceLocator.cs" />
+    <Compile Include="Model\CompressorBlocked\CentrifugalModel.cs" />
+    <Compile Include="Model\CompressorBlocked\PistonModel.cs" />
     <Compile Include="Model\CustomStreamModel.cs" />
     <Compile Include="Model\DrumBlockedOutletModel.cs" />
     <Compile Include="Model\DrumDepressuringModel.cs" />
