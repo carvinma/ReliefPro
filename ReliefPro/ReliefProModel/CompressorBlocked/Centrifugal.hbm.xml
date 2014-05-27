@@ -6,7 +6,6 @@
 </id>
   <property name="ScenarioID" column="ScenarioID" type="Int32"/>
   <property name="Scale" column="Scale" type="Double"/>
-  <property name="FlowPressure" column="FlowPressure" type="Double"/>
   <property name="Reliefload" column="Reliefload" type="Double"/>
   <property name="ReliefMW" column="ReliefMW" type="Double"/>
   <property name="ReliefTemp" column="ReliefTemp" type="Double"/>

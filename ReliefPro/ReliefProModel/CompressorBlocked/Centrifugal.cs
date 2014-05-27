@@ -10,7 +10,6 @@ namespace ReliefProModel.CompressorBlocked
         public virtual int ID { get; set; }
         public virtual int ScenarioID { get; set; }
         public virtual double Scale { get; set; }
-        public virtual double FlowPressure { get; set; }
         public virtual double Reliefload { get; set; }
         public virtual double ReliefMW { get; set; }
         public virtual double ReliefTemp { get; set; }
