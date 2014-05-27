@@ -57,6 +57,8 @@
     <Compile Include="Common\ABaseDAL.cs" />
     <Compile Include="Common\IBase.cs" />
     <Compile Include="Common\IBaseDAL.cs" />
+    <Compile Include="CompressorBlocked\dbCentrifugal.cs" />
+    <Compile Include="CompressorBlocked\dbPiston.cs" />
     <Compile Include="dbBasicUnit.cs" />
     <Compile Include="dbBasicUnitDefault.cs" />
     <Compile Include="dbCustomStream.cs" />
