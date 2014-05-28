@@ -67,7 +67,10 @@
     <Compile Include="Accumulator.cs" />
     <Compile Include="BasicUnit.cs" />
     <Compile Include="BasicUnitDefault.cs" />
-    <Compile Include="CompressorBlocked\Centrifugal.cs" />
+    <Compile Include="Compressor.cs" />
+    <Compile Include="CompressorBlocked\Centrifugal.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="CompressorBlocked\Piston.cs" />
     <Compile Include="CondenserCalc.cs" />
     <Compile Include="Critical.cs" />
@@ -117,6 +120,8 @@
     <Compile Include="FlashResult.cs" />
     <Compile Include="HeatSource.cs" />
     <Compile Include="ScenarioHeatSource.cs" />
+    <EmbeddedResource Include="CompressorBlocked\Centrifugal.hbm.xml" />
+    <EmbeddedResource Include="CompressorBlocked\Piston.hbm.xml" />
     <EmbeddedResource Include="DemoModel.hbm.xml" />
     <EmbeddedResource Include="TowerHXDetail.hbm.xml" />
     <EmbeddedResource Include="Scenario.hbm.xml">
@@ -188,8 +193,7 @@
     <EmbeddedResource Include="Drum\DrumFireFluid.hbm.xml" />
     <EmbeddedResource Include="Drum\Drum.hbm.xml" />
     <EmbeddedResource Include="Drum\DrumDepressuring.hbm.xml" />
-    <EmbeddedResource Include="CompressorBlocked\Piston.hbm.xml" />
-    <EmbeddedResource Include="CompressorBlocked\Centrifugal.hbm.xml" />
+    <EmbeddedResource Include="Compressor.hbm.xml" />
     <Content Include="license.txt" />
     <EmbeddedResource Include="TowerFlashProduct.hbm.xml" />
     <EmbeddedResource Include="SystemScenarioSource.hbm.xml" />

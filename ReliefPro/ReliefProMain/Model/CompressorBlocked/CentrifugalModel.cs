@@ -48,7 +48,7 @@ namespace ReliefProMain.Model.CompressorBlocked
             this.scale = model.Scale;
             this.reliefMW = model.ReliefMW;
             this.reliefload = model.Reliefload;
-            this.reliefTemp = model.ReliefTemp;
+            this.reliefTemp = model.ReliefTemperature;
             this.reliefPressure = model.ReliefPressure;
         }
 

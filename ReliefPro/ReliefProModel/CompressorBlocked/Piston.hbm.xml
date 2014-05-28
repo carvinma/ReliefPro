@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
-<class name="ReliefProModel.CompressorBlocked, ReliefProModel" table="tbDrumBlockedOutlet" >
+<class name="ReliefProModel.CompressorBlocked.Piston, ReliefProModel" table="tbCompressorBlockedOutlet" >
 <id name="ID" column="ID" type="Int32" unsaved-value="0">
 <generator class="identity" />
 </id>
@@ -8,7 +8,7 @@
   <property name="RatedCapacity" column="RatedCapacity" type="Double"/>
   <property name="Reliefload" column="Reliefload" type="Double"/>
   <property name="ReliefMW" column="ReliefMW" type="Double"/>
-  <property name="ReliefTemp" column="ReliefTemp" type="Double"/>
+  <property name="ReliefTemperature" column="ReliefTemperature" type="Double"/>
   <property name="ReliefPressure" column="ReliefPressure" type="Double"/>
 </class>
 </hibernate-mapping>

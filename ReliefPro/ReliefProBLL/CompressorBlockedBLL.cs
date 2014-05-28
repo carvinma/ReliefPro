@@ -48,7 +48,7 @@ namespace ReliefProLL
             Model = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
             Model.Reliefload = uc.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.Reliefload);
-            Model.ReliefTemp = uc.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemp);
+            Model.ReliefTemperature = uc.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature);
             Model.ReliefPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);
             return Model;
         }
@@ -65,7 +65,7 @@ namespace ReliefProLL
             Model = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
             Model.Reliefload = uc.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.Reliefload);
-            Model.ReliefTemp = uc.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemp);
+            Model.ReliefTemperature = uc.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature);
             Model.ReliefPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);
             return Model;
         }
@@ -77,7 +77,7 @@ namespace ReliefProLL
             var sModel = db.GetModel(model.ScenarioID, SessionPS);
             sModel.ReliefLoad = model.Reliefload.ToString();
             sModel.ReliefPressure = model.ReliefPressure.ToString();
-            sModel.ReliefTemperature = model.ReliefTemp.ToString();
+            sModel.ReliefTemperature = model.ReliefTemperature.ToString();
             sModel.ReliefMW = model.ReliefMW.ToString();
             db.Update(sModel, SessionPS);
         }
@@ -89,7 +89,7 @@ namespace ReliefProLL
             var sModel = db.GetModel(model.ScenarioID, SessionPS);
             sModel.ReliefLoad = model.Reliefload.ToString();
             sModel.ReliefPressure = model.ReliefPressure.ToString();
-            sModel.ReliefTemperature = model.ReliefTemp.ToString();
+            sModel.ReliefTemperature = model.ReliefTemperature.ToString();
             sModel.ReliefMW = model.ReliefMW.ToString();
             db.Update(sModel, SessionPS);
         }
