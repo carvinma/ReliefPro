@@ -599,13 +599,15 @@ namespace ReliefProMain.View
                     return;
                 }
 
-                dbPSV dbpsv = new dbPSV();
-                PSV psv= dbpsv.GetModel(SessionProtectedSystem);
-                if (psv == null)
-                {
-                    MessageBox.Show("Psv 还未计算");
-                    return;
-                }
+                //dbPSV dbpsv = new dbPSV();
+                //PSV psv= dbpsv.GetModel(SessionProtectedSystem);
+                //if (psv == null)
+                //{
+                //    MessageBox.Show("Psv 还未计算");
+                //    return;
+                //}
+
+                EqType = "Compressor";
                 ScenarioListView v = new ScenarioListView();
                 ScenarioListVM vm = new ScenarioListVM(EqName,EqType,PrzFile,PrzVersion,SessionPlant,SessionProtectedSystem,DirPlant,DirProtectedSystem);
                 v.DataContext = vm;
