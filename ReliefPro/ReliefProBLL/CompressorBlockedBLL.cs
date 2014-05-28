@@ -24,14 +24,16 @@ namespace ReliefProLL
         }
         public Centrifugal GetCentrifugalModel(int ScenarioID)
         {
-            Centrifugal model = new Centrifugal();
-            model = dbcentrifugal.GetModelByScenarioID(SessionPS, ScenarioID);
+            var model = dbcentrifugal.GetModelByScenarioID(SessionPS, ScenarioID);
+            if (model == null)
+                model = new Centrifugal();
             return model;
         }
         public Piston GetPistonModel(int ScenarioID)
         {
-            Piston model = new Piston();
-            model = dbpiston.GetModelByScenarioID(SessionPS, ScenarioID);
+            var model = dbpiston.GetModelByScenarioID(SessionPS, ScenarioID);
+            if (model == null)
+                model = new Piston();
             return model;
         }
 

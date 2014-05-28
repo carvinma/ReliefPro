@@ -262,7 +262,13 @@ namespace ReliefProMain.ViewModel
                             v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                             CentrifugalVM vm = new CentrifugalVM(ScenarioID, SessionProtectedSystem, SessionPlant);
                             v.DataContext = vm;
-                            v.ShowDialog();
+                            if (v.ShowDialog() == true)
+                            {
+                                SelectedScenario.ReliefLoad = vm.model.dbmodel.Reliefload.ToString();
+                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW.ToString();
+                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure.ToString();
+                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature.ToString();
+                            }
                         }
                         else if (CompresserType == "Piston")
                         {
@@ -270,7 +276,13 @@ namespace ReliefProMain.ViewModel
                             v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                             PistonVM vm = new PistonVM(ScenarioID, SessionProtectedSystem, SessionPlant);
                             v.DataContext = vm;
-                            v.ShowDialog();
+                            if (v.ShowDialog() == true)
+                            {
+                                SelectedScenario.ReliefLoad = vm.model.dbmodel.Reliefload.ToString();
+                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW.ToString();
+                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure.ToString();
+                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature.ToString();
+                            }
                         }
                     }
                 }
