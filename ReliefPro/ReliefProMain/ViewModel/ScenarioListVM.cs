@@ -184,7 +184,6 @@ namespace ReliefProMain.ViewModel
                 sce.ScenarioName = SelectedScenario.ScenarioName;
                 db.Update(sce, SessionProtectedSystem);
                 string ScenarioName = SelectedScenario.ScenarioName.Replace(" ", string.Empty);
-               // EqType = "Compresser";
                 if (EqType == "Tower")
                 {
                     if (ScenarioName.Contains("Fire"))
@@ -251,7 +250,7 @@ namespace ReliefProMain.ViewModel
                     }
 
                 }
-                else if (EqType == "Compresser")
+                else if (EqType == "Compressor")
                 {
                     if (ScenarioName.Contains("Outlet"))
                     {
@@ -530,7 +529,7 @@ namespace ReliefProMain.ViewModel
             else if (eqType == "Compressor")
             {
                 list.Add("Blocked Outlet");
-              
+
             }
             return list;
         }

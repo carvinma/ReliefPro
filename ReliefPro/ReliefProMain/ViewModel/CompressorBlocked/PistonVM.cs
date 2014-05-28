@@ -59,6 +59,7 @@ namespace ReliefProMain.ViewModel.CompressorBlocked
                 if (wd != null)
                 {
                     WriteConvertModel();
+                    blockBLL.SavePiston(model.dbmodel);
                     wd.DialogResult = true;
                 }
             }
