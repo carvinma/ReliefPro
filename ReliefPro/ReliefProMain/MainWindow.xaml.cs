@@ -296,7 +296,7 @@ namespace ReliefProMain
                 
                 if (lvi.Source.ToString().Contains("tower"))
                 {
-                    Visio.Document myCurrentStencil = visioControl.Document.Application.Documents.OpenEx(System.Environment.CurrentDirectory + @"/Tower.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+                    Visio.Document myCurrentStencil = visioControl.Document.Application.Documents.OpenEx(System.Environment.CurrentDirectory + @"/Template/Tower.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
                     Visio.Master visioRectMaster = myCurrentStencil.Masters.get_ItemU(@"Dis");
                     DragDropEffects dde1 = DragDrop.DoDragDrop(lvi, visioRectMaster, DragDropEffects.All);
                     myCurrentStencil.Close();

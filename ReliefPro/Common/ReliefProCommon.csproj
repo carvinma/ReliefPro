@@ -58,7 +58,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DocumentFormat.OpenXml">
-      <HintPath>..\..\..\..\ReliefPro\Common\bin\Debug\DocumentFormat.OpenXml.dll</HintPath>
+      <HintPath>..\Dependencies\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\Dependencies\ICSharpCode.SharpZipLib.dll</HintPath>

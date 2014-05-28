@@ -408,9 +408,18 @@ namespace ReliefProMain.ViewModel
                     foreach (HeatSource hs in listHeatSource)
                     {
                         ScenarioHeatSource shs = new ScenarioHeatSource();
-                        shs.HeatSourceID = s.ID;
-                        shs.DutyFactor = "1";
-                        shs.ScenarioStreamID = tss.ID;
+                        if (ScenarioName=="Abnormal Heat Input" && hs.HeatSourceType != "Feed/Bottom HX")
+                        {
+                            shs.HeatSourceID = hs.ID;
+                            shs.DutyFactor = "1";
+                            shs.ScenarioStreamID = tss.ID;
+                        }
+                        else if (ScenarioName!="Abnormal Heat Input" && hs.HeatSourceType == "Feed/Bottom HX")
+                        {
+                            shs.HeatSourceID = hs.ID;
+                            shs.DutyFactor = "1";
+                            shs.ScenarioStreamID = tss.ID;
+                        }
                         dbshs.Add(shs, SessionProtectedSystem);
                     }
                 }

@@ -607,7 +607,7 @@ namespace ReliefProMain.View
                 //    return;
                 //}
 
-                EqType = "Compressor";
+               
                 ScenarioListView v = new ScenarioListView();
                 ScenarioListVM vm = new ScenarioListVM(EqName,EqType,PrzFile,PrzVersion,SessionPlant,SessionProtectedSystem,DirPlant,DirProtectedSystem);
                 v.DataContext = vm;

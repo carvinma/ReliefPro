@@ -50,10 +50,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Iesi.Collections">
-      <HintPath>..\NHibernate-3.3.3.SP1-bin\Required_Bins\Iesi.Collections.dll</HintPath>
+      <HintPath>..\Dependencies\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
-      <HintPath>..\NHibernate-3.3.3.SP1-bin\Required_Bins\NHibernate.dll</HintPath>
+      <HintPath>..\Dependencies\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

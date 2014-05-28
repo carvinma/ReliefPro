@@ -39,34 +39,34 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("FeedTout");
             }
         }
-        private string _FeedMasseRate;
-        public string FeedMasseRate
+        private string _FeedMassRate;
+        public string FeedMassRate
         {
-            get { return _FeedMasseRate; }
+            get { return _FeedMassRate; }
             set
             {
-                _FeedMasseRate = value;
-                OnPropertyChanged("FeedMasseRate");
+                _FeedMassRate = value;
+                OnPropertyChanged("FeedMassRate");
             }
         }
-        private string _FeedEin;
-        public string FeedEin
+        private string _FeedSpEin;
+        public string FeedSpEin
         {
-            get { return _FeedEin; }
+            get { return _FeedSpEin; }
             set
             {
-                _FeedEin = value;
-                OnPropertyChanged("FeedEin");
+                _FeedSpEin = value;
+                OnPropertyChanged("FeedSpEin");
             }
         }
-        private string _FeedEout;
-        public string FeedEout
+        private string _FeedSpEout;
+        public string FeedSpEout
         {
-            get { return _FeedEout; }
+            get { return _FeedSpEout; }
             set
             {
-                _FeedEout = value;
-                OnPropertyChanged("FeedEout");
+                _FeedSpEout = value;
+                OnPropertyChanged("FeedSpEout");
             }
         }
 
@@ -90,14 +90,14 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("BottomTout");
             }
         }
-        private string _BottomMasseRate;
-        public string BottomMasseRate
+        private string _BottomMassRate;
+        public string BottomMassRate
         {
-            get { return _BottomMasseRate; }
+            get { return _BottomMassRate; }
             set
             {
-                _BottomMasseRate = value;
-                OnPropertyChanged("BottomMasseRate");
+                _BottomMassRate = value;
+                OnPropertyChanged("BottomMassRate");
             }
         }
 
@@ -126,19 +126,40 @@ namespace ReliefProMain.ViewModel
 
         FeedBottomHX model;
         dbFeedBottomHX db;
+        dbHeatSource dbhs;
+        dbSource dbsource;
+        dbStream dbstream;
         public FeedBottomHXVM(int HeatSourceID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
-
+            dbhs = new dbHeatSource();
+            dbsource = new dbSource();
+            dbstream = new dbStream();
             db = new dbFeedBottomHX();
             model = db.GetModel(this.SessionProtectedSystem, HeatSourceID);
             if (model != null)
             {
+
+            }
+            else
+            {
+                HeatSource hs = dbhs.GetModel(HeatSourceID, SessionProtectedSystem);
+                Source source = dbsource.GetModel(hs.SourceID, SessionProtectedSystem);
+                CustomStream cs = dbstream.GetModel(SessionProtectedSystem, source.StreamName);
+                if (cs != null)
+                {
+                    FeedMassRate = cs.WeightFlow;
+                    FeedTout = cs.Temperature;
+                    FeedSpEout = cs.SpEnthalpy;
+
+                   
+
+                }
             }
         }
 
-        private void FBMethod(double feedTin, double feedTout, double feedMassRate, double feedEin, double feedEout, double bottomTin, double bottomTout, double bottomMassRate, double duty,double bottomReliefTin, double qaenGuess, double MaxErrorRate, ref double factor, ref bool isPinch, ref int iterateNumber)
+        private void FBMethod(double feedTin, double feedTout, double feedMassRate, double feedSpEin, double feedSpEout, double bottomTin, double bottomTout, double bottomMassRate, double duty,double bottomReliefTin, double qaenGuess, double MaxErrorRate, ref double factor, ref bool isPinch, ref int iterateNumber)
         {
             int iterateSum = 0;
             double nextQaenGuess = qaenGuess;
@@ -148,7 +169,7 @@ namespace ReliefProMain.ViewModel
             double reliefDuty = 0;
             double assumedQA = 0;
             double calculatedQR = 0;
-            double QRQA = 1;
+            double QAQR = 1;
             double uQAQR = 0;
             double Lmtd = getLMTD(feedTin, feedTout, bottomTin, bottomTout);
 
@@ -159,29 +180,21 @@ namespace ReliefProMain.ViewModel
                 reliefDuty =duty* reliefLtmd /Lmtd;
                 assumedQA = duty * nextQaenGuess;
                 calculatedQR = reliefDuty;
-                QRQA = calculatedQR / assumedQA;
-                uQAQR = assumedQA / calculatedQR - 1;
+                QAQR =  calculatedQR/assumedQA ;
+                uQAQR = QAQR - 1;
                 curErrorRate = Math.Abs(uQAQR);
                 iterateSum = iterateSum + 1;
                 if (curErrorRate > MaxErrorRate)
                 {
-                    nextQaenGuess = QRQA * (1 + 0.5 * uQAQR);
+                    nextQaenGuess = nextQaenGuess * (1 + 0.5 * uQAQR);
                 }
 
             }
             double QRQN = calculatedQR / duty;
-            if (QRQN < 1)
-            {
-                isPinch = true;
-                factor = QRQN;
-                //ReliefDuty = reliefDuty.ToString();
-            }
-            else
-            {
-                //ReliefDuty = duty.ToString();
-            }
-
-
+            factor = QRQN;
+            if (QRQN > 1.5)
+                factor = 1.5;
+               
         }
 
         private double getLMTD(double feedTin, double feedTout, double bottomTin, double bottomTout)
@@ -222,16 +235,16 @@ namespace ReliefProMain.ViewModel
             double factor = 1;
             bool isPinch = false;
             int iterateNumber = 50;
-            double MaxErrorRate = 0.05;
+            double MaxErrorRate = 0.005;
 
             double feedTin = double.Parse(FeedTin);
             double feedTout = double.Parse(FeedTout);
-            double feedMassRate = double.Parse(FeedMasseRate);
-            double feedEin = double.Parse(FeedEin);
-            double feedEout = double.Parse(FeedEout);
+            double feedMassRate = double.Parse(FeedMassRate);
+            double feedEin = double.Parse(FeedSpEin);
+            double feedEout = double.Parse(FeedSpEout);
             double bottomTin = double.Parse(BottomTin);
             double bottomTout = double.Parse(BottomTout);
-            double bottomMassRate = double.Parse(BottomMasseRate);
+            double bottomMassRate = double.Parse(BottomMassRate);
             double bottomReliefTin = double.Parse(BottomReliefTin);
             double duty = double.Parse(Duty);
             double qaenGuess = 1.25;

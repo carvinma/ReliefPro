@@ -50,10 +50,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac">
-      <HintPath>E:\E\武汉\2013-04-26\Demo\Lib\Autofac\Autofac.dll</HintPath>
+      <HintPath>..\Dependencies\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Configuration">
-      <HintPath>E:\E\武汉\2013-04-26\Demo\Lib\Autofac\Autofac.Configuration.dll</HintPath>
+      <HintPath>..\Dependencies\Autofac.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\Dependencies\Iesi.Collections.dll</HintPath>

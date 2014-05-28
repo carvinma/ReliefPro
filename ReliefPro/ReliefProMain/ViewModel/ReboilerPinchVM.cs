@@ -308,7 +308,7 @@ namespace ReliefProMain.ViewModel
             double factor = 1;
             bool isPinch = false;
             int iterateNumber = 50;
-            double MaxErrorRate = 0.05;
+            double MaxErrorRate = 0.005;
 
             double productTin=double.Parse(Coldtin); 
             double productTout=double.Parse(Coldtout);

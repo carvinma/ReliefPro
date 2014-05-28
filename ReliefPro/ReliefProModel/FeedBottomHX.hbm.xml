@@ -7,8 +7,8 @@
     <property name="FeedTin" column="FeedTin" type="String" length="255" />    
     <property name="FeedTout" column="FeedTout" type="String" length="255" />
     <property name="StreamName" column="StreamName" type="String" length="255" />
-    <property name="FeedEin" column="FeedEin" type="String" length="255" />
-    <property name="FeedEout" column="FeedEout" type="String" length="255" />
+    <property name="FeedSpEin" column="FeedSpEin" type="String" length="255" />
+    <property name="FeedSpEout" column="FeedSpEout" type="String" length="255" />
     <property name="BottomReliefTin" column="BottomReliefTin" type="String" length="255" />
     <property name="FeedMassRate" column="FeedMassRate" type="String" length="255" />
     <property name="BottomTin" column="BottomTin" type="String" length="255" />
@@ -16,6 +16,8 @@
     <property name="BottomMassRate" column="BottomMassRate" type="String" length="255" />
     <property name="Duty" column="Duty" type="String" length="255" />
     <property name="HeatSourceID" column="HeatSourceID" type="Int32"  />
-    <property name="Factor" column="Factor" type="String" length="255"  />
+    <property name="FeedReliefTout" column="FeedReliefTout" type="String" length="255"  />
+    <property name="FeedReliefSpEout" column="FeedReliefSpEout" type="String" length="255"  />
+
   </class>
 </hibernate-mapping>

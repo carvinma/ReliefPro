@@ -77,6 +77,22 @@ namespace ReliefProMain.Model
                 }
             }
         }
+
+        public string Duty
+        {
+            get
+            {
+                return model.Duty;
+            }
+            set
+            {
+                if (model.Duty != value)
+                {
+                    model.Duty = value;
+                    NotifyPropertyChanged("Duty");
+                }
+            }
+        }
         public int SourceID
         {
             get
