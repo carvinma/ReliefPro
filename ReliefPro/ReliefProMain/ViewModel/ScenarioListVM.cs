@@ -17,6 +17,7 @@ using NHibernate;
 using ReliefProMain.ViewModel.Drum;
 using System.Windows;
 using ReliefProMain.CustomControl;
+using ReliefProMain.ViewModel.CompressorBlocked;
 
 namespace ReliefProMain.ViewModel
 {
@@ -183,7 +184,7 @@ namespace ReliefProMain.ViewModel
                 sce.ScenarioName = SelectedScenario.ScenarioName;
                 db.Update(sce, SessionProtectedSystem);
                 string ScenarioName = SelectedScenario.ScenarioName.Replace(" ", string.Empty);
-
+               // EqType = "Compresser";
                 if (EqType == "Tower")
                 {
                     if (ScenarioName.Contains("Fire"))
@@ -258,9 +259,19 @@ namespace ReliefProMain.ViewModel
                         string CompresserType = "Centrifugal";
                         if (CompresserType == "Centrifugal")
                         {
+                            CentrifugalCompressorBlocked v = new CentrifugalCompressorBlocked();
+                            v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                            CentrifugalVM vm = new CentrifugalVM(ScenarioID, SessionProtectedSystem, SessionPlant);
+                            v.DataContext = vm;
+                            v.ShowDialog();
                         }
                         else if (CompresserType == "Piston")
                         {
+                            PistonCompressorBlocked v = new PistonCompressorBlocked();
+                            v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                            PistonVM vm = new PistonVM(ScenarioID, SessionProtectedSystem, SessionPlant);
+                            v.DataContext = vm;
+                            v.ShowDialog();
                         }
                     }
                 }
@@ -368,7 +379,7 @@ namespace ReliefProMain.ViewModel
             {
                 dbSource dbSource = new dbSource();
                 dbHeatSource dbhs = new dbHeatSource();
-                dbScenarioHeatSource dbshs=new dbScenarioHeatSource();
+                dbScenarioHeatSource dbshs = new dbScenarioHeatSource();
                 List<Source> listSource = dbSource.GetAllList(Session).ToList();
 
                 foreach (Source s in listSource)
@@ -392,7 +403,7 @@ namespace ReliefProMain.ViewModel
                         dbshs.Add(shs, SessionProtectedSystem);
                     }
                 }
-                
+
                 dbTowerFlashProduct dbTFP = new dbTowerFlashProduct();
                 List<TowerFlashProduct> listProduct = dbTFP.GetAllList(Session).ToList();
                 foreach (TowerFlashProduct p in listProduct)
