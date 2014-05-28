@@ -527,7 +527,11 @@ namespace ReliefProMain.ViewModel
                 list.Add("Fire");
                 list.Add("Depressuring");
             }
-
+            else if (eqType == "Compressor")
+            {
+                list.Add("Blocked Outlet");
+              
+            }
             return list;
         }
 
