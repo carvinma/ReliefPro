@@ -23,14 +23,14 @@ namespace ReliefProLL
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
         }
-        public HXBlockedOutlet GetCentrifugalModel(int ScenarioID)
+        public HXBlockedOutlet GetHXBlockedOutletModel(int ScenarioID)
         {
             var model = dbBlock.GetModelByScenarioID(SessionPS, ScenarioID);
             if (model == null)
                 model = new HXBlockedOutlet();
             return model;
         }
-        public HXBlockedOutlet ReadConvertCentrifugalModel(HXBlockedOutlet model)
+        public HXBlockedOutlet ReadConvertHXBlockedOutletModel(HXBlockedOutlet model)
         {
             UnitInfo unitInfo = new UnitInfo();
             BasicUnit basicUnit = unitInfo.GetBasicUnitUOM(this.SessionPF);
@@ -53,6 +53,59 @@ namespace ReliefProLL
             Model.ReliefPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);
             return Model;
         }
+
+        public AirCooledHXFire GetAirCooledHXFireModel(int ScenarioID)
+        {
+            var model = dbAir.GetModelByScenarioID(SessionPS, ScenarioID);
+            if (model == null)
+                model = new AirCooledHXFire();
+            return model;
+        }
+        public AirCooledHXFire ReadConvertAirCooledHXFireModel(AirCooledHXFire model)
+        {
+            UnitInfo unitInfo = new UnitInfo();
+            BasicUnit basicUnit = unitInfo.GetBasicUnitUOM(this.SessionPF);
+            if (basicUnit.UnitName == "StInternal")
+            {
+                return model;
+            }
+            AirCooledHXFire Model = new AirCooledHXFire();
+            UnitConvert uc = new UnitConvert();
+            Model = model;
+            UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
+
+            Model.WettedBundle = uc.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, Model.WettedBundle);
+            Model.ReliefLoad = uc.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.ReliefLoad);
+            Model.ReliefTemperature = uc.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature);
+            Model.ReliefPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);
+            return Model;
+        }
+        public HXFire GetHXFireModel(int ScenarioID)
+        {
+            var model = dbFire.GetModelByScenarioID(SessionPS, ScenarioID);
+            if (model == null)
+                model = new HXFire();
+            return model;
+        }
+        public HXFire ReadConvertHXFireModel(HXFire model)
+        {
+            UnitInfo unitInfo = new UnitInfo();
+            BasicUnit basicUnit = unitInfo.GetBasicUnitUOM(this.SessionPF);
+            if (basicUnit.UnitName == "StInternal")
+            {
+                return model;
+            }
+            HXFire Model = new HXFire();
+            UnitConvert uc = new UnitConvert();
+            Model = model;
+            UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
+
+            Model.OD = uc.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, Model.OD);
+            Model.Length = uc.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, Model.Length);
+            Model.Elevation = uc.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, Model.Elevation);
+            return Model;
+        }
+
         private void SaveScenario(IScenarioModel model)
         {
             dbScenario db = new dbScenario();
@@ -70,8 +123,12 @@ namespace ReliefProLL
         }
         public void SaveAirCooledHXFire(IScenarioModel model)
         {
-            dbBlock.Save(SessionPS, model as HXBlockedOutlet);
+            dbAir.Save(SessionPS, model as AirCooledHXFire);
             SaveScenario(model);
+        }
+        public void SaveHXFire(HXFire model)
+        {
+            dbFire.Save(SessionPS, model);
         }
     }
 }
