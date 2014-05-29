@@ -198,6 +198,7 @@
     <Compile Include="ViewModel\ReNameVM.cs" />
     <Compile Include="ViewModel\CreateProtectedSystemVM.cs" />
     <Compile Include="ViewModel\ScenarioHeatSourceListVM.cs" />
+    <Compile Include="ViewModel\AbnormalHeatInputVM.cs" />
     <Compile Include="View\Common\HeatSourceListView.xaml.cs">
       <DependentUpon>HeatSourceListView.xaml</DependentUpon>
     </Compile>
@@ -266,6 +267,9 @@
     </Compile>
     <Compile Include="View\TowerFire\TowerFireOtherView.xaml.cs">
       <DependentUpon>TowerFireOtherView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Tower\AbnormalHeatInputView.xaml.cs">
+      <DependentUpon>AbnormalHeatInputView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Tower\AccumulatorView.xaml.cs">
       <DependentUpon>AccumulatorView.xaml</DependentUpon>
@@ -472,6 +476,10 @@
     <Page Include="View\TowerFire\TowerFireOtherView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Tower\AbnormalHeatInputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Tower\AccumulatorView.xaml">
       <SubType>Designer</SubType>
