@@ -51,6 +51,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencie
 		Dependencies\Xceed.Wpf.AvalonDock.Themes.VS2010.dll = Dependencies\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReliefProUnitTest", "ReliefProUnitTest\ReliefProUnitTest.csproj", "{4D54E783-8C36-4176-9615-CFEBD2937ADC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -171,6 +173,16 @@ Global
 		{BF7B294A-541B-4DE7-BE79-1E5C7455B940}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{BF7B294A-541B-4DE7-BE79-1E5C7455B940}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BF7B294A-541B-4DE7-BE79-1E5C7455B940}.Release|x86.ActiveCfg = Release|Any CPU
+		{4D54E783-8C36-4176-9615-CFEBD2937ADC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D54E783-8C36-4176-9615-CFEBD2937ADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D54E783-8C36-4176-9615-CFEBD2937ADC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4D54E783-8C36-4176-9615-CFEBD2937ADC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4D54E783-8C36-4176-9615-CFEBD2937ADC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4D54E783-8C36-4176-9615-CFEBD2937ADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D54E783-8C36-4176-9615-CFEBD2937ADC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D54E783-8C36-4176-9615-CFEBD2937ADC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4D54E783-8C36-4176-9615-CFEBD2937ADC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4D54E783-8C36-4176-9615-CFEBD2937ADC}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
