@@ -167,6 +167,9 @@
     <Compile Include="ViewModel\FeedBottomHXVM.cs" />
     <Compile Include="ViewModel\FormatUnitsMeasureVM.cs" />
     <Compile Include="ViewModel\HeatSourceListVM.cs" />
+    <Compile Include="ViewModel\HX\AirCooledHXFireVM.cs" />
+    <Compile Include="ViewModel\HX\HXBlockedOutletVM.cs" />
+    <Compile Include="ViewModel\HX\HXFireVM.cs" />
     <Compile Include="ViewModel\Mode.cs" />
     <Compile Include="ViewModel\MultiValueConverter.cs" />
     <Compile Include="ViewModel\ScenarioListVM.cs" />
