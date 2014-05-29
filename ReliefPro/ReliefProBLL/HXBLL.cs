@@ -80,6 +80,7 @@ namespace ReliefProLL
             Model.ReliefPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);
             return Model;
         }
+
         public HXFire GetHXFireModel(int ScenarioID)
         {
             var model = dbFire.GetModelByScenarioID(SessionPS, ScenarioID);
@@ -116,6 +117,7 @@ namespace ReliefProLL
             sModel.ReliefMW = model.ReliefMW.ToString();
             db.Update(sModel, SessionPS);
         }
+
         public void SaveHXBlockedOutlet(IScenarioModel model)
         {
             dbBlock.Save(SessionPS, model as HXBlockedOutlet);
