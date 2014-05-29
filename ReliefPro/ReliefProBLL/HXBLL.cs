@@ -16,6 +16,8 @@ namespace ReliefProLL
         private ISession SessionPS;
         private ISession SessionPF;
         private dbHXBlockedOutlet dbBlock = new dbHXBlockedOutlet();
+        private dbAirCooledHXFire dbAir = new dbAirCooledHXFire();
+        private dbHXFire dbFire = new dbHXFire();
         public HXBLL(ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
