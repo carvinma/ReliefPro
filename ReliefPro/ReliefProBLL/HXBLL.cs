@@ -55,16 +55,15 @@ namespace ReliefProLL
             sModel.ReliefMW = model.ReliefMW.ToString();
             db.Update(sModel, SessionPS);
         }
-        public void SaveHXBlockedOutlet(HXBlockedOutlet model)
+        public void SaveHXBlockedOutlet(IScenarioModel model)
         {
-            dbBlock.Save(SessionPS, model);
-            dbScenario db = new dbScenario();
-            var sModel = db.GetModel(model.ScenarioID, SessionPS);
-            sModel.ReliefLoad = model.ReliefLoad.ToString();
-            sModel.ReliefPressure = model.ReliefPressure.ToString();
-            sModel.ReliefTemperature = model.ReliefTemperature.ToString();
-            sModel.ReliefMW = model.ReliefMW.ToString();
-            db.Update(sModel, SessionPS);
+            dbBlock.Save(SessionPS, model as HXBlockedOutlet);
+            SaveScenario(model);
+        }
+        public void SaveAirCooledHXFire(IScenarioModel model)
+        {
+            dbBlock.Save(SessionPS, model as HXBlockedOutlet);
+            SaveScenario(model);
         }
     }
 }
