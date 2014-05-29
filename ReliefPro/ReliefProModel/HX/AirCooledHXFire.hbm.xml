@@ -7,7 +7,6 @@
   <property name="ScenarioID" column="ScenarioID" type="Int32"/>
   <property name="WettedBundle" column="WettedBundle" type="Double"/>
   <property name="PipingContingency" column="PipingContingency" type="Double"/>
-  <property name="LatentPoint" column="LatentPoint" type="Double"/>
   <property name="ReliefLoad" column="ReliefLoad" type="Double"/>
   <property name="ReliefMW" column="ReliefMW" type="Double"/>
   <property name="ReliefTemperature" column="ReliefTemperature" type="Double"/>
