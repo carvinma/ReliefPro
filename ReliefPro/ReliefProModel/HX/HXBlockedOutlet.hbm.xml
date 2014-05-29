@@ -10,6 +10,7 @@
   <property name="NormalHotTemperature" column="NormalHotTemperature" type="Double"/>
   <property name="NormalColdInletTemperature" column="NormalColdInletTemperature" type="Double"/>
   <property name="NormalColdOutletTemp" column="NormalColdOutletTemp" type="Double"/>
+  <property name="LatentPoint" column="LatentPoint" type="Double"/>
   <property name="ReliefLoad" column="ReliefLoad" type="Double"/>
   <property name="ReliefMW" column="ReliefMW" type="Double"/>
   <property name="ReliefTemperature" column="ReliefTemperature" type="Double"/>
