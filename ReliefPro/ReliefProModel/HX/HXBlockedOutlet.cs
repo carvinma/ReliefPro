@@ -10,7 +10,7 @@ namespace ReliefProModel.HX
         public virtual int ID { get; set; }
         public virtual int ScenarioID { get; set; }
 
-        public virtual double ColdStream { get; set; }
+        public virtual string ColdStream { get; set; }
         public virtual double NormalDuty { get; set; }
         public virtual double NormalHotTemperature { get; set; }
         public virtual double NormalColdInletTemperature { get; set; }
