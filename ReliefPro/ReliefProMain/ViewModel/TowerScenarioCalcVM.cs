@@ -79,8 +79,10 @@ namespace ReliefProMain.ViewModel
         public int ScenarioID { set; get; }
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
-        public TowerScenarioCalcVM(int scenarioID, ISession sessionPlant, ISession sessionProtectedSystem)
+        private string PrzFile;
+        public TowerScenarioCalcVM(int scenarioID,string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
+            this.PrzFile = PrzFile;
             ScenarioID = scenarioID;
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
@@ -108,7 +110,7 @@ namespace ReliefProMain.ViewModel
         private void Feed(object window)
         {
             TowerScenarioFeedView v = new TowerScenarioFeedView();
-            TowerScenarioFeedVM vm = new TowerScenarioFeedVM(ScenarioID, SessionPlant, SessionProtectedSystem);
+            TowerScenarioFeedVM vm = new TowerScenarioFeedVM(ScenarioID,PrzFile, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             v.ShowDialog();
         }

@@ -18,7 +18,7 @@ namespace ReliefProMain.ViewModel
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
-
+        private string PrzFile;
         private string _FeedTin;
         public string FeedTin
         {
@@ -131,8 +131,13 @@ namespace ReliefProMain.ViewModel
         dbStream dbstream;
         dbProIIEqData dbProIIeq;
         dbProIIStreamData dbProIIStream;
-        public FeedBottomHXVM(int HeatSourceID, ISession sessionPlant, ISession sessionProtectedSystem)
+        CustomStream csFeedIn;
+        CustomStream csFeedOut;
+        CustomStream csBottomIn;
+        CustomStream csBottomOut;
+        public FeedBottomHXVM(int HeatSourceID,string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
+            this.PrzFile=PrzFile;
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
             dbhs = new dbHeatSource();
@@ -149,6 +154,7 @@ namespace ReliefProMain.ViewModel
             else
             {
                 HeatSource hs = dbhs.GetModel(HeatSourceID, SessionProtectedSystem);
+                ProIIEqData hx= dbProIIeq.GetModel(SessionPlant, this.PrzFile, hs.HeatSourceName, "Hx");
                 
             }
         }

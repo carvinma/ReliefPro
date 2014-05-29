@@ -4,46 +4,51 @@
         Title="HeatSourceListView" Height="302.299" Width="597.701" Name="myWindow">
     <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="207*"/>
-            <RowDefinition Height="34*"/>
-            <RowDefinition Height="29*"/>
+            <RowDefinition Height="14*"/>
+            <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
-        <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=HeatSources,Mode=TwoWay}" SelectedItem="{Binding SelectedHeatSource,Mode=TwoWay}" Margin="0,0,0,0" >
+        <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding HeatSources, Mode=TwoWay}" SelectedItem="{Binding SelectedHeatSource, Mode=TwoWay}" Margin="0,0,0,0" Grid.RowSpan="2" >
             <ListView.View>
                 <GridView >
-                    <GridViewColumn Header="Type" Width="200">
+                    <GridViewColumn Header="Type" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.HeatSourceTypes}" SelectedItem="{Binding Path=HeatSourceType,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="180"></ComboBox>
+                                <TextBox IsEnabled="False" Text="{Binding HeatSourceType, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Name" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.HeatSourceNames}" SelectedItem="{Binding Path=HeatSourceName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="180"></ComboBox>
+                                <TextBox IsEnabled="False" Text="{Binding HeatSourceName, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Duty, kg/hr" Width="150px" >
+                    <GridViewColumn Header="Normal Duty, kg/hr" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox  Text="{Binding Path=Duty,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                <TextBox IsEnabled="False" Text="{Binding Duty, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Duty Factor" Width="150px" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox  Text="{Binding DutyFactor, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.DeleteCommand}" CommandParameter="{Binding SeqNumber,Mode=TwoWay}" ></Button>
+                                <Button Content="Calculate" Command="{Binding DataContext.CalculateCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding ID, Mode=TwoWay}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Add" Command="{Binding AddCommand}" HorizontalAlignment="Left" Margin="400,2,0,0" VerticalAlignment="Top" Width="75" Height="22" Grid.Row="1"/>
-        <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  HorizontalAlignment="Left" Margin="505,7,0,0" VerticalAlignment="Top" Width="75" Height="22" Grid.Row="2"/>
+        <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  HorizontalAlignment="Left" Margin="509,10.069,0,0" VerticalAlignment="Top" Width="63" Height="28" Grid.Row="1"/>
 
     </Grid>
 </Window>

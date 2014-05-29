@@ -472,7 +472,7 @@ namespace ReliefProMain.ViewModel
             }
 
             TowerScenarioCalcView v = new TowerScenarioCalcView();
-            TowerScenarioCalcVM vm = new TowerScenarioCalcVM(ScenarioID, SessionPlant, SessionProtectedSystem);
+            TowerScenarioCalcVM vm = new TowerScenarioCalcVM(ScenarioID,PrzFile, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {
@@ -497,6 +497,19 @@ namespace ReliefProMain.ViewModel
             }
         }
 
+        private void CreateAbnormalHeatInput(int ScenarioID)
+        {
+            AbnormalHeatInputView v = new AbnormalHeatInputView();
+            AbnormalHeatInputVM vm = new AbnormalHeatInputVM(ScenarioID, SessionPlant, SessionProtectedSystem);
+            v.DataContext = vm;
+            if (v.ShowDialog() == true)
+            {
+                SelectedScenario.ReliefLoad = vm.ReliefLoad;
+                SelectedScenario.ReliefMW = vm.ReliefMW;
+                SelectedScenario.ReliefPressure = vm.ReliefPressure;
+                SelectedScenario.ReliefTemperature = vm.ReliefTemperature;
+            }
+        }
 
         public Scenario ConvertToDBModel(ScenarioModel m, Scenario d)
         {

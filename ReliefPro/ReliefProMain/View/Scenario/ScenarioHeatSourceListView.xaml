@@ -38,13 +38,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="" >
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="Calculate" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.CalculateCommand}" CommandParameter="{Binding ID,Mode=TwoWay}" ></Button>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                   
                 </GridView>
             </ListView.View>
         </ListView>
