@@ -7,10 +7,10 @@
   <property name="ScenarioID" column="ScenarioID" type="Int32"/>
   <property name="ColdStream" column="ColdStream" type="Double"/>
   <property name="NormalDuty" column="NormalDuty" type="Double"/>
-  <property name="NormalHotTemp" column="NormalHotTemp" type="Double"/>
-  <property name="NormalColdInletTemp" column="NormalColdInletTemp" type="Double"/>
+  <property name="NormalHotTemperature" column="NormalHotTemperature" type="Double"/>
+  <property name="NormalColdInletTemperature" column="NormalColdInletTemperature" type="Double"/>
   <property name="NormalColdOutletTemp" column="NormalColdOutletTemp" type="Double"/>
-  <property name="Reliefload" column="Reliefload" type="Double"/>
+  <property name="ReliefLoad" column="ReliefLoad" type="Double"/>
   <property name="ReliefMW" column="ReliefMW" type="Double"/>
   <property name="ReliefTemperature" column="ReliefTemperature" type="Double"/>
   <property name="ReliefPressure" column="ReliefPressure" type="Double"/>

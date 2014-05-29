@@ -12,11 +12,11 @@ namespace ReliefProModel.HX
 
         public virtual double ColdStream { get; set; }
         public virtual double NormalDuty { get; set; }
-        public virtual double NormalHotTemp { get; set; }
-        public virtual double NormalColdInletTemp { get; set; }
-        public virtual double NormalColdOutletTemp { get; set; }
+        public virtual double NormalHotTemperature { get; set; }
+        public virtual double NormalColdInletTemperature { get; set; }
+        public virtual double NormalColdOutletTemperature { get; set; }
 
-        public virtual double Reliefload { get; set; }
+        public virtual double ReliefLoad { get; set; }
         public virtual double ReliefMW { get; set; }
         public virtual double ReliefTemperature { get; set; }
         public virtual double ReliefPressure { get; set; }
