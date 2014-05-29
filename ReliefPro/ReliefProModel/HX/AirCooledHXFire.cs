@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ReliefProModel.HX
 {
-    public class AirCooledHXFire
+    public class AirCooledHXFire : IScenarioModel
     {
         public virtual int ID { get; set; }
         public virtual int ScenarioID { get; set; }
