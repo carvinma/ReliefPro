@@ -195,6 +195,15 @@
     <Compile Include="View\Common\HeatSourceListView.xaml.cs">
       <DependentUpon>HeatSourceListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\HX\AirCoolerFireView.xaml.cs">
+      <DependentUpon>AirCoolerFireView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HX\HXFireView.xaml.cs">
+      <DependentUpon>HXFireView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HX\TubeRuptureView.xaml.cs">
+      <DependentUpon>TubeRuptureView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Scenario\ScenarioHeatSourceListView.xaml.cs">
       <DependentUpon>ScenarioHeatSourceListView.xaml</DependentUpon>
     </Compile>
@@ -367,6 +376,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\Common\HeatSourceListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HX\AirCoolerFireView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HX\HXFireView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HX\TubeRuptureView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
