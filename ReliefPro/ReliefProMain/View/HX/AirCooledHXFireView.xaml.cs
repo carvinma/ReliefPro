@@ -16,9 +16,9 @@ namespace ReliefProMain.View.HX
     /// <summary>
     /// AirCoolerFireView.xaml 的交互逻辑
     /// </summary>
-    public partial class AirCoolerFireView : Window
+    public partial class AirCooledHXFireView : Window
     {
-        public AirCoolerFireView()
+        public AirCooledHXFireView()
         {
             InitializeComponent();
         }

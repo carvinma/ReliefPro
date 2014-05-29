@@ -195,8 +195,8 @@
     <Compile Include="View\Common\HeatSourceListView.xaml.cs">
       <DependentUpon>HeatSourceListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\HX\AirCoolerFireView.xaml.cs">
-      <DependentUpon>AirCoolerFireView.xaml</DependentUpon>
+    <Compile Include="View\HX\AirCooledHXFireView.xaml.cs">
+      <DependentUpon>AirCooledHXFireView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\HX\HXFireView.xaml.cs">
       <DependentUpon>HXFireView.xaml</DependentUpon>
@@ -379,7 +379,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\HX\AirCoolerFireView.xaml">
+    <Page Include="View\HX\AirCooledHXFireView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
