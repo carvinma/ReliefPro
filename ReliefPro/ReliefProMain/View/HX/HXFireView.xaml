@@ -67,8 +67,8 @@
         <Label x:Name="lblLength"  Content="{Binding model.LengthUnit}"  Grid.Column="3" Grid.Row="3" />
         <Label x:Name="lblPipingContingency"  Content="%"  Grid.Column="3" Grid.Row="4"/>
         <Label x:Name="lblElevation"  Content="{Binding model.ElevationUnit}" Grid.Column="3" Grid.Row="5"/>
-        <ComboBox ItemsSource="{Binding ExposedToFires}" SelectedItem="{Binding model.ExposedToFire}"  Grid.Column="2" Grid.Row="0"/>
-        <ComboBox ItemsSource="{Binding Types}" SelectedItem="{Binding model.Type}"  Grid.Column="2" Grid.Row="1"/>
+        <ComboBox ItemsSource="{Binding lstExposedToFires}" SelectedItem="{Binding SelectedExposedToFire}"  Grid.Column="2" Grid.Row="0"/>
+        <ComboBox ItemsSource="{Binding lstTypes}" SelectedItem="{Binding SelectedType}"  Grid.Column="2" Grid.Row="1"/>
         <Button Content="OK" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=myWindow}"  Grid.Column="2" Grid.Row="6" Width="75" Height="22"/>
         <Button Content="Cancel" IsCancel="True"   Grid.Column="3" Grid.Row="6" Width="75" Height="22"/>
     </Grid>
