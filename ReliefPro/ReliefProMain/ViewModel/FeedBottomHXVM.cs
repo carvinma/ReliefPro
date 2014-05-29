@@ -129,6 +129,8 @@ namespace ReliefProMain.ViewModel
         dbHeatSource dbhs;
         dbSource dbsource;
         dbStream dbstream;
+        dbProIIEqData dbProIIeq;
+        dbProIIStreamData dbProIIStream;
         public FeedBottomHXVM(int HeatSourceID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             SessionPlant = sessionPlant;
@@ -137,6 +139,8 @@ namespace ReliefProMain.ViewModel
             dbsource = new dbSource();
             dbstream = new dbStream();
             db = new dbFeedBottomHX();
+            dbProIIeq = new dbProIIEqData();
+            dbProIIStream = new dbProIIStreamData();
             model = db.GetModel(this.SessionProtectedSystem, HeatSourceID);
             if (model != null)
             {
@@ -145,17 +149,7 @@ namespace ReliefProMain.ViewModel
             else
             {
                 HeatSource hs = dbhs.GetModel(HeatSourceID, SessionProtectedSystem);
-                Source source = dbsource.GetModel(hs.SourceID, SessionProtectedSystem);
-                CustomStream cs = dbstream.GetModel(SessionProtectedSystem, source.StreamName);
-                if (cs != null)
-                {
-                    FeedMassRate = cs.WeightFlow;
-                    FeedTout = cs.Temperature;
-                    FeedSpEout = cs.SpEnthalpy;
-
-                   
-
-                }
+                
             }
         }
 

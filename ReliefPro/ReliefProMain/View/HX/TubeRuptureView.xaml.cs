@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,14 +11,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ReliefProMain.View
+namespace ReliefProMain.View.HX
 {
     /// <summary>
-    /// StorageTank2.xaml 的交互逻辑
+    /// TubeRuptureView.xaml 的交互逻辑
     /// </summary>
-    public partial class HX : Window
+    public partial class TubeRuptureView : Window
     {
-        public HX()
+        public TubeRuptureView()
         {
             InitializeComponent();
         }

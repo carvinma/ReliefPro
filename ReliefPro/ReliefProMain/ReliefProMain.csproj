@@ -296,8 +296,8 @@
     <Compile Include="View\Drum_fire\Drum_fireFluid.xaml.cs">
       <DependentUpon>Drum_fireFluid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\HX\HX.xaml.cs">
-      <DependentUpon>HX.xaml</DependentUpon>
+    <Compile Include="View\HX\HXBlockedOutletView.xaml.cs">
+      <DependentUpon>HXBlockedOutletView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ReactorLoop\BlockedOutlet.xaml.cs">
       <DependentUpon>BlockedOutlet.xaml</DependentUpon>
@@ -502,7 +502,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\HX\HX.xaml">
+    <Page Include="View\HX\HXBlockedOutletView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
