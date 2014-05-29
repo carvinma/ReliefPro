@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ReliefProModel.HX
 {
-    public class HXBlockedOutlet
+    public class HXBlockedOutlet : IScenarioModel
     {
         public virtual int ID { get; set; }
         public virtual int ScenarioID { get; set; }

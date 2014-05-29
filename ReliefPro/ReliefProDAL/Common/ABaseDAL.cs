@@ -28,13 +28,13 @@ namespace ReliefProDAL.Common
         public virtual void Update(A model, NHibernate.ISession session)
         {
             session.Update(model);
-            
+
         }
 
         public virtual void Delete(A model, NHibernate.ISession session)
         {
             session.Delete(model);
-            
+
         }
 
         public virtual A GetModel(Object mainId, NHibernate.ISession session)

@@ -9,7 +9,7 @@ using ReliefProModel.HX;
 
 namespace ReliefProDAL.HX
 {
-    public class dbHXBlockedOutlet : ABaseDAL<HXBlockedOutlet>
+    public class dbHXBlockedOutlet : IBaseDAL<HXBlockedOutlet>
     {
         public IList<HXBlockedOutlet> GetAllList(ISession session)
         {

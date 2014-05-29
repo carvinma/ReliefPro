@@ -45,7 +45,7 @@ namespace ReliefProLL
             Model.ReliefPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);
             return Model;
         }
-        private void SaveScenario(int ScenarioID)
+        private void SaveScenario(IScenarioModel model)
         {
             dbScenario db = new dbScenario();
             var sModel = db.GetModel(model.ScenarioID, SessionPS);

@@ -86,6 +86,7 @@
     <Compile Include="FeedBottomHX.cs" />
     <Compile Include="HX\HXBlockedOutlet.cs" />
     <Compile Include="InletValveOpen.cs" />
+    <Compile Include="IScenario.cs" />
     <Compile Include="Latent.cs" />
     <Compile Include="LatentProduct.cs" />
     <Compile Include="ProIIEqData.cs" />
@@ -195,7 +196,9 @@
     <EmbeddedResource Include="Drum\Drum.hbm.xml" />
     <EmbeddedResource Include="Drum\DrumDepressuring.hbm.xml" />
     <EmbeddedResource Include="Compressor.hbm.xml" />
-    <EmbeddedResource Include="HX\HXBlockedOutlet.hbm.xml" />
+    <EmbeddedResource Include="HX\HXBlockedOutlet.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Content Include="license.txt" />
     <EmbeddedResource Include="TowerFlashProduct.hbm.xml" />
     <EmbeddedResource Include="SystemScenarioSource.hbm.xml" />
