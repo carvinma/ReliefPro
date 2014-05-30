@@ -269,7 +269,7 @@ namespace ReliefProMain.ViewModel
             }
 
 
-            dbTowerScenarioHX dbTSHX = new dbTowerScenarioHX();
+            TowerScenarioHXDAL dbTSHX = new TowerScenarioHXDAL();
             TowerHXDetailDAL dbDetail = new TowerHXDetailDAL();
             IList<TowerScenarioHX> list = dbTSHX.GetAllList(SessionProtectedSystem, ScenarioID);
             foreach (TowerScenarioHX shx in list)

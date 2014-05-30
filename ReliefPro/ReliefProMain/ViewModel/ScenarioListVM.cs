@@ -14,10 +14,16 @@ using ReliefProMain.Service;
 using ReliefProMain.View;
 using ReliefProMain.Model;
 using NHibernate;
-using ReliefProMain.ViewModel.Drum;
+using ReliefProMain.ViewModel.Drums;
 using System.Windows;
 using ReliefProMain.CustomControl;
-using ReliefProMain.ViewModel.CompressorBlocked;
+using ReliefProMain.ViewModel.Compressors;
+using ReliefProMain.View.TowerFires;
+using ReliefProMain.ViewModel.TowerFires;
+using ReliefProMain.View.Drums;
+using ReliefProMain.View.DrumFires;
+using ReliefProMain.View.DrumDepressures;
+using ReliefProMain.View.Compressors;
 
 namespace ReliefProMain.ViewModel
 {
@@ -207,7 +213,7 @@ namespace ReliefProMain.ViewModel
                 {
                     if (ScenarioName.Contains("Outlet"))
                     {
-                        Drum_BlockedOutlet v = new Drum_BlockedOutlet();
+                        DrumBlockedOutletView v = new DrumBlockedOutletView();
                         v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                         DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, PrzFile, PrzVersion, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
                         v.DataContext = vm;
@@ -225,7 +231,7 @@ namespace ReliefProMain.ViewModel
                     }
                     else if (ScenarioName.Contains("Fire"))
                     {
-                        Drum_fire v = new Drum_fire();
+                        DrumFireView v = new DrumFireView();
                         v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                         DrumFireVM vm = new DrumFireVM(ScenarioID, PrzFile, PrzVersion, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
                         v.DataContext = vm;
@@ -245,7 +251,7 @@ namespace ReliefProMain.ViewModel
                     }
                     else if (ScenarioName.Contains("Depressuring"))
                     {
-                        DrumDepressuring v = new DrumDepressuring();
+                        DrumDepressureView v = new DrumDepressureView();
                         v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                         DrumDepressuringVM vm = new DrumDepressuringVM(ScenarioID, SessionProtectedSystem, SessionPlant);
                         v.DataContext = vm;
@@ -262,7 +268,7 @@ namespace ReliefProMain.ViewModel
                         string CompresserType = "Centrifugal";
                         if (CompresserType == "Centrifugal")
                         {
-                            CentrifugalCompressorBlocked v = new CentrifugalCompressorBlocked();
+                            CentrifugalBlockedView v = new CentrifugalBlockedView();
                             v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                             CentrifugalVM vm = new CentrifugalVM(ScenarioID, SessionProtectedSystem, SessionPlant);
                             v.DataContext = vm;
@@ -276,7 +282,7 @@ namespace ReliefProMain.ViewModel
                         }
                         else if (CompresserType == "Piston")
                         {
-                            PistonCompressorBlocked v = new PistonCompressorBlocked();
+                            PistonBlockedView v = new PistonBlockedView();
                             v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                             PistonVM vm = new PistonVM(ScenarioID, SessionProtectedSystem, SessionPlant);
                             v.DataContext = vm;
@@ -374,8 +380,8 @@ namespace ReliefProMain.ViewModel
                 }
             }
 
-            ReliefProMain.View.TowerFire.TowerFireView v = new View.TowerFire.TowerFireView();
-            TowerFire.TowerFireVM vm = new TowerFire.TowerFireVM(ScenarioID, SessionPlant, SessionProtectedSystem);
+            TowerFireView v = new TowerFireView();
+            TowerFireVM vm = new TowerFireVM(ScenarioID, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {
@@ -482,7 +488,7 @@ namespace ReliefProMain.ViewModel
                     dbTowerSS.Add(tss, Session);
                 }
 
-                dbTowerScenarioHX dbTSHX = new dbTowerScenarioHX();
+                TowerScenarioHXDAL dbTSHX = new TowerScenarioHXDAL();
                 TowerHXDAL dbHX = new TowerHXDAL();
                 List<TowerHX> tHXs = dbHX.GetAllList(Session).ToList();
                 foreach (TowerHX hx in tHXs)

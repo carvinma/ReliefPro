@@ -123,7 +123,7 @@ namespace ReliefProMain.ViewModel
         {
             Details = new ObservableCollection<TowerScenarioHX>();
 
-            dbTowerScenarioHX db = new dbTowerScenarioHX();
+            TowerScenarioHXDAL db = new TowerScenarioHXDAL();
             IList<TowerScenarioHX> list = db.GetAllList(SessionProtectedSystem, ScenarioID, HeaterType).ToList();
             foreach (TowerScenarioHX hx in list)
             {

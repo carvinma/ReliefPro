@@ -13,6 +13,8 @@ using ReliefProBLL.Common;
 using NHibernate;
 using ReliefProMain.View;
 using UOMLib;
+using ReliefProModel.Drums;
+using ReliefProDAL.Drums;
 
 namespace ReliefProMain.ViewModel
 {
@@ -50,7 +52,7 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("DrumType");
             }
         }
-        public ReliefProModel.Drum.Drum CurrentDrum { get; set; }
+        public Drum CurrentDrum { get; set; }
         private string _Duty;
         public string Duty
         {
@@ -292,7 +294,7 @@ namespace ReliefProMain.ViewModel
                 }
 
                 DrumDAL dbdrum = new DrumDAL();
-                ReliefProModel.Drum.Drum drum = new ReliefProModel.Drum.Drum();
+                Drum drum = new Drum();
                 drum.DrumName = DrumName;
                 drum.Duty = Duty;
                 drum.DrumType = DrumType;

@@ -198,14 +198,14 @@ namespace ReliefProMain.ViewModel
             return list;
         }
         string przFile;
-        dbTowerScenarioHX dbtshx;
+        TowerScenarioHXDAL dbtshx;
         TowerHXDetailDAL dbDetail;
         public ReboilerPinchVM(int ID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
             dbDetail = new TowerHXDetailDAL();
-            dbtshx = new dbTowerScenarioHX();
+            dbtshx = new TowerScenarioHXDAL();
             TowerScenarioHX hx = dbtshx.GetModel(ID, SessionProtectedSystem);
             SourceType = hx.Medium;
             TowerHXDetail detail = dbDetail.GetModel(hx.DetailID, SessionProtectedSystem);

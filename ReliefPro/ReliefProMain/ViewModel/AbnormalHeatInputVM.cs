@@ -13,7 +13,7 @@ using ReliefProMain.Service;
 using ReliefProMain.View;
 using ReliefProMain.Model;
 using NHibernate;
-using ReliefProMain.ViewModel.Drum;
+using ReliefProMain.ViewModel.Drums;
 using System.Windows;
 using System.IO;
 
@@ -222,7 +222,7 @@ namespace ReliefProMain.ViewModel
             }
 
 
-            dbTowerScenarioHX dbTSHX = new dbTowerScenarioHX();
+            TowerScenarioHXDAL dbTSHX = new TowerScenarioHXDAL();
             TowerHXDetailDAL dbDetail = new TowerHXDetailDAL();
             IList<TowerScenarioHX> list = dbTSHX.GetAllList(SessionProtectedSystem, ScenarioID);
             foreach (TowerScenarioHX shx in list)

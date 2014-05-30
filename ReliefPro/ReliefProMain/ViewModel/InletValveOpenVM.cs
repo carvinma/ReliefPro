@@ -434,25 +434,44 @@ namespace ReliefProMain.ViewModel
 
         private void LiquidFlashing(string Rmass, string Cv, string UPStreamPressure, string DownStreamPressure, string przFile, ref string FLReliefLoad, ref string FLReliefMW, ref string FLReliefTemperature)
         {
-             string rMass=string.Empty; 
-            
+            string rMass = string.Empty;
+
             string dirInletValveOpen = tempdir + "InletValveOpen";
             if (!Directory.Exists(dirInletValveOpen))
                 Directory.CreateDirectory(dirInletValveOpen);
-            
+
             string vapor = Guid.NewGuid().ToString().Substring(0, 6);
-            string liquid = Guid.NewGuid().ToString().Substring(0, 6);           
-            
+            string liquid = Guid.NewGuid().ToString().Substring(0, 6);
+
             double Wliquidvalve = Darcy(Rmass, Cv, UPStreamPressure, DownStreamPressure);
             IFlashCalculateW flashCalc = ProIIFactory.CreateFlashCalculateW(PrzVersion);
             string content = PROIIFileOperator.getUsableContent(UpStreamLiquidData.StreamName, DirPlant);
-            string f = flashCalc.Calculate(content, 1, DownStreamPressure, 5, "0", UpStreamLiquidData, vapor, liquid, Wliquidvalve.ToString(), dirInletValveOpen);
+            int ImportResult = 0;
+            int RunResult = 0;
+            string f = flashCalc.Calculate(content, 1, DownStreamPressure, 5, "0", UpStreamLiquidData, vapor, liquid, Wliquidvalve.ToString(), dirInletValveOpen, ref ImportResult, ref RunResult);
+            ProIIStreamData proIIStreamData;
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                if (RunResult == 1 || RunResult == 2)
+                {
+                    IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+                    reader.InitProIIReader(f);
+                    proIIStreamData = reader.GetSteamInfo(vapor);
+                    reader.ReleaseProIIReader();
+                }
 
-            IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
-            reader.InitProIIReader(f);
-            ProIIStreamData proIIStreamData = reader.GetSteamInfo(vapor);
-            reader.ReleaseProIIReader();
-            CustomStream vaporStream=ProIIToDefault.ConvertProIIStreamToCustomStream(proIIStreamData);
+                else
+                {
+                    MessageBox.Show("Prz file is error", "Message Box");
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("inp file is error", "Message Box");
+                return;
+            }
+            CustomStream vaporStream = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIStreamData);
             if (!string.IsNullOrEmpty(vaporStream.WeightFlow) && CurrentEqNormalVapor != null)
             {
                 FLReliefLoad = (double.Parse(vaporStream.WeightFlow) - double.Parse(CurrentEqNormalVapor.WeightFlow)).ToString();
@@ -465,7 +484,7 @@ namespace ReliefProMain.ViewModel
                 FLReliefMW = "0";
                 FLReliefTemperature = "0";
             }
-            
+
         }
 
         private void VaporBreakthrough(ref string VBReliefLoad, ref string VBReliefMW, ref string VBReliefTemperature)

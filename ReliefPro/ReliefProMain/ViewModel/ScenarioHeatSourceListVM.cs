@@ -13,7 +13,7 @@ using ReliefProMain.Service;
 using ReliefProMain.View;
 using ReliefProMain.Model;
 using NHibernate;
-using ReliefProMain.ViewModel.Drum;
+using ReliefProMain.ViewModel.Drums;
 using System.Windows;
 using System.IO;
 
