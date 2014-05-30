@@ -17,7 +17,7 @@ namespace ReliefProBLL
         public IList<UnitType> GetUnitType()
         {
             IList<UnitType> lstUnitType;
-            dbUnitType db = new dbUnitType();
+            UnitTypeDAL db = new UnitTypeDAL();
             using (var helper = new NHibernateHelper(dbPlant))
             {
                 lstUnitType = db.GetAllList(helper.GetCurrentSession());
@@ -27,7 +27,7 @@ namespace ReliefProBLL
 
         public void Save(IList<UnitType> lstUnitType)
         {
-            dbUnitType db = new dbUnitType();
+            UnitTypeDAL db = new UnitTypeDAL();
             using (var helper = new NHibernateHelper(dbPlant))
             {
                 var Session = helper.GetCurrentSession();

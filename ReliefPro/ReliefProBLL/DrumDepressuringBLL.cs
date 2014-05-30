@@ -15,7 +15,7 @@ namespace ReliefProLL
     {
         private ISession SessionPS;
         private ISession SessionPF;
-        private dbDrumDepressuring dbdrum = new dbDrumDepressuring();
+        private DrumDepressuringDAL dbdrum = new DrumDepressuringDAL();
         public DrumDepressuringBLL(ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
@@ -72,7 +72,7 @@ namespace ReliefProLL
 
         private double? GetStreamVaporDensity()
         {
-            dbStream dbs = new dbStream();
+            StreamDAL dbs = new StreamDAL();
             var lstStream = dbs.GetAllList(SessionPS).Where(p => p.IsProduct == true && p.ProdType == "1").ToList();
             if (lstStream.Count > 0)
             {

@@ -17,10 +17,10 @@ namespace ReliefProBLL
     public class DrumBll
     {
         public IList<CustomStream> Feeds;
-        private dbDrumBlockedOutlet dbBlockedOutlet = new dbDrumBlockedOutlet();
+        private DrumBlockedOutletDAL dbBlockedOutlet = new DrumBlockedOutletDAL();
         public int GetDrumID(ISession SessionPS)
         {
-            dbDrum db = new dbDrum();
+            DrumDAL db = new DrumDAL();
             Drum model = db.GetModel(SessionPS);
             if (model != null)
                 return model.ID;
@@ -30,7 +30,7 @@ namespace ReliefProBLL
         {
 
             dbBlockedOutlet.SaveDrumBlockedOutlet(SessionPS, model);
-            dbScenario db = new dbScenario();
+            ScenarioDAL db = new ScenarioDAL();
             var sModel = db.GetModel(model.ScenarioID, SessionPS);
 
             sModel.ReliefLoad = reliefLoad.ToString();
@@ -42,9 +42,9 @@ namespace ReliefProBLL
         }
         public DrumBlockedOutlet GetBlockedOutletModel(ISession SessionPS)
         {
-            dbStream dbsteam = new dbStream();
+            StreamDAL dbsteam = new StreamDAL();
             DrumBlockedOutlet Model = new DrumBlockedOutlet();
-            dbDrum dbdrum = new dbDrum();
+            DrumDAL dbdrum = new DrumDAL();
             List<Drum> lstDrum = dbdrum.GetAllList(SessionPS).ToList();
             if (lstDrum.Count() > 0)
             {
@@ -61,7 +61,7 @@ namespace ReliefProBLL
                 Model = tmpModel;
                 return Model;
             }
-            dbSource dbSource = new dbSource();
+            SourceDAL dbSource = new SourceDAL();
             List<Source> listSource = dbSource.GetAllList(SessionPS).ToList();
             if (listSource.Count() > 0)
             {
@@ -104,7 +104,7 @@ namespace ReliefProBLL
 
         public double PfeedUpstream(ISession SessionPS)
         {
-            dbStream stream = new dbStream();
+            StreamDAL stream = new StreamDAL();
 
             var streamModel = stream.GetAllList(SessionPS).FirstOrDefault();
             if (streamModel != null)
@@ -117,7 +117,7 @@ namespace ReliefProBLL
         }
         public double ScenarioReliefPressure(ISession SessionPS)
         {
-            dbPSV psv = new dbPSV();
+            PSVDAL psv = new PSVDAL();
             var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
             if (psvModel != null)
             {
@@ -128,7 +128,7 @@ namespace ReliefProBLL
         }
         public double PSet(ISession SessionPS)
         {
-            dbPSV psv = new dbPSV();
+            PSVDAL psv = new PSVDAL();
 
             var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
             if (psvModel != null)

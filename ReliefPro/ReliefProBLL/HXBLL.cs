@@ -15,9 +15,9 @@ namespace ReliefProLL
     {
         private ISession SessionPS;
         private ISession SessionPF;
-        private dbHXBlockedOutlet dbBlock = new dbHXBlockedOutlet();
-        private dbAirCooledHXFire dbAir = new dbAirCooledHXFire();
-        private dbHXFire dbFire = new dbHXFire();
+        private HXBlockedOutletDAL dbBlock = new HXBlockedOutletDAL();
+        private AirCooledHXFireDAL dbAir = new AirCooledHXFireDAL();
+        private HXFireDAL dbFire = new HXFireDAL();
         public HXBLL(ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
@@ -109,7 +109,7 @@ namespace ReliefProLL
 
         private void SaveScenario(IScenarioModel model)
         {
-            dbScenario db = new dbScenario();
+            ScenarioDAL db = new ScenarioDAL();
             var sModel = db.GetModel(model.ScenarioID, SessionPS);
             sModel.ReliefLoad = model.ReliefLoad.ToString();
             sModel.ReliefPressure = model.ReliefPressure.ToString();

@@ -15,7 +15,7 @@ namespace ReliefProLL
     {
         private ISession SessionPS;
         private ISession SessionPF;
-        private dbReactorLoopBlockedOutlet dbBlock = new dbReactorLoopBlockedOutlet();
+        private ReactorLoopBlockedOutletDAL dbBlock = new ReactorLoopBlockedOutletDAL();
         public ReactorLoopBLL(ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
@@ -50,7 +50,7 @@ namespace ReliefProLL
         public void SaveBlockedOutlet(ReactorLoopBlockedOutlet model)
         {
             dbBlock.Save(SessionPS, model);
-            dbScenario db = new dbScenario();
+            ScenarioDAL db = new ScenarioDAL();
             var sModel = db.GetModel(model.ScenarioID, SessionPS);
             sModel.ReliefLoad = model.ReliefLoad.ToString();
             //sModel.ReliefPressure = model.ReliefPressure.ToString();

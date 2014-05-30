@@ -23,7 +23,7 @@ namespace ReliefProLL
         public DrumSize GetSizeModel(int DrumFireCalcID)
         {
             DrumSize Model = new DrumSize();
-            dbDrumSize dbSize = new dbDrumSize();
+            DrumSizeDAL dbSize = new DrumSizeDAL();
             List<DrumSize> lstDrumSize = dbSize.GetAllList(SessionPS).ToList();
             if (DrumFireCalcID > 0)
             {

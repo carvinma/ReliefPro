@@ -15,8 +15,8 @@ namespace ReliefProLL
     {
         private ISession SessionPS;
         private ISession SessionPF;
-        private dbCentrifugal dbcentrifugal = new dbCentrifugal();
-        private dbPiston dbpiston = new dbPiston();
+        private CentrifugalDAL dbcentrifugal = new CentrifugalDAL();
+        private PistonDAL dbpiston = new PistonDAL();
         public CompressorBlockedBLL(ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
@@ -75,7 +75,7 @@ namespace ReliefProLL
         public void SaveCentrifugal(Centrifugal model)
         {
             dbcentrifugal.Save(SessionPS, model);
-            dbScenario db = new dbScenario();
+            ScenarioDAL db = new ScenarioDAL();
             var sModel = db.GetModel(model.ScenarioID, SessionPS);
             sModel.ReliefLoad = model.Reliefload.ToString();
             sModel.ReliefPressure = model.ReliefPressure.ToString();
@@ -87,7 +87,7 @@ namespace ReliefProLL
         public void SavePiston(Piston model)
         {
             dbpiston.Save(SessionPS, model);
-            dbScenario db = new dbScenario();
+            ScenarioDAL db = new ScenarioDAL();
             var sModel = db.GetModel(model.ScenarioID, SessionPS);
             sModel.ReliefLoad = model.Reliefload.ToString();
             sModel.ReliefPressure = model.ReliefPressure.ToString();

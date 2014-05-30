@@ -15,7 +15,7 @@ namespace ReliefProLL
     {
         private ISession SessionPS;
         private ISession SessionPF;
-        private dbDrumFire dbdrumFire = new dbDrumFire();
+        private DrumFireDAL dbdrumFire = new DrumFireDAL();
         public DrumFireBLL(ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
@@ -24,7 +24,7 @@ namespace ReliefProLL
         public DrumFireCalc GetDrumFireModel(int ScenarioID)
         {
             DrumFireCalc firemodel = new DrumFireCalc();
-            dbDrumFire drumFire = new dbDrumFire();
+            DrumFireDAL drumFire = new DrumFireDAL();
             List<DrumFireCalc> lstDrumFire = drumFire.GetAllList(SessionPS).ToList();
             if (lstDrumFire.Count() > 0)
             {
@@ -41,7 +41,7 @@ namespace ReliefProLL
         }
         private DrumFireCalc GetScenarioInfo(int ScenarioID, DrumFireCalc firemodel)
         {
-            dbScenario db = new dbScenario();
+            ScenarioDAL db = new ScenarioDAL();
             var sModel = db.GetModel(ScenarioID, SessionPS);
             if (sModel != null)
             {
@@ -86,18 +86,18 @@ namespace ReliefProLL
         {
 
             dbdrumFire.SaveDrumFireCalc(SessionPS, model);
-            dbScenario db = new dbScenario();
+            ScenarioDAL db = new ScenarioDAL();
             var sModel = db.GetModel(model.ScenarioID, SessionPS);
             if (fluidModel != null)
             {
                 fluidModel.DrumFireCalcID = model.ID;
-                dbDrumFireFluid dbFluid = new dbDrumFireFluid();
+                DrumFireFluidDAL dbFluid = new DrumFireFluidDAL();
                 dbFluid.SaveDrumFireFluid(SessionPS, fluidModel);
             }
             if (sizeModel != null)
             {
                 sizeModel.DrumFireCalcID = model.ID;
-                dbDrumSize dbSize = new dbDrumSize();
+                DrumSizeDAL dbSize = new DrumSizeDAL();
                 dbSize.SaveDrumSize(SessionPS, sizeModel);
             }
             sModel.ReliefLoad = model.ReliefLoad.ToString();

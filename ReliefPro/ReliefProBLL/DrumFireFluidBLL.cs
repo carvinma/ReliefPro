@@ -24,7 +24,7 @@ namespace ReliefProBLL
         public DrumFireFluid GetFireFluidModel(int DrumFireCalcID)
         {
             DrumFireFluid Model = new DrumFireFluid();
-            dbDrumFireFluid dbfire = new dbDrumFireFluid();
+            DrumFireFluidDAL dbfire = new DrumFireFluidDAL();
             List<DrumFireFluid> lstDrumFireFluid = dbfire.GetAllList(SessionPS).ToList();
             if (DrumFireCalcID > 0)
             {
@@ -64,20 +64,20 @@ namespace ReliefProBLL
         private Tuple<double, double, double, double> GetFluidInfo()
         {
             double s = 0, drumt = 0, drump = 0, psv = 0;
-            dbStream dbs = new dbStream();
+            StreamDAL dbs = new StreamDAL();
             var lstStream = dbs.GetAllList(SessionPS).Where(p => p.IsProduct == true && p.ProdType == "1").ToList();
             if (lstStream.Count > 0)
             {
                 double.TryParse(lstStream[0].BulkMwOfPhase, out s);
             }
-            dbDrum dbd = new dbDrum();
+            DrumDAL dbd = new DrumDAL();
             var lstDrum = dbd.GetAllList(SessionPS);
             if (lstDrum.Count > 0)
             {
                 double.TryParse(lstDrum[0].Temperature, out drumt);
                 double.TryParse(lstDrum[0].Pressure, out drump);
             }
-            dbPSV dbpsv = new dbPSV();
+            PSVDAL dbpsv = new PSVDAL();
             var lstPsv = dbpsv.GetAllList(SessionPS);
             if (lstPsv.Count > 0)
             {

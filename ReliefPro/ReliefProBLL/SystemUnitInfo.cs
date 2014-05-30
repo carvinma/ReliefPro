@@ -14,7 +14,7 @@ namespace ReliefProBLL
         public IList<SystemUnit> GetSystemUnit()
         {
             IList<SystemUnit> lstSystemUnit;
-            dbSystemUnit db = new dbSystemUnit();
+            SystemUnitDAL db = new SystemUnitDAL();
             string dbPlant = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\plant.mdb";
                     
             using (var helper = new NHibernateHelper(dbPlant))
