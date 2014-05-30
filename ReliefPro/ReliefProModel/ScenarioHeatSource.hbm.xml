@@ -7,5 +7,6 @@
     <property name="DutyFactor" column="DutyFactor" type="String" length="255" />
     <property name="HeatSourceID" column="HeatSourceID"  type="Int32" />
     <property name="ScenarioStreamID" column="ScenarioStreamID"  type="Int32" />
+    <property name="ScenarioID" column="ScenarioID"  type="Int32" />
   </class>
 </hibernate-mapping>

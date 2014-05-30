@@ -12,5 +12,6 @@ namespace ReliefProModel
         public virtual int HeatSourceID { get; set; }
         public virtual string DutyFactor { get; set; }
         public virtual int ScenarioStreamID { get; set; }
+        public virtual int ScenarioID { get; set; }
     }
 }
