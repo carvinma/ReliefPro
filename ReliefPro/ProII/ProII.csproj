@@ -53,7 +53,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\ReliefProCommon.csproj">
+    <ProjectReference Include="..\ReliefProCommon\ReliefProCommon.csproj">
       <Project>{5442dadc-acf1-4668-90e5-f27070b95cfd}</Project>
       <Name>ReliefProCommon</Name>
     </ProjectReference>
