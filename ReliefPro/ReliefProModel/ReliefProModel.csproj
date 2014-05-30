@@ -141,6 +141,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ReactorLoop\ReactorLoopBlockedOutlet.hbm.xml" />
     <EmbeddedResource Include="ScenarioHeatSource.hbm.xml" />
     <EmbeddedResource Include="HeatSource.hbm.xml" />
     <EmbeddedResource Include="FlashResult.hbm.xml" />
