@@ -17,7 +17,7 @@ namespace UOMLib
         public IList<BasicUnit> GetBasicUnit()
         {
             IList<BasicUnit> lstBasicUnit;
-            dbBasicUnit db = new dbBasicUnit();
+            BasicUnitDAL db = new BasicUnitDAL();
             using (var helper = new UOMLNHibernateHelper(dbConnectPath))
             {
                 lstBasicUnit = db.GetAllList(helper.GetCurrentSession());
@@ -27,14 +27,14 @@ namespace UOMLib
         public BasicUnit GetBasicUnitUOM(ISession SessionPlan)
         {
             IList<BasicUnit> lstBasicUnit;
-            dbBasicUnit db = new dbBasicUnit();
+            BasicUnitDAL db = new BasicUnitDAL();
             lstBasicUnit = db.GetAllList(SessionPlan);
             return lstBasicUnit.Where(p => p.IsDefault == 1).First();
         }
         public IList<BasicUnitDefault> GetBasicUnitDefault()
         {
             IList<BasicUnitDefault> lstBasicUnitDefault;
-            dbBasicUnitDefault db = new dbBasicUnitDefault();
+            BasicUnitDefaultDAL db = new BasicUnitDefaultDAL();
             //using (var helper = new UOMLNHibernateHelper(dbConnectPath))
             //{
             //    lstBasicUnitDefault = db.GetAllList(TempleSession.Session);
@@ -44,14 +44,14 @@ namespace UOMLib
         }
         public IList<BasicUnitDefault> GetBasicUnitDefaultUserSet(ISession SessionPlan)
         {
-            dbBasicUnitDefault db = new dbBasicUnitDefault();
+            BasicUnitDefaultDAL db = new BasicUnitDefaultDAL();
             var lstBasicUnitDefault = db.GetAllList(SessionPlan);
             return lstBasicUnitDefault;
         }
         public IList<SystemUnit> GetSystemUnit()
         {
             IList<SystemUnit> lstSystemUnit;
-            dbSystemUnit db = new dbSystemUnit();
+            SystemUnitDAL db = new SystemUnitDAL();
             //using (var helper = new UOMLNHibernateHelper(dbConnectPath))
             //{
             //    lstSystemUnit = db.GetAllList(helper.GetCurrentSession());
@@ -62,7 +62,7 @@ namespace UOMLib
         public IList<UnitType> GetUnitType()
         {
             IList<UnitType> lstUnitType;
-            dbUnitType db = new dbUnitType();
+            UnitTypeDAL db = new UnitTypeDAL();
             //using (var helper = new UOMLNHibernateHelper(dbConnectPath))
             //{
             //    lstUnitType = db.GetAllList(helper.GetCurrentSession());
@@ -73,7 +73,7 @@ namespace UOMLib
         public int BasicUnitAdd(BasicUnit model)
         {
             int tmpID = 0;
-            dbBasicUnit db = new dbBasicUnit();
+            BasicUnitDAL db = new BasicUnitDAL();
             using (var helper = new UOMLNHibernateHelper(dbConnectPath))
             {
                 object o = db.Add(model, helper.GetCurrentSession());
@@ -83,7 +83,7 @@ namespace UOMLib
         }
         public int BasicUnitSetDefault(int id)
         {
-            dbBasicUnit db = new dbBasicUnit();
+            BasicUnitDAL db = new BasicUnitDAL();
             using (var helper = new UOMLNHibernateHelper(dbConnectPath))
             {
                 var Session = helper.GetCurrentSession();
