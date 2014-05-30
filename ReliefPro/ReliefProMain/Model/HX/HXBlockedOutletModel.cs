@@ -112,7 +112,7 @@ namespace ReliefProMain.Model.HX
             this.reliefPressure = model.ReliefPressure;
         }
 
-        private string coldStream;
+        private string coldStream = "S123";
         public string ColdStream
         {
             get { return coldStream; }
