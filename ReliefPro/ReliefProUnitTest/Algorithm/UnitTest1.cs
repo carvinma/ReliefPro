@@ -10,9 +10,9 @@ namespace ReliefProUnitTest
         [TestMethod]
         public void TestMethod1()
         {
-            double result = Algorithm.GetQ(1, 1, 1);
-            double fact=3.6;
-            Assert.AreEqual(result,fact);
+            double fact = Algorithm.GetQ(1, 1, 1);
+            double target=3.6;
+            Assert.AreEqual(target, fact);
         }
     }
 }
