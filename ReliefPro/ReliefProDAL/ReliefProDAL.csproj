@@ -109,7 +109,10 @@
     <Compile Include="dbCritical.cs" />
     <Compile Include="dbHeatSource.cs" />
     <Compile Include="dbScenarioHeatSource.cs" />
+    <Compile Include="dbSink.cs" />
+
     <Compile Include="ReactorLoop\dbReactorLoopBlockedOutlet.cs" />
+
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\ReliefProCommon.csproj">
