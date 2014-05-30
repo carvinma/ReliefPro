@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using NHibernate;
 using ReliefProDAL;
-using ReliefProDAL.HX;
+using ReliefProDAL.HXs;
 using ReliefProModel;
-using ReliefProModel.HX;
+using ReliefProModel.HXs;
 using UOMLib;
 
 namespace ReliefProLL

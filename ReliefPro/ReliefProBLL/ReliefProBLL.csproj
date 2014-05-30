@@ -90,11 +90,11 @@
     <Compile Include="DrumSizeBLL.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\ReliefProCommon.csproj">
+    <ProjectReference Include="..\ReliefProCommon\ReliefProCommon.csproj">
       <Project>{5442dadc-acf1-4668-90e5-f27070b95cfd}</Project>
       <Name>ReliefProCommon</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ProIIIDAL\ProII.csproj">
+    <ProjectReference Include="..\ProII\ProII.csproj">
       <Project>{a5266b4f-56fa-413b-bc59-0f84ac0d9b64}</Project>
       <Name>ProII</Name>
     </ProjectReference>

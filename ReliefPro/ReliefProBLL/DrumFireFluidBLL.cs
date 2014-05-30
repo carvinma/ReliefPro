@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using NHibernate;
 using ReliefProDAL;
-using ReliefProDAL.Drum;
+using ReliefProDAL.Drums;
 using ReliefProModel;
-using ReliefProModel.Drum;
+using ReliefProModel.Drums;
 using UOMLib;
 
 namespace ReliefProBLL

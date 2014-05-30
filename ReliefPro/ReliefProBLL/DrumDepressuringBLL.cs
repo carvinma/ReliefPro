@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using NHibernate;
 using ReliefProDAL;
-using ReliefProDAL.Drum;
+using ReliefProDAL.Drums;
 using ReliefProModel;
-using ReliefProModel.Drum;
+using ReliefProModel.Drums;
 using UOMLib;
 
 namespace ReliefProLL

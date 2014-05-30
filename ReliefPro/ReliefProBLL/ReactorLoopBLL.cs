@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using NHibernate;
 using ReliefProDAL;
-using ReliefProDAL.ReactorLoop;
+using ReliefProDAL.ReactorLoops;
 using ReliefProModel;
-using ReliefProModel.ReactorLoop;
+using ReliefProModel.ReactorLoops;
 using UOMLib;
 
 namespace ReliefProLL

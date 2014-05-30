@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using NHibernate;
 using ReliefProDAL;
-using ReliefProDAL.CompressorBlocked;
+using ReliefProDAL.Compressors;
 using ReliefProModel;
-using ReliefProModel.CompressorBlocked;
+using ReliefProModel.Compressors;
 using UOMLib;
 
 namespace ReliefProLL
@@ -15,29 +15,29 @@ namespace ReliefProLL
     {
         private ISession SessionPS;
         private ISession SessionPF;
-        private CentrifugalDAL dbcentrifugal = new CentrifugalDAL();
-        private PistonDAL dbpiston = new PistonDAL();
+        private CentrifugalBlockedOutletDAL dbcentrifugal = new CentrifugalBlockedOutletDAL();
+        private PistonBlockedOutletDAL dbpiston = new PistonBlockedOutletDAL();
         public CompressorBlockedBLL(ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
         }
-        public Centrifugal GetCentrifugalModel(int ScenarioID)
+        public CentrifugalBlockedOutlet GetCentrifugalModel(int ScenarioID)
         {
             var model = dbcentrifugal.GetModelByScenarioID(SessionPS, ScenarioID);
             if (model == null)
-                model = new Centrifugal();
+                model = new CentrifugalBlockedOutlet();
             return model;
         }
-        public Piston GetPistonModel(int ScenarioID)
+        public PistonBlockedOutlet GetPistonModel(int ScenarioID)
         {
             var model = dbpiston.GetModelByScenarioID(SessionPS, ScenarioID);
             if (model == null)
-                model = new Piston();
+                model = new PistonBlockedOutlet();
             return model;
         }
 
-        public Centrifugal ReadConvertCentrifugalModel(Centrifugal model)
+        public CentrifugalBlockedOutlet ReadConvertCentrifugalModel(CentrifugalBlockedOutlet model)
         {
             UnitInfo unitInfo = new UnitInfo();
             BasicUnit basicUnit = unitInfo.GetBasicUnitUOM(this.SessionPF);
@@ -45,7 +45,7 @@ namespace ReliefProLL
             {
                 return model;
             }
-            Centrifugal Model = new Centrifugal();
+            CentrifugalBlockedOutlet Model = new CentrifugalBlockedOutlet();
             UnitConvert uc = new UnitConvert();
             Model = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
@@ -54,7 +54,7 @@ namespace ReliefProLL
             Model.ReliefPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);
             return Model;
         }
-        public Piston ReadConvertPistonModel(Piston model)
+        public PistonBlockedOutlet ReadConvertPistonModel(PistonBlockedOutlet model)
         {
             UnitInfo unitInfo = new UnitInfo();
             BasicUnit basicUnit = unitInfo.GetBasicUnitUOM(this.SessionPF);
@@ -62,7 +62,7 @@ namespace ReliefProLL
             {
                 return model;
             }
-            Piston Model = new Piston();
+            PistonBlockedOutlet Model = new PistonBlockedOutlet();
             UnitConvert uc = new UnitConvert();
             Model = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
@@ -72,7 +72,7 @@ namespace ReliefProLL
             return Model;
         }
 
-        public void SaveCentrifugal(Centrifugal model)
+        public void SaveCentrifugal(CentrifugalBlockedOutlet model)
         {
             dbcentrifugal.Save(SessionPS, model);
             ScenarioDAL db = new ScenarioDAL();
@@ -84,7 +84,7 @@ namespace ReliefProLL
             db.Update(sModel, SessionPS);
         }
 
-        public void SavePiston(Piston model)
+        public void SavePiston(PistonBlockedOutlet model)
         {
             dbpiston.Save(SessionPS, model);
             ScenarioDAL db = new ScenarioDAL();
