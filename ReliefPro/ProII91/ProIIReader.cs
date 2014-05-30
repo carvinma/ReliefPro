@@ -27,7 +27,7 @@ namespace ProII91
         string[] arrColumnAttributes = { "PressureDrop", "Duty", "NumberOfTrays", "HeaterNames", "HeaterDuties", "HeaterNumber", "HeaterPANumberfo", "HeaterRegOrPAFlag", "HeaterTrayLoc", "HeaterTrayNumber" };
         string[] arrColumnInAttributes = { "ProdType", "FeedTrays", "ProdTrays", "FeedData", "ProductData" };
         string[] arrFlashAttributes = { "FeedData", "ProductData", "PressCalc", "TempCalc", "DutyCalc", "Type", "ProductStoreData" };
-
+        string[] arrHxAttributes = { "FeedData", "ProductData",  "DutyCalc" };
 
 
         string przFileName;
@@ -264,6 +264,27 @@ namespace ProII91
                         case "ProductStoreData":
                             data.ProductStoreData = value;
                             break;
+                    }
+                }
+            }
+            else if (otype == "Hx"|| otype=="")
+            {
+                foreach (string s in arrHxAttributes)
+                {
+                    object v = eq.GetAttribute(s);
+                    string value = ConvertExt.ObjectToString(v);
+                    switch (s)
+                    {
+                        case "FeedData":
+                            data.FeedData = value;
+                            break;
+                        case "ProductData":
+                            data.ProductData = value;
+                            break;
+                        case "DutyCalc":
+                            data.DutyCalc = value;
+                            break;
+                      
                     }
                 }
             }

@@ -27,7 +27,7 @@ namespace ProII91
         /// <param name="liquid"></param>
         /// <param name="dir"></param>
         /// <returns></returns>
-        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream,string PH, string dir)
+        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string PH, string dir, ref int ImportResult, ref int RunResult)
         {
             CP2ServerClass cp2Srv = new CP2ServerClass();
             cp2Srv.Initialize();
@@ -40,11 +40,14 @@ namespace ProII91
             string onlyFileName = dir + @"\" + Guid.NewGuid().ToString().Substring(0, 5);
             string inpFile = onlyFileName + ".inp";
             File.WriteAllText(inpFile, sb.ToString());
-            int resultImport = cp2Srv.Import(inpFile);
-            string przFile = onlyFileName + ".prz";
-            CP2File cp2File = (CP2File)cp2Srv.OpenDatabase(przFile);
-            int runResult = cp2Srv.RunCalcs(przFile);
-            runResult = runResult + cp2Srv.GenerateReport(przFile);
+            ImportResult = cp2Srv.Import(inpFile);
+            string przFile = string.Empty;
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                przFile = onlyFileName + ".prz";
+                CP2File cp2File = (CP2File)cp2Srv.OpenDatabase(przFile);
+                RunResult = cp2Srv.RunCalcs(przFile);
+            }
             Marshal.FinalReleaseComObject(cp2Srv);
             GC.ReRegisterForFinalize(cp2Srv);
 
