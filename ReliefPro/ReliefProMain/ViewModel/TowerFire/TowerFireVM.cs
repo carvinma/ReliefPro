@@ -28,8 +28,8 @@ namespace ReliefProMain.ViewModel.TowerFire
         public ObservableCollection<string> HeatInputModels { get; set; }
         private Latent latent;
 
-        //public ReliefProModel.TowerFire model { get; set; }
-        public ReliefProModel.TowerFire CurrentModel { get; set; }
+        public TowerFireModel MainModel { get; set; }
+        //public ReliefProModel.TowerFire CurrentModel { get; set; }
         private ObservableCollection<TowerFireEq> _EqList;
         public ObservableCollection<TowerFireEq> EqList
         {
@@ -53,10 +53,11 @@ namespace ReliefProMain.ViewModel.TowerFire
             
             UnitConvert uc = new UnitConvert();
             dbTowerFire db = new dbTowerFire();
-            CurrentModel = db.GetModel(SessionProtectedSystem, ScenarioID);
-            
+            ReliefProModel.TowerFire model = db.GetModel(SessionProtectedSystem, ScenarioID);
+            MainModel = new TowerFireModel(model);
+
             dbTowerFireEq dbtfeq = new dbTowerFireEq();
-            IList<TowerFireEq> list = dbtfeq.GetAllList(SessionProtectedSystem, CurrentModel.ID);
+            IList<TowerFireEq> list = dbtfeq.GetAllList(SessionProtectedSystem, MainModel.ID);
             EqList = new ObservableCollection<TowerFireEq>();
             foreach (TowerFireEq eq in list)
             {
@@ -85,16 +86,16 @@ namespace ReliefProMain.ViewModel.TowerFire
         private void Update(object window)
         {
                 dbTowerFire db = new dbTowerFire();
-                ReliefProModel.TowerFire m = db.GetModel(CurrentModel.ID, SessionProtectedSystem);
-                m.HeatInputModel = CurrentModel.HeatInputModel;
-                m.IsExist = CurrentModel.IsExist;
-                m.ReliefCpCv = CurrentModel.ReliefCpCv;
-                m.ReliefLoad = CurrentModel.ReliefLoad;
-                m.ReliefMW = CurrentModel.ReliefMW;
-                m.ReliefPressure = CurrentModel.ReliefPressure;
-                m.ReliefTemperature = CurrentModel.ReliefTemperature;
-                m.ReliefZ = CurrentModel.ReliefZ;
-                db.Update(m, SessionProtectedSystem);
+                //ReliefProModel.TowerFire m = db.GetModel(CurrentModel.ID, SessionProtectedSystem);
+                //m.HeatInputModel = CurrentModel.HeatInputModel;
+                //m.IsExist = CurrentModel.IsExist;
+                //m.ReliefCpCv = CurrentModel.ReliefCpCv;
+                //m.ReliefLoad = CurrentModel.ReliefLoad;
+                //m.ReliefMW = CurrentModel.ReliefMW;
+                //m.ReliefPressure = CurrentModel.ReliefPressure;
+                //m.ReliefTemperature = CurrentModel.ReliefTemperature;
+                //m.ReliefZ = CurrentModel.ReliefZ;
+                db.Update(MainModel.model, SessionProtectedSystem);
                 SessionProtectedSystem.Flush();
             
             System.Windows.Window wd = window as System.Windows.Window;
@@ -129,7 +130,7 @@ namespace ReliefProMain.ViewModel.TowerFire
         {
 
             double C1 = 0;
-            if (CurrentModel.IsExist)
+            if (MainModel.IsExist)
             {
                 C1 = 43200;
             }
@@ -156,7 +157,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                     eq.HeatInput = Algorithm.GetQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
                     eq.ReliefLoad = (double.Parse(eq.HeatInput) / latentEnthalpy).ToString();
                     db.Update(eq, SessionProtectedSystem);
-                    IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, CurrentModel.ID);
+                    IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, MainModel.ID);
                     foreach (TowerFireEq q in list)
                     {
                         EqList.Add(q);
@@ -177,7 +178,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                     eq.HeatInput = Algorithm.GetQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
                     eq.ReliefLoad = (double.Parse(eq.HeatInput) / latentEnthalpy).ToString();
                     db.Update(eq, SessionProtectedSystem);
-                    IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, CurrentModel.ID);
+                    IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, MainModel.ID);
                     foreach (TowerFireEq q in list)
                     {
                         EqList.Add(q);
@@ -198,7 +199,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                     eq.HeatInput = Algorithm.GetQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
                     eq.ReliefLoad = (double.Parse(eq.HeatInput) / latentEnthalpy).ToString();
                     db.Update(eq, SessionProtectedSystem);
-                    IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, CurrentModel.ID);
+                    IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, MainModel.ID);
                     foreach (TowerFireEq q in list)
                     {
                         EqList.Add(q);
@@ -219,7 +220,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                     eq.HeatInput = Algorithm.GetQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
                     eq.ReliefLoad = (double.Parse(eq.HeatInput) / latentEnthalpy).ToString();
                     db.Update(eq, SessionProtectedSystem);
-                    IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, CurrentModel.ID);
+                    IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, MainModel.ID);
                     foreach (TowerFireEq q in list)
                     {
                         EqList.Add(q);
@@ -240,7 +241,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                     eq.HeatInput = Algorithm.GetQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
                     eq.ReliefLoad = (double.Parse(eq.HeatInput) / latentEnthalpy).ToString();
                     db.Update(eq, SessionProtectedSystem);
-                    IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, CurrentModel.ID);
+                    IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, MainModel.ID);
                     foreach (TowerFireEq q in list)
                     {
                        EqList.Add(q);
@@ -277,7 +278,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                     reliefload = reliefload + double.Parse(eq.ReliefLoad ?? "0");
                 }
             }
-            CurrentModel.ReliefLoad = reliefload.ToString();
+            MainModel.ReliefLoad = reliefload.ToString();
 
             
         }

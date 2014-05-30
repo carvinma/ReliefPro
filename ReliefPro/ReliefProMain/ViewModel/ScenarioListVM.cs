@@ -379,10 +379,10 @@ namespace ReliefProMain.ViewModel
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {
-                SelectedScenario.ReliefLoad = vm.CurrentModel.ReliefLoad;
-                SelectedScenario.ReliefMW = vm.CurrentModel.ReliefMW;
-                SelectedScenario.ReliefPressure = vm.CurrentModel.ReliefPressure;
-                SelectedScenario.ReliefTemperature = vm.CurrentModel.ReliefTemperature;
+                SelectedScenario.ReliefLoad = vm.MainModel.ReliefLoad;
+                SelectedScenario.ReliefMW = vm.MainModel.ReliefMW;
+                SelectedScenario.ReliefPressure = vm.MainModel.ReliefPressure;
+                SelectedScenario.ReliefTemperature = vm.MainModel.ReliefTemperature;
             }
         }
 
