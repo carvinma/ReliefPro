@@ -24,7 +24,7 @@ namespace ReliefProMain.ViewModel
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         private string PrzFile;
-        private dbHeatSource db;
+        private HeatSourceDAL db;
         private int SourceID;
         private Dictionary<string, ProIIEqData> dicHX;
         private ObservableCollection<HeatSourceModel> _HeatSources;
@@ -75,7 +75,7 @@ namespace ReliefProMain.ViewModel
         {
             this.SourceID = SourceID;
             this.PrzFile = PrzFile;
-            db = new dbHeatSource();
+            db = new HeatSourceDAL();
             this.SessionPlant = SessionPlant;
             this.SessionProtectedSystem = SessionProtectedSystem;
             dicHX = new Dictionary<string, ProIIEqData>();
@@ -182,7 +182,7 @@ namespace ReliefProMain.ViewModel
         {
             string fileName = System.IO.Path.GetFileName(PrzFile);
             ObservableCollection<string> list = new ObservableCollection<string>();
-            dbProIIEqData dbproiieq = new dbProIIEqData();
+            ProIIEqDataDAL dbproiieq = new ProIIEqDataDAL();
             IList<ProIIEqData> eqs = dbproiieq.GetAllList(SessionPlant,fileName,"Hx");
             foreach(ProIIEqData eq in eqs)
             {

@@ -74,7 +74,7 @@ namespace ReliefProMain.View
                 using (var helper = new NHibernateHelper(dbProtectedSystemFile))
                 {
                     var Session = helper.GetCurrentSession();
-                    dbPSV db = new dbPSV();
+                    PSVDAL db = new PSVDAL();
                     PSV psv = db.GetModel(Session);
                     if (psv == null)
                     {
@@ -99,7 +99,7 @@ namespace ReliefProMain.View
                     }
 
 
-                    dbTower dbtower = new dbTower();
+                    TowerDAL dbtower = new TowerDAL();
                     IList<Tower> list = dbtower.GetAllList(Session);
                     if (list.Count > 0)
                     {
@@ -123,8 +123,8 @@ namespace ReliefProMain.View
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
                 var Session = helper.GetCurrentSession();
-                dbPSV db = new dbPSV();
-                dbCritical dbcritical = new dbCritical();
+                PSVDAL db = new PSVDAL();
+                CriticalDAL dbcritical = new CriticalDAL();
                 IList<PSV> list = db.GetAllList(Session);
                 if (list.Count > 0)
                 {
@@ -139,7 +139,7 @@ namespace ReliefProMain.View
                     txtCritical.Text = c.CriticalPressure;
 
                 }
-                dbTower dbt = new dbTower();
+                TowerDAL dbt = new TowerDAL();
                 IList<Tower> listTower = dbt.GetAllList(Session);
                 if (listTower.Count > 0)
                 {

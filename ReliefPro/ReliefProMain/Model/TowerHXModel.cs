@@ -14,10 +14,10 @@ namespace ReliefProMain.Model
 {     
     public class TowerHXModel : ModelBase
     {
-        private string _dbProtectedSystemFile;
-        public TowerHXModel(string dbProtectedSystemFile)
+        
+        public TowerHXModel()
         {
-            _dbProtectedSystemFile = dbProtectedSystemFile;
+            
         }
 
         private int _ID;

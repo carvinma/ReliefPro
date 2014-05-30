@@ -21,6 +21,16 @@ namespace ReliefProMain.ViewModel
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
 
+        private bool _IsPinch;
+        public bool IsPinch
+        {
+            get { return _IsPinch; }
+            set
+            {
+                _IsPinch = value;
+                OnPropertyChanged("IsPinch");
+            }
+        }
         private ObservableCollection<string> _SourceTypes;
         public ObservableCollection<string> SourceTypes
         {
@@ -189,37 +199,37 @@ namespace ReliefProMain.ViewModel
         }
         string przFile;
         dbTowerScenarioHX dbtshx;
-        dbTowerHXDetail dbDetail;
+        TowerHXDetailDAL dbDetail;
         public ReboilerPinchVM(int ID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
-                dbDetail = new dbTowerHXDetail();
-                dbtshx = new dbTowerScenarioHX();
-                TowerScenarioHX hx = dbtshx.GetModel(ID, SessionProtectedSystem);
-                SourceType = hx.Medium;
-                TowerHXDetail detail = dbDetail.GetModel(hx.DetailID, SessionProtectedSystem);
-                double duty = double.Parse(hx.DutyCalcFactor) * double.Parse(detail.Duty);
-                Duty = duty.ToString();
+            dbDetail = new TowerHXDetailDAL();
+            dbtshx = new dbTowerScenarioHX();
+            TowerScenarioHX hx = dbtshx.GetModel(ID, SessionProtectedSystem);
+            SourceType = hx.Medium;
+            TowerHXDetail detail = dbDetail.GetModel(hx.DetailID, SessionProtectedSystem);
+            double duty = double.Parse(hx.DutyCalcFactor) * double.Parse(detail.Duty);
+            Duty = duty.ToString();
 
-                dbTower dbtower = new dbTower();
-                dbCustomStream dbcs=new dbCustomStream();
-                dbTowerFlashProduct dbtfp = new dbTowerFlashProduct();
-                Tower tower = dbtower.GetModel(SessionProtectedSystem);
-                if (tower != null) 
+            TowerDAL dbtower = new TowerDAL();
+            CustomStreamDAL dbcs = new CustomStreamDAL();
+            TowerFlashProductDAL dbtfp = new TowerFlashProductDAL();
+            Tower tower = dbtower.GetModel(SessionProtectedSystem);
+            if (tower != null)
+            {
+                IList<CustomStream> list = dbcs.GetAllList(SessionProtectedSystem);
+                foreach (CustomStream cs in list)
                 {
-                    IList<CustomStream> list = dbcs.GetAllList(SessionProtectedSystem);
-                    foreach (CustomStream cs in list)
+                    if (cs.ProdType == "5" || (cs.ProdType == "2" && cs.Tray == tower.StageNumber))
                     {
-                        if (cs.ProdType == "5"||(cs.ProdType=="2" && cs.Tray==tower.StageNumber))
-                        {
-                            Coldtout = cs.Temperature;
-                            TowerFlashProduct tfp = dbtfp.GetModel(SessionProtectedSystem, cs.StreamName);
-                            ReliefColdtout = tfp.Temperature;
-                        }
+                        Coldtout = cs.Temperature;
+                        TowerFlashProduct tfp = dbtfp.GetModel(SessionProtectedSystem, cs.StreamName);
+                        ReliefColdtout = tfp.Temperature;
                     }
                 }
-            
+            }
+
 
         }
         
@@ -306,7 +316,6 @@ namespace ReliefProMain.ViewModel
         private void PinchCalc(object obj)
         {
             double factor = 1;
-            bool isPinch = false;
             int iterateNumber = 50;
             double MaxErrorRate = 0.005;
 
@@ -321,7 +330,7 @@ namespace ReliefProMain.ViewModel
             bool isUseSteam=false;
             double qaenGuess=1.2;
             GetUDesign();
-            HeatMediumMethod(productTin, productTout, reliefProductTout, reboilerTin, reboilerTout, coeff, area, duty,isUseSteam, qaenGuess, MaxErrorRate, ref factor, ref isPinch, ref iterateNumber);
+            HeatMediumMethod(productTin, productTout, reliefProductTout, reboilerTin, reboilerTout, coeff, area, duty,isUseSteam, qaenGuess, MaxErrorRate, ref factor, ref _IsPinch, ref iterateNumber);
         }
 
         private void GetUDesign()
@@ -386,6 +395,7 @@ namespace ReliefProMain.ViewModel
 
         private void Save(object window)
         {           
+
             System.Windows.Window wd = window as System.Windows.Window;
 
             if (wd != null)

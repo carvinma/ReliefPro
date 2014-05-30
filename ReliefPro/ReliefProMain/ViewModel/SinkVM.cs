@@ -22,7 +22,7 @@ namespace ReliefProMain.ViewModel
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         private string PrzFile;
-        dbSink db;
+        SinkDAL db;
         public List<string> SourceTypes { get; set; }
         public SinkModel MainModel{ get; set; }
 
@@ -44,12 +44,12 @@ namespace ReliefProMain.ViewModel
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
             BasicUnit BU;
-            dbBasicUnit dbBU = new dbBasicUnit();
+            BasicUnitDAL dbBU = new BasicUnitDAL();
             IList<BasicUnit> list = dbBU.GetAllList(sessionPlant);
             BU = list.Where(s => s.IsDefault == 1).Single();
 
             UnitConvert uc = new UnitConvert();
-            db = new dbSink();
+            db = new SinkDAL();
             
             Sink sink = db.GetModel(SessionProtectedSystem, name);
             MainModel=new SinkModel(sink);
@@ -73,7 +73,7 @@ namespace ReliefProMain.ViewModel
             }
             BasicUnit BU;
 
-            dbBasicUnit dbBU = new dbBasicUnit();
+            BasicUnitDAL dbBU = new BasicUnitDAL();
             IList<BasicUnit> list = dbBU.GetAllList(SessionPlant);
             BU = list.Where(s => s.IsDefault == 1).Single();
 

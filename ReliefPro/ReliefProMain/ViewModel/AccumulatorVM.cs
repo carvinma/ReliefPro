@@ -115,7 +115,7 @@ namespace ReliefProMain.ViewModel
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
 
-            dbAccumulator db = new dbAccumulator();
+            AccumulatorDAL db = new AccumulatorDAL();
             CurrentAccumulator = db.GetModel(SessionProtectedSystem);
             Diameter = CurrentAccumulator.Diameter;
             Length = CurrentAccumulator.Length;
@@ -154,7 +154,7 @@ namespace ReliefProMain.ViewModel
                 throw new ArgumentException("Please type in a name for the Accumulator.");
             }
 
-            dbAccumulator db = new dbAccumulator();
+            AccumulatorDAL db = new AccumulatorDAL();
             Accumulator m = db.GetModel(SessionProtectedSystem);
 
             m.AccumulatorName = CurrentAccumulator.AccumulatorName;

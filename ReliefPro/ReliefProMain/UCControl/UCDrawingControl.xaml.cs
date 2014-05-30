@@ -609,7 +609,7 @@ namespace ReliefProMain.View
             }
             else if (btn.ToolTip.ToString() == "Scenario")
             {                
-                dbPSV dbpsv = new dbPSV();
+                PSVDAL dbpsv = new PSVDAL();
                 PSV psv = dbpsv.GetModel(SessionProtectedSystem);
                 if (psv == null)
                 {
@@ -637,7 +637,7 @@ namespace ReliefProMain.View
             SessionPlant = helperPlant.GetCurrentSession();
             NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystemFile);
             SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
-            dbTower dbtower = new dbTower();
+            TowerDAL dbtower = new TowerDAL();
             Tower tower = dbtower.GetModel(SessionProtectedSystem);
             if (tower != null)
             {
@@ -646,7 +646,7 @@ namespace ReliefProMain.View
                 PrzFile = DirPlant +@"\"+ tower.PrzFile;
                 PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
             }
-            dbDrum dbdrum = new dbDrum();
+            DrumDAL dbdrum = new DrumDAL();
             ReliefProModel.Drum.Drum drum = dbdrum.GetModel(SessionProtectedSystem);
             if (drum != null)
             {

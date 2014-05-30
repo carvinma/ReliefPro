@@ -62,7 +62,7 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("StageNumber");
             }
         }
-        dbTower dbtower;
+        TowerDAL dbtower;
         Tower tower;
         int op = 1;
         public TowerVM(string towerName, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
@@ -75,7 +75,7 @@ namespace ReliefProMain.ViewModel
             TowerName = towerName;
             if (!string.IsNullOrEmpty(TowerName))
             {
-                dbtower= new dbTower();
+                dbtower= new TowerDAL();
                 tower = dbtower.GetModel(SessionProtectedSystem);
                 TowerName = tower.TowerName;
                 Desciption = tower.Description;
@@ -93,7 +93,7 @@ namespace ReliefProMain.ViewModel
         private ObservableCollection<CustomStream> GetStreams(ISession Session,bool IsProduct)
         {
             ObservableCollection<CustomStream> list = new ObservableCollection<CustomStream>();
-            dbCustomStream db = new dbCustomStream();
+            CustomStreamDAL db = new CustomStreamDAL();
             IList<CustomStream> lt = db.GetAllList(Session, IsProduct);
             foreach (CustomStream c in lt)
             {
@@ -106,7 +106,7 @@ namespace ReliefProMain.ViewModel
         private ObservableCollection<TowerHX> GetHeaters(ISession Session, int HeaterType)
         {
             ObservableCollection<TowerHX> list = new ObservableCollection<TowerHX>();
-            dbTowerHX db = new dbTowerHX();
+            TowerHXDAL db = new TowerHXDAL();
             IList<TowerHX> lt = db.GetAllList(Session, HeaterType);
             foreach (TowerHX c in lt)
             {
@@ -211,7 +211,7 @@ namespace ReliefProMain.ViewModel
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
                 {
                     //根据设该设备名称来获取对应的物流线信息和其他信息。                    
-                        dbProIIEqData dbEq = new dbProIIEqData();
+                        ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
                         przFile = vm.SelectedFile + ".prz";
                         CurrentTower = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Column");
 
@@ -233,7 +233,7 @@ namespace ReliefProMain.ViewModel
                         HxCondensers = new ObservableCollection<TowerHX>();
                         GetHeaters(CurrentTower);
                         GetMaincolumnRealFeedProduct(ref dicFeeds, ref dicProducts);
-                        dbProIIStreamData dbStreamData=new dbProIIStreamData();
+                        ProIIStreamDataDAL dbStreamData=new ProIIStreamDataDAL();
                         foreach (KeyValuePair<string,string> k in dicFeeds)
                         {
                             ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k.Key, przFile);
@@ -540,14 +540,14 @@ namespace ReliefProMain.ViewModel
             {
                 string przFilePath = DirPlant + @"\" + przFile;
                 string version = ProIIFactory.GetProIIVerison(przFilePath, DirPlant);
-                dbTowerHX dbHx = new dbTowerHX();
-                dbTowerHXDetail dbDetail = new dbTowerHXDetail();
-                dbAccumulator dbAc = new dbAccumulator();
-                dbSideColumn dbSC = new dbSideColumn();
-                dbCustomStream dbCS = new dbCustomStream();
-                dbSource dbsr = new dbSource();
-                dbTower dbtower = new dbTower();
-                dbSink dbsink = new dbSink();
+                TowerHXDAL dbHx = new TowerHXDAL();
+                TowerHXDetailDAL dbDetail = new TowerHXDetailDAL();
+                AccumulatorDAL dbAc = new AccumulatorDAL();
+                SideColumnDAL dbSC = new SideColumnDAL();
+                CustomStreamDAL dbCS = new CustomStreamDAL();
+                SourceDAL dbsr = new SourceDAL();
+                TowerDAL dbtower = new TowerDAL();
+                SinkDAL dbsink = new SinkDAL();
 
                 IList<Accumulator> listAccumulator = dbAc.GetAllList(SessionProtectedSystem);
                 foreach (Accumulator m in listAccumulator)

@@ -52,11 +52,11 @@ namespace ReliefProMain.ViewModel.TowerFire
             HeatInputModels = GetHeatInputModels();
             
             UnitConvert uc = new UnitConvert();
-            dbTowerFire db = new dbTowerFire();
+            TowerFireDAL db = new TowerFireDAL();
             ReliefProModel.TowerFire model = db.GetModel(SessionProtectedSystem, ScenarioID);
             MainModel = new TowerFireModel(model);
 
-            dbTowerFireEq dbtfeq = new dbTowerFireEq();
+            TowerFireEqDAL dbtfeq = new TowerFireEqDAL();
             IList<TowerFireEq> list = dbtfeq.GetAllList(SessionProtectedSystem, MainModel.ID);
             EqList = new ObservableCollection<TowerFireEq>();
             foreach (TowerFireEq eq in list)
@@ -64,7 +64,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 EqList.Add(eq);
             }
 
-            dbLatent dblatent = new dbLatent();
+            LatentDAL dblatent = new LatentDAL();
             latent = dblatent.GetModel(SessionProtectedSystem);
 
         }
@@ -85,7 +85,7 @@ namespace ReliefProMain.ViewModel.TowerFire
 
         private void Update(object window)
         {
-                dbTowerFire db = new dbTowerFire();
+                TowerFireDAL db = new TowerFireDAL();
                 //ReliefProModel.TowerFire m = db.GetModel(CurrentModel.ID, SessionProtectedSystem);
                 //m.HeatInputModel = CurrentModel.HeatInputModel;
                 //m.IsExist = CurrentModel.IsExist;
@@ -140,7 +140,7 @@ namespace ReliefProMain.ViewModel.TowerFire
             }
             int id = int.Parse(obj.ToString());
 
-            dbTowerFireEq db = new dbTowerFireEq();
+            TowerFireEqDAL db = new TowerFireEqDAL();
             TowerFireEq eq = db.GetModel(id, SessionProtectedSystem);
 
             double latentEnthalpy = double.Parse(latent.LatentEnthalpy);

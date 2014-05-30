@@ -27,7 +27,7 @@ namespace ReliefProMain.ViewModel
         public string dbPlantFile { set; get; }
         public int ScenarioID { set; get; }
         public string PrzFile { set; get; }
-        private dbTowerScenarioStream db;
+        private TowerScenarioStreamDAL db;
         private ObservableCollection<TowerScenarioStreamModel> _Feeds;
         public ObservableCollection<TowerScenarioStreamModel> Feeds
         {
@@ -58,7 +58,7 @@ namespace ReliefProMain.ViewModel
         public TowerScenarioFeedVM(int scenarioID,string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             this.PrzFile = PrzFile;
-            db = new dbTowerScenarioStream();
+            db = new TowerScenarioStreamDAL();
             ScenarioID=scenarioID;
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;

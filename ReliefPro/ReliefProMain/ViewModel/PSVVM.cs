@@ -33,7 +33,7 @@ namespace ReliefProMain.ViewModel
         public List<string> ValveTypes { get; set; }
         public PSVModel CurrentModel { get; set; }
         public PSV psv;
-        dbPSV dbpsv = new dbPSV();
+        PSVDAL dbpsv = new PSVDAL();
         UnitConvert unitConvert;
         public List<string> GetValveTypes()
         {
@@ -192,35 +192,72 @@ namespace ReliefProMain.ViewModel
 
             IPHASECalculate PhaseCalc = ProIIFactory.CreatePHASECalculate(PrzVersion);
             string PH = "PH" + Guid.NewGuid().ToString().Substring(0, 4);
-            string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH, dirPhase);
+            int ImportResult = 0;
+            int RunResult = 0;
+            string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH, dirPhase,ref ImportResult,ref RunResult);
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                if (RunResult == 1 || RunResult == 2)
+                {
+                    reader = ProIIFactory.CreateReader(PrzVersion);
+                    reader.InitProIIReader(phasef);
+                    string criticalPress = reader.GetCriticalPressure(PH);
+                    reader.ReleaseProIIReader();
+                    criticalPress = unitConvert.Convert("KPA", "MPAG", double.Parse(criticalPress)).ToString();
+                }
+            
+            else
+                    {
+                        MessageBox.Show("Prz file is error", "Message Box");
+                     return ;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("inp file is error", "Message Box");
+                 return ;
+                }
 
-            reader = ProIIFactory.CreateReader(PrzVersion);
-            reader.InitProIIReader(phasef);
-            string criticalPress = reader.GetCriticalPressure(PH);
-            reader.ReleaseProIIReader();
-            criticalPress = unitConvert.Convert("KPA", "MPAG", double.Parse(criticalPress)).ToString();
-
+            LatentProduct latentVapor;
+            LatentProduct latentLiquid;
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
-            string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, vapor, liquid, dirLatent);
+            string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                if (RunResult == 1 || RunResult == 2)
+                {
             reader = ProIIFactory.CreateReader(PrzVersion);
             reader.InitProIIReader(tray1_f);
             ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
             ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
             reader.ReleaseProIIReader();
-
-            LatentProduct latentVapor = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIIVapor);
+             latentVapor = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIIVapor);
             latentVapor.ProdType = "1";
-            LatentProduct latentLiquid = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIILiquid);
+             latentLiquid = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIILiquid);
             latentVapor.ProdType = "2";
-            dbLatentProduct dblp = new dbLatentProduct();
+            LatentProductDAL dblp = new LatentProductDAL();
             dblp.Add(latentVapor, SessionProtectedSystem);
             dblp.Add(latentLiquid, SessionProtectedSystem);
+                }
+
+                else
+                {
+                    MessageBox.Show("Prz file is error", "Message Box");
+                    return ;
+                }
+            }
+            else
+            {
+                MessageBox.Show("inp file is error", "Message Box");
+                 return ;
+            }
+            
 
             double latentEnthalpy = double.Parse(latentVapor.SpEnthalpy) - double.Parse(latentLiquid.SpEnthalpy);
             double ReliefTemperature = double.Parse(latentVapor.Temperature);
 
             IList<CustomStream> products = null;
-            dbCustomStream dbstream = new dbCustomStream();
+            CustomStreamDAL dbstream = new CustomStreamDAL();
             products = dbstream.GetAllList(SessionProtectedSystem, true);
 
 
@@ -254,17 +291,17 @@ namespace ReliefProMain.ViewModel
 
                     if (prodtype == "4" || (prodtype == "2" && tray == "1")) // 2个条件是等同含义，后者是有气有液
                     {
-                        f = fc.Calculate(usablecontent, 1, ReliefPressure.ToString(), 4, "", p, vapor, liquid, dirflash);
+                        f = fc.Calculate(usablecontent, 1, ReliefPressure.ToString(), 4, "", p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
                     }
 
                     else if (prodtype == "6" || prodtype == "3") //3 气相  6 沉积水 
                     {
-                        f = fc.Calculate(usablecontent, 2, ReliefTemperature.ToString(), 4, "", p, vapor, liquid, dirflash);
+                        f = fc.Calculate(usablecontent, 2, ReliefTemperature.ToString(), 4, "", p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
                     }
                     else
                     {
                         double press = ReliefPressure + (double.Parse(p.Pressure) - double.Parse(stream.Pressure));
-                        f = fc.Calculate(usablecontent, 1, press.ToString(), 3, "", p, vapor, liquid, dirflash);
+                        f = fc.Calculate(usablecontent, 1, press.ToString(), 3, "", p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
                     }
                     FlashResult fr = new FlashResult();
                     fr.LiquidName = liquid;
@@ -315,14 +352,14 @@ namespace ReliefProMain.ViewModel
 
 
 
-            dbLatent dblatent = new dbLatent();
+            LatentDAL dblatent = new LatentDAL();
             //dbLatentProduct dblatentproduct = new dbLatentProduct();
-            dbTowerFlashProduct dbFlashProduct = new dbTowerFlashProduct();
+            TowerFlashProductDAL dbFlashProduct = new TowerFlashProductDAL();
 
 
             Critical c = new Critical();
             c.CriticalPressure = criticalPress;
-            dbCritical dbcritical = new dbCritical();
+            CriticalDAL dbcritical = new CriticalDAL();
             dbcritical.Add(c, SessionProtectedSystem);
 
 

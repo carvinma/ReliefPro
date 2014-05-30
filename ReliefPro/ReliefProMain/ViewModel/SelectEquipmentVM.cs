@@ -85,7 +85,7 @@ namespace ReliefProMain.ViewModel
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
             
-                dbProIIEqData db = new dbProIIEqData();
+                ProIIEqDataDAL db = new ProIIEqDataDAL();
                 string file = SelectedFile + ".prz";
                 IList<ProIIEqData> data = db.GetAllList(SessionPlant, file, EqType);
                 foreach (ProIIEqData d in data)

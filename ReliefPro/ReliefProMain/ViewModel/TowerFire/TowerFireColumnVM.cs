@@ -31,8 +31,8 @@ namespace ReliefProMain.ViewModel.TowerFire
             SessionProtectedSystem = sessionProtectedSystem;
             Internals = getInternals();
 
-            dbTowerFireColumnDetail dbDetail = new dbTowerFireColumnDetail();
-            dbTowerFireColumn db = new dbTowerFireColumn();
+            TowerFireColumnDetailDAL dbDetail = new TowerFireColumnDetailDAL();
+            TowerFireColumnDAL db = new TowerFireColumnDAL();
             model = new TowerFireColumnModel();
             model.Instance = db.GetModel(sessionProtectedSystem, EqID);
             if (model.Instance == null)
@@ -80,7 +80,7 @@ namespace ReliefProMain.ViewModel.TowerFire
         private void Update(object window)
         {
 
-            dbTowerFireColumn db = new dbTowerFireColumn();
+            TowerFireColumnDAL db = new TowerFireColumnDAL();
             TowerFireColumn m = db.GetModel(model.Instance.ID, SessionProtectedSystem);
             m.BNLL = model.Instance.BNLL;
             m.NumberOfSegment = model.Instance.NumberOfSegment;
@@ -90,7 +90,7 @@ namespace ReliefProMain.ViewModel.TowerFire
             db.Update(m, SessionProtectedSystem);
 
 
-            dbTowerFireColumnDetail dbDetail = new dbTowerFireColumnDetail();
+            TowerFireColumnDetailDAL dbDetail = new TowerFireColumnDetailDAL();
             for (int i = 0; i < LastDetails.Count; i++)
             {
                 if (LastDetails[i].ID != 0)

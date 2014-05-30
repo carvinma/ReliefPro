@@ -25,8 +25,8 @@ namespace ReliefProMain.ViewModel
         private ISession SessionProtectedSystem { set; get; }
         private int ScenarioID;
 
-        private dbScenarioHeatSource db;
-        private dbHeatSource dbHS;
+        private ScenarioHeatSourceDAL db;
+        private HeatSourceDAL dbHS;
         
         private ObservableCollection<ScenarioHeatSourceModel> _HeatSources;
         public ObservableCollection<ScenarioHeatSourceModel> HeatSources
@@ -114,7 +114,7 @@ namespace ReliefProMain.ViewModel
             this.SessionPlant = SessionPlant;
             this.SessionProtectedSystem = SessionProtectedSystem;
             HeatSources = new ObservableCollection<ScenarioHeatSourceModel>();
-            db = new dbScenarioHeatSource();
+            db = new ScenarioHeatSourceDAL();
             IList<ScenarioHeatSource> list = db.GetScenarioHeatSourceList(this.SessionProtectedSystem, ScenarioID);
             foreach (ScenarioHeatSource s in list)
             {
@@ -129,8 +129,8 @@ namespace ReliefProMain.ViewModel
             }
             if (list.Count == 0)
             {
-                dbSource dbSource = new dbSource();
-                dbHeatSource dbhs = new dbHeatSource();
+                SourceDAL dbSource = new SourceDAL();
+                HeatSourceDAL dbhs = new HeatSourceDAL();
                
                 IList<HeatSource> listHeatSource = dbhs.GetAllList(SessionProtectedSystem);
                 foreach (HeatSource hs in listHeatSource)
@@ -150,7 +150,7 @@ namespace ReliefProMain.ViewModel
                     }
                 }
             }
-            dbScenario dbsc = new dbScenario();
+            ScenarioDAL dbsc = new ScenarioDAL();
             Scenario sc = dbsc.GetModel(ScenarioID, SessionProtectedSystem);
             ReliefLoad = sc.ReliefLoad;
             ReliefMW = sc.ReliefMW;
@@ -181,15 +181,15 @@ namespace ReliefProMain.ViewModel
             double ProductTotal = 0;
             double HeatTotal = 0;
 
-            dbPSV dbpsv = new dbPSV();
+            PSVDAL dbpsv = new PSVDAL();
             PSV psv = dbpsv.GetModel(SessionProtectedSystem);
 
-            dbLatent dblatent = new dbLatent();
+            LatentDAL dblatent = new LatentDAL();
             Latent latent = dblatent.GetModel(SessionProtectedSystem);
 
-            dbCustomStream dbCS = new dbCustomStream();
-            dbTowerScenarioStream db = new dbTowerScenarioStream();
-            dbTowerFlashProduct dbFlashP = new dbTowerFlashProduct();
+            CustomStreamDAL dbCS = new CustomStreamDAL();
+            TowerScenarioStreamDAL db = new TowerScenarioStreamDAL();
+            TowerFlashProductDAL dbFlashP = new TowerFlashProductDAL();
             IList<TowerScenarioStream> listStream = db.GetAllList(SessionProtectedSystem, ScenarioID);
 
             overHeadWeightFlow = 0;
@@ -223,7 +223,7 @@ namespace ReliefProMain.ViewModel
 
 
             dbTowerScenarioHX dbTSHX = new dbTowerScenarioHX();
-            dbTowerHXDetail dbDetail = new dbTowerHXDetail();
+            TowerHXDetailDAL dbDetail = new TowerHXDetailDAL();
             IList<TowerScenarioHX> list = dbTSHX.GetAllList(SessionProtectedSystem, ScenarioID);
             foreach (TowerScenarioHX shx in list)
             {
@@ -248,7 +248,7 @@ namespace ReliefProMain.ViewModel
             ReliefPressure = latent.ReliefPressure;
             ReliefLoad = reliefLoad.ToString();
             ReliefMW = reliefMW.ToString();
-            dbScenario dbTS = new dbScenario();
+            ScenarioDAL dbTS = new ScenarioDAL();
             Scenario scenario = dbTS.GetModel(ScenarioID, SessionProtectedSystem);
             scenario.ReliefLoad = ReliefLoad.ToString();
             scenario.ReliefPressure = latent.ReliefPressure;
@@ -262,9 +262,9 @@ namespace ReliefProMain.ViewModel
         private void Balance()
         {
 
-            dbTowerScenarioStream db = new dbTowerScenarioStream();
-            dbStream dbstream = new dbStream();
-            dbTowerFlashProduct dbtfp = new ReliefProDAL.dbTowerFlashProduct();
+            TowerScenarioStreamDAL db = new TowerScenarioStreamDAL();
+            StreamDAL dbstream = new StreamDAL();
+            TowerFlashProductDAL dbtfp = new ReliefProDAL.TowerFlashProductDAL();
             IList<TowerScenarioStream> feeds = db.GetAllList(SessionProtectedSystem, ScenarioID, false);
             IList<TowerScenarioStream> products = db.GetAllList(SessionProtectedSystem, ScenarioID, true);
             double Total = 0;
@@ -382,7 +382,7 @@ namespace ReliefProMain.ViewModel
             {
                 db.Update(m.model, SessionProtectedSystem);
             }
-            dbScenario dbTS = new dbScenario();
+            ScenarioDAL dbTS = new ScenarioDAL();
             Scenario scenario = dbTS.GetModel(ScenarioID, SessionProtectedSystem);
             scenario.ReliefLoad = ReliefLoad;
             scenario.ReliefMW = ReliefMW;

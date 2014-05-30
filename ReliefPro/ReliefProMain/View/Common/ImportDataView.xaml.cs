@@ -81,7 +81,7 @@ namespace ReliefProMain.View
                     using (var helper = new NHibernateHelper(dbPlantFile))
                     {
                         ISession Session = helper.GetCurrentSession();
-                        dbProIIEqType db = new dbProIIEqType();
+                        ProIIEqTypeDAL db = new ProIIEqTypeDAL();
                         eqTypeList = db.GetAllList(Session);
                     }
                     progressBar.Visibility = Visibility.Visible;
@@ -166,13 +166,13 @@ namespace ReliefProMain.View
                 using (var helper = new NHibernateHelper(dbPlantFile))
                 {
                     ISession Session = helper.GetCurrentSession();
-                    dbProIIEqData dbEq = new dbProIIEqData();
+                    ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
                     foreach (ProIIEqData data in eqListData)
                     {
                         dbEq.Add(data, Session);
                     }
 
-                    dbProIIStreamData dbStream = new dbProIIStreamData();
+                    ProIIStreamDataDAL dbStream = new ProIIStreamDataDAL();
                     foreach (ProIIStreamData data in streamListData)
                     {
                         dbStream.Add(data, Session);

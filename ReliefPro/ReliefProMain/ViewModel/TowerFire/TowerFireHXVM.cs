@@ -31,7 +31,7 @@ namespace ReliefProMain.ViewModel.TowerFire
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
 
-            dbTowerFireHX db = new dbTowerFireHX();
+            TowerFireHXDAL db = new TowerFireHXDAL();
             model = db.GetModel(SessionProtectedSystem, EqID);
             if (model == null)
             {
@@ -60,7 +60,7 @@ namespace ReliefProMain.ViewModel.TowerFire
         private void Update(object window)
         {
            
-                dbTowerFireHX db = new dbTowerFireHX();
+                TowerFireHXDAL db = new TowerFireHXDAL();
                 TowerFireHX m = db.GetModel(model.ID, SessionProtectedSystem);
                 m.ExposedToFire = model.ExposedToFire;
                 m.Length = model.Length;

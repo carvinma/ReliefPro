@@ -38,7 +38,7 @@ namespace ReliefProMain.ViewModel
         {
             _Details = new ObservableCollection<TowerHXDetailModel>();
             
-                dbTowerHXDetail db = new dbTowerHXDetail();
+                TowerHXDetailDAL db = new TowerHXDetailDAL();
                 int i = 0;
                 foreach (var obj in db.GetAllList(SessionProtectedSystem, model.ID))
                 {
@@ -80,11 +80,13 @@ namespace ReliefProMain.ViewModel
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
 
-            dbTowerHX db = new dbTowerHX();
-            TowerHX hx = db.GetModel(SessionProtectedSystem, model.HeaterName);
+            TowerHXDAL db = new TowerHXDAL();
+            TowerHX hx = db.GetModel(SessionProtectedSystem, name);
+            model = new TowerHXModel();
             model.ID = hx.ID;
             model.HeaterDuty = hx.HeaterDuty;
             model.HeaterType = hx.HeaterType;
+            model.HeaterName = name;
             Details = GetTowerHXDetails();
 
         }
@@ -161,7 +163,7 @@ namespace ReliefProMain.ViewModel
         public void Save(object obj)
         {
 
-            dbTowerHXDetail db = new dbTowerHXDetail();
+            TowerHXDetailDAL db = new TowerHXDetailDAL();
             IList<TowerHXDetail> list = db.GetAllList(SessionProtectedSystem, model.ID);
             for (int i = 0; i < list.Count; i++)
             {

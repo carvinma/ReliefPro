@@ -21,19 +21,19 @@ namespace ReliefProMain.ViewModel
        private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         public CustomStreamModel CurrentModel { set; get; }
-       private dbCustomStream db;
+       private CustomStreamDAL db;
         public CustomStreamVM(string name, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
             BasicUnit BU;
-            dbBasicUnit dbBU = new dbBasicUnit();
+            BasicUnitDAL dbBU = new BasicUnitDAL();
             IList<BasicUnit> list = dbBU.GetAllList(sessionPlant);
             BU = list.Where(s => s.IsDefault == 1).Single();
 
             UnitConvert uc = new UnitConvert();
-            db = new dbCustomStream();
+            db = new CustomStreamDAL();
             CustomStream cs = db.GetModel(SessionProtectedSystem, name);
             CurrentModel = new CustomStreamModel(cs);
 

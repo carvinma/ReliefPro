@@ -181,8 +181,8 @@ namespace ReliefProMain.ViewModel
         }
 
         InletValveOpen model;
-        dbInletValveOpen dbinlet;
-        dbScenario dbsc;
+        InletValveOpenDAL dbinlet;
+        ScenarioDAL dbsc;
         public InletValveOpenVM(int scenarioID, string eqName, string eqType, string przFile, string version, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
             ScenarioID = scenarioID;
@@ -195,10 +195,10 @@ namespace ReliefProMain.ViewModel
             SessionProtectedSystem = sessionProtectedSystem;
             OperatingPhases = GetOperatingPhases();
 
-            dbTower dbtower=new dbTower();
+            TowerDAL dbtower=new TowerDAL();
             Tower tower=dbtower.GetModel(SessionProtectedSystem);
             
-            dbStream dbstream = new dbStream();
+            StreamDAL dbstream = new StreamDAL();
             IList<CustomStream> list = dbstream.GetAllList(this.SessionProtectedSystem,true);
             foreach (CustomStream s in list)
             {
@@ -221,12 +221,12 @@ namespace ReliefProMain.ViewModel
             SourceFile = System.IO.Path.GetFileName(przFile);
             Vessels = GetVessels(SessionPlant);
             tempdir = dirProtectedSystem + @"\temp\";
-            dbinlet = new dbInletValveOpen();
+            dbinlet = new InletValveOpenDAL();
             //读取当前入口阀全开的信息
            model=dbinlet.GetModel(SessionProtectedSystem);
            if (model == null)
            {
-               dbPSV dbpsv = new dbPSV();
+               PSVDAL dbpsv = new PSVDAL();
                PSV psv = dbpsv.GetModel(sessionProtectedSystem);
                ReliefPressure = psv.Pressure;
            }
@@ -262,7 +262,7 @@ namespace ReliefProMain.ViewModel
 
         private void Save(object window)
         {
-            dbsc=new dbScenario();
+            dbsc=new ScenarioDAL();
             if(model==null)
             {
                 model=new InletValveOpen();
@@ -310,7 +310,7 @@ namespace ReliefProMain.ViewModel
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
 
-            dbProIIEqData dbeq = new dbProIIEqData();
+            ProIIEqDataDAL dbeq = new ProIIEqDataDAL();
             IList<ProIIEqData> eqlist = dbeq.GetAllList(Session, SourceFile, "Flash");
             foreach (ProIIEqData d in eqlist)
             {
@@ -335,7 +335,7 @@ namespace ReliefProMain.ViewModel
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
 
-            dbProIIStreamData db = new dbProIIStreamData();
+            ProIIStreamDataDAL db = new ProIIStreamDataDAL();
             string productdata = data.ProductData;
             string producttype = data.ProductStoreData;
             string[] arrProducts = productdata.Split(',');
@@ -374,7 +374,7 @@ namespace ReliefProMain.ViewModel
             string[] arrProducts = productdata.Split(',');
             string[] arrProdTypes = prodtype.Split(',');
             
-                dbProIIStreamData db = new dbProIIStreamData();
+                ProIIStreamDataDAL db = new ProIIStreamDataDAL();
                 for (int i = 0; i < arrProducts.Length; i++)
                 {
                     string pName = arrProducts[i];
@@ -406,7 +406,7 @@ namespace ReliefProMain.ViewModel
         {
             string press = "0";
 
-            dbProIIStreamData db = new dbProIIStreamData();
+            ProIIStreamDataDAL db = new ProIIStreamDataDAL();
 
             ProIIStreamData data = db.GetModel(SessionPlant, streamName, SourceFile);
             CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(data);

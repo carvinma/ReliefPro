@@ -122,16 +122,16 @@ namespace ReliefProMain.ViewModel
         internal ObservableCollection<TowerScenarioHX> GetTowerHXScenarioDetails()
         {
             Details = new ObservableCollection<TowerScenarioHX>();
-            
-                dbTowerScenarioHX db = new dbTowerScenarioHX();
-                IList<TowerScenarioHX> list = db.GetAllList(SessionProtectedSystem, ScenarioID, HeaterType).ToList();               
-                foreach (TowerScenarioHX hx in list)
-                {
-                    double duty = GetCondenserDetailDuty(SessionProtectedSystem, hx.DetailID);
-                    ScenarioCondenserDuty =ScenarioCondenserDuty+ double.Parse(hx.DutyCalcFactor) * duty;
-                    Details.Add(hx);
-                }
-            
+
+            dbTowerScenarioHX db = new dbTowerScenarioHX();
+            IList<TowerScenarioHX> list = db.GetAllList(SessionProtectedSystem, ScenarioID, HeaterType).ToList();
+            foreach (TowerScenarioHX hx in list)
+            {
+                double duty = GetCondenserDetailDuty(SessionProtectedSystem, hx.DetailID);
+                ScenarioCondenserDuty = ScenarioCondenserDuty + double.Parse(hx.DutyCalcFactor) * duty;
+                Details.Add(hx);
+            }
+
             return Details;
         }
         //list of orders from the customer
@@ -155,12 +155,10 @@ namespace ReliefProMain.ViewModel
 
         private void CalculateSurgeTime(object win)
         {
-
-
-            dbAccumulator dbaccumulator = new dbAccumulator();
+            AccumulatorDAL dbaccumulator = new AccumulatorDAL();
             CurrentAccumulator = dbaccumulator.GetModel(SessionProtectedSystem);
             
-            dbScenario dbTS = new dbScenario();
+            ScenarioDAL dbTS = new ScenarioDAL();
             Scenario ts = dbTS.GetModel(ScenarioID, SessionProtectedSystem);
 
             double refluxFlowStops = 0;
@@ -220,15 +218,12 @@ namespace ReliefProMain.ViewModel
             double surgeVolume = accumulatorTotalVolume - accumulatorPartialVolume;
             double dSurgeTime = surgeVolume * 60 / totalVolumeticFlowRate;
             SurgeTime = dSurgeTime.ToString();
-
-
-
         }
 
         private double GetLatent(NHibernate.ISession Session)
         {
             double r=0;
-            dbLatent db = new dbLatent();
+            LatentDAL db = new LatentDAL();
             Latent model=db.GetModel(Session);
             if (model != null)
             {
@@ -239,7 +234,7 @@ namespace ReliefProMain.ViewModel
         private double GetLatentLiquidDensity(NHibernate.ISession Session)
         {
             double r = 0;
-            dbLatentProduct db = new dbLatentProduct();
+            LatentProductDAL db = new LatentProductDAL();
             LatentProduct model = db.GetModel(Session, "2");
             if (model != null)
             {
@@ -250,7 +245,7 @@ namespace ReliefProMain.ViewModel
         private double GetCondenserDetailDuty(NHibernate.ISession Session,int id)
         {
             double r = 0;
-            dbTowerHXDetail db = new dbTowerHXDetail();
+            TowerHXDetailDAL db = new TowerHXDetailDAL();
             TowerHXDetail model = db.GetModel(Session,id);
             if (model != null)
             {
@@ -262,7 +257,7 @@ namespace ReliefProMain.ViewModel
         private double GetOHProductFlow(NHibernate.ISession Session)
         {
             double r = 0;
-            dbStream db = new dbStream();
+            StreamDAL db = new StreamDAL();
             IList<CustomStream> list = db.GetAllList(Session);
             if (list != null)
             {
@@ -299,11 +294,8 @@ namespace ReliefProMain.ViewModel
                 v.DataContext = vm;
                 if (v.ShowDialog()==true)
                 {
-
+                    
                 }
-            
-
-
         }
 
 

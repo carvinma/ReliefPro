@@ -31,7 +31,7 @@ namespace ReliefProMain.ViewModel.TowerFire
             Orientations = getOrientations();
             HeadTypes = getHeadTypes();
 
-            dbTowerFireDrum db = new dbTowerFireDrum();
+            TowerFireDrumDAL db = new TowerFireDrumDAL();
             model = db.GetModel(SessionProtectedSystem, EqID);
             if (model == null)
             {
@@ -59,7 +59,7 @@ namespace ReliefProMain.ViewModel.TowerFire
         private void Update(object window)
         {            
             
-                dbTowerFireDrum db = new dbTowerFireDrum();
+                TowerFireDrumDAL db = new TowerFireDrumDAL();
                 TowerFireDrum m = db.GetModel(model.ID, SessionProtectedSystem);
                 m.Elevation = model.Elevation;
                 m.BootDiameter = model.BootDiameter;

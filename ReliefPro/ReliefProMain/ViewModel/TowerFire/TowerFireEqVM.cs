@@ -29,7 +29,7 @@ namespace ReliefProMain.ViewModel.TowerFire
             using (var helper = new NHibernateHelper(dbPlantFile))
             {
                 var Session = helper.GetCurrentSession();
-                dbBasicUnit dbBU = new dbBasicUnit();
+                BasicUnitDAL dbBU = new BasicUnitDAL();
                 IList<BasicUnit> list=dbBU.GetAllList(Session);
                 BU = list.Where(s=>s.IsDefault==1).Single();
             }
@@ -37,7 +37,7 @@ namespace ReliefProMain.ViewModel.TowerFire
             {
                 UnitConvert uc=new UnitConvert();
                 var Session = helper.GetCurrentSession();
-                dbTowerFireEq db = new dbTowerFireEq();
+                TowerFireEqDAL db = new TowerFireEqDAL();
                 model = db.GetModel(EqID,Session);
                 
             }
@@ -65,14 +65,14 @@ namespace ReliefProMain.ViewModel.TowerFire
             using (var helper = new NHibernateHelper(dbPlantFile))
             {
                 var Session = helper.GetCurrentSession();
-                dbBasicUnit dbBU = new dbBasicUnit();
+                BasicUnitDAL dbBU = new BasicUnitDAL();
                 IList<BasicUnit> list = dbBU.GetAllList(Session);
                 BU = list.Where(s => s.IsDefault == 1).Single();
             }
             using (var helper = new NHibernateHelper(dbProtectedSystemFile))
             {
                 var Session = helper.GetCurrentSession();
-                dbTowerFireEq db = new dbTowerFireEq();
+                TowerFireEqDAL db = new TowerFireEqDAL();
                 TowerFireEq m = db.GetModel(model.ID, Session);
                 m.Elevation = model.Elevation;
                 m.FFactor = model.FFactor;

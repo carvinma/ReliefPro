@@ -131,7 +131,7 @@ namespace ReliefProMain.ViewModel
                 Feeds = GetStreams(SessionProtectedSystem, false);
                 Products = GetStreams(SessionProtectedSystem, true);
 
-                    dbDrum dbdrum=new dbDrum();
+                    DrumDAL dbdrum=new DrumDAL();
                     CurrentDrum = dbdrum.GetModel(SessionProtectedSystem);
                     if (CurrentDrum != null)
                     {
@@ -175,7 +175,7 @@ namespace ReliefProMain.ViewModel
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
 
                     UnitConvert unitConvert = new UnitConvert();
-                        dbProIIEqData dbEq = new dbProIIEqData();
+                        ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
                         przFile = vm.SelectedFile + ".prz";
                         ProIIDrum = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Flash");
                         DrumName = ProIIDrum.EqName;
@@ -193,7 +193,7 @@ namespace ReliefProMain.ViewModel
                         Feeds = new ObservableCollection<CustomStream>();
                         Products = new ObservableCollection<CustomStream>();
                         GetEqFeedProduct(ProIIDrum, ref dicFeeds, ref dicProducts,ref dicProductTypes);
-                        dbProIIStreamData dbStreamData = new dbProIIStreamData();
+                        ProIIStreamDataDAL dbStreamData = new ProIIStreamDataDAL();
                         
                         foreach (string k in dicFeeds)
                         {
@@ -246,7 +246,7 @@ namespace ReliefProMain.ViewModel
         private ObservableCollection<CustomStream> GetStreams(ISession Session, bool IsProduct)
         {
             ObservableCollection<CustomStream> list = new ObservableCollection<CustomStream>();
-            dbCustomStream db = new dbCustomStream();
+            CustomStreamDAL db = new CustomStreamDAL();
             IList<CustomStream> lt = db.GetAllList(Session, IsProduct);
             foreach (CustomStream c in lt)
             {
@@ -271,8 +271,8 @@ namespace ReliefProMain.ViewModel
         public void Save(object obj)
         {
             
-                dbCustomStream dbCS = new dbCustomStream();
-                dbSource dbsr = new dbSource();
+                CustomStreamDAL dbCS = new CustomStreamDAL();
+                SourceDAL dbsr = new SourceDAL();
                 foreach (CustomStream cs in Feeds)
                 {
                     Source sr = new Source();
@@ -291,7 +291,7 @@ namespace ReliefProMain.ViewModel
                     dbCS.Add(cs, SessionProtectedSystem);
                 }
 
-                dbDrum dbdrum = new dbDrum();
+                DrumDAL dbdrum = new DrumDAL();
                 ReliefProModel.Drum.Drum drum = new ReliefProModel.Drum.Drum();
                 drum.DrumName = DrumName;
                 drum.Duty = Duty;

@@ -25,8 +25,8 @@ namespace ReliefProMain.ViewModel
         private ISession SessionProtectedSystem { set; get; }
         private string PrzFile;
 
-        private dbScenarioHeatSource db;
-        private dbHeatSource dbHS;
+        private ScenarioHeatSourceDAL db;
+        private HeatSourceDAL dbHS;
         private int ScenarioStreamID;
         private ObservableCollection<ScenarioHeatSourceModel> _HeatSources;
         public ObservableCollection<ScenarioHeatSourceModel> HeatSources
@@ -57,8 +57,8 @@ namespace ReliefProMain.ViewModel
             this.SessionPlant = SessionPlant;
             this.SessionProtectedSystem = SessionProtectedSystem;
             this.PrzFile = PrzFile;
-            db = new dbScenarioHeatSource();
-            dbHS = new dbHeatSource();
+            db = new ScenarioHeatSourceDAL();
+            dbHS = new HeatSourceDAL();
             HeatSources = GetHeatSources(ScenarioStreamID);
         }
 

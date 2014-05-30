@@ -192,7 +192,7 @@ namespace ReliefProMain.ViewModel.Drum
 
 
             //取出liquid stream
-            dbCustomStream dbcs = new dbCustomStream();
+            CustomStreamDAL dbcs = new CustomStreamDAL();
             IList<CustomStream> listStream = dbcs.GetAllList(SessionPS, true);
             CustomStream liquidStream = new CustomStream();
             foreach (CustomStream s in listStream)
@@ -242,7 +242,7 @@ namespace ReliefProMain.ViewModel.Drum
         }
         public double ScenarioReliefPressure(ISession SessionPS)
         {
-            dbPSV psv = new dbPSV();
+            PSVDAL psv = new PSVDAL();
             var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
             if (psvModel != null)
             {

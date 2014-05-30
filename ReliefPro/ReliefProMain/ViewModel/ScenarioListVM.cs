@@ -74,7 +74,7 @@ namespace ReliefProMain.ViewModel
         private ObservableCollection<ScenarioModel> GetScenarios()
         {
             ObservableCollection<ScenarioModel> scenarios = new ObservableCollection<ScenarioModel>();
-            dbScenario db = new dbScenario();
+            ScenarioDAL db = new ScenarioDAL();
             IList<Scenario> list = db.GetAllList(SessionProtectedSystem);
             int count = list.Count;
             for (int i = 0; i < count; i++)
@@ -110,7 +110,7 @@ namespace ReliefProMain.ViewModel
         public void Add()
         {
 
-            dbScenario db = new dbScenario();
+            ScenarioDAL db = new ScenarioDAL();
             Scenario s = new Scenario();
             db.Add(s, SessionProtectedSystem);
 
@@ -145,7 +145,7 @@ namespace ReliefProMain.ViewModel
                 Scenarios.RemoveAt(idx);
                 //从db里删除
 
-                dbScenario db = new dbScenario();
+                ScenarioDAL db = new ScenarioDAL();
                 Scenario sc = db.GetModel(s.ID, SessionProtectedSystem);
                 db.Delete(sc, SessionProtectedSystem);
 
@@ -179,7 +179,7 @@ namespace ReliefProMain.ViewModel
             if (!string.IsNullOrEmpty(SelectedScenario.ScenarioName))
             {
 
-                dbScenario db = new dbScenario();
+                ScenarioDAL db = new ScenarioDAL();
                 Scenario sce = db.GetModel(ScenarioID, SessionProtectedSystem);
                 sce.ScenarioName = SelectedScenario.ScenarioName;
                 db.Update(sce, SessionProtectedSystem);
@@ -300,7 +300,7 @@ namespace ReliefProMain.ViewModel
 
         private void CreateTowerFire(int ScenarioID, NHibernate.ISession Session)
         {
-            dbTowerFire dbtf = new dbTowerFire();
+            TowerFireDAL dbtf = new TowerFireDAL();
             ReliefProModel.TowerFire t = dbtf.GetModel(Session, ScenarioID);
             if (t == null)
             {
@@ -310,8 +310,8 @@ namespace ReliefProMain.ViewModel
                 tf.HeatInputModel = "API 521";
                 dbtf.Add(tf, Session);
 
-                dbTowerFireEq dbtfeq = new dbTowerFireEq();
-                dbTower dbtower = new dbTower();
+                TowerFireEqDAL dbtfeq = new TowerFireEqDAL();
+                TowerDAL dbtower = new TowerDAL();
                 Tower tower = dbtower.GetModel(Session);
                 TowerFireEq eq = new TowerFireEq();
                 eq.EqName = tower.TowerName;
@@ -321,7 +321,7 @@ namespace ReliefProMain.ViewModel
                 eq.FireID = tf.ID;
                 dbtfeq.Add(eq, Session);
 
-                dbAccumulator dbaccumulator = new dbAccumulator();
+                AccumulatorDAL dbaccumulator = new AccumulatorDAL();
                 Accumulator accumulator = dbaccumulator.GetModel(Session);
                 eq = new TowerFireEq();
                 eq.EqName = accumulator.AccumulatorName;
@@ -339,7 +339,7 @@ namespace ReliefProMain.ViewModel
                 eq.FireID = tf.ID;
                 dbtfeq.Add(eq, Session);
 
-                dbSideColumn dbsidecolumn = new dbSideColumn();
+                SideColumnDAL dbsidecolumn = new SideColumnDAL();
                 IList<SideColumn> listSideColumn = dbsidecolumn.GetAllList(Session);
                 foreach (SideColumn s in listSideColumn)
                 {
@@ -353,7 +353,7 @@ namespace ReliefProMain.ViewModel
                 }
 
 
-                dbTowerHXDetail dbhx = new dbTowerHXDetail();
+                TowerHXDetailDAL dbhx = new TowerHXDetailDAL();
                 IList<TowerHXDetail> listHX = dbhx.GetAllList(Session);
                 foreach (TowerHXDetail s in listHX)
                 {
@@ -433,13 +433,13 @@ namespace ReliefProMain.ViewModel
 
         private void CreateTowerScenarioCalcData(int ScenarioID, string ScenarioName, NHibernate.ISession Session)
         {
-             dbTowerScenarioStream dbTowerSS = new dbTowerScenarioStream();
+             TowerScenarioStreamDAL dbTowerSS = new TowerScenarioStreamDAL();
             IList<TowerScenarioStream> list = dbTowerSS.GetAllList(Session, ScenarioID);
             if (list.Count == 0)
             {
-                dbSource dbSource = new dbSource();
-                dbHeatSource dbhs = new dbHeatSource();
-                dbScenarioHeatSource dbshs = new dbScenarioHeatSource();
+                SourceDAL dbSource = new SourceDAL();
+                HeatSourceDAL dbhs = new HeatSourceDAL();
+                ScenarioHeatSourceDAL dbshs = new ScenarioHeatSourceDAL();
                 List<Source> listSource = dbSource.GetAllList(Session).ToList();
 
                 foreach (Source s in listSource)
@@ -468,7 +468,7 @@ namespace ReliefProMain.ViewModel
                     }
                 }
 
-                dbTowerFlashProduct dbTFP = new dbTowerFlashProduct();
+                TowerFlashProductDAL dbTFP = new TowerFlashProductDAL();
                 List<TowerFlashProduct> listProduct = dbTFP.GetAllList(Session).ToList();
                 foreach (TowerFlashProduct p in listProduct)
                 {
@@ -483,11 +483,11 @@ namespace ReliefProMain.ViewModel
                 }
 
                 dbTowerScenarioHX dbTSHX = new dbTowerScenarioHX();
-                dbTowerHX dbHX = new dbTowerHX();
+                TowerHXDAL dbHX = new TowerHXDAL();
                 List<TowerHX> tHXs = dbHX.GetAllList(Session).ToList();
                 foreach (TowerHX hx in tHXs)
                 {
-                    dbTowerHXDetail dbTHXDetail = new dbTowerHXDetail();
+                    TowerHXDetailDAL dbTHXDetail = new TowerHXDetailDAL();
                     List<TowerHXDetail> listTowerHXDetail = dbTHXDetail.GetAllList(Session, hx.ID).ToList();
                     foreach (TowerHXDetail detail in listTowerHXDetail)
                     {
@@ -576,7 +576,7 @@ namespace ReliefProMain.ViewModel
         private List<SystemScenarioFactor> GetSystemScenarioFactors()
         {
 
-            dbSystemScenarioFactor db = new dbSystemScenarioFactor();
+            SystemScenarioFactorDAL db = new SystemScenarioFactorDAL();
             IList<SystemScenarioFactor> list = db.GetAllList(SessionProtectedSystem);
             return list.ToList();
 
@@ -586,7 +586,7 @@ namespace ReliefProMain.ViewModel
         {
             string factor = "0";
 
-            dbSystemScenarioFactor db = new dbSystemScenarioFactor();
+            SystemScenarioFactorDAL db = new SystemScenarioFactorDAL();
             SystemScenarioFactor model = db.GetSystemScenarioFactor(SessionPlant, category, categoryvalue);
             switch (ScenarioName)
             {

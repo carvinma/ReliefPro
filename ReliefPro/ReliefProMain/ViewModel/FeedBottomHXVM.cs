@@ -19,6 +19,7 @@ namespace ReliefProMain.ViewModel
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         private string PrzFile;
+        private string PrzFileName;
         private string _FeedTin;
         public string FeedTin
         {
@@ -122,15 +123,36 @@ namespace ReliefProMain.ViewModel
             }
         }
 
+        private string _FeedReliefTout;
+        public string FeedReliefTout
+        {
+            get { return _FeedReliefTout; }
+            set
+            {
+                _FeedReliefTout = value;
+                OnPropertyChanged("FeedReliefTout");
+            }
+        }
+
+        private string _FeedReliefSpEout;
+        public string FeedReliefSpEout
+        {
+            get { return _FeedReliefSpEout; }
+            set
+            {
+                _FeedReliefSpEout = value;
+                OnPropertyChanged("FeedReliefSpEout");
+            }
+        }
 
 
         FeedBottomHX model;
-        dbFeedBottomHX db;
-        dbHeatSource dbhs;
-        dbSource dbsource;
-        dbStream dbstream;
-        dbProIIEqData dbProIIeq;
-        dbProIIStreamData dbProIIStream;
+        FeedBottomHXDAL db;
+        HeatSourceDAL dbhs;
+        SourceDAL dbsource;
+        StreamDAL dbstream;
+        ProIIEqDataDAL dbProIIeq;
+        ProIIStreamDataDAL dbProIIStream;
         CustomStream csFeedIn;
         CustomStream csFeedOut;
         CustomStream csBottomIn;
@@ -138,14 +160,16 @@ namespace ReliefProMain.ViewModel
         public FeedBottomHXVM(int HeatSourceID,string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             this.PrzFile=PrzFile;
+            PrzFileName = System.IO.Path.GetFileName(PrzFile);
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
-            dbhs = new dbHeatSource();
-            dbsource = new dbSource();
-            dbstream = new dbStream();
-            db = new dbFeedBottomHX();
-            dbProIIeq = new dbProIIEqData();
-            dbProIIStream = new dbProIIStreamData();
+            dbhs = new HeatSourceDAL();
+            dbsource = new SourceDAL();
+            dbstream = new StreamDAL();
+            db = new FeedBottomHXDAL();
+            dbProIIeq = new ProIIEqDataDAL();
+            dbProIIStream = new ProIIStreamDataDAL();
+            
             model = db.GetModel(this.SessionProtectedSystem, HeatSourceID);
             if (model != null)
             {
@@ -154,8 +178,44 @@ namespace ReliefProMain.ViewModel
             else
             {
                 HeatSource hs = dbhs.GetModel(HeatSourceID, SessionProtectedSystem);
-                ProIIEqData hx= dbProIIeq.GetModel(SessionPlant, this.PrzFile, hs.HeatSourceName, "Hx");
-                
+                ProIIEqData hx = dbProIIeq.GetModel(SessionPlant, PrzFileName, hs.HeatSourceName, "Hx");
+                string[] productdata = hx.ProductData.Split(',');
+                string[] feeddata = hx.FeedData.Split(',');
+                ProIIStreamData f1 = dbProIIStream.GetModel(SessionPlant, feeddata[0], PrzFileName);
+                ProIIStreamData f2 = dbProIIStream.GetModel(SessionPlant, feeddata[1], PrzFileName);
+                ProIIStreamData p1 = dbProIIStream.GetModel(SessionPlant, productdata[0], PrzFileName);
+                ProIIStreamData p2 = dbProIIStream.GetModel(SessionPlant, productdata[1], PrzFileName);
+                if (double.Parse(f1.Temperature) > double.Parse(f2.Temperature))
+                {
+                    csBottomIn = ProIIToDefault.ConvertProIIStreamToCustomStream(f1);
+                    csBottomOut = ProIIToDefault.ConvertProIIStreamToCustomStream(p1);
+                    csFeedIn = ProIIToDefault.ConvertProIIStreamToCustomStream(f2);
+                    csFeedOut = ProIIToDefault.ConvertProIIStreamToCustomStream(p2);
+                }
+                else
+                {
+                    csBottomIn = ProIIToDefault.ConvertProIIStreamToCustomStream(f2);
+                    csBottomOut = ProIIToDefault.ConvertProIIStreamToCustomStream(p2);
+                    csFeedIn = ProIIToDefault.ConvertProIIStreamToCustomStream(f1);
+                    csFeedOut = ProIIToDefault.ConvertProIIStreamToCustomStream(p1);
+                }
+                FeedTin = csFeedIn.Temperature;
+                FeedTout = csFeedOut.Temperature;
+                BottomTin = csBottomIn.Temperature;
+                BottomTout = csBottomOut.Temperature;
+                FeedSpEin = csFeedIn.SpEnthalpy;
+                FeedSpEout = csFeedOut.SpEnthalpy;
+                BottomMassRate = csBottomIn.WeightFlow;
+                FeedMassRate = csFeedIn.WeightFlow;
+                Duty = (double.Parse(hx.DutyCalc) * 3600).ToString();
+
+                TowerFlashProductDAL dbtfp=new TowerFlashProductDAL();
+                IList< TowerFlashProduct> tfpList = dbtfp.GetAllList(SessionProtectedSystem);
+                foreach (TowerFlashProduct p in tfpList)
+                {
+                    BottomReliefTin = p.Temperature;
+                }
+
             }
         }
 
@@ -249,6 +309,12 @@ namespace ReliefProMain.ViewModel
             double duty = double.Parse(Duty);
             double qaenGuess = 1.25;
             FBMethod(feedTin, feedTout,feedMassRate,feedEin,feedEout,bottomTin,bottomTout,bottomMassRate,duty,bottomReliefTin,  qaenGuess, MaxErrorRate, ref factor, ref isPinch, ref iterateNumber);
+
+            if (!isPinch)
+            {
+                FeedReliefTout = FeedTout;
+                FeedReliefSpEout = FeedSpEout;
+            }
         }
 
 

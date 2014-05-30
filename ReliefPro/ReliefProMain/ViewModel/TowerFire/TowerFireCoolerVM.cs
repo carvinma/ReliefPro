@@ -24,7 +24,7 @@ namespace ReliefProMain.ViewModel.TowerFire
         {
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
-                dbTowerFireCooler db = new dbTowerFireCooler();
+                TowerFireCoolerDAL db = new TowerFireCoolerDAL();
                 model = db.GetModel(SessionProtectedSystem, EqID);
                 if (model == null)
                 {
@@ -59,7 +59,7 @@ namespace ReliefProMain.ViewModel.TowerFire
                 throw new ArgumentException("Please type in WettedArea.");
             }
            
-                dbTowerFireCooler db = new dbTowerFireCooler();
+                TowerFireCoolerDAL db = new TowerFireCoolerDAL();
                 TowerFireCooler m = db.GetModel(model.ID, SessionProtectedSystem);
                 m.WettedArea = model.WettedArea;
                 m.PipingContingency = model.PipingContingency;

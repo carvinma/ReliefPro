@@ -82,13 +82,13 @@ namespace ReliefProMain.ViewModel
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
             BasicUnit BU;
-            dbBasicUnit dbBU = new dbBasicUnit();
+            BasicUnitDAL dbBU = new BasicUnitDAL();
             IList<BasicUnit> list = dbBU.GetAllList(sessionPlant);
             BU = list.Where(s => s.IsDefault == 1).Single();
 
             UnitConvert uc = new UnitConvert();
 
-            dbSource db = new dbSource();
+            SourceDAL db = new SourceDAL();
             Source source = db.GetModel(SessionProtectedSystem, SourceName);
             SourceType = source.SourceType;
             MaxPossiblePressure = uc.BasicConvert("P", "StInternal", BU.UnitName, out pressureUnit, double.Parse(source.MaxPossiblePressure)).ToString();
@@ -118,7 +118,7 @@ namespace ReliefProMain.ViewModel
             }
             BasicUnit BU;
 
-            dbBasicUnit dbBU = new dbBasicUnit();
+            BasicUnitDAL dbBU = new BasicUnitDAL();
             IList<BasicUnit> list = dbBU.GetAllList(SessionPlant);
             BU = list.Where(s => s.IsDefault == 1).Single();
 
@@ -126,7 +126,7 @@ namespace ReliefProMain.ViewModel
             UnitConvert uc = new UnitConvert();
             CurrentSource = new Source();
 
-            dbSource db = new dbSource();
+            SourceDAL db = new SourceDAL();
             CurrentSource = db.GetModel(SessionProtectedSystem, SourceName);
             CurrentSource.SourceName = SourceName;
             CurrentSource.SourceType = SourceType;

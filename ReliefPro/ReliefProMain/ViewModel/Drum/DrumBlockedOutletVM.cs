@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.IO;
 using ReliefProBLL.Common;
 using ReliefProDAL;
@@ -89,16 +90,34 @@ namespace ReliefProMain.ViewModel.Drum
                     duty = (model.NormalFlashDuty/Math.Pow(10,6)).ToString();
                 }
                 IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
-                string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, drum.Feeds[0], vapor, liquid, tempdir);
-                IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
-                reader.InitProIIReader(f);
-                ProIIStreamData proIIvapor = reader.GetSteamInfo(vapor);
-                reader.ReleaseProIIReader();
-                CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
+                int ImportResult = 0;
+                int RunResult = 0;
+                string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, drum.Feeds[0], vapor, liquid, tempdir,ref ImportResult,ref RunResult);
+                if (ImportResult == 1 || ImportResult == 2)
+                {
+                    if (RunResult == 1 || RunResult == 2)
+                    {
+                        IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+                        reader.InitProIIReader(f);
+                        ProIIStreamData proIIvapor = reader.GetSteamInfo(vapor);
+                        reader.ReleaseProIIReader();
+                        CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
 
-                reliefMW = double.Parse(cs.BulkMwOfPhase);
-                reliefT = double.Parse(cs.Temperature);
-                reliefLoad = double.Parse(cs.WeightFlow);
+                        reliefMW = double.Parse(cs.BulkMwOfPhase);
+                        reliefT = double.Parse(cs.Temperature);
+                        reliefLoad = double.Parse(cs.WeightFlow);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Prz file is error", "Message Box");
+                        return;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("inp file is error", "Message Box");
+                    return;
+                }
             }
             else
             {
