@@ -24,6 +24,18 @@ namespace ReliefProDAL
             }
             return list;
         }
-      
+        public IList<HeatSource> GetAllList(ISession session)
+        {
+            IList<HeatSource> list = null;
+            try
+            {
+                list = session.CreateCriteria<HeatSource>().List<HeatSource>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
     }
 }
