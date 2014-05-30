@@ -189,6 +189,22 @@ namespace ReliefProMain.View
                     {
                     }
                 }
+                else if (shp.NameU.Contains("Clarifier"))
+                {
+                    try
+                    {
+                        SinkView v = new SinkView();
+                        SinkVM vm = new SinkVM(name, PrzFile, SessionPlant, SessionProtectedSystem);
+                        v.DataContext = vm;
+                        Window parentWindow = Window.GetWindow(this);
+                        v.Owner = parentWindow;
+                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                        v.ShowDialog();
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
                 else if (shp.NameU.Contains("Heat exchanger1"))
                 {
                     TowerHXVM vm = new TowerHXVM(name, SessionPlant, SessionProtectedSystem);
@@ -592,20 +608,14 @@ namespace ReliefProMain.View
                 v.ShowDialog();
             }
             else if (btn.ToolTip.ToString() == "Scenario")
-            {
-                if (SessionProtectedSystem == null)
+            {                
+                dbPSV dbpsv = new dbPSV();
+                PSV psv = dbpsv.GetModel(SessionProtectedSystem);
+                if (psv == null)
                 {
-                    MessageBox.Show("数据还未导入");
+                    MessageBox.Show("Psv 还未计算");
                     return;
                 }
-
-                //dbPSV dbpsv = new dbPSV();
-                //PSV psv= dbpsv.GetModel(SessionProtectedSystem);
-                //if (psv == null)
-                //{
-                //    MessageBox.Show("Psv 还未计算");
-                //    return;
-                //}
 
                 ScenarioListView v = new ScenarioListView();
                 ScenarioListVM vm = new ScenarioListVM(EqName,EqType,PrzFile,PrzVersion,SessionPlant,SessionProtectedSystem,DirPlant,DirProtectedSystem);
