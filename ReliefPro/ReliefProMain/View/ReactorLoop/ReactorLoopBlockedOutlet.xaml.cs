@@ -17,9 +17,9 @@ namespace ReliefProMain.View.ReactorLoop
     /// <summary>
     /// UnitsInReactorLoop.xaml 的交互逻辑
     /// </summary>
-    public partial class BlockedOutlet : Window
+    public partial class ReactorLoopBlockedOutlet : Window
     {
-        public BlockedOutlet()
+        public ReactorLoopBlockedOutlet()
         {
             InitializeComponent();
         }
