@@ -62,7 +62,7 @@
     <Compile Include="BasicUnitDAL.cs" />
     <Compile Include="BasicUnitDefaultDAL.cs" />
     <Compile Include="CustomStreamDAL.cs" />
-    <Compile Include="DrumDAL.cs" />
+    <Compile Include="Drums\DrumDAL.cs" />
     <Compile Include="ProIIEqDataDAL.cs" />
     <Compile Include="ProIIEqTypeDAL.cs" />
     <Compile Include="StreamDAL.cs" />
@@ -111,7 +111,7 @@
     <Compile Include="ReactorLoops\ReactorLoopBlockedOutletDAL.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\ReliefProCommon.csproj">
+    <ProjectReference Include="..\ReliefProCommon\ReliefProCommon.csproj">
       <Project>{5442dadc-acf1-4668-90e5-f27070b95cfd}</Project>
       <Name>ReliefProCommon</Name>
     </ProjectReference>

@@ -5,7 +5,7 @@ using System.Text;
 using NHibernate;
 using NHibernate.Criterion;
 using ReliefProDAL.Common;
-using ReliefProModel.ReactorLoop;
+using ReliefProModel.ReactorLoops;
 
 namespace ReliefProDAL.ReactorLoops
 {

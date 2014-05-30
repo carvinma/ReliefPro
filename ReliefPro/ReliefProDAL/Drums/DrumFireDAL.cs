@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NHibernate;
 using NHibernate.Criterion;
-using ReliefProModel.Drum;
+using ReliefProModel.Drums;
 
 namespace ReliefProDAL.Drums
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using NHibernate;
 using NHibernate.Criterion;
-using ReliefProModel.Drum;
+using ReliefProModel.Drums;
 
 namespace ReliefProDAL.Drums
 {

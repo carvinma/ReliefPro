@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using NHibernate;
 using NHibernate.Criterion;
-using ReliefProModel.CompressorBlocked;
+using ReliefProModel.Compressors;
 
 namespace ReliefProDAL.Compressors
 {
-    public class PistonDAL
+    public class PistonBlockedOutletDAL
     {
-        public IList<Piston> GetAllList(ISession session)
+        public IList<PistonBlockedOutlet> GetAllList(ISession session)
         {
-            IList<Piston> list = null;
+            IList<PistonBlockedOutlet> list = null;
             try
             {
-                list = session.CreateCriteria<Piston>().List<Piston>();
+                list = session.CreateCriteria<PistonBlockedOutlet>().List<PistonBlockedOutlet>();
             }
             catch (Exception ex)
             {
@@ -23,16 +23,16 @@ namespace ReliefProDAL.Compressors
             }
             return list;
         }
-        public Piston GetModelByScenarioID(ISession session, int ScenarioID)
+        public PistonBlockedOutlet GetModelByScenarioID(ISession session, int ScenarioID)
         {
-            var list = session.CreateCriteria<Piston>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<Piston>();
+            var list = session.CreateCriteria<PistonBlockedOutlet>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<PistonBlockedOutlet>();
             if (list.Count() > 0)
             {
                 return list[0];
             }
             return null;
         }
-        public void Save(ISession session, Piston model)
+        public void Save(ISession session, PistonBlockedOutlet model)
         {
             using (ITransaction tx = session.BeginTransaction())
             {

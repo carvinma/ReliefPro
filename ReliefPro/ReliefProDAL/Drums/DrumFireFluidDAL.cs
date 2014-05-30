@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using NHibernate;
 using NHibernate.Criterion;
-using ReliefProModel.Drum;
+using ReliefProModel.Drums;
 
-namespace ReliefProDAL.Drum
+namespace ReliefProDAL.Drums
 {
-    public class DrumFireFluidDALs
+    public class DrumFireFluidDAL
     {
         public IList<DrumFireFluid> GetAllList(ISession session)
         {
