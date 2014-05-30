@@ -6,7 +6,7 @@ using NHibernate;
 using NHibernate.Criterion;
 using ReliefProModel.CompressorBlocked;
 
-namespace ReliefProDAL.CompressorBlocked
+namespace ReliefProDAL.Compressors
 {
     public class PistonDAL
     {
