@@ -110,6 +110,36 @@ namespace ReliefProMain.Model
                 }
             }
         }
+        public int ScenarioStreamID
+        {
+            get
+            {
+                return model.ScenarioStreamID;
+            }
+            set
+            {
+                if (model.ScenarioStreamID != value)
+                {
+                    model.ScenarioStreamID = value;
+                    NotifyPropertyChanged("ScenarioStreamID");
+                }
+            }
+        }
+        public int ScenarioID
+        {
+            get
+            {
+                return model.ScenarioID;
+            }
+            set
+            {
+                if (model.ScenarioID != value)
+                {
+                    model.ScenarioID = value;
+                    NotifyPropertyChanged("ScenarioID");
+                }
+            }
+        }
 
         public ScenarioHeatSourceModel(ScenarioHeatSource m)
         {

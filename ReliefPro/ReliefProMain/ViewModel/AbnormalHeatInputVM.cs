@@ -113,12 +113,12 @@ namespace ReliefProMain.ViewModel
             this.ScenarioID = ScenarioID;
             this.SessionPlant = SessionPlant;
             this.SessionProtectedSystem = SessionProtectedSystem;
+            HeatSources = new ObservableCollection<ScenarioHeatSourceModel>();
             db = new dbScenarioHeatSource();
-            IList<ScenarioHeatSource> list = db.GetAllList(this.SessionProtectedSystem);
+            IList<ScenarioHeatSource> list = db.GetScenarioHeatSourceList(this.SessionProtectedSystem, ScenarioID);
             foreach (ScenarioHeatSource s in list)
             {
                 HeatSource hs = dbHS.GetModel(s.HeatSourceID, SessionProtectedSystem);
-
                 ScenarioHeatSourceModel shs = new ScenarioHeatSourceModel(s);
                 shs.Duty = hs.Duty;
                 shs.DutyFactor = s.DutyFactor;
@@ -126,6 +126,29 @@ namespace ReliefProMain.ViewModel
                 shs.HeatSourceName = hs.HeatSourceName;
                 shs.HeatSourceType = hs.HeatSourceType;
 
+            }
+            if (list.Count == 0)
+            {
+                dbSource dbSource = new dbSource();
+                dbHeatSource dbhs = new dbHeatSource();
+               
+                IList<HeatSource> listHeatSource = dbhs.GetAllList(SessionProtectedSystem);
+                foreach (HeatSource hs in listHeatSource)
+                {                  
+                    if (hs.HeatSourceType != "Feed/Bottom HX")
+                    {
+                        ScenarioHeatSource shs = new ScenarioHeatSource();
+                        ScenarioHeatSourceModel shsm = new ScenarioHeatSourceModel(shs);
+                        shsm.HeatSourceID = hs.ID;
+                        shsm.DutyFactor = "1";
+                        shsm.Duty = hs.Duty;
+                        shsm.ScenarioStreamID = 0;
+                        shsm.ScenarioID = ScenarioID;
+                        shsm.HeatSourceName = hs.HeatSourceName;
+                        shsm.HeatSourceType = hs.HeatSourceType;
+                        HeatSources.Add(shsm);
+                    }
+                }
             }
             dbScenario dbsc = new dbScenario();
             Scenario sc = dbsc.GetModel(ScenarioID, SessionProtectedSystem);
@@ -379,7 +402,7 @@ namespace ReliefProMain.ViewModel
         private ObservableCollection<ScenarioHeatSourceModel> GetHeatSources(int ScenarioStreamID)
         {
             ObservableCollection<ScenarioHeatSourceModel> list = new ObservableCollection<ScenarioHeatSourceModel>();
-            IList<ScenarioHeatSource> eqs = db.GetAllList(SessionProtectedSystem, ScenarioStreamID);
+            IList<ScenarioHeatSource> eqs = db.GetScenarioStreamList(SessionProtectedSystem, ScenarioStreamID);
             foreach (ScenarioHeatSource eq in eqs)
             {
                 HeatSource hs = dbHS.GetModel(eq.HeatSourceID, SessionProtectedSystem);

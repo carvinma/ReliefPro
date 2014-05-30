@@ -107,7 +107,7 @@ namespace ReliefProMain.ViewModel
 
         public void Save(object obj)
         {
-            IList<ScenarioHeatSource> list = db.GetAllList(SessionProtectedSystem, ScenarioStreamID);
+            IList<ScenarioHeatSource> list = db.GetScenarioStreamList(SessionProtectedSystem, ScenarioStreamID);
             for (int i = 0; i < list.Count; i++)
             {
                 db.Delete(list[i], SessionProtectedSystem);
@@ -130,7 +130,7 @@ namespace ReliefProMain.ViewModel
         private ObservableCollection<ScenarioHeatSourceModel> GetHeatSources(int ScenarioStreamID)
         {
             ObservableCollection<ScenarioHeatSourceModel> list = new ObservableCollection<ScenarioHeatSourceModel>();
-            IList<ScenarioHeatSource> eqs = db.GetAllList(SessionProtectedSystem, ScenarioStreamID);
+            IList<ScenarioHeatSource> eqs = db.GetScenarioStreamList(SessionProtectedSystem, ScenarioStreamID);
             foreach (ScenarioHeatSource eq in eqs)
             {
                 HeatSource hs = dbHS.GetModel(eq.HeatSourceID, SessionProtectedSystem);

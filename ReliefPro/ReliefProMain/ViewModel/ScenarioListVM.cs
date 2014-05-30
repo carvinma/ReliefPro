@@ -194,6 +194,10 @@ namespace ReliefProMain.ViewModel
                     {
                         CreateInletValveOpen(ScenarioID);
                     }
+                    else if (ScenarioName.Contains("Abnormal"))
+                    {
+                        CreateAbnormalHeatInput(ScenarioID, ScenarioName, SessionProtectedSystem);
+                    }
                     else
                     {
                         CreateTowerCommon(ScenarioID, ScenarioName, SessionProtectedSystem);
@@ -384,7 +388,52 @@ namespace ReliefProMain.ViewModel
 
         private void CreateTowerCommon(int ScenarioID, string ScenarioName, NHibernate.ISession Session)
         {
-            dbTowerScenarioStream dbTowerSS = new dbTowerScenarioStream();
+            CreateTowerScenarioCalcData(ScenarioID, ScenarioName, Session);
+            TowerScenarioCalcView v = new TowerScenarioCalcView();
+            TowerScenarioCalcVM vm = new TowerScenarioCalcVM(ScenarioID,PrzFile, SessionPlant, SessionProtectedSystem);
+            v.DataContext = vm;
+            if (v.ShowDialog() == true)
+            {
+                SelectedScenario.ReliefLoad = vm.ReliefLoad;
+                SelectedScenario.ReliefPressure = vm.ReliefPressure;
+                SelectedScenario.ReliefTemperature = vm.ReliefTemperature;
+                SelectedScenario.ReliefMW = vm.ReliefMW;
+            }
+        }
+
+        private void CreateInletValveOpen(int ScenarioID)
+        {
+            InletValveOpenView v = new InletValveOpenView();
+            InletValveOpenVM vm = new InletValveOpenVM(ScenarioID, EqName, EqType, PrzFile, PrzVersion, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
+            v.DataContext = vm;
+            if (v.ShowDialog() == true)
+            {
+                SelectedScenario.ReliefLoad = vm.ReliefLoad;
+                SelectedScenario.ReliefMW = vm.ReliefMW;
+                SelectedScenario.ReliefPressure = vm.ReliefPressure;
+                SelectedScenario.ReliefTemperature = vm.ReliefTemperature;
+            }
+        }
+
+        private void CreateAbnormalHeatInput(int ScenarioID, string ScenarioName, NHibernate.ISession Session)
+        {
+            CreateTowerScenarioCalcData(ScenarioID, ScenarioName, Session);
+            AbnormalHeatInputView v = new AbnormalHeatInputView();
+            AbnormalHeatInputVM vm = new AbnormalHeatInputVM(ScenarioID, SessionPlant, SessionProtectedSystem);
+            v.DataContext = vm;
+            if (v.ShowDialog() == true)
+            {
+                SelectedScenario.ReliefLoad = vm.ReliefLoad;
+                SelectedScenario.ReliefMW = vm.ReliefMW;
+                SelectedScenario.ReliefPressure = vm.ReliefPressure;
+                SelectedScenario.ReliefTemperature = vm.ReliefTemperature;
+            }
+        }
+
+
+        private void CreateTowerScenarioCalcData(int ScenarioID, string ScenarioName, NHibernate.ISession Session)
+        {
+             dbTowerScenarioStream dbTowerSS = new dbTowerScenarioStream();
             IList<TowerScenarioStream> list = dbTowerSS.GetAllList(Session, ScenarioID);
             if (list.Count == 0)
             {
@@ -408,17 +457,12 @@ namespace ReliefProMain.ViewModel
                     foreach (HeatSource hs in listHeatSource)
                     {
                         ScenarioHeatSource shs = new ScenarioHeatSource();
-                        if (ScenarioName=="Abnormal Heat Input" && hs.HeatSourceType != "Feed/Bottom HX")
+                        if ( hs.HeatSourceType == "Feed/Bottom HX")
                         {
                             shs.HeatSourceID = hs.ID;
                             shs.DutyFactor = "1";
                             shs.ScenarioStreamID = tss.ID;
-                        }
-                        else if (ScenarioName!="Abnormal Heat Input" && hs.HeatSourceType == "Feed/Bottom HX")
-                        {
-                            shs.HeatSourceID = hs.ID;
-                            shs.DutyFactor = "1";
-                            shs.ScenarioStreamID = tss.ID;
+                            shs.ScenarioID = ScenarioID;
                         }
                         dbshs.Add(shs, SessionProtectedSystem);
                     }
@@ -469,45 +513,6 @@ namespace ReliefProMain.ViewModel
                         dbTSHX.Add(tsHX, Session);
                     }
                 }
-            }
-
-            TowerScenarioCalcView v = new TowerScenarioCalcView();
-            TowerScenarioCalcVM vm = new TowerScenarioCalcVM(ScenarioID,PrzFile, SessionPlant, SessionProtectedSystem);
-            v.DataContext = vm;
-            if (v.ShowDialog() == true)
-            {
-                SelectedScenario.ReliefLoad = vm.ReliefLoad;
-                SelectedScenario.ReliefPressure = vm.ReliefPressure;
-                SelectedScenario.ReliefTemperature = vm.ReliefTemperature;
-                SelectedScenario.ReliefMW = vm.ReliefMW;
-            }
-        }
-
-        private void CreateInletValveOpen(int ScenarioID)
-        {
-            InletValveOpenView v = new InletValveOpenView();
-            InletValveOpenVM vm = new InletValveOpenVM(ScenarioID, EqName, EqType, PrzFile, PrzVersion, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
-            v.DataContext = vm;
-            if (v.ShowDialog() == true)
-            {
-                SelectedScenario.ReliefLoad = vm.ReliefLoad;
-                SelectedScenario.ReliefMW = vm.ReliefMW;
-                SelectedScenario.ReliefPressure = vm.ReliefPressure;
-                SelectedScenario.ReliefTemperature = vm.ReliefTemperature;
-            }
-        }
-
-        private void CreateAbnormalHeatInput(int ScenarioID)
-        {
-            AbnormalHeatInputView v = new AbnormalHeatInputView();
-            AbnormalHeatInputVM vm = new AbnormalHeatInputVM(ScenarioID, SessionPlant, SessionProtectedSystem);
-            v.DataContext = vm;
-            if (v.ShowDialog() == true)
-            {
-                SelectedScenario.ReliefLoad = vm.ReliefLoad;
-                SelectedScenario.ReliefMW = vm.ReliefMW;
-                SelectedScenario.ReliefPressure = vm.ReliefPressure;
-                SelectedScenario.ReliefTemperature = vm.ReliefTemperature;
             }
         }
 
