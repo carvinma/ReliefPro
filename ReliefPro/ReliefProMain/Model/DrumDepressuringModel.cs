@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ReliefProModel.Drum;
+using ReliefProModel.Drums;
 
 namespace ReliefProMain.Model
 {
