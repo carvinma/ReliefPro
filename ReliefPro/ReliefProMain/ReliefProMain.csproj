@@ -145,6 +145,7 @@
     <Compile Include="Model\PSVModel.cs" />
     <Compile Include="Model\ReactorLoop\ReactorLoopBlockedOutletModel.cs" />
     <Compile Include="Model\ScenarioModel.cs" />
+    <Compile Include="Model\SinkModel.cs" />
     <Compile Include="Model\TowerFireColumnModel.cs" />
     <Compile Include="Model\TowerFireModel.cs" />
     <Compile Include="Model\TowerHXDetailModel.cs" />
@@ -201,8 +202,12 @@
     <Compile Include="ViewModel\CreateProtectedSystemVM.cs" />
     <Compile Include="ViewModel\ScenarioHeatSourceListVM.cs" />
     <Compile Include="ViewModel\AbnormalHeatInputVM.cs" />
+    <Compile Include="ViewModel\SinkVM.cs" />
     <Compile Include="View\Common\HeatSourceListView.xaml.cs">
       <DependentUpon>HeatSourceListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Common\SinkView.xaml.cs">
+      <DependentUpon>SinkView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\HX\AirCooledHXFireView.xaml.cs">
       <DependentUpon>AirCooledHXFireView.xaml</DependentUpon>
@@ -390,6 +395,10 @@
     <Page Include="View\Common\HeatSourceListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Common\SinkView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\HX\AirCooledHXFireView.xaml">
       <SubType>Designer</SubType>
