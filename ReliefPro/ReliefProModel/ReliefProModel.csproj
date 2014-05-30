@@ -125,6 +125,7 @@
     <Compile Include="FlashResult.cs" />
     <Compile Include="HeatSource.cs" />
     <Compile Include="ScenarioHeatSource.cs" />
+    <Compile Include="Sink.cs" />
     <EmbeddedResource Include="CompressorBlocked\Centrifugal.hbm.xml" />
     <EmbeddedResource Include="CompressorBlocked\Piston.hbm.xml" />
     <EmbeddedResource Include="DemoModel.hbm.xml" />
@@ -141,6 +142,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Sink.hbm.xml" />
     <EmbeddedResource Include="ReactorLoop\ReactorLoopBlockedOutlet.hbm.xml" />
     <EmbeddedResource Include="ScenarioHeatSource.hbm.xml" />
     <EmbeddedResource Include="HeatSource.hbm.xml" />
