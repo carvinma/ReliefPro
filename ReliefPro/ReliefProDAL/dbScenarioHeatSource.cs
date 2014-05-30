@@ -11,7 +11,7 @@ namespace ReliefProDAL
     public class dbScenarioHeatSource : IBaseDAL<ScenarioHeatSource>
     {
 
-        public IList<ScenarioHeatSource> GetAllList(ISession session, int ScenarioStreamID)
+        public IList<ScenarioHeatSource> GetScenarioStreamList(ISession session, int ScenarioStreamID)
         {
             IList<ScenarioHeatSource> list = null;
             try
@@ -30,6 +30,19 @@ namespace ReliefProDAL
             try
             {
                 list = session.CreateCriteria<ScenarioHeatSource>().List<ScenarioHeatSource>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+        public IList<ScenarioHeatSource> GetScenarioHeatSourceList(ISession session, int ScenarioID)
+        {
+            IList<ScenarioHeatSource> list = null;
+            try
+            {
+                list = session.CreateCriteria<ScenarioHeatSource>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<ScenarioHeatSource>();
             }
             catch (Exception ex)
             {
