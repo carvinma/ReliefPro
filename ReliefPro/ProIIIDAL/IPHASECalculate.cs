@@ -8,6 +8,6 @@ namespace ProII
 {
     public interface IPHASECalculate
     {
-         string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string PH, string dir);
+        string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string PH, string dir, ref int ImportResult, ref int RunResult);
     }
 }
