@@ -8,8 +8,8 @@
     <ProjectGuid>{5442DADC-ACF1-4668-90E5-F27070B95CFD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pcitc.Common</RootNamespace>
-    <AssemblyName>Common</AssemblyName>
+    <RootNamespace>ReliefProCommon</RootNamespace>
+    <AssemblyName>ReliefProCommon</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>
