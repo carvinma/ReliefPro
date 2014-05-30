@@ -143,6 +143,7 @@
     <Compile Include="Model\HX\HXFireModel.cs" />
     <Compile Include="Model\ModelBase.cs" />
     <Compile Include="Model\PSVModel.cs" />
+    <Compile Include="Model\ReactorLoop\ReactorLoopBlockedOutletModel.cs" />
     <Compile Include="Model\ScenarioModel.cs" />
     <Compile Include="Model\TowerFireColumnModel.cs" />
     <Compile Include="Model\TowerFireModel.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="ViewModel\HX\HXFireVM.cs" />
     <Compile Include="ViewModel\Mode.cs" />
     <Compile Include="ViewModel\MultiValueConverter.cs" />
+    <Compile Include="ViewModel\ReactorLoop\ReactorLoopBlockedOutletVM.cs" />
     <Compile Include="ViewModel\ScenarioListVM.cs" />
     <Compile Include="ViewModel\SelectEquipmentVM.cs" />
     <Compile Include="ViewModel\SourceVM.cs" />
