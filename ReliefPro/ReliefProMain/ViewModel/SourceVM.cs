@@ -74,9 +74,6 @@ namespace ReliefProMain.ViewModel
             return list;
         }
 
-
-
-
         public SourceVM(string name,string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             this.PrzFile = PrzFile;

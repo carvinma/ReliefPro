@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows;
 using ReliefProModel;
 using ReliefProMain.Commands;
 using ReliefProDAL;
@@ -154,44 +155,73 @@ namespace ReliefProMain.ViewModel
 
         private void CalculateSurgeTime(object win)
         {
+
+
+            dbAccumulator dbaccumulator = new dbAccumulator();
+            CurrentAccumulator = dbaccumulator.GetModel(SessionProtectedSystem);
             
-           
-                dbAccumulator dbaccumulator = new dbAccumulator();
-                CurrentAccumulator=dbaccumulator.GetModel(SessionProtectedSystem);
+            dbScenario dbTS = new dbScenario();
+            Scenario ts = dbTS.GetModel(ScenarioID, SessionProtectedSystem);
 
-                dbScenario dbTS = new dbScenario();
-                Scenario ts = dbTS.GetModel(ScenarioID, SessionProtectedSystem);
+            double refluxFlowStops = 0;
+            double refluxFlow = 0;
+            double ohProductFlowStops = 0;
+            double ohProductFlow = GetOHProductFlow(SessionProtectedSystem);
 
-                double refluxFlowStops = 0;
-                double refluxFlow = 0;
-                double ohProductFlowStops = 0;
-                double ohProductFlow = GetOHProductFlow(SessionProtectedSystem);
+            double density = GetLatentLiquidDensity(SessionProtectedSystem);
+            double totalCondenserDuty = Math.Abs(ScenarioCondenserDuty);
+            double latent = GetLatent(SessionProtectedSystem);
+            double volumeflowrate = totalCondenserDuty / latent / density;
+            double totalVolumeticFlowRate = volumeflowrate - refluxFlow * refluxFlowStops - ohProductFlow * ohProductFlowStops;
+            double accumulatorTotalVolume = 0;
+            double accumulatorPartialVolume = 0;
+            double diameter = 0;
+            double liquidlevel = 0;
+            double length = 0;
+            if (string.IsNullOrEmpty(CurrentAccumulator.Diameter))
+            {
+                MessageBox.Show("Accumulator's diameter cann't be empty.","Message Box");
+            }
+            else
+            {
+                diameter = double.Parse(CurrentAccumulator.Diameter);
+            }
 
-                double density = GetLatentLiquidDensity(SessionProtectedSystem);
-                double totalCondenserDuty = Math.Abs(ScenarioCondenserDuty);
-                double latent = GetLatent(SessionProtectedSystem);
-                double volumeflowrate = totalCondenserDuty / latent / density;
-                double totalVolumeticFlowRate = volumeflowrate - refluxFlow * refluxFlowStops - ohProductFlow * ohProductFlowStops;
-                double accumulatorTotalVolume = 0;
-                double accumulatorPartialVolume = 0;
-                double diameter = float.Parse(CurrentAccumulator.Diameter);
-                double liquidlevel = float.Parse(CurrentAccumulator.NormalLiquidLevel);
-                double length = float.Parse(CurrentAccumulator.Length);
-                accumulatorTotalVolume = 3.14159 * Math.Pow(diameter, 2) * length / 4 + 3.14159 * Math.Pow(diameter, 3) / 12;
-                if (CurrentAccumulator.Orientation)
-                {
-                    accumulatorPartialVolume = 3.14159 * Math.Pow(diameter, 2) * liquidlevel / 4 + 3.14159 * Math.Pow(diameter, 3) / 24;
-                }
-                else
-                {
-                    accumulatorPartialVolume = liquidlevel * accumulatorTotalVolume / diameter;
+            if (string.IsNullOrEmpty(CurrentAccumulator.NormalLiquidLevel))
+            {
+                MessageBox.Show("Accumulator's normal liquid level cann't be empty.", "Message Box");
+                return;
+            }
+            else
+            {
+                liquidlevel = double.Parse(CurrentAccumulator.NormalLiquidLevel);
+            }
 
-                }
-                double surgeVolume = accumulatorTotalVolume - accumulatorPartialVolume;
-                double dSurgeTime = surgeVolume * 60 / totalVolumeticFlowRate;
-                SurgeTime = dSurgeTime.ToString();
-            
-          
+            if (string.IsNullOrEmpty(CurrentAccumulator.Length))
+            {
+                MessageBox.Show("Accumulator's length cann't be empty.", "Message Box");
+                return;
+            }
+            else
+            {
+                length = double.Parse(CurrentAccumulator.Length);
+            }
+
+            accumulatorTotalVolume = 3.14159 * Math.Pow(diameter, 2) * length / 4 + 3.14159 * Math.Pow(diameter, 3) / 12;
+            if (CurrentAccumulator.Orientation)
+            {
+                accumulatorPartialVolume = 3.14159 * Math.Pow(diameter, 2) * liquidlevel / 4 + 3.14159 * Math.Pow(diameter, 3) / 24;
+            }
+            else
+            {
+                accumulatorPartialVolume = liquidlevel * accumulatorTotalVolume / diameter;
+
+            }
+            double surgeVolume = accumulatorTotalVolume - accumulatorPartialVolume;
+            double dSurgeTime = surgeVolume * 60 / totalVolumeticFlowRate;
+            SurgeTime = dSurgeTime.ToString();
+
+
 
         }
 
@@ -210,7 +240,7 @@ namespace ReliefProMain.ViewModel
         {
             double r = 0;
             dbLatentProduct db = new dbLatentProduct();
-            LatentProduct model = db.GetModel(Session, "");
+            LatentProduct model = db.GetModel(Session, "2");
             if (model != null)
             {
                 r = double.Parse(model.BulkDensityAct);

@@ -208,8 +208,13 @@ namespace ReliefProMain.ViewModel
             ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
             reader.ReleaseProIIReader();
 
-            CustomStream latentVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
-            CustomStream latentLiquid = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
+            LatentProduct latentVapor = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIIVapor);
+            latentVapor.ProdType = "1";
+            LatentProduct latentLiquid = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIILiquid);
+            latentVapor.ProdType = "2";
+            dbLatentProduct dblp = new dbLatentProduct();
+            dblp.Add(latentVapor, SessionProtectedSystem);
+            dblp.Add(latentLiquid, SessionProtectedSystem);
 
             double latentEnthalpy = double.Parse(latentVapor.SpEnthalpy) - double.Parse(latentLiquid.SpEnthalpy);
             double ReliefTemperature = double.Parse(latentVapor.Temperature);

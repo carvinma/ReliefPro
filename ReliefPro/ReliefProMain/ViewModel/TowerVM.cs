@@ -547,7 +547,7 @@ namespace ReliefProMain.ViewModel
                 dbCustomStream dbCS = new dbCustomStream();
                 dbSource dbsr = new dbSource();
                 dbTower dbtower = new dbTower();
-
+                dbSink dbsink = new dbSink();
 
                 IList<Accumulator> listAccumulator = dbAc.GetAllList(SessionProtectedSystem);
                 foreach (Accumulator m in listAccumulator)
@@ -567,6 +567,14 @@ namespace ReliefProMain.ViewModel
                 {
                     dbsr.Delete(m, SessionProtectedSystem);
                 }
+
+                IList<Sink> listSink = dbsink.GetAllList(SessionProtectedSystem);
+                foreach (Sink m in listSink)
+                {
+                    dbsink.Delete(m, SessionProtectedSystem);
+                }
+
+
                 IList<SideColumn> listSideColumn = dbSC.GetAllList(SessionProtectedSystem);
                 foreach (SideColumn m in listSideColumn)
                 {
@@ -676,6 +684,13 @@ namespace ReliefProMain.ViewModel
 
                 foreach (CustomStream cs in Products)
                 {
+                    Sink sink = new Sink();
+                    sink.MaxPossiblePressure = cs.Pressure;
+                    sink.StreamName = cs.StreamName;
+                    sink.SinkName = cs.StreamName + "_Sink";
+                    sink.SinkType = "Compressor(Motor)";
+
+                    dbsink.Add(sink, SessionProtectedSystem);
                     dbCS.Add(cs, SessionProtectedSystem);
                 }
 
