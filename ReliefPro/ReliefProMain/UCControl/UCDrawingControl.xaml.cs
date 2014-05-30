@@ -21,11 +21,13 @@ using System.Collections;
 using ReliefProCommon.CommonLib;
 using ReliefProMain.ViewModel;
 using ReliefProModel;
-using ReliefProModel.Drum;
-using ReliefProMain.ViewModel.Drum;
+using ReliefProModel.Drums;
+using ReliefProMain.ViewModel.Drums;
 using NHibernate;
 using ReliefProBLL.Common;
 using ReliefProDAL;
+using ReliefProDAL.Drums;
+using ReliefProMain.View.Drums;
 
 namespace ReliefProMain.View
 {
@@ -117,7 +119,7 @@ namespace ReliefProMain.View
                 {
                     try
                     {
-                        Drum.DrumView v = new Drum.DrumView();
+                        DrumView v = new DrumView();
                         DrumVM vm = new DrumVM(name, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
                         v.DataContext = vm;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -647,7 +649,7 @@ namespace ReliefProMain.View
                 PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
             }
             DrumDAL dbdrum = new DrumDAL();
-            ReliefProModel.Drum.Drum drum = dbdrum.GetModel(SessionProtectedSystem);
+            Drum drum = dbdrum.GetModel(SessionProtectedSystem);
             if (drum != null)
             {
                 EqType = "Drum";
