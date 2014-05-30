@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+<class name="ReliefProModel.Drums.Drum, ReliefProModel" table="tbDrum" >
+<id name="ID" column="ID" type="Int32" unsaved-value="0">
+<generator class="identity" />
+</id>
+  
+  <property name="DrumName" column="DrumName" type="String" length="255"/>
+  <property name="DrumType" column="DrumType" type="String" length="255"/>
+  <property name="Duty" column="Duty" type="String" length="255"/>
+  <property name="Pressure" column="Pressure" type="String" length="255"/>
+  <property name="Temperature" column="Temperature" type="String" length="255"/>
+  <property name="PrzFile" column="PrzFile" type="String" length="255"/>
+</class>
+</hibernate-mapping>

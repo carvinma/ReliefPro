@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+<class name="ReliefProModel.Drums.DrumBlockedOutlet, ReliefProModel" table="tbDrumBlockedOutlet" >
+<id name="ID" column="ID" type="Int32" unsaved-value="0">
+<generator class="identity" />
+</id>
+  <property name="DrumID" column="DrumID" type="Int32"/>
+  <property name="ScenarioID" column="ScenarioID" type="Int32"/>
+  <property name="MaxPressure" column="MaxPressure" type="Double"/>
+  <property name="MaxStreamRate" column="MaxStreamRate" type="Double"/>
+  <property name="DrumType" column="DrumType" type="String"/>
+  <property name="NormalFlashDuty" column="NormalFlashDuty" type="Double"/>
+  <property name="FDReliefCondition" column="FDReliefCondition" type="Double"/>
+  <property name="Feed" column="Feed" type="Boolean"/>
+  <property name="ReboilerPinch" column="ReboilerPinch" type="Boolean"/>
+</class>
+</hibernate-mapping>

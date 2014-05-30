@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+<class name="ReliefProModel.HXs.HXFire, ReliefProModel" table="tbHXFire" >
+<id name="ID" column="ID" type="Int32" unsaved-value="0">
+<generator class="identity" />
+</id>
+  <property name="ScenarioID" column="ScenarioID" type="Int32"/>
+  <property name="ExposedToFire" column="ExposedToFire" type="String"/>
+  <property name="Type" column="Type" type="String"/>
+  <property name="OD" column="OD" type="Double"/>
+  <property name="Length" column="Length" type="Double"/>
+  <property name="Elevation" column="Elevation" type="Double"/>
+  <property name="PipingContingency" column="PipingContingency" type="Double"/>
+</class>
+</hibernate-mapping>
