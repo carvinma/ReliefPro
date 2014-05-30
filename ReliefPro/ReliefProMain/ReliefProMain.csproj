@@ -318,8 +318,8 @@
     <Compile Include="View\HX\HXBlockedOutletView.xaml.cs">
       <DependentUpon>HXBlockedOutletView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ReactorLoop\BlockedOutlet.xaml.cs">
-      <DependentUpon>BlockedOutlet.xaml</DependentUpon>
+    <Compile Include="View\ReactorLoop\ReactorLoopBlockedOutlet.xaml.cs">
+      <DependentUpon>ReactorLoopBlockedOutlet.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ReactorLoop\GeneralCoolingWaterFailure.xaml.cs">
       <DependentUpon>GeneralCoolingWaterFailure.xaml</DependentUpon>
@@ -541,7 +541,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\ReactorLoop\BlockedOutlet.xaml">
+    <Page Include="View\ReactorLoop\ReactorLoopBlockedOutlet.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
