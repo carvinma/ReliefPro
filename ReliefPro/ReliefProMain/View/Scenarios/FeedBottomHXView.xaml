@@ -1,0 +1,61 @@
+﻿<Window x:Class="ReliefProMain.View.FeedBottomHXView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="FeedBottomHXView" Height="477" Width="995" Name="myWindow">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="34*"/>
+            <ColumnDefinition Width="221*"/>
+            <ColumnDefinition Width="210*"/>
+            <ColumnDefinition Width="58*"/>
+            <ColumnDefinition Width="469*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="33*"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="29*"/>
+            <RowDefinition Height="28*"/>
+            <RowDefinition Height="26*"/>
+            <RowDefinition Height="41*"/>
+            <RowDefinition Height="35*"/>
+            <RowDefinition Height="48*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="28*"/>
+            <RowDefinition Height="31*"/>
+            <RowDefinition Height="38*"/>
+            <RowDefinition Height="37*"/>
+            <RowDefinition Height="68*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Feed Normal Temperature(t in)" Grid.Column="1" HorizontalAlignment="Left" Margin="0,2,0,0" VerticalAlignment="Top" Height="25" Width="223" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="{Binding FeedTin}" VerticalAlignment="Stretch" Margin="0,11,0,0" Grid.Row="1" />
+        <Label Content="Feed Normal Sp Enthalpy(in)" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Top" Height="26" Width="174" Margin="10,5,0,0" Grid.RowSpan="2"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Stretch"  Grid.Row="2" TextWrapping="Wrap" Text="{Binding FeedTout}" VerticalAlignment="Stretch" Margin="0,5,10,6"/>
+        <Label Content="Bottom Normal Temperature in" Grid.Column="1" HorizontalAlignment="Left" Margin="10,5,0,0" Grid.Row="6" VerticalAlignment="Top" Height="26" Width="199"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Stretch"   Grid.Row="6" TextWrapping="Wrap" Text="{Binding BottomTin}" VerticalAlignment="Stretch" Margin="0,5,10,5" />
+        <Label Content="Bottom Normal Temperature out" Grid.Column="1" HorizontalAlignment="Stretch"  Grid.Row="7" VerticalAlignment="Top" Height="26" Margin="10,1,11,0"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Stretch"  Grid.Row="7" TextWrapping="Wrap" Text="{Binding BottomTout}" VerticalAlignment="Stretch" />
+        <Label Content="Bottom Relief Temperature in" Grid.Column="1" HorizontalAlignment="Left" Margin="11,10,0,0" Grid.Row="8" VerticalAlignment="Top" Height="25" Width="199"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="8" TextWrapping="Wrap" Text="{Binding BottomReliefTin}" VerticalAlignment="Stretch" />
+        <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="4" HorizontalAlignment="Left" Margin="190,0,0,0" Grid.Row="14" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Button Content="Cancel" IsCancel="True" Grid.Column="4" HorizontalAlignment="Left" Margin="296,0,0,0" Grid.Row="14" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Button Content="Calculate" Command="{Binding CalculateCommand}" Grid.Column="2" HorizontalAlignment="Left" Margin="10,3,0,0" Grid.Row="11" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Label Content="Feed Temperature" Grid.Column="1" HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Row="12" VerticalAlignment="Top" Height="26" Width="115"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Stretch"  Grid.Row="12" TextWrapping="Wrap" Text="{Binding FeedNewTemperature}" VerticalAlignment="Stretch" />
+        <Label Content="Feed  Enthalpy" Grid.Column="1" HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Row="13" VerticalAlignment="Top" Height="26" Width="91"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Stretch"  Grid.Row="13" TextWrapping="Wrap" Text="{Binding FeedNewSpEnthalpy}" VerticalAlignment="Stretch" />
+        <Label Content="Duty" Grid.Column="1" HorizontalAlignment="Left" Margin="18,0,0,0" Grid.Row="10" VerticalAlignment="Top" Height="26" Width="97" Grid.RowSpan="2"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Stretch"  Grid.Row="10" TextWrapping="Wrap" Text="{Binding Duty}" VerticalAlignment="Stretch" Margin="10,0,0,2" />
+        <TextBox Grid.Column="2" HorizontalAlignment="Stretch"   Grid.Row="11" TextWrapping="Wrap" Text="{Binding QRQN}" VerticalAlignment="Stretch" />
+        <Label Content="Feed MassRate" Grid.Column="1" HorizontalAlignment="Left" Margin="10,3,0,0" Grid.Row="3" VerticalAlignment="Top" Height="26" Width="174"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Stretch"   Grid.Row="3" TextWrapping="Wrap" Text="{Binding FeedMassRate}" VerticalAlignment="Stretch" Margin="0,5,0,27" Grid.RowSpan="2" />
+        <Label Content="Feed Normal Temperature(t out)" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="223" Grid.Row="2" Grid.ColumnSpan="2"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="{Binding FeedSpEin}" VerticalAlignment="Stretch" Margin="0,1,0,0" Grid.Row="4" />
+        <Label Content="Feed Normal Sp Enthalpy(out)" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Top" Height="26" Width="199" Margin="10,0,0,0"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="{Binding FeedSpEout}" VerticalAlignment="Stretch" Margin="0,27,0,0" Grid.Row="4" Grid.RowSpan="2" />
+        <Button Content="Calculate" Command="{Binding CalculateCommand}" Grid.Column="2" HorizontalAlignment="Left" Margin="10,3,0,0" Grid.Row="11" VerticalAlignment="Top" Width="75"/>
+        <Label Content="Bottom MassRate" Grid.Column="1" HorizontalAlignment="Stretch"  Grid.Row="9" VerticalAlignment="Top" Height="26" Margin="11,3,10,0"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Stretch"  Grid.Row="9" TextWrapping="Wrap" Text="{Binding BottomMassRate}" VerticalAlignment="Stretch" Margin="10,5,0,7" />
+
+    </Grid>
+</Window>

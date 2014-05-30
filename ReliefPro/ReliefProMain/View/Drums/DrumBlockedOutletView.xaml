@@ -1,0 +1,81 @@
+﻿<Window x:Name="myWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" x:Class="ReliefProMain.View.Drums.DrumBlockedOutletView"
+        Title="Drum_BlockedOutlet" Height="290" Width="580">
+    <Window.Resources>
+        <Style TargetType="{x:Type RowDefinition}">
+            <Setter Property="Height" Value="30"/>
+        </Style>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="25,5,0,0"/>
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style TargetType="{x:Type CustomControl:UnitConvertTextBox}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style x:Key="LabelLeftStyle">
+            <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
+            <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="360"/>
+            <ColumnDefinition Width="125"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Max Source Pressure"  Grid.Row="1"/>
+        <Label Content="Max Source stream rate" Grid.Row="2"/>
+        <Label Content="Drum Type"  Grid.Row="3"/>
+        <Label Content="Normal Flashing Duty" Grid.Row="4"/>
+        <Label Content="Flashing Duty @ Relief Condition" Grid.Row="5"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.MaxPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="1" />
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.MaxStreamRate}" UnitOrigin="{Binding ElementName=lblStreamRate,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="2"/>
+        <TextBox Text="{Binding Path=model.DrumType}" Grid.Column="1"  Grid.Row="3" IsEnabled="False" />
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.NormalFlashDuty}" UnitOrigin="{Binding ElementName=lblFlashingDuty,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="4"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.FDReliefCondition}" UnitOrigin="{Binding ElementName=lblReliefCondition,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="5"/>
+
+        <Label x:Name="lblPressure"  Content="{Binding model.PressureUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="1"/>
+        <Label x:Name="lblStreamRate" Content="{Binding model.StreamRateUnit}"   Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="2"/>
+        <Label x:Name="lblFlashingDuty" Content="{Binding model.FlashingDutyUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="4"/>
+        <Label x:Name="lblReliefCondition" Content="{Binding model.ReliefConditionUnit}"  Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="5"/>
+        
+        <CheckBox x:Name="chkFeed" Content="Feed/Btm HX"  IsChecked="{Binding model.Feed}" HorizontalAlignment="Left" Margin="25,10,0,0" Grid.Row="6" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chkPinch" Content="Reboiler Pinch"  IsChecked="{Binding model.ReboilerPinch}" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="6" VerticalAlignment="Center"/>
+        <Button Content="Open"  IsEnabled="{Binding ElementName=chkFeed,Path=IsChecked}"  HorizontalAlignment="Left" Margin="150,0,0,0" VerticalAlignment="Center" Width="75" Height="25" Grid.Row="6" Grid.Column="0" />
+        <Button Content="Open"  IsEnabled="{Binding ElementName=chkPinch,Path=IsChecked}" HorizontalAlignment="Right" VerticalAlignment="Center" Width="70" Height="25" Grid.Row="6" Grid.Column="2" />
+        <Button Content="OK" Command="{Binding CalcCMD}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Right" VerticalAlignment="Center" Width="75" Height="25" Grid.Row="7" Grid.Column="0" />
+        <Button Content="Cancel" HorizontalAlignment="Right" IsCancel="True"  VerticalAlignment="Center" Width="75" Height="25" Grid.Row="7" Grid.Column="1" />
+    </Grid>
+</Window>

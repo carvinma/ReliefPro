@@ -1,0 +1,31 @@
+﻿<Window x:Class="ReliefProMain.View.TowerScenarioView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TowerScenario" Height="300" Width="800" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="14*"/>
+            <RowDefinition Height="121*"/>
+        </Grid.RowDefinitions>
+        <DataGrid Name="myGrid" AutoGenerateColumns="False" CanUserAddRows="True"  HorizontalAlignment="Left" Margin="0,10,-8,0" Grid.Row="1" VerticalAlignment="Top" Height="222" Width="800"  SelectionMode="Single" SelectionChanged="myGrid_SelectionChanged" CellEditEnding="myGrid_CellEditEnding" RowEditEnding="myGrid_RowEditEnding">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="#"  x:Name="ID" Visibility="Hidden"  Binding="{Binding Path=ID}" ></DataGridTextColumn>
+                <DataGridTextColumn Header="#"  x:Name="Seqnumber" Binding="{Binding Path=ID}" ></DataGridTextColumn>
+                <DataGridComboBoxColumn Header="Scenario"  x:Name="ScenarioName" SelectedValueBinding="{Binding ScenarioName, Mode=TwoWay}" DisplayMemberPath="{Binding ScenarioName}"></DataGridComboBoxColumn>
+
+                <DataGridTemplateColumn Header="Calculation">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Calculation" Click="calc" Tag="{Binding ID, Mode=TwoWay}" ></Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Relief Load, kg/hr"  Binding="{Binding Path=ReliefLoad}"  />
+                <DataGridTextColumn Header="Relief Pressure,MPag" Binding="{Binding Path=ReliefPressure}"  />
+                <DataGridTextColumn Header="Relief Temperature, C"  Binding="{Binding Path=ReliefTemperature}" />
+                <DataGridTextColumn Header="Relief MW" Binding="{Binding Path=ReliefMW}"  />
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Window>

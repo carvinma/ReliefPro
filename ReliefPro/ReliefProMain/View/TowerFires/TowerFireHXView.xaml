@@ -1,0 +1,43 @@
+﻿<Window x:Class="ReliefProMain.View.TowerFires.TowerFireHXView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TowerShellTubeHX" Height="358.598" Width="529.885" Name="myWindow">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35*"/>
+            <ColumnDefinition Width="172*"/>
+            <ColumnDefinition Width="176*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="39*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="36*"/>
+            <RowDefinition Height="48*"/>
+            <RowDefinition Height="46*"/>
+            <RowDefinition Height="42*"/>
+            <RowDefinition Height="43*"/>
+            <RowDefinition Height="41*"/>
+            <RowDefinition Height="29*"/>
+            <RowDefinition Height="19*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Column="1" HorizontalAlignment="Left" Margin="10,6,0,0" Grid.Row="1"  Content="Exposed to Fire" VerticalAlignment="Top" Height="26" Width="98"/>
+        <Label Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="2" Content="Type" VerticalAlignment="Top" Height="26" Width="38"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="44,10,0,0" Grid.Row="3" TextWrapping="Wrap" Text="{Binding Path=model.OD}" VerticalAlignment="Top" Width="120"/>
+        <Label Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="3" Content="OD" VerticalAlignment="Top" Height="26" Width="29"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="44,4,0,0" Grid.Row="4" TextWrapping="Wrap" Text="{Binding model.Length}" VerticalAlignment="Top" Width="120"/>
+        <Label Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="4" Content="Length" VerticalAlignment="Top" Height="26" Width="50"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="34,10,0,0" Grid.Row="6" TextWrapping="Wrap" Text="{Binding Path=model.PipingContingency}" VerticalAlignment="Top" Width="120"/>
+        <Label Grid.Column="3" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="4" Content="m" VerticalAlignment="Top" Height="26" Width="21"/>
+        <Label Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="6" Content="Piping Contingency" VerticalAlignment="Top" Height="26" Width="122"/>
+        <Label Grid.Column="3" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="6" Content="%" VerticalAlignment="Top" Height="26" Width="21"/>
+        <Label Grid.Column="3" HorizontalAlignment="Left" Margin="10,17,0,0" Grid.Row="3" Content="m" VerticalAlignment="Top" Height="26" Width="21"/>
+        <ComboBox ItemsSource="{Binding ExposedToFires}" SelectedItem="{Binding model.ExposedToFire}" Grid.Column="2" HorizontalAlignment="Left" Margin="33,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Height="22"/>
+        <ComboBox ItemsSource="{Binding Types}" SelectedItem="{Binding model.Type}" Grid.Column="2" HorizontalAlignment="Left" Margin="34,14,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Height="22"/>
+        <Button Content="OK" Command="{Binding OKClick}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="2" HorizontalAlignment="Left" Margin="95,0,0,0" Grid.Row="7" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Button Content="Cancel" Grid.Column="3" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="7" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Label Content="Elevation" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="5" VerticalAlignment="Top"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="34,10,0,0" Grid.Row="5" TextWrapping="Wrap" Text="{Binding model.Elevation}" VerticalAlignment="Top" Width="120"/>
+
+    </Grid>
+</Window>
