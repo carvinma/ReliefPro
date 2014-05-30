@@ -6,10 +6,10 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using NHibernate;
 using ReliefProLL;
-using ReliefProMain.Model.HX;
+using ReliefProMain.Model.HXs;
 using UOMLib;
 
-namespace ReliefProMain.ViewModel.HX
+namespace ReliefProMain.ViewModel.HXs
 {
     public class HXBlockedOutletVM : ViewModelBase
     {

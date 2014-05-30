@@ -6,10 +6,10 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using NHibernate;
 using ReliefProLL;
-using ReliefProMain.Model.ReactorLoop;
+using ReliefProMain.Model.ReactorLoops;
 using UOMLib;
 
-namespace ReliefProMain.ViewModel.ReactorLoop
+namespace ReliefProMain.ViewModel.ReactorLoops
 {
     public class ReactorLoopBlockedOutletVM
     {

@@ -3,49 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using Microsoft.Practices.Prism.Commands;
 using NHibernate;
 using ReliefProLL;
-using ReliefProMain.Commands;
-using ReliefProMain.Model.CompressorBlocked;
+using ReliefProMain.Model.HXs;
 using UOMLib;
 
-namespace ReliefProMain.ViewModel.CompressorBlocked
+namespace ReliefProMain.ViewModel.HXs
 {
-    public class PistonVM : ViewModelBase
+    public class AirCooledHXFireVM : ViewModelBase
     {
         public ICommand CalcCMD { get; set; }
         public ICommand OKCMD { get; set; }
         private ISession SessionPS;
         private ISession SessionPF;
-        public PistonModel model { get; set; }
-        private CompressorBlockedBLL blockBLL;
-        public PistonVM(int ScenarioID, ISession SessionPS, ISession SessionPF)
+        public AirCooledHXFireModel model { get; set; }
+        private HXBLL hxBLL;
+        public AirCooledHXFireVM(int ScenarioID, ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
             OKCMD = new DelegateCommand<object>(Save);
             CalcCMD = new DelegateCommand<object>(CalcResult);
 
-            blockBLL = new CompressorBlockedBLL(SessionPS, SessionPF);
-            var pistonModel = blockBLL.GetPistonModel(ScenarioID);
-            pistonModel = blockBLL.ReadConvertPistonModel(pistonModel);
+            hxBLL = new HXBLL(SessionPS, SessionPF);
+            var airModel = hxBLL.GetAirCooledHXFireModel(ScenarioID);
+            airModel = hxBLL.ReadConvertAirCooledHXFireModel(airModel);
 
-            model = new PistonModel(pistonModel);
+            model = new AirCooledHXFireModel(airModel);
             model.dbmodel.ScenarioID = ScenarioID;
 
 
-            UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
-            model.ReliefloadUnit = uomEnum.UserMassRate;
-            model.ReliefTempUnit = uomEnum.UserTemperature;
+            UOMLib.UOMEnum uomEnum = new UOMLib.UOMEnum(SessionPF);
+            model.WettedBundleUnit = uomEnum.UserArea;
+            model.ReliefLoadUnit = uomEnum.UserMassRate;
+            model.ReliefTemperatureUnit = uomEnum.UserTemperature;
             model.ReliefPressureUnit = uomEnum.UserPressure;
         }
         private void WriteConvertModel()
         {
             UnitConvert uc = new UnitConvert();
-            model.dbmodel.RatedCapacity = model.RatedCapacity;
+            model.dbmodel.WettedBundle = uc.Convert(model.WettedBundleUnit, UOMLib.UOMEnum.Area.ToString(), model.WettedBundle);
+            model.dbmodel.PipingContingency = model.PipingContingency;
             model.dbmodel.ReliefMW = model.ReliefMW;
-            model.dbmodel.Reliefload = uc.Convert(model.ReliefloadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.Reliefload);
-            model.dbmodel.ReliefTemperature = uc.Convert(model.ReliefTempUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemp);
+            model.dbmodel.ReliefLoad = uc.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad);
+            model.dbmodel.ReliefTemperature = uc.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
             model.dbmodel.ReliefPressure = uc.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
         }
         private void CalcResult(object obj)
@@ -59,7 +61,7 @@ namespace ReliefProMain.ViewModel.CompressorBlocked
                 if (wd != null)
                 {
                     WriteConvertModel();
-                    blockBLL.SavePiston(model.dbmodel);
+                    hxBLL.SaveAirCooledHXFire(model.dbmodel);
                     wd.DialogResult = true;
                 }
             }

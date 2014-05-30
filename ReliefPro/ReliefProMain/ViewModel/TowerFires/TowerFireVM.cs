@@ -12,14 +12,15 @@ using ReliefProDAL;
 using ReliefProBLL.Common;
 using ReliefProMain.Interface;
 using ReliefProMain.Service;
-using ReliefProMain.View.TowerFire;
+using ReliefProMain.View.TowerFires;
 using ReliefProMain.Model;
 using UOMLib;
 using ReliefProMain.ViewModel;
 using NHibernate;
-using ReliefProModel;
 
-namespace ReliefProMain.ViewModel.TowerFire
+
+
+namespace ReliefProMain.ViewModel.TowerFires
 {
     public class TowerFireVM:ViewModelBase
     {

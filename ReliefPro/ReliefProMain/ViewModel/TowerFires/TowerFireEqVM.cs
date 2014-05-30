@@ -12,7 +12,7 @@ using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using UOMLib;
 
-namespace ReliefProMain.ViewModel.TowerFire
+namespace ReliefProMain.ViewModel.TowerFires
 {
     public class TowerFireEqVM
     {

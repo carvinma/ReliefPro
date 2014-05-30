@@ -8,7 +8,7 @@ using System.IO;
 using ReliefProBLL.Common;
 using ReliefProDAL;
 using ReliefProModel;
-using ReliefProModel.Drum;
+using ReliefProModel.Drums;
 using ReliefProBLL;
 using ReliefProCommon.CommonLib;
 using System.Windows.Input;
@@ -19,7 +19,7 @@ using UOMLib;
 using System.Diagnostics;
 using NHibernate;
 
-namespace ReliefProMain.ViewModel.Drum
+namespace ReliefProMain.ViewModel.Drums
 {
     public class DrumBlockedOutletVM : ViewModelBase
     {

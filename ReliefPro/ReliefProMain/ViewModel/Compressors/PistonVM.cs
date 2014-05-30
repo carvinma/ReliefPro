@@ -6,20 +6,22 @@ using System.Windows.Input;
 using NHibernate;
 using ReliefProLL;
 using ReliefProMain.Commands;
-using ReliefProMain.Model.CompressorBlocked;
+using ReliefProMain.Model.Compressors;
 using UOMLib;
+using ReliefProModel.Compressors;
+using ReliefProMain.Model.Compressors;
 
-namespace ReliefProMain.ViewModel.CompressorBlocked
+namespace ReliefProMain.ViewModel.Compressors
 {
-    public class CentrifugalVM : ViewModelBase
+    public class PistonVM : ViewModelBase
     {
         public ICommand CalcCMD { get; set; }
         public ICommand OKCMD { get; set; }
         private ISession SessionPS;
         private ISession SessionPF;
-        public CentrifugalModel model { get; set; }
+        public PistonBlockedOutletModel model { get; set; }
         private CompressorBlockedBLL blockBLL;
-        public CentrifugalVM(int ScenarioID, ISession SessionPS, ISession SessionPF)
+        public PistonVM(int ScenarioID, ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
@@ -27,11 +29,12 @@ namespace ReliefProMain.ViewModel.CompressorBlocked
             CalcCMD = new DelegateCommand<object>(CalcResult);
 
             blockBLL = new CompressorBlockedBLL(SessionPS, SessionPF);
-            var BlockedModel = blockBLL.GetCentrifugalModel(ScenarioID);
-            BlockedModel = blockBLL.ReadConvertCentrifugalModel(BlockedModel);
+            var pistonModel = blockBLL.GetPistonModel(ScenarioID);
+            pistonModel = blockBLL.ReadConvertPistonModel(pistonModel);
 
-            model = new CentrifugalModel(BlockedModel);
+            model = new PistonBlockedOutletModel(pistonModel);
             model.dbmodel.ScenarioID = ScenarioID;
+
 
             UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
             model.ReliefloadUnit = uomEnum.UserMassRate;
@@ -41,7 +44,7 @@ namespace ReliefProMain.ViewModel.CompressorBlocked
         private void WriteConvertModel()
         {
             UnitConvert uc = new UnitConvert();
-            model.dbmodel.Scale = model.Scale;
+            model.dbmodel.RatedCapacity = model.RatedCapacity;
             model.dbmodel.ReliefMW = model.ReliefMW;
             model.dbmodel.Reliefload = uc.Convert(model.ReliefloadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.Reliefload);
             model.dbmodel.ReliefTemperature = uc.Convert(model.ReliefTempUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemp);
@@ -58,7 +61,7 @@ namespace ReliefProMain.ViewModel.CompressorBlocked
                 if (wd != null)
                 {
                     WriteConvertModel();
-                    blockBLL.SaveCentrifugal(model.dbmodel);
+                    blockBLL.SavePiston(model.dbmodel);
                     wd.DialogResult = true;
                 }
             }

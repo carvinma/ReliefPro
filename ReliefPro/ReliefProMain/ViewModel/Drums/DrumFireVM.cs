@@ -10,13 +10,15 @@ using ReliefProLL;
 using ReliefProMain.Commands;
 using ReliefProMain.Model;
 using ReliefProMain.View;
-using ReliefProModel.Drum;
+using ReliefProModel.Drums;
 using UOMLib;
 using ProII;
 using ReliefProDAL;
 using ReliefProModel;
 using ReliefProCommon.CommonLib;
-namespace ReliefProMain.ViewModel.Drum
+using ReliefProMain.View.DrumFires;
+
+namespace ReliefProMain.ViewModel.Drums
 {
     public class DrumFireVM : ViewModelBase
     {
@@ -102,7 +104,7 @@ namespace ReliefProMain.ViewModel.Drum
         }
         private void OpenDrumSize(object obj)
         {
-            Drum_Size win = new Drum_Size();
+            DrumSizeView win = new DrumSizeView();
             win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             DrumSizeVM vm = new DrumSizeVM(model.dbmodel.ID, SessionPS, SessionPF);
             win.DataContext = vm;
@@ -128,7 +130,7 @@ namespace ReliefProMain.ViewModel.Drum
         private void OpenFluidWin(object obj)
         {
             UnitConvert uc = new UnitConvert();
-            Drum_fireFluid win = new Drum_fireFluid();
+            DrumFireFluidView win = new DrumFireFluidView();
             win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             DrumFireFluidVM vm = new DrumFireFluidVM(model.dbmodel.ID, SessionPS, SessionPF);
             win.DataContext = vm;
@@ -210,9 +212,11 @@ namespace ReliefProMain.ViewModel.Drum
             {
                 Directory.CreateDirectory(tempdir);
             }
+            int ImportResult = 0;
+            int RunResult = 0;
             string content = PROIIFileOperator.getUsableContent(liquidStream.StreamName, DirPlant);
             IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
-            string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 6, "0.05", liquidStream, vapor, liquid,  tempdir);
+            string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 6, "0.05", liquidStream, vapor, liquid, tempdir, ref ImportResult, ref RunResult);
             IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
             reader.InitProIIReader(f);
             ProIIStreamData proIIvapor = reader.GetSteamInfo(vapor);

@@ -10,7 +10,7 @@ using ReliefProMain.Commands;
 using ReliefProMain.Model;
 using UOMLib;
 
-namespace ReliefProMain.ViewModel.Drum
+namespace ReliefProMain.ViewModel.Drums
 {
     public class DrumFireFluidVM
     {

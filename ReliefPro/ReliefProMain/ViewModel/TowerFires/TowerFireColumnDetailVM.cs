@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReliefProMain.ViewModel.TowerFire
+namespace ReliefProMain.ViewModel.TowerFires
 {
     class TowerFireColumnDetailVM
     {

@@ -15,7 +15,7 @@ using ReliefProMain.Model;
 using UOMLib;
 using NHibernate;
 
-namespace ReliefProMain.ViewModel.TowerFire
+namespace ReliefProMain.ViewModel.TowerFires
 {
     public class TowerFireColumnVM
     {
