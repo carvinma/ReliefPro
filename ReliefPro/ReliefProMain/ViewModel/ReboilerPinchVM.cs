@@ -282,7 +282,7 @@ namespace ReliefProMain.ViewModel
             double reliefDuty = 0;
             double assumedQA = 0;
             double calculatedQR = 0;
-            double QRQA = 1;
+            double QRQN = 1;
             double uQAQR = 0;
             while (curErrorRate > MaxErrorRate && iterateSum < iterateNumber)
             {
@@ -290,19 +290,20 @@ namespace ReliefProMain.ViewModel
                 reliefCoeff = coeff;
                 reliefArea = area;
                 reliefDuty = reliefLtmd * reliefCoeff * reliefArea*3.6;
+                //reliefDuty = reliefLtmd * reliefCoeff * reliefArea ;
                 assumedQA = duty * nextQaenGuess;
                 calculatedQR = reliefDuty;
-                QRQA = calculatedQR / assumedQA;
+                QRQN = calculatedQR / duty;
                 uQAQR = assumedQA / calculatedQR - 1;
                 curErrorRate = Math.Abs(uQAQR);
                 iterateSum = iterateSum + 1;
                 if (curErrorRate > MaxErrorRate)
                 {
-                    nextQaenGuess = QRQA * (1 + 0.5 * uQAQR);
+                    nextQaenGuess = QRQN * (1 + 0.5 * uQAQR);
                 }
 
             }
-            double QRQN = calculatedQR / duty;
+            
             if (QRQN < 1)
             {
                 isPinch = true;
@@ -349,6 +350,8 @@ namespace ReliefProMain.ViewModel
             bool isUseSteam=false;
             double qaenGuess=1.2;
             GetUDesign();
+            //HeatMediumMethod(356, 382, 435.7, 580, 478, 109, 8655, 80880000, isUseSteam, qaenGuess, MaxErrorRate, ref factor, ref _IsPinch, ref iterateNumber);
+
             HeatMediumMethod(productTin, productTout, reliefProductTout, reboilerTin, reboilerTout, coeff, area, duty,isUseSteam, qaenGuess, MaxErrorRate, ref factor, ref _IsPinch, ref iterateNumber);
         }
 
