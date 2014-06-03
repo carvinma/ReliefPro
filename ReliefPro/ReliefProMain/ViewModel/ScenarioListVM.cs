@@ -640,7 +640,7 @@ namespace ReliefProMain.ViewModel
         }
 
         public ChangeUnitDelegate cud { get; set; }
-        public void ExcuteThumbMoved(object ColInfo)
+        public void ExcuteThumbMoved(object ColInfo,object OrigionUnit,object TargetUnit)
         {
             string str = ColInfo.ToString();
         }

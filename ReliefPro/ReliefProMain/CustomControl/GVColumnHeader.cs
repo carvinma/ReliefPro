@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 namespace ReliefProMain.CustomControl
 {
-    public delegate void ChangeUnitDelegate(object colInfo);
+    public delegate void ChangeUnitDelegate(object colInfo,object OrginUnit,object TargetUnit);
     public class GVColumnHeader : GridViewColumnHeader
     {
         public ChangeUnitDelegate ChangeUnitEvent
@@ -39,6 +39,7 @@ namespace ReliefProMain.CustomControl
         {
             if (!string.IsNullOrEmpty(UOrigin))
             {
+                string tmpUorigin=UOrigin;
                 UnitConvertCommonView unitConvertCommonView = new UnitConvertCommonView(UOrigin, 0);
                 unitConvertCommonView.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 if (unitConvertCommonView.ShowDialog() == true)
@@ -46,7 +47,7 @@ namespace ReliefProMain.CustomControl
                     this.UOrigin = unitConvertCommonView.TargetUnit;
                     if (ChangeUnitEvent != null)
                     {
-                        ChangeUnitEvent(ColInfo);
+                        ChangeUnitEvent(ColInfo, tmpUorigin, this.UOrigin);
                     }
                 }
 

@@ -37,10 +37,10 @@ namespace ReliefProMain.ViewModel
         internal ObservableCollection<TowerHXDetailModel> GetTowerHXDetails()
         {
             _Details = new ObservableCollection<TowerHXDetailModel>();
-            
-                TowerHXDetailDAL db = new TowerHXDetailDAL();
+
+            TowerHXDetailDAL towerHXDetailDAL = new TowerHXDetailDAL();
                 int i = 0;
-                foreach (var obj in db.GetAllList(SessionProtectedSystem, model.ID))
+                foreach (var obj in towerHXDetailDAL.GetAllList(SessionProtectedSystem, model.ID))
                 {
                     TowerHXDetailModel d = new TowerHXDetailModel();
                     d.Parent = model;

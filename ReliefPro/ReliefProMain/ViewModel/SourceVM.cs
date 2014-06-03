@@ -34,7 +34,7 @@ namespace ReliefProMain.ViewModel
         public string MaxPossiblePressure_Color { get; set; }
         public string IsMaintained_Color { get; set; }
         public string StreamName { get; set; }
-
+        UnitConvert uc;
         public bool _IsSteam;
         public bool IsSteam
         {
@@ -86,8 +86,7 @@ namespace ReliefProMain.ViewModel
             IList<BasicUnit> list = dbBU.GetAllList(sessionPlant);
             BU = list.Where(s => s.IsDefault == 1).Single();
 
-            UnitConvert uc = new UnitConvert();
-
+            uc = new UnitConvert();
             SourceDAL db = new SourceDAL();
             Source source = db.GetModel(SessionProtectedSystem, SourceName);
             SourceType = source.SourceType;
