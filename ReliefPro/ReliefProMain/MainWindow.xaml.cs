@@ -204,10 +204,15 @@ namespace ReliefProMain
         {
             try
             {
-                if (MessageBox.Show("Are you sure you want to save the document?", "Message Box", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                MessageBoxResult r=MessageBox.Show("Are you sure you want to save the document?", "Message Box", MessageBoxButton.YesNoCancel);
+                if (r == MessageBoxResult.Yes)
                 {
                     string vsdFile = visioControl.Src;
                     visioControl.Document.SaveAs(vsdFile);
+                }
+                else if (r == MessageBoxResult.No)
+                {
+                   
                 }
                 else
                 {

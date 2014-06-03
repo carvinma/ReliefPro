@@ -14,7 +14,7 @@ namespace ReliefProMain.ViewModel
        
         public string dirUnit { get; set; }
 
-        public string dirProtectedSystem { get; set; }
+        public string dirProtectedSystem{ get; set; }
         public string visioProtectedSystem { get; set; }
         public string dbProtectedSystemFile { get; set; }
 
@@ -52,23 +52,23 @@ namespace ReliefProMain.ViewModel
                 return _SaveCommand;
             }
         }
-        
+
         private void Save(object window)
         {
-            string dirProtectedSystem = dirUnit + @"\" + ProtectedSystemName;
+            dirProtectedSystem = dirUnit + @"\" + ProtectedSystemName;
             Directory.CreateDirectory(dirProtectedSystem);
-            string protectedsystem1 = dirProtectedSystem ;
+            string protectedsystem1 = dirProtectedSystem;
             string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
             string dbProtectedSystem_target = protectedsystem1 + @"\protectedsystem.mdb";
             System.IO.File.Copy(dbProtectedSystem, dbProtectedSystem_target, true);
-            string visioProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.vsd";
+            visioProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.vsd";
             string visioProtectedSystem_target = protectedsystem1 + @"\design.vsd";
             System.IO.File.Copy(visioProtectedSystem, visioProtectedSystem_target, true);
+
+            dbProtectedSystemFile = dbProtectedSystem_target;
             dirProtectedSystem = protectedsystem1;
             visioProtectedSystem = visioProtectedSystem_target;
-            dbProtectedSystemFile = dbProtectedSystem_target;
 
-            
             System.Windows.Window wd = window as System.Windows.Window;
             if (wd != null)
             {
