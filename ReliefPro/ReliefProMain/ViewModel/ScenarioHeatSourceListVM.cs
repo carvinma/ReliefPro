@@ -38,8 +38,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("_HeatSources");
             }
         }
-        private HeatSourceModel _SelectedHeatSource;
-        public HeatSourceModel SelectedHeatSource
+        private ScenarioHeatSourceModel _SelectedHeatSource;
+        public ScenarioHeatSourceModel SelectedHeatSource
         {
             get { return _SelectedHeatSource; }
             set
@@ -60,6 +60,8 @@ namespace ReliefProMain.ViewModel
             db = new ScenarioHeatSourceDAL();
             dbHS = new HeatSourceDAL();
             HeatSources = GetHeatSources(ScenarioStreamID);
+            if (HeatSources.Count > 0)
+                SelectedHeatSource = HeatSources[0];
         }
 
         private ICommand _CalculateCommand;
@@ -84,7 +86,7 @@ namespace ReliefProMain.ViewModel
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {
-
+                SelectedHeatSource.DutyFactor = vm.Factor;
             }
         }
 
@@ -107,16 +109,16 @@ namespace ReliefProMain.ViewModel
 
         public void Save(object obj)
         {
-            IList<ScenarioHeatSource> list = db.GetScenarioStreamList(SessionProtectedSystem, ScenarioStreamID);
-            for (int i = 0; i < list.Count; i++)
-            {
-                db.Delete(list[i], SessionProtectedSystem);
-            }
+           // IList<ScenarioHeatSource> list = db.GetScenarioStreamList(SessionProtectedSystem, ScenarioStreamID);
+           // for (int i = 0; i < list.Count; i++)
+           // {
+           //     db.Delete(list[i], SessionProtectedSystem);
+          //  }
 
 
             foreach (ScenarioHeatSourceModel m in HeatSources)
             {
-                db.Add(m.model, SessionProtectedSystem);
+                db.Update(m.model, SessionProtectedSystem);
             }
             SessionProtectedSystem.Flush();
             System.Windows.Window wd = obj as System.Windows.Window;

@@ -14,6 +14,7 @@ namespace ReliefProMain.Model
     public class HeatSourceModel : ModelBase
     {
         public HeatSource model;
+        public Dictionary<string, ProIIEqData> data;
 
         private int _SeqNumber;
         public int SeqNumber
@@ -55,8 +56,9 @@ namespace ReliefProMain.Model
             set
             {
                 if (model.HeatSourceName != value)
-                {
+                {                    
                     model.HeatSourceName = value;
+                    Duty = (double.Parse(data[model.HeatSourceName].DutyCalc)*3.6).ToString();
                     NotifyPropertyChanged("HeatSourceName");
                 }
             }

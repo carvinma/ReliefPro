@@ -41,9 +41,9 @@
         <Button Content="Cancel" IsCancel="True" Grid.Column="4" HorizontalAlignment="Left" Margin="296,0,0,0" Grid.Row="14" VerticalAlignment="Top" Width="75" Height="22"/>
         <Button Content="Calculate" Command="{Binding CalculateCommand}" Grid.Column="2" HorizontalAlignment="Left" Margin="10,3,0,0" Grid.Row="11" VerticalAlignment="Top" Width="75" Height="22"/>
         <Label Content="Feed Temperature" Grid.Column="1" HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Row="12" VerticalAlignment="Top" Height="26" Width="115"/>
-        <TextBox Grid.Column="2" HorizontalAlignment="Stretch"  Grid.Row="12" TextWrapping="Wrap" Text="{Binding FeedNewTemperature}" VerticalAlignment="Stretch" />
-        <Label Content="Feed  Enthalpy" Grid.Column="1" HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Row="13" VerticalAlignment="Top" Height="26" Width="91"/>
-        <TextBox Grid.Column="2" HorizontalAlignment="Stretch"  Grid.Row="13" TextWrapping="Wrap" Text="{Binding FeedNewSpEnthalpy}" VerticalAlignment="Stretch" />
+        <TextBox Grid.Column="2" HorizontalAlignment="Stretch"  Grid.Row="12" TextWrapping="Wrap" Text="{Binding FeedReliefTout}" VerticalAlignment="Stretch" />
+        <Label Content="Feed Sp Enthalpy" Grid.Column="1" HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Row="13" VerticalAlignment="Top" Height="26" Width="91"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Stretch"  Grid.Row="13" TextWrapping="Wrap" Text="{Binding FeedReliefSpEout}" VerticalAlignment="Stretch" />
         <Label Content="Duty" Grid.Column="1" HorizontalAlignment="Left" Margin="18,0,0,0" Grid.Row="10" VerticalAlignment="Top" Height="26" Width="97" Grid.RowSpan="2"/>
         <TextBox Grid.Column="2" HorizontalAlignment="Stretch"  Grid.Row="10" TextWrapping="Wrap" Text="{Binding Duty}" VerticalAlignment="Stretch" Margin="10,0,0,2" />
         <TextBox Grid.Column="2" HorizontalAlignment="Stretch"   Grid.Row="11" TextWrapping="Wrap" Text="{Binding QRQN}" VerticalAlignment="Stretch" />

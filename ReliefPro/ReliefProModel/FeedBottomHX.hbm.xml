@@ -18,6 +18,6 @@
     <property name="HeatSourceID" column="HeatSourceID" type="Int32"  />
     <property name="FeedReliefTout" column="FeedReliefTout" type="String" length="255"  />
     <property name="FeedReliefSpEout" column="FeedReliefSpEout" type="String" length="255"  />
-
+    <property name="Factor" column="Factor" type="String" length="255"  />
   </class>
 </hibernate-mapping>

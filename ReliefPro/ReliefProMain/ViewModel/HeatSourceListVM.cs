@@ -24,7 +24,7 @@ namespace ReliefProMain.ViewModel
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         private string PrzFile;
-        private HeatSourceDAL db;
+        private HeatSourceDAL heatSourceDAL;
         private int SourceID;
         private Dictionary<string, ProIIEqData> dicHX;
         private ObservableCollection<HeatSourceModel> _HeatSources;
@@ -44,6 +44,7 @@ namespace ReliefProMain.ViewModel
             set
             {
                 _SelectedHeatSource = value;
+
                 OnPropertyChanged("SelectedHeatSource");
             }
         }
@@ -75,12 +76,12 @@ namespace ReliefProMain.ViewModel
         {
             this.SourceID = SourceID;
             this.PrzFile = PrzFile;
-            db = new HeatSourceDAL();
+            heatSourceDAL = new HeatSourceDAL();
             this.SessionPlant = SessionPlant;
             this.SessionProtectedSystem = SessionProtectedSystem;
             dicHX = new Dictionary<string, ProIIEqData>();
             HeatSources = new ObservableCollection<HeatSourceModel>();
-            IList<HeatSource> list = db.GetAllList(SessionProtectedSystem, SourceID);
+            IList<HeatSource> list = heatSourceDAL.GetAllList(SessionProtectedSystem, SourceID);
             for (int i = 0; i < list.Count; i++)
             {
                 HeatSource m = list[i];
@@ -111,7 +112,8 @@ namespace ReliefProMain.ViewModel
             HeatSource m = new HeatSource();
             m.SourceID = SourceID;
             HeatSourceModel model = new HeatSourceModel(m);
-            model.SeqNumber = HeatSources.Count;
+            model.data = dicHX;
+            model.SeqNumber = HeatSources.Count;           
             HeatSources.Add(model);
         }
 
@@ -158,16 +160,16 @@ namespace ReliefProMain.ViewModel
 
         public void Save(object obj)
         {
-            IList<HeatSource> list = db.GetAllList(SessionProtectedSystem, SourceID);
+            IList<HeatSource> list = heatSourceDAL.GetAllList(SessionProtectedSystem, SourceID);
             for (int i = 0; i < list.Count; i++)
             {
-                db.Delete(list[i], SessionProtectedSystem);
+                heatSourceDAL.Delete(list[i], SessionProtectedSystem);
             }
 
 
             foreach (HeatSourceModel m in HeatSources)
             {
-                db.Add(m.model, SessionProtectedSystem);
+                heatSourceDAL.Add(m.model, SessionProtectedSystem);
             }
             SessionProtectedSystem.Flush();
             System.Windows.Window wd = obj as System.Windows.Window;

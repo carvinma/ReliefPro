@@ -179,6 +179,7 @@ namespace ReliefProMain.ViewModel
             if (string.IsNullOrEmpty(CurrentAccumulator.Diameter))
             {
                 MessageBox.Show("Accumulator's diameter cann't be empty.","Message Box");
+                return;
             }
             else
             {

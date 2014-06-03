@@ -25,9 +25,10 @@ namespace ReliefProMain.ViewModel
         private ISession SessionProtectedSystem { set; get; }
         private int ScenarioID;
 
-        private ScenarioHeatSourceDAL db;
-        private HeatSourceDAL dbHS;
-        
+        private ScenarioHeatSourceDAL scenarioHeatSourceDAL;
+        private HeatSourceDAL heatSourceDAL;
+        private ScenarioDAL scenarioDAL ;
+        private PSVDAL psvDAL;
         private ObservableCollection<ScenarioHeatSourceModel> _HeatSources;
         public ObservableCollection<ScenarioHeatSourceModel> HeatSources
         {
@@ -114,11 +115,14 @@ namespace ReliefProMain.ViewModel
             this.SessionPlant = SessionPlant;
             this.SessionProtectedSystem = SessionProtectedSystem;
             HeatSources = new ObservableCollection<ScenarioHeatSourceModel>();
-            db = new ScenarioHeatSourceDAL();
-            IList<ScenarioHeatSource> list = db.GetScenarioHeatSourceList(this.SessionProtectedSystem, ScenarioID);
+            heatSourceDAL = new HeatSourceDAL();
+            scenarioDAL = new ScenarioDAL();
+            psvDAL = new PSVDAL();
+            scenarioHeatSourceDAL = new ScenarioHeatSourceDAL();
+            IList<ScenarioHeatSource> list = scenarioHeatSourceDAL.GetScenarioHeatSourceList(this.SessionProtectedSystem, ScenarioID);
             foreach (ScenarioHeatSource s in list)
             {
-                HeatSource hs = dbHS.GetModel(s.HeatSourceID, SessionProtectedSystem);
+                HeatSource hs = heatSourceDAL.GetModel(s.HeatSourceID, SessionProtectedSystem);
                 ScenarioHeatSourceModel shs = new ScenarioHeatSourceModel(s);
                 shs.Duty = hs.Duty;
                 shs.DutyFactor = s.DutyFactor;
@@ -129,10 +133,8 @@ namespace ReliefProMain.ViewModel
             }
             if (list.Count == 0)
             {
-                SourceDAL dbSource = new SourceDAL();
-                HeatSourceDAL dbhs = new HeatSourceDAL();
-               
-                IList<HeatSource> listHeatSource = dbhs.GetAllList(SessionProtectedSystem);
+                SourceDAL sourceDAL = new SourceDAL();           
+                IList<HeatSource> listHeatSource = heatSourceDAL.GetAllList(SessionProtectedSystem);
                 foreach (HeatSource hs in listHeatSource)
                 {                  
                     if (hs.HeatSourceType != "Feed/Bottom HX")
@@ -150,8 +152,7 @@ namespace ReliefProMain.ViewModel
                     }
                 }
             }
-            ScenarioDAL dbsc = new ScenarioDAL();
-            Scenario sc = dbsc.GetModel(ScenarioID, SessionProtectedSystem);
+            Scenario sc = scenarioDAL.GetModel(ScenarioID, SessionProtectedSystem);
             ReliefLoad = sc.ReliefLoad;
             ReliefMW = sc.ReliefMW;
             ReliefPressure = sc.ReliefPressure;
@@ -181,8 +182,8 @@ namespace ReliefProMain.ViewModel
             double ProductTotal = 0;
             double HeatTotal = 0;
 
-            PSVDAL dbpsv = new PSVDAL();
-            PSV psv = dbpsv.GetModel(SessionProtectedSystem);
+
+            PSV psv = this.psvDAL.GetModel(SessionProtectedSystem);
 
             LatentDAL dblatent = new LatentDAL();
             Latent latent = dblatent.GetModel(SessionProtectedSystem);
@@ -262,11 +263,11 @@ namespace ReliefProMain.ViewModel
         private void Balance()
         {
 
-            TowerScenarioStreamDAL db = new TowerScenarioStreamDAL();
+            TowerScenarioStreamDAL towerScenarioStreamDAL = new TowerScenarioStreamDAL();
             StreamDAL dbstream = new StreamDAL();
             TowerFlashProductDAL dbtfp = new ReliefProDAL.TowerFlashProductDAL();
-            IList<TowerScenarioStream> feeds = db.GetAllList(SessionProtectedSystem, ScenarioID, false);
-            IList<TowerScenarioStream> products = db.GetAllList(SessionProtectedSystem, ScenarioID, true);
+            IList<TowerScenarioStream> feeds = towerScenarioStreamDAL.GetAllList(SessionProtectedSystem, ScenarioID, false);
+            IList<TowerScenarioStream> products = towerScenarioStreamDAL.GetAllList(SessionProtectedSystem, ScenarioID, true);
             double Total = 0;
             double currentTotal = 0;
             double diffTotal = 0;
@@ -304,13 +305,13 @@ namespace ReliefProMain.ViewModel
                     double tempfactor = (tempH - diffTotal) / tempH;
                     s.FlowCalcFactor = tempfactor.ToString();
                     diffTotal = 0;
-                    db.Update(s, SessionProtectedSystem);
+                    towerScenarioStreamDAL.Update(s, SessionProtectedSystem);
                     break;
                 }
                 else
                 {
                     s.FlowCalcFactor = "0";
-                    db.Update(s, SessionProtectedSystem);
+                    towerScenarioStreamDAL.Update(s, SessionProtectedSystem);
                     diffTotal = diffTotal - tempH;
                 }
             }
@@ -335,14 +336,14 @@ namespace ReliefProMain.ViewModel
                     {
                         double tempfactor = (tempH - diffTotal) / tempH;
                         s.FlowCalcFactor = tempfactor.ToString();
-                        db.Update(s, SessionProtectedSystem);
+                        towerScenarioStreamDAL.Update(s, SessionProtectedSystem);
                         diffTotal = 0;
                         break;
                     }
                     else
                     {
                         s.FlowCalcFactor = "0";
-                        db.Update(s, SessionProtectedSystem);
+                        towerScenarioStreamDAL.Update(s, SessionProtectedSystem);
                         diffTotal = diffTotal - tempH;
                     }
                 }
@@ -380,15 +381,15 @@ namespace ReliefProMain.ViewModel
             
             foreach (ScenarioHeatSourceModel m in HeatSources)
             {
-                db.Update(m.model, SessionProtectedSystem);
+                scenarioHeatSourceDAL.Update(m.model, SessionProtectedSystem);
             }
-            ScenarioDAL dbTS = new ScenarioDAL();
-            Scenario scenario = dbTS.GetModel(ScenarioID, SessionProtectedSystem);
+            
+            Scenario scenario = this.scenarioDAL.GetModel(ScenarioID, SessionProtectedSystem);
             scenario.ReliefLoad = ReliefLoad;
             scenario.ReliefMW = ReliefMW;
             scenario.ReliefTemperature = ReliefTemperature;
             scenario.ReliefPressure = ReliefPressure;
-            dbTS.Update(scenario, SessionProtectedSystem);
+            scenarioDAL.Update(scenario, SessionProtectedSystem);
 
             SessionProtectedSystem.Flush();
             System.Windows.Window wd = obj as System.Windows.Window;
@@ -402,10 +403,10 @@ namespace ReliefProMain.ViewModel
         private ObservableCollection<ScenarioHeatSourceModel> GetHeatSources(int ScenarioStreamID)
         {
             ObservableCollection<ScenarioHeatSourceModel> list = new ObservableCollection<ScenarioHeatSourceModel>();
-            IList<ScenarioHeatSource> eqs = db.GetScenarioStreamList(SessionProtectedSystem, ScenarioStreamID);
+            IList<ScenarioHeatSource> eqs = this.scenarioHeatSourceDAL.GetScenarioStreamList(SessionProtectedSystem, ScenarioStreamID);
             foreach (ScenarioHeatSource eq in eqs)
             {
-                HeatSource hs = dbHS.GetModel(eq.HeatSourceID, SessionProtectedSystem);
+                HeatSource hs = heatSourceDAL.GetModel(eq.HeatSourceID, SessionProtectedSystem);
                 ScenarioHeatSourceModel model = new ScenarioHeatSourceModel(eq);
                 model.HeatSourceName = hs.HeatSourceName;
                 model.HeatSourceType = hs.HeatSourceType;

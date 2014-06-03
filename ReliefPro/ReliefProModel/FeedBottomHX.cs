@@ -23,5 +23,6 @@ namespace ReliefProModel
         public virtual int HeatSourceID { get; set; }
         public virtual string FeedReliefTout { get; set; }
         public virtual string FeedReliefSpEout { get; set; }
+        public virtual string Factor { get; set; }
     }
 }

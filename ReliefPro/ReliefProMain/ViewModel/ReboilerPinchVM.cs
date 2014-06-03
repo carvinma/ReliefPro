@@ -198,17 +198,17 @@ namespace ReliefProMain.ViewModel
             return list;
         }
         string przFile;
-        TowerScenarioHXDAL dbtshx;
-        TowerHXDetailDAL dbDetail;
+        TowerScenarioHXDAL towerScenarioHXDAL;
+        TowerHXDetailDAL towerHXDetailDAL;
         public ReboilerPinchVM(int ID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
-            dbDetail = new TowerHXDetailDAL();
-            dbtshx = new TowerScenarioHXDAL();
-            TowerScenarioHX hx = dbtshx.GetModel(ID, SessionProtectedSystem);
+            towerHXDetailDAL = new TowerHXDetailDAL();
+            towerScenarioHXDAL = new TowerScenarioHXDAL();
+            TowerScenarioHX hx = towerScenarioHXDAL.GetModel(ID, SessionProtectedSystem);
             SourceType = hx.Medium;
-            TowerHXDetail detail = dbDetail.GetModel(hx.DetailID, SessionProtectedSystem);
+            TowerHXDetail detail = towerHXDetailDAL.GetModel(hx.DetailID, SessionProtectedSystem);
             double duty = double.Parse(hx.DutyCalcFactor) * double.Parse(detail.Duty);
             Duty = duty.ToString();
 
@@ -267,7 +267,6 @@ namespace ReliefProMain.ViewModel
             while (curErrorRate > MaxErrorRate && iterateSum < iterateNumber)
             {
                 reliefLtmd = GetLMTDRelief(productTin, productTout, reliefProductTout, reboilerTin, reboilerTout, nextQaenGuess);
-
                 reliefCoeff = coeff;
                 reliefArea = area;
                 reliefDuty = reliefLtmd * reliefCoeff * reliefArea*3.6;

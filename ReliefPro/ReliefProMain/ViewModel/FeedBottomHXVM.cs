@@ -20,6 +20,16 @@ namespace ReliefProMain.ViewModel
         private ISession SessionProtectedSystem { set; get; }
         private string PrzFile;
         private string PrzFileName;
+        private string _Factor;
+        public string Factor
+        {
+            get { return _Factor; }
+            set
+            {
+                _Factor = value;
+                OnPropertyChanged("Factor");
+            }
+        }
         private string _FeedTin;
         public string FeedTin
         {
@@ -145,46 +155,58 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-
         FeedBottomHX model;
-        FeedBottomHXDAL db;
-        HeatSourceDAL dbhs;
-        SourceDAL dbsource;
-        StreamDAL dbstream;
-        ProIIEqDataDAL dbProIIeq;
-        ProIIStreamDataDAL dbProIIStream;
+        FeedBottomHXDAL feedBottomHXDAL;
+        HeatSourceDAL heatSourceDAL;
+        SourceDAL sourceDAL;
+        StreamDAL streamDAL;
+        ProIIEqDataDAL proIIEqDataDAL;
+        ProIIStreamDataDAL proIIStreamDataDAL;
         CustomStream csFeedIn;
         CustomStream csFeedOut;
         CustomStream csBottomIn;
         CustomStream csBottomOut;
+        int HeatSourceID;
         public FeedBottomHXVM(int HeatSourceID,string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             this.PrzFile=PrzFile;
             PrzFileName = System.IO.Path.GetFileName(PrzFile);
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
-            dbhs = new HeatSourceDAL();
-            dbsource = new SourceDAL();
-            dbstream = new StreamDAL();
-            db = new FeedBottomHXDAL();
-            dbProIIeq = new ProIIEqDataDAL();
-            dbProIIStream = new ProIIStreamDataDAL();
-            
-            model = db.GetModel(this.SessionProtectedSystem, HeatSourceID);
+            heatSourceDAL = new HeatSourceDAL();
+            sourceDAL = new SourceDAL();
+            streamDAL = new StreamDAL();
+            feedBottomHXDAL = new FeedBottomHXDAL();
+            proIIEqDataDAL = new ProIIEqDataDAL();
+            proIIStreamDataDAL = new ProIIStreamDataDAL();
+            this.HeatSourceID = HeatSourceID;
+            model = this.feedBottomHXDAL.GetModel(this.SessionProtectedSystem, HeatSourceID);
             if (model != null)
             {
-
+                FeedTin = model.FeedTin;
+                FeedTout = model.FeedTout;
+                BottomTin = model.BottomTin;
+                BottomTout = model.BottomTout;
+                FeedSpEin = model.FeedSpEin;
+                FeedSpEout = model.FeedSpEout;
+                BottomMassRate = model.BottomMassRate;
+                FeedMassRate = model.FeedMassRate;
+                Duty = model.Duty;
+                BottomReliefTin = model.BottomReliefTin;
+                FeedReliefTout = model.FeedReliefTout;
+                FeedReliefSpEout = model.FeedReliefSpEout;
+                Factor = model.Factor;
             }
             else
             {
-                HeatSource hs = dbhs.GetModel(HeatSourceID, SessionProtectedSystem);
-                ProIIEqData hx = dbProIIeq.GetModel(SessionPlant, PrzFileName, hs.HeatSourceName, "Hx");
+                HeatSource hs = this.heatSourceDAL.GetModel(HeatSourceID, SessionProtectedSystem);
+                ProIIEqData hx = this.proIIEqDataDAL.GetModel(SessionPlant, PrzFileName, hs.HeatSourceName, "Hx");
                 string[] productdata = hx.ProductData.Split(',');
                 string[] feeddata = hx.FeedData.Split(',');
-                ProIIStreamData f1 = dbProIIStream.GetModel(SessionPlant, feeddata[0], PrzFileName);
-                ProIIStreamData f2 = dbProIIStream.GetModel(SessionPlant, feeddata[1], PrzFileName);
-                ProIIStreamData p1 = dbProIIStream.GetModel(SessionPlant, productdata[0], PrzFileName);
-                ProIIStreamData p2 = dbProIIStream.GetModel(SessionPlant, productdata[1], PrzFileName);
+                ProIIStreamData f1 = this.proIIStreamDataDAL.GetModel(SessionPlant, feeddata[0], PrzFileName);
+                ProIIStreamData f2 = proIIStreamDataDAL.GetModel(SessionPlant, feeddata[1], PrzFileName);
+                ProIIStreamData p1 = proIIStreamDataDAL.GetModel(SessionPlant, productdata[0], PrzFileName);
+                ProIIStreamData p2 = proIIStreamDataDAL.GetModel(SessionPlant, productdata[1], PrzFileName);
                 if (double.Parse(f1.Temperature) > double.Parse(f2.Temperature))
                 {
                     csBottomIn = ProIIToDefault.ConvertProIIStreamToCustomStream(f1);
@@ -219,7 +241,7 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private void FBMethod(double feedTin, double feedTout, double feedMassRate, double feedSpEin, double feedSpEout, double bottomTin, double bottomTout, double bottomMassRate, double duty,double bottomReliefTin, double qaenGuess, double MaxErrorRate, ref double factor, ref bool isPinch, ref int iterateNumber)
+        private void FBMethod(double feedTin, double feedTout, double feedMassRate, double feedSpEin, double feedSpEout, double bottomTin, double bottomTout, double bottomMassRate, double duty, double bottomReliefTin, double qaenGuess, double MaxErrorRate, ref double factor, ref bool isConverged, ref int iterateNumber)
         {
             int iterateSum = 0;
             double nextQaenGuess = qaenGuess;
@@ -247,13 +269,18 @@ namespace ReliefProMain.ViewModel
                 if (curErrorRate > MaxErrorRate)
                 {
                     nextQaenGuess = nextQaenGuess * (1 + 0.5 * uQAQR);
-                }
-
+                }                
             }
-            double QRQN = calculatedQR / duty;
-            factor = QRQN;
-            if (QRQN > 1.5)
-                factor = 1.5;
+            if (curErrorRate < MaxErrorRate)
+            {
+                isConverged = true;
+                double QRQN = calculatedQR / duty;
+                factor = QRQN;
+                if (QRQN > 1.5)
+                    factor = 1.5;
+            }
+            else
+                factor = 1;
                
         }
 
@@ -293,7 +320,7 @@ namespace ReliefProMain.ViewModel
         private void Calc(object obj)
         {
             double factor = 1;
-            bool isPinch = false;
+            bool isConverged = false;
             int iterateNumber = 50;
             double MaxErrorRate = 0.005;
 
@@ -308,15 +335,90 @@ namespace ReliefProMain.ViewModel
             double bottomReliefTin = double.Parse(BottomReliefTin);
             double duty = double.Parse(Duty);
             double qaenGuess = 1.25;
-            FBMethod(feedTin, feedTout,feedMassRate,feedEin,feedEout,bottomTin,bottomTout,bottomMassRate,duty,bottomReliefTin,  qaenGuess, MaxErrorRate, ref factor, ref isPinch, ref iterateNumber);
+            FBMethod(feedTin, feedTout, feedMassRate, feedEin, feedEout, bottomTin, bottomTout, bottomMassRate, duty, bottomReliefTin, qaenGuess, MaxErrorRate, ref factor, ref isConverged, ref iterateNumber);
 
-            if (!isPinch)
+            if (!isConverged)
             {
                 FeedReliefTout = FeedTout;
                 FeedReliefSpEout = FeedSpEout;
+                Factor = "1";
+            }
+            else
+            {
+                double feedReliefTout=feedTin + factor * (feedTout - feedTin);
+                double feedReliefSpEout = (feedEin + factor*duty)/feedMassRate;
+                FeedReliefTout = feedReliefTout.ToString();
+                FeedReliefSpEout = feedReliefSpEout.ToString();
+                Factor = factor.ToString();
             }
         }
 
+        private ICommand _SaveCommand;
+        public ICommand SaveCommand
+        {
+            get
+            {
+                if (_SaveCommand == null)
+                {
+                    _SaveCommand = new RelayCommand(Save);
+
+                }
+                return _SaveCommand;
+            }
+        }
+
+        private void Save(object window)
+        {
+            if (model == null)
+            {
+                model = new FeedBottomHX();
+                model.BottomMassRate = BottomMassRate;
+                model.BottomReliefTin = BottomReliefTin;
+                model.BottomTin = BottomTin;
+                model.BottomTout = BottomTout;
+                model.Duty = Duty;
+                model.FeedMassRate = FeedMassRate;
+                model.FeedReliefSpEout = FeedReliefSpEout;
+                model.FeedReliefTout = FeedReliefTout;
+                model.FeedSpEin = FeedSpEin;
+                model.FeedSpEout = FeedSpEout;
+                model.FeedTin = FeedTin;
+                model.FeedTout = FeedTout;
+                model.HeatSourceID = HeatSourceID;
+                model.FeedReliefTout = FeedReliefTout;
+                model.FeedReliefSpEout = FeedReliefSpEout;
+                model.Factor = Factor;
+                feedBottomHXDAL.Add(model,SessionProtectedSystem);
+            }
+            else 
+            {
+                model.BottomMassRate = BottomMassRate;
+                model.BottomReliefTin = BottomReliefTin;
+                model.BottomTin = BottomTin;
+                model.BottomTout = BottomTout;
+                model.Duty = Duty;
+                model.FeedMassRate = FeedMassRate;
+                model.FeedReliefSpEout = FeedReliefSpEout;
+                model.FeedReliefTout = FeedReliefTout;
+                model.FeedSpEin = FeedSpEin;
+                model.FeedSpEout = FeedSpEout;
+                model.FeedTin = FeedTin;
+                model.FeedTout = FeedTout;
+                model.HeatSourceID = HeatSourceID;
+                model.FeedReliefTout = FeedReliefTout;
+                model.FeedReliefSpEout = FeedReliefSpEout;
+                model.Factor = Factor;
+                feedBottomHXDAL.Update(model, SessionProtectedSystem);
+                SessionProtectedSystem.Flush();
+            }
+        
+            System.Windows.Window wd = window as System.Windows.Window;
+
+            if (wd != null)
+            {
+                wd.DialogResult=true;
+            }
+        }
 
     }
 }
