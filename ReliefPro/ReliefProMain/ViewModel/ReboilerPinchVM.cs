@@ -189,7 +189,7 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefDuty");
             }
         }
-        public ReboilerPinch CurrentReboilerPinch { get; set; }
+        public ReboilerPinch reboilerPinchModel { get; set; }
         public ObservableCollection<string> GetSourceTypes()
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
@@ -197,37 +197,57 @@ namespace ReliefProMain.ViewModel
             list.Add("Steam");
             return list;
         }
-        string przFile;
         TowerScenarioHXDAL towerScenarioHXDAL;
         TowerHXDetailDAL towerHXDetailDAL;
-        public ReboilerPinchVM(int ID, ISession sessionPlant, ISession sessionProtectedSystem)
+        ReboilerPinchDAL reboilerPinchDAL;
+        int TowerScenarioHXID;
+        public ReboilerPinchVM(int TowerScenarioHXID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
+            this.TowerScenarioHXID = TowerScenarioHXID;
             towerHXDetailDAL = new TowerHXDetailDAL();
             towerScenarioHXDAL = new TowerScenarioHXDAL();
-            TowerScenarioHX hx = towerScenarioHXDAL.GetModel(ID, SessionProtectedSystem);
-            SourceType = hx.Medium;
-            TowerHXDetail detail = towerHXDetailDAL.GetModel(hx.DetailID, SessionProtectedSystem);
-            double duty = double.Parse(hx.DutyCalcFactor) * double.Parse(detail.Duty);
-            Duty = duty.ToString();
-
-            TowerDAL dbtower = new TowerDAL();
-            CustomStreamDAL dbcs = new CustomStreamDAL();
-            TowerFlashProductDAL dbtfp = new TowerFlashProductDAL();
-            Tower tower = dbtower.GetModel(SessionProtectedSystem);
-            if (tower != null)
+            reboilerPinchDAL = new ReboilerPinchDAL();
+            reboilerPinchModel = reboilerPinchDAL.GetModel(SessionProtectedSystem, TowerScenarioHXID);
+            if (reboilerPinchModel == null)
             {
-                IList<CustomStream> list = dbcs.GetAllList(SessionProtectedSystem);
-                foreach (CustomStream cs in list)
+                TowerScenarioHX hx = towerScenarioHXDAL.GetModel(TowerScenarioHXID, SessionProtectedSystem);
+                SourceType = hx.Medium;
+                TowerHXDetail detail = towerHXDetailDAL.GetModel(hx.DetailID, SessionProtectedSystem);
+                double duty = double.Parse(hx.DutyCalcFactor) * double.Parse(detail.Duty);
+                Duty = duty.ToString();
+
+                TowerDAL dbtower = new TowerDAL();
+                CustomStreamDAL dbcs = new CustomStreamDAL();
+                TowerFlashProductDAL dbtfp = new TowerFlashProductDAL();
+                Tower tower = dbtower.GetModel(SessionProtectedSystem);
+                if (tower != null)
                 {
-                    if (cs.ProdType == "5" || (cs.ProdType == "2" && cs.Tray == tower.StageNumber))
+                    IList<CustomStream> list = dbcs.GetAllList(SessionProtectedSystem);
+                    foreach (CustomStream cs in list)
                     {
-                        Coldtout = cs.Temperature;
-                        TowerFlashProduct tfp = dbtfp.GetModel(SessionProtectedSystem, cs.StreamName);
-                        ReliefColdtout = tfp.Temperature;
+                        if (cs.ProdType == "5" || (cs.ProdType == "2" && cs.Tray == tower.StageNumber))
+                        {
+                            Coldtout = cs.Temperature;
+                            TowerFlashProduct tfp = dbtfp.GetModel(SessionProtectedSystem, cs.StreamName);
+                            ReliefColdtout = tfp.Temperature;
+                        }
                     }
                 }
+            }
+            else
+            {
+                IsPinch = reboilerPinchModel.IsPinch;
+                Coldtin = reboilerPinchModel.Coldtin;
+                Coldtout = reboilerPinchModel.Coldtout;
+                Duty = reboilerPinchModel.Duty;
+                HeatTin = reboilerPinchModel.HeatTin;                
+                HeatTout = reboilerPinchModel.HeatTout;
+                ReliefDuty = reboilerPinchModel.ReliefDuty;
+                SourceType = reboilerPinchModel.SourceType;
+                UClean = reboilerPinchModel.UClean;
+                UDesign = reboilerPinchModel.UDesign;
             }
 
 
@@ -378,30 +398,114 @@ namespace ReliefProMain.ViewModel
            return reliefLtmd;
         }
 
-        private ICommand _SaveCommand;
-        public ICommand SaveCommand
+        private ICommand _SavePinchCommand;
+        public ICommand SavePinchCommand
         {
             get
             {
-                if (_SaveCommand == null)
+                if (_SavePinchCommand == null)
                 {
-                    _SaveCommand = new RelayCommand(Save);
+                    _SavePinchCommand = new RelayCommand(SavePinch);
 
                 }
-                return _SaveCommand;
+                return _SavePinchCommand;
             }
         }
 
-        private void Save(object window)
-        {           
-
+        private void SavePinch(object window)
+        {
+            if (reboilerPinchModel == null)
+            {
+                reboilerPinchModel = new ReboilerPinch();
+                reboilerPinchModel.IsPinch = true;
+                reboilerPinchModel.Coldtin = Coldtin;
+                reboilerPinchModel.Coldtout = Coldtout;
+                reboilerPinchModel.Duty = Duty;
+                reboilerPinchModel.HeatTin = HeatTin;
+                reboilerPinchModel.HeatTout = HeatTout;
+                reboilerPinchModel.ReliefDuty = ReliefDuty;
+                reboilerPinchModel.SourceType = SourceType;
+                reboilerPinchModel.UClean = UClean;
+                reboilerPinchModel.UDesign = UDesign;
+                reboilerPinchModel.TowerScenarioHXID = TowerScenarioHXID;                
+                reboilerPinchDAL.Add(reboilerPinchModel, SessionProtectedSystem);
+                
+            }
+            else
+            {
+                reboilerPinchModel.IsPinch = true;
+                reboilerPinchModel.Coldtin = Coldtin;
+                reboilerPinchModel.Coldtout = Coldtout;
+                reboilerPinchModel.Duty = Duty;
+                reboilerPinchModel.HeatTin = HeatTin;
+                reboilerPinchModel.HeatTout = HeatTout;
+                reboilerPinchModel.ReliefDuty = ReliefDuty;
+                reboilerPinchModel.SourceType = SourceType;
+                reboilerPinchModel.UClean = UClean;
+                reboilerPinchModel.UDesign = UDesign;
+                reboilerPinchDAL.Update(reboilerPinchModel, SessionProtectedSystem);
+            }
             System.Windows.Window wd = window as System.Windows.Window;
 
             if (wd != null)
             {
-                wd.Close();
+                wd.DialogResult = true;
             }
         }
 
+        private ICommand _SaveNormalCommand;
+        public ICommand SaveNormalCommand
+        {
+            get
+            {
+                if (_SaveNormalCommand == null)
+                {
+                    _SaveNormalCommand = new RelayCommand(SaveNormalPinch);
+
+                }
+                return _SaveNormalCommand;
+            }
+        }
+
+        private void SaveNormalPinch(object window)
+        {
+            if (reboilerPinchModel == null)
+            {
+                reboilerPinchModel.IsPinch = false;
+                reboilerPinchModel = new ReboilerPinch();
+                reboilerPinchModel.Coldtin = Coldtin;
+                reboilerPinchModel.Coldtout = Coldtout;
+                reboilerPinchModel.Duty = Duty;
+                reboilerPinchModel.HeatTin = HeatTin;
+                reboilerPinchModel.HeatTout = HeatTout;
+                reboilerPinchModel.ReliefDuty = ReliefDuty;
+                reboilerPinchModel.SourceType = SourceType;
+                reboilerPinchModel.UClean = UClean;
+                reboilerPinchModel.UDesign = UDesign;
+                reboilerPinchModel.TowerScenarioHXID = TowerScenarioHXID;
+                reboilerPinchDAL.Add(reboilerPinchModel, SessionProtectedSystem);
+
+            }
+            else
+            {
+                reboilerPinchModel.IsPinch = false;
+                reboilerPinchModel.Coldtin = Coldtin;
+                reboilerPinchModel.Coldtout = Coldtout;
+                reboilerPinchModel.Duty = Duty;
+                reboilerPinchModel.HeatTin = HeatTin;
+                reboilerPinchModel.HeatTout = HeatTout;
+                reboilerPinchModel.ReliefDuty = ReliefDuty;
+                reboilerPinchModel.SourceType = SourceType;
+                reboilerPinchModel.UClean = UClean;
+                reboilerPinchModel.UDesign = UDesign;
+                reboilerPinchDAL.Update(reboilerPinchModel, SessionProtectedSystem);
+            }
+            System.Windows.Window wd = window as System.Windows.Window;
+
+            if (wd != null)
+            {
+                wd.DialogResult = true;
+            }
+        }
     }
 }

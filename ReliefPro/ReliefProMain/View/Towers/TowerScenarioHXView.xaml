@@ -13,7 +13,7 @@
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
-        <ListView Grid.Row="1" Margin="0,0,0,0" ItemsSource="{Binding Path=Details}">
+        <ListView Grid.Row="1" Margin="0,0,0,0" ItemsSource="{Binding Path=Details,Mode=TwoWay}" SelectedItem="{Binding SelectedDetail,Mode=TwoWay}">
             <ListView.View>
                 <GridView>                    
                     <GridViewColumn Header="Name" Width="200px"  DisplayMemberBinding="{Binding Path=DetailName}"></GridViewColumn>
@@ -27,7 +27,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Pinch" Width="50px">
+                    <GridViewColumn Header="Pinch" Width="50px"  >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox IsChecked="{Binding Path=Pinch}"></CheckBox>

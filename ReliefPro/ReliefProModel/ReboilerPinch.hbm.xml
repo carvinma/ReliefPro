@@ -4,6 +4,7 @@
     <id name="ID" column="ID" type="Int32" unsaved-value="0">
       <generator class="identity" />
     </id>
+    <property name="TowerScenarioHXID" column="TowerScenarioHXID" type="Int32" />
     <property name="Coldtin" column="Coldtin" type="String" length="255" />    
     <property name="Coldtout" column="Coldtout" type="String" length="255" />
     <property name="HeatTin" column="HeatTin" type="String" length="255" />

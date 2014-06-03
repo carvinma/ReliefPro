@@ -9,6 +9,7 @@ namespace ReliefProModel
     public  class ReboilerPinch
     {
         public virtual int ID { get; set; }
+        public virtual int TowerScenarioHXID { get; set; }
         public virtual string Coldtin { get; set; }
         public virtual string Coldtout { get; set; }
         public virtual string HeatTin { get; set; }

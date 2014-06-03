@@ -14,6 +14,7 @@ using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using ReliefProMain.View;
 using NHibernate;
+using ReliefProMain.Model;
 
 namespace ReliefProMain.ViewModel
 {
@@ -23,10 +24,13 @@ namespace ReliefProMain.ViewModel
         private ISession SessionProtectedSystem { set; get; }
         public int HeaterType { get; set; }
         public int ScenarioID { get; set; }
+        private CondenserCalc condenserCalc;
+        public CondenserCalcDAL condenserCalcDAL;
 
+        TowerScenarioHXDAL towerScenarioHXDAL ;
         public double ScenarioCondenserDuty = 0;
         public Accumulator CurrentAccumulator { get; set; }
-
+        
         private string _IsDisplay;
         public string IsDisplay
         {
@@ -70,7 +74,7 @@ namespace ReliefProMain.ViewModel
                     IsSurgeTime = false;
                     for(int i=0;i<Details.Count;i++)
                     {
-                        TowerScenarioHX detail =Details[i];
+                        TowerScenarioHXModel detail =Details[i];
                         detail.DutyLost = true;
                     }
                 }
@@ -101,11 +105,22 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("IsSurgeTime");
             }
         }
-
+        //list of orders from the customer
+        public ObservableCollection<TowerScenarioHXModel> _Details;
+        public ObservableCollection<TowerScenarioHXModel> Details
+        {
+            get { return _Details; }
+            set
+            {
+                _Details = value;
+                OnPropertyChanged("Details");
+            }
+        }
+        
         public TowerScenarioHXVM(int type, int scenarioID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            SessionPlant = sessionPlant;
-            SessionProtectedSystem = sessionProtectedSystem;
+            this.SessionPlant = sessionPlant;
+            this.SessionProtectedSystem = sessionProtectedSystem;
             ScenarioID=scenarioID;
             HeaterType = type;
             
@@ -116,36 +131,40 @@ namespace ReliefProMain.ViewModel
             else
             {
                 IsDisplay = "Hidden";
-            }            
+            }
+            towerScenarioHXDAL = new TowerScenarioHXDAL();
             Details = GetTowerHXScenarioDetails();
-        }
-        internal ObservableCollection<TowerScenarioHX> GetTowerHXScenarioDetails()
-        {
-            Details = new ObservableCollection<TowerScenarioHX>();
+            condenserCalcDAL = new CondenserCalcDAL();
+            condenserCalc = condenserCalcDAL.GetModel(1, this.SessionProtectedSystem);
+            if (condenserCalc != null)
+            {
+                IsFlooding = condenserCalc.Flooding;
+                SurgeTime = condenserCalc.SurgeTime;
+                IsSurgeTime = condenserCalc.IsSurgeTime;    
+            }
+           
 
-            TowerScenarioHXDAL db = new TowerScenarioHXDAL();
-            IList<TowerScenarioHX> list = db.GetAllList(SessionProtectedSystem, ScenarioID, HeaterType).ToList();
+
+
+
+        }
+        internal ObservableCollection<TowerScenarioHXModel> GetTowerHXScenarioDetails()
+        {
+            Details = new ObservableCollection<TowerScenarioHXModel>();
+
+
+            IList<TowerScenarioHX> list = towerScenarioHXDAL.GetAllList(SessionProtectedSystem, ScenarioID, HeaterType).ToList();
             foreach (TowerScenarioHX hx in list)
             {
                 double duty = GetCondenserDetailDuty(SessionProtectedSystem, hx.DetailID);
                 ScenarioCondenserDuty = ScenarioCondenserDuty + double.Parse(hx.DutyCalcFactor) * duty;
-                Details.Add(hx);
+                TowerScenarioHXModel shx = new TowerScenarioHXModel(hx);
+                Details.Add(shx);
             }
 
             return Details;
         }
-        //list of orders from the customer
-        public ObservableCollection<TowerScenarioHX> _Details;
-        public ObservableCollection<TowerScenarioHX> Details
-        {
-            get { return _Details; }
-            set
-            {
-                _Details = value;
-                OnPropertyChanged("Details");
-            }
-        }
-
+       
         private ICommand _CalculateSurgeTimeClick;
         public ICommand CalculateSurgeTimeClick
         {
@@ -288,15 +307,63 @@ namespace ReliefProMain.ViewModel
 
         private void PinchCalc(object obj)
         {
-            int ID=int.Parse(obj.ToString());
-            
-                ReboilerPinchView v = new ReboilerPinchView();
-                ReboilerPinchVM vm = new ReboilerPinchVM(ID, SessionPlant, SessionProtectedSystem);
-                v.DataContext = vm;
-                if (v.ShowDialog()==true)
+            int ID = int.Parse(obj.ToString());
+
+            ReboilerPinchView v = new ReboilerPinchView();
+            ReboilerPinchVM vm = new ReboilerPinchVM(ID, SessionPlant, SessionProtectedSystem);
+            v.DataContext = vm;
+            if (v.ShowDialog() == true)
+            {
+                
+            }
+        }
+
+        private ICommand _SaveCommand;
+        public ICommand SaveCommand
+        {
+            get
+            {
+                if (_SaveCommand == null)
                 {
-                    
+                    _SaveCommand = new RelayCommand(Save);
+
                 }
+                return _SaveCommand;
+            }
+        }
+
+        public void Save(object obj)
+        {
+            if (HeaterType == 1)
+            {
+                if (condenserCalc == null)
+                {
+                    condenserCalc = new CondenserCalc();
+                    condenserCalc.Flooding = IsFlooding;
+                    condenserCalc.IsSurgeTime = IsSurgeTime;
+                    condenserCalc.SurgeTime = SurgeTime;
+                    condenserCalcDAL.Add(condenserCalc, SessionProtectedSystem);
+                }
+                else
+                {
+                    condenserCalc.Flooding = IsFlooding;
+                    condenserCalc.IsSurgeTime = IsSurgeTime;
+                    condenserCalc.SurgeTime = SurgeTime;
+                    condenserCalcDAL.Update(condenserCalc, SessionProtectedSystem);
+                }
+                foreach (TowerScenarioHXModel m in Details)
+                {
+                    towerScenarioHXDAL.Update(m.model, SessionProtectedSystem);
+                }
+
+                SessionProtectedSystem.Flush();
+            }
+            System.Windows.Window wd = obj as System.Windows.Window;
+
+            if (wd != null)
+            {
+                wd.DialogResult = true;
+            }
         }
 
 

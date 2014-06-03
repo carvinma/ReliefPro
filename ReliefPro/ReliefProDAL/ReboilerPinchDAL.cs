@@ -23,13 +23,13 @@ namespace ReliefProDAL
             }
             return list;
         }
-        public ReboilerPinch GetModel(ISession session)
+        public ReboilerPinch GetModel(ISession session, int TowerScenarioHXID)
         {
             ReboilerPinch model = null;
             IList<ReboilerPinch> list = null;
             try
             {
-                list = session.CreateCriteria<ReboilerPinch>().List<ReboilerPinch>();
+                list = session.CreateCriteria<ReboilerPinch>().Add(Expression.Eq("TowerScenarioHXID", TowerScenarioHXID)).List<ReboilerPinch>();
                 if (list.Count > 0)
                 {
                     model = list[0];

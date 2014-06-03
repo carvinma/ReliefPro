@@ -61,6 +61,7 @@
     <Compile Include="Compressors\PistonBlockedOutletDAL.cs" />
     <Compile Include="BasicUnitDAL.cs" />
     <Compile Include="BasicUnitDefaultDAL.cs" />
+    <Compile Include="CondenserCalcDAL.cs" />
     <Compile Include="CustomStreamDAL.cs" />
     <Compile Include="Drums\DrumDAL.cs" />
     <Compile Include="ProIIEqDataDAL.cs" />

@@ -150,6 +150,7 @@
     <Compile Include="Model\TowerFireModel.cs" />
     <Compile Include="Model\TowerHXDetailModel.cs" />
     <Compile Include="Model\TowerHXModel.cs" />
+    <Compile Include="Model\TowerScenarioHXModel.cs" />
     <Compile Include="Model\TowerScenarioStreamModel.cs" />
     <Compile Include="Model\HeatSourceModel.cs" />
     <Compile Include="Model\ScenarioHeatSourceModel.cs" />

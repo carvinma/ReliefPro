@@ -22,13 +22,13 @@ namespace ReliefProMain.View
     /// </summary>
     public partial class TowerScenarioHXView : Window
     {
-        public string dbProtectedSystemFile;
-        public string dbPlantFile;
-        public List<TowerScenarioHX> Employees { get; set; }
-        public List<string> ProcessSideFlowSources { get; set; }
-        public int ScenarioID;
-        public int HeaterType = 1;
-        TowerScenarioHX sHX = new TowerScenarioHX();
+        //public string dbProtectedSystemFile;
+        //public string dbPlantFile;
+        //public List<TowerScenarioHX> Employees { get; set; }
+        //public List<string> ProcessSideFlowSources { get; set; }
+        //public int ScenarioID;
+        //public int HeaterType = 1;
+        //TowerScenarioHX sHX = new TowerScenarioHX();
         public TowerScenarioHXView()
         {
             InitializeComponent();            
