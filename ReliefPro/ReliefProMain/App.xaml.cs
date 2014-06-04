@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Threading;
 using ReliefProMain.View;
+using ReliefProMain.ViewModel;
 
 namespace ReliefProMain
 {
@@ -23,9 +24,12 @@ namespace ReliefProMain
         {
             //TowerScenarioView mainF = new TowerScenarioView();
             
-            MainWindow mainF = new MainWindow();
-            mainF.WindowState = WindowState.Maximized;
-            mainF.Show();
+            MainWindow v = new MainWindow();
+            MainWindowVM vm = new MainWindowVM();
+            v.DataContext = vm;
+            v.WindowState = WindowState.Maximized;
+
+            v.Show();
             
         }
         private void APP_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
