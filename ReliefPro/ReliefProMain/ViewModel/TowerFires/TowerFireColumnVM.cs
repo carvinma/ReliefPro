@@ -58,10 +58,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             }
             else
             {
-                if (!string.IsNullOrEmpty(model.Instance.Elevation))
-                    model.Instance.Elevation = unitConvert.Convert(UOMEnum.Length, elevationUnit, double.Parse(model.Instance.Elevation)).ToString();
-                if (!string.IsNullOrEmpty(model.Instance.BNLL))
-                    model.Instance.BNLL = unitConvert.Convert(UOMEnum.Length, levelUnit, double.Parse(model.Instance.BNLL)).ToString();
+                ReadConvert();
             }
             IList<TowerFireColumnDetail> list = dbDetail.GetAllList(sessionProtectedSystem, model.Instance.ID);
             model.Details = new ObservableCollection<TowerFireColumnDetail>();
@@ -94,18 +91,13 @@ namespace ReliefProMain.ViewModel.TowerFires
             TowerFireColumnDAL db = new TowerFireColumnDAL();
             TowerFireColumn m = db.GetModel(model.Instance.ID, SessionProtectedSystem);
             m.BNLL = model.Instance.BNLL;
+            WriteConvert();
             m.NumberOfSegment = model.Instance.NumberOfSegment;
             m.LiquidHoldup = model.Instance.LiquidHoldup;
             m.PipingContingency = model.Instance.PipingContingency;
             m.Elevation = model.Instance.Elevation;
 
-            if (!string.IsNullOrEmpty(model.Instance.Elevation))
-                model.Instance.Elevation = unitConvert.Convert(elevationUnit, UOMEnum.Length, double.Parse(model.Instance.Elevation)).ToString();
-            if (!string.IsNullOrEmpty(model.Instance.BNLL))
-                model.Instance.BNLL = unitConvert.Convert(levelUnit, UOMEnum.Length, double.Parse(model.Instance.BNLL)).ToString();
-
             db.Update(m, SessionProtectedSystem);
-
 
             TowerFireColumnDetailDAL dbDetail = new TowerFireColumnDetailDAL();
             for (int i = 0; i < LastDetails.Count; i++)
@@ -149,7 +141,20 @@ namespace ReliefProMain.ViewModel.TowerFires
             list.Add("Packed");
             return list;
         }
-
+        private void ReadConvert()
+        {
+            if (!string.IsNullOrEmpty(model.Instance.Elevation))
+                model.Instance.Elevation = unitConvert.Convert(UOMEnum.Length, elevationUnit, double.Parse(model.Instance.Elevation)).ToString();
+            if (!string.IsNullOrEmpty(model.Instance.BNLL))
+                model.Instance.BNLL = unitConvert.Convert(UOMEnum.Length, levelUnit, double.Parse(model.Instance.BNLL)).ToString();
+        }
+        private void WriteConvert()
+        {
+            if (!string.IsNullOrEmpty(model.Instance.Elevation))
+                model.Instance.Elevation = unitConvert.Convert(elevationUnit, UOMEnum.Length, double.Parse(model.Instance.Elevation)).ToString();
+            if (!string.IsNullOrEmpty(model.Instance.BNLL))
+                model.Instance.BNLL = unitConvert.Convert(levelUnit, UOMEnum.Length, double.Parse(model.Instance.BNLL)).ToString();
+        }
         private void InitUnit()
         {
             this.elevationUnit = uomEnum.UserLength;
