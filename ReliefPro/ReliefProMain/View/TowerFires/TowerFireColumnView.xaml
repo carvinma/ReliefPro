@@ -1,6 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.TowerFires.TowerFireColumnView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
         Title="TowerFireInfo" Height="431.298" Width="588.506" Name="myWindow">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -72,14 +73,15 @@
 
         </ListView>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="4" TextWrapping="Wrap" Text="Bottom Normal Liquid Level" VerticalAlignment="Top" Height="15" Width="181" Grid.ColumnSpan="2"/>
-        <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="65.885,3,0,0" Grid.Row="4" TextWrapping="Wrap" Text="{Binding model.Instance.BNLL}" VerticalAlignment="Top" Width="120"/>
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLevel,Path=Content,Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="65.885,3,0,0" Grid.Row="4" TextWrapping="Wrap" Text="{Binding model.Instance.BNLL}" VerticalAlignment="Top" Width="120"/>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="26,10,0,0" Grid.Row="5" TextWrapping="Wrap" Text="PipingContingency" VerticalAlignment="Top" Height="16" Width="109"/>
         <Button Content="OK" Command="{Binding OKClick}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="2" HorizontalAlignment="Left" Margin="126.885,16,0,0" Grid.Row="6" VerticalAlignment="Top" Width="75" Height="22"/>
         <Button Content="Cancel" IsCancel="True" Grid.Column="2" HorizontalAlignment="Left" Margin="235.885,16,0,0" Grid.Row="6" VerticalAlignment="Top" Width="75" Height="22"/>
         <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="65.885,7,0,0" Grid.Row="5" TextWrapping="Wrap" Text="{Binding model.Instance.PipingContingency}" VerticalAlignment="Top" Width="120"/>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="26,10,0,0" Grid.Row="3" TextWrapping="Wrap" Text="Elevation" VerticalAlignment="Top"/>
-        <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="65.885,11,0,0" Grid.Row="3" TextWrapping="Wrap" Text="{Binding model.Instance.Elevation}" VerticalAlignment="Top" Width="120"/>
-        <Label Content="m" Grid.Column="2" HorizontalAlignment="Left" Margin="202,11,0,0" Grid.Row="3" VerticalAlignment="Top"/>
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblElevation,Path=Content,Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="65.885,11,0,0 " Grid.Row="3" TextWrapping="Wrap" Text="{Binding model.Instance.Elevation}" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="lblElevation" Content="{Binding ElevationUnit}" Grid.Column="2" HorizontalAlignment="Left" Margin="202,11,0,0" Grid.Row="3" VerticalAlignment="Top"/>
+        <Label x:Name="lblLevel" Content="{Binding LevelUnit}" Grid.Column="2" HorizontalAlignment="Left" Margin="202,11,0,0" Grid.Row="4" VerticalAlignment="Top"/>
         <Label Content="%" Grid.Column="2" HorizontalAlignment="Left" Margin="202,7,0,0" Grid.Row="5" VerticalAlignment="Top"/>
 
     </Grid>
