@@ -11,7 +11,7 @@ namespace ReliefProMain.CustomControl
 {
     public class UnitConvertTextBox : TextBox
     {
-        private string format = "F2";
+        private string format = "";
         public string Format
         {
             get { return format; }
@@ -39,7 +39,10 @@ namespace ReliefProMain.CustomControl
                     if (unitConvertCommonView.ShowDialog() == true)
                     {
                         this.UnitOrigin = unitConvertCommonView.TargetUnit;
-                        this.Text = unitConvertCommonView.ResultValue.ToString(format);
+                        if (!string.IsNullOrEmpty(format))
+                            this.Text = unitConvertCommonView.ResultValue.ToString(format);
+                        else
+                            this.Text = unitConvertCommonView.ResultValue.ToString();
                     }
                 }
             }
