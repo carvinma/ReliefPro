@@ -49,13 +49,13 @@ namespace ReliefProDAL
             }
             return list;
         }
-        public TowerScenarioHX GetModel(ISession session,int id)
+        public TowerScenarioHX GetModel(ISession session, int DetailID, int ScenarioID)
         {
             TowerScenarioHX model = null;
             IList<TowerScenarioHX> list = null;
             try
             {
-                list = session.CreateCriteria<TowerScenarioHX>().Add(Expression.Eq("ID",id)).List<TowerScenarioHX>();
+                list = session.CreateCriteria<TowerScenarioHX>().Add(Expression.Eq("DetailID", DetailID)).Add(Expression.Eq("ScenarioID", ScenarioID)).List<TowerScenarioHX>();
                 if (list.Count > 0)
                 {
                     model = list[0];

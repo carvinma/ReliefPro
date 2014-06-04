@@ -34,15 +34,15 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Pinch Factor" Width="150px"  >
+                    <GridViewColumn Header="Pinch Factor" Width="150"   >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Path=PinchFactor}"></TextBox>
+                                <TextBox  Text="{Binding Path=PinchFactor}"></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="Calculation">
+                    <GridViewColumn Header="Calculation"   >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="Calculation" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.PinchCalcCommand}" CommandParameter="{Binding ID}" ></Button>

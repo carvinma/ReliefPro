@@ -4,7 +4,7 @@
     <id name="ID" column="ID" type="Int32" unsaved-value="0">
       <generator class="identity" />
     </id>
-    <property name="ScenarioID" column="ScenarioID" type="Int32" length="255" />    
+    <property name="ScenarioID" column="ScenarioID" type="Int32" length="255" />
     <property name="StreamName" column="StreamName" type="String" length="255" />
     <property name="FlowStop" column="FlowStop" type="Boolean" />
     <property name="FlowCalcFactor" column="FlowCalcFactor" type="String" length="255" />

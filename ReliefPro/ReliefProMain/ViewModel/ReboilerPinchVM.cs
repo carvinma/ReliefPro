@@ -80,7 +80,7 @@ namespace ReliefProMain.ViewModel
             set
             {
                 _HeatTin = value;
-                ReliefHeatIn = _HeatTin;
+                ReliefHeatTin = _HeatTin;
                 OnPropertyChanged("HeatTin");
             }
         }
@@ -95,14 +95,14 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private string _ReliefHeatIn;
-        public string ReliefHeatIn
+        private string _ReliefHeatTin;
+        public string ReliefHeatTin
         {
-            get { return _ReliefHeatIn; }
+            get { return _ReliefHeatTin; }
             set
             {
-                _ReliefHeatIn = value;
-                OnPropertyChanged("ReliefHeatIn");
+                _ReliefHeatTin = value;
+                OnPropertyChanged("ReliefHeatTin");
             }
         }
 
@@ -264,7 +264,7 @@ namespace ReliefProMain.ViewModel
                 Area = reboilerPinchModel.Area;
                 UDesignArea=(double.Parse(reboilerPinchModel.Area)*double.Parse(reboilerPinchModel.UDesign)).ToString();
                 UCD = (double.Parse(UClean) / double.Parse(UDesign)).ToString();
-                ReliefHeatIn = reboilerPinchModel.ReliefHeatTin;
+                ReliefHeatTin = reboilerPinchModel.ReliefHeatTin;
                 SourceType = reboilerPinchModel.SourceType;
             }
 
@@ -451,6 +451,7 @@ namespace ReliefProMain.ViewModel
                 reboilerPinchModel.Area = Area;
                 reboilerPinchModel.ReliefColdtout = ReliefColdtout;
                 reboilerPinchModel.SourceType = SourceType;
+                reboilerPinchModel.ReliefHeatTin = ReliefHeatTin;
                 reboilerPinchDAL.Add(reboilerPinchModel, SessionProtectedSystem);
                 
             }
@@ -470,6 +471,7 @@ namespace ReliefProMain.ViewModel
                 reboilerPinchModel.Area = Area;
                 reboilerPinchModel.ReliefColdtout = ReliefColdtout;
                 reboilerPinchModel.SourceType = SourceType;
+                reboilerPinchModel.ReliefHeatTin = ReliefHeatTin;
                 reboilerPinchDAL.Update(reboilerPinchModel, SessionProtectedSystem);
             }
             System.Windows.Window wd = window as System.Windows.Window;
@@ -511,6 +513,10 @@ namespace ReliefProMain.ViewModel
                 reboilerPinchModel.UDesign = UDesign;
                 reboilerPinchModel.TowerScenarioHXID = TowerScenarioHXID;
                 reboilerPinchModel.Factor = Factor;
+                reboilerPinchModel.Area = Area;
+                reboilerPinchModel.ReliefColdtout = ReliefColdtout;
+                reboilerPinchModel.SourceType = SourceType;
+                reboilerPinchModel.ReliefHeatTin = ReliefHeatTin;
                 reboilerPinchDAL.Add(reboilerPinchModel, SessionProtectedSystem);
 
             }
@@ -527,6 +533,10 @@ namespace ReliefProMain.ViewModel
                 reboilerPinchModel.UClean = UClean;
                 reboilerPinchModel.UDesign = UDesign;
                 reboilerPinchModel.Factor = Factor;
+                reboilerPinchModel.Area = Area;
+                reboilerPinchModel.ReliefColdtout = ReliefColdtout;
+                reboilerPinchModel.SourceType = SourceType;
+                reboilerPinchModel.ReliefHeatTin = ReliefHeatTin;
                 reboilerPinchDAL.Update(reboilerPinchModel, SessionProtectedSystem);
             }
             System.Windows.Window wd = window as System.Windows.Window;

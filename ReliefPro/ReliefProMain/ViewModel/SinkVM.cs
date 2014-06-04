@@ -23,7 +23,7 @@ namespace ReliefProMain.ViewModel
         private ISession SessionProtectedSystem { set; get; }
         private string PrzFile;
         SinkDAL db;
-        public List<string> SourceTypes { get; set; }
+        public List<string> SinkTypes { get; set; }
         public SinkModel MainModel{ get; set; }
 
         public List<string> GetSinkTypes()
@@ -40,7 +40,7 @@ namespace ReliefProMain.ViewModel
         public SinkVM(string name, string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             this.PrzFile = PrzFile;
-            SourceTypes = GetSinkTypes();
+            SinkTypes = GetSinkTypes();
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
             BasicUnit BU;

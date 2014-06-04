@@ -10,19 +10,7 @@ namespace ReliefProDAL
 {
     public class ReboilerPinchDAL : IBaseDAL<ReboilerPinch>
     {
-        public IList<ReboilerPinch> GetAllList(ISession session)
-        {
-            IList<ReboilerPinch> list = null;
-            try
-            {
-                list = session.CreateCriteria<ReboilerPinch>().List<ReboilerPinch>();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return list;
-        }
+        
         public ReboilerPinch GetModel(ISession session, int TowerScenarioHXID)
         {
             ReboilerPinch model = null;

@@ -18,6 +18,7 @@ namespace ReliefProModel
         public virtual string DetailName{ get; set; }
         public virtual int HeaterType { get; set; }
         public virtual string Medium { get; set; }
+
         //public virtual int HXID { get; set; }
     }
 }

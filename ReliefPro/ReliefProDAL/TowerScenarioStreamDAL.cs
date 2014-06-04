@@ -53,13 +53,13 @@ namespace ReliefProDAL
         }
 
 
-        public TowerScenarioStream GetModel(ISession session,int id)
+        public TowerScenarioStream GetModel(ISession session, string StreamName, int ScenarioID)
         {
             TowerScenarioStream model = null;
             IList<TowerScenarioStream> list = null;
             try
             {
-                list = session.CreateCriteria<TowerScenarioStream>().Add(Expression.Eq("ID",id)).List<TowerScenarioStream>();
+                list = session.CreateCriteria<TowerScenarioStream>().Add(Expression.Eq("StreamName", StreamName)).Add(Expression.Eq("ScenarioID", ScenarioID)).List<TowerScenarioStream>();
                 if (list.Count > 0)
                 {
                     model = list[0];

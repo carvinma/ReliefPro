@@ -80,6 +80,7 @@ namespace ReliefProMain.ViewModel
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         private string PrzFile;
+        private bool IsSteamFreezed=false;
         public TowerScenarioCalcVM(int scenarioID,string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             this.PrzFile = PrzFile;
@@ -92,6 +93,15 @@ namespace ReliefProMain.ViewModel
             ReliefMW = s.ReliefMW;
             ReliefPressure = s.ReliefPressure;
             ReliefTemperature = s.ReliefTemperature;
+
+            //IsSteamFreezed 的判断
+            // condeser =0,则不被冷凝。 
+            // condeser factor =1 && stop=false 被冷凝
+            // 2者之间的。  比较大小，那个大，取那个。 返回结果后，判断是否冷凝。
+
+            // 如果是steam，则扣除它，然后，再按之前算法扣除。
+
+
         }
         private ICommand _FeedCommand;
         public ICommand FeedCommand
@@ -248,7 +258,14 @@ namespace ReliefProMain.ViewModel
                     TowerFlashProduct product = dbFlashP.GetModel(SessionProtectedSystem, cstream.StreamName);
                     if (!s.FlowStop)
                     {
-                        ProductTotal = ProductTotal + (double.Parse(s.FlowCalcFactor) * double.Parse(product.SpEnthalpy) * double.Parse(product.WeightFlow));
+                        if (IsSteamFreezed && product.ProdType=="4")
+                        {
+                            ProductTotal = ProductTotal + (double.Parse(s.FlowCalcFactor) * double.Parse(cstream.SpEnthalpy) * double.Parse(cstream.WeightFlow));
+                        }
+                        else
+                        {
+                            ProductTotal = ProductTotal + (double.Parse(s.FlowCalcFactor) * double.Parse(product.SpEnthalpy) * double.Parse(product.WeightFlow));
+                        }
                         if (cstream.ProdType == "6")
                         {
                             waterWeightFlow = double.Parse(cstream.WeightFlow);
@@ -271,13 +288,22 @@ namespace ReliefProMain.ViewModel
 
             TowerScenarioHXDAL dbTSHX = new TowerScenarioHXDAL();
             TowerHXDetailDAL dbDetail = new TowerHXDetailDAL();
-            IList<TowerScenarioHX> list = dbTSHX.GetAllList(SessionProtectedSystem, ScenarioID);
+            ReboilerPinchDAL reboilerPinchDAL=new ReboilerPinchDAL();
+            IList<TowerScenarioHX> list = dbTSHX.GetAllList(SessionProtectedSystem, ScenarioID);            
             foreach (TowerScenarioHX shx in list)
             {
                 if (!shx.DutyLost)
                 {
-                    TowerHXDetail detail = dbDetail.GetModel(SessionProtectedSystem, shx.DetailID);
-                    HeatTotal = HeatTotal + shx.DutyCalcFactor * double.Parse(detail.Duty);
+                    if (shx.IsPinch == true)
+                    {
+                        ReboilerPinch detail = reboilerPinchDAL.GetModel(SessionProtectedSystem, shx.ID);
+                        HeatTotal = HeatTotal + shx.PinchFactor * double.Parse(detail.ReliefDuty);
+                    }
+                    else
+                    {
+                        TowerHXDetail detail = dbDetail.GetModel(SessionProtectedSystem, shx.DetailID);
+                        HeatTotal = HeatTotal + shx.DutyCalcFactor * double.Parse(detail.Duty);
+                    }
                 }
             }
 

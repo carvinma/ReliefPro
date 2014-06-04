@@ -50,5 +50,29 @@ namespace ReliefProDAL
             }
             return list;
         }
+
+        public ScenarioHeatSource GetModel(ISession session, int HeatSourceID, int ScenarioID)
+        {
+            ScenarioHeatSource model = null;
+            IList<ScenarioHeatSource> list = null;
+            try
+            {
+                list = session.CreateCriteria<ScenarioHeatSource>().Add(Expression.Eq("HeatSourceID", HeatSourceID)).Add(Expression.Eq("ScenarioID", ScenarioID)).List<ScenarioHeatSource>();
+                if (list.Count > 0)
+                {
+                    model = list[0];
+                }
+                else
+                    model = null;
+            }
+            catch (Exception ex)
+            {
+                model = null;
+                throw ex;
+
+            }
+
+            return model;
+        }
     }
 }
