@@ -17,7 +17,7 @@ using NHibernate;
 
 namespace ReliefProMain.ViewModel.TowerFires
 {
-    public class TowerFireColumnVM
+    public class TowerFireColumnVM : ViewModelBase
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
@@ -25,8 +25,13 @@ namespace ReliefProMain.ViewModel.TowerFires
         public double Area { get; set; }
         public ObservableCollection<string> Internals { get; set; }
         public ObservableCollection<TowerFireColumnDetail> LastDetails { get; set; }
+        UnitConvert unitConvert;
+        UOMLib.UOMEnum uomEnum;
         public TowerFireColumnVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
+            unitConvert = new UnitConvert();
+            uomEnum = new UOMLib.UOMEnum(sessionPlant);
+            InitUnit();
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
             Internals = getInternals();
@@ -51,7 +56,13 @@ namespace ReliefProMain.ViewModel.TowerFires
                 {
                 }
             }
-
+            else
+            {
+                if (!string.IsNullOrEmpty(model.Instance.Elevation))
+                    model.Instance.Elevation = unitConvert.Convert(UOMEnum.Length, elevationUnit, double.Parse(model.Instance.Elevation)).ToString();
+                if (!string.IsNullOrEmpty(model.Instance.BNLL))
+                    model.Instance.BNLL = unitConvert.Convert(UOMEnum.Length, levelUnit, double.Parse(model.Instance.BNLL)).ToString();
+            }
             IList<TowerFireColumnDetail> list = dbDetail.GetAllList(sessionProtectedSystem, model.Instance.ID);
             model.Details = new ObservableCollection<TowerFireColumnDetail>();
             foreach (TowerFireColumnDetail detail in list)
@@ -87,6 +98,12 @@ namespace ReliefProMain.ViewModel.TowerFires
             m.LiquidHoldup = model.Instance.LiquidHoldup;
             m.PipingContingency = model.Instance.PipingContingency;
             m.Elevation = model.Instance.Elevation;
+
+            if (!string.IsNullOrEmpty(model.Instance.Elevation))
+                model.Instance.Elevation = unitConvert.Convert(elevationUnit, UOMEnum.Length, double.Parse(model.Instance.Elevation)).ToString();
+            if (!string.IsNullOrEmpty(model.Instance.BNLL))
+                model.Instance.BNLL = unitConvert.Convert(levelUnit, UOMEnum.Length, double.Parse(model.Instance.BNLL)).ToString();
+
             db.Update(m, SessionProtectedSystem);
 
 
@@ -132,5 +149,34 @@ namespace ReliefProMain.ViewModel.TowerFires
             list.Add("Packed");
             return list;
         }
+
+        private void InitUnit()
+        {
+            this.elevationUnit = uomEnum.UserLength;
+            this.levelUnit = uomEnum.UserLength;
+        }
+
+        #region 单位字段
+        private string elevationUnit;
+        public string ElevationUnit
+        {
+            get { return elevationUnit; }
+            set
+            {
+                elevationUnit = value;
+                OnPropertyChanged("ElevationUnit");
+            }
+        }
+        private string levelUnit;
+        public string LevelUnit
+        {
+            get { return levelUnit; }
+            set
+            {
+                levelUnit = value;
+                OnPropertyChanged("LevelUnit");
+            }
+        }
+        #endregion
     }
 }
