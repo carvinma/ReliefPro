@@ -24,17 +24,17 @@ namespace ReliefProMain.ViewModel
     /// 对于入口阀全开，ReliefPressure=Pset，和之前其他的case不同
     /// </summary>
     public class InletValveOpenVM : ViewModelBase
-    {        
+    {
         private string SourceFile;
         private string EqName;
         private string EqType;
         private ISession SessionPlant { set; get; }
         private string DirPlant { set; get; }
-        private string DirProtectedSystem { set; get; }       
+        private string DirProtectedSystem { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         private Dictionary<string, ProIIEqData> dicEqData = new Dictionary<string, ProIIEqData>();
-        private CustomStream UpStreamVaporData ;
-        private CustomStream UpStreamLiquidData ;
+        private CustomStream UpStreamVaporData;
+        private CustomStream UpStreamLiquidData;
         //private CustomStream UpVesselNormalVapor;
         private CustomStream CurrentEqNormalVapor;
         private string rMass;
@@ -42,7 +42,7 @@ namespace ReliefProMain.ViewModel
         private string tempdir;
         private string PrzFile;
         private string UpVesselType;
-        
+
         public List<string> OperatingPhases { get; set; }
 
 
@@ -63,8 +63,8 @@ namespace ReliefProMain.ViewModel
             set
             {
                 _SelectedVessel = value;
-                
-                UnitConvert uc=new UnitConvert();
+
+                UnitConvert uc = new UnitConvert();
                 if (!string.IsNullOrEmpty(SelectedVessel))
                 {
                     UpVesselType = dicEqData[SelectedVessel].EqType;
@@ -95,7 +95,7 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefTemperature");
             }
         }
-        private string _ReliefPressure{ get; set; }
+        private string _ReliefPressure { get; set; }
         public string ReliefPressure
         {
             get { return _ReliefPressure; }
@@ -149,7 +149,7 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("CV");
             }
         }
-        int ScenarioID{ get; set; }
+        int ScenarioID { get; set; }
 
         private ObservableCollection<string> _Vessels { get; set; }
         public ObservableCollection<string> Vessels
@@ -183,8 +183,13 @@ namespace ReliefProMain.ViewModel
         InletValveOpen model;
         InletValveOpenDAL dbinlet;
         ScenarioDAL dbsc;
+        UnitConvert unitConvert;
+        UOMLib.UOMEnum uomEnum;
         public InletValveOpenVM(int scenarioID, string eqName, string eqType, string przFile, string version, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
+            unitConvert = new UnitConvert();
+            uomEnum = new UOMLib.UOMEnum(sessionPlant);
+            InitUnit();
             ScenarioID = scenarioID;
             EqName = eqName;
             EqType = eqType;
@@ -195,16 +200,16 @@ namespace ReliefProMain.ViewModel
             SessionProtectedSystem = sessionProtectedSystem;
             OperatingPhases = GetOperatingPhases();
 
-            TowerDAL dbtower=new TowerDAL();
-            Tower tower=dbtower.GetModel(SessionProtectedSystem);
-            
+            TowerDAL dbtower = new TowerDAL();
+            Tower tower = dbtower.GetModel(SessionProtectedSystem);
+
             StreamDAL dbstream = new StreamDAL();
-            IList<CustomStream> list = dbstream.GetAllList(this.SessionProtectedSystem,true);
+            IList<CustomStream> list = dbstream.GetAllList(this.SessionProtectedSystem, true);
             foreach (CustomStream s in list)
             {
                 if (eqType == "Tower")
                 {
-                    if (s.ProdType == "3" ||(s.ProdType=="1" && s.Tray==tower.StageNumber))
+                    if (s.ProdType == "3" || (s.ProdType == "1" && s.Tray == tower.StageNumber))
                     {
                         CurrentEqNormalVapor = s;
                     }
@@ -217,35 +222,35 @@ namespace ReliefProMain.ViewModel
                     }
                 }
             }
-            
+
             SourceFile = System.IO.Path.GetFileName(przFile);
             Vessels = GetVessels(SessionPlant);
             tempdir = dirProtectedSystem + @"\temp\";
             dbinlet = new InletValveOpenDAL();
             //读取当前入口阀全开的信息
-           model=dbinlet.GetModel(SessionProtectedSystem);
-           if (model == null)
-           {
-               PSVDAL dbpsv = new PSVDAL();
-               PSV psv = dbpsv.GetModel(sessionProtectedSystem);
-               ReliefPressure = psv.Pressure;
-           }
-           else
-           {
-               ReliefLoad = model.ReliefLoad;
-               ReliefMW = model.ReliefMW;
-               ReliefPressure = model.ReliefPressure;
-               ReliefTemperature = model.ReliefTemperature;
-               SelectedVessel = model.VesselName;
-               SelectedOperatingPhase = model.OperatingPhase;
-               MaxOperatingPressure = model.MaxOperatingPressure;
-               CV = model.CV;
-           }
-            
+            model = dbinlet.GetModel(SessionProtectedSystem);
+            if (model == null)
+            {
+                PSVDAL dbpsv = new PSVDAL();
+                PSV psv = dbpsv.GetModel(sessionProtectedSystem);
+                ReliefPressure = psv.Pressure;
+            }
+            else
+            {
+                ReliefLoad = model.ReliefLoad;
+                ReliefMW = model.ReliefMW;
+                ReliefPressure = model.ReliefPressure;
+                ReliefTemperature = model.ReliefTemperature;
+                SelectedVessel = model.VesselName;
+                SelectedOperatingPhase = model.OperatingPhase;
+                MaxOperatingPressure = model.MaxOperatingPressure;
+                CV = model.CV;
+            }
+            ReadConvert();
         }
-        
-        
-        
+
+
+
         private ICommand _SaveCommand;
         public ICommand SaveCommand
         {
@@ -262,42 +267,43 @@ namespace ReliefProMain.ViewModel
 
         private void Save(object window)
         {
-            dbsc=new ScenarioDAL();
-            if(model==null)
+            WriteConvert();
+            dbsc = new ScenarioDAL();
+            if (model == null)
             {
-                model=new InletValveOpen();
-                model.CV=CV;
-                model.MaxOperatingPressure=MaxOperatingPressure;
-                model.OperatingPhase=SelectedOperatingPhase;
-                model.ReliefLoad=ReliefLoad;
-                model.ReliefMW=ReliefMW;
-                model.ReliefPressure=ReliefPressure;
-                model.ReliefTemperature=_ReliefTemperature;
-                model.VesselName=SelectedVessel;
-                dbinlet.Add(model,SessionProtectedSystem);
+                model = new InletValveOpen();
+                model.CV = CV;
+                model.MaxOperatingPressure = MaxOperatingPressure;
+                model.OperatingPhase = SelectedOperatingPhase;
+                model.ReliefLoad = ReliefLoad;
+                model.ReliefMW = ReliefMW;
+                model.ReliefPressure = ReliefPressure;
+                model.ReliefTemperature = _ReliefTemperature;
+                model.VesselName = SelectedVessel;
+                dbinlet.Add(model, SessionProtectedSystem);
             }
             else
             {
-                model.CV=CV;
-                model.MaxOperatingPressure=MaxOperatingPressure;
-                model.OperatingPhase=SelectedOperatingPhase;
-                model.ReliefLoad=ReliefLoad;
-                model.ReliefMW=ReliefMW;
-                model.ReliefPressure=ReliefPressure;
-                model.ReliefTemperature=_ReliefTemperature;
-                model.VesselName=SelectedVessel;
-                dbinlet.Update(model,SessionProtectedSystem);
+                model.CV = CV;
+                model.MaxOperatingPressure = MaxOperatingPressure;
+                model.OperatingPhase = SelectedOperatingPhase;
+                model.ReliefLoad = ReliefLoad;
+                model.ReliefMW = ReliefMW;
+                model.ReliefPressure = ReliefPressure;
+                model.ReliefTemperature = _ReliefTemperature;
+                model.VesselName = SelectedVessel;
+                dbinlet.Update(model, SessionProtectedSystem);
             }
-                Scenario sc=dbsc.GetModel(ScenarioID,SessionProtectedSystem);
-                 sc.ReliefLoad=ReliefLoad;
-                sc.ReliefMW=ReliefMW;
-                sc.ReliefPressure=ReliefPressure;
-                sc.ReliefTemperature=_ReliefTemperature;
-                dbsc.Update(sc,SessionProtectedSystem);
-                SessionProtectedSystem.Flush();
+            Scenario sc = dbsc.GetModel(ScenarioID, SessionProtectedSystem);
+            sc.ReliefLoad = ReliefLoad;
+            sc.ReliefMW = ReliefMW;
+            sc.ReliefPressure = ReliefPressure;
+            sc.ReliefTemperature = _ReliefTemperature;
+            dbsc.Update(sc, SessionProtectedSystem);
+            SessionProtectedSystem.Flush();
 
-            
-                
+
+
             System.Windows.Window wd = window as System.Windows.Window;
 
             if (wd != null)
@@ -370,35 +376,35 @@ namespace ReliefProMain.ViewModel
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
             string productdata = data.ProductData;
-            string prodtype=data.ProdType;
+            string prodtype = data.ProdType;
             string[] arrProducts = productdata.Split(',');
             string[] arrProdTypes = prodtype.Split(',');
-            
-                ProIIStreamDataDAL db = new ProIIStreamDataDAL();
-                for (int i = 0; i < arrProducts.Length; i++)
-                {
-                    string pName = arrProducts[i];
-                    if (arrProdTypes[i] == "5")
-                    {                        
-                        list.Add(pName);
-                        ProIIStreamData s = db.GetModel(SessionPlant, pName, SourceFile);
-                        UpStreamLiquidData = ProIIToDefault.ConvertProIIStreamToCustomStream(s);                     
 
-                    }
-                    //else if (arrProdTypes[i] == "3")
-                   // {
-                   //     ProIIStreamData s = db.GetModel(SessionPlant, pName, SourceFile);
-                   //     UpVesselNormalVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(s);
-                   // }
+            ProIIStreamDataDAL db = new ProIIStreamDataDAL();
+            for (int i = 0; i < arrProducts.Length; i++)
+            {
+                string pName = arrProducts[i];
+                if (arrProdTypes[i] == "5")
+                {
+                    list.Add(pName);
+                    ProIIStreamData s = db.GetModel(SessionPlant, pName, SourceFile);
+                    UpStreamLiquidData = ProIIToDefault.ConvertProIIStreamToCustomStream(s);
+
                 }
-            
-            
+                //else if (arrProdTypes[i] == "3")
+                // {
+                //     ProIIStreamData s = db.GetModel(SessionPlant, pName, SourceFile);
+                //     UpVesselNormalVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(s);
+                // }
+            }
+
+
             IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
             reader.InitProIIReader(PrzFile);
             ProIIStreamData vapor = reader.CopyStream(data.EqName, int.Parse(data.NumberOfTrays), 1, 1);
             list.Add(vapor.StreamName);
             UpStreamVaporData = ProIIToDefault.ConvertProIIStreamToCustomStream(vapor);
-            
+
             return list;
         }
 
@@ -488,17 +494,17 @@ namespace ReliefProMain.ViewModel
         }
 
         private void VaporBreakthrough(ref string VBReliefLoad, ref string VBReliefMW, ref string VBReliefTemperature)
-        {                   
+        {
             string dirInletValveOpen = tempdir + "InletValveOpen";
             if (!Directory.Exists(dirInletValveOpen))
                 Directory.CreateDirectory(dirInletValveOpen);
-           double reliefLoad = Darcy(rMass, CV, MaxOperatingPressure, ReliefPressure);
-           if (CurrentEqNormalVapor != null)
-           {
-               VBReliefLoad = (reliefLoad - double.Parse(CurrentEqNormalVapor.WeightFlow)).ToString();
-               VBReliefMW = this.UpStreamVaporData.BulkMwOfPhase;
-               VBReliefTemperature = UpStreamVaporData.Temperature;
-           }
+            double reliefLoad = Darcy(rMass, CV, MaxOperatingPressure, ReliefPressure);
+            if (CurrentEqNormalVapor != null)
+            {
+                VBReliefLoad = (reliefLoad - double.Parse(CurrentEqNormalVapor.WeightFlow)).ToString();
+                VBReliefMW = this.UpStreamVaporData.BulkMwOfPhase;
+                VBReliefTemperature = UpStreamVaporData.Temperature;
+            }
         }
 
 
@@ -520,7 +526,7 @@ namespace ReliefProMain.ViewModel
         {
             if (string.IsNullOrEmpty(SelectedVessel))
             {
-                MessageBox.Show("Please Select Vessel.","Message Box");
+                MessageBox.Show("Please Select Vessel.", "Message Box");
                 return;
             }
             if (string.IsNullOrEmpty(SelectedOperatingPhase))
@@ -548,7 +554,7 @@ namespace ReliefProMain.ViewModel
                 {
                     LiquidFlashing(rMass, CV, MaxOperatingPressure, ReliefPressure, PrzFile, ref flReliefLoad, ref flReliefMW, ref flReliefTemperature);
                 }
-                              
+
             }
             if (SelectedOperatingPhase == "Full Liquid")
             {
@@ -568,7 +574,7 @@ namespace ReliefProMain.ViewModel
                     string vbReliefMW = string.Empty;
                     string vbReliefTemperature = string.Empty;
                     rMass = UpStreamVaporData.BulkDensityAct;
-                    VaporBreakthrough(ref vbReliefLoad, ref vbReliefMW,ref vbReliefTemperature);
+                    VaporBreakthrough(ref vbReliefLoad, ref vbReliefMW, ref vbReliefTemperature);
                     if (double.Parse(vbReliefLoad) > double.Parse(flReliefLoad))
                     {
                         ReliefLoad = vbReliefLoad;
@@ -584,9 +590,78 @@ namespace ReliefProMain.ViewModel
 
 
                 }
-                
+
             }
-            
+
         }
+
+        private void ReadConvert()
+        {
+            this.MaxOperatingPressure = unitConvert.Convert(UOMEnum.Pressure, _MaxOperatingPressureUnit, double.Parse(MaxOperatingPressure)).ToString();
+            this.ReliefLoad = unitConvert.Convert(UOMEnum.MassRate, reliefloadUnit, double.Parse(ReliefLoad)).ToString();
+            this.ReliefPressure = unitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit, double.Parse(ReliefPressure)).ToString();
+            this.ReliefTemperature = unitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit, double.Parse(ReliefTemperature)).ToString();
+        }
+        private void WriteConvert()
+        {
+            this.MaxOperatingPressure = unitConvert.Convert(_MaxOperatingPressureUnit, UOMEnum.Pressure, double.Parse(MaxOperatingPressure)).ToString();
+            this.ReliefLoad = unitConvert.Convert(reliefloadUnit, UOMEnum.MassRate, double.Parse(ReliefLoad)).ToString();
+            this.ReliefPressure = unitConvert.Convert(reliefPressureUnit, UOMEnum.Pressure, double.Parse(ReliefPressure)).ToString();
+            this.ReliefTemperature = unitConvert.Convert(reliefTemperatureUnit, UOMEnum.Temperature, double.Parse(ReliefTemperature)).ToString();
+        }
+        private void InitUnit()
+        {
+            this._MaxOperatingPressureUnit = uomEnum.UserPressure;
+            this.reliefloadUnit = uomEnum.UserMassRate;
+            this.reliefPressureUnit = uomEnum.UserPressure;
+            this.reliefTemperatureUnit = uomEnum.UserTemperature;
+        }
+        #region 单位字段
+        private string _MaxOperatingPressureUnit { get; set; }
+        public string MaxOperatingPressureUnit
+        {
+            get { return _MaxOperatingPressureUnit; }
+            set
+            {
+                _MaxOperatingPressureUnit = value;
+
+                OnPropertyChanged("MaxOperatingPressureUnit");
+            }
+        }
+
+
+        private string reliefloadUnit;
+        public string ReliefLoadUnit
+        {
+            get { return reliefloadUnit; }
+            set
+            {
+                reliefloadUnit = value;
+                this.OnPropertyChanged("ReliefLoadUnit");
+            }
+        }
+
+        private string reliefTemperatureUnit;
+        public string ReliefTemperatureUnit
+        {
+            get { return reliefTemperatureUnit; }
+            set
+            {
+                reliefTemperatureUnit = value;
+                this.OnPropertyChanged("ReliefTemperatureUnit");
+            }
+        }
+
+        private string reliefPressureUnit;
+        public string ReliefPressureUnit
+        {
+            get { return reliefPressureUnit; }
+            set
+            {
+                reliefPressureUnit = value;
+                this.OnPropertyChanged("ReliefPressureUnit");
+            }
+        }
+        #endregion
     }
 }
