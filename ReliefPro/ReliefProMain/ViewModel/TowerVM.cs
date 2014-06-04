@@ -246,14 +246,18 @@ namespace ReliefProMain.ViewModel
                         foreach (KeyValuePair<string, string> k in dicProducts)
                         {
                             ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k.Key, przFile);
-                            CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
-                            cstream.Tray = k.Value;
-                            cstream.IsProduct = true;
-                            if (dicProdTypes.Keys.Contains(k.Key))
+                            if (d.TotalMolarRate == "0")
                             {
-                                cstream.ProdType = dicProdTypes[k.Key];
+                                CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
+                                cstream.Tray = k.Value;
+                                cstream.IsProduct = true;
+                                if (dicProdTypes.Keys.Contains(k.Key))
+                                {
+                                    cstream.ProdType = dicProdTypes[k.Key];
+                                }
+
+                                Products.Add(cstream);
                             }
-                            Products.Add(cstream);
                         }
 
                     

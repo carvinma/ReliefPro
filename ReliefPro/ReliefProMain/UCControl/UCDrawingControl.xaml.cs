@@ -160,7 +160,6 @@ namespace ReliefProMain.View
                     v.DataContext = vm;
                     Window parentWindow = Window.GetWindow(this);
                     v.Owner = parentWindow;
-                    v.txtName.Text = shp.Text;
                     v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                     v.ShowDialog();
 

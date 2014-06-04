@@ -35,13 +35,13 @@
           
         </ComboBox>
         <Label Content="Set Pressure:" HorizontalAlignment="Left" Margin="17,12,0,0" VerticalAlignment="Top" Grid.Row="3" Height="22" Width="83" Grid.Column="1"/>
-        <CustomControl:UnitConvertTextBox Name="txtPress" HorizontalAlignment="Left" Height="23" Margin="6,15,0,0" TextWrapping="Wrap" Text="{Binding CurrentModel.Pressure}" VerticalAlignment="Top" Width="157" RenderTransformOrigin="-0.167,-1.923" Grid.Row="3" Grid.Column="2"/>
+        <CustomControl:UnitConvertTextBox  HorizontalAlignment="Left" Height="23" Margin="6,15,0,0" TextWrapping="Wrap" Text="{Binding CurrentModel.Pressure}" VerticalAlignment="Top" Width="157" RenderTransformOrigin="-0.167,-1.923" Grid.Row="3" Grid.Column="2"/>
             <TextBox Name="txtLocationDescription" HorizontalAlignment="Left" Height="49" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="168" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2"/>
             <Label Content="Description" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Grid.Row="5" Height="26" Width="76" Grid.Column="1"/>
         <Label Content="Prelief     =" HorizontalAlignment="Left" Margin="13,12,0,0" VerticalAlignment="Top" Grid.Row="4" Height="26" Width="73" Grid.Column="1"/>
         <TextBox Name="txtPrelief" HorizontalAlignment="Left" Height="23" Margin="10,14,0,0" TextWrapping="Wrap" Text="{Binding CurrentModel.ReliefPressureFactor}" VerticalAlignment="Top" Width="149" Grid.Row="4" Grid.Column="2"/>
         <Label Content="Pset" HorizontalAlignment="Left" Margin="9,13,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.118,0.476" Grid.Row="4" Height="25" Width="34" Grid.Column="3"/>
-        <Label HorizontalAlignment="Left" Margin="8,15,0,0" Content="{Binding PSVPressureUnti}" VerticalAlignment="Top" Grid.Row="3" Height="19" Width="41" Grid.Column="3"/>
+        <Label HorizontalAlignment="Left" Margin="8,15,0,0" Content="{Binding PSVPressureUnit}" VerticalAlignment="Top" Grid.Row="3" Height="19" Width="41" Grid.Column="3"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch"   Grid.Row="7" VerticalAlignment="Top" Height="2" Grid.ColumnSpan="7" />
         <Button Content="Save"  HorizontalAlignment="Left" Margin="72.045,0,0,29" Grid.Row="7" VerticalAlignment="Bottom" Width="75" Height="22" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName= myWindow}" Grid.Column="5"/>
         <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Left" Margin="180.045,10,0,0" Grid.Row="7" VerticalAlignment="Top" Width="75" Height="22" Grid.Column="5"/>
@@ -53,8 +53,8 @@
                 <Label Content="PSV Name" HorizontalAlignment="Left" Margin="26,22,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.605,0.175"/>
                 <TextBox Name="txtDrumPSVName" HorizontalAlignment="Left" Height="23" Margin="126,22,0,0" TextWrapping="Wrap" Text="{Binding CurrentModel.DrumPSVName}" VerticalAlignment="Top" Width="120"/>
                 <Label Content="Set Pressure" HorizontalAlignment="Left" Margin="26,71,0,0" VerticalAlignment="Top"/>
-                <CustomControl:UnitConvertTextBox Name="txtDrumPressure" HorizontalAlignment="Left" Height="23" Margin="126,71,0,0" TextWrapping="Wrap" Text="{Binding CurrentModel.DrumPressure}" VerticalAlignment="Top" Width="120"/>
-                <Label Content="{Binding DrumPressureUnti}" HorizontalAlignment="Left" Margin="251,71,0,0" VerticalAlignment="Top"/>
+                <CustomControl:UnitConvertTextBox  HorizontalAlignment="Left" Height="23" Margin="126,71,0,0" TextWrapping="Wrap" Text="{Binding CurrentModel.DrumPressure}" VerticalAlignment="Top" Width="120"/>
+                <Label Content="{Binding DrumPressureUnit}" HorizontalAlignment="Left" Margin="251,71,0,0" VerticalAlignment="Top"/>
 
             </Grid>
         </GroupBox>
