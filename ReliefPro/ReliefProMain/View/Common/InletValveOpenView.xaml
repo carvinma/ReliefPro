@@ -1,7 +1,44 @@
 ﻿<Window x:Class="ReliefProMain.View.InletValveOpenView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
         Title="InletValveOpen" Height="550" Width="600" Name="myWindow">
+    <Window.Resources>
+        <Style TargetType="{x:Type RowDefinition}">
+            <Setter Property="Height" Value="30"/>
+        </Style>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="25,5,0,0"/>
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style TargetType="{x:Type CustomControl:UnitConvertTextBox}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style x:Key="LabelLeftStyle">
+            <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
+            <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="14*"/>
@@ -32,8 +69,8 @@
                 <Label Content="Operating Phase" Grid.Column="1" HorizontalAlignment="Left" Margin="4,10,0,0" Grid.Row="1" VerticalAlignment="Top" Height="26" Width="120"/>
                 <ComboBox ItemsSource="{Binding OperatingPhases}" SelectedItem="{Binding SelectedOperatingPhase}" Grid.Column="2" HorizontalAlignment="Left" Margin="5,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Height="22"/>
                 <Label Content="Max Operating Pressure" Grid.Column="1" HorizontalAlignment="Left" Margin="4,3,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="159"/>
-                <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="5,6,0,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding MaxOperatingPressure}" VerticalAlignment="Top" Width="120"/>
-
+                <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblMaxOperatingPressure,Path=Content,Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="5,6,0,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding MaxOperatingPressure}" VerticalAlignment="Top" Width="120"/>
+                <Label x:Name="lblMaxOperatingPressure" Content="{Binding MaxOperatingPressureUnit}" Grid.Column="1" HorizontalAlignment="Left" Margin="324,3,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="159"/>
             </Grid>
         </GroupBox>
         <Label Content="Inlet Valve Total Cv" HorizontalAlignment="Left" Margin="33,10,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="120"/>
@@ -43,12 +80,16 @@
         <Label Content="Relief Temperature" HorizontalAlignment="Left" Margin="33,10,0,0" Grid.Row="5" VerticalAlignment="Top" Height="26" Width="119"/>
         <Label Content="Relief Pressure" HorizontalAlignment="Left" Margin="33,10,0,0" Grid.Row="6" VerticalAlignment="Top" Height="26" Width="94"/>
         <Label Content="Relief MW" HorizontalAlignment="Left" Margin="33,10,0,0" Grid.Row="7" VerticalAlignment="Top" Height="26" Width="69"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="205,12,0,0" Grid.Row="4" TextWrapping="Wrap" Text="{Binding ReliefLoad}" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="205,10,0,0" Grid.Row="5" TextWrapping="Wrap" Text="{Binding ReliefTemperature}" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="205,10,0,0" Grid.Row="6" TextWrapping="Wrap" Text="{Binding ReliefPressure}" VerticalAlignment="Top" Width="120"/>
+
+        <Label x:Name="lblReliefLoad" Content="{Binding ReliefLoadUnit}" HorizontalAlignment="Left" Margin="333,10,0,0" Grid.Row="4" VerticalAlignment="Top" Height="26" Width="74"/>
+        <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit}" HorizontalAlignment="Left" Margin="333,10,0,0" Grid.Row="5" VerticalAlignment="Top" Height="26" Width="119"/>
+        <Label x:Name="lblReliefPressure" Content="{Binding ReliefPressureUnit}" HorizontalAlignment="Left" Margin="333,10,0,0" Grid.Row="6" VerticalAlignment="Top" Height="26" Width="94"/>
+
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="205,12,0,0" Grid.Row="4" TextWrapping="Wrap" Text="{Binding ReliefLoad}" VerticalAlignment="Top" Width="120"/>
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="205,10,0,0" Grid.Row="5" TextWrapping="Wrap" Text="{Binding ReliefTemperature}" VerticalAlignment="Top" Width="120"/>
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="205,10,0,0" Grid.Row="6" TextWrapping="Wrap" Text="{Binding ReliefPressure}" VerticalAlignment="Top" Width="120"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="205,10,0,0" Grid.Row="7" TextWrapping="Wrap" Text="{Binding ReliefMW}" VerticalAlignment="Top" Width="120"/>
         <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Left" Margin="373,10,0,0" Grid.Row="9" VerticalAlignment="Top" Width="75" Height="22" />
         <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Left" Margin="482,10,0,0" Grid.Row="9" VerticalAlignment="Top" Width="75" Height="22"/>
-
     </Grid>
 </Window>
