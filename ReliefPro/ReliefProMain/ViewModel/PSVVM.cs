@@ -24,17 +24,40 @@ namespace ReliefProMain.ViewModel
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         private string DirPlant { set; get; }
-        private string DirProtectedSystem { set; get; }      
+        private string DirProtectedSystem { set; get; }
         public string PrzFile { get; set; }
         public string PrzVersion { get; set; }
         public string EqName { get; set; }
         public string EqType { get; set; }
-        
+
+        private string psvPressureUnit;
+        public string PSVPressureUnit
+        {
+            get { return psvPressureUnit; }
+            set
+            {
+                psvPressureUnit = value;
+                OnPropertyChanged("PSVPressureUnit");
+            }
+        }
+
+        private string drumPSVPressureUnit;
+        public string DrumPressureUnit
+        {
+            get { return drumPSVPressureUnit; }
+            set
+            {
+                drumPSVPressureUnit = value;
+                OnPropertyChanged("DrumPressureUnit");
+            }
+        }
+
         public List<string> ValveTypes { get; set; }
         public PSVModel CurrentModel { get; set; }
         public PSV psv;
         PSVDAL dbpsv = new PSVDAL();
         UnitConvert unitConvert;
+        UOMLib.UOMEnum uomEnum;
         public List<string> GetValveTypes()
         {
             List<string> list = new List<string>();
@@ -44,7 +67,7 @@ namespace ReliefProMain.ViewModel
             list.Add("Temperature Actuated");
             return list;
         }
-        public PSVVM(string eqName,string eqType, string przFile,string version, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
+        public PSVVM(string eqName, string eqType, string przFile, string version, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
             EqName = eqName;
             EqType = eqType;
@@ -55,7 +78,11 @@ namespace ReliefProMain.ViewModel
             ValveTypes = GetValveTypes();
             PrzFile = przFile;
             PrzVersion = version;
-             unitConvert = new UnitConvert();
+
+            unitConvert = new UnitConvert();
+            uomEnum = new UOMLib.UOMEnum(sessionPlant);
+            this.psvPressureUnit = uomEnum.UserPressure;
+            this.drumPSVPressureUnit = uomEnum.UserPressure;
 
             psv = dbpsv.GetModel(sessionProtectedSystem);
             if (psv != null)
@@ -73,23 +100,23 @@ namespace ReliefProMain.ViewModel
             PSVModel model = new PSVModel();
             model.ID = psv.ID;
             model.PSVName = m.PSVName;
-            model.Pressure = m.Pressure;
+            model.Pressure = unitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, double.Parse(m.Pressure)).ToString();
             model.ReliefPressureFactor = m.ReliefPressureFactor;
             model.ValveNumber = m.ValveNumber;
             model.ValveType = m.ValveType;
             model.DrumPSVName = m.DrumPSVName;
-            model.DrumPressure = m.DrumPressure;
+            model.DrumPressure = unitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, double.Parse(m.DrumPressure)).ToString();
             return model;
         }
-        private void ConvertModel(PSVModel m,ref PSV model)
+        private void ConvertModel(PSVModel m, ref PSV model)
         {
             model.PSVName = m.PSVName;
-            model.Pressure = m.Pressure;
+            model.Pressure = unitConvert.Convert(psvPressureUnit, UOMEnum.Pressure, double.Parse(m.Pressure)).ToString();
             model.ReliefPressureFactor = m.ReliefPressureFactor;
             model.ValveNumber = m.ValveNumber;
             model.ValveType = m.ValveType;
             model.DrumPSVName = m.DrumPSVName;
-            model.DrumPressure = m.DrumPressure;
+            model.DrumPressure = unitConvert.Convert(DrumPressureUnit, UOMEnum.Pressure, double.Parse(m.DrumPressure)).ToString();
         }
 
 
@@ -141,7 +168,7 @@ namespace ReliefProMain.ViewModel
                     dbpsv.Update(psv, SessionProtectedSystem);
                     SessionProtectedSystem.Flush();
                 }
-                else 
+                else
                 {
                     //需要删除
                     CreateTowerPSV();
@@ -151,7 +178,7 @@ namespace ReliefProMain.ViewModel
             {
                 MessageBox.Show(ex.ToString());
             }
-            
+
             System.Windows.Window wd = window as System.Windows.Window;
             if (wd != null)
             {
@@ -396,6 +423,6 @@ namespace ReliefProMain.ViewModel
 
         }
 
-        
+
     }
 }
