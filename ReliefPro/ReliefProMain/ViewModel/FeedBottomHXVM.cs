@@ -14,7 +14,7 @@ using NHibernate;
 
 namespace ReliefProMain.ViewModel
 {
-    public class FeedBottomHXVM:ViewModelBase
+    public class FeedBottomHXVM : ViewModelBase
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
@@ -166,10 +166,15 @@ namespace ReliefProMain.ViewModel
         CustomStream csFeedOut;
         CustomStream csBottomIn;
         CustomStream csBottomOut;
+        UnitConvert unitConvert;
+        UOMLib.UOMEnum uomEnum;
         int HeatSourceID;
-        public FeedBottomHXVM(int HeatSourceID,string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
+        public FeedBottomHXVM(int HeatSourceID, string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            this.PrzFile=PrzFile;
+            unitConvert = new UnitConvert();
+            uomEnum = new UOMLib.UOMEnum(sessionPlant);
+            InitUnit();
+            this.PrzFile = PrzFile;
             PrzFileName = System.IO.Path.GetFileName(PrzFile);
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
@@ -180,6 +185,8 @@ namespace ReliefProMain.ViewModel
             proIIEqDataDAL = new ProIIEqDataDAL();
             proIIStreamDataDAL = new ProIIStreamDataDAL();
             this.HeatSourceID = HeatSourceID;
+
+            #region
             model = this.feedBottomHXDAL.GetModel(this.SessionProtectedSystem, HeatSourceID);
             if (model != null)
             {
@@ -231,13 +238,15 @@ namespace ReliefProMain.ViewModel
                 FeedMassRate = csFeedIn.WeightFlow;
                 Duty = (double.Parse(hx.DutyCalc) * 3600).ToString();
 
-                TowerFlashProductDAL dbtfp=new TowerFlashProductDAL();
-                IList< TowerFlashProduct> tfpList = dbtfp.GetAllList(SessionProtectedSystem);
+                TowerFlashProductDAL dbtfp = new TowerFlashProductDAL();
+                IList<TowerFlashProduct> tfpList = dbtfp.GetAllList(SessionProtectedSystem);
                 foreach (TowerFlashProduct p in tfpList)
                 {
                     BottomReliefTin = p.Temperature;
                 }
+            #endregion
 
+                ReadConvert();
             }
         }
 
@@ -257,19 +266,19 @@ namespace ReliefProMain.ViewModel
 
             while (curErrorRate > MaxErrorRate && iterateSum < iterateNumber)
             {
-                reliefLtmd = GetLMTDRelief(feedTin,feedTout,bottomTin,bottomTout,bottomReliefTin, nextQaenGuess);
+                reliefLtmd = GetLMTDRelief(feedTin, feedTout, bottomTin, bottomTout, bottomReliefTin, nextQaenGuess);
 
-                reliefDuty =duty* reliefLtmd /Lmtd;
+                reliefDuty = duty * reliefLtmd / Lmtd;
                 assumedQA = duty * nextQaenGuess;
                 calculatedQR = reliefDuty;
-                QAQR =  calculatedQR/assumedQA ;
+                QAQR = calculatedQR / assumedQA;
                 uQAQR = QAQR - 1;
                 curErrorRate = Math.Abs(uQAQR);
                 iterateSum = iterateSum + 1;
                 if (curErrorRate > MaxErrorRate)
                 {
                     nextQaenGuess = nextQaenGuess * (1 + 0.5 * uQAQR);
-                }                
+                }
             }
             if (curErrorRate < MaxErrorRate)
             {
@@ -281,24 +290,24 @@ namespace ReliefProMain.ViewModel
             }
             else
                 factor = 1;
-               
+
         }
 
         private double getLMTD(double feedTin, double feedTout, double bottomTin, double bottomTout)
         {
             double t = (bottomTin - feedTout) - (bottomTout - feedTin);
-            double lnValue =  (bottomTin - feedTout)/(bottomTout - feedTin) ;
+            double lnValue = (bottomTin - feedTout) / (bottomTout - feedTin);
             double ltmd = t / Math.Log(lnValue);
             return ltmd;
         }
-        private double GetLMTDRelief(double feedTin, double feedTout, double bottomTin, double bottomTout,double bottomReliefTin, double nextQaenGuess)
+        private double GetLMTDRelief(double feedTin, double feedTout, double bottomTin, double bottomTout, double bottomReliefTin, double nextQaenGuess)
         {
             double feedReliefTin = feedTin;
             double feedReliefTout = feedReliefTin + nextQaenGuess * (feedTout - feedTin);
             double bottomReliefTout = bottomReliefTin - nextQaenGuess * (bottomTin - bottomTout);
 
             double relieft = (bottomReliefTin - feedReliefTout) - (bottomReliefTout - feedReliefTin);
-            double lnValue =  (bottomReliefTin - feedReliefTout)/ (bottomReliefTout - feedReliefTin);
+            double lnValue = (bottomReliefTin - feedReliefTout) / (bottomReliefTout - feedReliefTin);
             double reliefLtmd = relieft / Math.Log(lnValue);
             return reliefLtmd;
         }
@@ -345,8 +354,8 @@ namespace ReliefProMain.ViewModel
             }
             else
             {
-                double feedReliefTout=feedTin + factor * (feedTout - feedTin);
-                double feedReliefSpEout = (feedEin + factor*duty)/feedMassRate;
+                double feedReliefTout = feedTin + factor * (feedTout - feedTin);
+                double feedReliefSpEout = (feedEin + factor * duty) / feedMassRate;
                 FeedReliefTout = feedReliefTout.ToString();
                 FeedReliefSpEout = feedReliefSpEout.ToString();
                 Factor = factor.ToString();
@@ -369,6 +378,7 @@ namespace ReliefProMain.ViewModel
 
         private void Save(object window)
         {
+            WriteConvert();
             if (model == null)
             {
                 model = new FeedBottomHX();
@@ -388,9 +398,9 @@ namespace ReliefProMain.ViewModel
                 model.FeedReliefTout = FeedReliefTout;
                 model.FeedReliefSpEout = FeedReliefSpEout;
                 model.Factor = Factor;
-                feedBottomHXDAL.Add(model,SessionProtectedSystem);
+                feedBottomHXDAL.Add(model, SessionProtectedSystem);
             }
-            else 
+            else
             {
                 model.BottomMassRate = BottomMassRate;
                 model.BottomReliefTin = BottomReliefTin;
@@ -411,14 +421,188 @@ namespace ReliefProMain.ViewModel
                 feedBottomHXDAL.Update(model, SessionProtectedSystem);
                 SessionProtectedSystem.Flush();
             }
-        
+
             System.Windows.Window wd = window as System.Windows.Window;
 
             if (wd != null)
             {
-                wd.DialogResult=true;
+                wd.DialogResult = true;
             }
         }
 
+        private void WriteConvert()
+        {
+            FeedTin = string.IsNullOrEmpty(FeedTin) ? "" : unitConvert.Convert(FeedTinUnit, UOMEnum.Temperature, double.Parse(FeedTin)).ToString();
+            FeedTout = string.IsNullOrEmpty(FeedTout) ? "" : unitConvert.Convert(FeedToutUnit, UOMEnum.Temperature, double.Parse(FeedTout)).ToString();
+
+            FeedMassRate = string.IsNullOrEmpty(FeedMassRate) ? "" : unitConvert.Convert(FeedMassRateUnit, UOMEnum.MassRate, double.Parse(FeedMassRate)).ToString();
+            FeedSpEin = string.IsNullOrEmpty(FeedSpEin) ? "" : unitConvert.Convert(FeedSpEinUnit, UOMEnum.SpecificEnthalpy, double.Parse(FeedSpEin)).ToString();
+            FeedSpEout = string.IsNullOrEmpty(FeedSpEout) ? "" : unitConvert.Convert(FeedSpEoutUnit, UOMEnum.SpecificEnthalpy, double.Parse(FeedSpEout)).ToString();
+
+            BottomTin = string.IsNullOrEmpty(BottomTin) ? "" : unitConvert.Convert(BottomTinUnit, UOMEnum.Temperature, double.Parse(BottomTin)).ToString();
+            BottomTout = string.IsNullOrEmpty(BottomTout) ? "" : unitConvert.Convert(BottomToutUnit, UOMEnum.Temperature, double.Parse(BottomTout)).ToString();
+
+            BottomReliefTin = string.IsNullOrEmpty(BottomReliefTin) ? "" : unitConvert.Convert(BottomReliefTinUnit, UOMEnum.Temperature, double.Parse(BottomReliefTin)).ToString();
+            BottomMassRate = string.IsNullOrEmpty(BottomMassRate) ? "" : unitConvert.Convert(BottomMassRateUnit, UOMEnum.MassRate, double.Parse(BottomMassRate)).ToString();
+            Duty = string.IsNullOrEmpty(DutyUnit) ? "" : unitConvert.Convert(DutyUnit, UOMEnum.EnthalpyDuty, double.Parse(Duty)).ToString();
+            FeedReliefTout = string.IsNullOrEmpty(FeedReliefTout) ? "" : unitConvert.Convert(FeedReliefToutUnit, UOMEnum.Temperature, double.Parse(FeedReliefTout)).ToString();
+            FeedReliefSpEout = string.IsNullOrEmpty(FeedReliefSpEout) ? "" : unitConvert.Convert(FeedReliefSpEoutUnit, UOMEnum.SpecificEnthalpy, double.Parse(FeedReliefSpEout)).ToString();
+        }
+        private void ReadConvert()
+        {
+            FeedTin = string.IsNullOrEmpty(FeedTin) ? "" : unitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(FeedTin)).ToString();
+            FeedTout = string.IsNullOrEmpty(FeedTout) ? "" : unitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(FeedTout)).ToString();
+
+            FeedMassRate = string.IsNullOrEmpty(FeedMassRate) ? "" : unitConvert.Convert(UOMEnum.MassRate, uomEnum.UserMassRate, double.Parse(FeedMassRate)).ToString();
+            FeedSpEin = string.IsNullOrEmpty(FeedSpEin) ? "" : unitConvert.Convert(UOMEnum.SpecificEnthalpy, uomEnum.UserSpecificEnthalpy, double.Parse(FeedSpEin)).ToString();
+            FeedSpEout = string.IsNullOrEmpty(FeedSpEout) ? "" : unitConvert.Convert(UOMEnum.SpecificEnthalpy, uomEnum.UserSpecificEnthalpy, double.Parse(FeedSpEout)).ToString();
+
+            BottomTin = string.IsNullOrEmpty(BottomTin) ? "" : unitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(BottomTin)).ToString();
+            BottomTout = string.IsNullOrEmpty(BottomTout) ? "" : unitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(BottomTout)).ToString();
+
+            BottomReliefTin = string.IsNullOrEmpty(BottomReliefTin) ? "" : unitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(BottomReliefTin)).ToString();
+            BottomMassRate = string.IsNullOrEmpty(BottomMassRate) ? "" : unitConvert.Convert(UOMEnum.MassRate, uomEnum.UserMassRate, double.Parse(BottomMassRate)).ToString();
+            Duty = string.IsNullOrEmpty(DutyUnit) ? "" : unitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, double.Parse(Duty)).ToString();
+            FeedReliefTout = string.IsNullOrEmpty(FeedReliefTout) ? "" : unitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(FeedReliefTout)).ToString();
+            FeedReliefSpEout = string.IsNullOrEmpty(FeedReliefSpEout) ? "" : unitConvert.Convert(UOMEnum.SpecificEnthalpy, uomEnum.UserSpecificEnthalpy, double.Parse(FeedReliefSpEout)).ToString();
+        }
+        private void InitUnit()
+        {
+            this.feedTinUnit = uomEnum.UserTemperature;
+            this.feedToutUnit = uomEnum.UserTemperature;
+            this.feedMassRateUnit = uomEnum.UserMassRate;
+            this.feedSpEinUnit = uomEnum.UserSpecificEnthalpy;
+            this.feedSpEoutUnit = uomEnum.UserSpecificEnthalpy;
+            this.bottomTinUnit = uomEnum.UserTemperature;
+            this.bottomToutUnit = uomEnum.UserTemperature;
+            this.bottomReliefTinUnit = uomEnum.UserTemperature;
+            this.bottomMassRateUnit = uomEnum.UserMassRate;
+            this.dutyUnit = uomEnum.UserEnthalpyDuty;
+            this.feedReliefToutUnit = uomEnum.UserTemperature;
+            this.feedReliefSpEoutUnit = uomEnum.UserSpecificEnthalpy;
+        }
+        #region 单位-字段
+
+        private string feedTinUnit;
+        public string FeedTinUnit
+        {
+            get { return feedTinUnit; }
+            set
+            {
+                feedTinUnit = value;
+                OnPropertyChanged("FeedTinUnit");
+            }
+        }
+        private string feedToutUnit;
+        public string FeedToutUnit
+        {
+            get { return feedToutUnit; }
+            set
+            {
+                feedToutUnit = value;
+                OnPropertyChanged("FeedToutUnit");
+            }
+        }
+        private string feedMassRateUnit;
+        public string FeedMassRateUnit
+        {
+            get { return feedMassRateUnit; }
+            set
+            {
+                feedMassRateUnit = value;
+                OnPropertyChanged("FeedMassRateUnit");
+            }
+        }
+        private string feedSpEinUnit;
+        public string FeedSpEinUnit
+        {
+            get { return feedSpEinUnit; }
+            set
+            {
+                feedSpEinUnit = value;
+                OnPropertyChanged("FeedSpEinUnit");
+            }
+        }
+        private string feedSpEoutUnit;
+        public string FeedSpEoutUnit
+        {
+            get { return feedSpEoutUnit; }
+            set
+            {
+                feedSpEoutUnit = value;
+                OnPropertyChanged("FeedSpEoutUnit");
+            }
+        }
+        private string bottomTinUnit;
+        public string BottomTinUnit
+        {
+            get { return bottomTinUnit; }
+            set
+            {
+                bottomTinUnit = value;
+                OnPropertyChanged("BottomTinUnit");
+            }
+        }
+        private string bottomToutUnit;
+        public string BottomToutUnit
+        {
+            get { return bottomToutUnit; }
+            set
+            {
+                bottomToutUnit = value;
+                OnPropertyChanged("BottomToutUnit");
+            }
+        }
+        private string bottomReliefTinUnit;
+        public string BottomReliefTinUnit
+        {
+            get { return bottomReliefTinUnit; }
+            set
+            {
+                bottomReliefTinUnit = value;
+                OnPropertyChanged("BottomReliefTinUnit");
+            }
+        }
+        private string bottomMassRateUnit;
+        public string BottomMassRateUnit
+        {
+            get { return bottomMassRateUnit; }
+            set
+            {
+                bottomMassRateUnit = value;
+                OnPropertyChanged("BottomMassRateUnit");
+            }
+        }
+        private string dutyUnit;
+        public string DutyUnit
+        {
+            get { return dutyUnit; }
+            set
+            {
+                dutyUnit = value;
+                OnPropertyChanged("DutyUnit");
+            }
+        }
+        private string feedReliefToutUnit;
+        public string FeedReliefToutUnit
+        {
+            get { return feedReliefToutUnit; }
+            set
+            {
+                feedReliefToutUnit = value;
+                OnPropertyChanged("FeedReliefToutUnit");
+            }
+        }
+        private string feedReliefSpEoutUnit;
+        public string FeedReliefSpEoutUnit
+        {
+            get { return feedReliefSpEoutUnit; }
+            set
+            {
+                feedReliefSpEoutUnit = value;
+                OnPropertyChanged("FeedReliefSpEoutUnit");
+            }
+        }
+        #endregion
     }
 }
