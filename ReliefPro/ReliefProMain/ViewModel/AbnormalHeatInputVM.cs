@@ -231,7 +231,7 @@ namespace ReliefProMain.ViewModel
                 if (!shx.DutyLost)
                 {
                     TowerHXDetail detail = dbDetail.GetModel(SessionProtectedSystem, shx.DetailID);
-                    HeatTotal = HeatTotal + double.Parse(shx.DutyCalcFactor) * double.Parse(detail.Duty);
+                    HeatTotal = HeatTotal + shx.DutyCalcFactor * double.Parse(detail.Duty);
                 }
             }
             double totalAbnomalDuty = GetAbnormalTotalDuty();

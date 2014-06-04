@@ -79,7 +79,8 @@ namespace ReliefProMain.ViewModel
             get { return _HeatTin; }
             set
             {
-                _HeatTin = value;                
+                _HeatTin = value;
+                ReliefHeatIn = _HeatTin;
                 OnPropertyChanged("HeatTin");
             }
         }
@@ -189,6 +190,16 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefDuty");
             }
         }
+        private string _Factor;
+        public string Factor
+        {
+            get { return _Factor; }
+            set
+            {
+                _Factor = value;
+                OnPropertyChanged("Factor");
+            }
+        }
         public ReboilerPinch reboilerPinchModel { get; set; }
         public ObservableCollection<string> GetSourceTypes()
         {
@@ -215,7 +226,7 @@ namespace ReliefProMain.ViewModel
                 TowerScenarioHX hx = towerScenarioHXDAL.GetModel(TowerScenarioHXID, SessionProtectedSystem);
                 SourceType = hx.Medium;
                 TowerHXDetail detail = towerHXDetailDAL.GetModel(hx.DetailID, SessionProtectedSystem);
-                double duty = double.Parse(hx.DutyCalcFactor) * double.Parse(detail.Duty);
+                double duty = hx.DutyCalcFactor * double.Parse(detail.Duty);
                 Duty = duty.ToString();
 
                 TowerDAL dbtower = new TowerDAL();
@@ -248,6 +259,13 @@ namespace ReliefProMain.ViewModel
                 SourceType = reboilerPinchModel.SourceType;
                 UClean = reboilerPinchModel.UClean;
                 UDesign = reboilerPinchModel.UDesign;
+                Factor = reboilerPinchModel.Factor;
+                ReliefColdtout = reboilerPinchModel.ReliefColdtout;
+                Area = reboilerPinchModel.Area;
+                UDesignArea=(double.Parse(reboilerPinchModel.Area)*double.Parse(reboilerPinchModel.UDesign)).ToString();
+                UCD = (double.Parse(UClean) / double.Parse(UDesign)).ToString();
+                ReliefHeatIn = reboilerPinchModel.ReliefHeatTin;
+                SourceType = reboilerPinchModel.SourceType;
             }
 
 
@@ -306,14 +324,11 @@ namespace ReliefProMain.ViewModel
             
             if (QRQN < 1)
             {
-                isPinch = true;
-                factor = QRQN;
-                ReliefDuty = reliefDuty.ToString();
+                isPinch = true;                
             }
-            else
-            {
-                ReliefDuty = duty.ToString();
-            }
+            factor = QRQN;
+            ReliefDuty = reliefDuty.ToString();
+            Factor = factor.ToString();
             
 
         }
@@ -353,6 +368,7 @@ namespace ReliefProMain.ViewModel
             //HeatMediumMethod(356, 382, 435.7, 580, 478, 109, 8655, 80880000, isUseSteam, qaenGuess, MaxErrorRate, ref factor, ref _IsPinch, ref iterateNumber);
 
             HeatMediumMethod(productTin, productTout, reliefProductTout, reboilerTin, reboilerTout, coeff, area, duty,isUseSteam, qaenGuess, MaxErrorRate, ref factor, ref _IsPinch, ref iterateNumber);
+        
         }
 
         private void GetUDesign()
@@ -430,7 +446,11 @@ namespace ReliefProMain.ViewModel
                 reboilerPinchModel.SourceType = SourceType;
                 reboilerPinchModel.UClean = UClean;
                 reboilerPinchModel.UDesign = UDesign;
-                reboilerPinchModel.TowerScenarioHXID = TowerScenarioHXID;                
+                reboilerPinchModel.TowerScenarioHXID = TowerScenarioHXID;
+                reboilerPinchModel.Factor = Factor;
+                reboilerPinchModel.Area = Area;
+                reboilerPinchModel.ReliefColdtout = ReliefColdtout;
+                reboilerPinchModel.SourceType = SourceType;
                 reboilerPinchDAL.Add(reboilerPinchModel, SessionProtectedSystem);
                 
             }
@@ -446,6 +466,10 @@ namespace ReliefProMain.ViewModel
                 reboilerPinchModel.SourceType = SourceType;
                 reboilerPinchModel.UClean = UClean;
                 reboilerPinchModel.UDesign = UDesign;
+                reboilerPinchModel.Factor = Factor;
+                reboilerPinchModel.Area = Area;
+                reboilerPinchModel.ReliefColdtout = ReliefColdtout;
+                reboilerPinchModel.SourceType = SourceType;
                 reboilerPinchDAL.Update(reboilerPinchModel, SessionProtectedSystem);
             }
             System.Windows.Window wd = window as System.Windows.Window;
@@ -486,6 +510,7 @@ namespace ReliefProMain.ViewModel
                 reboilerPinchModel.UClean = UClean;
                 reboilerPinchModel.UDesign = UDesign;
                 reboilerPinchModel.TowerScenarioHXID = TowerScenarioHXID;
+                reboilerPinchModel.Factor = Factor;
                 reboilerPinchDAL.Add(reboilerPinchModel, SessionProtectedSystem);
 
             }
@@ -501,6 +526,7 @@ namespace ReliefProMain.ViewModel
                 reboilerPinchModel.SourceType = SourceType;
                 reboilerPinchModel.UClean = UClean;
                 reboilerPinchModel.UDesign = UDesign;
+                reboilerPinchModel.Factor = Factor;
                 reboilerPinchDAL.Update(reboilerPinchModel, SessionProtectedSystem);
             }
             System.Windows.Window wd = window as System.Windows.Window;

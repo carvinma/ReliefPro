@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.TowerScenarioHXView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="TowerHX" Height="400" Width="800" Loaded="Window_Loaded_1">
+        Title="TowerHX" Height="400" Width="900" Loaded="Window_Loaded_1">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -27,10 +27,17 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Pinch" Width="50px"  >
+                    <GridViewColumn Header="Is Pinch" Width="50px"  >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=Pinch}"></CheckBox>
+                                <CheckBox IsChecked="{Binding Path=IsPinch}"></CheckBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Pinch Factor" Width="150px"  >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Path=PinchFactor}"></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

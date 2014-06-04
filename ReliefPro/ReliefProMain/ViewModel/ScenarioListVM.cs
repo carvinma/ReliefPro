@@ -505,7 +505,7 @@ namespace ReliefProMain.ViewModel
                         tsHX.DetailID = detail.ID;
                         tsHX.ScenarioID = ScenarioID;
                         tsHX.DutyLost = false;
-                        tsHX.DutyCalcFactor = factor.ToString();
+                        tsHX.DutyCalcFactor = factor;
                         tsHX.DetailName = detail.DetailName;
                         tsHX.Medium = detail.Medium;
                         tsHX.HeaterType = hx.HeaterType;

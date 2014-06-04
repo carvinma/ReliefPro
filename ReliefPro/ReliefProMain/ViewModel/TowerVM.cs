@@ -246,7 +246,7 @@ namespace ReliefProMain.ViewModel
                         foreach (KeyValuePair<string, string> k in dicProducts)
                         {
                             ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k.Key, przFile);
-                            if (d.TotalMolarRate == "0")
+                            if (d.TotalMolarRate != "0")
                             {
                                 CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
                                 cstream.Tray = k.Value;

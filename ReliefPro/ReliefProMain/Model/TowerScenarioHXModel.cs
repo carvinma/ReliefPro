@@ -58,7 +58,7 @@ namespace ReliefProMain.Model
                 }
             }
         }
-        public string DutyCalcFactor
+        public double DutyCalcFactor
         {
             get
             {
@@ -118,18 +118,33 @@ namespace ReliefProMain.Model
                 }
             }
         }
-        public bool Pinch
+        public double PinchFactor
         {
             get
             {
-                return model.Pinch;
+                return model.PinchFactor;
             }
             set
             {
-                if (model.Pinch != value)
+                if (model.PinchFactor != value)
                 {
-                    model.Pinch = value;
-                    NotifyPropertyChanged("Pinch");
+                    model.PinchFactor = value;
+                    NotifyPropertyChanged("PinchFactor");
+                }
+            }
+        }
+        public bool IsPinch
+        {
+            get
+            {
+                return model.IsPinch;
+            }
+            set
+            {
+                if (model.IsPinch != value)
+                {
+                    model.IsPinch = value;
+                    NotifyPropertyChanged("IsPinch");
                 }
             }
         }

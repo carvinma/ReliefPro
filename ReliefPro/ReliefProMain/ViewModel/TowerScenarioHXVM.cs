@@ -26,7 +26,7 @@ namespace ReliefProMain.ViewModel
         public int ScenarioID { get; set; }
         private CondenserCalc condenserCalc;
         public CondenserCalcDAL condenserCalcDAL;
-
+        private Dictionary<int, TowerScenarioHXModel> dicHXs;
         TowerScenarioHXDAL towerScenarioHXDAL ;
         public double ScenarioCondenserDuty = 0;
         public Accumulator CurrentAccumulator { get; set; }
@@ -116,6 +116,16 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("Details");
             }
         }
+        public TowerScenarioHXModel _SelectedHX;
+        public TowerScenarioHXModel SelectedHX
+        {
+            get { return _SelectedHX; }
+            set
+            {
+                _SelectedHX = value;
+                OnPropertyChanged("SelectedHX");
+            }
+        }
         
         public TowerScenarioHXVM(int type, int scenarioID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
@@ -133,6 +143,7 @@ namespace ReliefProMain.ViewModel
                 IsDisplay = "Hidden";
             }
             towerScenarioHXDAL = new TowerScenarioHXDAL();
+            dicHXs = new Dictionary<int, TowerScenarioHXModel>();
             Details = GetTowerHXScenarioDetails();
             condenserCalcDAL = new CondenserCalcDAL();
             condenserCalc = condenserCalcDAL.GetModel(1, this.SessionProtectedSystem);
@@ -143,23 +154,18 @@ namespace ReliefProMain.ViewModel
                 IsSurgeTime = condenserCalc.IsSurgeTime;    
             }
            
-
-
-
-
         }
         internal ObservableCollection<TowerScenarioHXModel> GetTowerHXScenarioDetails()
         {
             Details = new ObservableCollection<TowerScenarioHXModel>();
-
-
             IList<TowerScenarioHX> list = towerScenarioHXDAL.GetAllList(SessionProtectedSystem, ScenarioID, HeaterType).ToList();
             foreach (TowerScenarioHX hx in list)
             {
                 double duty = GetCondenserDetailDuty(SessionProtectedSystem, hx.DetailID);
-                ScenarioCondenserDuty = ScenarioCondenserDuty + double.Parse(hx.DutyCalcFactor) * duty;
+                ScenarioCondenserDuty = ScenarioCondenserDuty + hx.DutyCalcFactor * duty;
                 TowerScenarioHXModel shx = new TowerScenarioHXModel(hx);
                 Details.Add(shx);
+                dicHXs.Add(shx.ID, shx);
             }
 
             return Details;
@@ -308,13 +314,17 @@ namespace ReliefProMain.ViewModel
         private void PinchCalc(object obj)
         {
             int ID = int.Parse(obj.ToString());
-
+            SelectedHX = dicHXs[ID];
             ReboilerPinchView v = new ReboilerPinchView();
             ReboilerPinchVM vm = new ReboilerPinchVM(ID, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {
-                
+                SelectedHX.IsPinch = vm.IsPinch;
+                if (vm.Factor != "")
+                {
+                    SelectedHX.PinchFactor = double.Parse(vm.Factor);
+                }
             }
         }
 
