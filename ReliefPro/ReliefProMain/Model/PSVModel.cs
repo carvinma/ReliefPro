@@ -150,5 +150,26 @@ namespace ReliefProMain.Model
                 NotifyPropertyChanged("DrumPressureUnit");
             }
         }
+
+        private string description;
+        public string Description
+        {
+            get { return description; }
+            set
+            {
+                description = value;
+                NotifyPropertyChanged("Description");
+            }
+        }
+        private string locationDescription;
+        public string LocationDescription
+        {
+            get { return description; }
+            set
+            {
+                locationDescription = value;
+                NotifyPropertyChanged("LocationDescription");
+            }
+        }
     }
 }
