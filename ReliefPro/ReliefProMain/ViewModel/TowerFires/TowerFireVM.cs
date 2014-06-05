@@ -22,7 +22,7 @@ using NHibernate;
 
 namespace ReliefProMain.ViewModel.TowerFires
 {
-    public class TowerFireVM:ViewModelBase
+    public class TowerFireVM : ViewModelBase
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
@@ -44,19 +44,24 @@ namespace ReliefProMain.ViewModel.TowerFires
                 OnPropertyChanged("EqList");
             }
         }
-
+        UnitConvert unitConvert;
+        UOMLib.UOMEnum uomEnum;
 
         public TowerFireVM(int ScenarioID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
+            unitConvert = new UnitConvert();
+            uomEnum = new UOMLib.UOMEnum(sessionPlant);
+            InitUnit();
+
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
             HeatInputModels = GetHeatInputModels();
-            
+
             UnitConvert uc = new UnitConvert();
             TowerFireDAL db = new TowerFireDAL();
             ReliefProModel.TowerFire model = db.GetModel(SessionProtectedSystem, ScenarioID);
             MainModel = new TowerFireModel(model);
-
+            ReadConvert();
             TowerFireEqDAL dbtfeq = new TowerFireEqDAL();
             IList<TowerFireEq> list = dbtfeq.GetAllList(SessionProtectedSystem, MainModel.ID);
             EqList = new ObservableCollection<TowerFireEq>();
@@ -86,19 +91,20 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private void Update(object window)
         {
-                TowerFireDAL db = new TowerFireDAL();
-                //ReliefProModel.TowerFire m = db.GetModel(CurrentModel.ID, SessionProtectedSystem);
-                //m.HeatInputModel = CurrentModel.HeatInputModel;
-                //m.IsExist = CurrentModel.IsExist;
-                //m.ReliefCpCv = CurrentModel.ReliefCpCv;
-                //m.ReliefLoad = CurrentModel.ReliefLoad;
-                //m.ReliefMW = CurrentModel.ReliefMW;
-                //m.ReliefPressure = CurrentModel.ReliefPressure;
-                //m.ReliefTemperature = CurrentModel.ReliefTemperature;
-                //m.ReliefZ = CurrentModel.ReliefZ;
-                db.Update(MainModel.model, SessionProtectedSystem);
-                SessionProtectedSystem.Flush();
-            
+            TowerFireDAL db = new TowerFireDAL();
+            //ReliefProModel.TowerFire m = db.GetModel(CurrentModel.ID, SessionProtectedSystem);
+            //m.HeatInputModel = CurrentModel.HeatInputModel;
+            //m.IsExist = CurrentModel.IsExist;
+            //m.ReliefCpCv = CurrentModel.ReliefCpCv;
+            //m.ReliefLoad = CurrentModel.ReliefLoad;
+            //m.ReliefMW = CurrentModel.ReliefMW;
+            //m.ReliefPressure = CurrentModel.ReliefPressure;
+            //m.ReliefTemperature = CurrentModel.ReliefTemperature;
+            //m.ReliefZ = CurrentModel.ReliefZ;
+            WriteConvert();
+            db.Update(MainModel.model, SessionProtectedSystem);
+            SessionProtectedSystem.Flush();
+
             System.Windows.Window wd = window as System.Windows.Window;
 
             if (wd != null)
@@ -245,7 +251,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                     IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, MainModel.ID);
                     foreach (TowerFireEq q in list)
                     {
-                       EqList.Add(q);
+                        EqList.Add(q);
                     }
                     SessionProtectedSystem.Flush();
                 }
@@ -281,8 +287,66 @@ namespace ReliefProMain.ViewModel.TowerFires
             }
             MainModel.ReliefLoad = reliefload.ToString();
 
-            
+
         }
 
+        private void ReadConvert()
+        {
+            if (!string.IsNullOrEmpty(MainModel.ReliefLoad))
+                MainModel.ReliefLoad = unitConvert.Convert(UOMEnum.MassRate, reliefloadUnit, double.Parse(MainModel.ReliefLoad)).ToString();
+            if (!string.IsNullOrEmpty(MainModel.ReliefPressure))
+                MainModel.ReliefPressure = unitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit, double.Parse(MainModel.ReliefPressure)).ToString();
+            if (!string.IsNullOrEmpty(MainModel.ReliefTemperature))
+                MainModel.ReliefTemperature = unitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit, double.Parse(MainModel.ReliefTemperature)).ToString();
+        }
+        private void WriteConvert()
+        {
+            if (!string.IsNullOrEmpty(MainModel.ReliefLoad))
+                MainModel.ReliefLoad = unitConvert.Convert(reliefloadUnit, UOMEnum.MassRate, double.Parse(MainModel.ReliefLoad)).ToString();
+            if (!string.IsNullOrEmpty(MainModel.ReliefPressure))
+                MainModel.ReliefPressure = unitConvert.Convert(reliefPressureUnit, UOMEnum.Pressure, double.Parse(MainModel.ReliefPressure)).ToString();
+            if (!string.IsNullOrEmpty(MainModel.ReliefTemperature))
+                MainModel.ReliefTemperature = unitConvert.Convert(reliefTemperatureUnit, UOMEnum.Temperature, double.Parse(MainModel.ReliefTemperature)).ToString();
+        }
+        private void InitUnit()
+        {
+            this.reliefloadUnit = uomEnum.UserMassRate;
+            this.reliefPressureUnit = uomEnum.UserPressure;
+            this.reliefTemperatureUnit = uomEnum.UserTemperature;
+        }
+        #region 单位-字段
+        private string reliefloadUnit;
+        public string ReliefLoadUnit
+        {
+            get { return reliefloadUnit; }
+            set
+            {
+                reliefloadUnit = value;
+                this.OnPropertyChanged("ReliefLoadUnit");
+            }
+        }
+
+        private string reliefTemperatureUnit;
+        public string ReliefTemperatureUnit
+        {
+            get { return reliefTemperatureUnit; }
+            set
+            {
+                reliefTemperatureUnit = value;
+                this.OnPropertyChanged("ReliefTemperatureUnit");
+            }
+        }
+
+        private string reliefPressureUnit;
+        public string ReliefPressureUnit
+        {
+            get { return reliefPressureUnit; }
+            set
+            {
+                reliefPressureUnit = value;
+                this.OnPropertyChanged("ReliefPressureUnit");
+            }
+        }
+        #endregion
     }
 }
