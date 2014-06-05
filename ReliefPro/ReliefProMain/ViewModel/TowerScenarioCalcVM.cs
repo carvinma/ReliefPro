@@ -99,7 +99,7 @@ namespace ReliefProMain.ViewModel
         public TowerScenarioCalcVM(int scenarioID, string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             unitConvert = new UnitConvert();
-            uomEnum = new UOMLib.UOMEnum(SessionPlant);
+            uomEnum = new UOMLib.UOMEnum(sessionPlant);
             InitUnit();
             this.PrzFile = PrzFile;
             ScenarioID = scenarioID;
