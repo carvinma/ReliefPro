@@ -46,5 +46,28 @@ namespace ReliefProDAL
             
             return model;
         }
+        public Source GetModel(string StreamName,ISession session)
+        {
+            Source model = null;
+            IList<Source> list = null;
+            try
+            {
+                list = session.CreateCriteria<Source>().Add(Expression.Eq("StreamName", StreamName)).List<Source>();
+                if (list.Count > 0)
+                {
+                    model = list[0];
+                }
+                else
+                    model = null;
+            }
+            catch (Exception ex)
+            {
+                model = null;
+                throw ex;
+
+            }
+
+            return model;
+        }
     }
 }
