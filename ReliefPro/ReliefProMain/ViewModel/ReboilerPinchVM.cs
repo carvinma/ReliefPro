@@ -253,7 +253,7 @@ namespace ReliefProMain.ViewModel
                 Coldtin = reboilerPinchModel.Coldtin;
                 Coldtout = reboilerPinchModel.Coldtout;
                 Duty = reboilerPinchModel.Duty;
-                HeatTin = reboilerPinchModel.HeatTin;                
+                HeatTin = reboilerPinchModel.HeatTin;
                 HeatTout = reboilerPinchModel.HeatTout;
                 ReliefDuty = reboilerPinchModel.ReliefDuty;
                 SourceType = reboilerPinchModel.SourceType;
@@ -262,7 +262,7 @@ namespace ReliefProMain.ViewModel
                 Factor = reboilerPinchModel.Factor;
                 ReliefColdtout = reboilerPinchModel.ReliefColdtout;
                 Area = reboilerPinchModel.Area;
-                UDesignArea=(double.Parse(reboilerPinchModel.Area)*double.Parse(reboilerPinchModel.UDesign)).ToString();
+                UDesignArea = (double.Parse(reboilerPinchModel.Area) * double.Parse(reboilerPinchModel.UDesign)).ToString();
                 UCD = (double.Parse(UClean) / double.Parse(UDesign)).ToString();
                 ReliefHeatTin = reboilerPinchModel.ReliefHeatTin;
                 SourceType = reboilerPinchModel.SourceType;
@@ -270,7 +270,7 @@ namespace ReliefProMain.ViewModel
 
 
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -307,7 +307,7 @@ namespace ReliefProMain.ViewModel
                 reliefLtmd = GetLMTDRelief(productTin, productTout, reliefProductTout, reboilerTin, reboilerTout, nextQaenGuess);
                 reliefCoeff = coeff;
                 reliefArea = area;
-                reliefDuty = reliefLtmd * reliefCoeff * reliefArea*3.6;
+                reliefDuty = reliefLtmd * reliefCoeff * reliefArea * 3.6;
                 //reliefDuty = reliefLtmd * reliefCoeff * reliefArea ;
                 assumedQA = duty * nextQaenGuess;
                 calculatedQR = reliefDuty;
@@ -321,15 +321,15 @@ namespace ReliefProMain.ViewModel
                 }
 
             }
-            
+
             if (QRQN < 1)
             {
-                isPinch = true;                
+                isPinch = true;
             }
             factor = QRQN;
             ReliefDuty = reliefDuty.ToString();
             Factor = factor.ToString();
-            
+
 
         }
 
@@ -354,21 +354,21 @@ namespace ReliefProMain.ViewModel
             int iterateNumber = 50;
             double MaxErrorRate = 0.005;
 
-            double productTin=double.Parse(Coldtin); 
-            double productTout=double.Parse(Coldtout);
-            double reliefProductTout=double.Parse(ReliefColdtout);
-            double reboilerTin=double.Parse(HeatTin);
-            double reboilerTout=double.Parse(HeatTout);
-            double coeff = double.Parse(UClean) ; 
-            double area=double.Parse(Area); 
-            double duty=double.Parse(Duty);
-            bool isUseSteam=false;
-            double qaenGuess=1.2;
+            double productTin = double.Parse(Coldtin);
+            double productTout = double.Parse(Coldtout);
+            double reliefProductTout = double.Parse(ReliefColdtout);
+            double reboilerTin = double.Parse(HeatTin);
+            double reboilerTout = double.Parse(HeatTout);
+            double coeff = double.Parse(UClean);
+            double area = double.Parse(Area);
+            double duty = double.Parse(Duty);
+            bool isUseSteam = false;
+            double qaenGuess = 1.2;
             GetUDesign();
             //HeatMediumMethod(356, 382, 435.7, 580, 478, 109, 8655, 80880000, isUseSteam, qaenGuess, MaxErrorRate, ref factor, ref _IsPinch, ref iterateNumber);
 
-            HeatMediumMethod(productTin, productTout, reliefProductTout, reboilerTin, reboilerTout, coeff, area, duty,isUseSteam, qaenGuess, MaxErrorRate, ref factor, ref _IsPinch, ref iterateNumber);
-        
+            HeatMediumMethod(productTin, productTout, reliefProductTout, reboilerTin, reboilerTout, coeff, area, duty, isUseSteam, qaenGuess, MaxErrorRate, ref factor, ref _IsPinch, ref iterateNumber);
+
         }
 
         private void GetUDesign()
@@ -378,43 +378,43 @@ namespace ReliefProMain.ViewModel
                 double productTin = double.Parse(Coldtin);
                 double productTout = double.Parse(Coldtout);
                 double reboilerTin = double.Parse(HeatTin);
-                double reboilerTout = double.Parse(HeatTout);               
+                double reboilerTout = double.Parse(HeatTout);
                 double lmtd = GetLMTD(productTin, productTout, reboilerTin, reboilerTout);
                 if (!string.IsNullOrEmpty(Area) && !string.IsNullOrEmpty(Duty))
                 {
                     double area = double.Parse(Area);
                     double duty = double.Parse(Duty);
-                    double udesign = duty / lmtd /area/3.6;
-                    UDesign= udesign.ToString();
+                    double udesign = duty / lmtd / area / 3.6;
+                    UDesign = udesign.ToString();
                     UDesignArea = (udesign * area).ToString();
-                    if(!string.IsNullOrEmpty(UClean))
+                    if (!string.IsNullOrEmpty(UClean))
                     {
                         UCD = (double.Parse(UClean) / udesign).ToString();
                     }
 
                 }
             }
-            
-         
+
+
         }
 
-       private double GetLMTD(double productTin, double productTout,  double reboilerTin, double reboilerTout)
+        private double GetLMTD(double productTin, double productTout, double reboilerTin, double reboilerTout)
         {
-           double t = reboilerTout + productTout - reboilerTin - productTin;
-           double  lnValue = (reboilerTout - productTin) / (reboilerTin - productTout);
-           double ltmd = t / Math.Log(lnValue);
-           return ltmd;
+            double t = reboilerTout + productTout - reboilerTin - productTin;
+            double lnValue = (reboilerTout - productTin) / (reboilerTin - productTout);
+            double ltmd = t / Math.Log(lnValue);
+            return ltmd;
         }
-       private double GetLMTDRelief(double productTin, double productTout, double reliefProductTout, double reboilerTin, double reboilerTout, double nextQaenGuess)
+        private double GetLMTDRelief(double productTin, double productTout, double reliefProductTout, double reboilerTin, double reboilerTout, double nextQaenGuess)
         {
-           double reliefProductTin = reliefProductTout - nextQaenGuess * (productTout - productTin);
-           double reliefReboilerTin = reboilerTin;
-           double reliefReboilerTout = reliefReboilerTin - nextQaenGuess * (reboilerTin - reboilerTout);
-           
-           double relieft = reliefReboilerTout + reliefProductTout - reliefProductTin - reliefReboilerTin;
-           double lnValue = (reliefReboilerTout - reliefProductTin) / (reliefReboilerTin - reliefProductTout);
-           double  reliefLtmd = relieft / Math.Log(lnValue);
-           return reliefLtmd;
+            double reliefProductTin = reliefProductTout - nextQaenGuess * (productTout - productTin);
+            double reliefReboilerTin = reboilerTin;
+            double reliefReboilerTout = reliefReboilerTin - nextQaenGuess * (reboilerTin - reboilerTout);
+
+            double relieft = reliefReboilerTout + reliefProductTout - reliefProductTin - reliefReboilerTin;
+            double lnValue = (reliefReboilerTout - reliefProductTin) / (reliefReboilerTin - reliefProductTout);
+            double reliefLtmd = relieft / Math.Log(lnValue);
+            return reliefLtmd;
         }
 
         private ICommand _SavePinchCommand;
@@ -453,7 +453,7 @@ namespace ReliefProMain.ViewModel
                 reboilerPinchModel.SourceType = SourceType;
                 reboilerPinchModel.ReliefHeatTin = ReliefHeatTin;
                 reboilerPinchDAL.Add(reboilerPinchModel, SessionProtectedSystem);
-                
+
             }
             else
             {
