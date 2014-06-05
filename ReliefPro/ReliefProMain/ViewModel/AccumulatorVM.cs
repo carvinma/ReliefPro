@@ -19,7 +19,8 @@ namespace ReliefProMain.ViewModel
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
-
+        UnitConvert unitConvert;
+        UOMLib.UOMEnum uomEnum;
         private bool _Horiz;
         public bool Horiz
         {
@@ -111,6 +112,9 @@ namespace ReliefProMain.ViewModel
         }
         public AccumulatorVM(string name, ISession sessionPlant, ISession sessionProtectedSystem)
         {
+            unitConvert = new UnitConvert();
+            uomEnum = new UOMLib.UOMEnum(SessionPlant);
+            InitUnit();
             AccumulatorTypes = GetAccumulatorTypes();
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
@@ -130,6 +134,7 @@ namespace ReliefProMain.ViewModel
                 Horiz = false;
                 Vertical = true;
             }
+            ReadConvert();
         }
 
         private ICommand _SaveCommand;
@@ -148,6 +153,7 @@ namespace ReliefProMain.ViewModel
 
         private void Save(object window)
         {
+            WriteConvert();
             CurrentAccumulator.AccumulatorName = CurrentAccumulator.AccumulatorName.Trim();
             if (CurrentAccumulator.AccumulatorName == "")
             {
@@ -177,6 +183,72 @@ namespace ReliefProMain.ViewModel
             }
         }
 
+        private void ReadConvert()
+        {
+            if (!string.IsNullOrEmpty(_Diameter))
+                _Diameter = unitConvert.Convert(UOMEnum.Length, _DiameterUnit, double.Parse(_Diameter)).ToString();
+            if (!string.IsNullOrEmpty(_Length))
+                _Length = unitConvert.Convert(UOMEnum.Length, _LengthUnit, double.Parse(_Length)).ToString();
+            if (!string.IsNullOrEmpty(_NormalLiquidLevel))
+                _NormalLiquidLevel = unitConvert.Convert(UOMEnum.Length, _NormalLiquidLevelUnit, double.Parse(_NormalLiquidLevel)).ToString();
+        }
+        private void WriteConvert()
+        {
+            if (!string.IsNullOrEmpty(_Diameter))
+                _Diameter = unitConvert.Convert(_DiameterUnit, UOMEnum.Length, double.Parse(_Diameter)).ToString();
+            if (!string.IsNullOrEmpty(_Length))
+                _Length = unitConvert.Convert(_LengthUnit, UOMEnum.Length, double.Parse(_Length)).ToString();
+            if (!string.IsNullOrEmpty(_NormalLiquidLevel))
+                _NormalLiquidLevel = unitConvert.Convert(_NormalLiquidLevelUnit, UOMEnum.Length, double.Parse(_NormalLiquidLevel)).ToString();
+        }
+        private void InitUnit()
+        {
+            this._DiameterUnit = uomEnum.UserLength;
+            this._LengthUnit = uomEnum.UserLength;
+            this._NormalLiquidLevelUnit = uomEnum.UserLength;
+        }
+        #region 单位-字段
+        private string _DiameterUnit;
+        public string DiameterUnit
+        {
+            get
+            {
+                return this._DiameterUnit;
+            }
+            set
+            {
+                this._DiameterUnit = value;
+                OnPropertyChanged("DiameterUnit");
+            }
+        }
 
+        private string _LengthUnit;
+        public string LengthUnit
+        {
+            get
+            {
+                return this._LengthUnit;
+            }
+            set
+            {
+                this._LengthUnit = value;
+                OnPropertyChanged("LengthUnit");
+            }
+        }
+
+        private string _NormalLiquidLevelUnit;
+        public string NormalLiquidLevelUnit
+        {
+            get
+            {
+                return this._NormalLiquidLevelUnit;
+            }
+            set
+            {
+                this._NormalLiquidLevelUnit = value;
+                OnPropertyChanged("NormalLiquidLevelUnit");
+            }
+        }
+        #endregion
     }
 }
