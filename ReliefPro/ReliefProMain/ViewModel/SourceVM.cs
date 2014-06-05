@@ -21,11 +21,29 @@ namespace ReliefProMain.ViewModel
         private ISession SessionProtectedSystem { set; get; }
         private string PrzFile;
         private string pressureUnit;
+        public string PressureUnit
+        {
+            get { return pressureUnit; }
+            set
+            {
+                pressureUnit = value;
+                this.OnPropertyChanged("PressureUnit");
+            }
+        }
         public int ID { get; set; }
         public string SourceName { get; set; }
         public string Description { get; set; }
         public string SourceType { get; set; }
-        public string MaxPossiblePressure { get; set; }
+        private string maxPossiblePressure;
+        public string MaxPossiblePressure
+        {
+            get { return maxPossiblePressure; }
+            set
+            {
+                maxPossiblePressure = value;
+                this.OnPropertyChanged("MaxPossiblePressure");
+            }
+        }
         public bool IsMaintained { get; set; }
         public string SourceName_Color { get; set; }
         public string Description_Color { get; set; }
@@ -33,8 +51,6 @@ namespace ReliefProMain.ViewModel
         public string MaxPossiblePressure_Color { get; set; }
         public string IsMaintained_Color { get; set; }
         public string StreamName { get; set; }
-        UnitConvert unitConvert;
-        UOMLib.UOMEnum uomEnum;
 
         public bool _IsSteam;
         public bool IsSteam
@@ -62,35 +78,6 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("IsHeatSource");
             }
         }
-        #region 单位-字段
-        private string _PressureUnit;
-        public string PressureUnit
-        {
-            get
-            {
-                return this._PressureUnit;
-            }
-            set
-            {
-                this._PressureUnit = value;
-                OnPropertyChanged("PressureUnit");
-            }
-        }
-        private string _DrumPressureUnit;
-        public string DrumPressureUnit
-        {
-            get
-            {
-                return this._DrumPressureUnit;
-            }
-            set
-            {
-                this._DrumPressureUnit = value;
-                OnPropertyChanged("DrumPressureUnit");
-            }
-        }
-        #endregion
-
         public List<string> SourceTypes { get; set; }
         public Source CurrentSource { get; set; }
         public List<string> GetSourceTypes()
@@ -103,16 +90,23 @@ namespace ReliefProMain.ViewModel
             list.Add("Pressurized Vessel");
             return list;
         }
-
-        public SourceVM(string name, string PrzFile, ISession SessionPlant, ISession SessionProtectedSystem)
+        UnitConvert unitConvert;
+        UOMLib.UOMEnum uomEnum;
+        public SourceVM(string name, string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             this.PrzFile = PrzFile;
             SourceTypes = GetSourceTypes();
             SourceName = name;
-            this.SessionPlant = SessionPlant;
-            this.SessionProtectedSystem = SessionProtectedSystem;
+            SessionPlant = sessionPlant;
+            SessionProtectedSystem = sessionProtectedSystem;
+            BasicUnit BU;
+            BasicUnitDAL dbBU = new BasicUnitDAL();
+            IList<BasicUnit> list = dbBU.GetAllList(sessionPlant);
+            BU = list.Where(s => s.IsDefault == 1).Single();
+
             unitConvert = new UnitConvert();
             uomEnum = new UOMLib.UOMEnum(SessionPlant);
+            InitUnit();
             SourceDAL db = new SourceDAL();
             Source source = db.GetModel(SessionProtectedSystem, SourceName);
             SourceType = source.SourceType;
@@ -125,29 +119,9 @@ namespace ReliefProMain.ViewModel
             ID = source.ID;
             ReadConvert();
         }
-        private void ReadConvert()
-        {
-            //if (!string.IsNullOrEmpty(_PressureUnit))
-            //    _Pressure = unitConvert.Convert(UOMEnum.Length, _DiameterUnit, double.Parse(_Diameter)).ToString();
-            //if (!string.IsNullOrEmpty(_Length))
-            //    _Length = unitConvert.Convert(UOMEnum.Length, _LengthUnit, double.Parse(_Length)).ToString();
-           
-        }
-        private void WriteConvert()
-        {
-            if (!string.IsNullOrEmpty(_PressureUnit))
-                _PressureUnit = unitConvert.Convert(_PressureUnit, uomEnum.UserPressure, double.Parse(_PressureUnit)).ToString();
-           
-           
-        }
-        private void InitUnit()
-        {
-            this._PressureUnit = uomEnum.UserPressure;
-            this._DrumPressureUnit = uomEnum.UserPressure;
-           
-        }
+
         private ICommand _Update;
-        
+
         public ICommand Update
         {
             get { return _Update ?? (_Update = new RelayCommand(OKClick)); }
@@ -161,19 +135,25 @@ namespace ReliefProMain.ViewModel
             {
                 throw new ArgumentException("Please type in a name for the Source.");
             }
-            
-            UnitConvert uc = new UnitConvert();
+            BasicUnit BU;
+
+            BasicUnitDAL dbBU = new BasicUnitDAL();
+            IList<BasicUnit> list = dbBU.GetAllList(SessionPlant);
+            BU = list.Where(s => s.IsDefault == 1).Single();
+
+
             CurrentSource = new Source();
 
             SourceDAL db = new SourceDAL();
             CurrentSource = db.GetModel(SessionProtectedSystem, SourceName);
             CurrentSource.SourceName = SourceName;
             CurrentSource.SourceType = SourceType;
-            CurrentSource.MaxPossiblePressure = MaxPossiblePressure;
+            // CurrentSource.MaxPossiblePressure = uc.BasicConvert("P", BU.UnitName, "StInternal", out pressureUnit, double.Parse(MaxPossiblePressure)).ToString();
             CurrentSource.Description = Description;
             CurrentSource.IsMaintained = IsMaintained;
             CurrentSource.IsSteam = IsSteam;
             CurrentSource.IsHeatSource = IsHeatSource;
+            WriteConvert();
             db.Update(CurrentSource, SessionProtectedSystem);
             SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction
 
@@ -202,10 +182,23 @@ namespace ReliefProMain.ViewModel
         public void ShowHeatSourceList()
         {
             HeatSourceListView v = new HeatSourceListView();
-            HeatSourceListVM vm = new HeatSourceListVM(ID,PrzFile, SessionPlant, SessionProtectedSystem);
+            HeatSourceListVM vm = new HeatSourceListVM(ID, PrzFile, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             v.ShowDialog();
         }
-
+        private void ReadConvert()
+        {
+            if (!string.IsNullOrEmpty(CurrentSource.MaxPossiblePressure))
+                MaxPossiblePressure = unitConvert.Convert(UOMEnum.Pressure, pressureUnit, double.Parse(CurrentSource.MaxPossiblePressure)).ToString();
+        }
+        private void WriteConvert()
+        {
+            if (!string.IsNullOrEmpty(MaxPossiblePressure))
+                CurrentSource.MaxPossiblePressure = unitConvert.Convert(pressureUnit, UOMEnum.Pressure, double.Parse(MaxPossiblePressure)).ToString();
+        }
+        private void InitUnit()
+        {
+            this.pressureUnit = uomEnum.UserPressure;
+        }
     }
 }
