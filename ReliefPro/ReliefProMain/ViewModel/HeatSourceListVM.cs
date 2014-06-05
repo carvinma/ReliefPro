@@ -160,12 +160,19 @@ namespace ReliefProMain.ViewModel
 
         public void Save(object obj)
         {
+            foreach (HeatSourceModel m in HeatSources)
+            {
+                if (string.IsNullOrEmpty(m.HeatSourceName))
+                {
+                    MessageBox.Show("HeatSource must be not empty.","Message Box");
+                    return;
+                }
+            }
             IList<HeatSource> list = heatSourceDAL.GetAllList(SessionProtectedSystem, SourceID);
             for (int i = 0; i < list.Count; i++)
             {
                 heatSourceDAL.Delete(list[i], SessionProtectedSystem);
             }
-
 
             foreach (HeatSourceModel m in HeatSources)
             {
