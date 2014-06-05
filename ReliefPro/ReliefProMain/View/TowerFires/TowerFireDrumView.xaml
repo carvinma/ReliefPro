@@ -80,12 +80,12 @@
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBootHeight,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="8" Text="{Binding Path=model.BootHeight}"/>
         <TextBox Grid.Column="1" Grid.Row="9" Text="{Binding Path=model.PipingContingency}"/>
 
-        <Label x:Name="lblElevation" Content="{Binding ElevationUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="0"/>
-        <Label x:Name="lblDiameter" Content="{Binding DiameterUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="2"/>
-        <Label x:Name="lblLength" Content="{Binding LengthUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="3"/>
-        <Label x:Name="lblNormalLiquidLevel" Content="{Binding NormalLiquidLevelUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="4"/>
-        <Label x:Name="lblBootDiameter" Content="{Binding BootDiameterUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="7"/>
-        <Label x:Name="lblBootHeight" Content="{Binding BootHeightUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="8"/>
+        <Label x:Name="lblElevation" Content="{Binding ElevationUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="0"/>
+        <Label x:Name="lblDiameter" Content="{Binding DiameterUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="2"/>
+        <Label x:Name="lblLength" Content="{Binding LengthUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="3"/>
+        <Label x:Name="lblNormalLiquidLevel" Content="{Binding NormalLiquidLevelUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="4"/>
+        <Label x:Name="lblBootDiameter" Content="{Binding BootDiameterUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="7"/>
+        <Label x:Name="lblBootHeight" Content="{Binding BootHeightUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="8"/>
         <Label Content="%" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="9"/>
         
         <Button Content="OK" Command="{Binding OKClick}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="1" Grid.Row="10"  Width="76"  Height="24" HorizontalAlignment="Left"/>

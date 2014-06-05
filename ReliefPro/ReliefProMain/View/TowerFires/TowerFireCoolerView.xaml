@@ -25,7 +25,7 @@
             <Button Content="OK" HorizontalAlignment="Right" Command="{Binding OKClick}" CommandParameter="{Binding ElementName=myWindow}" Margin="0,0,120,0" VerticalAlignment="Center" Width="75"/>
             <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center" Width="75"/>
         </Grid>
-        <Label x:Name="lblArea" Content="{Binding WetteAreaUnit}" Grid.Column="2" HorizontalAlignment="Left" Margin="163,11,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label x:Name="lblArea" Content="{Binding WetteAreaUnit,Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Margin="163,11,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <Label Content="%" Grid.Column="2" HorizontalAlignment="Left" Margin="163,15,0,0" Grid.Row="2" VerticalAlignment="Top"/>
 
     </Grid>
