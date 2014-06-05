@@ -76,9 +76,6 @@ namespace ReliefProMain.ViewModel
 
             cud += new ChangeUnitDelegate(ExcuteThumbMoved);
 
-
-
-
         }
 
         private ObservableCollection<ScenarioModel> GetScenarios()
@@ -385,7 +382,7 @@ namespace ReliefProMain.ViewModel
             }
 
             TowerFireView v = new TowerFireView();
-            TowerFireVM vm = new TowerFireVM(ScenarioID, SessionPlant, SessionProtectedSystem);
+            TowerFireVM vm = new TowerFireVM(ScenarioID,EqName,PrzFile,PrzVersion, SessionPlant, SessionProtectedSystem,DirPlant,DirProtectedSystem);
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {

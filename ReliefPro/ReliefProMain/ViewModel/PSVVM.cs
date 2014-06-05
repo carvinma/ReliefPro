@@ -105,7 +105,10 @@ namespace ReliefProMain.ViewModel
             model.ValveNumber = m.ValveNumber;
             model.ValveType = m.ValveType;
             model.DrumPSVName = m.DrumPSVName;
-            model.DrumPressure = unitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, double.Parse(m.DrumPressure)).ToString();
+            if (!string.IsNullOrEmpty(m.DrumPressure))
+            {
+                model.DrumPressure = unitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, double.Parse(m.DrumPressure)).ToString();
+            }
             model.Description = m.Description;
             model.LocationDescription = m.LocationDescription;
             return model;
@@ -118,7 +121,10 @@ namespace ReliefProMain.ViewModel
             model.ValveNumber = m.ValveNumber;
             model.ValveType = m.ValveType;
             model.DrumPSVName = m.DrumPSVName;
-            model.DrumPressure = unitConvert.Convert(DrumPressureUnit, UOMEnum.Pressure, double.Parse(m.DrumPressure)).ToString();
+            if (!string.IsNullOrEmpty(m.DrumPressure))
+            {
+                model.DrumPressure = unitConvert.Convert(DrumPressureUnit, UOMEnum.Pressure, double.Parse(m.DrumPressure)).ToString();
+            }
             model.Description = m.Description;
             model.LocationDescription = m.LocationDescription;
         }
