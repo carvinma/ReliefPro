@@ -531,28 +531,11 @@ namespace ReliefProMain.ViewModel
             {
                 wRelief = 0;
             }
-<<<<<<< .mine
             reliefLoad = wAccumulation + waterWeightFlow;
             reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / double.Parse(latent.ReliefOHWeightFlow) + waterWeightFlow / 18);
             reliefTemperature = double.Parse(latent.ReliefTemperature);
             reliefPressure = double.Parse(latent.ReliefPressure);
 
-=======
-            double reliefLoad = wAccumulation + waterWeightFlow;
-            double reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / double.Parse(latent.ReliefOHWeightFlow) + waterWeightFlow / 18);
-            ReliefTemperature = latent.ReliefTemperature;
-            ReliefPressure = latent.ReliefPressure;
-            ReliefLoad = reliefLoad.ToString();
-            ReliefMW = reliefMW.ToString();
-            ScenarioDAL dbTS = new ScenarioDAL();
-            Scenario scenario = dbTS.GetModel(ScenarioID, SessionProtectedSystem);
-            scenario.ReliefLoad = ReliefLoad.ToString();
-            scenario.ReliefPressure = latent.ReliefPressure;
-            scenario.ReliefMW = ReliefMW.ToString();
-            scenario.ReliefTemperature = latent.ReliefTemperature;
-            dbTS.Update(scenario, SessionProtectedSystem);
-            SessionProtectedSystem.Flush();
->>>>>>> .r470
         }
         private void SteamFreezedMethod(ref double reliefLoad, ref double reliefMW, ref double reliefTemperature,ref double reliefPressure)
         {
