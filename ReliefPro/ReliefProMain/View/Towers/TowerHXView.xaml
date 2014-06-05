@@ -86,9 +86,9 @@
         </GroupBox>
         <Label HorizontalAlignment="Left" Margin="0,0,0,0" Content="Total Duty:" VerticalAlignment="Top" Height="26" Width="93" Grid.Row="2" Grid.Column="1"/>        
         <Label HorizontalAlignment="Left" Margin="0,0,0,0" Content="Name:" VerticalAlignment="Top" Height="27" Width="64" Grid.Row="1" Grid.Column="1"/>
-        <CustomControl:UnitConvertTextBox   HorizontalAlignment="Left" Height="23" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding Path=model.HeaterDuty}" VerticalAlignment="Top" Width="230" Grid.Column="2" Grid.Row="2"/>
+        <CustomControl:UnitConvertTextBox  UnitOrigin="{Binding ElementName=lblDuty,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding Path=model.HeaterDuty}" VerticalAlignment="Top" Width="230" Grid.Column="2" Grid.Row="2"/>
         <TextBox Name="txtName"  Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="0,0,0,0" TextWrapping="NoWrap" Text="{Binding Path=model.HeaterName}" VerticalAlignment="Top" Width="230" Grid.Row="1"/>
-        <Label Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="2" Content="{Binding DutyUnit}" VerticalAlignment="Top" Height="26" Width="55" />
+        <Label x:Name="lblDuty" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="2" Content="{Binding DutyUnit,Mode=TwoWay}" VerticalAlignment="Top" Height="26" Width="55" />
         <Border BorderBrush="black"    VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1"  Grid.Row="5" Grid.ColumnSpan="6" Margin="0,0,0,0"/>
         <Button Content="OK" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="75" Height="25"  Margin="0,17,139,0" Grid.Row="5" Grid.Column="5" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"/>
         <Button Name="btnAdd" Content="Add" Grid.Column="5" HorizontalAlignment="Left" Margin="149,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="75" Command="{Binding AddCommand}" Height="22"/>

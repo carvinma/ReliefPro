@@ -14,15 +14,18 @@ using ReliefProMain.Service;
 using ReliefProMain.View;
 using ReliefProMain.Model;
 using NHibernate;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel
 {
-    public class TowerHXVM:ViewModelBase
+    public class TowerHXVM : ViewModelBase
     {
 
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         public TowerHXModel model { set; get; }
+        UnitConvert unitConvert;
+        UOMLib.UOMEnum uomEnum;
 
         private ObservableCollection<TowerHXDetailModel> _Details = null;
         public ObservableCollection<TowerHXDetailModel> Details
@@ -39,26 +42,26 @@ namespace ReliefProMain.ViewModel
             _Details = new ObservableCollection<TowerHXDetailModel>();
 
             TowerHXDetailDAL towerHXDetailDAL = new TowerHXDetailDAL();
-                int i = 0;
-                foreach (var obj in towerHXDetailDAL.GetAllList(SessionProtectedSystem, model.ID))
-                {
-                    TowerHXDetailModel d = new TowerHXDetailModel();
-                    d.Parent = model;
-                    d.SeqNumber = i;
-                    d.DetailName = obj.DetailName;
-                    d.ProcessSideFlowSource = obj.ProcessSideFlowSource;
-                    d.Medium = obj.Medium;
-                    d.MediumSideFlowSource = obj.MediumSideFlowSource;
-                    d.ID = obj.ID;
-                    d.HXID = obj.HXID;
-                    d.Duty = obj.Duty;
-                    d.DutyPercentage = obj.DutyPercentage;
+            int i = 0;
+            foreach (var obj in towerHXDetailDAL.GetAllList(SessionProtectedSystem, model.ID))
+            {
+                TowerHXDetailModel d = new TowerHXDetailModel();
+                d.Parent = model;
+                d.SeqNumber = i;
+                d.DetailName = obj.DetailName;
+                d.ProcessSideFlowSource = obj.ProcessSideFlowSource;
+                d.Medium = obj.Medium;
+                d.MediumSideFlowSource = obj.MediumSideFlowSource;
+                d.ID = obj.ID;
+                d.HXID = obj.HXID;
+                d.Duty = obj.Duty;
+                d.DutyPercentage = obj.DutyPercentage;
 
-                    _Details.Add(d);
-                    i = i + 1;
+                _Details.Add(d);
+                i = i + 1;
 
-                }
-            
+            }
+
             return _Details;
         }
 
@@ -77,6 +80,9 @@ namespace ReliefProMain.ViewModel
         }
         public TowerHXVM(string name, ISession sessionPlant, ISession sessionProtectedSystem)
         {
+            unitConvert = new UnitConvert();
+            uomEnum = new UOMLib.UOMEnum(sessionPlant);
+            InitUnit();
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
 
@@ -88,10 +94,10 @@ namespace ReliefProMain.ViewModel
             model.HeaterType = hx.HeaterType;
             model.HeaterName = name;
             Details = GetTowerHXDetails();
-
+            ReadConvert();
         }
 
-        
+
         private ICommand _AddCommand;
         public ICommand AddCommand
         {
@@ -110,8 +116,8 @@ namespace ReliefProMain.ViewModel
         {
             TowerHXDetailModel d = new TowerHXDetailModel();
             d.HXID = model.ID;
-            d.SeqNumber = Details.Count-1;
-            d.DetailName = model.HeaterName + "_" + (Details.Count+1).ToString();
+            d.SeqNumber = Details.Count - 1;
+            d.DetailName = model.HeaterName + "_" + (Details.Count + 1).ToString();
             d.Parent = model;
             Details.Add(d);
         }
@@ -134,9 +140,9 @@ namespace ReliefProMain.ViewModel
         {
             int idx = int.Parse(obj.ToString());
             Details.RemoveAt(idx);
-            for(int i=0;i<Details.Count;i++)
+            for (int i = 0; i < Details.Count; i++)
             {
-                TowerHXDetailModel detail=Details[i];
+                TowerHXDetailModel detail = Details[i];
                 detail.SeqNumber = i;
             }
 
@@ -202,6 +208,26 @@ namespace ReliefProMain.ViewModel
             d.Duty = m.Duty;
             d.DutyPercentage = m.DutyPercentage;
             return d;
+        }
+
+        private void ReadConvert()
+        {
+            if (!string.IsNullOrEmpty(model.HeaterDuty))
+                model.HeaterDuty = unitConvert.Convert(UOMEnum.MassRate, dutyUnit, double.Parse(model.HeaterDuty)).ToString();
+        }
+        private void InitUnit()
+        {
+            this.dutyUnit = uomEnum.UserEnthalpyDuty;
+        }
+        private string dutyUnit;
+        public string DutyUnit
+        {
+            get { return dutyUnit; }
+            set
+            {
+                dutyUnit = value;
+                this.OnPropertyChanged("DutyUnit");
+            }
         }
     }
 }
