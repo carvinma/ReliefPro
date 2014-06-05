@@ -80,8 +80,8 @@
         <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="65.885,7,0,0" Grid.Row="5" TextWrapping="Wrap" Text="{Binding model.Instance.PipingContingency}" VerticalAlignment="Top" Width="120"/>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="26,10,0,0" Grid.Row="3" TextWrapping="Wrap" Text="Elevation" VerticalAlignment="Top"/>
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblElevation,Path=Content,Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="65.885,11,0,0 " Grid.Row="3" TextWrapping="Wrap" Text="{Binding model.Instance.Elevation}" VerticalAlignment="Top" Width="120"/>
-        <Label x:Name="lblElevation" Content="{Binding ElevationUnit}" Grid.Column="2" HorizontalAlignment="Left" Margin="202,11,0,0" Grid.Row="3" VerticalAlignment="Top"/>
-        <Label x:Name="lblLevel" Content="{Binding LevelUnit}" Grid.Column="2" HorizontalAlignment="Left" Margin="202,11,0,0" Grid.Row="4" VerticalAlignment="Top"/>
+        <Label x:Name="lblElevation" Content="{Binding ElevationUnit,Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Margin="202,11,0,0" Grid.Row="3" VerticalAlignment="Top"/>
+        <Label x:Name="lblLevel" Content="{Binding LevelUnit,Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Margin="202,11,0,0" Grid.Row="4" VerticalAlignment="Top"/>
         <Label Content="%" Grid.Column="2" HorizontalAlignment="Left" Margin="202,7,0,0" Grid.Row="5" VerticalAlignment="Top"/>
 
     </Grid>
