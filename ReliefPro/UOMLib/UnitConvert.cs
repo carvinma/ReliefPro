@@ -58,7 +58,7 @@ namespace UOMLib
         {
             var unitTypeModel = lkpUnitType[UnitType.ToLower()];
             if (null == unitTypeModel)
-                throw new Exception("The UnitType is not Exists!");
+                throw new Exception("The UnitType Not Exists!");
             int unitTypeID = unitTypeModel.First().ID;
             int originBasicID = lstBasicUnit.Where(p => p.UnitName.ToLower() == OriginBasic.ToLower()).FirstOrDefault().ID;
             int targetBasicID = lstBasicUnit.Where(p => p.UnitName.ToLower() == TargetBasic.ToLower()).FirstOrDefault().ID;
@@ -79,14 +79,14 @@ namespace UOMLib
                 TargetUnit = targetUnit;
                 return Convert(UnitType, originUnit, targetUnit, lstValue);
             }
-            throw new Exception("Baisic Cant't find Default Unit!");
+            throw new Exception("Baisic Cant't Find Default Unit!");
         }
 
         public double BasicConvert(string UnitType, string OriginBasic, string TargetBasic, out string TargetUnit, double Value)
         {
             var unitTypeModel = lkpUnitType[UnitType.ToLower()];
             if (null == unitTypeModel)
-                throw new Exception("The UnitType is not Exists!");
+                throw new Exception("The UnitType Not Exists!");
             int unitTypeID = unitTypeModel.First().ID;
             int originBasicID = lstBasicUnit.Where(p => p.UnitName.ToLower() == OriginBasic.ToLower()).FirstOrDefault().ID;
             int targetBasicID = lstBasicUnit.Where(p => p.UnitName.ToLower() == TargetBasic.ToLower()).FirstOrDefault().ID;
@@ -108,13 +108,13 @@ namespace UOMLib
                 TargetUnit = targetUnit;
                 return Convert(UnitType, originUnit, targetUnit, Value);
             }
-            throw new Exception("Baisic Cant't find Default Unit!");
+            throw new Exception("Baisic Cant't Find Default Unit!");
         }
         public double Convert(string UnitType, string OriginUnit, string TargetUnit, double value)
         {
             var unitTypeModel = lkpUnitType[UnitType.ToLower()];
             if (null == unitTypeModel)
-                throw new Exception("The UnitType is not Exists!");
+                throw new Exception("The UnitType Not Exists!");
             return Convert(OriginUnit, TargetUnit, value);
         }
         public double Convert(string OriginUnit, string TargetUnit, double value)
@@ -127,9 +127,9 @@ namespace UOMLib
             var originUnitModel = lkpSystemUnit[OriginUnit.ToLower()];
             var targetUnitModel = lkpSystemUnit[TargetUnit.ToLower()];
             if (null == originUnitModel)
-                throw new Exception("the Origin Unit is not Exists!");
+                throw new Exception("the Origin Unit Not Exists!");
             if (null == targetUnitModel)
-                throw new Exception("the Target Unit is not Exists!");
+                throw new Exception("the Target Unit Not Exists!");
             if (originUnitModel.First().UnitType != targetUnitModel.First().UnitType)
                 throw new Exception("the Origin Unit Translate to Target Unit is error!");
 
