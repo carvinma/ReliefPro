@@ -38,6 +38,7 @@ namespace ReliefProMain.ViewModel.Drums
             model.PressureUnit = uomEnum.UserPressure;
             model.TemperatureUnit = uomEnum.UserTemperature;
             model.PSVPressureUnit = uomEnum.UserPressure;
+            model.TWUnit = uomEnum.UserTemperature;
             OKCMD = new DelegateCommand<object>(Save);
         }
 
