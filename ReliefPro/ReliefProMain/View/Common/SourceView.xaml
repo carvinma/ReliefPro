@@ -61,7 +61,6 @@
         <ComboBox ItemsSource="{Binding Path=SourceTypes}" SelectedItem="{Binding SourceType}"   Name="cbxType" HorizontalAlignment="Left" Margin="242,13,0,0" VerticalAlignment="Top" Width="169"  Grid.Row="2"/>
 
         <Label Content="Max Possible Pressure:" HorizontalAlignment="Left" Margin="60,22,0,0" VerticalAlignment="Top" Width="151" Grid.Row="3"/>
-        <CheckBox Name="chkIsMaintained" Content="Normal flow is maintained when General Electrical power fails." HorizontalAlignment="Left" Margin="127,6.517,-1,0" VerticalAlignment="Top" Width="401"  Grid.Row="4"/>
         <CustomControl:UnitConvertTextBox Text="{Binding Path=MaxPossiblePressure}"  UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left"  Margin="242,25,0,0" TextWrapping="Wrap" Width="169" VerticalAlignment="Top" Grid.Row="3"/>
         <Label x:Name="lblPressure" Content="{Binding  PressureUnit,Mode=TwoWay}" HorizontalAlignment="Left" Margin="430,22,0,0" VerticalAlignment="Top" Grid.Row="3"/>
 

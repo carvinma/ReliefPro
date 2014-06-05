@@ -117,7 +117,7 @@ namespace ReliefProMain.ViewModel
             IsSteam = source.IsSteam;
             IsHeatSource = source.IsHeatSource;
             ID = source.ID;
-            ReadConvert();
+            //ReadConvert();
         }
 
         private ICommand _Update;

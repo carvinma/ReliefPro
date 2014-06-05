@@ -240,10 +240,9 @@ namespace ReliefProMain.ViewModel
 
                 TowerFlashProductDAL dbtfp = new TowerFlashProductDAL();
                 IList<TowerFlashProduct> tfpList = dbtfp.GetAllList(SessionProtectedSystem);
-                foreach (TowerFlashProduct p in tfpList)
-                {
-                    BottomReliefTin = p.Temperature;
-                }
+                TowerFlashProduct tfp = dbtfp.GetModel(sessionProtectedSystem, csBottomIn.StreamName);
+                BottomReliefTin = tfp.Temperature;
+                
             #endregion
 
                 ReadConvert();
@@ -355,7 +354,7 @@ namespace ReliefProMain.ViewModel
             else
             {
                 double feedReliefTout = feedTin + factor * (feedTout - feedTin);
-                double feedReliefSpEout = (feedEin + factor * duty) / feedMassRate;
+                double feedReliefSpEout = feedEin + factor * duty / feedMassRate;
                 FeedReliefTout = feedReliefTout.ToString();
                 FeedReliefSpEout = feedReliefSpEout.ToString();
                 Factor = factor.ToString();
