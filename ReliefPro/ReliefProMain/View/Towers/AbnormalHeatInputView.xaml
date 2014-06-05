@@ -95,9 +95,9 @@
         <Label Content="Relief MW"  Grid.Row="3" Height="25" Width="69" />
         <Label Content="Relief Pressure"  Grid.Row="4" Height="25" Width="94" />
         <Label Content="Relief Temperature"  Grid.Row="5" Height="25" Width="119" />
-        <Label x:Name="lblReliefLoad" Content="{Binding ReliefLoadUnit}"  Grid.Row="2" Grid.Column="2" Height="10" Margin="25,12,0,8" Width="10" />
-        <Label x:Name="lblReliefPressure" Content="{Binding ReliefPressureUnit}"  Grid.Row="4" Grid.Column="2" Height="10" Margin="25,12,0,8" Width="10"/>
-        <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit}"  Grid.Row="5" Grid.Column="2" Height="10" Margin="25,12,0,8" Width="10"/>
+        <Label x:Name="lblReliefLoad" Content="{Binding ReliefLoadUnit,Mode=TwoWay}"  Grid.Row="2" Grid.Column="2" Height="10" Margin="25,12,0,8" Width="10" />
+        <Label x:Name="lblReliefPressure" Content="{Binding ReliefPressureUnit,Mode=TwoWay}"  Grid.Row="4" Grid.Column="2" Height="10" Margin="25,12,0,8" Width="10"/>
+        <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit,Mode=TwoWay}"  Grid.Row="5" Grid.Column="2" Height="10" Margin="25,12,0,8" Width="10"/>
         
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="2"  Text="{Binding ReliefLoad}"   />
         <TextBox Grid.Column="1"  Grid.Row="3" Text="{Binding ReliefMW}"  />

@@ -33,9 +33,9 @@
         <Button Content="OK" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Height="25"  Margin="110,10,0,0" Grid.Row="2"  Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"/>
         <Button Content="Cancel" HorizontalAlignment="Left" IsCancel="True"  VerticalAlignment="Top" Width="75" Height="25"  Margin="211,10,0,0" Grid.Row="2"/>
 
-        <Label x:Name="lblReliefLoad" Content="{Binding ReliefLoadUnit}" HorizontalAlignment="Left" Margin="281,18,0,0" Grid.Row="1"  VerticalAlignment="Top"/>
-        <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit}" HorizontalAlignment="Left" Margin="294,55,0,0" Grid.Row="1"  VerticalAlignment="Top"/>
-        <Label x:Name="lblReliefPressure" Content="{Binding ReliefPressureUnit}" HorizontalAlignment="Left" Margin="286,79,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label x:Name="lblReliefLoad" Content="{Binding ReliefLoadUnit,Mode=TwoWay}" HorizontalAlignment="Left" Margin="281,18,0,0" Grid.Row="1"  VerticalAlignment="Top"/>
+        <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit,Mode=TwoWay}" HorizontalAlignment="Left" Margin="294,55,0,0" Grid.Row="1"  VerticalAlignment="Top"/>
+        <Label x:Name="lblReliefPressure" Content="{Binding ReliefPressureUnit,Mode=TwoWay}" HorizontalAlignment="Left" Margin="286,79,0,0" Grid.Row="1" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
