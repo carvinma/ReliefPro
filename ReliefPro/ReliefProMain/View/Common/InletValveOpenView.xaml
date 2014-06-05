@@ -81,9 +81,9 @@
         <Label Content="Relief Pressure" HorizontalAlignment="Left" Margin="33,10,0,0" Grid.Row="6" VerticalAlignment="Top" Height="26" Width="94"/>
         <Label Content="Relief MW" HorizontalAlignment="Left" Margin="33,10,0,0" Grid.Row="7" VerticalAlignment="Top" Height="26" Width="69"/>
 
-        <Label x:Name="lblReliefLoad" Content="{Binding ReliefLoadUnit}" HorizontalAlignment="Left" Margin="333,10,0,0" Grid.Row="4" VerticalAlignment="Top" Height="26" Width="74"/>
-        <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit}" HorizontalAlignment="Left" Margin="333,10,0,0" Grid.Row="5" VerticalAlignment="Top" Height="26" Width="119"/>
-        <Label x:Name="lblReliefPressure" Content="{Binding ReliefPressureUnit}" HorizontalAlignment="Left" Margin="333,10,0,0" Grid.Row="6" VerticalAlignment="Top" Height="26" Width="94"/>
+        <Label x:Name="lblReliefLoad" Content="{Binding ReliefLoadUnit,Mode=TwoWay}" HorizontalAlignment="Left" Margin="333,10,0,0" Grid.Row="4" VerticalAlignment="Top" Height="26" Width="74"/>
+        <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit,Mode=TwoWay}" HorizontalAlignment="Left" Margin="333,10,0,0" Grid.Row="5" VerticalAlignment="Top" Height="26" Width="119"/>
+        <Label x:Name="lblReliefPressure" Content="{Binding ReliefPressureUnit,Mode=TwoWay}" HorizontalAlignment="Left" Margin="333,10,0,0" Grid.Row="6" VerticalAlignment="Top" Height="26" Width="94"/>
 
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="205,12,0,0" Grid.Row="4" TextWrapping="Wrap" Text="{Binding ReliefLoad}" VerticalAlignment="Top" Width="120"/>
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="205,10,0,0" Grid.Row="5" TextWrapping="Wrap" Text="{Binding ReliefTemperature}" VerticalAlignment="Top" Width="120"/>
