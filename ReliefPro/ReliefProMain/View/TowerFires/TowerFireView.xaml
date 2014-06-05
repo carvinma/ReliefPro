@@ -99,15 +99,15 @@
                 <TextBlock HorizontalAlignment="Left" Margin="70,58,0,0" Text="Relief Pressure" VerticalAlignment="Top"/>
                 <TextBlock HorizontalAlignment="Left" Margin="70,91,0,0" Text="Relief Temperature" VerticalAlignment="Top"/>
                 <TextBlock HorizontalAlignment="Left" Margin="70,117,0,0" Text="Relief MW" VerticalAlignment="Top"/>
-                <TextBlock HorizontalAlignment="Left" Margin="69,147,0,0" Text="Relief Cp/Cv" VerticalAlignment="Top"/>
-                <TextBlock HorizontalAlignment="Left" Margin="67,176,0,0" Text="Relief Z" VerticalAlignment="Top"/>
+                <TextBlock Visibility="Hidden" HorizontalAlignment="Left" Margin="69,147,0,0" Text="Relief Cp/Cv" VerticalAlignment="Top"/>
+                <TextBlock Visibility="Hidden" HorizontalAlignment="Left" Margin="67,176,0,0" Text="Relief Z" VerticalAlignment="Top"/>
 
                 <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="205,23,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefLoad,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
                 <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="205,56,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefPressure,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
                 <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblTemperature,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="205,89,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefTemperature,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
                 <TextBox HorizontalAlignment="Left" Height="23" Margin="205,117,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefMW,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="205,155,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefCpCv,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="205,182,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefZ,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
+                <TextBox Visibility="Hidden" HorizontalAlignment="Left" Height="23" Margin="205,155,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefCpCv,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
+                <TextBox Visibility="Hidden" HorizontalAlignment="Left" Height="23" Margin="205,182,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefZ,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
 
                 <Label x:Name="lblLoad" HorizontalAlignment="Left" Margin="325,22,0,0" Content="{Binding ReliefLoadUnit,Mode=TwoWay}" VerticalAlignment="Top"/>
                 <Label x:Name="lblPressure" HorizontalAlignment="Left" Margin="325,55,0,0" Content="{Binding ReliefPressureUnit,Mode=TwoWay}" VerticalAlignment="Top"/>
