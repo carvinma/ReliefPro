@@ -84,12 +84,12 @@
 		<TextBox Text="{Binding Path=model.ReliefMW,Mode=TwoWay}" Grid.Column="1"  Grid.Row="12"/>
 		<TextBox Text="{Binding Path=model.ReliefCpCv,Mode=TwoWay}" Grid.Column="1"  Grid.Row="13"/>
 		<TextBox Text="{Binding Path=model.ReliefZ,Mode=TwoWay}" Grid.Column="1"  Grid.Row="14"/>
-		<Label x:Name="lblArea" Content="{Binding model.WettedAreaUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="5"/>
-		<Label x:Name="lblLatent" Content="{Binding model.LatentHeatUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="6"/>
-		<Label x:Name="lblCraking" Content="{Binding model.CrackingHeatUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="7"/>
-		<Label x:Name="lblLoad" Content="{Binding model.ReliefLoadUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="9"/>
-		<Label x:Name="lblPresses" Content="{Binding model.ReliefPressureUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="10"/>
-		<Label x:Name="lblTemper" Content="{Binding model.ReliefTemperatureUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="11"/>
+        <Label x:Name="lblArea" Content="{Binding model.WettedAreaUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="5"/>
+        <Label x:Name="lblLatent" Content="{Binding model.LatentHeatUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="6"/>
+        <Label x:Name="lblCraking" Content="{Binding model.CrackingHeatUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="7"/>
+        <Label x:Name="lblLoad" Content="{Binding model.ReliefLoadUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="9"/>
+        <Label x:Name="lblPresses" Content="{Binding model.ReliefPressureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="10"/>
+        <Label x:Name="lblTemper" Content="{Binding model.ReliefTemperatureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="11"/>
 		
 		<CheckBox IsChecked="{Binding model.HeavyOilFluid}" Content="Heavy Oil Fluid" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="29,10,0,0"/>
 		<CheckBox x:Name="chkFluid" IsChecked="{Binding model.AllGas}" Content="" HorizontalAlignment="Right" Margin="65,10,0,0" VerticalAlignment="Center"/>

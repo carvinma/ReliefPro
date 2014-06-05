@@ -75,12 +75,12 @@
         <TextBox Text="{Binding Path=model.Headnumber,Mode=TwoWay}" Grid.Column="1"  Grid.Row="7"/>
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.BootDiameter,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblBootDiameter,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="9"/>
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.BootHeight,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblBootHeight,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="10"/>
-        <Label x:Name="lblElevation" Content="{Binding model.ElevationUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="3"/>
-        <Label x:Name="lblDiameter" Content="{Binding model.DiameterUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="4"/>
-        <Label x:Name="lblLength" Content="{Binding model.LengthUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="5"/>
-        <Label x:Name="lblNormalLiquidLevel" Content="{Binding model.NormalLiquidLevelUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="6"/>
-        <Label x:Name="lblBootDiameter" Content="{Binding model.BootDiameterUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="9"/>
-        <Label x:Name="lblBootHeight" Content="{Binding model.BootHeightUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="10"/>
+        <Label x:Name="lblElevation" Content="{Binding model.ElevationUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="3"/>
+        <Label x:Name="lblDiameter" Content="{Binding model.DiameterUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="4"/>
+        <Label x:Name="lblLength" Content="{Binding model.LengthUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="5"/>
+        <Label x:Name="lblNormalLiquidLevel" Content="{Binding model.NormalLiquidLevelUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="6"/>
+        <Label x:Name="lblBootDiameter" Content="{Binding model.BootDiameterUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="9"/>
+        <Label x:Name="lblBootHeight" Content="{Binding model.BootHeightUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="10"/>
         <Button Content="OK" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=DrumSizeWin}" Grid.Column="0" Grid.Row="15"  Width="75"  Height="25"/>
         <Button Content="Cancel" IsCancel="True" Grid.Column="1"  Grid.Row="15" Width="75" Height="25"/>
         <ComboBox  ItemsSource="{Binding lstOrientation, Mode=OneWay}" 
