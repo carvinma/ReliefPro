@@ -16,10 +16,11 @@ using NHibernate;
 using ReliefProMain.ViewModel.Drums;
 using System.Windows;
 using System.IO;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel
 {
-    public class AbnormalHeatInputVM:ViewModelBase
+    public class AbnormalHeatInputVM : ViewModelBase
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
@@ -27,8 +28,10 @@ namespace ReliefProMain.ViewModel
 
         private ScenarioHeatSourceDAL scenarioHeatSourceDAL;
         private HeatSourceDAL heatSourceDAL;
-        private ScenarioDAL scenarioDAL ;
+        private ScenarioDAL scenarioDAL;
         private PSVDAL psvDAL;
+        UnitConvert unitConvert;
+        UOMLib.UOMEnum uomEnum;
         private ObservableCollection<ScenarioHeatSourceModel> _HeatSources;
         public ObservableCollection<ScenarioHeatSourceModel> HeatSources
         {
@@ -111,6 +114,9 @@ namespace ReliefProMain.ViewModel
 
         public AbnormalHeatInputVM(int ScenarioID, ISession SessionPlant, ISession SessionProtectedSystem)
         {
+            unitConvert = new UnitConvert();
+            uomEnum = new UOMLib.UOMEnum(SessionPlant);
+            InitUnit();
             this.ScenarioID = ScenarioID;
             this.SessionPlant = SessionPlant;
             this.SessionProtectedSystem = SessionProtectedSystem;
@@ -133,10 +139,10 @@ namespace ReliefProMain.ViewModel
             }
             if (list.Count == 0)
             {
-                SourceDAL sourceDAL = new SourceDAL();           
+                SourceDAL sourceDAL = new SourceDAL();
                 IList<HeatSource> listHeatSource = heatSourceDAL.GetAllList(SessionProtectedSystem);
                 foreach (HeatSource hs in listHeatSource)
-                {                  
+                {
                     if (hs.HeatSourceType != "Feed/Bottom HX")
                     {
                         ScenarioHeatSource shs = new ScenarioHeatSource();
@@ -157,6 +163,7 @@ namespace ReliefProMain.ViewModel
             ReliefMW = sc.ReliefMW;
             ReliefPressure = sc.ReliefPressure;
             ReliefTemperature = sc.ReliefTemperature;
+            ReadConvert();
         }
 
         private ICommand _CalculateCommand;
@@ -356,8 +363,8 @@ namespace ReliefProMain.ViewModel
         {
             double total = 0;
             foreach (ScenarioHeatSourceModel m in HeatSources)
-            { 
-                total=total+(double.Parse(m.DutyFactor)-1)*double.Parse(m.Duty);
+            {
+                total = total + (double.Parse(m.DutyFactor) - 1) * double.Parse(m.Duty);
             }
             return total;
         }
@@ -378,12 +385,12 @@ namespace ReliefProMain.ViewModel
 
         public void Save(object obj)
         {
-            
+            WriteConvert();
             foreach (ScenarioHeatSourceModel m in HeatSources)
             {
                 scenarioHeatSourceDAL.Update(m.model, SessionProtectedSystem);
             }
-            
+
             Scenario scenario = this.scenarioDAL.GetModel(ScenarioID, SessionProtectedSystem);
             scenario.ReliefLoad = ReliefLoad;
             scenario.ReliefMW = ReliefMW;
@@ -415,6 +422,76 @@ namespace ReliefProMain.ViewModel
             }
             return list;
         }
-       
+
+        private void ReadConvert()
+        {
+            if (!string.IsNullOrEmpty(_ReliefLoad))
+                _ReliefLoad = unitConvert.Convert(UOMEnum.MassRate, _ReliefLoadUnit, double.Parse(_ReliefLoad)).ToString();
+            if (!string.IsNullOrEmpty(_ReliefTemperature))
+                _ReliefTemperature = unitConvert.Convert(UOMEnum.Temperature, _ReliefTemperatureUnit, double.Parse(_ReliefTemperature)).ToString();
+            if (!string.IsNullOrEmpty(_ReliefPressure))
+                _ReliefPressure = unitConvert.Convert(UOMEnum.Pressure, _ReliefPressureUnit, double.Parse(_ReliefPressure)).ToString();
+        }
+        private void WriteConvert()
+        {
+            if (!string.IsNullOrEmpty(_ReliefLoad))
+                _ReliefLoad = unitConvert.Convert(_ReliefLoadUnit, UOMEnum.MassRate, double.Parse(_ReliefLoad)).ToString();
+            if (!string.IsNullOrEmpty(_ReliefTemperature))
+                _ReliefTemperature = unitConvert.Convert(_ReliefTemperatureUnit, UOMEnum.Temperature, double.Parse(_ReliefTemperature)).ToString();
+            if (!string.IsNullOrEmpty(_ReliefPressure))
+                _ReliefPressure = unitConvert.Convert(_ReliefPressureUnit, UOMEnum.Pressure, double.Parse(_ReliefPressure)).ToString();
+        }
+        private void InitUnit()
+        {
+            this._ReliefLoadUnit = uomEnum.UserMassRate;
+            this._ReliefTemperatureUnit = uomEnum.UserTemperature;
+            this._ReliefPressureUnit = uomEnum.UserPressure;
+        }
+        #region 单位字段
+        private string _ReliefLoadUnit;
+        public string ReliefLoadUnit
+        {
+            get
+            {
+                return this._ReliefLoadUnit;
+            }
+            set
+            {
+                this._ReliefLoadUnit = value;
+
+                OnPropertyChanged("ReliefLoadUnit");
+            }
+        }
+
+        private string _ReliefTemperatureUnit;
+        public string ReliefTemperatureUnit
+        {
+            get
+            {
+                return this._ReliefTemperatureUnit;
+            }
+            set
+            {
+                this._ReliefTemperatureUnit = value;
+
+                OnPropertyChanged("ReliefTemperatureUnit");
+            }
+        }
+
+        private string _ReliefPressureUnit;
+        public string ReliefPressureUnit
+        {
+            get
+            {
+                return this._ReliefPressureUnit;
+            }
+            set
+            {
+                this._ReliefPressureUnit = value;
+
+                OnPropertyChanged("ReliefPressureUnit");
+            }
+        }
+        #endregion
     }
 }

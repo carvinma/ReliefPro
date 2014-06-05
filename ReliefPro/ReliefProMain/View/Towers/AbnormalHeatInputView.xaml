@@ -95,17 +95,18 @@
         <Label Content="Relief MW"  Grid.Row="3" Height="25" Width="69" />
         <Label Content="Relief Pressure"  Grid.Row="4" Height="25" Width="94" />
         <Label Content="Relief Temperature"  Grid.Row="5" Height="25" Width="119" />
-        <Label Content="{Binding ReliefLoadUnit}"  Grid.Row="2" Grid.Column="2" Height="10" Margin="25,12,0,8" Width="10" />
-        <Label Content="{Binding ReliefMWUnit}"  Grid.Row="3" Grid.Column="2" Height="10" Margin="25,12,0,8" Width="10" />
-        <Label Content="{Binding ReliefPressureUnit}"  Grid.Row="4" Grid.Column="2" Height="10" Margin="25,12,0,8" Width="10"/>
-        <Label Content="{Binding ReliefTemperatureUnit}"  Grid.Row="5" Grid.Column="2" Height="10" Margin="25,12,0,8" Width="10"/>
-        <CustomControl:UnitConvertTextBox Grid.Column="1"  Grid.Row="2"  Text="{Binding ReliefLoad}" Height="22" Margin="20,4,27,4" />
-        <CustomControl:UnitConvertTextBox Grid.Column="1"  Grid.Row="3" Grid.RowSpan="2"   Text="{Binding ReliefMW}" Height="24" Margin="20,18,27,18" />
-        <CustomControl:UnitConvertTextBox Grid.Column="1"  Grid.Row="4"  Text="{Binding ReliefPressure}" Height="22" Margin="20,4,27,4" />
-        <CustomControl:UnitConvertTextBox Grid.Column="1"  Grid.Row="5"  Text="{Binding ReliefTemperature}" Height="22" Margin="20,4,27,4" />
+        <Label x:Name="lblReliefLoad" Content="{Binding ReliefLoadUnit}"  Grid.Row="2" Grid.Column="2" Height="10" Margin="25,12,0,8" Width="10" />
+        <Label x:Name="lblReliefPressure" Content="{Binding ReliefPressureUnit}"  Grid.Row="4" Grid.Column="2" Height="10" Margin="25,12,0,8" Width="10"/>
+        <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit}"  Grid.Row="5" Grid.Column="2" Height="10" Margin="25,12,0,8" Width="10"/>
+        
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="2"  Text="{Binding ReliefLoad}"   />
+        <TextBox Grid.Column="1"  Grid.Row="3" Text="{Binding ReliefMW}"  />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="4"  Text="{Binding ReliefPressure}"  />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="5"  Text="{Binding ReliefTemperature}" />
+       
         <Button Content="Calculate" Command="{Binding CalculateCommand}" Grid.Column="1"  Grid.Row="1" Height="22" Margin="52,4,57,4" Width="58" />
-        <Button Content="OK" Command="{Binding CalculateCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="3"  Grid.Row="7" Margin="108,4,159,4"  />
-        <Button Content="Cancel" IsCancel="True"  Grid.Column="3"  Grid.Row="7" Margin="182,4,63,4"  />
+        <Button Content="OK" Command="{Binding CalculateCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="3"  Grid.Row="7" Width="58" Margin="0,0,0,0"  />
+        <Button Content="Cancel" IsCancel="True"  Grid.Column="3"  Grid.Row="7" Margin="182,0,0,0"  />
         
     </Grid>
 </Window>
