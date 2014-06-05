@@ -69,6 +69,7 @@
         <Label Content="Cold side outlet temperature @ relief condition" Grid.Column="1" Grid.Row="12"/>
         <Label Content="Heat Source inlet temperature @ relief condition" Grid.Column="1" Grid.Row="13"/>
         <Label Content="Duty @ normal condition" Grid.Column="1" Grid.Row="14"/>
+        
         <Label Content="C" Grid.Column="3" Grid.Row="3"  Style="{StaticResource LabelLeftStyle}"/>
         <Label Content="C" Grid.Column="3" Grid.Row="4"  Style="{StaticResource LabelLeftStyle}"/>
         <Label Content="C" Grid.Column="3" Grid.Row="5"  Style="{StaticResource LabelLeftStyle}"/>
@@ -99,6 +100,7 @@
         <TextBox Grid.Column="2" Grid.Row="17" Text="{Binding Factor}"/>
         <TextBox Grid.Column="5" HorizontalAlignment="Left" Width="60" Grid.Row="1"/>
         <TextBox Grid.Column="5" HorizontalAlignment="Left" Width="60" Grid.Row="2" Text="S105"/>
+        
         <Button Content="Pinch Calculation" Command="{Binding PinchCalcCommand}" Grid.Column="1" Grid.Row="15" Width="120" Height="19"/>
         <Button Content="Use Pinch Duty" Command="{Binding SavePinchCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="3" Grid.Row="17" Width="100" HorizontalAlignment="Right" Height="22"/>
         <Button Content="Browse" Grid.Column="4" Grid.Row="2" Width="100" HorizontalAlignment="Center" Height="22"/>
