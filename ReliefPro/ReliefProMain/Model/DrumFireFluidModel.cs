@@ -50,6 +50,16 @@ namespace ReliefProMain.Model
             }
         }
 
+        private string twUnit;
+        public string TWUnit
+        {
+            get { return twUnit; }
+            set
+            {
+                twUnit = value;
+                this.NotifyPropertyChanged("TWUnit");
+            }
+        }
         public DrumFireFluid dbmodel { get; set; }
 
         public DrumFireFluidModel(DrumFireFluid firemodel)
