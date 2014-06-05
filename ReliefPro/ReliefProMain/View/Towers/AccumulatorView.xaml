@@ -69,9 +69,9 @@
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLength,Path=Content,Mode=TwoWay}" Text="{Binding Length}"  Grid.Row="4" Grid.Column="2"  />
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblNormalLiquidLevel,Path=Content,Mode=TwoWay}"  Text="{Binding NormalLiquidLevel}" Grid.Row="5" Grid.Column="2" />
 
-        <Label x:Name="lblDiameter" Grid.Column="3" Grid.Row="3" Content="{Binding DiameterUnit}"  Style="{StaticResource LabelLeftStyle}" />
-        <Label x:Name="lblLength" Grid.Column="3" Grid.Row="4" Content="{Binding LengthUnit}" Style="{StaticResource LabelLeftStyle}" />
-        <Label x:Name="lblNormalLiquidLevel" Grid.Column="3" Grid.Row="5" Content="{Binding NormalLiquidLevelUnit}" Style="{StaticResource LabelLeftStyle}"/>
+        <Label x:Name="lblDiameter" Grid.Column="3" Grid.Row="3" Content="{Binding DiameterUnit,Mode=TwoWay}"  Style="{StaticResource LabelLeftStyle}" />
+        <Label x:Name="lblLength" Grid.Column="3" Grid.Row="4" Content="{Binding LengthUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" />
+        <Label x:Name="lblNormalLiquidLevel" Grid.Column="3" Grid.Row="5" Content="{Binding NormalLiquidLevelUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}"/>
         
         <Button x:Name="btnOK" Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Left" Margin="0,9,0,0" VerticalAlignment="Top" Width="75" Height="22" Grid.Row="7" Grid.Column="4" />
         <Button Name="btnCancel" Content="Cancel" HorizontalAlignment="Right" Margin="0,9,10,0" VerticalAlignment="Top" Width="75" Height="22" IsCancel="True" Grid.Row="7" Grid.Column="4" />

@@ -113,7 +113,7 @@ namespace ReliefProMain.ViewModel
         public AccumulatorVM(string name, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             unitConvert = new UnitConvert();
-            uomEnum = new UOMLib.UOMEnum(SessionPlant);
+            uomEnum = new UOMLib.UOMEnum(sessionPlant);
             InitUnit();
             AccumulatorTypes = GetAccumulatorTypes();
             SessionPlant = sessionPlant;
