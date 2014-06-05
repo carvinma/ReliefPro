@@ -597,10 +597,22 @@ namespace ReliefProMain.ViewModel
 
         private void ReadConvert()
         {
-            this.MaxOperatingPressure = unitConvert.Convert(UOMEnum.Pressure, _MaxOperatingPressureUnit, double.Parse(MaxOperatingPressure)).ToString();
-            this.ReliefLoad = unitConvert.Convert(UOMEnum.MassRate, reliefloadUnit, double.Parse(ReliefLoad)).ToString();
-            this.ReliefPressure = unitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit, double.Parse(ReliefPressure)).ToString();
-            this.ReliefTemperature = unitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit, double.Parse(ReliefTemperature)).ToString();
+            if (!string.IsNullOrEmpty(MaxOperatingPressure))
+            {
+                this.MaxOperatingPressure = unitConvert.Convert(UOMEnum.Pressure, _MaxOperatingPressureUnit, double.Parse(MaxOperatingPressure)).ToString();
+            }
+            if (!string.IsNullOrEmpty(ReliefLoad))
+            {
+                this.ReliefLoad = unitConvert.Convert(UOMEnum.MassRate, reliefloadUnit, double.Parse(ReliefLoad)).ToString();
+            }
+            if (!string.IsNullOrEmpty(ReliefPressure))
+            {
+                this.ReliefPressure = unitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit, double.Parse(ReliefPressure)).ToString();
+            }
+            if (!string.IsNullOrEmpty(ReliefTemperature))
+            {
+                this.ReliefTemperature = unitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit, double.Parse(ReliefTemperature)).ToString();
+            }
         }
         private void WriteConvert()
         {

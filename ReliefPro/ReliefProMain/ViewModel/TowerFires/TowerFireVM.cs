@@ -347,7 +347,7 @@ WriteConvert();
                     ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
                     reader.ReleaseProIIReader();
                     CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
-                    MainModel.ReliefLoad = vaporFire.WeightFlow;
+                    //MainModel.ReliefLoad = vaporFire.WeightFlow;
                     MainModel.ReliefMW = vaporFire.BulkMwOfPhase;
                     MainModel.ReliefPressure = reliefFirePressure.ToString();
                     MainModel.ReliefTemperature = vaporFire.Temperature;

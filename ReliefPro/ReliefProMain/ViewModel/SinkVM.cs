@@ -46,16 +46,13 @@ namespace ReliefProMain.ViewModel
             SessionProtectedSystem = sessionProtectedSystem;
             unitConvert = new UnitConvert();
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
-            InitUnit();
-            BasicUnit BU;
-            BasicUnitDAL dbBU = new BasicUnitDAL();
-            IList<BasicUnit> list = dbBU.GetAllList(sessionPlant);
-            BU = list.Where(s => s.IsDefault == 1).Single();
-
+            
+           
             db = new SinkDAL();
 
             Sink sink = db.GetModel(SessionProtectedSystem, name);
             MainModel = new SinkModel(sink);
+            InitUnit();
             ReadConvert();
         }
 
