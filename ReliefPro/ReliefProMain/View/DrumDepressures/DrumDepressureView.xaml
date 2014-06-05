@@ -71,19 +71,19 @@
         <Label Content="Initial Depressuring rate" Grid.Column="1" Grid.Row="12"/>
         <Label Content="Time (specify)" Grid.Column="1" Grid.Row="13"/>
         <Label Content="Calculated vessel pressure" Grid.Column="1" Grid.Row="14"/>
-        <Label x:Name="lblInitialPressure" Content="{Binding model.InitialPressureUnit}" Grid.Column="3" Grid.Row="3"  Style="{StaticResource LabelLeftStyle}"/>
-        <Label x:Name="lblVaporDensity" Content="{Binding model.VaporDensityUnit}" Grid.Column="3" Grid.Row="4"  Style="{StaticResource LabelLeftStyle}"/>
-        <Label x:Name="lblTotalVaporVolume" Content="{Binding model.TotalVaporVolumeUnit}" Grid.Column="3" Grid.Row="5"  Style="{StaticResource LabelLeftStyle}"/>
-        <Label x:Name="lblVesseldesignpressure" Content="{Binding model.VesseldesignpressureUnit}" Grid.Column="3" Grid.Row="6"  Style="{StaticResource LabelLeftStyle}"/>
-        <Label x:Name="lblTotalWettedArea" Content="{Binding model.TotalWettedAreaUnit}" Grid.Column="3" Grid.Row="8"  Style="{StaticResource LabelLeftStyle}"/>
-        <Label x:Name="lblInitialDepressuringRate" Content="{Binding model.InitialDepressuringRateUnit}" Grid.Column="3" Grid.Row="12"  Style="{StaticResource LabelLeftStyle}"/>
-        <Label x:Name="lblTimespecify" Content="{Binding model.TimespecifyUnit}" Grid.Column="3" Grid.Row="13"  Style="{StaticResource LabelLeftStyle}"/>
-        <Label x:Name="lblCalculatedVesselPressure" Content="{Binding model.CalculatedVesselPressureUnit}" Grid.Column="3" Grid.Row="14"  Style="{StaticResource LabelLeftStyle}"/>
-        <Label x:Name="lblCalculatedDepressuringRate" Content="{Binding model.CalculatedDepressuringRateUnit}" Grid.Column="3" Grid.Row="15"  Style="{StaticResource LabelLeftStyle}"/>
-        <Label x:Name="lblDetailP" Content="{Binding model.DetailPUnit}" Grid.Column="5" Grid.Row="6"  Style="{StaticResource LabelLeftStyle}"/>
+        <Label x:Name="lblInitialPressure" Content="{Binding model.InitialPressureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="3"  Style="{StaticResource LabelLeftStyle}"/>
+        <Label x:Name="lblVaporDensity" Content="{Binding model.VaporDensityUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="4"  Style="{StaticResource LabelLeftStyle}"/>
+        <Label x:Name="lblTotalVaporVolume" Content="{Binding model.TotalVaporVolumeUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="5"  Style="{StaticResource LabelLeftStyle}"/>
+        <Label x:Name="lblVesseldesignpressure" Content="{Binding model.VesseldesignpressureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="6"  Style="{StaticResource LabelLeftStyle}"/>
+        <Label x:Name="lblTotalWettedArea" Content="{Binding model.TotalWettedAreaUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="8"  Style="{StaticResource LabelLeftStyle}"/>
+        <Label x:Name="lblInitialDepressuringRate" Content="{Binding model.InitialDepressuringRateUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="12"  Style="{StaticResource LabelLeftStyle}"/>
+        <Label x:Name="lblTimespecify" Content="{Binding model.TimespecifyUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="13"  Style="{StaticResource LabelLeftStyle}"/>
+        <Label x:Name="lblCalculatedVesselPressure" Content="{Binding model.CalculatedVesselPressureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="14"  Style="{StaticResource LabelLeftStyle}"/>
+        <Label x:Name="lblCalculatedDepressuringRate" Content="{Binding model.CalculatedDepressuringRateUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="15"  Style="{StaticResource LabelLeftStyle}"/>
+        <Label x:Name="lblDetailP" Content="{Binding model.DetailPUnit,Mode=TwoWay}" Grid.Column="5" Grid.Row="6"  Style="{StaticResource LabelLeftStyle}"/>
         <Label Content="in" Grid.Column="5" Grid.Row="6"  Style="{StaticResource LabelLeftStyle}" Margin="45,0,0,0"/>
-        <Label x:Name="lblDetailPTime" Content="{Binding model.DetailPTimeUnit}" Grid.Column="5" Grid.Row="7"  Style="{StaticResource LabelLeftStyle}"/>
-        <Label x:Name="lblTimeStep" Content="{Binding model.TimeStepUnit}" Grid.Column="5" Grid.Row="6"  VerticalAlignment="Center" HorizontalAlignment="Right"/>
+        <Label x:Name="lblDetailPTime" Content="{Binding model.DetailPTimeUnit,Mode=TwoWay}" Grid.Column="5" Grid.Row="7"  Style="{StaticResource LabelLeftStyle}"/>
+        <Label x:Name="lblTimeStep" Content="{Binding model.TimeStepUnit,Mode=TwoWay}" Grid.Column="5" Grid.Row="6"  VerticalAlignment="Center" HorizontalAlignment="Right"/>
 
         <Label Content="Delta P" Grid.Column="4" Grid.Row="6"  Style="{StaticResource LabelLeftStyle}"/>
         <Label Content="Time Step" Grid.Column="4" Grid.Row="7"  Style="{StaticResource LabelLeftStyle}"/>
