@@ -63,7 +63,7 @@
         <Label Content="Max Possible Pressure:" HorizontalAlignment="Left" Margin="60,22,0,0" VerticalAlignment="Top" Width="151" Grid.Row="3"/>
         <CheckBox Name="chkIsMaintained" Content="Normal flow is maintained when General Electrical power fails." HorizontalAlignment="Left" Margin="127,6.517,-1,0" VerticalAlignment="Top" Width="401"  Grid.Row="4"/>
         <CustomControl:UnitConvertTextBox Text="{Binding Path=MaxPossiblePressure}"  UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left"  Margin="242,25,0,0" TextWrapping="Wrap" Width="169" VerticalAlignment="Top" Grid.Row="3"/>
-        <Label x:Name="lblPressure" Content="{Binding  PressureUnit}" HorizontalAlignment="Left" Margin="430,22,0,0" VerticalAlignment="Top" Grid.Row="3"/>
+        <Label x:Name="lblPressure" Content="{Binding  PressureUnit,Mode=TwoWay}" HorizontalAlignment="Left" Margin="430,22,0,0" VerticalAlignment="Top" Grid.Row="3"/>
 
 
         <Button x:Name="btnOK" Content="OK" Command="{Binding Update}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75"  Margin="353,10,0,0" Grid.Row="5"/>
