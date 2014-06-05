@@ -47,6 +47,16 @@ namespace ReliefProMain.CustomControl
                     }
                 }
             }
+            else
+            {
+                UnitConvertCommonView unitConvertCommonView = new UnitConvertCommonView(UnitOrigin, 0);
+                unitConvertCommonView.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                if (unitConvertCommonView.ShowDialog() == true)
+                {
+                    this.UnitOrigin = unitConvertCommonView.TargetUnit;
+                    this.Text = "";
+                }
+            }
             return;
         }
 
