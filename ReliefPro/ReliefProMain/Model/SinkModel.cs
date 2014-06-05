@@ -6,7 +6,7 @@ using ReliefProModel;
 
 namespace ReliefProMain.Model
 {
-    public class SinkModel:ModelBase
+    public class SinkModel : ModelBase
     {
         public Sink model;
         public SinkModel(Sink m)
@@ -104,6 +104,17 @@ namespace ReliefProMain.Model
                     model.StreamName = value;
                     NotifyPropertyChanged("StreamName");
                 }
+            }
+        }
+
+        private string pressureUnit;
+        public string PressureUnit
+        {
+            get { return pressureUnit; }
+            set
+            {
+                pressureUnit = value;
+                this.NotifyPropertyChanged("PressureUnit");
             }
         }
     }

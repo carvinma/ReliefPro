@@ -24,7 +24,7 @@
 
         <Label Content="Max Possible Pressure:" HorizontalAlignment="Left" Margin="60,10,0,0" VerticalAlignment="Top" Width="151" Grid.Row="3" Height="26"/>
         <TextBox Name="txtMaxPressure" HorizontalAlignment="Left" Height="23" Margin="242,13,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.MaxPossiblePressure}" VerticalAlignment="Top" Width="169"  Grid.Row="3"/>
-        <Label HorizontalAlignment="Left" Margin="433,26,0,0" Content="{Binding Path=MainModel.PressureUnit}" VerticalAlignment="Top" Grid.Row="3" RenderTransformOrigin="0.1,1.5" Height="10" Width="10"/>
+        <Label HorizontalAlignment="Left" Margin="433,26,0,0" Content="{Binding Path=MainModel.PressureUnit,Mode=TwoWay}" VerticalAlignment="Top" Grid.Row="3" RenderTransformOrigin="0.1,1.5" Height="10" Width="10"/>
 
         <Button x:Name="btnOK" Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75"  Margin="353,10,0,0" Grid.Row="5" Height="22"/>
         <Button x:Name="btnCancel" IsCancel="True" Content="Cancel" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Margin="433,10,0,0" Grid.Row="5" Height="22"  />

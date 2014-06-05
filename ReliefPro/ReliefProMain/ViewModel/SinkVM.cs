@@ -24,7 +24,7 @@ namespace ReliefProMain.ViewModel
         private string PrzFile;
         SinkDAL db;
         public List<string> SinkTypes { get; set; }
-        public SinkModel MainModel{ get; set; }
+        public SinkModel MainModel { get; set; }
 
         public List<string> GetSinkTypes()
         {
@@ -36,28 +36,31 @@ namespace ReliefProMain.ViewModel
             list.Add("Pressurized Vessel");
             return list;
         }
-
+        UnitConvert unitConvert;
+        UOMLib.UOMEnum uomEnum;
         public SinkVM(string name, string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             this.PrzFile = PrzFile;
             SinkTypes = GetSinkTypes();
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
+            unitConvert = new UnitConvert();
+            uomEnum = new UOMLib.UOMEnum(sessionPlant);
+            InitUnit();
             BasicUnit BU;
             BasicUnitDAL dbBU = new BasicUnitDAL();
             IList<BasicUnit> list = dbBU.GetAllList(sessionPlant);
             BU = list.Where(s => s.IsDefault == 1).Single();
 
-            UnitConvert uc = new UnitConvert();
             db = new SinkDAL();
-            
-            Sink sink = db.GetModel(SessionProtectedSystem, name);
-            MainModel=new SinkModel(sink);
 
+            Sink sink = db.GetModel(SessionProtectedSystem, name);
+            MainModel = new SinkModel(sink);
+            ReadConvert();
         }
 
         private ICommand _Update;
-        
+
         public ICommand Update
         {
             get { return _Update ?? (_Update = new RelayCommand(OKClick)); }
@@ -77,9 +80,7 @@ namespace ReliefProMain.ViewModel
             IList<BasicUnit> list = dbBU.GetAllList(SessionPlant);
             BU = list.Where(s => s.IsDefault == 1).Single();
 
-
-            UnitConvert uc = new UnitConvert();
-            
+            WriteConvert();
             db.Update(MainModel.model, SessionProtectedSystem);
             SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction
 
@@ -91,7 +92,20 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-       
+        private void ReadConvert()
+        {
+            if (!string.IsNullOrEmpty(MainModel.MaxPossiblePressure))
+                MainModel.MaxPossiblePressure = unitConvert.Convert(UOMEnum.Pressure, MainModel.PressureUnit, double.Parse(MainModel.MaxPossiblePressure)).ToString();
+        }
+        private void WriteConvert()
+        {
+            if (!string.IsNullOrEmpty(MainModel.MaxPossiblePressure))
+                MainModel.MaxPossiblePressure = unitConvert.Convert(MainModel.PressureUnit, UOMEnum.Pressure, double.Parse(MainModel.MaxPossiblePressure)).ToString();
+        }
+        private void InitUnit()
+        {
+            MainModel.PressureUnit = uomEnum.UserPressure;
+        }
 
     }
 }
