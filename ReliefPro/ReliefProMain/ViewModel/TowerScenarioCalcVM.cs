@@ -16,7 +16,7 @@ using NHibernate;
 
 namespace ReliefProMain.ViewModel
 {
-    public class TowerScenarioCalcVM:ViewModelBase
+    public class TowerScenarioCalcVM : ViewModelBase
     {
         private string _ReliefLoad;
         public string ReliefLoad
@@ -80,9 +80,14 @@ namespace ReliefProMain.ViewModel
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         private string PrzFile;
-        private bool IsSteamFreezed=false;
-        public TowerScenarioCalcVM(int scenarioID,string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
+        private bool IsSteamFreezed = false;
+        UnitConvert unitConvert;
+        UOMLib.UOMEnum uomEnum;
+        public TowerScenarioCalcVM(int scenarioID, string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
+            unitConvert = new UnitConvert();
+            uomEnum = new UOMLib.UOMEnum(SessionPlant);
+            InitUnit();
             this.PrzFile = PrzFile;
             ScenarioID = scenarioID;
             SessionPlant = sessionPlant;
@@ -93,7 +98,7 @@ namespace ReliefProMain.ViewModel
             ReliefMW = s.ReliefMW;
             ReliefPressure = s.ReliefPressure;
             ReliefTemperature = s.ReliefTemperature;
-
+            ReadConvert();
             //IsSteamFreezed 的判断
             // condeser =0,则不被冷凝。 
             // condeser factor =1 && stop=false 被冷凝
@@ -120,7 +125,7 @@ namespace ReliefProMain.ViewModel
         private void Feed(object window)
         {
             TowerScenarioFeedView v = new TowerScenarioFeedView();
-            TowerScenarioFeedVM vm = new TowerScenarioFeedVM(ScenarioID,PrzFile, SessionPlant, SessionProtectedSystem);
+            TowerScenarioFeedVM vm = new TowerScenarioFeedVM(ScenarioID, PrzFile, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             v.ShowDialog();
         }
@@ -258,7 +263,7 @@ namespace ReliefProMain.ViewModel
                     TowerFlashProduct product = dbFlashP.GetModel(SessionProtectedSystem, cstream.StreamName);
                     if (!s.FlowStop)
                     {
-                        if (IsSteamFreezed && product.ProdType=="4")
+                        if (IsSteamFreezed && product.ProdType == "4")
                         {
                             ProductTotal = ProductTotal + (double.Parse(s.FlowCalcFactor) * double.Parse(cstream.SpEnthalpy) * double.Parse(cstream.WeightFlow));
                         }
@@ -288,8 +293,8 @@ namespace ReliefProMain.ViewModel
 
             TowerScenarioHXDAL dbTSHX = new TowerScenarioHXDAL();
             TowerHXDetailDAL dbDetail = new TowerHXDetailDAL();
-            ReboilerPinchDAL reboilerPinchDAL=new ReboilerPinchDAL();
-            IList<TowerScenarioHX> list = dbTSHX.GetAllList(SessionProtectedSystem, ScenarioID);            
+            ReboilerPinchDAL reboilerPinchDAL = new ReboilerPinchDAL();
+            IList<TowerScenarioHX> list = dbTSHX.GetAllList(SessionProtectedSystem, ScenarioID);
             foreach (TowerScenarioHX shx in list)
             {
                 if (!shx.DutyLost)
@@ -317,7 +322,7 @@ namespace ReliefProMain.ViewModel
             }
             double reliefLoad = wAccumulation + waterWeightFlow;
             double reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / double.Parse(latent.ReliefOHWeightFlow) + waterWeightFlow / 18);
-            ReliefTemperature = latent.ReliefTemperature;            
+            ReliefTemperature = latent.ReliefTemperature;
             ReliefPressure = latent.ReliefPressure;
             ReliefLoad = reliefLoad.ToString();
             ReliefMW = reliefMW.ToString();
@@ -440,6 +445,7 @@ namespace ReliefProMain.ViewModel
 
         private void Save(object window)
         {
+            WriteConvert();
             ScenarioDAL dbTS = new ScenarioDAL();
             Scenario scenario = dbTS.GetModel(ScenarioID, SessionProtectedSystem);
             scenario.ReliefLoad = ReliefLoad;
@@ -453,8 +459,79 @@ namespace ReliefProMain.ViewModel
 
             if (wd != null)
             {
-                wd.DialogResult=true;
+                wd.DialogResult = true;
             }
         }
+
+        private void ReadConvert()
+        {
+            if (!string.IsNullOrEmpty(_ReliefLoad))
+                _ReliefLoad = unitConvert.Convert(UOMEnum.MassRate, _ReliefLoadUnit, double.Parse(_ReliefLoad)).ToString();
+            if (!string.IsNullOrEmpty(_ReliefTemperature))
+                _ReliefTemperature = unitConvert.Convert(UOMEnum.Temperature, _ReliefTemperatureUnit, double.Parse(_ReliefTemperature)).ToString();
+            if (!string.IsNullOrEmpty(_ReliefPressure))
+                _ReliefPressure = unitConvert.Convert(UOMEnum.Pressure, _ReliefPressureUnit, double.Parse(_ReliefPressure)).ToString();
+        }
+        private void WriteConvert()
+        {
+            if (!string.IsNullOrEmpty(_ReliefLoad))
+                _ReliefLoad = unitConvert.Convert(_ReliefLoadUnit, UOMEnum.MassRate, double.Parse(_ReliefLoad)).ToString();
+            if (!string.IsNullOrEmpty(_ReliefTemperature))
+                _ReliefTemperature = unitConvert.Convert(_ReliefTemperatureUnit, UOMEnum.Temperature, double.Parse(_ReliefTemperature)).ToString();
+            if (!string.IsNullOrEmpty(_ReliefPressure))
+                _ReliefPressure = unitConvert.Convert(_ReliefPressureUnit, UOMEnum.Pressure, double.Parse(_ReliefPressure)).ToString();
+        }
+        private void InitUnit()
+        {
+            this._ReliefLoadUnit = uomEnum.UserMassRate;
+            this._ReliefTemperatureUnit = uomEnum.UserTemperature;
+            this._ReliefPressureUnit = uomEnum.UserPressure;
+        }
+        #region 单位字段
+        private string _ReliefLoadUnit;
+        public string ReliefLoadUnit
+        {
+            get
+            {
+                return this._ReliefLoadUnit;
+            }
+            set
+            {
+                this._ReliefLoadUnit = value;
+
+                OnPropertyChanged("ReliefLoadUnit");
+            }
+        }
+
+        private string _ReliefTemperatureUnit;
+        public string ReliefTemperatureUnit
+        {
+            get
+            {
+                return this._ReliefTemperatureUnit;
+            }
+            set
+            {
+                this._ReliefTemperatureUnit = value;
+
+                OnPropertyChanged("ReliefTemperatureUnit");
+            }
+        }
+
+        private string _ReliefPressureUnit;
+        public string ReliefPressureUnit
+        {
+            get
+            {
+                return this._ReliefPressureUnit;
+            }
+            set
+            {
+                this._ReliefPressureUnit = value;
+
+                OnPropertyChanged("ReliefPressureUnit");
+            }
+        }
+        #endregion
     }
 }
