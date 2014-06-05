@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
+using System.Windows;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,8 +17,9 @@ using ReliefProMain.Model;
 using UOMLib;
 using ReliefProMain.ViewModel;
 using NHibernate;
-
-
+using System.IO;
+using ProII;
+using ReliefProCommon.CommonLib;
 
 namespace ReliefProMain.ViewModel.TowerFires
 {
@@ -26,9 +27,14 @@ namespace ReliefProMain.ViewModel.TowerFires
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
+        private string DirPlant { set; get; }
+        private string DirProtectedSystem { set; get; }
+        private string PrzFile;
+        private string PrzVersion;
+        private string EqName;
         public ObservableCollection<string> HeatInputModels { get; set; }
         private Latent latent;
-
+        private int ScenarioID;
         public TowerFireModel MainModel { get; set; }
         //public ReliefProModel.TowerFire CurrentModel { get; set; }
         private ObservableCollection<TowerFireEq> _EqList;
@@ -47,7 +53,7 @@ namespace ReliefProMain.ViewModel.TowerFires
         UnitConvert unitConvert;
         UOMLib.UOMEnum uomEnum;
 
-        public TowerFireVM(int ScenarioID, ISession sessionPlant, ISession sessionProtectedSystem)
+        public TowerFireVM(int ScenarioID,string EqName,string PrzFile,string PrzVersion, ISession sessionPlant, ISession sessionProtectedSystem,string DirPlant, string DirProtectedSystem)
         {
             unitConvert = new UnitConvert();
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
@@ -56,6 +62,13 @@ namespace ReliefProMain.ViewModel.TowerFires
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
             HeatInputModels = GetHeatInputModels();
+
+            this.PrzFile = PrzFile;
+            this.PrzVersion = PrzVersion;
+            this.DirPlant = DirPlant;
+            this.DirProtectedSystem = DirProtectedSystem;
+            this.EqName = EqName;
+            this.ScenarioID = ScenarioID;
 
             UnitConvert uc = new UnitConvert();
             TowerFireDAL db = new TowerFireDAL();
@@ -91,7 +104,8 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private void Update(object window)
         {
-            TowerFireDAL db = new TowerFireDAL();
+
+            TowerFireDAL towerFireDAL = new TowerFireDAL();
             //ReliefProModel.TowerFire m = db.GetModel(CurrentModel.ID, SessionProtectedSystem);
             //m.HeatInputModel = CurrentModel.HeatInputModel;
             //m.IsExist = CurrentModel.IsExist;
@@ -101,9 +115,18 @@ namespace ReliefProMain.ViewModel.TowerFires
             //m.ReliefPressure = CurrentModel.ReliefPressure;
             //m.ReliefTemperature = CurrentModel.ReliefTemperature;
             //m.ReliefZ = CurrentModel.ReliefZ;
-            WriteConvert();
-            db.Update(MainModel.model, SessionProtectedSystem);
+WriteConvert();
+            towerFireDAL.Update(MainModel.model, SessionProtectedSystem);
+
+            ScenarioDAL scenarioDAL = new ScenarioDAL();
+            Scenario sc = scenarioDAL.GetModel(ScenarioID, SessionProtectedSystem);
+            sc.ReliefLoad = MainModel.ReliefLoad;
+            sc.ReliefMW = MainModel.ReliefMW;
+            sc.ReliefPressure = MainModel.ReliefPressure;
+            sc.ReliefTemperature = MainModel.ReliefTemperature;
+            scenarioDAL.Update(sc, SessionProtectedSystem);
             SessionProtectedSystem.Flush();
+
 
             System.Windows.Window wd = window as System.Windows.Window;
 
@@ -287,6 +310,63 @@ namespace ReliefProMain.ViewModel.TowerFires
             }
             MainModel.ReliefLoad = reliefload.ToString();
 
+
+            PSVDAL psvDAL=new PSVDAL();
+            PSV psv=psvDAL.GetModel(SessionProtectedSystem);
+            double pressure=double.Parse(psv.Pressure);
+
+            double reliefFirePressure = pressure * 1.21;
+            string tempdir = DirProtectedSystem + @"\temp\";
+            string dirLatent = tempdir + "TowerFire";
+            if (!Directory.Exists(dirLatent))
+                Directory.CreateDirectory(dirLatent);
+
+            IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+            reader.InitProIIReader(PrzFile);
+            ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 1, 2, 1);
+            reader.ReleaseProIIReader();
+            CustomStream stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
+
+
+            string gd = Guid.NewGuid().ToString();
+            string vapor = "S_" + gd.Substring(0, 5).ToUpper();
+            string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
+            int ImportResult = 0;
+            int RunResult = 0;
+            PROIIFileOperator.DecompressProIIFile(PrzFile, tempdir);
+            string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
+            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
+            string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 4, "", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                if (RunResult == 1 || RunResult == 2)
+                {
+                    reader = ProIIFactory.CreateReader(PrzVersion);
+                    reader.InitProIIReader(tray1_f);
+                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                    reader.ReleaseProIIReader();
+                    CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
+                    MainModel.ReliefLoad = vaporFire.WeightFlow;
+                    MainModel.ReliefMW = vaporFire.BulkMwOfPhase;
+                    MainModel.ReliefPressure = reliefFirePressure.ToString();
+                    MainModel.ReliefTemperature = vaporFire.Temperature;
+                    MainModel.ReliefCpCv = vaporFire.BulkCPCVRatio;
+                    MainModel.ReliefZ = vaporFire.VaporZFmKVal;
+
+                }
+
+                else
+                {
+                    MessageBox.Show("Prz file is error", "Message Box");
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("inp file is error", "Message Box");
+                return;
+            }
 
         }
 
