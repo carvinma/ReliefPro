@@ -70,7 +70,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="FireFactor"  >
+                    <GridViewColumn Header="F Factor"  >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding Path=FFactor}"  HorizontalAlignment="Stretch" ></TextBox>

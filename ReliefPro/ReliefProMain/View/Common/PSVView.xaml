@@ -54,7 +54,7 @@
         <Label Content="PSV Name:" Grid.Row="1" Grid.Column="1"/>
         <Label Content="Valve Number:"  Grid.Row="2" Grid.Column="1"/>
         <Label Content="Description:"  Grid.Row="1" Grid.Column="4"/>
-        <Label Content="Value Type:"  Grid.Row="2" Grid.Column="4"/>
+        <Label Content="Valve Type:"  Grid.Row="2" Grid.Column="4"/>
         <Label Content="Set Pressure:" Grid.Row="3" Grid.Column="1"/>
         <Label Content="Description"  Grid.Row="5"  Grid.Column="1"/>
         <Label Content="Prelief"  Grid.Row="4" Grid.Column="1"/>
