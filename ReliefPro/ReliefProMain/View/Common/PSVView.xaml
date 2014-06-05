@@ -70,7 +70,7 @@
         <TextBox Name="txtCritical" Grid.Column="2" Grid.Row="6"/>
         <TextBox Text="{Binding CurrentModel.Description}" Grid.Column="5" Grid.Row="1"/>
         
-        <Label x:Name="lblPressure" Content="{Binding PSVPressureUnit}"  Grid.Row="3" Grid.Column="3"/>
+        <Label x:Name="lblPressure" Content="{Binding PSVPressureUnit,Mode=TwoWay}" Grid.Row="3" Grid.Column="3"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch"   Grid.Row="7" VerticalAlignment="Top" Height="2" Grid.ColumnSpan="7" />
         <Button Content="Save"  HorizontalAlignment="Left" Margin="72.045,0,0,29" Grid.Row="7" VerticalAlignment="Bottom" Width="75" Height="22" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName= myWindow}" Grid.Column="5"/>
         <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Left" Margin="180.045,10,0,0" Grid.Row="7" VerticalAlignment="Top" Width="75" Height="22" Grid.Column="5"/>
