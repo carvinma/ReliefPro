@@ -42,7 +42,7 @@
         <Label Content="Critical Pressure"  Grid.Row="1"/>
         <Label Content="Fluid Type"  Grid.Row="2"/>
         <TextBox Grid.Column="1" Grid.Row="1"/>
-        <Label Content="MPag" Style="{StaticResource LabelLeftStyle}" Grid.Column="2"  Grid.Row="1"/>
+        <Label x:Name="lblPressure" Content="MPag" Style="{StaticResource LabelLeftStyle}" Grid.Column="2"  Grid.Row="1"/>
 
         <Button Content="OK" Grid.Column="1"  Grid.Row="3" Width="75" Height="21"/>
         <Button Content="Cancle" Grid.Column="2" Grid.Row="3" Width="75" Height="21"/>
