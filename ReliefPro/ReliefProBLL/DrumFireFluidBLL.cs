@@ -59,6 +59,7 @@ namespace ReliefProBLL
             fireModel.NormaTemperature = uc.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.NormaTemperature);
             fireModel.NormalPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, fireModel.NormalPressure);
             fireModel.PSVPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, fireModel.PSVPressure);
+            fireModel.TW = uc.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.TW);
             return fireModel;
         }
         private Tuple<double, double, double, double> GetFluidInfo()
