@@ -25,6 +25,8 @@ namespace UOMLib
         public const string SpecificEnthalpy = "KJ/kg";
         public const string Density = "kg/m3";
         public const string Area = "m2";
+        public const string ThermalConductivity = "w/m2-C";
+        public const string HeatTransCoeffcient = "w/m-C";
 
         public readonly string UserTemperature;
         public readonly string UserWeightFlow;
@@ -37,6 +39,8 @@ namespace UOMLib
         public readonly string UserVolume;
         public readonly string UserTime;
         public readonly string UserLength;
+        public readonly string UserThermalConductivity;
+        public readonly string UserHeatTransCoeffcient;
         public UOMEnum(ISession SessionPlant)
         {
             UnitInfo unitInfo = new UnitInfo();
@@ -53,6 +57,8 @@ namespace UOMLib
             UserVolume = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Volume, basicUnit.ID);
             UserTime = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Time, basicUnit.ID);
             UserLength = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Length, basicUnit.ID);
+            UserThermalConductivity = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.ThermalConductivity, basicUnit.ID);
+            UserHeatTransCoeffcient = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.HeatTransCoeffcient, basicUnit.ID);
         }
         private string GetDefalutUnit(IList<BasicUnitDefault> lstBasicUnitDefault, UnitTypeEnum unitTypeEnum, int basicUnitID)
         {
