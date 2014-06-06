@@ -452,12 +452,22 @@ namespace ReliefProMain.ViewModel
             double FeedTotal = 0;
             double ProductTotal = 0;
             double HeatTotal = 0;
-
+            bool IsFB=false;
             PSVDAL dbpsv = new PSVDAL();
             PSV psv = dbpsv.GetModel(SessionProtectedSystem);
 
             LatentDAL dblatent = new LatentDAL();
             Latent latent = dblatent.GetModel(SessionProtectedSystem);
+
+            FeedBottomHXDAL feedBottomHXDAL = new ReliefProDAL.FeedBottomHXDAL();
+            FeedBottomHX fbhx = feedBottomHXDAL.GetModel(SessionProtectedSystem);
+            if(fbhx!=null)
+            {
+            ScenarioHeatSourceDAL scenarioHeatSourceDAL=new ScenarioHeatSourceDAL();
+            ScenarioHeatSource scenarioHeatSource=scenarioHeatSourceDAL.GetModel(SessionProtectedSystem,fbhx.HeatSourceID,ScenarioID);
+                if(scenarioHeatSource.IsFB)
+                    IsFB=true;
+            }
 
             CustomStreamDAL dbCS = new CustomStreamDAL();
             TowerScenarioStreamDAL db = new TowerScenarioStreamDAL();
@@ -496,7 +506,17 @@ namespace ReliefProMain.ViewModel
                 {
                     if (!s.FlowStop)
                     {
-                        FeedTotal = FeedTotal + (double.Parse(s.FlowCalcFactor) * double.Parse(cstream.SpEnthalpy) * double.Parse(cstream.WeightFlow));
+                        if (fbhx != null)
+                        {
+                            if (fbhx.StreamName == s.StreamName && IsFB)
+                            {
+                                FeedTotal = FeedTotal + (double.Parse(s.FlowCalcFactor) * double.Parse(fbhx.FeedReliefSpEout) * double.Parse(cstream.WeightFlow));
+                            }
+                        }
+                        else
+                        {
+                            FeedTotal = FeedTotal + (double.Parse(s.FlowCalcFactor) * double.Parse(cstream.SpEnthalpy) * double.Parse(cstream.WeightFlow));
+                        }
                     }
                 }
             }
