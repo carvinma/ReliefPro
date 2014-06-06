@@ -649,11 +649,11 @@ namespace ReliefProMain.ViewModel
                 case "RefluxFailure":
                     factor = model.RefluxFailure;
                     break;
-                case "ElectricPowerFailure":
-                    factor = model.ElectricPowerFailure;
+                case "GeneralElectricPowerFailure":
+                    factor = model.GeneralElectricPowerFailure;
                     break;
                 case "PartialElectricPowerFailure":
-                    factor = model.ElectricPowerFailure;
+                    factor = model.GeneralElectricPowerFailure;
                     break;
                 case "CoolingWaterFailure":
                     factor = model.CoolingWaterFailure;

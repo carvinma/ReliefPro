@@ -143,19 +143,17 @@ namespace ReliefProMain.ViewModel
                 IList<HeatSource> listHeatSource = heatSourceDAL.GetAllList(SessionProtectedSystem);
                 foreach (HeatSource hs in listHeatSource)
                 {
-                    if (hs.HeatSourceType != "Feed/Bottom HX")
-                    {
-                        ScenarioHeatSource shs = new ScenarioHeatSource();
-                        ScenarioHeatSourceModel shsm = new ScenarioHeatSourceModel(shs);
-                        shsm.HeatSourceID = hs.ID;
-                        shsm.DutyFactor = "1";
-                        shsm.Duty = hs.Duty;
-                        shsm.ScenarioStreamID = 0;
-                        shsm.ScenarioID = ScenarioID;
-                        shsm.HeatSourceName = hs.HeatSourceName;
-                        shsm.HeatSourceType = hs.HeatSourceType;
-                        HeatSources.Add(shsm);
-                    }
+                    ScenarioHeatSource shs = new ScenarioHeatSource();
+                    ScenarioHeatSourceModel shsm = new ScenarioHeatSourceModel(shs);
+                    shsm.HeatSourceID = hs.ID;
+                    shsm.DutyFactor = "1";
+                    shsm.Duty = hs.Duty;
+                    shsm.ScenarioStreamID = 0;
+                    shsm.ScenarioID = ScenarioID;
+                    shsm.HeatSourceName = hs.HeatSourceName;
+                    shsm.HeatSourceType = hs.HeatSourceType;
+                    HeatSources.Add(shsm);
+
                 }
             }
             Scenario sc = scenarioDAL.GetModel(ScenarioID, SessionProtectedSystem);

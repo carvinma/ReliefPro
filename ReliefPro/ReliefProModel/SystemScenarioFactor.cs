@@ -13,7 +13,7 @@ namespace ReliefProModel
         public virtual string CategoryValue { get; set; }
         public virtual string BlockedOutlet { get; set; }
         public virtual string RefluxFailure { get; set; }
-        public virtual string ElectricPowerFailure { get; set; }
+        public virtual string GeneralElectricPowerFailure { get; set; }
         public virtual string CoolingWaterFailure { get; set; }
         public virtual string RefrigerantFailure { get; set; }
         public virtual string PumpAroundFailure { get; set; }

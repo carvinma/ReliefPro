@@ -8,7 +8,7 @@
     <property name="CategoryValue" column="CategoryValue" type="String" length="255" />
     <property name="BlockedOutlet" column="BlockedOutlet" type="String" length="255" />
     <property name="RefluxFailure" column="RefluxFailure" type="String" length="255" />
-    <property name="ElectricPowerFailure" column="ElectricPowerFailure" type="String" length="255" />
+    <property name="GeneralElectricPowerFailure" column="GeneralElectricPowerFailure" type="String" length="255" />
     <property name="CoolingWaterFailure" column="CoolingWaterFailure" type="String" length="255" />
     <property name="RefrigerantFailure" column="RefrigerantFailure" type="String" length="255" />
     <property name="PumpAroundFailure" column="PumpAroundFailure" type="String" length="255" />
