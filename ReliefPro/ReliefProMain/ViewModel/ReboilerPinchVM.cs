@@ -212,10 +212,15 @@ namespace ReliefProMain.ViewModel
         TowerHXDetailDAL towerHXDetailDAL;
         ReboilerPinchDAL reboilerPinchDAL;
         int TowerScenarioHXID;
+        UnitConvert unitConvert;
+        UOMLib.UOMEnum uomEnum;
         public ReboilerPinchVM(int TowerScenarioHXID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
+            unitConvert = new UnitConvert();
+            uomEnum = new UOMLib.UOMEnum(SessionPlant);
+            InitUnit();
             this.TowerScenarioHXID = TowerScenarioHXID;
             towerHXDetailDAL = new TowerHXDetailDAL();
             towerScenarioHXDAL = new TowerScenarioHXDAL();
@@ -267,7 +272,7 @@ namespace ReliefProMain.ViewModel
                 ReliefHeatTin = reboilerPinchModel.ReliefHeatTin;
                 SourceType = reboilerPinchModel.SourceType;
             }
-
+            ReadConvert();
 
         }
 
@@ -433,6 +438,7 @@ namespace ReliefProMain.ViewModel
 
         private void SavePinch(object window)
         {
+            WriteConvert();
             if (reboilerPinchModel == null)
             {
                 reboilerPinchModel = new ReboilerPinch();
@@ -498,6 +504,7 @@ namespace ReliefProMain.ViewModel
 
         private void SaveNormalPinch(object window)
         {
+            WriteConvert();
             if (reboilerPinchModel == null)
             {
                 reboilerPinchModel.IsPinch = false;
@@ -546,5 +553,247 @@ namespace ReliefProMain.ViewModel
                 wd.DialogResult = true;
             }
         }
+
+        private void ReadConvert()
+        {
+            if (!string.IsNullOrEmpty(_Coldtin))
+                _Coldtin = unitConvert.Convert(UOMEnum.Temperature, _ColdtinUnit, double.Parse(_Coldtin)).ToString();
+            if (!string.IsNullOrEmpty(_Coldtout))
+                _Coldtout = unitConvert.Convert(UOMEnum.Temperature, _ColdtoutUnit, double.Parse(_Coldtout)).ToString();
+            if (!string.IsNullOrEmpty(_HeatTin))
+                _HeatTin = unitConvert.Convert(UOMEnum.Temperature, _HeatTinUnit, double.Parse(_HeatTin)).ToString();
+
+            if (!string.IsNullOrEmpty(_HeatTout))
+                _HeatTout = unitConvert.Convert(UOMEnum.Temperature, _HeatToutUnit, double.Parse(_HeatTout)).ToString();
+            if (!string.IsNullOrEmpty(_ReliefHeatTin))
+                _ReliefHeatTin = unitConvert.Convert(UOMEnum.Temperature, _ReliefHeatTinUnit, double.Parse(_ReliefHeatTin)).ToString();
+            if (!string.IsNullOrEmpty(_ReliefColdtout))
+                _ReliefColdtout = unitConvert.Convert(UOMEnum.Temperature, _ReliefColdtoutUnit, double.Parse(_ReliefColdtout)).ToString();
+
+            if (!string.IsNullOrEmpty(_Area))
+                _Area = unitConvert.Convert(UOMEnum.Area, _AreaUnit, double.Parse(_Area)).ToString();
+            if (!string.IsNullOrEmpty(_UDesign))
+                _UDesign = unitConvert.Convert(UOMEnum.ThermalConductivity, _UDesignUnit, double.Parse(_UDesign)).ToString();
+            if (!string.IsNullOrEmpty(_UDesignArea))
+                _UDesignArea = unitConvert.Convert(UOMEnum.HeatTransCoeffcient, _UDesignAreaUnit, double.Parse(_UDesignArea)).ToString();
+
+            if (!string.IsNullOrEmpty(_UClean))
+                _UClean = unitConvert.Convert(UOMEnum.ThermalConductivity, _UCleanUnit, double.Parse(_UClean)).ToString();
+            if (!string.IsNullOrEmpty(_UCD))
+                _UCD = unitConvert.Convert(UOMEnum.Temperature, _UCDUnit, double.Parse(_UCD)).ToString();
+            if (!string.IsNullOrEmpty(_Duty))
+                _Duty = unitConvert.Convert(UOMEnum.EnthalpyDuty, _DutyUnit, double.Parse(_Duty)).ToString();
+
+            if (!string.IsNullOrEmpty(_ReliefDuty))
+                _ReliefDuty = unitConvert.Convert(UOMEnum.EnthalpyDuty, _ReliefDutyUnit, double.Parse(_ReliefDuty)).ToString();
+            //if (!string.IsNullOrEmpty(_HeaderPressure))
+            //    _Coldtout = unitConvert.Convert(UOMEnum.Pressure, _HeaderPressureUnit, double.Parse(_Coldtout)).ToString();
+        }
+        private void WriteConvert()
+        {
+            if (!string.IsNullOrEmpty(_Coldtin))
+                _Coldtin = unitConvert.Convert(_ColdtinUnit, UOMEnum.Temperature, double.Parse(_Coldtin)).ToString();
+            if (!string.IsNullOrEmpty(_Coldtout))
+                _Coldtout = unitConvert.Convert(_ColdtoutUnit, UOMEnum.Temperature, double.Parse(_Coldtout)).ToString();
+            if (!string.IsNullOrEmpty(_HeatTin))
+                _HeatTin = unitConvert.Convert(_HeatTinUnit, UOMEnum.Temperature, double.Parse(_HeatTin)).ToString();
+
+            if (!string.IsNullOrEmpty(_HeatTout))
+                _HeatTout = unitConvert.Convert(_HeatToutUnit, UOMEnum.Temperature, double.Parse(_HeatTout)).ToString();
+            if (!string.IsNullOrEmpty(_ReliefHeatTin))
+                _ReliefHeatTin = unitConvert.Convert(_ReliefHeatTinUnit, UOMEnum.Temperature, double.Parse(_ReliefHeatTin)).ToString();
+            if (!string.IsNullOrEmpty(_ReliefColdtout))
+                _ReliefColdtout = unitConvert.Convert(_ReliefColdtoutUnit, UOMEnum.Temperature, double.Parse(_ReliefColdtout)).ToString();
+
+            if (!string.IsNullOrEmpty(_Area))
+                _Area = unitConvert.Convert(_AreaUnit, UOMEnum.Area, double.Parse(_Area)).ToString();
+            if (!string.IsNullOrEmpty(_UDesign))
+                _UDesign = unitConvert.Convert(_UDesignUnit, UOMEnum.ThermalConductivity, double.Parse(_UDesign)).ToString();
+            if (!string.IsNullOrEmpty(_UDesignArea))
+                _UDesignArea = unitConvert.Convert(_UDesignAreaUnit, UOMEnum.HeatTransCoeffcient, double.Parse(_UDesignArea)).ToString();
+
+            if (!string.IsNullOrEmpty(_UClean))
+                _UClean = unitConvert.Convert(_UCleanUnit, UOMEnum.ThermalConductivity, double.Parse(_UClean)).ToString();
+            if (!string.IsNullOrEmpty(_UCD))
+                _UCD = unitConvert.Convert(_UCDUnit, UOMEnum.Temperature, double.Parse(_UCD)).ToString();
+            if (!string.IsNullOrEmpty(_Duty))
+                _Duty = unitConvert.Convert(_DutyUnit, UOMEnum.EnthalpyDuty, double.Parse(_Duty)).ToString();
+
+            if (!string.IsNullOrEmpty(_ReliefDuty))
+                _ReliefDuty = unitConvert.Convert(_ReliefDutyUnit, UOMEnum.EnthalpyDuty, double.Parse(_ReliefDuty)).ToString();
+            //if (!string.IsNullOrEmpty(_HeaderPressure))
+            //    _Coldtout = unitConvert.Convert(_HeaderPressureUnit,UOMEnum.Pressure,  double.Parse(_Coldtout)).ToString();
+        }
+        private void InitUnit()
+        {
+            this._ColdtinUnit = uomEnum.UserTemperature;
+            this._ColdtoutUnit = uomEnum.UserTemperature;
+            this._HeatTinUnit = uomEnum.UserTemperature;
+
+            this._HeatToutUnit = uomEnum.UserTemperature;
+            this._ReliefHeatTinUnit = uomEnum.UserTemperature;
+            this._ReliefColdtoutUnit = uomEnum.UserTemperature;
+
+            this._AreaUnit = uomEnum.UserArea;
+            this._UDesignUnit = uomEnum.UserThermalConductivity;
+            this._UDesignAreaUnit = uomEnum.UserHeatTransCoeffcient;
+
+            this._UCleanUnit = uomEnum.UserThermalConductivity;
+            this._UCDUnit = uomEnum.UserTemperature;
+            this._DutyUnit = uomEnum.UserEnthalpyDuty;
+
+            this._ReliefDutyUnit = uomEnum.UserEnthalpyDuty;
+            this._HeaderPressureUnit = uomEnum.UserPressure;
+        }
+        #region 单位字段
+        private string _ColdtinUnit;
+        public string ColdtinUnit
+        {
+            get { return _ColdtinUnit; }
+            set
+            {
+                _ColdtinUnit = value;
+                OnPropertyChanged("ColdtinUnit");
+            }
+        }
+        private string _ColdtoutUnit;
+        public string ColdtoutUnit
+        {
+            get { return _ColdtoutUnit; }
+            set
+            {
+                _ColdtoutUnit = value;
+                OnPropertyChanged("ColdtoutUnit");
+            }
+        }
+        private string _HeatTinUnit;
+        public string HeatTinUnit
+        {
+            get { return _HeatTinUnit; }
+            set
+            {
+                _HeatTinUnit = value;
+                OnPropertyChanged("HeatTinUnit");
+            }
+        }
+        private string _HeatToutUnit;
+        public string HeatToutUnit
+        {
+            get { return _HeatToutUnit; }
+            set
+            {
+                _HeatToutUnit = value;
+                OnPropertyChanged("HeatToutUnit");
+            }
+        }
+
+        private string _ReliefHeatTinUnit;
+        public string ReliefHeatTinUnit
+        {
+            get { return _ReliefHeatTinUnit; }
+            set
+            {
+                _ReliefHeatTinUnit = value;
+                OnPropertyChanged("ReliefHeatTinUnit");
+            }
+        }
+
+        private string _ReliefColdtoutUnit;
+        public string ReliefColdtoutUnit
+        {
+            get { return _ReliefColdtoutUnit; }
+            set
+            {
+                _ReliefColdtoutUnit = value;
+                OnPropertyChanged("ReliefColdtoutUnit");
+            }
+        }
+
+        private string _AreaUnit;
+        public string AreaUnit
+        {
+            get { return _AreaUnit; }
+            set
+            {
+                _AreaUnit = value;
+                OnPropertyChanged("AreaUnit");
+            }
+        }
+        private string _UDesignUnit;
+        public string UDesignUnit
+        {
+            get { return _UDesignUnit; }
+            set
+            {
+                _UDesignUnit = value;
+                OnPropertyChanged("UDesignUnit");
+            }
+        }
+
+        private string _UDesignAreaUnit;
+        public string UDesignAreaUnit
+        {
+            get { return _UDesignAreaUnit; }
+            set
+            {
+                _UDesignAreaUnit = value;
+                OnPropertyChanged("UDesignAreaUnit");
+            }
+        }
+        private string _UCleanUnit;
+        public string UCleanUnit
+        {
+            get { return _UCleanUnit; }
+            set
+            {
+                _UCleanUnit = value;
+                OnPropertyChanged("UCleanUnit");
+            }
+        }
+
+        private string _UCDUnit;
+        public string UCDUnit
+        {
+            get { return _UCDUnit; }
+            set
+            {
+                _UCDUnit = value;
+                OnPropertyChanged("UCDUnit");
+            }
+        }
+        private string _DutyUnit;
+        public string DutyUnit
+        {
+            get { return _DutyUnit; }
+            set
+            {
+                _DutyUnit = value;
+                OnPropertyChanged("DutyUnit");
+            }
+        }
+
+        private string _ReliefDutyUnit;
+        public string ReliefDutyUnit
+        {
+            get { return _ReliefDutyUnit; }
+            set
+            {
+                _ReliefDutyUnit = value;
+                OnPropertyChanged("ReliefDutyUnit");
+            }
+        }
+
+        private string _HeaderPressureUnit;
+        public string HeaderPressureUnit
+        {
+            get { return _HeaderPressureUnit; }
+            set
+            {
+                _HeaderPressureUnit = value;
+                OnPropertyChanged("HeaderPressureUnit");
+            }
+        }
+        #endregion
+
     }
 }
