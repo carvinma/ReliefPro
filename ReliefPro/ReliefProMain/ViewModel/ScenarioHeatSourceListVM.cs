@@ -80,13 +80,15 @@ namespace ReliefProMain.ViewModel
 
         public void Calculate(object obj)
         {
-            int HeatSourceID=int.Parse(obj.ToString());
+            int ID=int.Parse(obj.ToString());
+            ScenarioHeatSource shs=db.GetModel(ID,SessionProtectedSystem);
+            int HeatSourceID = shs.HeatSourceID;            
             FeedBottomHXView v = new FeedBottomHXView();
             FeedBottomHXVM vm = new FeedBottomHXVM(HeatSourceID, PrzFile,SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {
-                SelectedHeatSource.DutyFactor = vm.Factor;
+                SelectedHeatSource.IsFB = true ;
             }
         }
 

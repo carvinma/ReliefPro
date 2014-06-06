@@ -87,7 +87,7 @@ namespace ReliefProMain
 
 
             double TotalMassRate = 0;
-            if (TotalMolarRate > 0 && bulkmwofphase != "")
+            if (TotalMolarRate > 0 && !string.IsNullOrEmpty(bulkmwofphase))
             {
                 TotalMassRate = TotalMolarRate * double.Parse(bulkmwofphase);
             }

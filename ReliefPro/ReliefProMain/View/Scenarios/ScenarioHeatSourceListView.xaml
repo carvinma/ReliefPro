@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.ScenarioHeatSourceListView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="HeatSourceListView" Height="243.288" Width="733.038" Name="myWindow">
+        Title="HeatSourceListView" Height="243.288" Width="833.038" Name="myWindow">
     <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="58*"/>
@@ -31,10 +31,17 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Duty Factor" Width="150px" >
+                    <GridViewColumn Header="Duty Factor" Width="100px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox  Text="{Binding Path=DutyFactor,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Is FB" Width="90px" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox  IsChecked="{Binding Path=IsFB,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="50px" ></CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

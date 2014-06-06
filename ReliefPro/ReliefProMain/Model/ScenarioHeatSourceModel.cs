@@ -140,6 +140,21 @@ namespace ReliefProMain.Model
                 }
             }
         }
+        public bool IsFB
+        {
+            get
+            {
+                return model.IsFB;
+            }
+            set
+            {
+                if (model.IsFB != value)
+                {
+                    model.IsFB = value;
+                    NotifyPropertyChanged("IsFB");
+                }
+            }
+        }
 
         public ScenarioHeatSourceModel(ScenarioHeatSource m)
         {
