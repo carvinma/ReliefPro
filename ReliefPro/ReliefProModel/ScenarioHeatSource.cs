@@ -13,5 +13,6 @@ namespace ReliefProModel
         public virtual string DutyFactor { get; set; }
         public virtual int ScenarioStreamID { get; set; }
         public virtual int ScenarioID { get; set; }
+        public virtual bool IsFB { get; set; }
     }
 }

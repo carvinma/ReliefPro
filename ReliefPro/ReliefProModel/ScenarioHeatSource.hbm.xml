@@ -8,5 +8,6 @@
     <property name="HeatSourceID" column="HeatSourceID"  type="Int32" />
     <property name="ScenarioStreamID" column="ScenarioStreamID"  type="Int32" />
     <property name="ScenarioID" column="ScenarioID"  type="Int32" />
+    <property name="IsFB" column="IsFB"  type="Boolean" />
   </class>
 </hibernate-mapping>
