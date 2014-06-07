@@ -15,6 +15,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
     {
         public ICommand CalcCMD { get; set; }
         public ICommand OKCMD { get; set; }
+
+        public ICommand RunCaseSimulationCMD { get; set; }
+        public ICommand LaunchSimulatorCMD { get; set; }
+
         private ISession SessionPS;
         private ISession SessionPF;
         public ReactorLoopBlockedOutletModel model { get; set; }
@@ -34,6 +38,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             reactorType = ReactorType;
             OKCMD = new DelegateCommand<object>(Save);
             CalcCMD = new DelegateCommand<object>(CalcResult);
+            RunCaseSimulationCMD = new DelegateCommand<object>(RunCaseSimulation);
+            LaunchSimulatorCMD = new DelegateCommand<object>(LaunchSimulator);
 
             reactorBLL = new ReactorLoopBLL(SessionPS, SessionPF);
             var blockModel = reactorBLL.GetBlockedOutletModel(ScenarioID, reactorType);
@@ -61,6 +67,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             model.dbmodel.ReliefCpCv = model.ReliefCpCv;
             model.dbmodel.ReliefZ = model.ReliefZ;
             model.dbmodel.ReactorType = reactorType;
+        }
+        private void RunCaseSimulation(object obj)
+        { }
+        private void LaunchSimulator(object obj)
+        {
         }
         private void CalcResult(object obj)
         {
