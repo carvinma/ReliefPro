@@ -21,9 +21,9 @@ namespace ReliefProLL
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
         }
-        public ReactorLoopBlockedOutlet GetBlockedOutletModel(int ScenarioID)
+        public ReactorLoopBlockedOutlet GetBlockedOutletModel(int ScenarioID, int ReactorType)
         {
-            var model = dbBlock.GetModelByScenarioID(SessionPS, ScenarioID);
+            var model = dbBlock.GetModelByScenarioID(SessionPS, ScenarioID, ReactorType);
             if (model == null)
                 model = new ReactorLoopBlockedOutlet();
             return model;
@@ -40,11 +40,11 @@ namespace ReliefProLL
             UnitConvert uc = new UnitConvert();
             Model = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
+            Model.EffluentTemperature = uc.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.EffluentTemperature);
             Model.MaxGasRate = uc.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.MaxGasRate);
             Model.TotalPurgeRate = uc.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.TotalPurgeRate);
             Model.ReliefLoad = uc.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.ReliefLoad);
             Model.ReliefTemperature = uc.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature);
-            //Model.ReliefPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);
             return Model;
         }
         public void SaveBlockedOutlet(ReactorLoopBlockedOutlet model)
@@ -53,7 +53,6 @@ namespace ReliefProLL
             ScenarioDAL db = new ScenarioDAL();
             var sModel = db.GetModel(model.ScenarioID, SessionPS);
             sModel.ReliefLoad = model.ReliefLoad.ToString();
-            //sModel.ReliefPressure = model.ReliefPressure.ToString();
             sModel.ReliefTemperature = model.ReliefTemperature.ToString();
             sModel.ReliefMW = model.ReliefMW.ToString();
             db.Update(sModel, SessionPS);
