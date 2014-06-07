@@ -19,21 +19,31 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private ISession SessionPF;
         public ReactorLoopBlockedOutletModel model { get; set; }
         private ReactorLoopBLL reactorBLL;
-        public ReactorLoopBlockedOutletVM(int ScenarioID, ISession SessionPS, ISession SessionPF)
+        private int reactorType;
+        /// <summary>
+        /// 0-ReactorLoopBlockedOutlet,1-LossOfReactorQuench,2-LossOfColdFeed
+        /// </summary>
+        /// <param name="ScenarioID"></param>
+        /// <param name="SessionPS"></param>
+        /// <param name="SessionPF"></param>
+        /// <param name="ReactorType"> 0-ReactorLoopBlockedOutlet,1-LossOfReactorQuench,2-LossOfColdFeed</param>
+        public ReactorLoopBlockedOutletVM(int ScenarioID, ISession SessionPS, ISession SessionPF, int ReactorType)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
+            reactorType = ReactorType;
             OKCMD = new DelegateCommand<object>(Save);
             CalcCMD = new DelegateCommand<object>(CalcResult);
 
             reactorBLL = new ReactorLoopBLL(SessionPS, SessionPF);
-            var blockModel = reactorBLL.GetBlockedOutletModel(ScenarioID);
+            var blockModel = reactorBLL.GetBlockedOutletModel(ScenarioID, reactorType);
             blockModel = reactorBLL.ReadConvertBlockedOutletModel(blockModel);
 
             model = new ReactorLoopBlockedOutletModel(blockModel);
             model.dbmodel.ScenarioID = ScenarioID;
 
             UOMLib.UOMEnum uomEnum = new UOMLib.UOMEnum(SessionPF);
+            model.EffluentTemperatureUnit = uomEnum.UserTemperature;
             model.MaxGasRateUnit = uomEnum.UserMassRate;
             model.TotalPurgeRateUnit = uomEnum.UserMassRate;
             model.ReliefLoadUnit = uomEnum.UserMassRate;
@@ -42,6 +52,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private void WriteConvertModel()
         {
             UnitConvert uc = new UnitConvert();
+            model.dbmodel.EffluentTemperature = uc.Convert(model.EffluentTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.EffluentTemperature);
             model.dbmodel.MaxGasRate = uc.Convert(model.MaxGasRateUnit, UOMLib.UOMEnum.MassRate.ToString(), model.MaxGasRate);
             model.dbmodel.TotalPurgeRate = uc.Convert(model.TotalPurgeRateUnit, UOMLib.UOMEnum.MassRate.ToString(), model.TotalPurgeRate);
             model.dbmodel.ReliefMW = model.ReliefMW;
@@ -49,6 +60,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             model.dbmodel.ReliefTemperature = uc.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
             model.dbmodel.ReliefCpCv = model.ReliefCpCv;
             model.dbmodel.ReliefZ = model.ReliefZ;
+            model.dbmodel.ReactorType = reactorType;
         }
         private void CalcResult(object obj)
         {

@@ -8,6 +8,17 @@ namespace ReliefProMain.Model.ReactorLoops
 {
     public class ReactorLoopBlockedOutletModel : ModelBase
     {
+
+        private string effluentTemperatureUnit;
+        public string EffluentTemperatureUnit
+        {
+            get { return effluentTemperatureUnit; }
+            set
+            {
+                effluentTemperatureUnit = value;
+                this.NotifyPropertyChanged("EffluentTemperatureUnit");
+            }
+        }
         private string maxGasRateUnit;
         public string MaxGasRateUnit
         {
@@ -56,6 +67,8 @@ namespace ReliefProMain.Model.ReactorLoops
         public ReactorLoopBlockedOutletModel(ReactorLoopBlockedOutlet model)
         {
             dbmodel = model;
+            this.reactorType = dbmodel.ReactorType;
+            this.effluentTemperature = dbmodel.EffluentTemperature;
             this.maxGasRate = model.MaxGasRate;
             this.totalPurgeRate = model.TotalPurgeRate;
             this.reliefMW = model.ReliefMW;
@@ -63,6 +76,27 @@ namespace ReliefProMain.Model.ReactorLoops
             this.reliefTemperature = model.ReliefTemperature;
             this.reliefCpCv = model.ReliefCpCv;
             this.reliefZ = model.ReliefZ;
+        }
+
+        private int reactorType;
+        public int ReactorType
+        {
+            get { return reactorType; }
+            set
+            {
+                reactorType = value;
+                this.NotifyPropertyChanged("ReactorType");
+            }
+        }
+        private double effluentTemperature;
+        public double EffluentTemperature
+        {
+            get { return effluentTemperature; }
+            set
+            {
+                effluentTemperature = value;
+                this.NotifyPropertyChanged("EffluentTemperature");
+            }
         }
 
         private double maxGasRate;
