@@ -41,15 +41,15 @@ namespace UOMLib
             if (null == unitTypeModel)
                 throw new Exception("The UnitType Not Exists!");
             int unitTypeID = unitTypeModel.First().ID;
-            int originBasicID = lstBasicUnit.Where(p => p.UnitName.ToLower() == OriginBasic.ToLower()).FirstOrDefault().ID;
-            int targetBasicID = lstBasicUnit.Where(p => p.UnitName.ToLower() == TargetBasic.ToLower()).FirstOrDefault().ID;
+            int originBasicID = lstBasicUnit.FirstOrDefault(p => p.UnitName.ToLower() == OriginBasic.ToLower()).ID;
+            int targetBasicID = lstBasicUnit.FirstOrDefault(p => p.UnitName.ToLower() == TargetBasic.ToLower()).ID;
 
             int originSystemUnitID = 0;
-            var originModel = lstBasicUnitDefault.Where(p => p.BasicUnitID == originBasicID && p.UnitTypeID == unitTypeID).FirstOrDefault();
+            var originModel = lstBasicUnitDefault.FirstOrDefault(p => p.BasicUnitID == originBasicID && p.UnitTypeID == unitTypeID);
             if (originModel != null)
                 originSystemUnitID = originModel.ID;
             int targetSystemUnitID = 0;
-            var targetModel = lstBasicUnitDefault.Where(p => p.BasicUnitID == targetBasicID && p.UnitTypeID == unitTypeID).FirstOrDefault();
+            var targetModel = lstBasicUnitDefault.FirstOrDefault(p => p.BasicUnitID == targetBasicID && p.UnitTypeID == unitTypeID);
             if (targetModel != null)
                 targetSystemUnitID = targetModel.ID;
 
@@ -69,15 +69,15 @@ namespace UOMLib
             if (null == unitTypeModel)
                 throw new Exception("The UnitType Not Exists!");
             int unitTypeID = unitTypeModel.First().ID;
-            int originBasicID = lstBasicUnit.Where(p => p.UnitName.ToLower() == OriginBasic.ToLower()).FirstOrDefault().ID;
-            int targetBasicID = lstBasicUnit.Where(p => p.UnitName.ToLower() == TargetBasic.ToLower()).FirstOrDefault().ID;
+            int originBasicID = lstBasicUnit.FirstOrDefault(p => p.UnitName.ToLower() == OriginBasic.ToLower()).ID;
+            int targetBasicID = lstBasicUnit.FirstOrDefault(p => p.UnitName.ToLower() == TargetBasic.ToLower()).ID;
 
             int originSystemUnitID = 0;
-            var originModel = lstBasicUnitDefault.Where(p => p.BasicUnitID == originBasicID && p.UnitTypeID == unitTypeID).FirstOrDefault();
+            var originModel = lstBasicUnitDefault.FirstOrDefault(p => p.BasicUnitID == originBasicID && p.UnitTypeID == unitTypeID);
             if (originModel != null)
                 originSystemUnitID = originModel.SystemUnitID;
             int targetSystemUnitID = 0;
-            var targetModel = lstBasicUnitDefault.Where(p => p.BasicUnitID == targetBasicID && p.UnitTypeID == unitTypeID).FirstOrDefault();
+            var targetModel = lstBasicUnitDefault.FirstOrDefault(p => p.BasicUnitID == targetBasicID && p.UnitTypeID == unitTypeID);
             if (targetModel != null)
                 targetSystemUnitID = targetModel.SystemUnitID;
 
