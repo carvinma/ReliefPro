@@ -24,9 +24,9 @@ namespace ReliefProDAL.ReactorLoops
             }
             return list;
         }
-        public ReactorLoopBlockedOutlet GetModelByScenarioID(ISession session, int ScenarioID)
+        public ReactorLoopBlockedOutlet GetModelByScenarioID(ISession session, int ScenarioID, int ReactorType)
         {
-            var list = session.CreateCriteria<ReactorLoopBlockedOutlet>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<ReactorLoopBlockedOutlet>();
+            var list = session.CreateCriteria<ReactorLoopBlockedOutlet>().Add(Expression.Eq("ScenarioID", ScenarioID)).Add(Expression.Eq("ReactorType", ReactorType)).List<ReactorLoopBlockedOutlet>();
             if (list.Count() > 0)
             {
                 return list[0];
