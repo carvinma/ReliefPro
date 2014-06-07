@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,28 +42,29 @@ namespace UOMLib
         public readonly string UserLength;
         public readonly string UserThermalConductivity;
         public readonly string UserHeatTransCoeffcient;
+        public static IList<BasicUnitDefault> lstBasicUnitDefault;
+        public static int BasicUnitID;
         public UOMEnum(ISession SessionPlant)
         {
-            UnitInfo unitInfo = new UnitInfo();
-            var basicUnit = unitInfo.GetBasicUnitUOM(SessionPlant);
-            IList<BasicUnitDefault> lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(SessionPlant);
-
-            UserTemperature = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Temperature, basicUnit.ID);
-            UserPressure = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Pressure, basicUnit.ID);
-            UserEnthalpyDuty = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.EnthalpyDuty, basicUnit.ID);
-            UserMassRate = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.MassRate, basicUnit.ID);
-            UserArea = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Aera, basicUnit.ID);
-            UserSpecificEnthalpy = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.SpecificEnthalpy, basicUnit.ID);
-            UserDensity = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Density, basicUnit.ID);
-            UserVolume = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Volume, basicUnit.ID);
-            UserTime = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Time, basicUnit.ID);
-            UserLength = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.Length, basicUnit.ID);
-            UserThermalConductivity = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.ThermalConductivity, basicUnit.ID);
-            UserHeatTransCoeffcient = GetDefalutUnit(lstBasicUnitDefault, UnitTypeEnum.HeatTransCoeffcient, basicUnit.ID);
+            //UnitInfo unitInfo = new UnitInfo();
+            //var basicUnit = unitInfo.GetBasicUnitUOM(SessionPlant);
+            //lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(SessionPlant);
+            UserTemperature = GetDefalutUnit(UnitTypeEnum.Temperature, BasicUnitID);
+            UserPressure = GetDefalutUnit(UnitTypeEnum.Pressure, BasicUnitID);
+            UserEnthalpyDuty = GetDefalutUnit(UnitTypeEnum.EnthalpyDuty, BasicUnitID);
+            UserMassRate = GetDefalutUnit(UnitTypeEnum.MassRate, BasicUnitID);
+            UserArea = GetDefalutUnit(UnitTypeEnum.Aera, BasicUnitID);
+            UserSpecificEnthalpy = GetDefalutUnit(UnitTypeEnum.SpecificEnthalpy, BasicUnitID);
+            UserDensity = GetDefalutUnit(UnitTypeEnum.Density, BasicUnitID);
+            UserVolume = GetDefalutUnit(UnitTypeEnum.Volume, BasicUnitID);
+            UserTime = GetDefalutUnit(UnitTypeEnum.Time, BasicUnitID);
+            UserLength = GetDefalutUnit(UnitTypeEnum.Length, BasicUnitID);
+            UserThermalConductivity = GetDefalutUnit(UnitTypeEnum.ThermalConductivity, BasicUnitID);
+            UserHeatTransCoeffcient = GetDefalutUnit(UnitTypeEnum.HeatTransCoeffcient, BasicUnitID);
         }
-        private string GetDefalutUnit(IList<BasicUnitDefault> lstBasicUnitDefault, UnitTypeEnum unitTypeEnum, int basicUnitID)
+        private string GetDefalutUnit(UnitTypeEnum unitTypeEnum, int basicUnitID)
         {
-            var basicUnitDefault = lstBasicUnitDefault.Where(p => p.BasicUnitID == basicUnitID && p.UnitTypeID == int.Parse(unitTypeEnum.ToString("d"))).FirstOrDefault();
+            var basicUnitDefault = lstBasicUnitDefault.FirstOrDefault(p => p.BasicUnitID == basicUnitID && p.UnitTypeID == int.Parse(unitTypeEnum.ToString("d")));
             if (basicUnitDefault != null && basicUnitDefault.SystemUnitInfo != null)
                 return basicUnitDefault.SystemUnitInfo.Name;
             return "";
