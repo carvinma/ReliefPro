@@ -35,27 +35,22 @@ namespace UOMLib
         {
             IList<BasicUnitDefault> lstBasicUnitDefault;
             BasicUnitDefaultDAL db = new BasicUnitDefaultDAL();
-            //using (var helper = new UOMLNHibernateHelper(dbConnectPath))
-            //{
-            //    lstBasicUnitDefault = db.GetAllList(TempleSession.Session);
-            //}
+
             lstBasicUnitDefault = db.GetAllList(TempleSession.Session);
             return lstBasicUnitDefault;
         }
         public IList<BasicUnitDefault> GetBasicUnitDefaultUserSet(ISession SessionPlan)
         {
+            IList<BasicUnitDefault> lstBasicUnitDefault;
             BasicUnitDefaultDAL db = new BasicUnitDefaultDAL();
-            var lstBasicUnitDefault = db.GetAllList(SessionPlan);
+            lstBasicUnitDefault = db.GetAllList(SessionPlan);
             return lstBasicUnitDefault;
         }
         public IList<SystemUnit> GetSystemUnit()
         {
             IList<SystemUnit> lstSystemUnit;
             SystemUnitDAL db = new SystemUnitDAL();
-            //using (var helper = new UOMLNHibernateHelper(dbConnectPath))
-            //{
-            //    lstSystemUnit = db.GetAllList(helper.GetCurrentSession());
-            //}
+
             lstSystemUnit = db.GetAllList(TempleSession.Session);
             return lstSystemUnit;
         }
@@ -63,10 +58,7 @@ namespace UOMLib
         {
             IList<UnitType> lstUnitType;
             UnitTypeDAL db = new UnitTypeDAL();
-            //using (var helper = new UOMLNHibernateHelper(dbConnectPath))
-            //{
-            //    lstUnitType = db.GetAllList(helper.GetCurrentSession());
-            //}
+
             lstUnitType = db.GetAllList(TempleSession.Session);
             return lstUnitType;
         }
