@@ -175,15 +175,13 @@ namespace ReliefProMain.ViewModel
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
                 {
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
-
-                    UnitConvert unitConvert = new UnitConvert();
                         ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
                         przFile = vm.SelectedFile + ".prz";
                         ProIIDrum = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Flash");
                         DrumName = ProIIDrum.EqName;
                         Duty = (double.Parse(ProIIDrum.DutyCalc)*3600).ToString();
-                        Temperature = unitConvert.Convert("K", "C", double.Parse(ProIIDrum.TempCalc)).ToString(); ;
-                        Pressure = unitConvert.Convert("KPA", "MPAG", double.Parse(ProIIDrum.PressCalc)).ToString(); ;
+                        Temperature = UnitConvert.Convert("K", "C", double.Parse(ProIIDrum.TempCalc)).ToString(); ;
+                        Pressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(ProIIDrum.PressCalc)).ToString(); ;
                         
                         DrumType = "Flashing Drum";
                         if (Duty == "0")

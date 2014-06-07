@@ -9,34 +9,15 @@ namespace UOMLib
 {
     public class UnitConvert
     {
-        private ILookup<string, SystemUnit> lkpSystemUnit;
-        private ILookup<string, UnitType> lkpUnitType;
-        private IList<SystemUnit> tmpSystemUnit;
-        private IList<UnitType> tmpUnitType;
-        private IList<BasicUnit> lstBasicUnit;
-        private IList<BasicUnitDefault> lstBasicUnitDefault;
-        private UnitInfo unitInfo;
-        public UnitConvert()
-        {
-            var lstSystemUnit = new List<SystemUnit>();
-            GetALLUnitInfo();
-        }
-        private void GetALLUnitInfo()
-        {
-            unitInfo = new UnitInfo();
-            tmpSystemUnit = unitInfo.GetSystemUnit();
-            if (null != tmpSystemUnit)
-                lkpSystemUnit = tmpSystemUnit.ToLookup(p => p.Name.ToLower());
+        public static ILookup<string, SystemUnit> lkpSystemUnit;
+        public static ILookup<string, UnitType> lkpUnitType;
+        public static IList<BasicUnit> lstBasicUnit;
+        public static IList<BasicUnitDefault> lstBasicUnitDefault;
 
-            tmpUnitType = unitInfo.GetUnitType();
-            if (null != tmpUnitType)
-                lkpUnitType = tmpUnitType.ToLookup(p => p.ShortName.ToLower());
+        public static IList<SystemUnit> tmpSystemUnit;
+        public static IList<UnitType> tmpUnitType;
 
-            lstBasicUnit = unitInfo.GetBasicUnit();
-            lstBasicUnitDefault = unitInfo.GetBasicUnitDefault();
-        }
-
-        public List<double> Convert(string UnitType, string OriginUnit, string TargetUnit, List<double> lstValue)
+        public static List<double> Convert(string UnitType, string OriginUnit, string TargetUnit, List<double> lstValue)
         {
             List<double> lst = new List<double>();
             try
@@ -54,7 +35,7 @@ namespace UOMLib
             }
             return lst;
         }
-        public List<double> BasicConvert(string UnitType, string OriginBasic, string TargetBasic, out string TargetUnit, List<double> lstValue)
+        public static List<double> BasicConvert(string UnitType, string OriginBasic, string TargetBasic, out string TargetUnit, List<double> lstValue)
         {
             var unitTypeModel = lkpUnitType[UnitType.ToLower()];
             if (null == unitTypeModel)
@@ -82,7 +63,7 @@ namespace UOMLib
             throw new Exception("Baisic Cant't Find Default Unit!");
         }
 
-        public double BasicConvert(string UnitType, string OriginBasic, string TargetBasic, out string TargetUnit, double Value)
+        public static double BasicConvert(string UnitType, string OriginBasic, string TargetBasic, out string TargetUnit, double Value)
         {
             var unitTypeModel = lkpUnitType[UnitType.ToLower()];
             if (null == unitTypeModel)
@@ -110,14 +91,14 @@ namespace UOMLib
             }
             throw new Exception("Baisic Cant't Find Default Unit!");
         }
-        public double Convert(string UnitType, string OriginUnit, string TargetUnit, double value)
+        public static double Convert(string UnitType, string OriginUnit, string TargetUnit, double value)
         {
             var unitTypeModel = lkpUnitType[UnitType.ToLower()];
             if (null == unitTypeModel)
                 throw new Exception("The UnitType Not Exists!");
             return Convert(OriginUnit, TargetUnit, value);
         }
-        public double Convert(string OriginUnit, string TargetUnit, double value)
+        public static double Convert(string OriginUnit, string TargetUnit, double value)
         {
             if (value == 0) return 0;
             if (string.IsNullOrEmpty(OriginUnit) || string.IsNullOrEmpty(TargetUnit))

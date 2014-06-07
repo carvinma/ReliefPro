@@ -25,8 +25,7 @@ namespace ReliefProMain.ViewModel
     /// 如果是steam，则扣除它，然后，再按之前算法扣除。
 
     /// </summary>
-    public class TowerScenarioCalcVM:ViewModelBase
-
+    public class TowerScenarioCalcVM : ViewModelBase
     {
         private string _ReliefLoad;
         public string ReliefLoad
@@ -90,15 +89,13 @@ namespace ReliefProMain.ViewModel
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         private string PrzFile;
-        private int SteamFreezed=0;
+        private int SteamFreezed = 0;
         private TowerScenarioHXDAL towerScenarioHXDAL;
-       
+
         private bool IsSteamFreezed = false;
-        UnitConvert unitConvert;
         UOMLib.UOMEnum uomEnum;
         public TowerScenarioCalcVM(int scenarioID, string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            unitConvert = new UnitConvert();
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             InitUnit();
             this.PrzFile = PrzFile;
@@ -272,11 +269,11 @@ namespace ReliefProMain.ViewModel
 
         private void Calc(object window)
         {
-            double reliefLoad=0;
-            double reliefMW=0;
-            double reliefTemperature=0;
-            double reliefPressure=0;
-            if (SteamFreezed==0)
+            double reliefLoad = 0;
+            double reliefMW = 0;
+            double reliefTemperature = 0;
+            double reliefPressure = 0;
+            if (SteamFreezed == 0)
             {
                 SteamNotFreezedMethod(ref  reliefLoad, ref  reliefMW, ref  reliefTemperature, ref  reliefPressure);
             }
@@ -299,18 +296,18 @@ namespace ReliefProMain.ViewModel
                     reliefTemperature = reliefTemperature1;
                     reliefPressure = reliefPressure1;
                 }
-               
+
             }
             ReliefTemperature = reliefTemperature.ToString();
             ReliefPressure = reliefPressure.ToString(); ;
             ReliefLoad = reliefLoad.ToString();
             ReliefMW = reliefMW.ToString();
-           
+
         }
 
         private void Balance()
         {
-            SourceDAL sourceDAL=new SourceDAL();
+            SourceDAL sourceDAL = new SourceDAL();
             TowerScenarioStreamDAL db = new TowerScenarioStreamDAL();
             StreamDAL dbstream = new StreamDAL();
             TowerFlashProductDAL dbtfp = new ReliefProDAL.TowerFlashProductDAL();
@@ -327,9 +324,9 @@ namespace ReliefProMain.ViewModel
                 Total = Total + wf;
                 if (!s.FlowStop)
                 {
-                    currentTotal =currentTotal+ wf * double.Parse(s.FlowCalcFactor);
+                    currentTotal = currentTotal + wf * double.Parse(s.FlowCalcFactor);
                     Source source = sourceDAL.GetModel(s.StreamName, SessionProtectedSystem);
-                    if(source.IsSteam)
+                    if (source.IsSteam)
                         steamTotal = steamTotal + wf * double.Parse(s.FlowCalcFactor);
                 }
             }
@@ -338,7 +335,7 @@ namespace ReliefProMain.ViewModel
             int count = 0;
             IList<TowerFlashProduct> listP = dbtfp.GetAllList(SessionProtectedSystem);
 
-            if (steamTotal > 0 )
+            if (steamTotal > 0)
             {
                 IList<TowerFlashProduct> listP0 = (from p in listP
                                                    where (p.ProdType == "6")
@@ -407,7 +404,7 @@ namespace ReliefProMain.ViewModel
             if (diffTotal > 0)
             {
                 IList<TowerFlashProduct> listP2 = (from p in listP
-                                                   where (p.ProdType == "3" || p.ProdType == "4" )
+                                                   where (p.ProdType == "3" || p.ProdType == "4")
                                                    orderby p.SpEnthalpy descending
                                                    select p).ToList();
 
@@ -452,7 +449,7 @@ namespace ReliefProMain.ViewModel
             double FeedTotal = 0;
             double ProductTotal = 0;
             double HeatTotal = 0;
-            bool IsFB=false;
+            bool IsFB = false;
             PSVDAL dbpsv = new PSVDAL();
             PSV psv = dbpsv.GetModel(SessionProtectedSystem);
 
@@ -461,12 +458,12 @@ namespace ReliefProMain.ViewModel
 
             FeedBottomHXDAL feedBottomHXDAL = new ReliefProDAL.FeedBottomHXDAL();
             FeedBottomHX fbhx = feedBottomHXDAL.GetModel(SessionProtectedSystem);
-            if(fbhx!=null)
+            if (fbhx != null)
             {
-            ScenarioHeatSourceDAL scenarioHeatSourceDAL=new ScenarioHeatSourceDAL();
-            ScenarioHeatSource scenarioHeatSource=scenarioHeatSourceDAL.GetModel(SessionProtectedSystem,fbhx.HeatSourceID,ScenarioID);
-                if(scenarioHeatSource.IsFB)
-                    IsFB=true;
+                ScenarioHeatSourceDAL scenarioHeatSourceDAL = new ScenarioHeatSourceDAL();
+                ScenarioHeatSource scenarioHeatSource = scenarioHeatSourceDAL.GetModel(SessionProtectedSystem, fbhx.HeatSourceID, ScenarioID);
+                if (scenarioHeatSource.IsFB)
+                    IsFB = true;
             }
 
             CustomStreamDAL dbCS = new CustomStreamDAL();
@@ -557,7 +554,7 @@ namespace ReliefProMain.ViewModel
             reliefPressure = double.Parse(latent.ReliefPressure);
 
         }
-        private void SteamFreezedMethod(ref double reliefLoad, ref double reliefMW, ref double reliefTemperature,ref double reliefPressure)
+        private void SteamFreezedMethod(ref double reliefLoad, ref double reliefMW, ref double reliefTemperature, ref double reliefPressure)
         {
             Balance();
             double overHeadWeightFlow = 0;
@@ -593,9 +590,9 @@ namespace ReliefProMain.ViewModel
                         else
                         {
                             ProductTotal = ProductTotal + (double.Parse(s.FlowCalcFactor) * double.Parse(product.SpEnthalpy) * double.Parse(product.WeightFlow));
-                        
+
                         }
-                            if (cstream.ProdType == "4")
+                        if (cstream.ProdType == "4")
                         {
                             overHeadWeightFlow = double.Parse(cstream.WeightFlow);
                         }
@@ -662,7 +659,7 @@ namespace ReliefProMain.ViewModel
         }
 
         private void Save(object window)
-        {           
+        {
             WriteConvert();
             ScenarioDAL dbTS = new ScenarioDAL();
             Scenario scenario = dbTS.GetModel(ScenarioID, SessionProtectedSystem);
@@ -684,20 +681,20 @@ namespace ReliefProMain.ViewModel
         private void ReadConvert()
         {
             if (!string.IsNullOrEmpty(_ReliefLoad))
-                _ReliefLoad = unitConvert.Convert(UOMEnum.MassRate, _ReliefLoadUnit, double.Parse(_ReliefLoad)).ToString();
+                _ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, _ReliefLoadUnit, double.Parse(_ReliefLoad)).ToString();
             if (!string.IsNullOrEmpty(_ReliefTemperature))
-                _ReliefTemperature = unitConvert.Convert(UOMEnum.Temperature, _ReliefTemperatureUnit, double.Parse(_ReliefTemperature)).ToString();
+                _ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, _ReliefTemperatureUnit, double.Parse(_ReliefTemperature)).ToString();
             if (!string.IsNullOrEmpty(_ReliefPressure))
-                _ReliefPressure = unitConvert.Convert(UOMEnum.Pressure, _ReliefPressureUnit, double.Parse(_ReliefPressure)).ToString();
+                _ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, _ReliefPressureUnit, double.Parse(_ReliefPressure)).ToString();
         }
         private void WriteConvert()
         {
             if (!string.IsNullOrEmpty(_ReliefLoad))
-                _ReliefLoad = unitConvert.Convert(_ReliefLoadUnit, UOMEnum.MassRate, double.Parse(_ReliefLoad)).ToString();
+                _ReliefLoad = UnitConvert.Convert(_ReliefLoadUnit, UOMEnum.MassRate, double.Parse(_ReliefLoad)).ToString();
             if (!string.IsNullOrEmpty(_ReliefTemperature))
-                _ReliefTemperature = unitConvert.Convert(_ReliefTemperatureUnit, UOMEnum.Temperature, double.Parse(_ReliefTemperature)).ToString();
+                _ReliefTemperature = UnitConvert.Convert(_ReliefTemperatureUnit, UOMEnum.Temperature, double.Parse(_ReliefTemperature)).ToString();
             if (!string.IsNullOrEmpty(_ReliefPressure))
-                _ReliefPressure = unitConvert.Convert(_ReliefPressureUnit, UOMEnum.Pressure, double.Parse(_ReliefPressure)).ToString();
+                _ReliefPressure = UnitConvert.Convert(_ReliefPressureUnit, UOMEnum.Pressure, double.Parse(_ReliefPressure)).ToString();
         }
         private void InitUnit()
         {

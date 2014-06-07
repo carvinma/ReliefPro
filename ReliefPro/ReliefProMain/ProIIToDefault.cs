@@ -12,7 +12,6 @@ namespace ReliefProMain
     {
         public static CustomStream ConvertProIIStreamToCustomStream(ProIIStreamData s)
         {
-            UnitConvert unitConvert = new UnitConvert();
             CustomStream cs = new CustomStream();
             cs.StreamName = s.StreamName;
             cs.BulkCP = s.BulkCP;
@@ -30,11 +29,11 @@ namespace ReliefProMain
             cs.InertWeightRate = s.InertWeightRate;
             if (!string.IsNullOrEmpty(s.Pressure))
             {
-                cs.Pressure = unitConvert.Convert("KPA", "MPAG", double.Parse(s.Pressure)).ToString();
+                cs.Pressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(s.Pressure)).ToString();
             }
             if (!string.IsNullOrEmpty(s.Temperature))
             {
-                cs.Temperature = unitConvert.Convert("K", "C", double.Parse(s.Temperature)).ToString();
+                cs.Temperature = UnitConvert.Convert("K", "C", double.Parse(s.Temperature)).ToString();
             }
             cs.ProdType = s.ProdType;
 
@@ -124,11 +123,11 @@ namespace ReliefProMain
             cs.InertWeightRate = s.InertWeightRate;
             if (!string.IsNullOrEmpty(s.Pressure))
             {
-                cs.Pressure = unitConvert.Convert("KPA", "MPAG", double.Parse(s.Pressure)).ToString();
+                cs.Pressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(s.Pressure)).ToString();
             }
             if (!string.IsNullOrEmpty(s.Temperature))
             {
-                cs.Temperature = unitConvert.Convert("K", "C", double.Parse(s.Temperature)).ToString();
+                cs.Temperature = UnitConvert.Convert("K", "C", double.Parse(s.Temperature)).ToString();
             }
             cs.ProdType = s.ProdType;
 

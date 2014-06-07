@@ -23,11 +23,9 @@ namespace ReliefProMain.ViewModel.TowerFires
         public TowerFireDrum model { get; set; }
         public List<string> Orientations { get; set; }
         public List<string> HeadTypes { get; set; }
-        UnitConvert unitConvert;
         UOMLib.UOMEnum uomEnum;
         public TowerFireDrumVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            unitConvert = new UnitConvert();
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             InitUnit();
             SessionPlant = sessionPlant;
@@ -126,32 +124,32 @@ namespace ReliefProMain.ViewModel.TowerFires
         private void ReadConvert()
         {
             if (!string.IsNullOrEmpty(model.Elevation))
-                model.Elevation = unitConvert.Convert(UOMEnum.Length, elevationUnit, double.Parse(model.Elevation)).ToString();
+                model.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, double.Parse(model.Elevation)).ToString();
             if (!string.IsNullOrEmpty(model.Diameter))
-                model.Diameter = unitConvert.Convert(UOMEnum.Length, diameterUnit, double.Parse(model.Diameter)).ToString();
+                model.Diameter = UnitConvert.Convert(UOMEnum.Length, diameterUnit, double.Parse(model.Diameter)).ToString();
             if (!string.IsNullOrEmpty(model.Length))
-                model.Length = unitConvert.Convert(UOMEnum.Length, lengthUnit, double.Parse(model.Length)).ToString();
+                model.Length = UnitConvert.Convert(UOMEnum.Length, lengthUnit, double.Parse(model.Length)).ToString();
             if (!string.IsNullOrEmpty(model.NormalLiquidLevel))
-                model.NormalLiquidLevel = unitConvert.Convert(UOMEnum.Length, normalLiquidLevelUnit, double.Parse(model.NormalLiquidLevel)).ToString();
+                model.NormalLiquidLevel = UnitConvert.Convert(UOMEnum.Length, normalLiquidLevelUnit, double.Parse(model.NormalLiquidLevel)).ToString();
             if (!string.IsNullOrEmpty(model.BootDiameter))
-                model.BootDiameter = unitConvert.Convert(UOMEnum.Length, bootDiameterUnit, double.Parse(model.BootDiameter)).ToString();
+                model.BootDiameter = UnitConvert.Convert(UOMEnum.Length, bootDiameterUnit, double.Parse(model.BootDiameter)).ToString();
             if (!string.IsNullOrEmpty(model.BootHeight))
-                model.BootHeight = unitConvert.Convert(UOMEnum.Length, bootHeightUnit, double.Parse(model.BootHeight)).ToString();
+                model.BootHeight = UnitConvert.Convert(UOMEnum.Length, bootHeightUnit, double.Parse(model.BootHeight)).ToString();
         }
         private void WriteConvert()
         {
             if (!string.IsNullOrEmpty(model.Elevation))
-                model.Elevation = unitConvert.Convert(elevationUnit, UOMEnum.Length, double.Parse(model.Elevation)).ToString();
+                model.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, double.Parse(model.Elevation)).ToString();
             if (!string.IsNullOrEmpty(model.Diameter))
-                model.Diameter = unitConvert.Convert(diameterUnit, UOMEnum.Length, double.Parse(model.Diameter)).ToString();
+                model.Diameter = UnitConvert.Convert(diameterUnit, UOMEnum.Length, double.Parse(model.Diameter)).ToString();
             if (!string.IsNullOrEmpty(model.Length))
-                model.Length = unitConvert.Convert(lengthUnit, UOMEnum.Length, double.Parse(model.Length)).ToString();
+                model.Length = UnitConvert.Convert(lengthUnit, UOMEnum.Length, double.Parse(model.Length)).ToString();
             if (!string.IsNullOrEmpty(model.NormalLiquidLevel))
-                model.NormalLiquidLevel = unitConvert.Convert(normalLiquidLevelUnit, UOMEnum.Length, double.Parse(model.NormalLiquidLevel)).ToString();
+                model.NormalLiquidLevel = UnitConvert.Convert(normalLiquidLevelUnit, UOMEnum.Length, double.Parse(model.NormalLiquidLevel)).ToString();
             if (!string.IsNullOrEmpty(model.BootDiameter))
-                model.BootDiameter = unitConvert.Convert(bootDiameterUnit, UOMEnum.Length, double.Parse(model.BootDiameter)).ToString();
+                model.BootDiameter = UnitConvert.Convert(bootDiameterUnit, UOMEnum.Length, double.Parse(model.BootDiameter)).ToString();
             if (!string.IsNullOrEmpty(model.BootHeight))
-                model.BootHeight = unitConvert.Convert(bootHeightUnit, UOMEnum.Length, double.Parse(model.BootHeight)).ToString();
+                model.BootHeight = UnitConvert.Convert(bootHeightUnit, UOMEnum.Length, double.Parse(model.BootHeight)).ToString();
         }
         private void InitUnit()
         {

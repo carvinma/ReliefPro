@@ -48,20 +48,19 @@ namespace ReliefProLL
                 return model;
             }
             DrumDepressuring drumModel = new DrumDepressuring();
-            UnitConvert uc = new UnitConvert();
             drumModel = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
-            drumModel.InitialPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, drumModel.InitialPressure);
+            drumModel.InitialPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, drumModel.InitialPressure);
             if (drumModel.VaporDensity != null)
-                drumModel.VaporDensity = uc.Convert(UOMLib.UOMEnum.Density.ToString(), uomEnum.UserDensity, drumModel.VaporDensity.Value);
-            drumModel.TotalVaporVolume = uc.Convert(UOMLib.UOMEnum.Volume.ToString(), uomEnum.UserVolume, drumModel.TotalVaporVolume);
-            drumModel.Vesseldesignpressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, drumModel.Vesseldesignpressure);
-            drumModel.TotalWettedArea = uc.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, drumModel.TotalWettedArea);
+                drumModel.VaporDensity = UnitConvert.Convert(UOMLib.UOMEnum.Density.ToString(), uomEnum.UserDensity, drumModel.VaporDensity.Value);
+            drumModel.TotalVaporVolume = UnitConvert.Convert(UOMLib.UOMEnum.Volume.ToString(), uomEnum.UserVolume, drumModel.TotalVaporVolume);
+            drumModel.Vesseldesignpressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, drumModel.Vesseldesignpressure);
+            drumModel.TotalWettedArea = UnitConvert.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, drumModel.TotalWettedArea);
             // drumModel.ValveConstantforSonicFlow = uc.Convert(uomEnum.UserPressure, UOMLib.UOMEnum.Pressure.ToString(), drumModel.ValveConstantforSonicFlow);
-            drumModel.InitialDepressuringRate = uc.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserWeightFlow, drumModel.InitialDepressuringRate);
-            drumModel.Timespecify = uc.Convert(UOMLib.UOMEnum.Time.ToString(), uomEnum.UserTime, drumModel.Timespecify);
-            drumModel.CalculatedVesselPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, drumModel.CalculatedVesselPressure);
-            drumModel.CalculatedDepressuringRate = uc.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserWeightFlow, drumModel.CalculatedDepressuringRate);
+            drumModel.InitialDepressuringRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserWeightFlow, drumModel.InitialDepressuringRate);
+            drumModel.Timespecify = UnitConvert.Convert(UOMLib.UOMEnum.Time.ToString(), uomEnum.UserTime, drumModel.Timespecify);
+            drumModel.CalculatedVesselPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, drumModel.CalculatedVesselPressure);
+            drumModel.CalculatedDepressuringRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserWeightFlow, drumModel.CalculatedDepressuringRate);
             return drumModel;
         }
 

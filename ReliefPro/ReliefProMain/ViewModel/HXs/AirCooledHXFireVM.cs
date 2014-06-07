@@ -42,13 +42,12 @@ namespace ReliefProMain.ViewModel.HXs
         }
         private void WriteConvertModel()
         {
-            UnitConvert uc = new UnitConvert();
-            model.dbmodel.WettedBundle = uc.Convert(model.WettedBundleUnit, UOMLib.UOMEnum.Area.ToString(), model.WettedBundle);
+            model.dbmodel.WettedBundle = UnitConvert.Convert(model.WettedBundleUnit, UOMLib.UOMEnum.Area.ToString(), model.WettedBundle);
             model.dbmodel.PipingContingency = model.PipingContingency;
             model.dbmodel.ReliefMW = model.ReliefMW;
-            model.dbmodel.ReliefLoad = uc.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad);
-            model.dbmodel.ReliefTemperature = uc.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
-            model.dbmodel.ReliefPressure = uc.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
+            model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad);
+            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
+            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
         }
         private void CalcResult(object obj)
         {

@@ -62,11 +62,10 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void WriteConvertModel()
         {
-            UnitConvert uc = new UnitConvert();
-            model.dbmodel.MaxPressure = uc.Convert(model.PressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.MaxPressure);
-            model.dbmodel.MaxStreamRate = uc.Convert(model.StreamRateUnit, UOMLib.UOMEnum.MassRate.ToString(), model.MaxStreamRate);
-            model.dbmodel.NormalFlashDuty = uc.Convert(model.FlashingDutyUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.NormalFlashDuty);
-            model.dbmodel.FDReliefCondition = uc.Convert(model.ReliefConditionUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.FDReliefCondition);
+            model.dbmodel.MaxPressure = UnitConvert.Convert(model.PressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.MaxPressure);
+            model.dbmodel.MaxStreamRate = UnitConvert.Convert(model.StreamRateUnit, UOMLib.UOMEnum.MassRate.ToString(), model.MaxStreamRate);
+            model.dbmodel.NormalFlashDuty = UnitConvert.Convert(model.FlashingDutyUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.NormalFlashDuty);
+            model.dbmodel.FDReliefCondition = UnitConvert.Convert(model.ReliefConditionUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.FDReliefCondition);
             model.dbmodel.ReboilerPinch = model.ReboilerPinch;
             model.dbmodel.Feed = model.Feed;
         }
@@ -87,12 +86,12 @@ namespace ReliefProMain.ViewModel.Drums
                 string content = PROIIFileOperator.getUsableContent(drum.Feeds[0].StreamName, DirPlant);
                 if (model.DrumType == "Flashing Drum")
                 {
-                    duty = (model.NormalFlashDuty/Math.Pow(10,6)).ToString();
+                    duty = (model.NormalFlashDuty / Math.Pow(10, 6)).ToString();
                 }
                 IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
                 int ImportResult = 0;
                 int RunResult = 0;
-                string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, drum.Feeds[0], vapor, liquid, tempdir,ref ImportResult,ref RunResult);
+                string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, drum.Feeds[0], vapor, liquid, tempdir, ref ImportResult, ref RunResult);
                 if (ImportResult == 1 || ImportResult == 2)
                 {
                     if (RunResult == 1 || RunResult == 2)

@@ -20,11 +20,9 @@ namespace ReliefProMain.ViewModel.TowerFires
         private ISession SessionProtectedSystem { set; get; }
         public TowerFireCooler model { get; set; }
         public double Area { get; set; }
-        UnitConvert unitConvert;
         UOMLib.UOMEnum uomEnum;
         public TowerFireCoolerVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            unitConvert = new UnitConvert();
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             InitUnit();
             SessionPlant = sessionPlant;
@@ -89,12 +87,12 @@ namespace ReliefProMain.ViewModel.TowerFires
         private void ReadConvert()
         {
             if (!string.IsNullOrEmpty(model.WettedArea))
-                model.WettedArea = unitConvert.Convert(UOMEnum.Area, wetteAreaUnit, double.Parse(model.WettedArea)).ToString();
+                model.WettedArea = UnitConvert.Convert(UOMEnum.Area, wetteAreaUnit, double.Parse(model.WettedArea)).ToString();
         }
         private void WriteConvert()
         {
             if (!string.IsNullOrEmpty(model.WettedArea))
-                model.WettedArea = unitConvert.Convert(wetteAreaUnit, UOMEnum.Area, double.Parse(model.WettedArea)).ToString();
+                model.WettedArea = UnitConvert.Convert(wetteAreaUnit, UOMEnum.Area, double.Parse(model.WettedArea)).ToString();
         }
         private void InitUnit()
         {

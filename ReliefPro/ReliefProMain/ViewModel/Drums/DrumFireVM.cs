@@ -87,13 +87,12 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void WriteConvertModel()
         {
-            UnitConvert uc = new UnitConvert();
-            model.dbmodel.WettedArea = uc.Convert(model.WettedAreaUnit, UOMLib.UOMEnum.Area.ToString(), model.WettedArea);
-            model.dbmodel.LatentHeat = uc.Convert(model.LatentHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.LatentHeat);
-            model.dbmodel.CrackingHeat = uc.Convert(model.CrackingHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.CrackingHeat);
-            model.dbmodel.ReliefLoad = uc.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad);
-            model.dbmodel.ReliefPressure = uc.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
-            model.dbmodel.ReliefTemperature = uc.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
+            model.dbmodel.WettedArea = UnitConvert.Convert(model.WettedAreaUnit, UOMLib.UOMEnum.Area.ToString(), model.WettedArea);
+            model.dbmodel.LatentHeat = UnitConvert.Convert(model.LatentHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.LatentHeat);
+            model.dbmodel.CrackingHeat = UnitConvert.Convert(model.CrackingHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.CrackingHeat);
+            model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad);
+            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
+            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
             model.dbmodel.ReliefMW = model.ReliefMW;
             model.dbmodel.ReliefCpCv = model.ReliefCpCv;
             model.dbmodel.ReliefZ = model.ReliefZ;
@@ -149,16 +148,16 @@ namespace ReliefProMain.ViewModel.Drums
 
                 fireFluidModel = vm.model.dbmodel;
                 double mw = dmw;
-                double p1 =  uc.Convert("P","Mpag","psia",dp1);
-                double area = uc.Convert("A", "m2", "ft2", darea);
-                double tw = uc.Convert("T", "C", "R", dtw);
-                double tn = uc.Convert("T", "C", "R", dtn);
-                double pn = uc.Convert("P", "Mpag", "psia", dpn);
+                double p1 = UnitConvert.Convert("P", "Mpag", "psia", dp1);
+                double area = UnitConvert.Convert("A", "m2", "ft2", darea);
+                double tw = UnitConvert.Convert("T", "C", "R", dtw);
+                double tn = UnitConvert.Convert("T", "C", "R", dtn);
+                double pn = UnitConvert.Convert("P", "Mpag", "psia", dpn);
 
                 double t1 = 0;
-                double load = Algorithm.GetFullVaporW(mw, p1, area, tw, pn, tn,ref t1);
-                double dt1 = uc.Convert("T", "R", "C", t1);
-                double dreliefLoad = uc.Convert("MR", "lb/hr", "kg/hr", load);
+                double load = Algorithm.GetFullVaporW(mw, p1, area, tw, pn, tn, ref t1);
+                double dt1 = UnitConvert.Convert("T", "R", "C", t1);
+                double dreliefLoad = UnitConvert.Convert("MR", "lb/hr", "kg/hr", load);
 
                 //泄放结果。 老李需要保存到数据库里。
                 double reliefPressure = dp1;

@@ -64,17 +64,16 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void WriteConvertModel()
         {
-            UnitConvert uc = new UnitConvert();
             model.dbmodel.Orientation = selectedOrientation;
             model.dbmodel.HeadNumber = model.Headnumber;
             model.dbmodel.HeadType = selectedHeadType;
 
-            model.dbmodel.Elevation = uc.Convert(model.ElevationUnit, UOMLib.UOMEnum.Length.ToString(), model.Elevation);
-            model.dbmodel.Diameter = uc.Convert(model.DiameterUnit, UOMLib.UOMEnum.Length.ToString(), model.Diameter);
-            model.dbmodel.Length = uc.Convert(model.LengthUnit, UOMLib.UOMEnum.Length.ToString(), model.Length);
-            model.dbmodel.NormalLiquidLevel = uc.Convert(model.NormalLiquidLevelUnit, UOMLib.UOMEnum.Length.ToString(), model.NormalLiquidLevel);
-            model.dbmodel.BootDiameter = uc.Convert(model.BootDiameterUnit, UOMLib.UOMEnum.Length.ToString(), model.BootDiameter);
-            model.dbmodel.BootHeight = uc.Convert(model.BootHeightUnit, UOMLib.UOMEnum.Length.ToString(), model.BootHeight);
+            model.dbmodel.Elevation = UnitConvert.Convert(model.ElevationUnit, UOMLib.UOMEnum.Length.ToString(), model.Elevation);
+            model.dbmodel.Diameter = UnitConvert.Convert(model.DiameterUnit, UOMLib.UOMEnum.Length.ToString(), model.Diameter);
+            model.dbmodel.Length = UnitConvert.Convert(model.LengthUnit, UOMLib.UOMEnum.Length.ToString(), model.Length);
+            model.dbmodel.NormalLiquidLevel = UnitConvert.Convert(model.NormalLiquidLevelUnit, UOMLib.UOMEnum.Length.ToString(), model.NormalLiquidLevel);
+            model.dbmodel.BootDiameter = UnitConvert.Convert(model.BootDiameterUnit, UOMLib.UOMEnum.Length.ToString(), model.BootDiameter);
+            model.dbmodel.BootHeight = UnitConvert.Convert(model.BootHeightUnit, UOMLib.UOMEnum.Length.ToString(), model.BootHeight);
         }
         private void Save(object obj)
         {

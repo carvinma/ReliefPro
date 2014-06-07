@@ -19,7 +19,6 @@ namespace ReliefProMain.ViewModel
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
-        UnitConvert unitConvert;
         UOMLib.UOMEnum uomEnum;
         private bool _Horiz;
         public bool Horiz
@@ -112,7 +111,6 @@ namespace ReliefProMain.ViewModel
         }
         public AccumulatorVM(string name, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            unitConvert = new UnitConvert();
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             InitUnit();
             AccumulatorTypes = GetAccumulatorTypes();
@@ -186,20 +184,20 @@ namespace ReliefProMain.ViewModel
         private void ReadConvert()
         {
             if (!string.IsNullOrEmpty(_Diameter))
-                _Diameter = unitConvert.Convert(UOMEnum.Length, _DiameterUnit, double.Parse(_Diameter)).ToString();
+                _Diameter = UnitConvert.Convert(UOMEnum.Length, _DiameterUnit, double.Parse(_Diameter)).ToString();
             if (!string.IsNullOrEmpty(_Length))
-                _Length = unitConvert.Convert(UOMEnum.Length, _LengthUnit, double.Parse(_Length)).ToString();
+                _Length = UnitConvert.Convert(UOMEnum.Length, _LengthUnit, double.Parse(_Length)).ToString();
             if (!string.IsNullOrEmpty(_NormalLiquidLevel))
-                _NormalLiquidLevel = unitConvert.Convert(UOMEnum.Length, _NormalLiquidLevelUnit, double.Parse(_NormalLiquidLevel)).ToString();
+                _NormalLiquidLevel = UnitConvert.Convert(UOMEnum.Length, _NormalLiquidLevelUnit, double.Parse(_NormalLiquidLevel)).ToString();
         }
         private void WriteConvert()
         {
             if (!string.IsNullOrEmpty(_Diameter))
-                _Diameter = unitConvert.Convert(_DiameterUnit, UOMEnum.Length, double.Parse(_Diameter)).ToString();
+                _Diameter = UnitConvert.Convert(_DiameterUnit, UOMEnum.Length, double.Parse(_Diameter)).ToString();
             if (!string.IsNullOrEmpty(_Length))
-                _Length = unitConvert.Convert(_LengthUnit, UOMEnum.Length, double.Parse(_Length)).ToString();
+                _Length = UnitConvert.Convert(_LengthUnit, UOMEnum.Length, double.Parse(_Length)).ToString();
             if (!string.IsNullOrEmpty(_NormalLiquidLevel))
-                _NormalLiquidLevel = unitConvert.Convert(_NormalLiquidLevelUnit, UOMEnum.Length, double.Parse(_NormalLiquidLevel)).ToString();
+                _NormalLiquidLevel = UnitConvert.Convert(_NormalLiquidLevelUnit, UOMEnum.Length, double.Parse(_NormalLiquidLevel)).ToString();
         }
         private void InitUnit()
         {

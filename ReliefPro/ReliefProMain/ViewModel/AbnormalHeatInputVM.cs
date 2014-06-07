@@ -30,7 +30,6 @@ namespace ReliefProMain.ViewModel
         private HeatSourceDAL heatSourceDAL;
         private ScenarioDAL scenarioDAL;
         private PSVDAL psvDAL;
-        UnitConvert unitConvert;
         UOMLib.UOMEnum uomEnum;
         private ObservableCollection<ScenarioHeatSourceModel> _HeatSources;
         public ObservableCollection<ScenarioHeatSourceModel> HeatSources
@@ -114,7 +113,6 @@ namespace ReliefProMain.ViewModel
 
         public AbnormalHeatInputVM(int ScenarioID, ISession SessionPlant, ISession SessionProtectedSystem)
         {
-            unitConvert = new UnitConvert();
             uomEnum = new UOMLib.UOMEnum(SessionPlant);
             InitUnit();
             this.ScenarioID = ScenarioID;
@@ -424,20 +422,20 @@ namespace ReliefProMain.ViewModel
         private void ReadConvert()
         {
             if (!string.IsNullOrEmpty(_ReliefLoad))
-                _ReliefLoad = unitConvert.Convert(UOMEnum.MassRate, _ReliefLoadUnit, double.Parse(_ReliefLoad)).ToString();
+                _ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, _ReliefLoadUnit, double.Parse(_ReliefLoad)).ToString();
             if (!string.IsNullOrEmpty(_ReliefTemperature))
-                _ReliefTemperature = unitConvert.Convert(UOMEnum.Temperature, _ReliefTemperatureUnit, double.Parse(_ReliefTemperature)).ToString();
+                _ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, _ReliefTemperatureUnit, double.Parse(_ReliefTemperature)).ToString();
             if (!string.IsNullOrEmpty(_ReliefPressure))
-                _ReliefPressure = unitConvert.Convert(UOMEnum.Pressure, _ReliefPressureUnit, double.Parse(_ReliefPressure)).ToString();
+                _ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, _ReliefPressureUnit, double.Parse(_ReliefPressure)).ToString();
         }
         private void WriteConvert()
         {
             if (!string.IsNullOrEmpty(_ReliefLoad))
-                _ReliefLoad = unitConvert.Convert(_ReliefLoadUnit, UOMEnum.MassRate, double.Parse(_ReliefLoad)).ToString();
+                _ReliefLoad = UnitConvert.Convert(_ReliefLoadUnit, UOMEnum.MassRate, double.Parse(_ReliefLoad)).ToString();
             if (!string.IsNullOrEmpty(_ReliefTemperature))
-                _ReliefTemperature = unitConvert.Convert(_ReliefTemperatureUnit, UOMEnum.Temperature, double.Parse(_ReliefTemperature)).ToString();
+                _ReliefTemperature = UnitConvert.Convert(_ReliefTemperatureUnit, UOMEnum.Temperature, double.Parse(_ReliefTemperature)).ToString();
             if (!string.IsNullOrEmpty(_ReliefPressure))
-                _ReliefPressure = unitConvert.Convert(_ReliefPressureUnit, UOMEnum.Pressure, double.Parse(_ReliefPressure)).ToString();
+                _ReliefPressure = UnitConvert.Convert(_ReliefPressureUnit, UOMEnum.Pressure, double.Parse(_ReliefPressure)).ToString();
         }
         private void InitUnit()
         {

@@ -166,12 +166,10 @@ namespace ReliefProMain.ViewModel
         CustomStream csFeedOut;
         CustomStream csBottomIn;
         CustomStream csBottomOut;
-        UnitConvert unitConvert;
         UOMLib.UOMEnum uomEnum;
         int HeatSourceID;
         public FeedBottomHXVM(int HeatSourceID, string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            unitConvert = new UnitConvert();
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             InitUnit();
             this.PrzFile = PrzFile;
@@ -242,7 +240,7 @@ namespace ReliefProMain.ViewModel
                 IList<TowerFlashProduct> tfpList = dbtfp.GetAllList(SessionProtectedSystem);
                 TowerFlashProduct tfp = dbtfp.GetModel(sessionProtectedSystem, csBottomIn.StreamName);
                 BottomReliefTin = tfp.Temperature;
-                
+
             #endregion
 
                 ReadConvert();
@@ -431,39 +429,39 @@ namespace ReliefProMain.ViewModel
 
         private void WriteConvert()
         {
-            FeedTin = string.IsNullOrEmpty(FeedTin) ? "" : unitConvert.Convert(FeedTinUnit, UOMEnum.Temperature, double.Parse(FeedTin)).ToString();
-            FeedTout = string.IsNullOrEmpty(FeedTout) ? "" : unitConvert.Convert(FeedToutUnit, UOMEnum.Temperature, double.Parse(FeedTout)).ToString();
+            FeedTin = string.IsNullOrEmpty(FeedTin) ? "" : UnitConvert.Convert(FeedTinUnit, UOMEnum.Temperature, double.Parse(FeedTin)).ToString();
+            FeedTout = string.IsNullOrEmpty(FeedTout) ? "" : UnitConvert.Convert(FeedToutUnit, UOMEnum.Temperature, double.Parse(FeedTout)).ToString();
 
-            FeedMassRate = string.IsNullOrEmpty(FeedMassRate) ? "" : unitConvert.Convert(FeedMassRateUnit, UOMEnum.MassRate, double.Parse(FeedMassRate)).ToString();
-            FeedSpEin = string.IsNullOrEmpty(FeedSpEin) ? "" : unitConvert.Convert(FeedSpEinUnit, UOMEnum.SpecificEnthalpy, double.Parse(FeedSpEin)).ToString();
-            FeedSpEout = string.IsNullOrEmpty(FeedSpEout) ? "" : unitConvert.Convert(FeedSpEoutUnit, UOMEnum.SpecificEnthalpy, double.Parse(FeedSpEout)).ToString();
+            FeedMassRate = string.IsNullOrEmpty(FeedMassRate) ? "" : UnitConvert.Convert(FeedMassRateUnit, UOMEnum.MassRate, double.Parse(FeedMassRate)).ToString();
+            FeedSpEin = string.IsNullOrEmpty(FeedSpEin) ? "" : UnitConvert.Convert(FeedSpEinUnit, UOMEnum.SpecificEnthalpy, double.Parse(FeedSpEin)).ToString();
+            FeedSpEout = string.IsNullOrEmpty(FeedSpEout) ? "" : UnitConvert.Convert(FeedSpEoutUnit, UOMEnum.SpecificEnthalpy, double.Parse(FeedSpEout)).ToString();
 
-            BottomTin = string.IsNullOrEmpty(BottomTin) ? "" : unitConvert.Convert(BottomTinUnit, UOMEnum.Temperature, double.Parse(BottomTin)).ToString();
-            BottomTout = string.IsNullOrEmpty(BottomTout) ? "" : unitConvert.Convert(BottomToutUnit, UOMEnum.Temperature, double.Parse(BottomTout)).ToString();
+            BottomTin = string.IsNullOrEmpty(BottomTin) ? "" : UnitConvert.Convert(BottomTinUnit, UOMEnum.Temperature, double.Parse(BottomTin)).ToString();
+            BottomTout = string.IsNullOrEmpty(BottomTout) ? "" : UnitConvert.Convert(BottomToutUnit, UOMEnum.Temperature, double.Parse(BottomTout)).ToString();
 
-            BottomReliefTin = string.IsNullOrEmpty(BottomReliefTin) ? "" : unitConvert.Convert(BottomReliefTinUnit, UOMEnum.Temperature, double.Parse(BottomReliefTin)).ToString();
-            BottomMassRate = string.IsNullOrEmpty(BottomMassRate) ? "" : unitConvert.Convert(BottomMassRateUnit, UOMEnum.MassRate, double.Parse(BottomMassRate)).ToString();
-            Duty = string.IsNullOrEmpty(DutyUnit) ? "" : unitConvert.Convert(DutyUnit, UOMEnum.EnthalpyDuty, double.Parse(Duty)).ToString();
-            FeedReliefTout = string.IsNullOrEmpty(FeedReliefTout) ? "" : unitConvert.Convert(FeedReliefToutUnit, UOMEnum.Temperature, double.Parse(FeedReliefTout)).ToString();
-            FeedReliefSpEout = string.IsNullOrEmpty(FeedReliefSpEout) ? "" : unitConvert.Convert(FeedReliefSpEoutUnit, UOMEnum.SpecificEnthalpy, double.Parse(FeedReliefSpEout)).ToString();
+            BottomReliefTin = string.IsNullOrEmpty(BottomReliefTin) ? "" : UnitConvert.Convert(BottomReliefTinUnit, UOMEnum.Temperature, double.Parse(BottomReliefTin)).ToString();
+            BottomMassRate = string.IsNullOrEmpty(BottomMassRate) ? "" : UnitConvert.Convert(BottomMassRateUnit, UOMEnum.MassRate, double.Parse(BottomMassRate)).ToString();
+            Duty = string.IsNullOrEmpty(DutyUnit) ? "" : UnitConvert.Convert(DutyUnit, UOMEnum.EnthalpyDuty, double.Parse(Duty)).ToString();
+            FeedReliefTout = string.IsNullOrEmpty(FeedReliefTout) ? "" : UnitConvert.Convert(FeedReliefToutUnit, UOMEnum.Temperature, double.Parse(FeedReliefTout)).ToString();
+            FeedReliefSpEout = string.IsNullOrEmpty(FeedReliefSpEout) ? "" : UnitConvert.Convert(FeedReliefSpEoutUnit, UOMEnum.SpecificEnthalpy, double.Parse(FeedReliefSpEout)).ToString();
         }
         private void ReadConvert()
         {
-            FeedTin = string.IsNullOrEmpty(FeedTin) ? "" : unitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(FeedTin)).ToString();
-            FeedTout = string.IsNullOrEmpty(FeedTout) ? "" : unitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(FeedTout)).ToString();
+            FeedTin = string.IsNullOrEmpty(FeedTin) ? "" : UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(FeedTin)).ToString();
+            FeedTout = string.IsNullOrEmpty(FeedTout) ? "" : UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(FeedTout)).ToString();
 
-            FeedMassRate = string.IsNullOrEmpty(FeedMassRate) ? "" : unitConvert.Convert(UOMEnum.MassRate, uomEnum.UserMassRate, double.Parse(FeedMassRate)).ToString();
-            FeedSpEin = string.IsNullOrEmpty(FeedSpEin) ? "" : unitConvert.Convert(UOMEnum.SpecificEnthalpy, uomEnum.UserSpecificEnthalpy, double.Parse(FeedSpEin)).ToString();
-            FeedSpEout = string.IsNullOrEmpty(FeedSpEout) ? "" : unitConvert.Convert(UOMEnum.SpecificEnthalpy, uomEnum.UserSpecificEnthalpy, double.Parse(FeedSpEout)).ToString();
+            FeedMassRate = string.IsNullOrEmpty(FeedMassRate) ? "" : UnitConvert.Convert(UOMEnum.MassRate, uomEnum.UserMassRate, double.Parse(FeedMassRate)).ToString();
+            FeedSpEin = string.IsNullOrEmpty(FeedSpEin) ? "" : UnitConvert.Convert(UOMEnum.SpecificEnthalpy, uomEnum.UserSpecificEnthalpy, double.Parse(FeedSpEin)).ToString();
+            FeedSpEout = string.IsNullOrEmpty(FeedSpEout) ? "" : UnitConvert.Convert(UOMEnum.SpecificEnthalpy, uomEnum.UserSpecificEnthalpy, double.Parse(FeedSpEout)).ToString();
 
-            BottomTin = string.IsNullOrEmpty(BottomTin) ? "" : unitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(BottomTin)).ToString();
-            BottomTout = string.IsNullOrEmpty(BottomTout) ? "" : unitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(BottomTout)).ToString();
+            BottomTin = string.IsNullOrEmpty(BottomTin) ? "" : UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(BottomTin)).ToString();
+            BottomTout = string.IsNullOrEmpty(BottomTout) ? "" : UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(BottomTout)).ToString();
 
-            BottomReliefTin = string.IsNullOrEmpty(BottomReliefTin) ? "" : unitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(BottomReliefTin)).ToString();
-            BottomMassRate = string.IsNullOrEmpty(BottomMassRate) ? "" : unitConvert.Convert(UOMEnum.MassRate, uomEnum.UserMassRate, double.Parse(BottomMassRate)).ToString();
-            Duty = string.IsNullOrEmpty(DutyUnit) ? "" : unitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, double.Parse(Duty)).ToString();
-            FeedReliefTout = string.IsNullOrEmpty(FeedReliefTout) ? "" : unitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(FeedReliefTout)).ToString();
-            FeedReliefSpEout = string.IsNullOrEmpty(FeedReliefSpEout) ? "" : unitConvert.Convert(UOMEnum.SpecificEnthalpy, uomEnum.UserSpecificEnthalpy, double.Parse(FeedReliefSpEout)).ToString();
+            BottomReliefTin = string.IsNullOrEmpty(BottomReliefTin) ? "" : UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(BottomReliefTin)).ToString();
+            BottomMassRate = string.IsNullOrEmpty(BottomMassRate) ? "" : UnitConvert.Convert(UOMEnum.MassRate, uomEnum.UserMassRate, double.Parse(BottomMassRate)).ToString();
+            Duty = string.IsNullOrEmpty(DutyUnit) ? "" : UnitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, double.Parse(Duty)).ToString();
+            FeedReliefTout = string.IsNullOrEmpty(FeedReliefTout) ? "" : UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, double.Parse(FeedReliefTout)).ToString();
+            FeedReliefSpEout = string.IsNullOrEmpty(FeedReliefSpEout) ? "" : UnitConvert.Convert(UOMEnum.SpecificEnthalpy, uomEnum.UserSpecificEnthalpy, double.Parse(FeedReliefSpEout)).ToString();
         }
         private void InitUnit()
         {

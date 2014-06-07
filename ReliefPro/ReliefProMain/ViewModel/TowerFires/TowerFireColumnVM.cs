@@ -25,11 +25,9 @@ namespace ReliefProMain.ViewModel.TowerFires
         public double Area { get; set; }
         public ObservableCollection<string> Internals { get; set; }
         public ObservableCollection<TowerFireColumnDetail> LastDetails { get; set; }
-        UnitConvert unitConvert;
         UOMLib.UOMEnum uomEnum;
         public TowerFireColumnVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            unitConvert = new UnitConvert();
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             InitUnit();
             SessionPlant = sessionPlant;
@@ -144,16 +142,16 @@ namespace ReliefProMain.ViewModel.TowerFires
         private void ReadConvert()
         {
             if (!string.IsNullOrEmpty(model.Instance.Elevation))
-                model.Instance.Elevation = unitConvert.Convert(UOMEnum.Length, elevationUnit, double.Parse(model.Instance.Elevation)).ToString();
+                model.Instance.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, double.Parse(model.Instance.Elevation)).ToString();
             if (!string.IsNullOrEmpty(model.Instance.BNLL))
-                model.Instance.BNLL = unitConvert.Convert(UOMEnum.Length, levelUnit, double.Parse(model.Instance.BNLL)).ToString();
+                model.Instance.BNLL = UnitConvert.Convert(UOMEnum.Length, levelUnit, double.Parse(model.Instance.BNLL)).ToString();
         }
         private void WriteConvert()
         {
             if (!string.IsNullOrEmpty(model.Instance.Elevation))
-                model.Instance.Elevation = unitConvert.Convert(elevationUnit, UOMEnum.Length, double.Parse(model.Instance.Elevation)).ToString();
+                model.Instance.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, double.Parse(model.Instance.Elevation)).ToString();
             if (!string.IsNullOrEmpty(model.Instance.BNLL))
-                model.Instance.BNLL = unitConvert.Convert(levelUnit, UOMEnum.Length, double.Parse(model.Instance.BNLL)).ToString();
+                model.Instance.BNLL = UnitConvert.Convert(levelUnit, UOMEnum.Length, double.Parse(model.Instance.BNLL)).ToString();
         }
         private void InitUnit()
         {

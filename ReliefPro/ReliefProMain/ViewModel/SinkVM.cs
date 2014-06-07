@@ -36,7 +36,6 @@ namespace ReliefProMain.ViewModel
             list.Add("Pressurized Vessel");
             return list;
         }
-        UnitConvert unitConvert;
         UOMLib.UOMEnum uomEnum;
         public SinkVM(string name, string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
@@ -44,10 +43,9 @@ namespace ReliefProMain.ViewModel
             SinkTypes = GetSinkTypes();
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
-            unitConvert = new UnitConvert();
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
-            
-           
+
+
             db = new SinkDAL();
 
             Sink sink = db.GetModel(SessionProtectedSystem, name);
@@ -92,12 +90,12 @@ namespace ReliefProMain.ViewModel
         private void ReadConvert()
         {
             if (!string.IsNullOrEmpty(MainModel.MaxPossiblePressure))
-                MainModel.MaxPossiblePressure = unitConvert.Convert(UOMEnum.Pressure, MainModel.PressureUnit, double.Parse(MainModel.MaxPossiblePressure)).ToString();
+                MainModel.MaxPossiblePressure = UnitConvert.Convert(UOMEnum.Pressure, MainModel.PressureUnit, double.Parse(MainModel.MaxPossiblePressure)).ToString();
         }
         private void WriteConvert()
         {
             if (!string.IsNullOrEmpty(MainModel.MaxPossiblePressure))
-                MainModel.MaxPossiblePressure = unitConvert.Convert(MainModel.PressureUnit, UOMEnum.Pressure, double.Parse(MainModel.MaxPossiblePressure)).ToString();
+                MainModel.MaxPossiblePressure = UnitConvert.Convert(MainModel.PressureUnit, UOMEnum.Pressure, double.Parse(MainModel.MaxPossiblePressure)).ToString();
         }
         private void InitUnit()
         {

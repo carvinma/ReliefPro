@@ -64,7 +64,6 @@ namespace ReliefProMain.ViewModel
             {
                 _SelectedVessel = value;
 
-                UnitConvert uc = new UnitConvert();
                 if (!string.IsNullOrEmpty(SelectedVessel))
                 {
                     UpVesselType = dicEqData[SelectedVessel].EqType;
@@ -76,7 +75,7 @@ namespace ReliefProMain.ViewModel
                     else
                     {
                         UpStreamNames = GetFlashProducts(dicEqData[SelectedVessel]);
-                        MaxOperatingPressure = uc.Convert("KPA", "MPAG", double.Parse(dicEqData[_SelectedVessel].PressCalc)).ToString();
+                        MaxOperatingPressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(dicEqData[_SelectedVessel].PressCalc)).ToString();
                     }
                 }
 
@@ -183,11 +182,10 @@ namespace ReliefProMain.ViewModel
         InletValveOpen model;
         InletValveOpenDAL dbinlet;
         ScenarioDAL dbsc;
-        UnitConvert unitConvert;
         UOMLib.UOMEnum uomEnum;
         public InletValveOpenVM(int scenarioID, string eqName, string eqType, string przFile, string version, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
-            unitConvert = new UnitConvert();
+
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             InitUnit();
             ScenarioID = scenarioID;
@@ -599,27 +597,27 @@ namespace ReliefProMain.ViewModel
         {
             if (!string.IsNullOrEmpty(MaxOperatingPressure))
             {
-                this.MaxOperatingPressure = unitConvert.Convert(UOMEnum.Pressure, _MaxOperatingPressureUnit, double.Parse(MaxOperatingPressure)).ToString();
+                this.MaxOperatingPressure = UnitConvert.Convert(UOMEnum.Pressure, _MaxOperatingPressureUnit, double.Parse(MaxOperatingPressure)).ToString();
             }
             if (!string.IsNullOrEmpty(ReliefLoad))
             {
-                this.ReliefLoad = unitConvert.Convert(UOMEnum.MassRate, reliefloadUnit, double.Parse(ReliefLoad)).ToString();
+                this.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, reliefloadUnit, double.Parse(ReliefLoad)).ToString();
             }
             if (!string.IsNullOrEmpty(ReliefPressure))
             {
-                this.ReliefPressure = unitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit, double.Parse(ReliefPressure)).ToString();
+                this.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit, double.Parse(ReliefPressure)).ToString();
             }
             if (!string.IsNullOrEmpty(ReliefTemperature))
             {
-                this.ReliefTemperature = unitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit, double.Parse(ReliefTemperature)).ToString();
+                this.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit, double.Parse(ReliefTemperature)).ToString();
             }
         }
         private void WriteConvert()
         {
-            this.MaxOperatingPressure = unitConvert.Convert(_MaxOperatingPressureUnit, UOMEnum.Pressure, double.Parse(MaxOperatingPressure)).ToString();
-            this.ReliefLoad = unitConvert.Convert(reliefloadUnit, UOMEnum.MassRate, double.Parse(ReliefLoad)).ToString();
-            this.ReliefPressure = unitConvert.Convert(reliefPressureUnit, UOMEnum.Pressure, double.Parse(ReliefPressure)).ToString();
-            this.ReliefTemperature = unitConvert.Convert(reliefTemperatureUnit, UOMEnum.Temperature, double.Parse(ReliefTemperature)).ToString();
+            this.MaxOperatingPressure = UnitConvert.Convert(_MaxOperatingPressureUnit, UOMEnum.Pressure, double.Parse(MaxOperatingPressure)).ToString();
+            this.ReliefLoad = UnitConvert.Convert(reliefloadUnit, UOMEnum.MassRate, double.Parse(ReliefLoad)).ToString();
+            this.ReliefPressure = UnitConvert.Convert(reliefPressureUnit, UOMEnum.Pressure, double.Parse(ReliefPressure)).ToString();
+            this.ReliefTemperature = UnitConvert.Convert(reliefTemperatureUnit, UOMEnum.Temperature, double.Parse(ReliefTemperature)).ToString();
         }
         private void InitUnit()
         {

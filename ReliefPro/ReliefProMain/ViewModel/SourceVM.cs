@@ -90,7 +90,6 @@ namespace ReliefProMain.ViewModel
             list.Add("Pressurized Vessel");
             return list;
         }
-        UnitConvert unitConvert;
         UOMLib.UOMEnum uomEnum;
         public SourceVM(string name, string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
         {
@@ -104,7 +103,6 @@ namespace ReliefProMain.ViewModel
             IList<BasicUnit> list = dbBU.GetAllList(sessionPlant);
             BU = list.Where(s => s.IsDefault == 1).Single();
 
-            unitConvert = new UnitConvert();
             uomEnum = new UOMLib.UOMEnum(SessionPlant);
             InitUnit();
             SourceDAL db = new SourceDAL();
@@ -189,12 +187,12 @@ namespace ReliefProMain.ViewModel
         private void ReadConvert()
         {
             if (!string.IsNullOrEmpty(CurrentSource.MaxPossiblePressure))
-                MaxPossiblePressure = unitConvert.Convert(UOMEnum.Pressure, pressureUnit, double.Parse(CurrentSource.MaxPossiblePressure)).ToString();
+                MaxPossiblePressure = UnitConvert.Convert(UOMEnum.Pressure, pressureUnit, double.Parse(CurrentSource.MaxPossiblePressure)).ToString();
         }
         private void WriteConvert()
         {
             if (!string.IsNullOrEmpty(MaxPossiblePressure))
-                CurrentSource.MaxPossiblePressure = unitConvert.Convert(pressureUnit, UOMEnum.Pressure, double.Parse(MaxPossiblePressure)).ToString();
+                CurrentSource.MaxPossiblePressure = UnitConvert.Convert(pressureUnit, UOMEnum.Pressure, double.Parse(MaxPossiblePressure)).ToString();
         }
         private void InitUnit()
         {

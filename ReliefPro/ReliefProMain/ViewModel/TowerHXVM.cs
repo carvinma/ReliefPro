@@ -24,7 +24,6 @@ namespace ReliefProMain.ViewModel
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         public TowerHXModel model { set; get; }
-        UnitConvert unitConvert;
         UOMLib.UOMEnum uomEnum;
 
         private ObservableCollection<TowerHXDetailModel> _Details = null;
@@ -80,7 +79,6 @@ namespace ReliefProMain.ViewModel
         }
         public TowerHXVM(string name, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            unitConvert = new UnitConvert();
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             InitUnit();
             SessionPlant = sessionPlant;
@@ -213,7 +211,7 @@ namespace ReliefProMain.ViewModel
         private void ReadConvert()
         {
             if (!string.IsNullOrEmpty(model.HeaterDuty))
-                model.HeaterDuty = unitConvert.Convert(UOMEnum.MassRate, dutyUnit, double.Parse(model.HeaterDuty)).ToString();
+                model.HeaterDuty = UnitConvert.Convert(UOMEnum.MassRate, dutyUnit, double.Parse(model.HeaterDuty)).ToString();
         }
         private void InitUnit()
         {

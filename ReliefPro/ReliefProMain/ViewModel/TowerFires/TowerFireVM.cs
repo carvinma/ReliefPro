@@ -50,12 +50,10 @@ namespace ReliefProMain.ViewModel.TowerFires
                 OnPropertyChanged("EqList");
             }
         }
-        UnitConvert unitConvert;
         UOMLib.UOMEnum uomEnum;
 
-        public TowerFireVM(int ScenarioID,string EqName,string PrzFile,string PrzVersion, ISession sessionPlant, ISession sessionProtectedSystem,string DirPlant, string DirProtectedSystem)
+        public TowerFireVM(int ScenarioID, string EqName, string PrzFile, string PrzVersion, ISession sessionPlant, ISession sessionProtectedSystem, string DirPlant, string DirProtectedSystem)
         {
-            unitConvert = new UnitConvert();
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             InitUnit();
 
@@ -115,7 +113,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             //m.ReliefPressure = CurrentModel.ReliefPressure;
             //m.ReliefTemperature = CurrentModel.ReliefTemperature;
             //m.ReliefZ = CurrentModel.ReliefZ;
-WriteConvert();
+            WriteConvert();
             towerFireDAL.Update(MainModel.model, SessionProtectedSystem);
 
             ScenarioDAL scenarioDAL = new ScenarioDAL();
@@ -311,9 +309,9 @@ WriteConvert();
             MainModel.ReliefLoad = reliefload.ToString();
 
 
-            PSVDAL psvDAL=new PSVDAL();
-            PSV psv=psvDAL.GetModel(SessionProtectedSystem);
-            double pressure=double.Parse(psv.Pressure);
+            PSVDAL psvDAL = new PSVDAL();
+            PSV psv = psvDAL.GetModel(SessionProtectedSystem);
+            double pressure = double.Parse(psv.Pressure);
 
             double reliefFirePressure = pressure * 1.21;
             string tempdir = DirProtectedSystem + @"\temp\";
@@ -373,20 +371,20 @@ WriteConvert();
         private void ReadConvert()
         {
             if (!string.IsNullOrEmpty(MainModel.ReliefLoad))
-                MainModel.ReliefLoad = unitConvert.Convert(UOMEnum.MassRate, reliefloadUnit, double.Parse(MainModel.ReliefLoad)).ToString();
+                MainModel.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, reliefloadUnit, double.Parse(MainModel.ReliefLoad)).ToString();
             if (!string.IsNullOrEmpty(MainModel.ReliefPressure))
-                MainModel.ReliefPressure = unitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit, double.Parse(MainModel.ReliefPressure)).ToString();
+                MainModel.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit, double.Parse(MainModel.ReliefPressure)).ToString();
             if (!string.IsNullOrEmpty(MainModel.ReliefTemperature))
-                MainModel.ReliefTemperature = unitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit, double.Parse(MainModel.ReliefTemperature)).ToString();
+                MainModel.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit, double.Parse(MainModel.ReliefTemperature)).ToString();
         }
         private void WriteConvert()
         {
             if (!string.IsNullOrEmpty(MainModel.ReliefLoad))
-                MainModel.ReliefLoad = unitConvert.Convert(reliefloadUnit, UOMEnum.MassRate, double.Parse(MainModel.ReliefLoad)).ToString();
+                MainModel.ReliefLoad = UnitConvert.Convert(reliefloadUnit, UOMEnum.MassRate, double.Parse(MainModel.ReliefLoad)).ToString();
             if (!string.IsNullOrEmpty(MainModel.ReliefPressure))
-                MainModel.ReliefPressure = unitConvert.Convert(reliefPressureUnit, UOMEnum.Pressure, double.Parse(MainModel.ReliefPressure)).ToString();
+                MainModel.ReliefPressure = UnitConvert.Convert(reliefPressureUnit, UOMEnum.Pressure, double.Parse(MainModel.ReliefPressure)).ToString();
             if (!string.IsNullOrEmpty(MainModel.ReliefTemperature))
-                MainModel.ReliefTemperature = unitConvert.Convert(reliefTemperatureUnit, UOMEnum.Temperature, double.Parse(MainModel.ReliefTemperature)).ToString();
+                MainModel.ReliefTemperature = UnitConvert.Convert(reliefTemperatureUnit, UOMEnum.Temperature, double.Parse(MainModel.ReliefTemperature)).ToString();
         }
         private void InitUnit()
         {

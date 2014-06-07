@@ -54,7 +54,7 @@ namespace ReliefProBLL
             }
 
             Feeds = dbsteam.GetAllList(SessionPS, true);
-            
+
             var tmpModel = dbBlockedOutlet.GetModelByDrumID(SessionPS, Model.DrumID);
             if (tmpModel != null)
             {
@@ -93,12 +93,11 @@ namespace ReliefProBLL
                 return model;
             }
             DrumBlockedOutlet outletModel = new DrumBlockedOutlet();
-            UnitConvert uc = new UnitConvert();
             outletModel = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPlan);
-            outletModel.MaxPressure = uc.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, outletModel.MaxPressure);
-            outletModel.MaxStreamRate = uc.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserWeightFlow, outletModel.MaxStreamRate);
-            outletModel.NormalFlashDuty = uc.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(), uomEnum.UserEnthalpyDuty, outletModel.NormalFlashDuty);
+            outletModel.MaxPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, outletModel.MaxPressure);
+            outletModel.MaxStreamRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserWeightFlow, outletModel.MaxStreamRate);
+            outletModel.NormalFlashDuty = UnitConvert.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(), uomEnum.UserEnthalpyDuty, outletModel.NormalFlashDuty);
             return outletModel;
         }
 

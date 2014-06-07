@@ -65,12 +65,11 @@ namespace ReliefProMain.ViewModel.HXs
         }
         private void WriteConvertModel()
         {
-            UnitConvert uc = new UnitConvert();
             model.dbmodel.ExposedToFire = this.selectedExposedToFire; ;
             model.dbmodel.Type = this.selectedType;
-            model.dbmodel.OD = uc.Convert(model.ODUnit, UOMLib.UOMEnum.Length.ToString(), model.OD);
-            model.dbmodel.Length = uc.Convert(model.LengthUnit, UOMLib.UOMEnum.Length.ToString(), model.Length);
-            model.dbmodel.Elevation = uc.Convert(model.ElevationUnit, UOMLib.UOMEnum.Length.ToString(), model.Elevation);
+            model.dbmodel.OD = UnitConvert.Convert(model.ODUnit, UOMLib.UOMEnum.Length.ToString(), model.OD);
+            model.dbmodel.Length = UnitConvert.Convert(model.LengthUnit, UOMLib.UOMEnum.Length.ToString(), model.Length);
+            model.dbmodel.Elevation = UnitConvert.Convert(model.ElevationUnit, UOMLib.UOMEnum.Length.ToString(), model.Elevation);
             model.dbmodel.PipingContingency = model.PipingContingency;
         }
 

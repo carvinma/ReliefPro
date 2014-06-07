@@ -212,13 +212,11 @@ namespace ReliefProMain.ViewModel
         TowerHXDetailDAL towerHXDetailDAL;
         ReboilerPinchDAL reboilerPinchDAL;
         int TowerScenarioHXID;
-        UnitConvert unitConvert;
         UOMLib.UOMEnum uomEnum;
         public ReboilerPinchVM(int TowerScenarioHXID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
-            unitConvert = new UnitConvert();
             uomEnum = new UOMLib.UOMEnum(SessionPlant);
             InitUnit();
             this.TowerScenarioHXID = TowerScenarioHXID;
@@ -557,70 +555,70 @@ namespace ReliefProMain.ViewModel
         private void ReadConvert()
         {
             if (!string.IsNullOrEmpty(_Coldtin))
-                _Coldtin = unitConvert.Convert(UOMEnum.Temperature, _ColdtinUnit, double.Parse(_Coldtin)).ToString();
+                _Coldtin = UnitConvert.Convert(UOMEnum.Temperature, _ColdtinUnit, double.Parse(_Coldtin)).ToString();
             if (!string.IsNullOrEmpty(_Coldtout))
-                _Coldtout = unitConvert.Convert(UOMEnum.Temperature, _ColdtoutUnit, double.Parse(_Coldtout)).ToString();
+                _Coldtout = UnitConvert.Convert(UOMEnum.Temperature, _ColdtoutUnit, double.Parse(_Coldtout)).ToString();
             if (!string.IsNullOrEmpty(_HeatTin))
-                _HeatTin = unitConvert.Convert(UOMEnum.Temperature, _HeatTinUnit, double.Parse(_HeatTin)).ToString();
+                _HeatTin = UnitConvert.Convert(UOMEnum.Temperature, _HeatTinUnit, double.Parse(_HeatTin)).ToString();
 
             if (!string.IsNullOrEmpty(_HeatTout))
-                _HeatTout = unitConvert.Convert(UOMEnum.Temperature, _HeatToutUnit, double.Parse(_HeatTout)).ToString();
+                _HeatTout = UnitConvert.Convert(UOMEnum.Temperature, _HeatToutUnit, double.Parse(_HeatTout)).ToString();
             if (!string.IsNullOrEmpty(_ReliefHeatTin))
-                _ReliefHeatTin = unitConvert.Convert(UOMEnum.Temperature, _ReliefHeatTinUnit, double.Parse(_ReliefHeatTin)).ToString();
+                _ReliefHeatTin = UnitConvert.Convert(UOMEnum.Temperature, _ReliefHeatTinUnit, double.Parse(_ReliefHeatTin)).ToString();
             if (!string.IsNullOrEmpty(_ReliefColdtout))
-                _ReliefColdtout = unitConvert.Convert(UOMEnum.Temperature, _ReliefColdtoutUnit, double.Parse(_ReliefColdtout)).ToString();
+                _ReliefColdtout = UnitConvert.Convert(UOMEnum.Temperature, _ReliefColdtoutUnit, double.Parse(_ReliefColdtout)).ToString();
 
             if (!string.IsNullOrEmpty(_Area))
-                _Area = unitConvert.Convert(UOMEnum.Area, _AreaUnit, double.Parse(_Area)).ToString();
+                _Area = UnitConvert.Convert(UOMEnum.Area, _AreaUnit, double.Parse(_Area)).ToString();
             if (!string.IsNullOrEmpty(_UDesign))
-                _UDesign = unitConvert.Convert(UOMEnum.ThermalConductivity, _UDesignUnit, double.Parse(_UDesign)).ToString();
+                _UDesign = UnitConvert.Convert(UOMEnum.ThermalConductivity, _UDesignUnit, double.Parse(_UDesign)).ToString();
             if (!string.IsNullOrEmpty(_UDesignArea))
-                _UDesignArea = unitConvert.Convert(UOMEnum.HeatTransCoeffcient, _UDesignAreaUnit, double.Parse(_UDesignArea)).ToString();
+                _UDesignArea = UnitConvert.Convert(UOMEnum.HeatTransCoeffcient, _UDesignAreaUnit, double.Parse(_UDesignArea)).ToString();
 
             if (!string.IsNullOrEmpty(_UClean))
-                _UClean = unitConvert.Convert(UOMEnum.ThermalConductivity, _UCleanUnit, double.Parse(_UClean)).ToString();
+                _UClean = UnitConvert.Convert(UOMEnum.ThermalConductivity, _UCleanUnit, double.Parse(_UClean)).ToString();
             if (!string.IsNullOrEmpty(_UCD))
-                _UCD = unitConvert.Convert(UOMEnum.Temperature, _UCDUnit, double.Parse(_UCD)).ToString();
+                _UCD = UnitConvert.Convert(UOMEnum.Temperature, _UCDUnit, double.Parse(_UCD)).ToString();
             if (!string.IsNullOrEmpty(_Duty))
-                _Duty = unitConvert.Convert(UOMEnum.EnthalpyDuty, _DutyUnit, double.Parse(_Duty)).ToString();
+                _Duty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, _DutyUnit, double.Parse(_Duty)).ToString();
 
             if (!string.IsNullOrEmpty(_ReliefDuty))
-                _ReliefDuty = unitConvert.Convert(UOMEnum.EnthalpyDuty, _ReliefDutyUnit, double.Parse(_ReliefDuty)).ToString();
+                _ReliefDuty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, _ReliefDutyUnit, double.Parse(_ReliefDuty)).ToString();
             //if (!string.IsNullOrEmpty(_HeaderPressure))
             //    _Coldtout = unitConvert.Convert(UOMEnum.Pressure, _HeaderPressureUnit, double.Parse(_Coldtout)).ToString();
         }
         private void WriteConvert()
         {
             if (!string.IsNullOrEmpty(_Coldtin))
-                _Coldtin = unitConvert.Convert(_ColdtinUnit, UOMEnum.Temperature, double.Parse(_Coldtin)).ToString();
+                _Coldtin = UnitConvert.Convert(_ColdtinUnit, UOMEnum.Temperature, double.Parse(_Coldtin)).ToString();
             if (!string.IsNullOrEmpty(_Coldtout))
-                _Coldtout = unitConvert.Convert(_ColdtoutUnit, UOMEnum.Temperature, double.Parse(_Coldtout)).ToString();
+                _Coldtout = UnitConvert.Convert(_ColdtoutUnit, UOMEnum.Temperature, double.Parse(_Coldtout)).ToString();
             if (!string.IsNullOrEmpty(_HeatTin))
-                _HeatTin = unitConvert.Convert(_HeatTinUnit, UOMEnum.Temperature, double.Parse(_HeatTin)).ToString();
+                _HeatTin = UnitConvert.Convert(_HeatTinUnit, UOMEnum.Temperature, double.Parse(_HeatTin)).ToString();
 
             if (!string.IsNullOrEmpty(_HeatTout))
-                _HeatTout = unitConvert.Convert(_HeatToutUnit, UOMEnum.Temperature, double.Parse(_HeatTout)).ToString();
+                _HeatTout = UnitConvert.Convert(_HeatToutUnit, UOMEnum.Temperature, double.Parse(_HeatTout)).ToString();
             if (!string.IsNullOrEmpty(_ReliefHeatTin))
-                _ReliefHeatTin = unitConvert.Convert(_ReliefHeatTinUnit, UOMEnum.Temperature, double.Parse(_ReliefHeatTin)).ToString();
+                _ReliefHeatTin = UnitConvert.Convert(_ReliefHeatTinUnit, UOMEnum.Temperature, double.Parse(_ReliefHeatTin)).ToString();
             if (!string.IsNullOrEmpty(_ReliefColdtout))
-                _ReliefColdtout = unitConvert.Convert(_ReliefColdtoutUnit, UOMEnum.Temperature, double.Parse(_ReliefColdtout)).ToString();
+                _ReliefColdtout = UnitConvert.Convert(_ReliefColdtoutUnit, UOMEnum.Temperature, double.Parse(_ReliefColdtout)).ToString();
 
             if (!string.IsNullOrEmpty(_Area))
-                _Area = unitConvert.Convert(_AreaUnit, UOMEnum.Area, double.Parse(_Area)).ToString();
+                _Area = UnitConvert.Convert(_AreaUnit, UOMEnum.Area, double.Parse(_Area)).ToString();
             if (!string.IsNullOrEmpty(_UDesign))
-                _UDesign = unitConvert.Convert(_UDesignUnit, UOMEnum.ThermalConductivity, double.Parse(_UDesign)).ToString();
+                _UDesign = UnitConvert.Convert(_UDesignUnit, UOMEnum.ThermalConductivity, double.Parse(_UDesign)).ToString();
             if (!string.IsNullOrEmpty(_UDesignArea))
-                _UDesignArea = unitConvert.Convert(_UDesignAreaUnit, UOMEnum.HeatTransCoeffcient, double.Parse(_UDesignArea)).ToString();
+                _UDesignArea = UnitConvert.Convert(_UDesignAreaUnit, UOMEnum.HeatTransCoeffcient, double.Parse(_UDesignArea)).ToString();
 
             if (!string.IsNullOrEmpty(_UClean))
-                _UClean = unitConvert.Convert(_UCleanUnit, UOMEnum.ThermalConductivity, double.Parse(_UClean)).ToString();
+                _UClean = UnitConvert.Convert(_UCleanUnit, UOMEnum.ThermalConductivity, double.Parse(_UClean)).ToString();
             if (!string.IsNullOrEmpty(_UCD))
-                _UCD = unitConvert.Convert(_UCDUnit, UOMEnum.Temperature, double.Parse(_UCD)).ToString();
+                _UCD = UnitConvert.Convert(_UCDUnit, UOMEnum.Temperature, double.Parse(_UCD)).ToString();
             if (!string.IsNullOrEmpty(_Duty))
-                _Duty = unitConvert.Convert(_DutyUnit, UOMEnum.EnthalpyDuty, double.Parse(_Duty)).ToString();
+                _Duty = UnitConvert.Convert(_DutyUnit, UOMEnum.EnthalpyDuty, double.Parse(_Duty)).ToString();
 
             if (!string.IsNullOrEmpty(_ReliefDuty))
-                _ReliefDuty = unitConvert.Convert(_ReliefDutyUnit, UOMEnum.EnthalpyDuty, double.Parse(_ReliefDuty)).ToString();
+                _ReliefDuty = UnitConvert.Convert(_ReliefDutyUnit, UOMEnum.EnthalpyDuty, double.Parse(_ReliefDuty)).ToString();
             //if (!string.IsNullOrEmpty(_HeaderPressure))
             //    _Coldtout = unitConvert.Convert(_HeaderPressureUnit,UOMEnum.Pressure,  double.Parse(_Coldtout)).ToString();
         }

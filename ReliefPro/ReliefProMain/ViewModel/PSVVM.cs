@@ -56,7 +56,6 @@ namespace ReliefProMain.ViewModel
         public PSVModel CurrentModel { get; set; }
         public PSV psv;
         PSVDAL dbpsv = new PSVDAL();
-        UnitConvert unitConvert;
         UOMLib.UOMEnum uomEnum;
         public List<string> GetValveTypes()
         {
@@ -79,7 +78,6 @@ namespace ReliefProMain.ViewModel
             PrzFile = przFile;
             PrzVersion = version;
 
-            unitConvert = new UnitConvert();
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             this.psvPressureUnit = uomEnum.UserPressure;
             this.drumPSVPressureUnit = uomEnum.UserPressure;
@@ -100,14 +98,14 @@ namespace ReliefProMain.ViewModel
             PSVModel model = new PSVModel();
             model.ID = psv.ID;
             model.PSVName = m.PSVName;
-            model.Pressure = unitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, double.Parse(m.Pressure)).ToString();
+            model.Pressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, double.Parse(m.Pressure)).ToString();
             model.ReliefPressureFactor = m.ReliefPressureFactor;
             model.ValveNumber = m.ValveNumber;
             model.ValveType = m.ValveType;
             model.DrumPSVName = m.DrumPSVName;
             if (!string.IsNullOrEmpty(m.DrumPressure))
             {
-                model.DrumPressure = unitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, double.Parse(m.DrumPressure)).ToString();
+                model.DrumPressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, double.Parse(m.DrumPressure)).ToString();
             }
             model.Description = m.Description;
             model.LocationDescription = m.LocationDescription;
@@ -116,14 +114,14 @@ namespace ReliefProMain.ViewModel
         private void ConvertModel(PSVModel m, ref PSV model)
         {
             model.PSVName = m.PSVName;
-            model.Pressure = unitConvert.Convert(psvPressureUnit, UOMEnum.Pressure, double.Parse(m.Pressure)).ToString();
+            model.Pressure = UnitConvert.Convert(psvPressureUnit, UOMEnum.Pressure, double.Parse(m.Pressure)).ToString();
             model.ReliefPressureFactor = m.ReliefPressureFactor;
             model.ValveNumber = m.ValveNumber;
             model.ValveType = m.ValveType;
             model.DrumPSVName = m.DrumPSVName;
             if (!string.IsNullOrEmpty(m.DrumPressure))
             {
-                model.DrumPressure = unitConvert.Convert(DrumPressureUnit, UOMEnum.Pressure, double.Parse(m.DrumPressure)).ToString();
+                model.DrumPressure = UnitConvert.Convert(DrumPressureUnit, UOMEnum.Pressure, double.Parse(m.DrumPressure)).ToString();
             }
             model.Description = m.Description;
             model.LocationDescription = m.LocationDescription;
@@ -241,7 +239,7 @@ namespace ReliefProMain.ViewModel
                     reader.InitProIIReader(phasef);
                     criticalPress = reader.GetCriticalPressure(PH);
                     reader.ReleaseProIIReader();
-                    criticalPress = unitConvert.Convert("KPA", "MPAG", double.Parse(criticalPress)).ToString();
+                    criticalPress = UnitConvert.Convert("KPA", "MPAG", double.Parse(criticalPress)).ToString();
                 }
 
                 else
