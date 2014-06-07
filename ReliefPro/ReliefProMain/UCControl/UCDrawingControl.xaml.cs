@@ -28,6 +28,7 @@ using ReliefProBLL.Common;
 using ReliefProDAL;
 using ReliefProDAL.Drums;
 using ReliefProMain.View.Drums;
+using UOMLib;
 
 namespace ReliefProMain.View
 {
@@ -90,17 +91,17 @@ namespace ReliefProMain.View
             AxDrawingControl dc = this.visioControl;
             foreach (Visio.Shape shp in this.visioControl.Window.Selection)
             {
-                string name=shp.Text;
+                string name = shp.Text;
                 if (shp.NameU.ToLower().Contains("dis"))
                 {
                     try
                     {
                         TowerView v = new TowerView();
-                        TowerVM vm = new TowerVM(name,SessionPlant,SessionProtectedSystem,DirPlant,DirProtectedSystem);
+                        TowerVM vm = new TowerVM(name, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
                         v.DataContext = vm;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         Window parentWindow = Window.GetWindow(this);
-                        v.Owner = parentWindow;    
+                        v.Owner = parentWindow;
                         if (v.ShowDialog() == true)
                         {
                             PrzFile = DirPlant + @"\" + vm.przFile;
@@ -108,7 +109,7 @@ namespace ReliefProMain.View
                             EqName = vm.TowerName;
                             EqType = "Tower";
                             DrawTower(shp, vm);
-                            
+
                         }
                     }
                     catch (Exception ex)
@@ -124,7 +125,7 @@ namespace ReliefProMain.View
                         v.DataContext = vm;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         Window parentWindow = Window.GetWindow(this);
-                        v.Owner = parentWindow;    
+                        v.Owner = parentWindow;
                         if (v.ShowDialog() == true)
                         {
                             PrzFile = DirPlant + @"\" + vm.przFile;
@@ -165,12 +166,12 @@ namespace ReliefProMain.View
 
                 }
                 else if (shp.NameU.Contains("Kettle reboiler"))
-                {                    
-                    TowerHXVM vm = new TowerHXVM(name,SessionPlant,SessionProtectedSystem);
+                {
+                    TowerHXVM vm = new TowerHXVM(name, SessionPlant, SessionProtectedSystem);
                     TowerHXView v = new TowerHXView();
-                    v.DataContext = vm;                  
+                    v.DataContext = vm;
                     Window parentWindow = Window.GetWindow(this);
-                    v.Owner = parentWindow;                   
+                    v.Owner = parentWindow;
                     v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                     v.ShowDialog();
                 }
@@ -179,8 +180,8 @@ namespace ReliefProMain.View
                     try
                     {
                         SourceView v = new SourceView();
-                        SourceVM vm = new SourceVM(name,PrzFile, SessionPlant, SessionProtectedSystem);
-                        v.DataContext = vm;                       
+                        SourceVM vm = new SourceVM(name, PrzFile, SessionPlant, SessionProtectedSystem);
+                        v.DataContext = vm;
                         Window parentWindow = Window.GetWindow(this);
                         v.Owner = parentWindow;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -217,7 +218,7 @@ namespace ReliefProMain.View
                     v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                     v.ShowDialog();
                 }
-               
+
 
             }
             this.visioControl.Window.DeselectAll();
@@ -250,7 +251,7 @@ namespace ReliefProMain.View
 
 
             int stagenumber = int.Parse(vm.StageNumber);
-            
+
             int start = 16;
             double multiple = 0.125;
             //double leftmultiple = 1.5;
@@ -469,7 +470,7 @@ namespace ReliefProMain.View
             currentStencil_2.Close();
             currentStencil_3.Close();
 
-           
+
             visioControl.Document.SaveAs(visioControl.Src);
 
         }
@@ -509,7 +510,7 @@ namespace ReliefProMain.View
                 ConnectShapes(shape, start, connector, 0);
                 connector.Text = cs.StreamName;
 
-                Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY + (start+1 - center) * multiple * height);
+                Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY + (start + 1 - center) * multiple * height);
                 startShp.get_Cells("Height").ResultIU = 0.1;
                 startShp.get_Cells("Width").ResultIU = 0.2;
                 startShp.Text = connector.Text + "_Source";
@@ -517,7 +518,7 @@ namespace ReliefProMain.View
                 start = start + 1;
                 startShp.Cells["EventDblClick"].Formula = "=0";
             }
-            
+
 
 
         }
@@ -609,7 +610,7 @@ namespace ReliefProMain.View
                 v.ShowDialog();
             }
             else if (btn.ToolTip.ToString() == "Scenario")
-            {                
+            {
                 PSVDAL dbpsv = new PSVDAL();
                 PSV psv = dbpsv.GetModel(SessionProtectedSystem);
                 if (psv == null)
@@ -619,14 +620,14 @@ namespace ReliefProMain.View
                 }
 
                 ScenarioListView v = new ScenarioListView();
-                ScenarioListVM vm = new ScenarioListVM(EqName,EqType,PrzFile,PrzVersion,SessionPlant,SessionProtectedSystem,DirPlant,DirProtectedSystem);
+                ScenarioListVM vm = new ScenarioListVM(EqName, EqType, PrzFile, PrzVersion, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
                 v.DataContext = vm;
                 v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 v.ShowDialog();
             }
         }
 
-        
+
         private void UserControl_Loaded_1(object sender, RoutedEventArgs e)
         {
             TreeViewItemData data = this.Tag as TreeViewItemData;
@@ -636,6 +637,14 @@ namespace ReliefProMain.View
             DirProtectedSystem = System.IO.Path.GetDirectoryName(dbProtectedSystemFile);
             NHibernateHelper helperPlant = new NHibernateHelper(dbPlantFile);
             SessionPlant = helperPlant.GetCurrentSession();
+            Task.Factory.StartNew(() =>
+            {
+                UnitInfo unitInfo = new UnitInfo();
+                var basicUnit = unitInfo.GetBasicUnitUOM(SessionPlant);
+                UOMEnum.BasicUnitID = basicUnit.ID;
+                UOMEnum.lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(SessionPlant);
+            });
+
             NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystemFile);
             SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
             TowerDAL dbtower = new TowerDAL();
@@ -644,7 +653,7 @@ namespace ReliefProMain.View
             {
                 EqType = "Tower";
                 EqName = tower.TowerName;
-                PrzFile = DirPlant +@"\"+ tower.PrzFile;
+                PrzFile = DirPlant + @"\" + tower.PrzFile;
                 PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
             }
             DrumDAL dbdrum = new DrumDAL();
@@ -656,10 +665,10 @@ namespace ReliefProMain.View
                 PrzFile = DirPlant + @"\" + drum.PrzFile;
                 PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
             }
-            
+
 
         }
-    
+
 
     }
 
