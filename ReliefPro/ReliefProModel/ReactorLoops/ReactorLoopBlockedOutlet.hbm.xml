@@ -5,6 +5,8 @@
 <generator class="identity" />
 </id>
   <property name="ScenarioID" column="ScenarioID" type="Int32"/>
+  <property name="ReactorType" column="ReactorType" type="Int32"/>
+  <property name="EffluentTemperature" column="EffluentTemperature" type="Double"/>
   <property name="MaxGasRate" column="MaxGasRate" type="Double"/>
   <property name="TotalPurgeRate" column="TotalPurgeRate" type="Double"/>
   <property name="ReliefLoad" column="ReliefLoad" type="Double"/>
