@@ -637,13 +637,6 @@ namespace ReliefProMain.View
             DirProtectedSystem = System.IO.Path.GetDirectoryName(dbProtectedSystemFile);
             NHibernateHelper helperPlant = new NHibernateHelper(dbPlantFile);
             SessionPlant = helperPlant.GetCurrentSession();
-            Task.Factory.StartNew(() =>
-            {
-                UnitInfo unitInfo = new UnitInfo();
-                var basicUnit = unitInfo.GetBasicUnitUOM(SessionPlant);
-                UOMEnum.BasicUnitID = basicUnit.ID;
-                UOMEnum.lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(SessionPlant);
-            });
 
             NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystemFile);
             SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
@@ -665,10 +658,15 @@ namespace ReliefProMain.View
                 PrzFile = DirPlant + @"\" + drum.PrzFile;
                 PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
             }
-
+            Task.Factory.StartNew(() =>
+            {
+                UnitInfo unitInfo = new UnitInfo();
+                var basicUnit = unitInfo.GetBasicUnitUOM(SessionPlant);
+                UOMEnum.BasicUnitID = basicUnit.ID;
+                UOMEnum.lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(SessionPlant);
+            });
 
         }
-
 
     }
 
