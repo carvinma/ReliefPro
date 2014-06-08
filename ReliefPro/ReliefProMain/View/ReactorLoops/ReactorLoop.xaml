@@ -67,21 +67,20 @@
         <Label Content="Cold Reactor Feed Stream"  Grid.Row="1" Height="25" Margin="56,5,0,0"/>
         <Label Content="Hot High Pressure Separator"  Grid.Row="2" Height="25"  Margin="56,5,0,0"/>
         <Label Content="Cold High Pressure Separator"  Grid.Row="3" Height="25" Margin="56,5,0,0"/>
-        <Button Content="OK" Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="0,10,64,6" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
-        <ComboBox ItemsSource="{Binding Streams}" SelectedItem="EffluentStream" Grid.Column="1" />
-        <ComboBox ItemsSource="{Binding Streams}" SelectedItem="ColdFeedStream" Grid.Column="1"   Grid.Row="1"/>
-        <ComboBox ItemsSource="{Binding Separators}" SelectedItem="HotHighPressureSeparator" Grid.Column="1"   Grid.Row="2"/>
-        <ComboBox ItemsSource="{Binding Separators}" SelectedItem="ColdHighPressureSeparator" Grid.Column="1"   Grid.Row="3"/>
+        <ComboBox ItemsSource="{Binding Path=model.EffluentStreamSource}" SelectedItem="{Binding model.EffluentStream,Mode=TwoWay}" Grid.Column="1" />
+        <ComboBox ItemsSource="{Binding Path=model.ColdReactorFeedStreamSource}" SelectedItem="{Binding model.ColdFeedStream,Mode=TwoWay}" Grid.Column="1"   Grid.Row="1"/>
+        <ComboBox ItemsSource="{Binding Path=model.HotHighPressureSeparatorSource}" SelectedItem="{Binding model.HotHighPressureSeparator,Mode=TwoWay}" Grid.Column="1"   Grid.Row="2"/>
+        <ComboBox ItemsSource="{Binding Path=model.ColdHighPressureSeparatorSource}" SelectedItem="{Binding model.ColdHighPressureSeparator,Mode=TwoWay}" Grid.Column="1"   Grid.Row="3"/>
 
         <GroupBox Header="Process HX" HorizontalAlignment="Left" Margin="56,10,0,0" Grid.Row="4" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="140" Grid.RowSpan="5" Width="300">
             <Grid>
-                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=ProcessHXs,Mode=TwoWay}" SelectedItem="{Binding ReactorHXModel,Mode=TwoWay}" Margin="0,0,0,0" Grid.Row="1" >
+                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=model.ObcProcessHX,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}" Margin="0,0,0,0" Grid.Row="1" >
                     <ListView.View>
                         <GridView >                      
                             <GridViewColumn Header="HX Name" Width="150px" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox IsEnabled="False" Text="{Binding Path=HXName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                        <TextBox IsEnabled="False" Text="{Binding Path=DetailInfo,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -94,13 +93,13 @@
         </GroupBox>
         <GroupBox Header="Process HX" HorizontalAlignment="Left" Margin="275,10,-346,0" Grid.Row="4" VerticalAlignment="Top" Height="140" Grid.RowSpan="5" Width="300" Grid.Column="1">
             <Grid>
-                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=ProcessHXs,Mode=TwoWay}" SelectedItem="{Binding ReactorHXModel,Mode=TwoWay}" Margin="0,0,0,0" Grid.Row="1" >
+                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=model.ObcProcessHXSource,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}" Margin="0,0,0,0" Grid.Row="1" >
                     <ListView.View>
                         <GridView >
                             <GridViewColumn Header="HX Name" Width="150px" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox IsEnabled="False" Text="{Binding Path=HXName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                        <TextBox IsEnabled="False" Text="{Binding Path=DetailInfo,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -114,14 +113,14 @@
 
         <GroupBox Header="Utility HX" HorizontalAlignment="Left" Margin="56,10,0,0" Grid.Row="9" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="140" Grid.RowSpan="5" Width="300">
             <Grid>
-                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=UtilityHxs,Mode=TwoWay}" SelectedItem="{Binding RecatorHXModel,Mode=TwoWay}" Margin="0,0,0,0" Grid.Row="1" >
+                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=model.ObcUtilityHX,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}" Margin="0,0,0,0" Grid.Row="1" >
                     <ListView.View>
                         <GridView >
                            
                             <GridViewColumn Header="HX Name" Width="150px" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox IsEnabled="False" Text="{Binding Path=HXName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                        <TextBox IsEnabled="False" Text="{Binding Path=DetailInfo,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -134,14 +133,13 @@
         </GroupBox>
         <GroupBox Header="Utility HX" HorizontalAlignment="Left" Margin="275,10,-346,0" Grid.Row="9" VerticalAlignment="Top" Height="140" Grid.RowSpan="5" Width="300" Grid.Column="1">
             <Grid>
-                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=UtilityHxs,Mode=TwoWay}" SelectedItem="{Binding RecatorHXModel,Mode=TwoWay}" Margin="0,0,0,0" Grid.Row="1" >
+                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=ObcUtilityHXSource,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}" Margin="0,0,0,0" Grid.Row="1" >
                     <ListView.View>
                         <GridView >
-                          
                             <GridViewColumn Header="HX Name" Width="150px" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox IsEnabled="False" Text="{Binding Path=HXName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                        <TextBox IsEnabled="False" Text="{Binding Path=DetailInfo,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -155,13 +153,13 @@
 
         <GroupBox Header="Mixer/Splitter" HorizontalAlignment="Left" Margin="56,0,0,0" Grid.Row="16" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="120" Grid.RowSpan="3" Width="300">
             <Grid>
-                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Separators, Mode=TwoWay}" SelectedItem="{Binding HotSeparatorModel, Mode=TwoWay}" Margin="0,0,0,0" >
+                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding model.ObcMixerSplitter, Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel, Mode=OneWayToSource}" Margin="0,0,0,0" >
                     <ListView.View>
                         <GridView >
                             <GridViewColumn Header="Splitter Name" Width="150px" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox IsEnabled="False" Text="{Binding SplitterName, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" />
+                                        <TextBox IsEnabled="False" Text="{Binding DetailInfo, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -174,13 +172,13 @@
         </GroupBox>
         <GroupBox Header="Mixer/Splitter" HorizontalAlignment="Left" Margin="275,0,-346,0" Grid.Row="16" VerticalAlignment="Top" Height="120" Grid.RowSpan="3" Width="300" Grid.Column="1">
             <Grid>
-                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Separators, Mode=TwoWay}" SelectedItem="{Binding HotSeparatorModel, Mode=TwoWay}" Margin="0,0,0,0" >
+                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding ObcMixerSplitterSource, Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel, Mode=OneWayToSource}" Margin="0,0,0,0" >
                     <ListView.View>
                         <GridView >
                             <GridViewColumn Header="Splitter Name" Width="150px" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox IsEnabled="False" Text="{Binding SplitterName, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" />
+                                        <TextBox IsEnabled="False" Text="{Binding DetailInfo, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -191,15 +189,15 @@
             </Grid>
         </GroupBox>
 
-
-        <Button Content="Cancel"  Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="215,10,-60,6" RenderTransformOrigin="0.392,-4.083" />
-        <Button Content="Simulation" Height="24" Grid.Row="21" Width="74" Margin="0,6,20,10" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
-        <Button Content="&lt;--" Grid.Column="1" HorizontalAlignment="Left" Margin="144,0,0,8" Grid.Row="6" VerticalAlignment="Stretch" Width="75"/>
-        <Button Content="--&gt;" Grid.Column="1" HorizontalAlignment="Left" Margin="144,8,0,0" Grid.Row="7" VerticalAlignment="Top" Width="75"/>
-        <Button Content="&lt;--" Grid.Column="1" HorizontalAlignment="Left" Margin="144,0,0,8" Grid.Row="11" VerticalAlignment="Stretch" Width="75"/>
-        <Button Content="--&gt;" Grid.Column="1" HorizontalAlignment="Left" Margin="144,8,0,0" Grid.Row="12" VerticalAlignment="Top" Width="75"/>
-        <Button Content="&lt;--" Grid.Column="1" HorizontalAlignment="Left" Margin="154,0,0,8" Grid.Row="17" VerticalAlignment="Stretch" Width="75"/>
-        <Button Content="--&gt;" Grid.Column="1" HorizontalAlignment="Left" Margin="154,8,0,0" Grid.Row="18" VerticalAlignment="Top" Width="75"/>
+        <Button Command="{Binding OKCMD}" Content="OK" Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="0,10,64,6" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
+        <Button Content="Cancel" IsCancel="True"  Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="215,10,-60,6" RenderTransformOrigin="0.392,-4.083" />
+        <Button Command="{Binding SimulationCMD}" Content="Simulation" Height="24" Grid.Row="21" Width="74" Margin="0,6,20,10" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
+        <Button Command="{Binding ProcessHXAddCMD}" Content="&lt;--" Grid.Column="1" HorizontalAlignment="Left" Margin="144,0,0,8" Grid.Row="6" VerticalAlignment="Stretch" Width="75"/>
+        <Button Command="{Binding ProcessHXDelCMD}" Content="--&gt;" Grid.Column="1" HorizontalAlignment="Left" Margin="144,8,0,0" Grid.Row="7" VerticalAlignment="Top" Width="75"/>
+        <Button Command="{Binding UtilityHXAddCMD}" Content="&lt;--" Grid.Column="1" HorizontalAlignment="Left" Margin="144,0,0,8" Grid.Row="11" VerticalAlignment="Stretch" Width="75"/>
+        <Button Command="{Binding UtilityHXDelCMD}" Content="--&gt;" Grid.Column="1" HorizontalAlignment="Left" Margin="144,8,0,0" Grid.Row="12" VerticalAlignment="Top" Width="75"/>
+        <Button Command="{Binding MixerSplitterAddCMD}" Content="&lt;--" Grid.Column="1" HorizontalAlignment="Left" Margin="154,0,0,8" Grid.Row="17" VerticalAlignment="Stretch" Width="75"/>
+        <Button Command="{Binding MixerSplitterDelCMD}" Content="--&gt;" Grid.Column="1" HorizontalAlignment="Left" Margin="154,8,0,0" Grid.Row="18" VerticalAlignment="Top" Width="75"/>
 
     </Grid>
 </Window>

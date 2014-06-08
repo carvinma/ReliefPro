@@ -181,6 +181,7 @@
     <Compile Include="ViewModel\Mode.cs" />
     <Compile Include="ViewModel\MultiValueConverter.cs" />
     <Compile Include="ViewModel\ReactorLoops\ReactorLoopBlockedOutletVM.cs" />
+    <Compile Include="ViewModel\ReactorLoops\ReactorLoopVM.cs" />
     <Compile Include="ViewModel\ScenarioListVM.cs" />
     <Compile Include="ViewModel\SelectEquipmentVM.cs" />
     <Compile Include="ViewModel\SourceVM.cs" />

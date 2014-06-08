@@ -10,6 +10,11 @@ namespace ReliefProMain.Model.ReactorLoops
     public class ReactorLoopModel : ModelBase
     {
         public ReactorLoop dbModel;
+
+        public List<string> EffluentStreamSource { get; set; }
+        public List<string> ColdReactorFeedStreamSource { get; set; }
+        public List<string> HotHighPressureSeparatorSource { get; set; }
+        public List<string> ColdHighPressureSeparatorSource { get; set; }
         public string EffluentStream
         {
             get { return dbModel.EffluentStream; }
@@ -46,8 +51,24 @@ namespace ReliefProMain.Model.ReactorLoops
                 NotifyPropertyChanged("ColdHighPressureSeparator");
             }
         }
+
+        private ReactorLoopDetail selectedHXModel;
+        public ReactorLoopDetail SelectedHXModel
+        {
+            get { return selectedHXModel; }
+            set
+            {
+                selectedHXModel = value;
+                this.NotifyPropertyChanged("SelectedHXModel");
+            }
+        }
+
         public ObservableCollection<ReactorLoopDetail> ObcProcessHX { get; set; }
         public ObservableCollection<ReactorLoopDetail> ObcUtilityHX { get; set; }
         public ObservableCollection<ReactorLoopDetail> ObcMixerSplitter { get; set; }
+
+        public ObservableCollection<ReactorLoopDetail> ObcProcessHXSource { get; set; }
+        public ObservableCollection<ReactorLoopDetail> ObcUtilityHXSource { get; set; }
+        public ObservableCollection<ReactorLoopDetail> ObcMixerSplitterSource { get; set; }
     }
 }
