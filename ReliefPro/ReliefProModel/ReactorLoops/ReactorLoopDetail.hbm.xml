@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+<class name="ReliefProModel.ReactorLoops.ReactorLoopDetail, ReliefProModel" table="tbReactorLoopDetail" >
+<id name="ID" column="ID" type="Int32" unsaved-value="0">
+<generator class="identity" />
+</id>
+  <property name="ReactorLoopID" column="ReactorLoopID" type="Int32"/>
+  <property name="ReactorType" column="ReactorType" type="String"/>
+  <property name="DetailInfo" column="DetailInfo" type="String"/>
+</class>
+</hibernate-mapping>

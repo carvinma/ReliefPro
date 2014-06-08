@@ -96,6 +96,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PSV.cs" />
     <Compile Include="ReactorLoops\ReactorLoopBlockedOutlet.cs" />
+    <Compile Include="ReactorLoops\ReactorLoop.cs" />
+    <Compile Include="ReactorLoops\ReactorLoopDetail.cs" />
     <Compile Include="ReboilerPinch.cs" />
     <Compile Include="Source.cs" />
     <Compile Include="SystemScenarioFactor.cs" />
@@ -142,6 +144,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ReactorLoops\ReactorLoopDetail.hbm.xml" />
+    <EmbeddedResource Include="ReactorLoops\ReactorLoop.hbm.xml" />
     <EmbeddedResource Include="Sink.hbm.xml" />
     <EmbeddedResource Include="ReactorLoops\ReactorLoopBlockedOutlet.hbm.xml" />
     <EmbeddedResource Include="ScenarioHeatSource.hbm.xml" />

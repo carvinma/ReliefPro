@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+<class name="ReliefProModel.ReactorLoops.ReactorLoop, ReliefProModel" table="tbReactorLoop" >
+<id name="ID" column="ID" type="Int32" unsaved-value="0">
+<generator class="identity" />
+</id>
+  <property name="ScenarioID" column="ScenarioID" type="Int32"/>
+  <property name="EffluentStream" column="EffluentStream" type="String"/>
+  <property name="ColdReactorFeedStream" column="ColdReactorFeedStream" type="String"/>
+  <property name="HotHighPressureSeparator" column="HotHighPressureSeparator" type="String"/>
+  <property name="ColdHighPressureSeparator" column="ColdHighPressureSeparator" type="String"/>
+</class>
+</hibernate-mapping>
