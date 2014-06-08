@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.ReactorLoops.ReactorLoop"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Units In Reactor Loop" Height="700" Width="883.582">
+        Title="Reactor Loop" Height="700" Width="883.582">
     <Window.Resources>
         <Style TargetType="RowDefinition">
             <Setter Property="Height" Value="30"></Setter>
