@@ -46,8 +46,8 @@ namespace ReliefProMain.Model.ReactorLoops
                 NotifyPropertyChanged("ColdHighPressureSeparator");
             }
         }
-        public ObservableCollection<ReactorLoopDetail> ObcProcessHX;
-        public ObservableCollection<ReactorLoopDetail> ObcUtilityHX;
-        public ObservableCollection<ReactorLoopDetail> ObcMixerSplitter;
+        public ObservableCollection<ReactorLoopDetail> ObcProcessHX { get; set; }
+        public ObservableCollection<ReactorLoopDetail> ObcUtilityHX { get; set; }
+        public ObservableCollection<ReactorLoopDetail> ObcMixerSplitter { get; set; }
     }
 }
