@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using NHibernate;
@@ -16,6 +17,7 @@ namespace ReliefProLL
         private ISession SessionPS;
         private ISession SessionPF;
         private ReactorLoopBlockedOutletDAL dbBlock = new ReactorLoopBlockedOutletDAL();
+        private ReactorLoopDAL reactorLoopDAL = new ReactorLoopDAL();
         public ReactorLoopBLL(ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
@@ -55,6 +57,33 @@ namespace ReliefProLL
             sModel.ReliefTemperature = model.ReliefTemperature.ToString();
             sModel.ReliefMW = model.ReliefMW.ToString();
             db.Update(sModel, SessionPS);
+        }
+
+        public ReactorLoop GetReactorLoopModel(ISession session, int ScenarioID)
+        {
+            var model = reactorLoopDAL.GetModelByScenarioID(session, ScenarioID);
+            if (model == null)
+                model = new ReactorLoop();
+            return model;
+        }
+
+        public ObservableCollection<ReactorLoopDetail> GetProcessHX(ISession session, int ReactorLoopID)
+        {
+            var lst = reactorLoopDAL.GetReactorLoopDetail(session, ReactorLoopID, 0);
+            ObservableCollection<ReactorLoopDetail> tObject = new ObservableCollection<ReactorLoopDetail>(lst);
+            return tObject;
+        }
+        public ObservableCollection<ReactorLoopDetail> GetUtilityHX(ISession session, int ReactorLoopID)
+        {
+            var lst = reactorLoopDAL.GetReactorLoopDetail(session, ReactorLoopID, 1);
+            ObservableCollection<ReactorLoopDetail> tObject = new ObservableCollection<ReactorLoopDetail>(lst);
+            return tObject;
+        }
+        public ObservableCollection<ReactorLoopDetail> GetMixerSplitter(ISession session, int ReactorLoopID)
+        {
+            var lst = reactorLoopDAL.GetReactorLoopDetail(session, ReactorLoopID, 1);
+            ObservableCollection<ReactorLoopDetail> tObject = new ObservableCollection<ReactorLoopDetail>(lst);
+            return tObject;
         }
     }
 }
