@@ -59,34 +59,34 @@ namespace ReliefProLL
             db.Update(sModel, SessionPS);
         }
 
-        public ReactorLoop GetReactorLoopModel(ISession session, int ScenarioID)
+        public ReactorLoop GetReactorLoopModel(int ScenarioID)
         {
-            var model = reactorLoopDAL.GetModelByScenarioID(session, ScenarioID);
+            var model = reactorLoopDAL.GetModelByScenarioID(SessionPS, ScenarioID);
             if (model == null)
                 model = new ReactorLoop();
             return model;
         }
 
-        public ObservableCollection<ReactorLoopDetail> GetProcessHX(ISession session, int ReactorLoopID)
+        public ObservableCollection<ReactorLoopDetail> GetProcessHX(int ReactorLoopID)
         {
-            var lst = reactorLoopDAL.GetReactorLoopDetail(session, ReactorLoopID, 0);
+            var lst = reactorLoopDAL.GetReactorLoopDetail(SessionPS, ReactorLoopID, 0);
             ObservableCollection<ReactorLoopDetail> tObject = new ObservableCollection<ReactorLoopDetail>(lst);
             return tObject;
         }
-        public ObservableCollection<ReactorLoopDetail> GetUtilityHX(ISession session, int ReactorLoopID)
+        public ObservableCollection<ReactorLoopDetail> GetUtilityHX(int ReactorLoopID)
         {
-            var lst = reactorLoopDAL.GetReactorLoopDetail(session, ReactorLoopID, 1);
+            var lst = reactorLoopDAL.GetReactorLoopDetail(SessionPS, ReactorLoopID, 1);
             ObservableCollection<ReactorLoopDetail> tObject = new ObservableCollection<ReactorLoopDetail>(lst);
             return tObject;
         }
-        public ObservableCollection<ReactorLoopDetail> GetMixerSplitter(ISession session, int ReactorLoopID)
+        public ObservableCollection<ReactorLoopDetail> GetMixerSplitter(int ReactorLoopID)
         {
-            var lst = reactorLoopDAL.GetReactorLoopDetail(session, ReactorLoopID, 1);
+            var lst = reactorLoopDAL.GetReactorLoopDetail(SessionPS, ReactorLoopID, 2);
             ObservableCollection<ReactorLoopDetail> tObject = new ObservableCollection<ReactorLoopDetail>(lst);
             return tObject;
         }
 
-        public void Save(ISession SessionPS, ReactorLoop model, ObservableCollection<ReactorLoopDetail> obcReactorLoopDetail)
+        public void Save(ReactorLoop model, ObservableCollection<ReactorLoopDetail> obcReactorLoopDetail)
         {
             IList<ReactorLoopDetail> lst = new List<ReactorLoopDetail>(obcReactorLoopDetail);
             reactorLoopDAL.Save(SessionPS, model, lst);
