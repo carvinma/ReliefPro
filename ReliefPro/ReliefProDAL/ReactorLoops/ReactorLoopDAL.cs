@@ -26,14 +26,15 @@ namespace ReliefProDAL.ReactorLoops
                 .Add(Expression.Eq("ReactorType", ReactorType)).List<ReactorLoopDetail>();
             return list;
         }
-        public void Save(ISession session, ReactorLoop model, ReactorLoopDetail detailModel)
+        public void Save(ISession session, ReactorLoop model, IList<ReactorLoopDetail> lstDetailModel)
         {
             using (ITransaction tx = session.BeginTransaction())
             {
                 try
                 {
                     session.SaveOrUpdate(model);
-                    session.SaveOrUpdate(detailModel);
+                    foreach (var detail in lstDetailModel)
+                        session.SaveOrUpdate(detail);
                     session.Flush();
                     tx.Commit();
                 }
