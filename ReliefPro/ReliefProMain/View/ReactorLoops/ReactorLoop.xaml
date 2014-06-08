@@ -1,0 +1,217 @@
+﻿<Window x:Class="ReliefProMain.View.ReactorLoops.ReactorLoop"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Units In Reactor Loop" Height="700" Width="600">
+    <Window.Resources>
+        <Style TargetType="RowDefinition">
+            <Setter Property="Height" Value="30"></Setter>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="56,5,0,0"></Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Height" Value="23"></Setter>
+            <Setter Property="Width" Value="120"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Height" Value="23"></Setter>
+            <Setter Property="Width" Value="120"></Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        </Style>
+        <Style x:Key="LabelLeftStyle">
+            <Setter Property="Control.HorizontalAlignment" Value="Left"></Setter>
+            <Setter Property="Control.VerticalAlignment" Value="Center"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="0,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>           
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+         
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="236"></ColumnDefinition>
+            <ColumnDefinition Width="228"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Content="Effluent Stream"  Grid.Row="0" Height="25" Width="100"/>
+        <Label Content="Cold Reactor Feed Stream"  Grid.Row="1" Height="25" Width="171" Margin="56,5,0,0"/>
+       
+        <Button Content="OK" Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="0,10,64,6" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
+        <ComboBox ItemsSource="{Binding Streams}" SelectedItem="EffluentStream" Grid.Column="1" />
+        <ComboBox ItemsSource="{Binding Streams}" SelectedItem="ColdFeedStream" Grid.Column="1"   Grid.Row="1"/>
+        <GroupBox Header="Hot High Pressure Separator" HorizontalAlignment="Left" Margin="56,2,-60,0" Grid.Row="2" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="88" Grid.RowSpan="3" Width="470">
+            <Grid>
+                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Separators, Mode=TwoWay}" SelectedItem="{Binding HotSeparatorModel, Mode=TwoWay}" Margin="0,0,0,0" >
+                    <ListView.View>
+                        <GridView >
+                          
+                            <GridViewColumn Header="" Width="200">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsHotSeparator}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="Separator Name" Width="150px" >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox IsEnabled="False" Text="{Binding HXName, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="Process HX" HorizontalAlignment="Left" Margin="56,15,-60,0" Grid.Row="5" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="140" Grid.RowSpan="6" Width="470">
+            <Grid>
+                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=ProcessHXs,Mode=TwoWay}" SelectedItem="{Binding ReactorHXModel,Mode=TwoWay}" Margin="0,0,0,0" Grid.Row="1" >
+                    <ListView.View>
+                        <GridView >
+                            
+                            <GridViewColumn Header="" Width="200">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsProcessHX}"></CheckBox>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="HX Name" Width="150px" >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox IsEnabled="False" Text="{Binding Path=HXName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                           
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Utility HX" HorizontalAlignment="Left" Margin="56,5,-60,0" Grid.Row="10" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="140" Grid.RowSpan="5" Width="470">
+            <Grid>
+                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=UtilityHxs,Mode=TwoWay}" SelectedItem="{Binding RecatorHXModel,Mode=TwoWay}" Margin="0,0,0,0" Grid.Row="1" >
+                    <ListView.View>
+                        <GridView >
+                            <GridViewColumn Width="0"    Header="#"   DisplayMemberBinding="{Binding Path=SeqNumber,Mode=TwoWay}"></GridViewColumn>
+                            <GridViewColumn Header="" Width="200">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsProcessHX}"></CheckBox>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="HX Name" Width="150px" >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox IsEnabled="False" Text="{Binding Path=HXName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Cold High Pressure Separator" HorizontalAlignment="Left" Margin="56,2,-60,0" Grid.Row="18" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="88" Grid.RowSpan="3" Width="470">
+            <Grid>
+                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Separators, Mode=TwoWay}" SelectedItem="{Binding HotSeparatorModel, Mode=TwoWay}" Margin="0,0,0,0" >
+                    <ListView.View>
+                        <GridView >
+
+                            <GridViewColumn Header="" Width="200">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsColdSeparator}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="Separator Name" Width="150px" >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox IsEnabled="False" Text="{Binding HXName, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Mixer/Splitter" HorizontalAlignment="Left" Margin="56,29,-60,0" Grid.Row="14" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="88" Grid.RowSpan="4" Width="470">
+            <Grid>
+                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Separators, Mode=TwoWay}" SelectedItem="{Binding HotSeparatorModel, Mode=TwoWay}" Margin="0,0,0,0" >
+                    <ListView.View>
+                        <GridView >
+
+                            <GridViewColumn Header="" Width="200">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsReactorSplitter}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="Splitter Name" Width="150px" >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox IsEnabled="False" Text="{Binding SplitterName, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+            </Grid>
+        </GroupBox>
+        <Button Content="Cancel"  Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="215,10,-60,6" RenderTransformOrigin="0.392,-4.083" />
+        <Button Content="Simulation" Height="24" Grid.Row="21" Width="74" Margin="0,6,20,10" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
+
+    </Grid>
+</Window>

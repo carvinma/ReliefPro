@@ -17,9 +17,9 @@ namespace ReliefProMain.View.ReactorLoops
     /// <summary>
     /// UnitsInReactorLoop.xaml 的交互逻辑
     /// </summary>
-    public partial class LossOfReactorQuench : Window
+    public partial class ReactorLoopSimulation : Window
     {
-        public LossOfReactorQuench()
+        public ReactorLoopSimulation()
         {
             InitializeComponent();
         }
