@@ -33,8 +33,14 @@ namespace ReliefProDAL.ReactorLoops
                 try
                 {
                     session.SaveOrUpdate(model);
+                    var sql = "from tbReactorLoopDetail Where ReactorType in (0,1,2)";
+                    session.Delete(sql);
                     foreach (var detail in lstDetailModel)
-                        session.SaveOrUpdate(detail);
+                    {
+                        detail.ReactorLoopID = model.ID;
+                        session.Save(detail);
+                    }
+
                     session.Flush();
                     tx.Commit();
                 }
