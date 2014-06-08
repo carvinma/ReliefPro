@@ -342,11 +342,11 @@
     <Compile Include="View\ReactorLoops\LossOfReactorQuench.xaml.cs">
       <DependentUpon>LossOfReactorQuench.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ReactorLoops\UnitsInReactorLoop.xaml.cs">
-      <DependentUpon>UnitsInReactorLoop.xaml</DependentUpon>
+    <Compile Include="View\ReactorLoops\ReactorLoop.xaml.cs">
+      <DependentUpon>ReactorLoop.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ReactorLoops\UnitsInReactorLoop2.xaml.cs">
-      <DependentUpon>UnitsInReactorLoop2.xaml</DependentUpon>
+    <Compile Include="View\ReactorLoops\ReactorLoopSimulation.xaml.cs">
+      <DependentUpon>ReactorLoopSimulation.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Scenarios\ReboilerPinchView.xaml.cs">
       <DependentUpon>ReboilerPinchView.xaml</DependentUpon>
@@ -574,11 +574,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\ReactorLoops\UnitsInReactorLoop.xaml">
+    <Page Include="View\ReactorLoops\ReactorLoop.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\ReactorLoops\UnitsInReactorLoop2.xaml">
+    <Page Include="View\ReactorLoops\ReactorLoopSimulation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
