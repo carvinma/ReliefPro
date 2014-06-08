@@ -22,7 +22,8 @@ namespace ReliefProDAL.ReactorLoops
         }
         public IList<ReactorLoopDetail> GetReactorLoopDetail(ISession session, int ReactorLoopID, int ReactorType)
         {
-            var list = session.CreateCriteria<ReactorLoopDetail>().Add(Expression.Eq("ReactorLoopID", ReactorLoopID)).Add(Expression.Eq("ReactorType", ReactorType)).List<ReactorLoopDetail>();
+            var list = session.CreateCriteria<ReactorLoopDetail>().Add(Expression.Eq("ReactorLoopID", ReactorLoopID))
+                .Add(Expression.Eq("ReactorType", ReactorType)).List<ReactorLoopDetail>();
             return list;
         }
         public void Save(ISession session, ReactorLoop model, ReactorLoopDetail detailModel)
