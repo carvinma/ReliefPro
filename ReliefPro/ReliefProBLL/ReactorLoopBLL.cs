@@ -85,5 +85,11 @@ namespace ReliefProLL
             ObservableCollection<ReactorLoopDetail> tObject = new ObservableCollection<ReactorLoopDetail>(lst);
             return tObject;
         }
+
+        public void Save(ISession SessionPS, ReactorLoop model, ObservableCollection<ReactorLoopDetail> obcReactorLoopDetail)
+        {
+            IList<ReactorLoopDetail> lst = new List<ReactorLoopDetail>(obcReactorLoopDetail);
+            reactorLoopDAL.Save(SessionPS, model, lst);
+        }
     }
 }
