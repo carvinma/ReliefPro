@@ -144,6 +144,7 @@
     <Compile Include="Model\ModelBase.cs" />
     <Compile Include="Model\PSVModel.cs" />
     <Compile Include="Model\ReactorLoops\ReactorLoopBlockedOutletModel.cs" />
+    <Compile Include="Model\ReactorLoops\ReactorLoopModel.cs" />
     <Compile Include="Model\ScenarioModel.cs" />
     <Compile Include="Model\SinkModel.cs" />
     <Compile Include="Model\TowerFireColumnModel.cs" />
