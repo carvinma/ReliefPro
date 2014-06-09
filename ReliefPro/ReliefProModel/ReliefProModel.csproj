@@ -96,6 +96,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PSV.cs" />
     <Compile Include="ReactorLoops\GeneralFailureCommon.cs" />
+    <Compile Include="ReactorLoops\GeneralFailureCommonDetail.cs" />
     <Compile Include="ReactorLoops\ReactorLoopCommon.cs" />
     <Compile Include="ReactorLoops\ReactorLoop.cs" />
     <Compile Include="ReactorLoops\ReactorLoopDetail.cs" />
@@ -145,6 +146,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ReactorLoops\GeneralFailureCommonDetail.hbm.xml" />
     <EmbeddedResource Include="ReactorLoops\GeneralFailureCommon.hbm.xml" />
     <EmbeddedResource Include="ReactorLoops\ReactorLoopDetail.hbm.xml" />
     <EmbeddedResource Include="ReactorLoops\ReactorLoop.hbm.xml" />
