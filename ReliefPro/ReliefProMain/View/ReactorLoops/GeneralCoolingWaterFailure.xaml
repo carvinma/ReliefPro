@@ -12,6 +12,13 @@
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="Margin" Value="56,5,0,0"></Setter>
         </Style>
+        <Style TargetType="{x:Type CustomControl:UnitConvertTextBox}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
         <Style TargetType="TextBox">
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
@@ -67,9 +74,9 @@
         <Label Content="Relief Temperature"  Grid.Row="11" Height="25" Width="119" Margin="56,1,0,4"/>
         <Label Content="Relief MW"  Grid.Row="12" Height="25" Width="69" Margin="56,1,0,4"/>
         <Label Content="Relief Pressure"  Grid.Row="13" Height="25" Width="138" Margin="56,1,0,4"/>
-        <Label x:Name="lblReliefLoad" Content="{Binding Path=model.ReliefLoadUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2"  Grid.Row="10" />
-        <Label x:Name="lblReliefTemperature" Content="{Binding Path=model.ReliefTemperatureUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="11" />
-        <Label x:Name="lblReliefPressure" Content="{Binding Path=model.ReliefPressureUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="13" />
+        <Label x:Name="lblReliefLoad" Content="{Binding Path=model.ReliefLoadUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2"  Grid.Row="10" />
+        <Label x:Name="lblReliefTemperature" Content="{Binding Path=model.ReliefTemperatureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="11" />
+        <Label x:Name="lblReliefPressure" Content="{Binding Path=model.ReliefPressureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="13" />
 
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}" Text="{Binding Path=model.ReliefLoad,Mode=TwoWay}" Grid.Column="1" Grid.Row="10" Height="22" Margin="29,4,30,4"  />
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}" Text="{Binding Path=model.ReliefTemperature,Mode=TwoWay}" Grid.Column="1" Grid.Row="11" Height="22" Margin="29,4,30,4" />
