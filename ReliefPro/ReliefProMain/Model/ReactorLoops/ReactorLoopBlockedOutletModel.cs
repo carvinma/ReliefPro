@@ -63,8 +63,8 @@ namespace ReliefProMain.Model.ReactorLoops
             }
         }
 
-        public ReactorLoopBlockedOutlet dbmodel { get; set; }
-        public ReactorLoopBlockedOutletModel(ReactorLoopBlockedOutlet model)
+        public ReactorLoopCommon dbmodel { get; set; }
+        public ReactorLoopBlockedOutletModel(ReactorLoopCommon model)
         {
             dbmodel = model;
             this.reactorType = dbmodel.ReactorType;
