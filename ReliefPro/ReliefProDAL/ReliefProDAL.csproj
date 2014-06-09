@@ -66,6 +66,7 @@
     <Compile Include="Drums\DrumDAL.cs" />
     <Compile Include="ProIIEqDataDAL.cs" />
     <Compile Include="ProIIEqTypeDAL.cs" />
+    <Compile Include="ReactorLoops\GeneralFailureCommon.cs" />
     <Compile Include="ReactorLoops\ReactorLoopDAL.cs" />
     <Compile Include="StreamDAL.cs" />
     <Compile Include="SystemScenarioFactorDAL.cs" />
