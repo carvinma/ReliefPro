@@ -8,6 +8,7 @@ using NHibernate;
 using ReliefProLL;
 using ReliefProMain.Model.ReactorLoops;
 using ReliefProModel.ReactorLoops;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -23,10 +24,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private ISession SessionPS;
         private ISession SessionPF;
 
-        private int reactorLoopID;
         public GeneralFailureCommonModel model { get; set; }
         private GeneralFailureCommonBLL generalBLL;
-
         private void InitCMD()
         {
             OKCMD = new DelegateCommand<object>(Save);
@@ -38,7 +37,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
         private void InitPage()
         {
-            UOMLib.UOMEnum uomEnum = new UOMLib.UOMEnum(SessionPF);
+            UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
             model.ReliefLoadUnit = uomEnum.UserMassRate;
             model.ReliefPressureUnit = uomEnum.UserPressure;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
@@ -81,6 +80,12 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         { }
         private void ElectricLaunchSimulator(object obj)
         { }
+        private void WriteConvert()
+        {
+            model.dbModel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMEnum.MassRate, model.dbModel.ReliefLoad);
+            model.dbModel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMEnum.MassRate, model.dbModel.ReliefPressure);
+            model.dbModel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMEnum.MassRate, model.dbModel.ReliefTemperature);
+        }
         private void Save(object obj)
         {
             if (obj != null)
@@ -88,6 +93,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 System.Windows.Window wd = obj as System.Windows.Window;
                 if (wd != null)
                 {
+                    WriteConvert();
                     var lstCommonDetail = model.lstUtilityHX.Select(p => new GeneralFailureCommonDetail
                     {
                         ID = 0,

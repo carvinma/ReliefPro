@@ -42,7 +42,6 @@ namespace ReliefProMain.Model.ReactorLoops
 
         public List<UtilityHXModel> lstUtilityHX { get; set; }
 
-
         public bool RecycleCompressorFailure
         {
             get { return dbModel.RecycleCompressorFailure; }
