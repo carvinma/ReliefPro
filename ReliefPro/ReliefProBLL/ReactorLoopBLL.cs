@@ -16,7 +16,7 @@ namespace ReliefProLL
     {
         private ISession SessionPS;
         private ISession SessionPF;
-        private ReactorLoopBlockedOutletDAL dbBlock = new ReactorLoopBlockedOutletDAL();
+        private ReactorLoopCommonDAL dbBlock = new ReactorLoopCommonDAL();
         private ReactorLoopDAL reactorLoopDAL = new ReactorLoopDAL();
         public ReactorLoopBLL(ISession SessionPS, ISession SessionPF)
         {
