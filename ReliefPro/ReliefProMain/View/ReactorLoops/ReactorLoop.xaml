@@ -65,14 +65,26 @@
         </Grid.ColumnDefinitions>
         <Label Content="Effluent Stream"  Grid.Row="0" Height="25" Width="100"/>
         <Label Content="Cold Reactor Feed Stream"  Grid.Row="1" Height="25" Margin="56,5,0,0"/>
-        <Label Content="Hot High Pressure Separator"  Grid.Row="2" Height="25"  Margin="56,5,0,0"/>
+        <Label Content="Hot High Pressure Separator"  Grid.Row="2" Height="25" Margin="56,5,0,0"/>      
         <Label Content="Cold High Pressure Separator"  Grid.Row="3" Height="25" Margin="56,5,0,0"/>
+
+        <Label Content="HX network cold stream"  Grid.Row="4" Height="25" Margin="56,5,0,0"/>
+        <Label Content="Injection water stream"  Grid.Row="5" Height="25"  Margin="56,5,0,0"/>
+        <Button Content="OK" Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="0,10,64,6" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
+        <ComboBox ItemsSource="{Binding Streams}" SelectedItem="EffluentStream" Grid.Column="1" />
+        <ComboBox ItemsSource="{Binding Streams}" SelectedItem="ColdFeedStream" Grid.Column="1"   Grid.Row="1"/>
+        <ComboBox ItemsSource="{Binding Separators}" SelectedItem="HotHighPressureSeparator" Grid.Column="1"   Grid.Row="2"/>
+        <ComboBox ItemsSource="{Binding Separators}" SelectedItem="ColdHighPressureSeparator" Grid.Column="1"   Grid.Row="3"/>
+
         <ComboBox ItemsSource="{Binding Path=model.EffluentStreamSource}" SelectedItem="{Binding model.EffluentStream,Mode=TwoWay}" Grid.Column="1" />
         <ComboBox ItemsSource="{Binding Path=model.ColdReactorFeedStreamSource}" SelectedItem="{Binding model.ColdFeedStream,Mode=TwoWay}" Grid.Column="1"   Grid.Row="1"/>
         <ComboBox ItemsSource="{Binding Path=model.HotHighPressureSeparatorSource}" SelectedItem="{Binding model.HotHighPressureSeparator,Mode=TwoWay}" Grid.Column="1"   Grid.Row="2"/>
         <ComboBox ItemsSource="{Binding Path=model.ColdHighPressureSeparatorSource}" SelectedItem="{Binding model.ColdHighPressureSeparator,Mode=TwoWay}" Grid.Column="1"   Grid.Row="3"/>
 
-        <GroupBox Header="Process HX" HorizontalAlignment="Left" Margin="56,10,0,0" Grid.Row="4" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="140" Grid.RowSpan="5" Width="300">
+        <ComboBox ItemsSource="{Binding Separators}" SelectedItem="HXNetworkColdStream" Grid.Column="1"   Grid.Row="4"/>
+        <ComboBox ItemsSource="{Binding Separators}" SelectedItem="InjectionWaterStream" Grid.Column="1"   Grid.Row="5"/>
+
+        <GroupBox Header="Process HX" HorizontalAlignment="Left" Margin="56,2,0,0" Grid.Row="6" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="140" Grid.RowSpan="5" Width="300">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=model.ObcProcessHX,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}" Margin="0,0,0,0" Grid.Row="1" >
                     <ListView.View>
@@ -91,7 +103,7 @@
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="Process HX" HorizontalAlignment="Left" Margin="275,10,-346,0" Grid.Row="4" VerticalAlignment="Top" Height="140" Grid.RowSpan="5" Width="300" Grid.Column="1">
+        <GroupBox Header="Process HX" HorizontalAlignment="Left" Margin="275,2,-346,0" Grid.Row="6" VerticalAlignment="Top" Height="140" Grid.RowSpan="5" Width="300" Grid.Column="1">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=model.ObcProcessHXSource,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}" Margin="0,0,0,0" Grid.Row="1" >
                     <ListView.View>
@@ -111,7 +123,7 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Header="Utility HX" HorizontalAlignment="Left" Margin="56,10,0,0" Grid.Row="9" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="140" Grid.RowSpan="5" Width="300">
+        <GroupBox Header="Utility HX" HorizontalAlignment="Left" Margin="56,10,0,0" Grid.Row="11" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="140" Grid.RowSpan="5" Width="300">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=model.ObcUtilityHX,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}" Margin="0,0,0,0" Grid.Row="1" >
                     <ListView.View>
@@ -131,7 +143,7 @@
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="Utility HX" HorizontalAlignment="Left" Margin="275,10,-346,0" Grid.Row="9" VerticalAlignment="Top" Height="140" Grid.RowSpan="5" Width="300" Grid.Column="1">
+        <GroupBox Header="Utility HX" HorizontalAlignment="Left" Margin="275,2,-346,0" Grid.Row="11" VerticalAlignment="Top" Height="140" Grid.RowSpan="5" Width="300" Grid.Column="1">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=ObcUtilityHXSource,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}" Margin="0,0,0,0" Grid.Row="1" >
                     <ListView.View>
@@ -151,7 +163,7 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Header="Mixer/Splitter" HorizontalAlignment="Left" Margin="56,0,0,0" Grid.Row="16" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="120" Grid.RowSpan="3" Width="300">
+        <GroupBox Header="Mixer/Splitter" HorizontalAlignment="Left" Margin="56,20,0,0" Grid.Row="16" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="120" Grid.RowSpan="5" Width="300">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding model.ObcMixerSplitter, Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel, Mode=OneWayToSource}" Margin="0,0,0,0" >
                     <ListView.View>
@@ -170,7 +182,7 @@
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="Mixer/Splitter" HorizontalAlignment="Left" Margin="275,0,-346,0" Grid.Row="16" VerticalAlignment="Top" Height="120" Grid.RowSpan="3" Width="300" Grid.Column="1">
+        <GroupBox Header="Mixer/Splitter" HorizontalAlignment="Left" Margin="275,20,-346,0" Grid.Row="16" VerticalAlignment="Top" Height="120" Grid.RowSpan="5" Width="300" Grid.Column="1">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding ObcMixerSplitterSource, Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel, Mode=OneWayToSource}" Margin="0,0,0,0" >
                     <ListView.View>
@@ -192,12 +204,16 @@
         <Button Command="{Binding OKCMD}" Content="OK" Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="0,10,64,6" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
         <Button Content="Cancel" IsCancel="True"  Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="215,10,-60,6" RenderTransformOrigin="0.392,-4.083" />
         <Button Command="{Binding SimulationCMD}" Content="Simulation" Height="24" Grid.Row="21" Width="74" Margin="0,6,20,10" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
-        <Button Command="{Binding ProcessHXAddCMD}" Content="&lt;--" Grid.Column="1" HorizontalAlignment="Left" Margin="144,0,0,8" Grid.Row="6" VerticalAlignment="Stretch" Width="75"/>
-        <Button Command="{Binding ProcessHXDelCMD}" Content="--&gt;" Grid.Column="1" HorizontalAlignment="Left" Margin="144,8,0,0" Grid.Row="7" VerticalAlignment="Top" Width="75"/>
-        <Button Command="{Binding UtilityHXAddCMD}" Content="&lt;--" Grid.Column="1" HorizontalAlignment="Left" Margin="144,0,0,8" Grid.Row="11" VerticalAlignment="Stretch" Width="75"/>
-        <Button Command="{Binding UtilityHXDelCMD}" Content="--&gt;" Grid.Column="1" HorizontalAlignment="Left" Margin="144,8,0,0" Grid.Row="12" VerticalAlignment="Top" Width="75"/>
-        <Button Command="{Binding MixerSplitterAddCMD}" Content="&lt;--" Grid.Column="1" HorizontalAlignment="Left" Margin="154,0,0,8" Grid.Row="17" VerticalAlignment="Stretch" Width="75"/>
-        <Button Command="{Binding MixerSplitterDelCMD}" Content="--&gt;" Grid.Column="1" HorizontalAlignment="Left" Margin="154,8,0,0" Grid.Row="18" VerticalAlignment="Top" Width="75"/>
+        <Button Command="{Binding ProcessHXAddCMD}" Content="&lt;--" Grid.Column="1" HorizontalAlignment="Left" Margin="144,0,0,8" Grid.Row="8" VerticalAlignment="Stretch" Width="75"/>
+        <Button Command="{Binding ProcessHXDelCMD}" Content="--&gt;" Grid.Column="1" HorizontalAlignment="Left" Margin="144,0,0,0" Grid.Row="9" VerticalAlignment="Top" Width="75"/>
+        <Button Command="{Binding UtilityHXAddCMD}" Content="&lt;--" Grid.Column="1" HorizontalAlignment="Left" Margin="144,0,0,8" Grid.Row="13" VerticalAlignment="Stretch" Width="75"/>
+        <Button Command="{Binding UtilityHXDelCMD}" Content="--&gt;" Grid.Column="1" HorizontalAlignment="Left" Margin="144,28,0,0" Grid.Row="13" VerticalAlignment="Top" Width="75" Grid.RowSpan="2"/>
+        <Button Command="{Binding MixerSplitterAddCMD}" Content="&lt;--" Grid.Column="1" HorizontalAlignment="Left" Margin="154,28,0,10" Grid.Row="17" VerticalAlignment="Stretch" Width="75" Grid.RowSpan="2"/>
+        <Button Command="{Binding MixerSplitterDelCMD}" Content="--&gt;" Grid.Column="1" HorizontalAlignment="Left" Margin="154,0,0,0" Grid.Row="19" VerticalAlignment="Top" Width="75"/>
 
+
+        <Button Content="Cancel"  Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="215,10,-60,6" RenderTransformOrigin="0.392,-4.083" />
+        <Button Content="Simulation" Height="24" Grid.Row="21" Width="74" Margin="0,6,20,10" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
+        
     </Grid>
 </Window>
