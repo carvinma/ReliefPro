@@ -9,14 +9,14 @@ using ReliefProModel.ReactorLoops;
 
 namespace ReliefProDAL.ReactorLoops
 {
-    public class ReactorLoopBlockedOutletDAL : IBaseDAL<ReactorLoopBlockedOutlet>
+    public class ReactorLoopBlockedOutletDAL : IBaseDAL<ReactorLoopCommon>
     {
-        public IList<ReactorLoopBlockedOutlet> GetAllList(ISession session)
+        public IList<ReactorLoopCommon> GetAllList(ISession session)
         {
-            IList<ReactorLoopBlockedOutlet> list = null;
+            IList<ReactorLoopCommon> list = null;
             try
             {
-                list = session.CreateCriteria<ReactorLoopBlockedOutlet>().List<ReactorLoopBlockedOutlet>();
+                list = session.CreateCriteria<ReactorLoopCommon>().List<ReactorLoopCommon>();
             }
             catch (Exception ex)
             {
@@ -24,16 +24,16 @@ namespace ReliefProDAL.ReactorLoops
             }
             return list;
         }
-        public ReactorLoopBlockedOutlet GetModelByScenarioID(ISession session, int ScenarioID, int ReactorType)
+        public ReactorLoopCommon GetModelByScenarioID(ISession session, int ScenarioID, int ReactorType)
         {
-            var list = session.CreateCriteria<ReactorLoopBlockedOutlet>().Add(Expression.Eq("ScenarioID", ScenarioID)).Add(Expression.Eq("ReactorType", ReactorType)).List<ReactorLoopBlockedOutlet>();
+            var list = session.CreateCriteria<ReactorLoopCommon>().Add(Expression.Eq("ScenarioID", ScenarioID)).Add(Expression.Eq("ReactorType", ReactorType)).List<ReactorLoopCommon>();
             if (list.Count() > 0)
             {
                 return list[0];
             }
             return null;
         }
-        public void Save(ISession session, ReactorLoopBlockedOutlet model)
+        public void Save(ISession session, ReactorLoopCommon model)
         {
             using (ITransaction tx = session.BeginTransaction())
             {
