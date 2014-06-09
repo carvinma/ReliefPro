@@ -23,14 +23,14 @@ namespace ReliefProLL
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
         }
-        public ReactorLoopBlockedOutlet GetBlockedOutletModel(int ScenarioID, int ReactorType)
+        public ReactorLoopCommon GetBlockedOutletModel(int ScenarioID, int ReactorType)
         {
             var model = dbBlock.GetModelByScenarioID(SessionPS, ScenarioID, ReactorType);
             if (model == null)
-                model = new ReactorLoopBlockedOutlet();
+                model = new ReactorLoopCommon();
             return model;
         }
-        public ReactorLoopBlockedOutlet ReadConvertBlockedOutletModel(ReactorLoopBlockedOutlet model)
+        public ReactorLoopCommon ReadConvertBlockedOutletModel(ReactorLoopCommon model)
         {
             UnitInfo unitInfo = new UnitInfo();
             BasicUnit basicUnit = unitInfo.GetBasicUnitUOM(this.SessionPF);
@@ -38,7 +38,7 @@ namespace ReliefProLL
             {
                 return model;
             }
-            ReactorLoopBlockedOutlet Model = new ReactorLoopBlockedOutlet();
+            ReactorLoopCommon Model = new ReactorLoopCommon();
             Model = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
             Model.EffluentTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.EffluentTemperature);
@@ -48,7 +48,7 @@ namespace ReliefProLL
             Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature);
             return Model;
         }
-        public void SaveBlockedOutlet(ReactorLoopBlockedOutlet model)
+        public void SaveBlockedOutlet(ReactorLoopCommon model)
         {
             dbBlock.Save(SessionPS, model);
             ScenarioDAL db = new ScenarioDAL();
