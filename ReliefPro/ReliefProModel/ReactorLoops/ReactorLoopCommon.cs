@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ReliefProModel.ReactorLoops
 {
-    public class ReactorLoopBlockedOutlet
+    public class ReactorLoopCommon
     {
         public virtual int ID { get; set; }
         public virtual int ScenarioID { get; set; }

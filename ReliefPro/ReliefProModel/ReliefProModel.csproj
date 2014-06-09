@@ -95,7 +95,7 @@
     <Compile Include="ProIIEqType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PSV.cs" />
-    <Compile Include="ReactorLoops\ReactorLoopBlockedOutlet.cs" />
+    <Compile Include="ReactorLoops\ReactorLoopCommon.cs" />
     <Compile Include="ReactorLoops\ReactorLoop.cs" />
     <Compile Include="ReactorLoops\ReactorLoopDetail.cs" />
     <Compile Include="ReboilerPinch.cs" />
@@ -147,7 +147,7 @@
     <EmbeddedResource Include="ReactorLoops\ReactorLoopDetail.hbm.xml" />
     <EmbeddedResource Include="ReactorLoops\ReactorLoop.hbm.xml" />
     <EmbeddedResource Include="Sink.hbm.xml" />
-    <EmbeddedResource Include="ReactorLoops\ReactorLoopBlockedOutlet.hbm.xml" />
+    <EmbeddedResource Include="ReactorLoops\ReactorLoopCommon.hbm.xml" />
     <EmbeddedResource Include="ScenarioHeatSource.hbm.xml" />
     <EmbeddedResource Include="HeatSource.hbm.xml" />
     <EmbeddedResource Include="FlashResult.hbm.xml" />
