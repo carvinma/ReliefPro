@@ -47,6 +47,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencie
 		Dependencies\NHibernate.xml = Dependencies\NHibernate.xml
 		Dependencies\NPOI.dll = Dependencies\NPOI.dll
 		Dependencies\SharpCompress.dll = Dependencies\SharpCompress.dll
+		Dependencies\System.Windows.Controls.DataVisualization.Toolkit.dll = Dependencies\System.Windows.Controls.DataVisualization.Toolkit.dll
+		Dependencies\Tower.vss = Dependencies\Tower.vss
+		Dependencies\WPFToolkit.dll = Dependencies\WPFToolkit.dll
 		Dependencies\Xceed.Wpf.AvalonDock.dll = Dependencies\Xceed.Wpf.AvalonDock.dll
 		Dependencies\Xceed.Wpf.AvalonDock.Themes.VS2010.dll = Dependencies\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
 	EndProjectSection
