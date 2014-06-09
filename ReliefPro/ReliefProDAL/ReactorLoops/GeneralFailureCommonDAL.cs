@@ -4,40 +4,39 @@ using System.Linq;
 using System.Text;
 using NHibernate;
 using NHibernate.Criterion;
-using ReliefProDAL.Common;
 using ReliefProModel.ReactorLoops;
 
 namespace ReliefProDAL.ReactorLoops
 {
-    public class ReactorLoopDAL : IBaseDAL<ReactorLoop>
+    public class GeneralFailureCommonDAL
     {
-        public ReactorLoop GetModelByScenarioID(ISession session, int ScenarioID)
+        public GeneralFailureCommon GetModelByScenarioID(ISession session, int ScenarioID)
         {
-            var list = session.CreateCriteria<ReactorLoop>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<ReactorLoop>();
+            var list = session.CreateCriteria<GeneralFailureCommon>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<GeneralFailureCommon>();
             if (list.Count() > 0)
             {
                 return list[0];
             }
             return null;
         }
-        public IList<ReactorLoopDetail> GetReactorLoopDetail(ISession session, int ReactorLoopID, int ReactorType)
+        public IList<GeneralFailureCommonDetail> GetReactorLoopDetail(ISession session, int GeneralFailureCommonID)
         {
-            var list = session.CreateCriteria<ReactorLoopDetail>().Add(Expression.Eq("ReactorLoopID", ReactorLoopID))
-                .Add(Expression.Eq("ReactorType", ReactorType)).List<ReactorLoopDetail>();
+            var list = session.CreateCriteria<GeneralFailureCommonDetail>().Add(Expression.Eq("GeneralFailureCommonID", GeneralFailureCommonID))
+               .List<GeneralFailureCommonDetail>();
             return list;
         }
-        public void Save(ISession session, ReactorLoop model, IList<ReactorLoopDetail> lstDetailModel)
+        public void Save(ISession session, GeneralFailureCommon model, IList<GeneralFailureCommonDetail> lstDetailModel)
         {
             using (ITransaction tx = session.BeginTransaction())
             {
                 try
                 {
                     session.SaveOrUpdate(model);
-                    var sql = "from tbReactorLoopDetail Where ReactorType in (0,1,2) and ReactorLoopID=" + model.ID;
+                    var sql = "from tbGeneralFailureCommonDetail Where GeneralFailureCommonID=" + model.ID;
                     session.Delete(sql);
                     foreach (var detail in lstDetailModel)
                     {
-                        detail.ReactorLoopID = model.ID;
+                        detail.GeneralFailureCommonID = model.ID;
                         session.Save(detail);
                     }
 
