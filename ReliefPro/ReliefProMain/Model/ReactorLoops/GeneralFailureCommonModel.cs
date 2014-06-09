@@ -129,7 +129,7 @@ namespace ReliefProMain.Model.ReactorLoops
     }
     public class UtilityHXModel : ModelBase
     {
-        public string hXName;
+        private string hXName;
         public string HXName
         {
             get { return hXName; }
