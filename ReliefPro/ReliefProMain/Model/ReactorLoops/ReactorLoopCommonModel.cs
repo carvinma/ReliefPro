@@ -6,7 +6,7 @@ using ReliefProModel.ReactorLoops;
 
 namespace ReliefProMain.Model.ReactorLoops
 {
-    public class ReactorLoopBlockedOutletModel : ModelBase
+    public class ReactorLoopCommonModel : ModelBase
     {
 
         private string effluentTemperatureUnit;
@@ -64,7 +64,7 @@ namespace ReliefProMain.Model.ReactorLoops
         }
 
         public ReactorLoopCommon dbmodel { get; set; }
-        public ReactorLoopBlockedOutletModel(ReactorLoopCommon model)
+        public ReactorLoopCommonModel(ReactorLoopCommon model)
         {
             dbmodel = model;
             this.reactorType = dbmodel.ReactorType;

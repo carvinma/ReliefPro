@@ -21,7 +21,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
         private ISession SessionPS;
         private ISession SessionPF;
-        public ReactorLoopBlockedOutletModel model { get; set; }
+        public ReactorLoopCommonModel model { get; set; }
         private ReactorLoopBLL reactorBLL;
         private int reactorType;
         /// <summary>
@@ -45,7 +45,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             var blockModel = reactorBLL.GetBlockedOutletModel(ScenarioID, reactorType);
             blockModel = reactorBLL.ReadConvertBlockedOutletModel(blockModel);
 
-            model = new ReactorLoopBlockedOutletModel(blockModel);
+            model = new ReactorLoopCommonModel(blockModel);
             model.dbmodel.ScenarioID = ScenarioID;
 
             UOMLib.UOMEnum uomEnum = new UOMLib.UOMEnum(SessionPF);
