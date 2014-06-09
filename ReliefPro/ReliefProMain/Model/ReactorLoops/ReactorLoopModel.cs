@@ -15,6 +15,8 @@ namespace ReliefProMain.Model.ReactorLoops
         public List<string> ColdReactorFeedStreamSource { get; set; }
         public List<string> HotHighPressureSeparatorSource { get; set; }
         public List<string> ColdHighPressureSeparatorSource { get; set; }
+        public List<string> HXNetworkColdStreamSource { get; set; }
+        public List<string> InjectionWaterStreamSource { get; set; }
         public string EffluentStream
         {
             get { return dbModel.EffluentStream; }
@@ -49,6 +51,24 @@ namespace ReliefProMain.Model.ReactorLoops
             {
                 dbModel.ColdHighPressureSeparator = value;
                 NotifyPropertyChanged("ColdHighPressureSeparator");
+            }
+        }
+        public string HXNetworkColdStream
+        {
+            get { return dbModel.HXNetworkColdStream; }
+            set
+            {
+                dbModel.HXNetworkColdStream = value;
+                NotifyPropertyChanged("HXNetworkColdStream");
+            }
+        }
+        public string InjectionWaterStream
+        {
+            get { return dbModel.InjectionWaterStream; }
+            set
+            {
+                dbModel.InjectionWaterStream = value;
+                NotifyPropertyChanged("InjectionWaterStream");
             }
         }
 

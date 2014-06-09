@@ -81,8 +81,8 @@
         <ComboBox ItemsSource="{Binding Path=model.HotHighPressureSeparatorSource}" SelectedItem="{Binding model.HotHighPressureSeparator,Mode=TwoWay}" Grid.Column="1"   Grid.Row="2"/>
         <ComboBox ItemsSource="{Binding Path=model.ColdHighPressureSeparatorSource}" SelectedItem="{Binding model.ColdHighPressureSeparator,Mode=TwoWay}" Grid.Column="1"   Grid.Row="3"/>
 
-        <ComboBox ItemsSource="{Binding Separators}" SelectedItem="HXNetworkColdStream" Grid.Column="1"   Grid.Row="4"/>
-        <ComboBox ItemsSource="{Binding Separators}" SelectedItem="InjectionWaterStream" Grid.Column="1"   Grid.Row="5"/>
+        <ComboBox ItemsSource="{Binding Path=model.HXNetworkColdStreamSource}" SelectedItem="{Binding model.HXNetworkColdStream,Mode=TwoWay}" Grid.Column="1"   Grid.Row="4"/>
+        <ComboBox ItemsSource="{Binding Path=model.InjectionWaterStreamSource}" SelectedItem="{Binding model.InjectionWaterStream,Mode=TwoWay}" Grid.Column="1"   Grid.Row="5"/>
 
         <GroupBox Header="Process HX" HorizontalAlignment="Left" Margin="56,2,0,0" Grid.Row="6" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="140" Grid.RowSpan="5" Width="300">
             <Grid>

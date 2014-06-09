@@ -53,6 +53,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             model.ColdHighPressureSeparatorSource = new List<string> { };
             model.HotHighPressureSeparatorSource = new List<string> { };
             model.ColdReactorFeedStreamSource = new List<string> { };
+            model.HXNetworkColdStreamSource = new List<string> { };
+            model.InjectionWaterStreamSource = new List<string> { };
 
             model.ObcProcessHXSource = new ObservableCollection<ReactorLoopDetail> { 
                 new ReactorLoopDetail { ID=0, ReactorType=0, ReactorLoopID=reactorLoopID,DetailInfo="" },
