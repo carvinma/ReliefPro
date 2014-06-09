@@ -11,7 +11,7 @@ using UOMLib;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
-    public class ReactorLoopBlockedOutletVM
+    public class ReactorLoopCommonVM
     {
         public ICommand CalcCMD { get; set; }
         public ICommand OKCMD { get; set; }
@@ -31,7 +31,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         /// <param name="SessionPS"></param>
         /// <param name="SessionPF"></param>
         /// <param name="ReactorType"> 0-ReactorLoopBlockedOutlet,1-LossOfReactorQuench,2-LossOfColdFeed</param>
-        public ReactorLoopBlockedOutletVM(int ScenarioID, ISession SessionPS, ISession SessionPF, int ReactorType)
+        public ReactorLoopCommonVM(int ScenarioID, ISession SessionPS, ISession SessionPF, int ReactorType)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
