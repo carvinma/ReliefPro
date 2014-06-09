@@ -10,16 +10,17 @@ namespace ReliefProDAL.ReactorLoops
 {
     public class GeneralFailureCommonDAL
     {
-        public GeneralFailureCommon GetModelByScenarioID(ISession session, int ScenarioID)
+        public GeneralFailureCommon GetModelByScenarioID(ISession session, int ScenarioID, int GeneralType)
         {
-            var list = session.CreateCriteria<GeneralFailureCommon>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<GeneralFailureCommon>();
+            var list = session.CreateCriteria<GeneralFailureCommon>().Add(Expression.Eq("ScenarioID", ScenarioID))
+                .Add(Expression.Eq("GeneralType", GeneralType)).List<GeneralFailureCommon>();
             if (list.Count() > 0)
             {
                 return list[0];
             }
             return null;
         }
-        public IList<GeneralFailureCommonDetail> GetReactorLoopDetail(ISession session, int GeneralFailureCommonID)
+        public IList<GeneralFailureCommonDetail> GetGeneralFailureCommonDetail(ISession session, int GeneralFailureCommonID)
         {
             var list = session.CreateCriteria<GeneralFailureCommonDetail>().Add(Expression.Eq("GeneralFailureCommonID", GeneralFailureCommonID))
                .List<GeneralFailureCommonDetail>();
