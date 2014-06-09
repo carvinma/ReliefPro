@@ -9,7 +9,7 @@ namespace ReliefProMain.Model.ReactorLoops
 {
     public class ReactorLoopModel : ModelBase
     {
-        public ReactorLoop dbModel;
+        public ReactorLoop dbModel { get; set; }
 
         public List<string> EffluentStreamSource { get; set; }
         public List<string> ColdReactorFeedStreamSource { get; set; }
