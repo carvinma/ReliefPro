@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using NHibernate;
 using ReliefProDAL.ReactorLoops;
+using ReliefProModel;
 using ReliefProModel.ReactorLoops;
+using UOMLib;
 
 namespace ReliefProLL
 {
@@ -33,6 +35,20 @@ namespace ReliefProLL
             return model;
         }
 
+        public GeneralFailureCommon ReadConvert(GeneralFailureCommon model)
+        {
+            UnitInfo unitInfo = new UnitInfo();
+            BasicUnit basicUnit = unitInfo.GetBasicUnitUOM(SessionPF);
+            if (basicUnit.UnitName == "StInternal")
+            {
+                return model;
+            }
+            UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
+            model.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate, uomEnum.UserMassRate, model.ReliefLoad);
+            model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure, uomEnum.UserPressure, model.ReliefPressure);
+            model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature, uomEnum.UserTemperature, model.ReliefTemperature);
+            return model;
+        }
         public IList<GeneralFailureCommonDetail> GetGeneralFailureCommonDetail(int GeneralFailureCommonID)
         {
             var list = generalDAL.GetGeneralFailureCommonDetail(SessionPS, GeneralFailureCommonID);
