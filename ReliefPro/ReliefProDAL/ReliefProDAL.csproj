@@ -111,7 +111,7 @@
     <Compile Include="HeatSourceDAL.cs" />
     <Compile Include="ScenarioHeatSourceDAL.cs" />
     <Compile Include="SinkDAL.cs" />
-    <Compile Include="ReactorLoops\ReactorLoopBlockedOutletDAL.cs" />
+    <Compile Include="ReactorLoops\ReactorLoopCommonDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReliefProCommon\ReliefProCommon.csproj">

@@ -9,7 +9,7 @@ using ReliefProModel.ReactorLoops;
 
 namespace ReliefProDAL.ReactorLoops
 {
-    public class ReactorLoopBlockedOutletDAL : IBaseDAL<ReactorLoopCommon>
+    public class ReactorLoopCommonDAL : IBaseDAL<ReactorLoopCommon>
     {
         public IList<ReactorLoopCommon> GetAllList(ISession session)
         {
