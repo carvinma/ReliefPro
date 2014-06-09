@@ -180,7 +180,7 @@
     <Compile Include="ViewModel\MainWindowVM.cs" />
     <Compile Include="ViewModel\Mode.cs" />
     <Compile Include="ViewModel\MultiValueConverter.cs" />
-    <Compile Include="ViewModel\ReactorLoops\ReactorLoopBlockedOutletVM.cs" />
+    <Compile Include="ViewModel\ReactorLoops\ReactorLoopCommonVM.cs" />
     <Compile Include="ViewModel\ReactorLoops\ReactorLoopVM.cs" />
     <Compile Include="ViewModel\ScenarioListVM.cs" />
     <Compile Include="ViewModel\SelectEquipmentVM.cs" />
