@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+<class name="ReliefProModel.ReactorLoops.GeneralFailureCommonDetail, ReliefProModel" table="tbGeneralFailureCommonDetail" >
+<id name="ID" column="ID" type="Int32" unsaved-value="0">
+<generator class="identity" />
+</id>
+  <property name="GeneralFailureCommonID" column="GeneralFailureCommonID" type="Int32"/>
+  <property name="HXName" column="HXName" type="String"/>
+  <property name="Stop" column="Stop" type="Boolean"/>
+  <property name="DutyFactor" column="DutyFactor" type="Double"/>
+</class>
+</hibernate-mapping>
