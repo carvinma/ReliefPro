@@ -658,14 +658,11 @@ namespace ReliefProMain.View
                 PrzFile = DirPlant + @"\" + drum.PrzFile;
                 PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
             }
-            Task.Factory.StartNew(() =>
-            {
-                UnitInfo unitInfo = new UnitInfo();
-                var basicUnit = unitInfo.GetBasicUnitUOM(SessionPlant);
-                UOMEnum.BasicUnitID = basicUnit.ID;
-                UOMEnum.lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(SessionPlant);
-            });
 
+            UnitInfo unitInfo = new UnitInfo();
+            var basicUnit = unitInfo.GetBasicUnitUOM(SessionPlant);
+            UOMEnum.BasicUnitID = basicUnit.ID;
+            UOMEnum.lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(SessionPlant);
         }
 
     }
