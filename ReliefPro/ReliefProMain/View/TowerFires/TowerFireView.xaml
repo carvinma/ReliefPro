@@ -114,7 +114,7 @@
                 <Label x:Name="lblTemperature" HorizontalAlignment="Left" Margin="325,88,0,0" Content="{Binding ReliefTemperatureUnit,Mode=TwoWay}" VerticalAlignment="Top"/>
             </Grid>
         </GroupBox>
-        <Button Content="OK" Grid.Column="1" HorizontalAlignment="Left" Margin="500,13,0,0" Grid.Row="5" VerticalAlignment="Top" Width="75"/>
+        <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="1" HorizontalAlignment="Left" Margin="500,13,0,0" Grid.Row="5" VerticalAlignment="Top" Width="75"/>
         <Button Content="Cancel" IsCancel="True" Grid.Column="1" HorizontalAlignment="Left" Margin="618,13,0,0" Grid.Row="5" VerticalAlignment="Top" Width="75"/>
         <Button Content="Total" Command="{Binding TotalClick }" Grid.Column="1" HorizontalAlignment="Left" Margin="75,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75"/>
 

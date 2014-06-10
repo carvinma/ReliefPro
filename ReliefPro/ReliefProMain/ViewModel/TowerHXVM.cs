@@ -211,7 +211,7 @@ namespace ReliefProMain.ViewModel
         private void ReadConvert()
         {
             if (!string.IsNullOrEmpty(model.HeaterDuty))
-                model.HeaterDuty = UnitConvert.Convert(UOMEnum.MassRate, dutyUnit, double.Parse(model.HeaterDuty)).ToString();
+                model.HeaterDuty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, dutyUnit, double.Parse(model.HeaterDuty)).ToString();
         }
         private void InitUnit()
         {

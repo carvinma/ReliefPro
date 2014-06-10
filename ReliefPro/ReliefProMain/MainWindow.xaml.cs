@@ -484,11 +484,37 @@ namespace ReliefProMain
             newTreeViewItem.Tag = data;
             return newTreeViewItem;
         }
-        
 
-
+        //HKEY_LOCAL_MACHINE\SOFTWARE\SIMSCI\PRO/II\9.1       
+        private bool IsRegeditExit(string key, ref string proiiexe, ref string proiiini)
+        {
+            bool _exit = false;
+            RegistryKey hkml = Registry.LocalMachine;
+            RegistryKey software = hkml.OpenSubKey("SOFTWARE", true);
+            RegistryKey simsci = software.OpenSubKey("SIMSCI", true);
+            RegistryKey proii = simsci.OpenSubKey("PRO/II", true);
+            RegistryKey info = proii.OpenSubKey(key, true);
+            if (info != null)
+            {
+                proiiexe = info.GetValue("SecDir").ToString() + @"\Proii.exe";
+                proiiini = info.GetValue("SecIni").ToString();
+                _exit = true;
+            }
+            return _exit;
+        }
+       
         private void MainWindowApp_Loaded(object sender, RoutedEventArgs e)
         {
+            //string proiiexe = string.Empty;
+            //string proiiini = string.Empty;
+            //string name = ("9.1").ToLower();
+            //bool b = IsRegeditExit(name, ref proiiexe, ref proiiini);
+            //if (b)
+            //{
+            //    System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo(proiiexe);
+            //    psi.Arguments = @"/I='" + proiiini+"'";
+            //    Process.Start(psi);
+            //}
             version = ConfigurationManager.AppSettings["version"];
             defaultReliefProDir = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\" + version + @"\";
             if (!Directory.Exists(defaultReliefProDir))
@@ -602,8 +628,7 @@ namespace ReliefProMain
 
             return source;
         }
-
-       
+     
         public void ImportDataFromOther(object sender, RoutedEventArgs e)
         {
             if (NavigationTreeView.SelectedItem == null)

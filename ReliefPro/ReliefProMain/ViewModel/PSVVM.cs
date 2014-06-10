@@ -52,8 +52,32 @@ namespace ReliefProMain.ViewModel
             }
         }
 
+
+        private string _CriticalPressureUnit;
+        public string CriticalPressureUnit
+        {
+            get { return _CriticalPressureUnit; }
+            set
+            {
+                _CriticalPressureUnit = value;
+                OnPropertyChanged("CriticalPressureUnit");
+            }
+        }
+        private double _CriticalPressure;
+        public double CriticalPressure
+        {
+            get { return _CriticalPressure; }
+            set
+            {
+                _CriticalPressure = value;
+                OnPropertyChanged("CriticalPressure");
+            }
+        }
+
         public List<string> ValveTypes { get; set; }
         public PSVModel CurrentModel { get; set; }
+
+
         public PSV psv;
         PSVDAL dbpsv = new PSVDAL();
         UOMLib.UOMEnum uomEnum;
@@ -208,95 +232,41 @@ namespace ReliefProMain.ViewModel
             if (!Directory.Exists(dirLatent))
                 Directory.CreateDirectory(dirLatent);
 
-            IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
-            reader.InitProIIReader(PrzFile);
-            ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 1, 2, 1);
-            reader.ReleaseProIIReader();
-            CustomStream stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
-
-
-            string gd = Guid.NewGuid().ToString();
-            string vapor = "S_" + gd.Substring(0, 5).ToUpper();
-            string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
+            CustomStream stream = CopyTop1Liquid();
 
             PROIIFileOperator.DecompressProIIFile(PrzFile, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
 
-
             double ReliefPressure = double.Parse(CurrentModel.ReliefPressureFactor) * double.Parse(CurrentModel.Pressure);
-
-            IPHASECalculate PhaseCalc = ProIIFactory.CreatePHASECalculate(PrzVersion);
-            string PH = "PH" + Guid.NewGuid().ToString().Substring(0, 4);
-            int ImportResult = 0;
-            int RunResult = 0;
-            string criticalPress = string.Empty;
-            string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH, dirPhase, ref ImportResult, ref RunResult);
-            if (ImportResult == 1 || ImportResult == 2)
+            
+            double criticalPressure = 0;
+            bool b=CalcCriticalPressure(content, ReliefPressure, stream, dirPhase,  ref criticalPressure);
+            if(b==false)
+                return ;
+            double latentEnthalpy = 0;
+            double ReliefTemperature = 0;
+            LatentProduct latentVapor = new LatentProduct();
+            LatentProduct latentLiquid = new LatentProduct();
+            if (criticalPressure > ReliefPressure)
             {
-                if (RunResult == 1 || RunResult == 2)
-                {
-                    reader = ProIIFactory.CreateReader(PrzVersion);
-                    reader.InitProIIReader(phasef);
-                    criticalPress = reader.GetCriticalPressure(PH);
-                    reader.ReleaseProIIReader();
-                    criticalPress = UnitConvert.Convert("KPA", "MPAG", double.Parse(criticalPress)).ToString();
-                }
-
-                else
-                {
-                    MessageBox.Show("Prz file is error", "Message Box");
+                b = CalcLatent(content, ReliefPressure, stream, dirLatent, ref latentVapor, ref latentLiquid);
+                if (b == false)
                     return;
-                }
+                latentEnthalpy = double.Parse(latentVapor.SpEnthalpy) - double.Parse(latentLiquid.SpEnthalpy);
+                ReliefTemperature = double.Parse(latentVapor.Temperature);
             }
             else
             {
-                MessageBox.Show("inp file is error", "Message Box");
-                return;
+                latentEnthalpy = 116.3152;
+                ReliefTemperature = double.Parse(stream.Temperature);
             }
-
-            LatentProduct latentVapor;
-            LatentProduct latentLiquid;
-            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
-            string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
-            if (ImportResult == 1 || ImportResult == 2)
-            {
-                if (RunResult == 1 || RunResult == 2)
-                {
-                    reader = ProIIFactory.CreateReader(PrzVersion);
-                    reader.InitProIIReader(tray1_f);
-                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
-                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
-                    reader.ReleaseProIIReader();
-                    latentVapor = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIIVapor);
-                    latentVapor.ProdType = "1";
-                    latentLiquid = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIILiquid);
-                    latentVapor.ProdType = "2";
-                    LatentProductDAL dblp = new LatentProductDAL();
-                    dblp.Add(latentVapor, SessionProtectedSystem);
-                    dblp.Add(latentLiquid, SessionProtectedSystem);
-                }
-
-                else
-                {
-                    MessageBox.Show("Prz file is error", "Message Box");
-                    return;
-                }
-            }
-            else
-            {
-                MessageBox.Show("inp file is error", "Message Box");
-                return;
-            }
-
-
-            double latentEnthalpy = double.Parse(latentVapor.SpEnthalpy) - double.Parse(latentLiquid.SpEnthalpy);
-            double ReliefTemperature = double.Parse(latentVapor.Temperature);
-
             IList<CustomStream> products = null;
             CustomStreamDAL dbstream = new CustomStreamDAL();
             products = dbstream.GetAllList(SessionProtectedSystem, true);
+            double overHeadPressure = GetTowerOverHeadPressure(products);
 
-
+            int ImportResult=0;
+            int RunResult = 0;
             List<FlashResult> listFlashResult = new List<FlashResult>();
             int count = products.Count;
             for (int i = 1; i <= count; i++)
@@ -305,8 +275,9 @@ namespace ReliefProMain.ViewModel
                 if (p.TotalMolarRate != "0")
                 {
                     IFlashCalculate fc = ProIIFactory.CreateFlashCalculate(PrzVersion);
-                    string l = string.Empty;
-                    string v = string.Empty;
+                    string gd = Guid.NewGuid().ToString();
+                    string vapor = "S_" + gd.Substring(0, 5).ToUpper();
+                    string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
                     string prodtype = p.ProdType;
                     string tray = p.Tray;
                     string streamname = p.StreamName;
@@ -336,7 +307,7 @@ namespace ReliefProMain.ViewModel
                     }
                     else
                     {
-                        double press = ReliefPressure + (double.Parse(p.Pressure) - double.Parse(stream.Pressure));
+                        double press = ReliefPressure + (double.Parse(p.Pressure) - overHeadPressure);
                         f = fc.Calculate(usablecontent, 1, press.ToString(), 3, "", p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
                     }
                     if (ImportResult == 1 || ImportResult == 2)
@@ -354,13 +325,37 @@ namespace ReliefProMain.ViewModel
                         }
                         else
                         {
-                            MessageBox.Show("Prz file is error", "Message Box");
+                            MessageBoxResult r = MessageBox.Show("Prz file is error", "Message Box", MessageBoxButton.OKCancel);
+                            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("Explorer.exe",f);
+                            
+                            if (r == MessageBoxResult.Yes)
+                            {
+                                FlashResult fr = new FlashResult();
+                                fr.LiquidName = liquid;
+                                fr.VaporName = vapor;
+                                fr.StreamName = streamname;
+                                fr.PrzFile = f;
+                                fr.Tray = tray;
+                                fr.ProdType = prodtype;
+                                listFlashResult.Add(fr);
+                            }
                             return;
                         }
                     }
                     else
                     {
-                        MessageBox.Show("inp file is error", "Message Box");
+                        MessageBoxResult r = MessageBox.Show("inp file is error", "Message Box", MessageBoxButton.OKCancel);
+                        if (r == MessageBoxResult.Yes)
+                        {
+                            FlashResult fr = new FlashResult();
+                            fr.LiquidName = liquid;
+                            fr.VaporName = vapor;
+                            fr.StreamName = streamname;
+                            fr.PrzFile = f;
+                            fr.Tray = tray;
+                            fr.ProdType = prodtype;
+                            listFlashResult.Add(fr);
+                        }
                         return;
                     }
                 }
@@ -376,7 +371,7 @@ namespace ReliefProMain.ViewModel
                 if (fr.PrzFile != "")
                 {
                     CustomStream cs = null;
-                    reader = ProIIFactory.CreateReader(PrzVersion);
+                    IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
                     reader.InitProIIReader(fr.PrzFile);
                     TowerFlashProduct product = new TowerFlashProduct();
                     if (prodtype == "4" || (prodtype == "2" && tray == "1") || prodtype == "3" || prodtype == "6")
@@ -410,7 +405,7 @@ namespace ReliefProMain.ViewModel
 
 
             Critical c = new Critical();
-            c.CriticalPressure = criticalPress;
+            c.CriticalPressure = criticalPressure.ToString() ;
             CriticalDAL dbcritical = new CriticalDAL();
             dbcritical.Add(c, SessionProtectedSystem);
 
@@ -431,6 +426,109 @@ namespace ReliefProMain.ViewModel
 
         }
 
+        private CustomStream CopyTop1Liquid()
+        {
+            CustomStream cs = new CustomStream();
+            IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+            reader.InitProIIReader(PrzFile);
+            ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 2, 2, 1);
+            reader.ReleaseProIIReader();
+            cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
+            return cs;
+        }
 
+
+        private double GetTowerOverHeadPressure(IList<CustomStream> products)
+        {
+            double overHeadPressure = 0;
+            foreach (CustomStream cs in products)
+            {
+                if (cs.ProdType == "3" || cs.ProdType == "4")
+                {
+                    overHeadPressure = double.Parse(cs.Pressure);
+                    break;
+                }
+            }
+            return overHeadPressure;
+
+        }
+
+        private bool CalcCriticalPressure(string content, double ReliefPressure, CustomStream stream, string dirPhase, ref double criticalPressure)
+        {
+            int ImportResult = 0;
+            int RunResult = 0;
+            criticalPressure = 0;
+            IPHASECalculate PhaseCalc = ProIIFactory.CreatePHASECalculate(PrzVersion);
+            string PH = "PH" + Guid.NewGuid().ToString().Substring(0, 4);
+            string criticalPress = string.Empty;
+            string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH, dirPhase, ref ImportResult, ref RunResult);
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                if (RunResult == 1 || RunResult == 2)
+                {
+                    IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+                    reader.InitProIIReader(phasef);
+                    criticalPress = reader.GetCriticalPressure(PH);
+                    reader.ReleaseProIIReader();
+                    criticalPress = UnitConvert.Convert("KPA", "MPAG", double.Parse(criticalPress)).ToString();
+                    criticalPressure= double.Parse(criticalPress);
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("Prz file is error", "Message Box");
+                    return false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("inp file is error", "Message Box");
+                return false;
+            }
+            
+        }
+
+        private bool CalcLatent(string content, double ReliefPressure, CustomStream stream, string dirLatent, ref LatentProduct latentVapor, ref LatentProduct latentLiquid )
+        {
+            LatentProductDAL dblp = new LatentProductDAL();
+            int ImportResult = 0;
+            int RunResult = 0;
+            string gd = Guid.NewGuid().ToString();
+            string vapor = "S_" + gd.Substring(0, 5).ToUpper();
+            string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
+            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
+            string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                if (RunResult == 1 || RunResult == 2)
+                {
+                   IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+                    reader.InitProIIReader(tray1_f);
+                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                    reader.ReleaseProIIReader();
+                    latentVapor = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIIVapor);
+                    latentVapor.ProdType = "1";
+                    latentLiquid = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIILiquid);
+                    latentVapor.ProdType = "2";
+                    
+                    dblp.Add(latentVapor, SessionProtectedSystem);
+                    dblp.Add(latentLiquid, SessionProtectedSystem);
+                    return true;
+                }
+
+                else
+                {
+                    MessageBox.Show("Prz file is error", "Message Box");
+                    return false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("inp file is error", "Message Box");
+                return false;
+            }
+        }
     }
 }
+        

@@ -54,15 +54,15 @@ namespace ReliefProMain.ViewModel
             ReadConvert();
         }
 
-        private ICommand _Update;
+        private ICommand _SaveCommand;
 
-        public ICommand Update
+        public ICommand SaveCommand
         {
-            get { return _Update ?? (_Update = new RelayCommand(OKClick)); }
+            get { return _SaveCommand ?? (_SaveCommand = new RelayCommand(Save)); }
         }
 
 
-        private void OKClick(object window)
+        private void Save(object window)
         {
             MainModel.SinkName.Trim();
             if (MainModel.SinkName == "")

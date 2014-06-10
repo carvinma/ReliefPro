@@ -86,33 +86,24 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         }
 
-        private ICommand _OKClick;
-        public ICommand OKClick
+        private ICommand _SaveCommand;
+        public ICommand SaveCommand
         {
             get
             {
-                if (_OKClick == null)
+                if (_SaveCommand == null)
                 {
-                    _OKClick = new RelayCommand(Update);
+                    _SaveCommand = new RelayCommand(Save);
 
                 }
-                return _OKClick;
+                return _SaveCommand;
             }
         }
 
-        private void Update(object window)
+        private void Save(object window)
         {
 
-            TowerFireDAL towerFireDAL = new TowerFireDAL();
-            //ReliefProModel.TowerFire m = db.GetModel(CurrentModel.ID, SessionProtectedSystem);
-            //m.HeatInputModel = CurrentModel.HeatInputModel;
-            //m.IsExist = CurrentModel.IsExist;
-            //m.ReliefCpCv = CurrentModel.ReliefCpCv;
-            //m.ReliefLoad = CurrentModel.ReliefLoad;
-            //m.ReliefMW = CurrentModel.ReliefMW;
-            //m.ReliefPressure = CurrentModel.ReliefPressure;
-            //m.ReliefTemperature = CurrentModel.ReliefTemperature;
-            //m.ReliefZ = CurrentModel.ReliefZ;
+            TowerFireDAL towerFireDAL = new TowerFireDAL();           
             WriteConvert();
             towerFireDAL.Update(MainModel.model, SessionProtectedSystem);
 

@@ -236,9 +236,16 @@ namespace ReliefProMain.ViewModel
                 FeedMassRate = csFeedIn.WeightFlow;
                 Duty = (double.Parse(hx.DutyCalc) * 3600).ToString();
 
+
+
                 TowerFlashProductDAL dbtfp = new TowerFlashProductDAL();
                 IList<TowerFlashProduct> tfpList = dbtfp.GetAllList(SessionProtectedSystem);
+
                 TowerFlashProduct tfp = dbtfp.GetModel(sessionProtectedSystem, csBottomIn.StreamName);
+                if (tfp == null)
+                {
+                    
+                }
                 BottomReliefTin = tfp.Temperature;
 
             #endregion

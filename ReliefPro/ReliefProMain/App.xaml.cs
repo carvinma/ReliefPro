@@ -26,7 +26,8 @@ namespace ReliefProMain
         protected void OnStartup(object sender, StartupEventArgs e)
         {
             //TowerScenarioView mainF = new TowerScenarioView();
-            Task.Factory.StartNew(() => { InitData(); });
+            //Task.Factory.StartNew(() => { InitData(); });
+            InitData();
             MainWindow v = new MainWindow();
             MainWindowVM vm = new MainWindowVM();
             v.DataContext = vm;

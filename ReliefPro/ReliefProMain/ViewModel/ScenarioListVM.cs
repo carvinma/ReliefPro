@@ -497,7 +497,7 @@ namespace ReliefProMain.ViewModel
                     tss = new TowerScenarioStream();
                     tss.ScenarioID = ScenarioID;
                     tss.StreamName = s.StreamName;
-                    tss.FlowCalcFactor = GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
+                    tss.FlowCalcFactor = "1";// GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
                     tss.FlowStop = false;
                     tss.IsProduct = true;
                     tss.SourceType = s.SinkType;
@@ -599,7 +599,7 @@ namespace ReliefProMain.ViewModel
             {
                 list.Add("Blocked Outlet");
                 list.Add("Reflux Failure");
-                list.Add("Electric Power Failure");
+                list.Add("General Electric Power Failure");
                 list.Add("Partial Electric Power Failure");
                 list.Add("Cooling Water Failure");
                 list.Add("Refrigerant Failure");
