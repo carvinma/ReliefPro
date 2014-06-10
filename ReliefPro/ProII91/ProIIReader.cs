@@ -153,6 +153,7 @@ namespace ProII91
             string streamName = "temp" + Guid.NewGuid().ToString().Substring(0, 5).ToUpper();
             CP2Object tempStream = (CP2Object)cp2File.CreateObject("Stream", streamName);
             bool b = cp2File.CopyTrayToStream(columnName, (short)tray, (p2Phase)phase, 0, (p2TrayFlow)trayFlow, streamName);
+            cp2File.CalculateStreamProps();
             proIIStream = GetSteamInfo(streamName);
             proIIStream.Tray = tray.ToString();
             proIIStream.ProdType=phase.ToString();
