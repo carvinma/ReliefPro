@@ -239,7 +239,11 @@ namespace ReliefProMain.ViewModel
             string copyFile=dirCopyStream+@"\"+fileName;
             File.Copy(PrzFile, copyFile);
             CustomStream stream = CopyTop1Liquid(copyFile);
-
+            if (stream.Pressure == "0")
+            {
+                MessageBox.Show("Please Rerun this ProII file and save it.","Message Box");
+                return;
+            }
             PROIIFileOperator.DecompressProIIFile(PrzFile, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
 
