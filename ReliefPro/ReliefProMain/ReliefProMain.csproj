@@ -160,6 +160,7 @@
     <Compile Include="Model\TowerScenarioStreamModel.cs" />
     <Compile Include="Model\HeatSourceModel.cs" />
     <Compile Include="Model\ScenarioHeatSourceModel.cs" />
+    <Compile Include="Model\AbnormalHeaterDetailModel.cs" />
     <Compile Include="ProIIFactory.cs" />
     <Compile Include="ProIIToDefault.cs" />
     <Compile Include="Service\ServiceProvider.cs" />

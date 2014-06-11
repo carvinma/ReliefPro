@@ -21,6 +21,19 @@ namespace ReliefProMain
             string version = PROIIFileOperator.CheckProIIVersion(inpFile);
             return version;
         }
+        public static IProIIRunCalcSave CreateRunCalcSave(string version)
+        {
+            IProIIRunCalcSave r = null;
+            if (version == "9.1")
+            {
+                //r = new ProII91.();
+            }
+            else if (version == "9.2")
+            {
+                r = new ProII92.ProIIRunCalcSave();
+            }
+            return r;
+        }
         public static IProIIReader CreateReader(string version)
         {
             IProIIReader reader = null;
