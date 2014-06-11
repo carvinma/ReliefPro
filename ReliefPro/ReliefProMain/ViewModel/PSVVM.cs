@@ -231,8 +231,14 @@ namespace ReliefProMain.ViewModel
             string dirLatent = tempdir + "Latent";
             if (!Directory.Exists(dirLatent))
                 Directory.CreateDirectory(dirLatent);
+            string dirCopyStream = tempdir + "CopyStream";
+            if (!Directory.Exists(dirCopyStream))
+                Directory.CreateDirectory(dirCopyStream);
 
-            CustomStream stream = CopyTop1Liquid();
+            string fileName=System.IO.Path.GetFileName(PrzFile);
+            string copyFile=dirCopyStream+@"\"+fileName;
+            File.Copy(PrzFile, copyFile);
+            CustomStream stream = CopyTop1Liquid(copyFile);
 
             PROIIFileOperator.DecompressProIIFile(PrzFile, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
@@ -426,12 +432,12 @@ namespace ReliefProMain.ViewModel
 
         }
 
-        private CustomStream CopyTop1Liquid()
+        private CustomStream CopyTop1Liquid(string copyPrzFile)
         {
             CustomStream cs = new CustomStream();
             IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
-            reader.InitProIIReader(PrzFile);
-            ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 2, 2, 1);
+            reader.InitProIIReader(copyPrzFile);
+            ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 1, 2, 1);
             reader.ReleaseProIIReader();
             cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
             return cs;
