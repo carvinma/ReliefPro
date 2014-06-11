@@ -130,6 +130,7 @@
     <Compile Include="HeatSource.cs" />
     <Compile Include="ScenarioHeatSource.cs" />
     <Compile Include="Sink.cs" />
+    <Compile Include="AbnormalHeaterDetail.cs" />
     <EmbeddedResource Include="Compressors\CentrifugalBlockedOutlet.hbm.xml" />
     <EmbeddedResource Include="Compressors\PistonBlockedOutlet.hbm.xml" />
     <EmbeddedResource Include="DemoModel.hbm.xml" />
@@ -146,6 +147,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AbnormalHeaterDetail.hbm.xml" />
     <EmbeddedResource Include="ReactorLoops\GeneralFailureCommonDetail.hbm.xml" />
     <EmbeddedResource Include="ReactorLoops\GeneralFailureCommon.hbm.xml" />
     <EmbeddedResource Include="ReactorLoops\ReactorLoopDetail.hbm.xml" />
