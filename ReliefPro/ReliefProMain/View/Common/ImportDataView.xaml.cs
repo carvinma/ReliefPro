@@ -31,7 +31,7 @@ namespace ReliefProMain.View
         IList<ProIIEqType> eqTypeList = null;
         IList<ProIIEqData> eqListData = new List<ProIIEqData>();
         IList<ProIIStreamData> streamListData = new List<ProIIStreamData>();
-        
+        string version;
         BackgroundWorker backgroundWorker = new BackgroundWorker();
        
         public ImportDataView()
@@ -78,6 +78,10 @@ namespace ReliefProMain.View
                 System.IO.File.Copy(selectedFile, curprzFile, true);
                 if (System.IO.File.Exists(dbPlantFile) == true)
                 {
+                    version = ProIIFactory.GetProIIVerison(curprzFile, dirInfo);
+                    IProIIRunCalcSave cs = ProIIFactory.CreateRunCalcSave(version);
+                    bool b=cs.CalcSave(curprzFile);
+
                     using (var helper = new NHibernateHelper(dbPlantFile))
                     {
                         ISession Session = helper.GetCurrentSession();
@@ -118,7 +122,7 @@ namespace ReliefProMain.View
             IList<string> streamList = new List<string>();         
             try
             {
-                string version = ProIIFactory.GetProIIVerison(curprzFile, dirInfo);
+                
                 IProIIReader reader = ProIIFactory.CreateReader(version);
                 reader.InitProIIReader(curprzFile);
 
