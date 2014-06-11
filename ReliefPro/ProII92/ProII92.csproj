@@ -47,6 +47,7 @@
     <Compile Include="FlashCalculateW.cs" />
     <Compile Include="PHASECalculate.cs" />
     <Compile Include="ProIIReader.cs" />
+    <Compile Include="ProIIRunCalcSave.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -54,17 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="P2Wrap92">
-      <Guid>{F5DD3402-CDFE-465D-AB00-36C8799B58B8}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReliefProCommon\ReliefProCommon.csproj">
@@ -79,6 +69,26 @@
       <Project>{33484ecd-0474-4110-aaf0-c551b57087c7}</Project>
       <Name>ReliefProModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="P2Wrap92">
+      <Guid>{F5DD3402-CDFE-465D-AB00-36C8799B58B8}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="ProII92CalcSave">
+      <Guid>{DA30AA0A-4903-41F5-B029-5EAF98212176}</Guid>
+      <VersionMajor>4</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

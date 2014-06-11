@@ -42,12 +42,14 @@ namespace ProII92
         Dictionary<string, ProIIStreamData> dicProductInfo = new Dictionary<string, ProIIStreamData>();
 
         public void InitProIIReader(string przFileFullName)
-        {
+        {            
             przFileName = System.IO.Path.GetFileName(przFileFullName);
             cp2Srv = new CP2ServerClass();
             cp2Srv.Initialize();
             cp2File = (CP2File)cp2Srv.OpenDatabase(przFileFullName);
-
+            
+            //int retCode = cp2Srv.RunCalcs(przFileFullName);
+            //cp2File = (CP2File)cp2Srv.OpenDatabase(przFileFullName);
             objCompCalc = (CP2Object)cp2File.ActivateObject("CompCalc", "CompCalc");
             object ComponentId = objCompCalc.GetAttribute("ComponentId");
             object PrintNumber = objCompCalc.GetAttribute("PrintNumber");
@@ -157,7 +159,7 @@ namespace ProII92
             proIIStream = GetSteamInfo(streamName);
             proIIStream.Tray = tray.ToString();
             proIIStream.ProdType = phase.ToString();
-            //cp2File.DeleteObject("Stream", streamName);
+            cp2File.DeleteObject("Stream", streamName);
             
             return proIIStream;
         }
