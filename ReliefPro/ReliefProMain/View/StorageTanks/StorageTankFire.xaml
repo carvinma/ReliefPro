@@ -1,4 +1,4 @@
-﻿<Window x:Class="ReliefProMain.View.StorageTank2"
+﻿<Window x:Class="ReliefProMain.View.StorageTanks.StorageTankFire"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="StorageTank2" Height="500" Width="600">

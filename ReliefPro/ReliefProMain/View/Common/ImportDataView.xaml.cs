@@ -79,8 +79,8 @@ namespace ReliefProMain.View
                 if (System.IO.File.Exists(dbPlantFile) == true)
                 {
                     version = ProIIFactory.GetProIIVerison(curprzFile, dirInfo);
-                    IProIIRunCalcSave cs = ProIIFactory.CreateRunCalcSave(version);
-                    bool b=cs.CalcSave(curprzFile);
+                    //IProIIRunCalcSave cs = ProIIFactory.CreateRunCalcSave(version);
+                    //bool b=cs.CalcSave(curprzFile);
 
                     using (var helper = new NHibernateHelper(dbPlantFile))
                     {

@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ReliefProMain.View
+namespace ReliefProMain.View.StorageTanks
 {
     /// <summary>
     /// StorageTank2.xaml 的交互逻辑
     /// </summary>
-    public partial class StorageTank2 : Window
+    public partial class StorageTankFire : Window
     {
-        public StorageTank2()
+        public StorageTankFire()
         {
             InitializeComponent();
         }

@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ReliefProMain.View
+namespace ReliefProMain.View.StorageTanks
 {
     /// <summary>
     /// StorageTank.xaml 的交互逻辑
