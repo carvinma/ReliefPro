@@ -153,19 +153,21 @@ namespace ReliefProMain
 
         public static double CalcStorageTankLoad(double A, double P, double F, double L, double T, double M)
         {
-            double Q = 0;
-            if (A < 18.6) { Q = 63150 * A; }
-            else if (A >= 18.6 && A < 93) { Q = 224200 * Math.Pow(A, 0.566); }
-            else if (A >= 93 && A < 260) { Q = 630400 * Math.Pow(A, 0.338); }
-            else if (A >= 260)
+            if (L != 0 && M != 0)
             {
-                if (P >= 0.07 && P <= 1.034) { Q = 43200 * Math.Pow(A, 0.82); }
-                else if (P <= 0.07) { Q = 4129700; }
+                double Q = 0;
+                if (A < 18.6) { Q = 63150 * A; }
+                else if (A >= 18.6 && A < 93) { Q = 224200 * Math.Pow(A, 0.566); }
+                else if (A >= 93 && A < 260) { Q = 630400 * Math.Pow(A, 0.338); }
+                else if (A >= 260)
+                {
+                    if (P >= 0.07 && P <= 1.034) { Q = 43200 * Math.Pow(A, 0.82); }
+                    else if (P <= 0.07) { Q = 4129700; }
+                }
+                return 881.55 * ((Q * F) / L) * Math.Pow(T / M, 0.5);
             }
-            return 881.55 * ((Q * F) / L) * Math.Pow(T / M, 0.5);
+            return 0;
         }
-
-
 
     }
 }
