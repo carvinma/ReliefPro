@@ -364,8 +364,8 @@
       <DependentUpon>StorageTank.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="View\StorageTanks\StorageTank2.xaml.cs">
-      <DependentUpon>StorageTank2.xaml</DependentUpon>
+    <Compile Include="View\StorageTanks\StorageTankFire.xaml.cs">
+      <DependentUpon>StorageTankFire.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="View\Towers\TowerHXView.xaml.cs">
@@ -599,7 +599,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\StorageTanks\StorageTank2.xaml">
+    <Page Include="View\StorageTanks\StorageTankFire.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
