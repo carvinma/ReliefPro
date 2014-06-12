@@ -161,7 +161,7 @@ namespace ReliefProMain
                 else if (A >= 93 && A < 260) { Q = 630400 * Math.Pow(A, 0.338); }
                 else if (A >= 260)
                 {
-                    if (P >= 0.07 && P <= 1.034) { Q = 43200 * Math.Pow(A, 0.82); }
+                    if (P > 0.07 && P <= 1.034) { Q = 43200 * Math.Pow(A, 0.82); }
                     else if (P <= 0.07) { Q = 4129700; }
                 }
                 return 881.55 * ((Q * F) / L) * Math.Pow(T / M, 0.5);
