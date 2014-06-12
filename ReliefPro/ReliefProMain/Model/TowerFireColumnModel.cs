@@ -27,18 +27,17 @@ namespace ReliefProMain.Model
             }
         }
 
-        private string _NumberOfSegment;
         public string NumberOfSegment
         {
             get
             {
-                return this._NumberOfSegment;
+                return this.Instance.NumberOfSegment;
             }
             set
             {
-                this._NumberOfSegment = value;
+                this.Instance.NumberOfSegment = value;
                 _Details.Clear();
-                int count = int.Parse(_NumberOfSegment);
+                int count = int.Parse(this.Instance.NumberOfSegment);
                 for (int i = 0; i < count; i++)
                 {
                     TowerFireColumnDetail detail=new TowerFireColumnDetail();
@@ -46,7 +45,7 @@ namespace ReliefProMain.Model
                     detail.ColumnID = Instance.ID;
                     _Details.Add(detail);
                 }
-                Instance.NumberOfSegment = _NumberOfSegment;
+                Instance.NumberOfSegment = this.Instance.NumberOfSegment;
                 NotifyPropertyChanged("NumberOfSegment");
                 NotifyPropertyChanged("Details");
 

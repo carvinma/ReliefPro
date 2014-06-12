@@ -118,6 +118,7 @@ namespace ReliefProMain.ViewModel
             this.SessionPlant = SessionPlant;
             this.SessionProtectedSystem = SessionProtectedSystem;
             Heaters = new ObservableCollection<AbnormalHeaterDetailModel>();
+            abnormalHeaterDetailDAL = new AbnormalHeaterDetailDAL();
             scenarioDAL = new ScenarioDAL();
             psvDAL = new PSVDAL();
             IList<AbnormalHeaterDetail> list = abnormalHeaterDetailDAL.GetAllList(this.SessionProtectedSystem, ScenarioID);
@@ -131,29 +132,13 @@ namespace ReliefProMain.ViewModel
                 m.HeaterID = s.HeaterID;
                 m.HeaterName = s.HeaterName;
                 m.ID = s.ID;
+                
                 m.ScenarioID = s.ScenarioID;
                 m.SeqNumber = i;
+                Heaters.Add(m);
                 i++;
             }
-            if (list.Count == 0)
-            {
-                //SourceDAL sourceDAL = new SourceDAL();
-                //IList<HeatSource> listHeatSource = heatSourceDAL.GetAllList(SessionProtectedSystem);
-                //foreach (HeatSource hs in listHeatSource)
-                //{
-                //    ScenarioHeatSource shs = new ScenarioHeatSource();
-                //    ScenarioHeatSourceModel shsm = new ScenarioHeatSourceModel(shs);
-                //    shsm.HeatSourceID = hs.ID;
-                //    shsm.DutyFactor = "1";
-                //    shsm.Duty = hs.Duty;
-                //    shsm.ScenarioStreamID = 0;
-                //    shsm.ScenarioID = ScenarioID;
-                //    shsm.HeatSourceName = hs.HeatSourceName;
-                //    shsm.HeatSourceType = hs.HeatSourceType;
-                //    HeatSources.Add(shsm);
-
-                //}
-            }
+            
             Scenario sc = scenarioDAL.GetModel(ScenarioID, SessionProtectedSystem);
             ReliefLoad = sc.ReliefLoad;
             ReliefMW = sc.ReliefMW;

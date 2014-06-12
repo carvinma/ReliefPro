@@ -24,7 +24,7 @@ namespace ReliefProMain.ViewModel.TowerFires
         public TowerFireColumnModel model { get; set; }
         public double Area { get; set; }
         public ObservableCollection<string> Internals { get; set; }
-        public ObservableCollection<TowerFireColumnDetail> LastDetails { get; set; }
+        
         UOMLib.UOMEnum uomEnum;
         public TowerFireColumnVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
@@ -65,7 +65,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                 model.Details.Add(detail);
             }
 
-            LastDetails = model.Details;
+            
 
         }
 
@@ -98,12 +98,11 @@ namespace ReliefProMain.ViewModel.TowerFires
             db.Update(m, SessionProtectedSystem);
 
             TowerFireColumnDetailDAL dbDetail = new TowerFireColumnDetailDAL();
-            for (int i = 0; i < LastDetails.Count; i++)
+            IList<TowerFireColumnDetail> list = dbDetail.GetAllList(SessionProtectedSystem, model.Instance.ID);
+            model.Details = new ObservableCollection<TowerFireColumnDetail>();
+            foreach (TowerFireColumnDetail d in list)
             {
-                if (LastDetails[i].ID != 0)
-                {
-                    dbDetail.Delete(LastDetails[i], SessionProtectedSystem);
-                }
+                dbDetail.Delete(d,SessionProtectedSystem);
             }
 
             foreach (TowerFireColumnDetail detail in model.Details)

@@ -20,7 +20,7 @@
             <RowDefinition Height="52*"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="26,10,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Number of segment" VerticalAlignment="Top" Height="22" Width="137"/>
-        <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="65.885,10,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=model.NumberOfSegment}" VerticalAlignment="Top" Width="120"/>
+        <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="65.885,10,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=model.NumberOfSegment,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
         <ListView Grid.Column="1" HorizontalAlignment="Stretch" Height="127"  Grid.Row="2" VerticalAlignment="Top" Grid.ColumnSpan="2" ItemsSource="{Binding model.Details}" >
             <ListView.View>
                 <GridView>

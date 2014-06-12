@@ -424,7 +424,7 @@ namespace ReliefProMain.ViewModel
 
         private void CreateAbnormalHeatInput(int ScenarioID, string ScenarioName, NHibernate.ISession Session)
         {
-            CreateTowerScenarioCalcData(ScenarioID, ScenarioName, Session);
+            CreateTowerAbnormalHeatInputData(ScenarioID, ScenarioName, Session);
             AbnormalHeatInputView v = new AbnormalHeatInputView();
             AbnormalHeatInputVM vm = new AbnormalHeatInputVM(ScenarioID, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
@@ -469,7 +469,6 @@ namespace ReliefProMain.ViewModel
                 IList<HeatSource> listHeatSource = dbhs.GetAllList(Session, s.ID);
                 foreach (HeatSource hs in listHeatSource)
                 {
-
                     ScenarioHeatSource shs = scenarioHeatSourceDAL.GetModel(Session, hs.ID, ScenarioID);
                     if (shs == null)
                     {
@@ -569,6 +568,190 @@ namespace ReliefProMain.ViewModel
 
         }
 
+       
+        private void CreateTowerAbnormalHeatInputData(int ScenarioID, string ScenarioName, NHibernate.ISession Session)
+        {
+            AbnormalHeaterDetailDAL abnormalHeaterDetailDAL=new AbnormalHeaterDetailDAL();
+            SourceDAL dbSource = new SourceDAL();
+            HeatSourceDAL dbhs = new HeatSourceDAL();
+            TowerScenarioStreamDAL towerScenarioStreamDAL = new TowerScenarioStreamDAL();
+            List<Source> listSource = dbSource.GetAllList(Session).ToList();
+            foreach (Source s in listSource)
+            {
+                TowerScenarioStream tss = towerScenarioStreamDAL.GetModel(Session, s.StreamName, ScenarioID);
+                if (tss == null)
+                {
+                    tss = new TowerScenarioStream();
+                    tss.ScenarioID = ScenarioID;
+                    tss.StreamName = s.StreamName;
+                    tss.FlowCalcFactor = GetSystemScenarioFactor("4", s.SourceType, ScenarioName);
+                    tss.FlowStop = false;
+                    tss.SourceType = s.SourceType;
+                    tss.IsProduct = false;
+                    towerScenarioStreamDAL.Add(tss, Session);
+                }
+                else if (tss.SourceType != s.SourceType)
+                {
+                    tss.FlowCalcFactor = GetSystemScenarioFactor("4", s.SourceType, ScenarioName);
+                    tss.SourceType = s.SourceType;
+                    towerScenarioStreamDAL.Update(tss, Session);
+                }
+
+                IList<HeatSource> listHeatSource = dbhs.GetAllList(Session, s.ID);
+                foreach (HeatSource hs in listHeatSource)
+                {
+                    if (hs.HeatSourceType != "Feed/Bottom HX")
+                    {
+                        AbnormalHeaterDetail d;
+                        d = abnormalHeaterDetailDAL.GetModel(Session, ScenarioID, hs.ID, 1);
+                        if (d == null)
+                        {
+                            d = new AbnormalHeaterDetail();
+                            d.AbnormalType = 1;
+                            d.Duty = double.Parse(hs.Duty);
+                            d.DutyFactor = 1;
+                            d.HeaterID = hs.ID;
+                            d.HeaterName = hs.HeatSourceName;
+                            d.HeaterType = hs.HeatSourceType;
+                            d.ScenarioID = ScenarioID;
+                            abnormalHeaterDetailDAL.Add(d, Session);
+                        }
+                        else
+                        {
+                            d.Duty = double.Parse( hs.Duty);
+                            d.HeaterName = hs.HeatSourceName;
+                            abnormalHeaterDetailDAL.Update(d, Session);
+                            Session.Flush();
+                        }
+                    }
+
+                }
+
+            }
+
+            SinkDAL sinkDAL = new SinkDAL();
+            List<Sink> listSink = sinkDAL.GetAllList(Session).ToList();
+            foreach (Sink s in listSink)
+            {
+                TowerScenarioStream tss = towerScenarioStreamDAL.GetModel(Session, s.StreamName, ScenarioID);
+                if (tss == null)
+                {
+                    tss = new TowerScenarioStream();
+                    tss.ScenarioID = ScenarioID;
+                    tss.StreamName = s.StreamName;
+                    tss.FlowCalcFactor = "1";// GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
+                    tss.FlowStop = false;
+                    tss.IsProduct = true;
+                    tss.SourceType = s.SinkType;
+                    towerScenarioStreamDAL.Add(tss, Session);
+                }
+                else if (tss.SourceType != s.SinkType)
+                {
+                    tss.FlowCalcFactor = GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
+                    tss.SourceType = s.SinkType;
+                    towerScenarioStreamDAL.Update(tss, Session);
+                }
+            }
+            TowerHXDetailDAL towerHXDetailDAL = new TowerHXDetailDAL();
+            TowerScenarioHXDAL towerScenarioHXDAL = new TowerScenarioHXDAL();
+            TowerHXDAL towerHXDAL = new TowerHXDAL();
+            IList<TowerHX> tHXs = towerHXDAL.GetAllList(Session);
+            foreach (TowerHX hx in tHXs)
+            {
+
+                List<TowerHXDetail> listTowerHXDetail = towerHXDetailDAL.GetAllList(Session, hx.ID).ToList();
+                foreach (TowerHXDetail detail in listTowerHXDetail)
+                {
+                    string ProcessSideFlowSourceFactor = GetSystemScenarioFactor("1", detail.ProcessSideFlowSource, ScenarioName);
+                    string MediumFactor = GetSystemScenarioFactor("2", detail.Medium, ScenarioName);
+                    string MediumSideFlowSourceFactor = GetSystemScenarioFactor("3", detail.MediumSideFlowSource, ScenarioName);
+                    double factor = double.Parse(ProcessSideFlowSourceFactor) * double.Parse(MediumFactor) * double.Parse(MediumSideFlowSourceFactor);
+
+                    TowerScenarioHX tsHX = towerScenarioHXDAL.GetModel(Session, detail.ID, ScenarioID);
+                    if (tsHX == null)
+                    {
+                        tsHX = new TowerScenarioHX();
+                        tsHX.DetailID = detail.ID;
+                        tsHX.ScenarioID = ScenarioID;
+                        tsHX.DutyLost = false;
+                        tsHX.DutyCalcFactor = factor;
+                        tsHX.DetailName = detail.DetailName;
+                        tsHX.Medium = detail.Medium;
+                        tsHX.HeaterType = hx.HeaterType;
+
+                        if (ScenarioName == "BlockedOutlet" && double.Parse(detail.Duty) < 0)
+                        {
+                            tsHX.DutyLost = true;
+                        }
+                        towerScenarioHXDAL.Add(tsHX, Session);
+
+                        
+                        if (tsHX.HeaterType == 3 || tsHX.HeaterType==4)
+                        {
+                            AbnormalHeaterDetail d = new AbnormalHeaterDetail();
+                            d = new AbnormalHeaterDetail();
+                            d.AbnormalType = 2;
+                            d.Duty = double.Parse(hx.HeaterDuty) * double.Parse(detail.DutyPercentage)/100;
+                            d.DutyFactor = 1;
+                            d.HeaterID = detail.ID;
+                            d.HeaterName = detail.DetailName;
+                            d.HeaterType = detail.Medium;
+                            d.ScenarioID = ScenarioID;
+                            abnormalHeaterDetailDAL.Add(d, Session);
+                        }
+
+                    }
+                    else if (factor != tsHX.DutyCalcFactor || tsHX.Medium != detail.Medium)
+                    {
+                        tsHX.DutyCalcFactor = factor;
+                        tsHX.DetailName = detail.DetailName;
+                        tsHX.Medium = detail.Medium;
+                        if (ScenarioName == "BlockedOutlet" && double.Parse(detail.Duty) < 0)
+                        {
+                            tsHX.DutyLost = true;
+                        }
+                        towerScenarioHXDAL.Update(tsHX, Session);
+
+                        if (tsHX.HeaterType == 3 || tsHX.HeaterType == 4)
+                        {
+                            AbnormalHeaterDetail d = abnormalHeaterDetailDAL.GetModel(Session,ScenarioID,tsHX.ID,2);
+                            d.Duty = double.Parse(hx.HeaterDuty) * tsHX.DutyCalcFactor;
+                            d.HeaterName = detail.DetailName;
+                            d.HeaterType = detail.Medium;
+                            abnormalHeaterDetailDAL.Update(d, Session);
+                            Session.Flush();
+                        }
+
+
+                    }
+                }
+            }
+
+            
+            IList<TowerScenarioHX> tsHXs = towerScenarioHXDAL.GetAllList(Session, ScenarioID);
+            int count = tsHXs.Count;
+            for (int i = 0; i < count; i++)
+            {
+                TowerHXDetail detail = towerHXDetailDAL.GetModel(tsHXs[i].DetailID, Session);
+                if (detail == null)
+                {
+                    towerScenarioHXDAL.Delete(tsHXs[i], Session);
+                }
+            }
+            IList<AbnormalHeaterDetail> abnormalDetails = abnormalHeaterDetailDAL.GetAllList(Session, ScenarioID,2);
+            count = abnormalDetails.Count;
+            for (int i = 0; i < count; i++)
+            {
+                TowerHXDetail detail = towerHXDetailDAL.GetModel(abnormalDetails[i].HeaterID, Session);
+                if (detail == null)
+                {
+                    abnormalHeaterDetailDAL.Delete(abnormalDetails[i], Session);
+                }
+            }
+
+
+
+        }
         public Scenario ConvertToDBModel(ScenarioModel m, Scenario d)
         {
             d.ID = m.ID;

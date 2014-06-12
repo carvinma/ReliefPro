@@ -14,6 +14,7 @@ namespace ReliefProModel
         public virtual double DutyFactor { get; set; }
         public virtual string HeaterName { get; set; }        
         public virtual int HeaterID { get; set; }
-        public virtual int AbnormalType { get; set; }  //1:heatsource  2 reboiler 3 pump
+        public virtual int AbnormalType { get; set; }  //1:heatsource  2 reboiler, pump
+        public virtual string HeaterType { get; set; }
     }
 }

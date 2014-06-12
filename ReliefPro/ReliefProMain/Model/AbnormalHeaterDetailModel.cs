@@ -60,7 +60,21 @@ namespace ReliefProMain.Model
                 }
             }
         }
-
+        public string HeaterType
+        {
+            get
+            {
+                return model.HeaterType;
+            }
+            set
+            {
+                if (model.HeaterType != value)
+                {
+                    model.HeaterType = value;
+                    NotifyPropertyChanged("HeaterType");
+                }
+            }
+        }
         public int AbnormalType
         {
             get
