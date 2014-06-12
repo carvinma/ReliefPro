@@ -17,6 +17,7 @@ using ReliefProDAL;
 using ReliefProModel;
 using ReliefProCommon.CommonLib;
 using ReliefProMain.View.DrumFires;
+using ReliefProMain.View.StorageTanks;
 
 namespace ReliefProMain.ViewModel.Drums
 {
@@ -50,7 +51,8 @@ namespace ReliefProMain.ViewModel.Drums
         private DrumFireBLL fireBLL;
         private DrumFireFluid fireFluidModel;
         private DrumSize sizeModel;
-        //private int FireType;
+        private DrumSizeVM tmpVM;
+        private int FireType;
         /// <summary>
         /// 
         /// </summary>
@@ -62,9 +64,9 @@ namespace ReliefProMain.ViewModel.Drums
         /// <param name="dirPlant"></param>
         /// <param name="dirProtectedSystem"></param>
         /// <param name="FireType">0-DrumSize,1-TankSize</param>
-        public DrumFireVM(int ScenarioID, string przFile, string version, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
+        public DrumFireVM(int ScenarioID, string przFile, string version, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem, int FireType = 0)
         {
-            // this.FireType = FireType;
+            this.FireType = FireType;
             this.ScenarioID = ScenarioID;
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
@@ -116,22 +118,49 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void OpenDrumSize(object obj)
         {
-            DrumSizeView win = new DrumSizeView();
-            win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-            DrumSizeVM vm = new DrumSizeVM(model.dbmodel.ID, SessionPS, SessionPF);
-            win.DataContext = vm;
-            if (win.ShowDialog() == true)
+            if (FireType == 0)
             {
-                sizeModel = vm.model.dbmodel;
-                double Area = 0;
-                if (sizeModel == null)
+                DrumSizeView win = new DrumSizeView();
+                win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                DrumSizeVM vm = new DrumSizeVM(model.dbmodel.ID, SessionPS, SessionPF);
+                if (tmpVM != null) vm = tmpVM;
+                win.DataContext = vm;
+                if (win.ShowDialog() == true)
                 {
-                    DrumSizeBLL sizeBll = new DrumSizeBLL(SessionPS, SessionPF);
-                    sizeModel = sizeBll.GetSizeModel(model.dbmodel.ID);
+                    tmpVM = vm;
+                    sizeModel = vm.model.dbmodel;
+                    double Area = 0;
+                    if (sizeModel == null)
+                    {
+                        DrumSizeBLL sizeBll = new DrumSizeBLL(SessionPS, SessionPF);
+                        sizeModel = sizeBll.GetSizeModel(model.dbmodel.ID);
+                    }
+                    if (sizeModel != null)
+                        Area = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, sizeModel.NormalLiquidLevel, sizeModel.BootHeight, sizeModel.BootDiameter);
+                    model.WettedArea = Area;
                 }
-                if (sizeModel != null)
-                    Area = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, sizeModel.NormalLiquidLevel, sizeModel.BootHeight, sizeModel.BootDiameter);
-                model.WettedArea = Area;
+            }
+            else if (FireType == 1)
+            {
+                StorageTankView win = new StorageTankView();
+                win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                DrumSizeVM vm = new DrumSizeVM(model.dbmodel.ID, SessionPS, SessionPF);
+                if (tmpVM != null) vm = tmpVM;
+                win.DataContext = vm;
+                if (win.ShowDialog() == true)
+                {
+                    tmpVM = vm;
+                    sizeModel = vm.model.dbmodel;
+                    double Area = 0;
+                    if (sizeModel == null)
+                    {
+                        DrumSizeBLL sizeBll = new DrumSizeBLL(SessionPS, SessionPF);
+                        sizeModel = sizeBll.GetSizeModel(model.dbmodel.ID);
+                    }
+                    if (sizeModel != null)
+                        Area = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, sizeModel.NormalLiquidLevel, sizeModel.BootHeight, sizeModel.BootDiameter);
+                    model.WettedArea = Area;
+                }
             }
         }
 
@@ -180,7 +209,7 @@ namespace ReliefProMain.ViewModel.Drums
 
             }
         }
-        private void Calc(object obj)
+        private void CalcDrum()
         {
             double Qfire = 0;
             double Area = model.WettedArea;
@@ -241,7 +270,17 @@ namespace ReliefProMain.ViewModel.Drums
             double reliefLoad = Qfire / latent;
             double reliefMW = double.Parse(csVapor.BulkMwOfPhase);
             double reliefT = double.Parse(csVapor.Temperature);
-
+        }
+        private void CalcTank()
+        { }
+        private void Calc(object obj)
+        {
+            switch (FireType)
+            {
+                case 0: CalcDrum(); break;
+                case 1: CalcTank(); break;
+                default: break;
+            }
         }
         private void Save(object obj)
         {
