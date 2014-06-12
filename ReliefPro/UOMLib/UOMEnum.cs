@@ -43,6 +43,7 @@ namespace UOMLib
         public readonly string UserThermalConductivity;
         public readonly string UserHeatTransCoeffcient;
         public static IList<BasicUnitDefault> lstBasicUnitDefault;
+        public static IList<SystemUnit> lstSystemUnit;
         public static int BasicUnitID;
         public UOMEnum(ISession SessionPlant)
         {
@@ -65,9 +66,9 @@ namespace UOMLib
         private string GetDefalutUnit(UnitTypeEnum unitTypeEnum, int basicUnitID)
         {
             var basicUnitDefault = lstBasicUnitDefault.FirstOrDefault(p => p.BasicUnitID == basicUnitID && p.UnitTypeID == int.Parse(unitTypeEnum.ToString("d")));
-            if (basicUnitDefault != null && basicUnitDefault.SystemUnitInfo != null)
-                return basicUnitDefault.SystemUnitInfo.Name;
-            return "";
+            //if (basicUnitDefault != null && basicUnitDefault.SystemUnitInfo != null)
+            //    return basicUnitDefault.SystemUnitInfo.Name;
+            return lstSystemUnit.FirstOrDefault(p => p.ID == basicUnitDefault.SystemUnitID).Name;
         }
         public enum UnitTypeEnum
         {

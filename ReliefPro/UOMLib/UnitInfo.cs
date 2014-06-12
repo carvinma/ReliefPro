@@ -52,6 +52,14 @@ namespace UOMLib
             lstSystemUnit = db.GetAllList(TempleSession.Session);
             return lstSystemUnit;
         }
+        public IList<SystemUnit> GetSystemUnit(ISession SessionPlan)
+        {
+            IList<SystemUnit> lstSystemUnit;
+            SystemUnitDAL db = new SystemUnitDAL();
+
+            lstSystemUnit = db.GetAllList(SessionPlan);
+            return lstSystemUnit;
+        }
         public IList<UnitType> GetUnitType()
         {
             IList<UnitType> lstUnitType;
