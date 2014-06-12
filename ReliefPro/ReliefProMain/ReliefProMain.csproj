@@ -672,6 +672,19 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\drum.ico" />
+    <Resource Include="Images\Compressor.ico" />
+    <Resource Include="Images\flash.ico" />
+    <Resource Include="Images\GlobalDefault.ico" />
+    <Resource Include="Images\HeatExchanger.ico" />
+    <Resource Include="Images\ImportSimulation.ico" />
+    <Resource Include="Images\PSVDatasheet.ico" />
+    <Resource Include="Images\PSVManager.ico" />
+    <Resource Include="Images\PSVSizing.ico" />
+    <Resource Include="Images\ReactorLoop.ico" />
+    <Resource Include="Images\Report.ico" />
+    <Resource Include="Images\Scenario.ico" />
+    <Resource Include="Images\ShowHide.ico" />
+    <Resource Include="Images\StorageTank.ico" />
     <Content Include="Template\common.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
