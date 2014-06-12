@@ -360,12 +360,12 @@
     <Compile Include="View\Scenarios\ReboilerPinchView.xaml.cs">
       <DependentUpon>ReboilerPinchView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\StorageTanks\StorageTank.xaml.cs">
-      <DependentUpon>StorageTank.xaml</DependentUpon>
+    <Compile Include="View\StorageTanks\StorageTankView.xaml.cs">
+      <DependentUpon>StorageTankView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="View\StorageTanks\StorageTankFire.xaml.cs">
-      <DependentUpon>StorageTankFire.xaml</DependentUpon>
+    <Compile Include="View\StorageTanks\StorageTankFireView.xaml.cs">
+      <DependentUpon>StorageTankFireView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="View\Towers\TowerHXView.xaml.cs">
@@ -595,11 +595,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\StorageTanks\StorageTank.xaml">
+    <Page Include="View\StorageTanks\StorageTankView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\StorageTanks\StorageTankFire.xaml">
+    <Page Include="View\StorageTanks\StorageTankFireView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
