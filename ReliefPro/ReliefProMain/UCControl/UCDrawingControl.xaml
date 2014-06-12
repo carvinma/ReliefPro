@@ -16,7 +16,7 @@
                         <Image Source="/images/property.png"  ></Image>
                     </Button>
                     <Separator/>
-                    <Button Name="btnPSV" ToolTip="PSV" VerticalAlignment="Center"  Click="ToolbarButton_Click">
+                    <Button x:Name="btnPSV" ToolTip="PSV" VerticalAlignment="Center"  Click="ToolbarButton_Click">
                         <Image Source="/images/compute.ico" x:Name="btnPSV1" ></Image>
                     </Button>
                     <Separator/>

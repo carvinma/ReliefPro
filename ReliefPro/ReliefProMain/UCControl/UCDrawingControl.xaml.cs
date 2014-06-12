@@ -630,39 +630,56 @@ namespace ReliefProMain.View
 
         private void UserControl_Loaded_1(object sender, RoutedEventArgs e)
         {
+            this.btnPSV.IsEnabled = false;
             TreeViewItemData data = this.Tag as TreeViewItemData;
             dbPlantFile = data.dbPlantFile;
             dbProtectedSystemFile = data.dbProtectedSystemFile;
             DirPlant = System.IO.Path.GetDirectoryName(dbPlantFile);
             DirProtectedSystem = System.IO.Path.GetDirectoryName(dbProtectedSystemFile);
-            NHibernateHelper helperPlant = new NHibernateHelper(dbPlantFile);
-            SessionPlant = helperPlant.GetCurrentSession();
 
-            NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystemFile);
-            SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
-            TowerDAL dbtower = new TowerDAL();
-            Tower tower = dbtower.GetModel(SessionProtectedSystem);
-            if (tower != null)
+            var task = Task.Factory.StartNew<ISession>(() =>
             {
-                EqType = "Tower";
-                EqName = tower.TowerName;
-                PrzFile = DirPlant + @"\" + tower.PrzFile;
-                PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
-            }
-            DrumDAL dbdrum = new DrumDAL();
-            Drum drum = dbdrum.GetModel(SessionProtectedSystem);
-            if (drum != null)
+                NHibernateHelper helperPlant = new NHibernateHelper(dbPlantFile);
+                SessionPlant = helperPlant.GetCurrentSession();
+                return SessionPlant;
+            });
+            var t2 = task.ContinueWith((i) =>
             {
-                EqType = "Drum";
-                EqName = drum.DrumName;
-                PrzFile = DirPlant + @"\" + drum.PrzFile;
-                PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
-            }
+                UnitInfo unitInfo = new UnitInfo();
+                UOMEnum.lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(i.Result);
+                UOMEnum.lstSystemUnit = unitInfo.GetSystemUnit(i.Result);
 
-            UnitInfo unitInfo = new UnitInfo();
-            var basicUnit = unitInfo.GetBasicUnitUOM(SessionPlant);
-            UOMEnum.BasicUnitID = basicUnit.ID;
-            UOMEnum.lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(SessionPlant);
+                var basicUnit = unitInfo.GetBasicUnitUOM(i.Result);
+                UOMEnum.BasicUnitID = basicUnit.ID;
+            });
+
+
+            var task2 = Task.Factory.StartNew(() =>
+                {
+                    NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystemFile);
+                    SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
+                    TowerDAL dbtower = new TowerDAL();
+                    Tower tower = dbtower.GetModel(SessionProtectedSystem);
+                    if (tower != null)
+                    {
+                        EqType = "Tower";
+                        EqName = tower.TowerName;
+                        PrzFile = DirPlant + @"\" + tower.PrzFile;
+                        PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                    }
+                    DrumDAL dbdrum = new DrumDAL();
+                    Drum drum = dbdrum.GetModel(SessionProtectedSystem);
+                    if (drum != null)
+                    {
+                        EqType = "Drum";
+                        EqName = drum.DrumName;
+                        PrzFile = DirPlant + @"\" + drum.PrzFile;
+                        PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                    }
+                });
+
+            Task.WaitAll(task, t2, task2);
+            this.btnPSV.IsEnabled = true;
         }
 
     }
