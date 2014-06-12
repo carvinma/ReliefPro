@@ -26,9 +26,8 @@ namespace UOMLib
         }
         public BasicUnit GetBasicUnitUOM(ISession SessionPlan)
         {
-            IList<BasicUnit> lstBasicUnit;
             BasicUnitDAL db = new BasicUnitDAL();
-            lstBasicUnit = db.GetAllList(SessionPlan);
+            var lstBasicUnit = db.GetAllList(SessionPlan);
             return lstBasicUnit.Where(p => p.IsDefault == 1).First();
         }
         public IList<BasicUnitDefault> GetBasicUnitDefault()
@@ -41,9 +40,8 @@ namespace UOMLib
         }
         public IList<BasicUnitDefault> GetBasicUnitDefaultUserSet(ISession SessionPlan)
         {
-            IList<BasicUnitDefault> lstBasicUnitDefault;
             BasicUnitDefaultDAL db = new BasicUnitDefaultDAL();
-            lstBasicUnitDefault = db.GetAllList(SessionPlan);
+            var lstBasicUnitDefault = db.GetAllList(SessionPlan);
             return lstBasicUnitDefault;
         }
         public IList<SystemUnit> GetSystemUnit()
