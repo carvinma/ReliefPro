@@ -7,8 +7,8 @@
   <property name="BasicUnitID" column="BasicUnitID" type="Int32" />
   <property name="UnitTypeID" column="UnitTypeID" type="Int32"/>
   <property name="SystemUnitID" column="SystemUnitID" type="Int32" />
-  <many-to-one name="SystemUnitInfo" class="ReliefProModel.SystemUnit,ReliefProModel" insert="false" update="false" lazy="false" not-found="ignore">
+  <!--<many-to-one name="SystemUnitInfo" class="ReliefProModel.SystemUnit,ReliefProModel" insert="false" update="false" lazy="false" not-found="ignore">
     <column name="SystemUnitID"></column>
-  </many-to-one>
+  </many-to-one>-->
 </class>
 </hibernate-mapping>
