@@ -17,9 +17,9 @@ namespace ReliefProMain.View.StorageTanks
     /// <summary>
     /// StorageTank.xaml 的交互逻辑
     /// </summary>
-    public partial class StorageTank : Window
+    public partial class StorageTankView : Window
     {
-        public StorageTank()
+        public StorageTankView()
         {
             InitializeComponent();
         }
