@@ -13,10 +13,10 @@ namespace ReliefProMain
             return C1 * F * Math.Pow(Area, 0.82) * 3.6; //机算完后转换为KJ/hr
         }
 
-        public static double GetColumnArea(string Internal,int Trays,double L1,double L2,double L3,double Diameter)
+        public static double GetColumnArea(string Internal, int Trays, double L1, double L2, double L3, double Diameter)
         {
             double Area = 0;
-           
+
             if (Internal == "Trayed")
             {
                 if ((L1 + L2 + L3) <= 7.6)
@@ -36,10 +36,10 @@ namespace ReliefProMain
                 Area = 0;
             return Area;
         }
-        public static double GetHXArea(string ExposedToFire,string Type, double Length,  double OD, double D)
+        public static double GetHXArea(string ExposedToFire, string Type, double Length, double OD, double D)
         {
             double Area = 0;
-            
+
             if (ExposedToFire == "Shell")
             {
                 if (Type == "Fixed")
@@ -70,10 +70,10 @@ namespace ReliefProMain
                 Area = 0;
             return Area;
         }
-        public static double GetDrumArea(string Orientation,string HeadType, double Elevation, double Diameter, double Length, double NLL, double BootHeight, double BootDiameter)
+        public static double GetDrumArea(string Orientation, string HeadType, double Elevation, double Diameter, double Length, double NLL, double BootHeight, double BootDiameter)
         {
             double Area = 0;
-           
+
             if (Orientation == "Horiz")
             {
                 if (Elevation > 7.6)
@@ -140,20 +140,32 @@ namespace ReliefProMain
         /// <param name="Pn"></param>
         /// <param name="Tn"></param>
         /// <returns></returns>
-        public static double GetFullVaporW(double MW,double P1,double Area,double Tw,double Pn,double Tn,ref double T1 )
+        public static double GetFullVaporW(double MW, double P1, double Area, double Tw, double Pn, double Tn, ref double T1)
         {
             double result = 0;
-            if (Pn != 0)              
+            if (Pn != 0)
             {
                 T1 = Tn * P1 / Pn;
-                result=0.1406*Math.Pow(MW*P1,0.5)*Area*Math.Pow((Tw-T1),1.25)/Math.Pow(T1,1.1506);
+                result = 0.1406 * Math.Pow(MW * P1, 0.5) * Area * Math.Pow((Tw - T1), 1.25) / Math.Pow(T1, 1.1506);
             }
             return result;
         }
-    
-    
-    
-    
-    
+
+        public static double CalcStorageTankLoad(double A, double P, double F, double L, double T, double M)
+        {
+            double Q = 0;
+            if (A < 18.6) { Q = 63150 * A; }
+            else if (A >= 18.6 && A < 93) { Q = 224200 * Math.Pow(A, 0.566); }
+            else if (A >= 93 && A < 260) { Q = 630400 * Math.Pow(A, 0.338); }
+            else if (A >= 260)
+            {
+                if (P >= 0.07 && P <= 1.034) { Q = 43200 * Math.Pow(A, 0.82); }
+                else if (P <= 0.07) { Q = 4129700; }
+            }
+            return 881.55 * ((Q * F) / L) * Math.Pow(T / M, 0.5);
+        }
+
+
+
     }
 }
