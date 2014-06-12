@@ -50,8 +50,21 @@ namespace ReliefProMain.ViewModel.Drums
         private DrumFireBLL fireBLL;
         private DrumFireFluid fireFluidModel;
         private DrumSize sizeModel;
+        //private int FireType;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ScenarioID"></param>
+        /// <param name="przFile"></param>
+        /// <param name="version"></param>
+        /// <param name="SessionPS"></param>
+        /// <param name="SessionPF"></param>
+        /// <param name="dirPlant"></param>
+        /// <param name="dirProtectedSystem"></param>
+        /// <param name="FireType">0-DrumSize,1-TankSize</param>
         public DrumFireVM(int ScenarioID, string przFile, string version, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
+            // this.FireType = FireType;
             this.ScenarioID = ScenarioID;
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
