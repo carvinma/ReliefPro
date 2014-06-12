@@ -2,7 +2,7 @@
 		x:Name="DrumFireWin"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		 xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
+		xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
 		Title="Drum_fire" Height="520" Width="570">
 	<Window.Resources>
 		<Style TargetType="RowDefinition">
