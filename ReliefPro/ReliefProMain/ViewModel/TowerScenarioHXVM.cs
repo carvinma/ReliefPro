@@ -318,6 +318,7 @@ namespace ReliefProMain.ViewModel
             ReboilerPinchView v = new ReboilerPinchView();
             ReboilerPinchVM vm = new ReboilerPinchVM(ID, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (v.ShowDialog() == true)
             {
                 SelectedHX.IsPinch = vm.IsPinch;

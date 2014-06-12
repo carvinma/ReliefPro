@@ -236,6 +236,7 @@ namespace ReliefProMain.ViewModel
                         v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                         DrumFireVM vm = new DrumFireVM(ScenarioID, PrzFile, PrzVersion, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
                         v.DataContext = vm;
+                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         if (v.ShowDialog() == true)
                         {
                             //需要把ReliefLoad等值传回给SelectedScenario.ReliefLoad。 参考CreateInletValveOpen
@@ -256,6 +257,7 @@ namespace ReliefProMain.ViewModel
                         v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                         DrumDepressuringVM vm = new DrumDepressuringVM(ScenarioID, SessionProtectedSystem, SessionPlant);
                         v.DataContext = vm;
+                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         v.ShowDialog();
                         //CreateDrumDepressuring(ScenarioID, ScenarioName, Session);
                     }
@@ -272,6 +274,7 @@ namespace ReliefProMain.ViewModel
                             CentrifugalBlockedView v = new CentrifugalBlockedView();
                             v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                             CentrifugalVM vm = new CentrifugalVM(ScenarioID, SessionProtectedSystem, SessionPlant);
+                            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {
@@ -286,6 +289,7 @@ namespace ReliefProMain.ViewModel
                             PistonBlockedView v = new PistonBlockedView();
                             v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                             PistonVM vm = new PistonVM(ScenarioID, SessionProtectedSystem, SessionPlant);
+                            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {
@@ -399,6 +403,7 @@ namespace ReliefProMain.ViewModel
             TowerScenarioCalcView v = new TowerScenarioCalcView();
             TowerScenarioCalcVM vm = new TowerScenarioCalcVM(ScenarioID,PrzFile, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (v.ShowDialog() == true)
             {
                 SelectedScenario.ReliefLoad = vm.ReliefLoad;
@@ -413,6 +418,7 @@ namespace ReliefProMain.ViewModel
             InletValveOpenView v = new InletValveOpenView();
             InletValveOpenVM vm = new InletValveOpenVM(ScenarioID, EqName, EqType, PrzFile, PrzVersion, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
             v.DataContext = vm;
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (v.ShowDialog() == true)
             {
                 SelectedScenario.ReliefLoad = vm.ReliefLoad;
@@ -427,6 +433,7 @@ namespace ReliefProMain.ViewModel
             CreateTowerAbnormalHeatInputData(ScenarioID, ScenarioName, Session);
             AbnormalHeatInputView v = new AbnormalHeatInputView();
             AbnormalHeatInputVM vm = new AbnormalHeatInputVM(ScenarioID, SessionPlant, SessionProtectedSystem);
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {

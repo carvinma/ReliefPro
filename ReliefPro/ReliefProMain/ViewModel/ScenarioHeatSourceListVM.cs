@@ -86,6 +86,7 @@ namespace ReliefProMain.ViewModel
             FeedBottomHXView v = new FeedBottomHXView();
             FeedBottomHXVM vm = new FeedBottomHXVM(HeatSourceID, PrzFile,SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (v.ShowDialog() == true)
             {
                 SelectedHeatSource.IsFB = true ;

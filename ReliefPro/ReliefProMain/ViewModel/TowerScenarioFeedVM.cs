@@ -14,6 +14,7 @@ using ReliefProMain.Service;
 using ReliefProMain.View;
 using NHibernate;
 using ReliefProMain.Model;
+using System.Windows;
 
 namespace ReliefProMain.ViewModel
 {
@@ -132,6 +133,7 @@ namespace ReliefProMain.ViewModel
             ScenarioHeatSourceListView v = new ScenarioHeatSourceListView();
             ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SourceID,PrzFile, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (v.ShowDialog() == true)
             {
 

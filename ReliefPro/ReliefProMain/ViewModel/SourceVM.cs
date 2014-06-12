@@ -13,6 +13,8 @@ using ReliefProMain.Service;
 using UOMLib;
 using NHibernate;
 using ReliefProMain.View;
+using System.Windows;
+
 namespace ReliefProMain.ViewModel
 {
     public class SourceVM : ViewModelBase
@@ -182,6 +184,7 @@ namespace ReliefProMain.ViewModel
             HeatSourceListView v = new HeatSourceListView();
             HeatSourceListVM vm = new HeatSourceListVM(ID, PrzFile, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.ShowDialog();
         }
         private void ReadConvert()

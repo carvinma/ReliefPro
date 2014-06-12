@@ -13,6 +13,7 @@ using ReliefProMain.Service;
 using ReliefProMain.View;
 using UOMLib;
 using NHibernate;
+using System.Windows;
 
 namespace ReliefProMain.ViewModel
 {
@@ -160,6 +161,7 @@ namespace ReliefProMain.ViewModel
             TowerScenarioFeedView v = new TowerScenarioFeedView();
             TowerScenarioFeedVM vm = new TowerScenarioFeedVM(ScenarioID, PrzFile, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.ShowDialog();
         }
         private ICommand _CondenserCommand;
@@ -182,6 +184,7 @@ namespace ReliefProMain.ViewModel
             v.Title = "Condenser";
             TowerScenarioHXVM vm = new TowerScenarioHXVM(1, ScenarioID, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.ShowDialog();
         }
 
@@ -205,6 +208,7 @@ namespace ReliefProMain.ViewModel
             v.Title = "Reboiler";
             TowerScenarioHXVM vm = new TowerScenarioHXVM(3, ScenarioID, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.ShowDialog();
         }
 
@@ -228,6 +232,7 @@ namespace ReliefProMain.ViewModel
             v.Title = "Pumparound Heating";
             TowerScenarioHXVM vm = new TowerScenarioHXVM(4, ScenarioID, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.ShowDialog();
         }
 
@@ -251,6 +256,7 @@ namespace ReliefProMain.ViewModel
             v.Title = "Pumparound Cooling";
             TowerScenarioHXVM vm = new TowerScenarioHXVM(2, ScenarioID, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.ShowDialog();
         }
         private ICommand _CalcCommand;
