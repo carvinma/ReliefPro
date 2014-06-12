@@ -1,6 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.StorageTanks.StorageTankFire"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
         Title="StorageTank2" Height="500" Width="600">
     <Window.Resources>
         <Style TargetType="RowDefinition">
@@ -10,6 +11,13 @@
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="Margin" Value="56,5,0,0"></Setter>
+        </Style>
+        <Style TargetType="{x:Type CustomControl:UnitConvertTextBox}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
         </Style>
         <Style TargetType="TextBox">
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
@@ -45,9 +53,10 @@
             <ColumnDefinition Width="140"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <CheckBox Content="Heavy Oil Fluid" HorizontalAlignment="Left" Margin="56,5,0,0" VerticalAlignment="Top" IsChecked="True"/>
+        <CheckBox IsChecked="{Binding model.HeavyOilFluid}" Content="Heavy Oil Fluid" HorizontalAlignment="Left" Margin="56,5,0,0" VerticalAlignment="Top"/>
         <Label Content="Heat Input Model"  Grid.Row="1"/>
-        <Button Content="Run Calculation" HorizontalAlignment="Left" Margin="117,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.54,0.956" IsCancel="True" Grid.ColumnSpan="2"/>
+        <Button Command="{Binding DrumSizeCMD}" Content="Tank Size" HorizontalAlignment="Left" Margin="17,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="80" RenderTransformOrigin="0.54,0.956" IsCancel="True" Grid.ColumnSpan="2"/>
+        <Button Command="{Binding CalcCMD}" Content="Run Calculation" HorizontalAlignment="Left" Margin="117,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.54,0.956" IsCancel="True" Grid.ColumnSpan="2"/>
         <Label Content="Wetted Area"  Grid.Row="3"/>
         <Label Content="Latent Heat"  Grid.Row="4"/>
         <Label Content="Cracking Heat" Grid.Row="5"/>
@@ -55,25 +64,27 @@
         <Label Content="Relief Pressure" Grid.Row="8"/>
         <Label Content="Relief Temperature" Grid.Row="9"/>
         <Label Content="Relief MW" Grid.Row="10"/>
-        <Label Content="Relief Cp/Cv" Grid.Row="11"/>
-        <Label Content="Relief Z" Grid.Row="12"/>
-        <Label Content="m2" Grid.Column="2" Grid.Row="3"  Style="{StaticResource LabelLeftStyle}"/>
-        <Label Content="kcal/kg" Grid.Column="2" Grid.Row="4"  Style="{StaticResource LabelLeftStyle}"/>
-        <Label Content="kcal/kg" Grid.Column="2" Grid.Row="5"  Style="{StaticResource LabelLeftStyle}"/>
-        <Label Content="kg/hr" Grid.Column="2" Grid.Row="7"  Style="{StaticResource LabelLeftStyle}"/>
-        <Label Content="MPag" Grid.Column="2" Grid.Row="8"  Style="{StaticResource LabelLeftStyle}"/>
-        <Label Content="℃" Grid.Column="2" Grid.Row="9"  Style="{StaticResource LabelLeftStyle}"/>
-        <TextBox Grid.Column="1" Grid.Row="1"/>
-        <TextBox Grid.Column="1" Grid.Row="3"/>
-        <TextBox Grid.Column="1" Grid.Row="4"/>
-        <TextBox Grid.Column="1" Grid.Row="5"/>
-        <TextBox Grid.Column="1" Grid.Row="7"/>
-        <TextBox Grid.Column="1" Grid.Row="8"/>
-        <TextBox Grid.Column="1" Grid.Row="9"/>
-        <TextBox Grid.Column="1" Grid.Row="10"/>
-        <TextBox Grid.Column="1" Grid.Row="11"/>
-        <TextBox Grid.Column="1" Grid.Row="12"/>
-        <Button Content="OK" Grid.Column="1" HorizontalAlignment="Left" Margin="25,23,0,-11" Grid.Row="13" VerticalAlignment="Top" Width="75" Height="19"/>
-        <Button Content="Cancle" Grid.Column="2" HorizontalAlignment="Left" Margin="33,20,0,-11" Grid.Row="13" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Label Visibility="Hidden" Content="Relief Cp/Cv" Grid.Row="11"/>
+        <Label Visibility="Hidden" Content="Relief Z" Grid.Row="12"/>
+        <Label x:Name="lblArea" Content="{Binding model.WettedAreaUnit,Mode=TwoWay}" Grid.Column="2" Grid.Row="3"  Style="{StaticResource LabelLeftStyle}"/>
+        <Label x:Name="lblLatent" Content="{Binding model.LatentHeatUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="4"   />
+        <Label  x:Name="lblCraking" Content="{Binding model.CrackingHeatUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="5" />
+        <Label x:Name="lblLoad" Content="{Binding model.ReliefLoadUnit,Mode=TwoWay}" Grid.Column="2" Grid.Row="7"  Style="{StaticResource LabelLeftStyle}"/>
+        <Label x:Name="lblPresses" Content="{Binding model.ReliefPressureUnit,Mode=TwoWay}" Grid.Column="2" Grid.Row="8"  Style="{StaticResource LabelLeftStyle}"/>
+        <Label x:Name="lblTemper" Content="{Binding model.ReliefTemperatureUnit,Mode=TwoWay}" Grid.Column="2" Grid.Row="9"  Style="{StaticResource LabelLeftStyle}"/>
+        <ComboBox  ItemsSource="{Binding lstHeatInputModel, Mode=OneWay}" 
+						SelectedItem="{Binding SelectedHeatInputModel,Mode=TwoWay}"
+				   Grid.Column="1" Height="25" Grid.Row="1" Width="120"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.WettedArea,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblArea,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="3"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.LatentHeat,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLatent,Path=Content,Mode=TwoWay}" IsEnabled="{Binding Path=model.NoneAllGas,Mode=TwoWay}" Grid.Column="1" Grid.Row="4"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.CrackingHeat,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblCraking,Path=Content,Mode=TwoWay}" IsEnabled="{Binding Path=model.NoneAllGas,Mode=TwoWay}" Grid.Column="1" Grid.Row="5"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefLoad,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="7"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPresses,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="8"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefTemperature,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblTemper,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="9"/>
+        <TextBox Text="{Binding Path=model.ReliefMW,Mode=TwoWay}" Grid.Column="1" Grid.Row="10"/>
+        <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefCpCv,Mode=TwoWay}" Grid.Column="1" Grid.Row="11"/>
+        <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefZ,Mode=TwoWay}" Grid.Column="1" Grid.Row="12"/>
+        <Button Content="OK" Command="{Binding OKCMD}" Grid.Column="1" HorizontalAlignment="Left" Margin="25,23,0,-11" Grid.Row="13" VerticalAlignment="Top" Width="75" Height="19"/>
+        <Button Content="Cancel" IsCancel="True" Grid.Column="2" HorizontalAlignment="Left" Margin="33,20,0,-11" Grid.Row="13" VerticalAlignment="Top" Width="75" Height="22"/>
     </Grid>
 </Window>

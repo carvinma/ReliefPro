@@ -70,7 +70,7 @@
         <Label x:Name="lblDiameter" Content="{Binding model.DiameterUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="3"/>
         <Label x:Name="lblLength" Content="{Binding model.LengthUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="4"/>
         <Label x:Name="lblNormalLiquidLevel" Content="{Binding model.NormalLiquidLevelUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="5"/>
-        <Button Content="OK" Grid.Column="1" Grid.Row="8" Width="75" Height="21" Margin="40,10,10,0"/>
+        <Button Content="OK" Command="{Binding OKCMD}" Grid.Column="1" Grid.Row="8" Width="75" Height="21" Margin="40,10,10,0"/>
         <Button Content="Cancel" IsCancel="True" Grid.Column="2" Grid.Row="8" Width="75" Height="21" Margin="43,10,49,0"/>
     </Grid>
 </Window>
