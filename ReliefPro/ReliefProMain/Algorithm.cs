@@ -169,5 +169,39 @@ namespace ReliefProMain
             return 0;
         }
 
+        public static double CalcWL(double d, double p1, double p2, double Rmass)
+        {
+            double tmpP = p1 - p2;
+            if (tmpP > 0)
+            {
+                return 2 * 490 * Math.Pow(d, 2) * Math.Sqrt(tmpP * 10 * Rmass);
+            }
+            return 0;
+        }
+        public static bool CheckCritial(double P1, double P2, double K)
+        {
+            if (K == 1 || K == -1) return false;
+            double Pcf = P1 * Math.Pow(2 / (K + 1), K / (K - 1));
+            if (P2 < Pcf) return true;
+            return false;
+        }
+        public static double CalcWv(double d, double P1, double Rmassv, double K)
+        {
+            if (K == 1 || K == -1) return 0;
+            return 2 * 347 * Math.Pow(d, 2) * Math.Sqrt(Rmassv * K * (P1 / 10) * Math.Pow(2 / (K + 1), (K + 1) / (K - 1)));
+        }
+        public static double CalcWvSecond(double d, double P1, double P2, double Rmassv)
+        {
+            if (P1 == 0) return 0;
+            double tmpP = P1 - P2;
+            double Y = 1 - 0.317 * tmpP / P1;
+            return 2 * 490 * Y * Math.Pow(d, 2) * Math.Sqrt(tmpP * 10 * Rmassv);
+        }
+        public static double CalcWvc(double Rv, double Kl, double Kv, double d)
+        {
+            double tmpResult = Rv * Kl + (1 - Rv) * Kv;
+            if (tmpResult == 0) return 0;
+            return Rv * Kl * Kv * Math.Pow(d, 2) / tmpResult;
+        }
     }
 }
