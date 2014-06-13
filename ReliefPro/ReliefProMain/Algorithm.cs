@@ -203,5 +203,11 @@ namespace ReliefProMain
             if (tmpResult == 0) return 0;
             return Rv * Kl * Kv * Math.Pow(d, 2) / tmpResult;
         }
+        public static double CalcBolckedOutlet(double Q, double λ, double T1, double Tbp, double t1, double t2)
+        {
+            double Tav = (t1 + t2) / 2;
+            if (T1 == Tav) return 0;
+            return Q / λ * ((T1 - Tbp) / (T1 - Tav));
+        }
     }
 }
