@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ReliefProMain.View.TowerFires
+namespace ReliefProMain.View
 {
     /// <summary>
     /// TowerFireCooler.xaml 的交互逻辑
     /// </summary>
-    public partial class TowerFireCoolerView : Window
+    public partial class AreasView : Window
     {
-        public TowerFireCoolerView()
+        public AreasView()
         {
             InitializeComponent();
         }
