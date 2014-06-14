@@ -214,6 +214,9 @@
     <Compile Include="ViewModel\ScenarioHeatSourceListVM.cs" />
     <Compile Include="ViewModel\AbnormalHeatInputVM.cs" />
     <Compile Include="ViewModel\SinkVM.cs" />
+    <Compile Include="View\Common\FireView.xaml.cs">
+      <DependentUpon>FireView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Common\HeatSourceListView.xaml.cs">
       <DependentUpon>HeatSourceListView.xaml</DependentUpon>
     </Compile>
@@ -403,6 +406,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Common\FireView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Common\HeatSourceListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
