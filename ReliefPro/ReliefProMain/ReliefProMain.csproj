@@ -193,7 +193,7 @@
     <Compile Include="ViewModel\SelectEquipmentVM.cs" />
     <Compile Include="ViewModel\SourceVM.cs" />
     <Compile Include="ViewModel\TowerFires\TowerFireColumnDetailVM.cs" />
-    <Compile Include="ViewModel\TowerFires\TowerFireCoolerVM.cs" />
+    <Compile Include="ViewModel\TowerFires\AreaVM.cs" />
     <Compile Include="ViewModel\TowerFires\TowerFireEqVM.cs" />
     <Compile Include="ViewModel\TowerFires\TowerFireOtherVM.cs" />
     <Compile Include="ViewModel\TowerFires\TowerFireDrumVM.cs" />
@@ -271,8 +271,8 @@
     <Compile Include="View\TowerFires\TowerFireView.xaml.cs">
       <DependentUpon>TowerFireView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TowerFires\TowerFireCoolerView.xaml.cs">
-      <DependentUpon>TowerFireCoolerView.xaml</DependentUpon>
+    <Compile Include="View\Common\AreasView.xaml.cs">
+      <DependentUpon>AreasView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TowerFires\TowerFireDrumView.xaml.cs">
       <DependentUpon>TowerFireDrumView.xaml</DependentUpon>
@@ -479,7 +479,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TowerFires\TowerFireCoolerView.xaml">
+    <Page Include="View\Common\AreasView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
