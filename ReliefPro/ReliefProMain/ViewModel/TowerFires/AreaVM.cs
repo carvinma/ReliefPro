@@ -14,14 +14,14 @@ using UOMLib;
 using NHibernate;
 namespace ReliefProMain.ViewModel.TowerFires
 {
-    public class TowerFireCoolerVM : ViewModelBase
+    public class AreaVM : ViewModelBase
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         public TowerFireCooler model { get; set; }
         public double Area { get; set; }
         UOMLib.UOMEnum uomEnum;
-        public TowerFireCoolerVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
+        public AreaVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             InitUnit();

@@ -20,6 +20,7 @@ using NHibernate;
 using System.IO;
 using ProII;
 using ReliefProCommon.CommonLib;
+using ReliefProMain.View;
 
 namespace ReliefProMain.ViewModel.TowerFires
 {
@@ -103,7 +104,7 @@ namespace ReliefProMain.ViewModel.TowerFires
         private void Save(object window)
         {
 
-            TowerFireDAL towerFireDAL = new TowerFireDAL();           
+            TowerFireDAL towerFireDAL = new TowerFireDAL();
             WriteConvert();
             towerFireDAL.Update(MainModel.model, SessionProtectedSystem);
 
@@ -228,8 +229,8 @@ namespace ReliefProMain.ViewModel.TowerFires
             }
             else if (eq.Type == "Air Cooler")
             {
-                TowerFireCoolerView v = new TowerFireCoolerView();
-                TowerFireCoolerVM vm = new TowerFireCoolerVM(eq.ID, SessionPlant, SessionProtectedSystem);
+                AreasView v = new AreasView();
+                AreaVM vm = new AreaVM(eq.ID, SessionPlant, SessionProtectedSystem);
                 v.DataContext = vm;
                 v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                 if (v.ShowDialog() == true)
