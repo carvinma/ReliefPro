@@ -8,6 +8,7 @@ using ReliefProLL;
 using ReliefProMain.Commands;
 using ReliefProMain.Model;
 using UOMLib;
+using ReliefProMain.View.DrumDepressures;
 
 namespace ReliefProMain.ViewModel.Drums
 {
@@ -140,11 +141,25 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void Calc(object obj)
         {
+
+
+
         }
         private void CalcDetailed(object obj)
         { }
         private void DepressuringCurve(object obj)
-        { }
+        {
+            DeprCurveView v = new DeprCurveView();
+            v.ChartSource=new KeyValuePair<int, double>[]{
+                 new KeyValuePair<int,double>(1,400),
+                 new KeyValuePair<int,double>(2,200),
+                 new KeyValuePair<int,double>(3,300),
+                 new KeyValuePair<int,double>(4,320),
+                 new KeyValuePair<int,double>(5,150)};
+            v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            v.ShowDialog();
+        
+        }
         private void Save(object obj)
         {
             WriteConvertModel();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows;
 using System.IO;
 using NHibernate;
 using ReliefProLL;
@@ -39,8 +40,8 @@ namespace ReliefProMain.ViewModel.Drums
         }
         public List<string> lstHeatInputModel { get; set; }
         public DrumFireModel model { get; set; }
-        private ISession SessionPS;
-        private ISession SessionPF;
+        private ISession SessionProtectedSystem;
+        private ISession SessionPlant;
         private string DirPlant { set; get; }
         private string DirProtectedSystem { set; get; }
         private string PrzFile;
@@ -68,8 +69,8 @@ namespace ReliefProMain.ViewModel.Drums
         {
             this.FireType = FireType;
             this.ScenarioID = ScenarioID;
-            this.SessionPS = SessionPS;
-            this.SessionPF = SessionPF;
+            this.SessionProtectedSystem = SessionPS;
+            this.SessionPlant = SessionPF;
             this.PrzFile = przFile;
             this.PrzVersion = version;
             DirPlant = dirPlant;
@@ -122,7 +123,7 @@ namespace ReliefProMain.ViewModel.Drums
             {
                 DrumSizeView win = new DrumSizeView();
                 win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                DrumSizeVM vm = new DrumSizeVM(model.dbmodel.ID, SessionPS, SessionPF);
+                DrumSizeVM vm = new DrumSizeVM(model.dbmodel.ID,SessionProtectedSystem, SessionPlant);
                 if (tmpVM != null) vm = tmpVM;
                 win.DataContext = vm;
                 if (win.ShowDialog() == true)
@@ -132,7 +133,7 @@ namespace ReliefProMain.ViewModel.Drums
                     double Area = 0;
                     if (sizeModel == null)
                     {
-                        DrumSizeBLL sizeBll = new DrumSizeBLL(SessionPS, SessionPF);
+                        DrumSizeBLL sizeBll = new DrumSizeBLL(SessionProtectedSystem, SessionPlant);
                         sizeModel = sizeBll.GetSizeModel(model.dbmodel.ID);
                     }
                     if (sizeModel != null)
@@ -144,7 +145,7 @@ namespace ReliefProMain.ViewModel.Drums
             {
                 StorageTankView win = new StorageTankView();
                 win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                DrumSizeVM vm = new DrumSizeVM(model.dbmodel.ID, SessionPS, SessionPF);
+                DrumSizeVM vm = new DrumSizeVM(model.dbmodel.ID, SessionProtectedSystem, SessionPlant);
                 if (tmpVM != null) vm = tmpVM;
                 win.DataContext = vm;
                 if (win.ShowDialog() == true)
@@ -154,7 +155,7 @@ namespace ReliefProMain.ViewModel.Drums
                     double Area = 0;
                     if (sizeModel == null)
                     {
-                        DrumSizeBLL sizeBll = new DrumSizeBLL(SessionPS, SessionPF);
+                        DrumSizeBLL sizeBll = new DrumSizeBLL(SessionProtectedSystem, SessionPlant);
                         sizeModel = sizeBll.GetSizeModel(model.dbmodel.ID);
                     }
                     if (sizeModel != null)
@@ -173,7 +174,7 @@ namespace ReliefProMain.ViewModel.Drums
             UnitConvert uc = new UnitConvert();
             DrumFireFluidView win = new DrumFireFluidView();
             win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-            DrumFireFluidVM vm = new DrumFireFluidVM(model.dbmodel.ID, SessionPS, SessionPF);
+            DrumFireFluidVM vm = new DrumFireFluidVM(model.dbmodel.ID, SessionProtectedSystem, SessionPlant);
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
@@ -216,7 +217,7 @@ namespace ReliefProMain.ViewModel.Drums
             //求出面积---你查看下把durmsize的 数据传进来。
             if (sizeModel == null)
             {
-                DrumSizeBLL sizeBll = new DrumSizeBLL(SessionPS, SessionPF);
+                DrumSizeBLL sizeBll = new DrumSizeBLL(SessionProtectedSystem, SessionPlant);
                 sizeModel = sizeBll.GetSizeModel(model.dbmodel.ID);
             }
             if (sizeModel != null)
@@ -236,7 +237,7 @@ namespace ReliefProMain.ViewModel.Drums
 
             //取出liquid stream
             CustomStreamDAL dbcs = new CustomStreamDAL();
-            IList<CustomStream> listStream = dbcs.GetAllList(SessionPS, true);
+            IList<CustomStream> listStream = dbcs.GetAllList(SessionProtectedSystem, true);
             CustomStream liquidStream = new CustomStream();
             foreach (CustomStream s in listStream)
             {
@@ -272,7 +273,72 @@ namespace ReliefProMain.ViewModel.Drums
             double reliefT = double.Parse(csVapor.Temperature);
         }
         private void CalcTank()
-        { }
+        {
+            double designPressure=1;
+            double area=1;
+            double F=1;
+            double L=1;
+            double T=1;
+            double M=1;
+            double v=Algorithm.CalcStorageTankLoad(area,designPressure,F,L,T,M);
+            
+            PSVDAL psvDAL = new PSVDAL();
+            PSV psv = psvDAL.GetModel(SessionProtectedSystem);
+            double pressure = double.Parse(psv.Pressure);
+
+            double reliefFirePressure = pressure * 1.21;
+            string tempdir = DirProtectedSystem + @"\temp\";
+            string dirLatent = tempdir + "StorageTankFire";
+            if (!Directory.Exists(dirLatent))
+                Directory.CreateDirectory(dirLatent);
+            CustomStreamDAL customStreamDAL=new CustomStreamDAL();
+            IList<CustomStream>  list=customStreamDAL.GetAllList(SessionProtectedSystem);           
+            CustomStream stream = list[0];
+            string gd = Guid.NewGuid().ToString();
+            string vapor = "S_" + gd.Substring(0, 5).ToUpper();
+            string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
+            string rate = "1";
+            int ImportResult = 0;
+            int RunResult = 0;
+            PROIIFileOperator.DecompressProIIFile(PrzFile, tempdir);
+            string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
+            IFlashCalculateW fcalc = ProIIFactory.CreateFlashCalculateW(PrzVersion);
+            string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 4, "", stream, vapor, liquid,rate, dirLatent, ref ImportResult, ref RunResult);
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                if (RunResult == 1 || RunResult == 2)
+                {
+                    IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+                    reader.InitProIIReader(tray1_f);
+                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                    reader.ReleaseProIIReader();
+                    CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
+                    model.ReliefLoad = v*double.Parse(proIIVapor.BulkDensityAct);
+                    model.ReliefMW = double.Parse(vaporFire.BulkMwOfPhase);
+                    model.ReliefPressure = reliefFirePressure;
+                    model.ReliefTemperature = double.Parse(vaporFire.Temperature);
+                    model.ReliefCpCv = double.Parse(vaporFire.BulkCPCVRatio);
+                    model.ReliefZ = double.Parse(vaporFire.VaporZFmKVal);
+
+                }
+
+                else
+                {
+                    MessageBox.Show("Prz file is error", "Message Box");
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("inp file is error", "Message Box");
+                return;
+            }
+            
+        
+        
+        
+        }
         private void Calc(object obj)
         {
             switch (FireType)
@@ -285,7 +351,7 @@ namespace ReliefProMain.ViewModel.Drums
         private void Save(object obj)
         {
             WriteConvertModel();
-            fireBLL.SaveData(model.dbmodel, fireFluidModel, sizeModel, SessionPS);
+            fireBLL.SaveData(model.dbmodel, fireFluidModel, sizeModel, SessionProtectedSystem);
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;
