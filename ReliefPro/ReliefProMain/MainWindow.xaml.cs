@@ -335,9 +335,13 @@ namespace ReliefProMain
             ObservableCollection<ListViewItemData> collections = new ObservableCollection<ListViewItemData>();
             collections.Add(new ListViewItemData { Name = "Distillation", Pic = "/images/tower.ico" });
             collections.Add(new ListViewItemData { Name = "Drum", Pic = "/images/drum.ico" });
+            collections.Add(new ListViewItemData { Name = "Compressor", Pic = "/images/compressor.ico" });
+            collections.Add(new ListViewItemData { Name = "Heat Exchanger", Pic = "/images/HeatExchanger.ico" });
+            collections.Add(new ListViewItemData { Name = "Reactor Loop", Pic = "/images/ReactorLoop.ico" });
+            collections.Add(new ListViewItemData { Name = "Storage Tank", Pic = "/images/StorageTank.ico" });
             this.lvTower.ItemsSource = collections;
         }
-
+        
        
 
         private void SavePlant()
