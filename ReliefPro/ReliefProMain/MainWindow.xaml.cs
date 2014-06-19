@@ -67,7 +67,7 @@ namespace ReliefProMain
         string currentPlantWorkFolder;
         string currentPlantFile;
         string currentPlantName;
-        string currentProtectedSystemFile;
+        //string currentProtectedSystemFile;
         AxDrawingControl visioControl = new AxDrawingControl();
  
         public MainWindow()
@@ -297,31 +297,38 @@ namespace ReliefProMain
             Image lvi = (Image)sender;
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                Visio.Page currentPage = visioControl.Document.Pages[1];
-                
-                if (lvi.Source.ToString().Contains("tower"))
+                var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+                if (firstDocumentPane != null)
                 {
-                    Visio.Document myCurrentStencil = visioControl.Document.Application.Documents.OpenEx(System.Environment.CurrentDirectory + @"/Template/Tower.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
-                    Visio.Master visioRectMaster = myCurrentStencil.Masters.get_ItemU(@"Dis");
-                    DragDropEffects dde1 = DragDrop.DoDragDrop(lvi, visioRectMaster, DragDropEffects.All);
-                    myCurrentStencil.Close();
-                    //openProperty();
-                    foreach (Visio.Shape shape in visioControl.Window.Selection)
+                    if (firstDocumentPane.Children.Count > 0)
                     {
-                        shape.Cells["EventDblClick"].Formula = "=0";
+                        Visio.Page currentPage = visioControl.Document.Pages[1];
+
+                        if (lvi.Source.ToString().Contains("tower"))
+                        {
+                            Visio.Document myCurrentStencil = visioControl.Document.Application.Documents.OpenEx(System.Environment.CurrentDirectory + @"/Template/Tower.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+                            Visio.Master visioRectMaster = myCurrentStencil.Masters.get_ItemU(@"Dis");
+                            DragDropEffects dde1 = DragDrop.DoDragDrop(lvi, visioRectMaster, DragDropEffects.All);
+                            myCurrentStencil.Close();
+                            //openProperty();
+                            foreach (Visio.Shape shape in visioControl.Window.Selection)
+                            {
+                                shape.Cells["EventDblClick"].Formula = "=0";
+                            }
+                            visioControl.Window.DeselectAll();
+                        }
+                        if (lvi.Source.ToString().Contains("drum"))
+                        {
+                            Visio.Document currentStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+                            Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Column");
+                            DragDropEffects dde1 = DragDrop.DoDragDrop(lvi, visioRectMaster, DragDropEffects.All);
+                            foreach (Visio.Shape shape in visioControl.Window.Selection)
+                            {
+                                shape.Cells["EventDblClick"].Formula = "=0";
+                            }
+                            visioControl.Window.DeselectAll();
+                        }
                     }
-                    visioControl.Window.DeselectAll();
-                }
-                if (lvi.Source.ToString().Contains("drum"))
-                {
-                    Visio.Document currentStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
-                    Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Column");
-                    DragDropEffects dde1 = DragDrop.DoDragDrop(lvi, visioRectMaster, DragDropEffects.All);                   
-                    foreach (Visio.Shape shape in visioControl.Window.Selection)
-                    {
-                        shape.Cells["EventDblClick"].Formula = "=0";
-                    }
-                    visioControl.Window.DeselectAll();
                 }
 
             }

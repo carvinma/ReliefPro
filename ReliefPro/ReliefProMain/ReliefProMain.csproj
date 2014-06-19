@@ -223,6 +223,9 @@
     <Compile Include="View\Common\SinkView.xaml.cs">
       <DependentUpon>SinkView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DrumDepressures\DeprCurveView.xaml.cs">
+      <DependentUpon>DeprCurveView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\HXs\AirCooledHXFireView.xaml.cs">
       <DependentUpon>AirCooledHXFireView.xaml</DependentUpon>
     </Compile>
@@ -415,6 +418,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Common\SinkView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DrumDepressures\DeprCurveView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
