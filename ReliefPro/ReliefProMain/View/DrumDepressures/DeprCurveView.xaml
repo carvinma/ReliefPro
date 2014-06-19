@@ -1,0 +1,23 @@
+﻿<Window x:Class="ReliefProMain.View.DrumDepressures.DeprCurveView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dc="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        Title="DeprCurveView" Height="500" Width="600" Loaded="Window_Loaded">
+  <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="265*"/>
+            <RowDefinition Height="46*"/>
+        </Grid.RowDefinitions>
+        <Canvas Name="CanChart" >
+            <Grid Name="GridChart" >
+                <dc:Chart Name="mcChart" Width="700"  Height="400"  Background="LightSteelBlue"  Margin="0,0,10,0">
+                    <dc:Chart.Series>
+                        <dc:LineSeries Title="Depr"  IndependentValueBinding="{Binding Path=Key}" 
+ DependentValueBinding="{Binding Path=Value}"/>
+                    </dc:Chart.Series>
+                </dc:Chart>
+            </Grid>
+        </Canvas>
+        <Button Content="OK"  HorizontalAlignment="Left" Margin="323,16,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"/>
+    </Grid>
+</Window>
