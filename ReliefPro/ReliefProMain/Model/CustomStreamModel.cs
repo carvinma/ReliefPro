@@ -6,11 +6,11 @@ using ReliefProModel;
 
 namespace ReliefProMain.Model
 {
-    public class CustomStreamModel: ModelBase
+    public class CustomStreamModel : ModelBase
     {
         public CustomStream model;
 
-       
+
         public int ID
         {
             get
@@ -26,7 +26,7 @@ namespace ReliefProMain.Model
                 }
             }
         }
-       
+
         public string StreamName
         {
             get
@@ -42,7 +42,7 @@ namespace ReliefProMain.Model
                 }
             }
         }
-        
+
 
         public string Pressure
         {
@@ -122,12 +122,78 @@ namespace ReliefProMain.Model
                 }
             }
         }
-        
+
 
         public CustomStreamModel(CustomStream m)
         {
             model = m;
         }
-       
+
+        private string temperatureUnit;
+        public string TemperatureUnit
+        {
+            get
+            {
+                return temperatureUnit;
+            }
+            set
+            {
+                if (temperatureUnit != value)
+                {
+                    temperatureUnit = value;
+                    NotifyPropertyChanged("TemperatureUnit");
+                }
+            }
+        }
+        private string pressureUnit;
+        public string PressureUnit
+        {
+            get
+            {
+                return pressureUnit;
+            }
+            set
+            {
+                if (pressureUnit != value)
+                {
+                    pressureUnit = value;
+                    NotifyPropertyChanged("PressureUnit");
+                }
+            }
+        }
+        private string weightFlowUnit;
+        public string WeightFlowUnit
+        {
+            get
+            {
+                return weightFlowUnit;
+            }
+            set
+            {
+                if (weightFlowUnit != value)
+                {
+                    weightFlowUnit = value;
+                    NotifyPropertyChanged("WeightFlowUnit");
+                }
+            }
+        }
+
+        private string spEnthalpyUnit;
+        public string SpEnthalpyUnit
+        {
+            get
+            {
+                return spEnthalpyUnit;
+            }
+            set
+            {
+                if (spEnthalpyUnit != value)
+                {
+                    spEnthalpyUnit = value;
+                    NotifyPropertyChanged("SpEnthalpyUnit");
+                }
+            }
+        }
+
     }
 }
