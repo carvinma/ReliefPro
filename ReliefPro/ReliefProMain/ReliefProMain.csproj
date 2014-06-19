@@ -192,6 +192,7 @@
     <Compile Include="ViewModel\ScenarioListVM.cs" />
     <Compile Include="ViewModel\SelectEquipmentVM.cs" />
     <Compile Include="ViewModel\SourceVM.cs" />
+    <Compile Include="ViewModel\StorageTanks\StorageTankVM.cs" />
     <Compile Include="ViewModel\TowerFires\TowerFireColumnDetailVM.cs" />
     <Compile Include="ViewModel\TowerFires\AreaVM.cs" />
     <Compile Include="ViewModel\TowerFires\TowerFireEqVM.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="ViewModel\ScenarioHeatSourceListVM.cs" />
     <Compile Include="ViewModel\AbnormalHeatInputVM.cs" />
     <Compile Include="ViewModel\SinkVM.cs" />
+    <Compile Include="ViewModel\SelectStreamVM.cs" />
     <Compile Include="View\Common\FireView.xaml.cs">
       <DependentUpon>FireView.xaml</DependentUpon>
     </Compile>
@@ -222,6 +224,9 @@
     </Compile>
     <Compile Include="View\Common\SinkView.xaml.cs">
       <DependentUpon>SinkView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Common\SelectStreamView.xaml.cs">
+      <DependentUpon>SelectStreamView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DrumDepressures\DeprCurveView.xaml.cs">
       <DependentUpon>DeprCurveView.xaml</DependentUpon>
@@ -273,6 +278,9 @@
     </Compile>
     <Compile Include="View\Common\InletValveOpenView.xaml.cs">
       <DependentUpon>InletValveOpenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StorageTanks\StorageTankView.xaml.cs">
+      <DependentUpon>StorageTankView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TowerFires\TowerFireView.xaml.cs">
       <DependentUpon>TowerFireView.xaml</DependentUpon>
@@ -366,8 +374,8 @@
     <Compile Include="View\Scenarios\ReboilerPinchView.xaml.cs">
       <DependentUpon>ReboilerPinchView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\StorageTanks\StorageTankView.xaml.cs">
-      <DependentUpon>StorageTankView.xaml</DependentUpon>
+    <Compile Include="View\StorageTanks\StorageTankSizeView.xaml.cs">
+      <DependentUpon>StorageTankSizeView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="View\StorageTanks\StorageTankFireView.xaml.cs">
@@ -418,6 +426,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Common\SinkView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Common\SelectStreamView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -486,6 +498,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Common\InletValveOpenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StorageTanks\StorageTankView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -609,7 +625,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\StorageTanks\StorageTankView.xaml">
+    <Page Include="View\StorageTanks\StorageTankSizeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

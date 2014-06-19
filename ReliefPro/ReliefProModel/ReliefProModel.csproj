@@ -73,7 +73,7 @@
     </Compile>
     <Compile Include="Compressors\PistonBlockedOutlet.cs" />
     <Compile Include="CondenserCalc.cs" />
-    <Compile Include="Critical.cs" />
+    <Compile Include="StorageTank.cs" />
     <Compile Include="DemoModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -131,6 +131,7 @@
     <Compile Include="ScenarioHeatSource.cs" />
     <Compile Include="Sink.cs" />
     <Compile Include="AbnormalHeaterDetail.cs" />
+    <Compile Include="Critical.cs" />
     <EmbeddedResource Include="Compressors\CentrifugalBlockedOutlet.hbm.xml" />
     <EmbeddedResource Include="Compressors\PistonBlockedOutlet.hbm.xml" />
     <EmbeddedResource Include="DemoModel.hbm.xml" />
@@ -147,6 +148,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Critical.hbm.xml" />
     <EmbeddedResource Include="AbnormalHeaterDetail.hbm.xml" />
     <EmbeddedResource Include="ReactorLoops\GeneralFailureCommonDetail.hbm.xml" />
     <EmbeddedResource Include="ReactorLoops\GeneralFailureCommon.hbm.xml" />
@@ -174,7 +176,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProIIEqData.hbm.xml" />
     <EmbeddedResource Include="ProIIEqType.hbm.xml" />
-    <EmbeddedResource Include="Critical.hbm.xml" />
+    <EmbeddedResource Include="StorageTank.hbm.xml" />
     <EmbeddedResource Include="SideColumn.hbm.xml" />
     <EmbeddedResource Include="TowerFireHX.hbm.xml">
       <SubType>Designer</SubType>

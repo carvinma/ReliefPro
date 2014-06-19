@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,7 +14,7 @@ using System.Windows.Shapes;
 namespace ReliefProMain.View.StorageTanks
 {
     /// <summary>
-    /// StorageTank.xaml 的交互逻辑
+    /// StorageTankView.xaml 的交互逻辑
     /// </summary>
     public partial class StorageTankView : Window
     {

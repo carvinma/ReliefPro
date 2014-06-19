@@ -39,6 +39,20 @@ namespace ReliefProDAL
             return model;
         }
 
+        public IList<ProIIStreamData> GetAllList(ISession session, string sourceFile)
+        {
+            IList<ProIIStreamData> list = null;
+            try
+            {
+                list = session.CreateCriteria<ProIIStreamData>().Add(Expression.Eq("SourceFile", sourceFile)).List<ProIIStreamData>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+
 
         
     }

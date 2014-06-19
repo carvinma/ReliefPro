@@ -17,9 +17,9 @@ namespace ReliefProMain.View.StorageTanks
     /// <summary>
     /// StorageTank2.xaml 的交互逻辑
     /// </summary>
-    public partial class StorageTankFire : Window
+    public partial class StorageTankFireView : Window
     {
-        public StorageTankFire()
+        public StorageTankFireView()
         {
             InitializeComponent();
         }

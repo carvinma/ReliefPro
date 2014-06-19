@@ -24,6 +24,8 @@ using ReliefProMain.View.Drums;
 using ReliefProMain.View.DrumFires;
 using ReliefProMain.View.DrumDepressures;
 using ReliefProMain.View.Compressors;
+using ReliefProMain.View.StorageTanks;
+using ReliefProMain.ViewModel.StorageTanks;
 
 namespace ReliefProMain.ViewModel
 {
@@ -301,7 +303,22 @@ namespace ReliefProMain.ViewModel
                         }
                     }
                 }
-
+                else if (EqType == "StorageTank")
+                {
+                    if (ScenarioName.Contains("Fire"))
+                    {
+                        StorageTankFireView v = new StorageTankFireView();
+                        DrumFireVM vm = new DrumFireVM(ScenarioID, PrzFile, PrzVersion, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 1);
+                        v.DataContext = vm;
+                        if (v.ShowDialog() == true)
+                        {
+                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad.ToString();
+                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW.ToString();
+                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure.ToString();
+                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature.ToString();
+                        }
+                    }
+                }
 
 
             }
@@ -811,6 +828,11 @@ namespace ReliefProMain.ViewModel
             else if (eqType == "Compressor")
             {
                 list.Add("Blocked Outlet");
+
+            }
+            else if (eqType == "StorageTank")
+            {
+                list.Add("Fire");
 
             }
             return list;

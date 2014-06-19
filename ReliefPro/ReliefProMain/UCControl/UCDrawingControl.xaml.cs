@@ -29,6 +29,8 @@ using ReliefProDAL;
 using ReliefProDAL.Drums;
 using ReliefProMain.View.Drums;
 using UOMLib;
+using ReliefProMain.View.StorageTanks;
+using ReliefProMain.ViewModel.StorageTanks;
 
 namespace ReliefProMain.View
 {
@@ -218,7 +220,26 @@ namespace ReliefProMain.View
                     v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                     v.ShowDialog();
                 }
+                else if (shp.NameU.Contains("Tank"))
+                {
+                    StorageTankView v = new StorageTankView();
+                    StorageTankVM vm = new StorageTankVM(name, SessionPlant, SessionProtectedSystem,DirPlant,DirProtectedSystem);
+                    v.DataContext = vm;
 
+                    Window parentWindow = Window.GetWindow(this);
+                    v.Owner = parentWindow;
+                    v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    if (v.ShowDialog() == true)
+                    {
+                        PrzFile = DirPlant + @"\" + vm.przFile;
+                        PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                        EqName = vm.CurrentModel.StreamName;
+                        EqType = "StorageTank";
+                        DrawTank(shp, vm);
+                        shp.Text = v.txtName.Text;
+                    }
+
+                }
 
             }
             this.visioControl.Window.DeselectAll();
@@ -523,7 +544,17 @@ namespace ReliefProMain.View
 
         }
 
+        private void DrawTank(Visio.Shape shape, StorageTankVM vm)
+        {
+            shape.get_Cells("Height").ResultIU = 2;
+            double width = shape.get_Cells("Width").ResultIU;
+            double height = shape.get_Cells("Height").ResultIU;
+            double pinX = shape.get_Cells("PinX").ResultIU;
+            double pinY = shape.get_Cells("PinY").ResultIU;
 
+            shape.Text = vm.CurrentModel.StreamName;
+            deleteShapesExcept(shape);
+        }
 
         private void ConnectShapes(Visio.Shape shape, int connectPoint, Visio.Shape connector, int direction)
         {
@@ -674,6 +705,16 @@ namespace ReliefProMain.View
                         EqType = "Drum";
                         EqName = drum.DrumName;
                         PrzFile = DirPlant + @"\" + drum.PrzFile;
+                        PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                    }
+
+                    StorageTankDAL storageTankDAL = new StorageTankDAL();
+                    StorageTank tank = storageTankDAL.GetModel(SessionProtectedSystem);
+                    if (tank != null)
+                    {
+                        EqType = "StorageTank";
+                        EqName = tank.StorageTankName;
+                        PrzFile = DirPlant + @"\" + tank.PrzFile;
                         PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
                     }
                 });

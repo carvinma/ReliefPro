@@ -16,11 +16,24 @@ using ReliefProMain.Model;
 
 namespace ReliefProMain.ViewModel
 {
-   public class CustomStreamVM
+   public class CustomStreamVM:ViewModelBase
     {
+       public ICommand OKCMD { get; set; }
        private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
-        public CustomStreamModel CurrentModel { set; get; }
+        private CustomStreamModel _CurrentModel;
+        public CustomStreamModel CurrentModel
+        {
+            get
+            {
+                return this._CurrentModel;
+            }
+            set
+            {
+                this._CurrentModel = value;
+                OnPropertyChanged("CurrentModel");
+            }
+        }
        private CustomStreamDAL db;
         public CustomStreamVM(string name, ISession sessionPlant, ISession sessionProtectedSystem)
         {
@@ -36,7 +49,33 @@ namespace ReliefProMain.ViewModel
             db = new CustomStreamDAL();
             CustomStream cs = db.GetModel(SessionProtectedSystem, name);
             CurrentModel = new CustomStreamModel(cs);
-
+            OKCMD = new DelegateCommand<object>(Save);
         }
+
+        private void Save(object obj)
+        {
+            if (obj != null)
+            {
+                if (CurrentModel.ID == 0)
+                {
+                    db.Add(CurrentModel.model, SessionProtectedSystem);
+                    
+                }
+                else
+                {
+                    db.Update(CurrentModel.model, SessionProtectedSystem);                   
+                    SessionProtectedSystem.Flush();
+                }
+
+
+                System.Windows.Window wd = obj as System.Windows.Window;
+                if (wd != null)
+                {
+
+                    wd.DialogResult = true;
+                }
+            }
+        }
+
     }
 }

@@ -143,7 +143,7 @@ namespace ReliefProMain.ViewModel.Drums
             }
             else if (FireType == 1)
             {
-                StorageTankView win = new StorageTankView();
+                StorageTankSizeView win = new StorageTankSizeView();
                 win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                 DrumSizeVM vm = new DrumSizeVM(model.dbmodel.ID, SessionProtectedSystem, SessionPlant);
                 if (tmpVM != null) vm = tmpVM;
