@@ -150,13 +150,13 @@ namespace ReliefProMain.ViewModel
                         przFile = vm.SelectedFile + ".prz";
                         ProIICompressor = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Compressor");
                         CompressorName = ProIICompressor.EqName;
-                        Duty = (double.Parse(ProIICompressor.DutyCalc)*3600).ToString();
+                        //Duty = (double.Parse(ProIICompressor.DutyCalc)*3600).ToString();
 
                         CompressorType = "Shell-Tube Compressor";
-                        if (double.Parse(Duty) < 0)
-                        {
+                        //if (double.Parse(Duty) < 0)
+                        //{
                             CompressorType = "Air cooled Compressor";
-                        }
+                        //}
                     
 
                         Feeds = new ObservableCollection<CustomStream>();

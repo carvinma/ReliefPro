@@ -146,7 +146,8 @@ namespace ReliefProMain.ViewModel.Drums
 
         }
         private void CalcDetailed(object obj)
-        { }
+        { 
+        }
         private void DepressuringCurve(object obj)
         {
             DeprCurveView v = new DeprCurveView();

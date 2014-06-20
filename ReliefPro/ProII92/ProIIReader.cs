@@ -28,7 +28,7 @@ namespace ProII92
         string[] arrColumnInAttributes = { "ProdType", "FeedTrays", "ProdTrays", "FeedData", "ProductData" };
         string[] arrFlashAttributes = { "FeedData", "ProductData", "PressCalc", "TempCalc", "DutyCalc", "Type", "ProductStoreData" };
         string[] arrHxAttributes = { "FeedData", "ProductData", "DutyCalc" };
-
+        string[] arrCompressorAttributes = { "FeedData", "ProductData", "DutyCalc" };
 
         string przFileName;
         CP2File cp2File;
@@ -42,14 +42,12 @@ namespace ProII92
         Dictionary<string, ProIIStreamData> dicProductInfo = new Dictionary<string, ProIIStreamData>();
 
         public void InitProIIReader(string przFileFullName)
-        {            
+        {
             przFileName = System.IO.Path.GetFileName(przFileFullName);
             cp2Srv = new CP2ServerClass();
             cp2Srv.Initialize();
             cp2File = (CP2File)cp2Srv.OpenDatabase(przFileFullName);
-            
-            //int retCode = cp2Srv.RunCalcs(przFileFullName);
-            //cp2File = (CP2File)cp2Srv.OpenDatabase(przFileFullName);
+
             objCompCalc = (CP2Object)cp2File.ActivateObject("CompCalc", "CompCalc");
             object ComponentId = objCompCalc.GetAttribute("ComponentId");
             object PrintNumber = objCompCalc.GetAttribute("PrintNumber");
@@ -155,12 +153,11 @@ namespace ProII92
             string streamName = "temp" + Guid.NewGuid().ToString().Substring(0, 5).ToUpper();
             CP2Object tempStream = (CP2Object)cp2File.CreateObject("Stream", streamName);
             bool b = cp2File.CopyTrayToStream(columnName, (short)tray, (p2Phase)phase, 0, (p2TrayFlow)trayFlow, streamName);
-            bool b2=cp2File.CalculateStreamProps(streamName);
+            cp2File.CalculateStreamProps();
             proIIStream = GetSteamInfo(streamName);
             proIIStream.Tray = tray.ToString();
             proIIStream.ProdType = phase.ToString();
             cp2File.DeleteObject("Stream", streamName);
-            
             return proIIStream;
         }
 
@@ -271,9 +268,30 @@ namespace ProII92
                     }
                 }
             }
-            else if (otype == "Hx" || otype == "")
+            else if (otype == "Hx")
             {
                 foreach (string s in arrHxAttributes)
+                {
+                    object v = eq.GetAttribute(s);
+                    string value = ConvertExt.ObjectToString(v);
+                    switch (s)
+                    {
+                        case "FeedData":
+                            data.FeedData = value;
+                            break;
+                        case "ProductData":
+                            data.ProductData = value;
+                            break;
+                        case "DutyCalc":
+                            data.DutyCalc = value;
+                            break;
+
+                    }
+                }
+            }
+            else if (otype == "Compressor")
+            {
+                foreach (string s in arrCompressorAttributes)
                 {
                     object v = eq.GetAttribute(s);
                     string value = ConvertExt.ObjectToString(v);

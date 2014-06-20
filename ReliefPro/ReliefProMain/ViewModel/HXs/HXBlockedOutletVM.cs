@@ -108,7 +108,7 @@ namespace ReliefProMain.ViewModel.HXs
                     reader.InitProIIReader(tray1_f);
                     ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
                     ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
-                    ProIIEqData flash=reader.GetEqInfo("FLASH","F_1");
+                    ProIIEqData flash=reader.GetEqInfo("Flash","F_1");
                     reader.ReleaseProIIReader();
                     CustomStream liquidcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
                     CustomStream vaporcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);

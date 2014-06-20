@@ -28,7 +28,7 @@ namespace ProII91
         string[] arrColumnInAttributes = { "ProdType", "FeedTrays", "ProdTrays", "FeedData", "ProductData" };
         string[] arrFlashAttributes = { "FeedData", "ProductData", "PressCalc", "TempCalc", "DutyCalc", "Type", "ProductStoreData" };
         string[] arrHxAttributes = { "FeedData", "ProductData",  "DutyCalc" };
-
+        string[] arrCompressorAttributes = { "FeedData", "ProductData", "DutyCalc" };
 
         string przFileName;
         CP2File cp2File;
@@ -268,7 +268,7 @@ namespace ProII91
                     }
                 }
             }
-            else if (otype == "Hx"|| otype=="")
+            else if (otype == "Hx")
             {
                 foreach (string s in arrHxAttributes)
                 {
@@ -286,6 +286,27 @@ namespace ProII91
                             data.DutyCalc = value;
                             break;
                       
+                    }
+                }
+            }
+            else if (otype == "Compressor" )
+            {
+                foreach (string s in arrCompressorAttributes)
+                {
+                    object v = eq.GetAttribute(s);
+                    string value = ConvertExt.ObjectToString(v);
+                    switch (s)
+                    {
+                        case "FeedData":
+                            data.FeedData = value;
+                            break;
+                        case "ProductData":
+                            data.ProductData = value;
+                            break;
+                        case "DutyCalc":
+                            data.DutyCalc = value;
+                            break;
+
                     }
                 }
             }

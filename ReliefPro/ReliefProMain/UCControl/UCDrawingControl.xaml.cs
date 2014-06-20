@@ -248,7 +248,7 @@ namespace ReliefProMain.View
                     }
 
                 }
-                if (shp.NameU.ToLower().Contains("Heat exchanger2"))
+                if (shp.NameU.ToLower().Contains("heat exchanger2"))
                 {
                     try
                     {
@@ -271,7 +271,7 @@ namespace ReliefProMain.View
                     {
                     }
                 }
-                if (shp.NameU.ToLower().Contains("Selectable compressor1"))
+                if (shp.NameU.ToLower().Contains("selectable compressor1"))
                 {
                     try
                     {
@@ -294,7 +294,7 @@ namespace ReliefProMain.View
                     {
                     }
                 }
-                if (shp.NameU.ToLower().Contains("Reaction vessel"))
+                if (shp.NameU.ToLower().Contains("reaction vessel"))
                 {
                     try
                     {
