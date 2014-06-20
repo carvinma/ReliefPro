@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace ReliefProMain.View.GlobalDefault
 {
     /// <summary>
-    /// DefaultSettingsView.xaml 的交互逻辑
+    /// FlareSystemView.xaml 的交互逻辑
     /// </summary>
-    public partial class DefaultSettingsView : Window
+    public partial class GlobalDefaultView : Window
     {
-        public DefaultSettingsView()
+        public GlobalDefaultView()
         {
             InitializeComponent();
         }
