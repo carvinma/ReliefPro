@@ -236,6 +236,15 @@
     <Compile Include="View\DrumDepressures\DeprCurveView.xaml.cs">
       <DependentUpon>DeprCurveView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\GlobalDefault\DefaultSettingsView.xaml.cs">
+      <DependentUpon>DefaultSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GlobalDefault\FlareSystemView.xaml.cs">
+      <DependentUpon>FlareSystemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GlobalDefault\GeneralConditionsView.xaml.cs">
+      <DependentUpon>GeneralConditionsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\HXs\AirCooledHXFireView.xaml.cs">
       <DependentUpon>AirCooledHXFireView.xaml</DependentUpon>
     </Compile>
@@ -448,6 +457,18 @@
     <Page Include="View\DrumDepressures\DeprCurveView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\GlobalDefault\DefaultSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GlobalDefault\FlareSystemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GlobalDefault\GeneralConditionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\HXs\AirCooledHXFireView.xaml">
       <SubType>Designer</SubType>
