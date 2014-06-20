@@ -17,9 +17,9 @@ namespace ReliefProMain.View.ReactorLoops
     /// <summary>
     /// UnitsInReactorLoop.xaml 的交互逻辑
     /// </summary>
-    public partial class GeneralCoolingWaterFailure : Window
+    public partial class ReactorLoopView : Window
     {
-        public GeneralCoolingWaterFailure()
+        public ReactorLoopView()
         {
             InitializeComponent();
         }

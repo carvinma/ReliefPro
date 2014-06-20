@@ -1,4 +1,4 @@
-﻿<Window x:Name="ReactorBlockWin" x:Class="ReliefProMain.View.ReactorLoops.ReactorLoopBlockedOutlet"
+﻿<Window x:Name="ReactorBlockWin" x:Class="ReliefProMain.View.ReactorLoops.ReactorLoopBlockedOutletView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"

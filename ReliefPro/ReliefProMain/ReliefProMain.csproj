@@ -350,26 +350,26 @@
     <Compile Include="View\HXs\HXBlockedOutletView.xaml.cs">
       <DependentUpon>HXBlockedOutletView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ReactorLoops\ReactorLoopBlockedOutlet.xaml.cs">
-      <DependentUpon>ReactorLoopBlockedOutlet.xaml</DependentUpon>
+    <Compile Include="View\ReactorLoops\ReactorLoopBlockedOutletView.xaml.cs">
+      <DependentUpon>ReactorLoopBlockedOutletView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ReactorLoops\GeneralCoolingWaterFailure.xaml.cs">
-      <DependentUpon>GeneralCoolingWaterFailure.xaml</DependentUpon>
+    <Compile Include="View\ReactorLoops\GeneralCoolingWaterFailureView.xaml.cs">
+      <DependentUpon>GeneralCoolingWaterFailureView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ReactorLoops\GeneralElectricPowerFailure.xaml.cs">
-      <DependentUpon>GeneralElectricPowerFailure.xaml</DependentUpon>
+    <Compile Include="View\ReactorLoops\GeneralElectricPowerFailureView.xaml.cs">
+      <DependentUpon>GeneralElectricPowerFailureView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ReactorLoops\LossOfColdFeed.xaml.cs">
-      <DependentUpon>LossOfColdFeed.xaml</DependentUpon>
+    <Compile Include="View\ReactorLoops\LossOfColdFeedView.xaml.cs">
+      <DependentUpon>LossOfColdFeedView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ReactorLoops\LossOfReactorQuench.xaml.cs">
-      <DependentUpon>LossOfReactorQuench.xaml</DependentUpon>
+    <Compile Include="View\ReactorLoops\LossOfReactorQuenchView.xaml.cs">
+      <DependentUpon>LossOfReactorQuenchView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ReactorLoops\ReactorLoop.xaml.cs">
-      <DependentUpon>ReactorLoop.xaml</DependentUpon>
+    <Compile Include="View\ReactorLoops\ReactorLoopView.xaml.cs">
+      <DependentUpon>ReactorLoopView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ReactorLoops\ReactorLoopSimulation.xaml.cs">
-      <DependentUpon>ReactorLoopSimulation.xaml</DependentUpon>
+    <Compile Include="View\ReactorLoops\ReactorLoopSimulationView.xaml.cs">
+      <DependentUpon>ReactorLoopSimulationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Scenarios\ReboilerPinchView.xaml.cs">
       <DependentUpon>ReboilerPinchView.xaml</DependentUpon>
@@ -593,31 +593,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\ReactorLoops\ReactorLoopBlockedOutlet.xaml">
+    <Page Include="View\ReactorLoops\ReactorLoopBlockedOutletView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\ReactorLoops\GeneralCoolingWaterFailure.xaml">
+    <Page Include="View\ReactorLoops\GeneralCoolingWaterFailureView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\ReactorLoops\GeneralElectricPowerFailure.xaml">
+    <Page Include="View\ReactorLoops\GeneralElectricPowerFailureView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\ReactorLoops\LossOfColdFeed.xaml">
+    <Page Include="View\ReactorLoops\LossOfColdFeedView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\ReactorLoops\LossOfReactorQuench.xaml">
+    <Page Include="View\ReactorLoops\LossOfReactorQuenchView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\ReactorLoops\ReactorLoop.xaml">
+    <Page Include="View\ReactorLoops\ReactorLoopView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\ReactorLoops\ReactorLoopSimulation.xaml">
+    <Page Include="View\ReactorLoops\ReactorLoopSimulationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
