@@ -92,7 +92,7 @@ namespace ProII91
             string streamName = stream.StreamName;
             Guid guid = Guid.NewGuid();
             Guid guid2 = Guid.NewGuid();
-            string FlashName = "F_" + guid.ToString().Substring(0, 5).ToUpper();
+            string FlashName = "F_1";
 
             data2.Append("\tFLASH UID=").Append(FlashName).Append("\n");
             data2.Append("\t FEED ").Append(streamName.ToUpper()).Append("\n");

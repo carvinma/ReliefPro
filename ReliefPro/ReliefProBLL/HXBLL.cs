@@ -9,7 +9,7 @@ using ReliefProModel;
 using ReliefProModel.HXs;
 using UOMLib;
 
-namespace ReliefProLL
+namespace ReliefProBLL
 {
     public class HXBLL
     {

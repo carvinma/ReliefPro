@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using NHibernate;
-using ReliefProLL;
+using ReliefProBLL;
 using ReliefProMain.Model.HXs;
 using UOMLib;
 

@@ -73,6 +73,7 @@
     </Compile>
     <Compile Include="Compressors\PistonBlockedOutlet.cs" />
     <Compile Include="CondenserCalc.cs" />
+    <Compile Include="HXs\HeatExchanger.cs" />
     <Compile Include="StorageTank.cs" />
     <Compile Include="DemoModel.cs">
       <SubType>Code</SubType>
@@ -223,6 +224,7 @@
     <EmbeddedResource Include="HXs\HXFire.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="HXs\HeatExchanger.hbm.xml" />
     <Content Include="license.txt" />
     <EmbeddedResource Include="TowerFlashProduct.hbm.xml" />
     <EmbeddedResource Include="SystemScenarioSource.hbm.xml" />

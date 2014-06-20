@@ -166,6 +166,7 @@
     <Compile Include="Service\ServiceProvider.cs" />
     <Compile Include="Service\UnityServiceLocator.cs" />
     <Compile Include="ViewModel\Compressors\CentrifugalVM.cs" />
+    <Compile Include="ViewModel\Compressors\CompressorVM.cs" />
     <Compile Include="ViewModel\Compressors\PistonVM.cs" />
     <Compile Include="ViewModel\CreateUnitVM.cs" />
     <Compile Include="ViewModel\CustomStreamVM.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="ViewModel\FormatUnitsMeasureVM.cs" />
     <Compile Include="ViewModel\HeatSourceListVM.cs" />
     <Compile Include="ViewModel\HXs\AirCooledHXFireVM.cs" />
+    <Compile Include="ViewModel\HXs\HeatExchangerVM.cs" />
     <Compile Include="ViewModel\HXs\HXBlockedOutletVM.cs" />
     <Compile Include="ViewModel\HXs\HXFireVM.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
@@ -228,11 +230,17 @@
     <Compile Include="View\Common\SelectStreamView.xaml.cs">
       <DependentUpon>SelectStreamView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Compressors\CompressorView.xaml.cs">
+      <DependentUpon>CompressorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DrumDepressures\DeprCurveView.xaml.cs">
       <DependentUpon>DeprCurveView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\HXs\AirCooledHXFireView.xaml.cs">
       <DependentUpon>AirCooledHXFireView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HXs\HeatExchangerView.xaml.cs">
+      <DependentUpon>HeatExchangerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\HXs\HXFireView.xaml.cs">
       <DependentUpon>HXFireView.xaml</DependentUpon>
@@ -433,11 +441,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Compressors\CompressorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\DrumDepressures\DeprCurveView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\HXs\AirCooledHXFireView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HXs\HeatExchangerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

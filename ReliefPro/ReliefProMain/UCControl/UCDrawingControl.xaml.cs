@@ -21,6 +21,7 @@ using System.Collections;
 using ReliefProCommon.CommonLib;
 using ReliefProMain.ViewModel;
 using ReliefProModel;
+using ReliefProModel.HXs;
 using ReliefProModel.Drums;
 using ReliefProMain.ViewModel.Drums;
 using NHibernate;
@@ -31,6 +32,13 @@ using ReliefProMain.View.Drums;
 using UOMLib;
 using ReliefProMain.View.StorageTanks;
 using ReliefProMain.ViewModel.StorageTanks;
+using ReliefProDAL.HXs;
+using ReliefProMain.View.HXs;
+using ReliefProDAL.Compressors;
+using ReliefProMain.View.Compressors;
+using ReliefProDAL.ReactorLoops;
+using ReliefProMain.View.ReactorLoops;
+using ReliefProMain.ViewModel.ReactorLoops;
 
 namespace ReliefProMain.View
 {
@@ -240,7 +248,75 @@ namespace ReliefProMain.View
                     }
 
                 }
-
+                if (shp.NameU.ToLower().Contains("Heat exchanger2"))
+                {
+                    try
+                    {
+                        HeatExchangerView v = new HeatExchangerView();
+                        HeatExchangerVM vm = new HeatExchangerVM(name, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
+                        v.DataContext = vm;
+                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                        Window parentWindow = Window.GetWindow(this);
+                        v.Owner = parentWindow;
+                        if (v.ShowDialog() == true)
+                        {
+                            PrzFile = DirPlant + @"\" + vm.przFile;
+                            PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                            EqName = vm.HXName;
+                            EqType = "HX";
+                            DrawHX(shp, vm);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+                if (shp.NameU.ToLower().Contains("Selectable compressor1"))
+                {
+                    try
+                    {
+                        CompressorView v = new CompressorView();
+                        CompressorVM vm = new CompressorVM(name, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
+                        v.DataContext = vm;
+                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                        Window parentWindow = Window.GetWindow(this);
+                        v.Owner = parentWindow;
+                        if (v.ShowDialog() == true)
+                        {
+                            PrzFile = DirPlant + @"\" + vm.przFile;
+                            PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                            EqName = vm.CompressorName;
+                            EqType = "Compressor";
+                            DrawCompressor(shp, vm);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+                if (shp.NameU.ToLower().Contains("Reaction vessel"))
+                {
+                    try
+                    {
+                        //ReactorLoopView v = new ReactorLoopView();
+                        //ReactorLoopVM vm = new ReactorLoopVM(name, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
+                        //v.DataContext = vm;
+                        //v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                        //Window parentWindow = Window.GetWindow(this);
+                        //v.Owner = parentWindow;
+                        //if (v.ShowDialog() == true)
+                        //{
+                        //    PrzFile = DirPlant + @"\" + vm.przFile;
+                        //    PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                        //    EqName = vm.CompressorName;
+                        //    EqType = "Compressor";
+                        //    DrawCompressor(shp, vm);
+                        //}
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
             }
             this.visioControl.Window.DeselectAll();
 
@@ -544,6 +620,101 @@ namespace ReliefProMain.View
 
         }
 
+        private void DrawHX(Visio.Shape shape, HeatExchangerVM vm)
+        {
+            shape.get_Cells("Height").ResultIU = 1.5;
+
+            double width = shape.get_Cells("Width").ResultIU;
+            double height = shape.get_Cells("Height").ResultIU;
+            double pinX = shape.get_Cells("PinX").ResultIU;
+            double pinY = shape.get_Cells("PinY").ResultIU;
+
+            shape.Text = vm.HXName;
+            deleteShapesExcept(shape);
+
+            Visio.Document currentStencil_1 = visioControl.Document.Application.Documents.OpenEx("PEHEAT_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+            Visio.Document currentStencil_2 = visioControl.Document.Application.Documents.OpenEx("CONNEC_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+            Visio.Document currentStencil_3 = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+            Visio.Master condenserMaster = currentStencil_1.Masters.get_ItemU(@"Heat exchanger1");
+            Visio.Master reboilerMaster = currentStencil_1.Masters.get_ItemU(@"Kettle reboiler");
+            Visio.Master streamMaster = currentStencil_2.Masters.get_ItemU(@"Dynamic connector");
+            Visio.Master condenserVesselMaster = currentStencil_3.Masters.get_ItemU(@"Vessel");
+
+            Visio.Document startStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+            Visio.Master startMaster = startStencil.Masters.get_ItemU(@"Carrying vessel");
+            Visio.Master endMaster = startStencil.Masters.get_ItemU(@"Clarifier");
+
+            int start = 4;
+            double multiple = 0.125;
+            //double leftmultiple = 1.5;
+            int center = 5;
+            foreach (CustomStream cs in vm.Feeds)
+            {
+                Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
+                ConnectShapes(shape, start, connector, 0);
+                connector.Text = cs.StreamName;
+
+                Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY + (start + 1 - center) * multiple * height);
+                startShp.get_Cells("Height").ResultIU = 0.1;
+                startShp.get_Cells("Width").ResultIU = 0.2;
+                startShp.Text = connector.Text + "_Source";
+                ConnectShapes(startShp, 2, connector, 1);
+                start = start + 1;
+                startShp.Cells["EventDblClick"].Formula = "=0";
+            }
+
+
+
+        }
+
+        private void DrawCompressor(Visio.Shape shape, CompressorVM vm)
+        {
+            shape.get_Cells("Height").ResultIU = 2;
+
+            double width = shape.get_Cells("Width").ResultIU;
+            double height = shape.get_Cells("Height").ResultIU;
+            double pinX = shape.get_Cells("PinX").ResultIU;
+            double pinY = shape.get_Cells("PinY").ResultIU;
+
+            shape.Text = vm.CompressorName;
+            deleteShapesExcept(shape);
+
+            Visio.Document currentStencil_1 = visioControl.Document.Application.Documents.OpenEx("PEHEAT_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+            Visio.Document currentStencil_2 = visioControl.Document.Application.Documents.OpenEx("CONNEC_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+            Visio.Document currentStencil_3 = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+            Visio.Master condenserMaster = currentStencil_1.Masters.get_ItemU(@"Heat exchanger1");
+            Visio.Master reboilerMaster = currentStencil_1.Masters.get_ItemU(@"Kettle reboiler");
+            Visio.Master streamMaster = currentStencil_2.Masters.get_ItemU(@"Dynamic connector");
+            Visio.Master condenserVesselMaster = currentStencil_3.Masters.get_ItemU(@"Vessel");
+
+            Visio.Document startStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+            Visio.Master startMaster = startStencil.Masters.get_ItemU(@"Carrying vessel");
+            Visio.Master endMaster = startStencil.Masters.get_ItemU(@"Clarifier");
+
+            int start = 4;
+            double multiple = 0.125;
+            //double leftmultiple = 1.5;
+            int center = 5;
+            foreach (CustomStream cs in vm.Feeds)
+            {
+                Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
+                ConnectShapes(shape, start, connector, 0);
+                connector.Text = cs.StreamName;
+
+                Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY + (start + 1 - center) * multiple * height);
+                startShp.get_Cells("Height").ResultIU = 0.1;
+                startShp.get_Cells("Width").ResultIU = 0.2;
+                startShp.Text = connector.Text + "_Source";
+                ConnectShapes(startShp, 2, connector, 1);
+                start = start + 1;
+                startShp.Cells["EventDblClick"].Formula = "=0";
+            }
+
+
+
+        }
+
+
         private void DrawTank(Visio.Shape shape, StorageTankVM vm)
         {
             shape.get_Cells("Height").ResultIU = 2;
@@ -715,6 +886,25 @@ namespace ReliefProMain.View
                         EqType = "StorageTank";
                         EqName = tank.StorageTankName;
                         PrzFile = DirPlant + @"\" + tank.PrzFile;
+                        PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                    }
+
+                    HeatExchangerDAL heatExchangerDAL = new HeatExchangerDAL();
+                    HeatExchanger heatExchanger = heatExchangerDAL.GetModel(SessionProtectedSystem);
+                    if (drum != null)
+                    {
+                        EqType = "HX";
+                        EqName = heatExchanger.HXName;
+                        PrzFile = DirPlant + @"\" + heatExchanger.PrzFile;
+                        PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                    }
+                    CompressorDAL compressorDAL = new CompressorDAL();
+                    Compressor compressor = compressorDAL.GetModel(SessionProtectedSystem);
+                    if (drum != null)
+                    {
+                        EqType = "Compressor";
+                        EqName = compressor.CompressorName;
+                        PrzFile = DirPlant + @"\" + compressor.PrzFile;
                         PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
                     }
                 });

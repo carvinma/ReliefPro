@@ -318,7 +318,10 @@ namespace ReliefProMain.ViewModel.Drums
                     model.ReliefMW = double.Parse(vaporFire.BulkMwOfPhase);
                     model.ReliefPressure = reliefFirePressure;
                     model.ReliefTemperature = double.Parse(vaporFire.Temperature);
-                    model.ReliefCpCv = double.Parse(vaporFire.BulkCPCVRatio);
+                    if (vaporFire.BulkCPCVRatio != null)
+                    {
+                        model.ReliefCpCv = double.Parse(vaporFire.BulkCPCVRatio);
+                    }
                     model.ReliefZ = double.Parse(vaporFire.VaporZFmKVal);
 
                 }

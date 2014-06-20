@@ -58,12 +58,14 @@
     <Compile Include="Common\IBase.cs" />
     <Compile Include="Common\IBaseDAL.cs" />
     <Compile Include="Compressors\CentrifugalBlockedOutletDAL.cs" />
+    <Compile Include="Compressors\CompressorDAL.cs" />
     <Compile Include="Compressors\PistonBlockedOutletDAL.cs" />
     <Compile Include="BasicUnitDAL.cs" />
     <Compile Include="BasicUnitDefaultDAL.cs" />
     <Compile Include="CondenserCalcDAL.cs" />
     <Compile Include="CustomStreamDAL.cs" />
     <Compile Include="Drums\DrumDAL.cs" />
+    <Compile Include="HXs\HeatExchangerDAL.cs" />
     <Compile Include="ProIIEqDataDAL.cs" />
     <Compile Include="ProIIEqTypeDAL.cs" />
     <Compile Include="ReactorLoops\GeneralFailureCommonDAL.cs" />

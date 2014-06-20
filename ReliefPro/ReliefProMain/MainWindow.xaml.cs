@@ -328,10 +328,11 @@ namespace ReliefProMain
                             }
                             visioControl.Window.DeselectAll();
                         }
-                        if (lvi.Source.ToString().ToLower().Contains("compressor"))
+                        
+                        if (lvi.Source.ToString().ToLower().Contains("storagetank"))
                         {
                             Visio.Document currentStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
-                            Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Column");
+                            Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Tank");
                             DragDropEffects dde1 = DragDrop.DoDragDrop(lvi, visioRectMaster, DragDropEffects.All);
                             foreach (Visio.Shape shape in visioControl.Window.Selection)
                             {
@@ -341,8 +342,19 @@ namespace ReliefProMain
                         }
                         if (lvi.Source.ToString().ToLower().Contains("heatexchanger"))
                         {
-                            Visio.Document currentStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
-                            Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Column");
+                            Visio.Document currentStencil = visioControl.Document.Application.Documents.OpenEx("PEHEAT_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+                            Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Heat exchanger2");
+                            DragDropEffects dde1 = DragDrop.DoDragDrop(lvi, visioRectMaster, DragDropEffects.All);
+                            foreach (Visio.Shape shape in visioControl.Window.Selection)
+                            {
+                                shape.Cells["EventDblClick"].Formula = "=0";
+                            }
+                            visioControl.Window.DeselectAll();
+                        }
+                        if (lvi.Source.ToString().ToLower().Contains("compressor"))
+                        {
+                            Visio.Document currentStencil = visioControl.Document.Application.Documents.OpenEx("PEPUMP_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+                            Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Selectable Compressor1");
                             DragDropEffects dde1 = DragDrop.DoDragDrop(lvi, visioRectMaster, DragDropEffects.All);
                             foreach (Visio.Shape shape in visioControl.Window.Selection)
                             {
@@ -353,18 +365,7 @@ namespace ReliefProMain
                         if (lvi.Source.ToString().ToLower().Contains("reactorloop"))
                         {
                             Visio.Document currentStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
-                            Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Column");
-                            DragDropEffects dde1 = DragDrop.DoDragDrop(lvi, visioRectMaster, DragDropEffects.All);
-                            foreach (Visio.Shape shape in visioControl.Window.Selection)
-                            {
-                                shape.Cells["EventDblClick"].Formula = "=0";
-                            }
-                            visioControl.Window.DeselectAll();
-                        }
-                        if (lvi.Source.ToString().ToLower().Contains("storagetank"))
-                        {
-                            Visio.Document currentStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
-                            Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Tank");
+                            Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Reaction vessel");
                             DragDropEffects dde1 = DragDrop.DoDragDrop(lvi, visioRectMaster, DragDropEffects.All);
                             foreach (Visio.Shape shape in visioControl.Window.Selection)
                             {
