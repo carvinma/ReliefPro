@@ -16,8 +16,9 @@ namespace ReliefProMain
         public static string GetProIIVerison(string przFile, string rootDir)
         {
             PROIIFileOperator.DecompressProIIFile(przFile, rootDir);
-            string[] files = Directory.GetFiles(rootDir, "*.inp");
-            string inpFile = files[0];
+            string inpFile = przFile.Substring(0, przFile.Length - 4) + "_backup.inp";
+            //string[] files = Directory.GetFiles(rootDir, inp);
+            //string inpFile = files[0];
             string version = PROIIFileOperator.CheckProIIVersion(inpFile);
             return version;
         }

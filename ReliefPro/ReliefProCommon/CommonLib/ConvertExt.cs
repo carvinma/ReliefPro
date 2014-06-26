@@ -123,9 +123,13 @@
                 object[] objdata = (System.Object[])obj;
                 foreach (object s in objdata)
                 {
-                    if (s.ToString() != string.Empty)
+                    if (s != null)
                     {
-                        rs = rs + "," + s;
+                        string v = s.ToString();
+                        if (v!= "")
+                        {
+                            rs = rs + "," + v;
+                        }
                     }
                 }
                 rs = rs.Substring(1);

@@ -27,8 +27,8 @@ namespace ProII92
         string[] arrColumnAttributes = { "PressureDrop", "Duty", "NumberOfTrays", "HeaterNames", "HeaterDuties", "HeaterNumber", "HeaterPANumberfo", "HeaterRegOrPAFlag", "HeaterTrayLoc", "HeaterTrayNumber" };
         string[] arrColumnInAttributes = { "ProdType", "FeedTrays", "ProdTrays", "FeedData", "ProductData" };
         string[] arrFlashAttributes = { "FeedData", "ProductData", "PressCalc", "TempCalc", "DutyCalc", "Type", "ProductStoreData" };
-        string[] arrHxAttributes = { "FeedData", "ProductData", "DutyCalc" };
-        string[] arrCompressorAttributes = { "FeedData", "ProductData", "DutyCalc" };
+        string[] arrHxAttributes = { "FeedData", "ProductData", "DutyCalc", "ProductStoreData" };
+        string[] arrCompressorAttributes = { "FeedData", "ProductData", "ProductStoreData" };
 
         string przFileName;
         CP2File cp2File;
@@ -268,7 +268,7 @@ namespace ProII92
                     }
                 }
             }
-            else if (otype == "Hx")
+            else if (otype == "Hx" || otype == "Simple Hx")
             {
                 foreach (string s in arrHxAttributes)
                 {
@@ -285,7 +285,9 @@ namespace ProII92
                         case "DutyCalc":
                             data.DutyCalc = value;
                             break;
-
+                        case "ProductStoreData":
+                            data.ProductStoreData = value;
+                            break;
                     }
                 }
             }
@@ -303,10 +305,9 @@ namespace ProII92
                         case "ProductData":
                             data.ProductData = value;
                             break;
-                        case "DutyCalc":
-                            data.DutyCalc = value;
+                        case "ProductStoreData":
+                            data.ProductStoreData = value;
                             break;
-
                     }
                 }
             }

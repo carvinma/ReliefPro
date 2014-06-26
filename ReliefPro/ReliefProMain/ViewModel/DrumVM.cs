@@ -133,22 +133,22 @@ namespace ReliefProMain.ViewModel
                 Feeds = GetStreams(SessionProtectedSystem, false);
                 Products = GetStreams(SessionProtectedSystem, true);
 
-                    DrumDAL dbdrum=new DrumDAL();
-                    CurrentDrum = dbdrum.GetModel(SessionProtectedSystem);
-                    if (CurrentDrum != null)
-                    {
-                        DrumName = CurrentDrum.DrumName;
-                        Duty = CurrentDrum.Duty;
-                        Pressure = CurrentDrum.Pressure;
-                        Temperature = CurrentDrum.Temperature;
-                        DrumType = CurrentDrum.DrumType;
-                    }
-                   
-                
+                DrumDAL dbdrum = new DrumDAL();
+                CurrentDrum = dbdrum.GetModel(SessionProtectedSystem);
+                if (CurrentDrum != null)
+                {
+                    DrumName = CurrentDrum.DrumName;
+                    Duty = CurrentDrum.Duty;
+                    Pressure = CurrentDrum.Pressure;
+                    Temperature = CurrentDrum.Temperature;
+                    DrumType = CurrentDrum.DrumType;
+                }
+
+
             }
             else
             {
-                
+
             }
         }
         private ICommand _ImportCommand;
@@ -175,44 +175,44 @@ namespace ReliefProMain.ViewModel
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
                 {
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
-                        ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
-                        przFile = vm.SelectedFile + ".prz";
-                        ProIIDrum = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Flash");
-                        DrumName = ProIIDrum.EqName;
-                        Duty = (double.Parse(ProIIDrum.DutyCalc)*3600).ToString();
-                        Temperature = UnitConvert.Convert("K", "C", double.Parse(ProIIDrum.TempCalc)).ToString(); ;
-                        Pressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(ProIIDrum.PressCalc)).ToString(); ;
-                        
-                        DrumType = "Flashing Drum";
-                        if (Duty == "0")
-                        {
-                            DrumType = "General Seperator";
-                        }
+                    ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
+                    przFile = vm.SelectedFile + ".prz";
+                    ProIIDrum = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Flash");
+                    DrumName = ProIIDrum.EqName;
+                    Duty = (double.Parse(ProIIDrum.DutyCalc) * 3600).ToString();
+                    Temperature = UnitConvert.Convert("K", "C", double.Parse(ProIIDrum.TempCalc)).ToString(); ;
+                    Pressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(ProIIDrum.PressCalc)).ToString(); ;
 
+                    DrumType = "Flashing Drum";
+                    if (Duty == "0")
+                    {
+                        DrumType = "General Seperator";
+                    }
 
-                        Feeds = new ObservableCollection<CustomStream>();
-                        Products = new ObservableCollection<CustomStream>();
-                        GetEqFeedProduct(ProIIDrum, ref dicFeeds, ref dicProducts,ref dicProductTypes);
-                        ProIIStreamDataDAL dbStreamData = new ProIIStreamDataDAL();
-                        
-                        foreach (string k in dicFeeds)
-                        {
-                            ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
-                            CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
-                            cstream.IsProduct = false;
-                            Feeds.Add(cstream);
-                        }
-                        for(int i=0;i<dicProducts.Count;i++)
-                        {
-                            string k=dicProducts[i];
-                            ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
-                            CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
-                            cstream.IsProduct = true;
-                            cstream.ProdType=dicProductTypes[i];
-                            Products.Add(cstream);
-                        }
+                    dicFeeds = new List<string>();
+                    dicProducts = new List<string>();
+                    dicProductTypes = new List<string>();
+                    Feeds = new ObservableCollection<CustomStream>();
+                    Products = new ObservableCollection<CustomStream>();
+                    GetEqFeedProduct(ProIIDrum, ref dicFeeds, ref dicProducts, ref dicProductTypes);
+                    ProIIStreamDataDAL dbStreamData = new ProIIStreamDataDAL();
 
-                    
+                    foreach (string k in dicFeeds)
+                    {
+                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
+                        CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
+                        cstream.IsProduct = false;
+                        Feeds.Add(cstream);
+                    }
+                    for (int i = 0; i < dicProducts.Count; i++)
+                    {
+                        string k = dicProducts[i];
+                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
+                        CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
+                        cstream.IsProduct = true;
+                        cstream.ProdType = dicProductTypes[i];
+                        Products.Add(cstream);
+                    }
 
 
                 }
@@ -313,12 +313,6 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private ObservableCollection<string> GetDrumTypes()
-        {
-            ObservableCollection<string> list = new ObservableCollection<string>();
-            list.Add("General Seperator");
-            list.Add("Flashing Drum");
-            return list;
-        }
+       
     }
 }

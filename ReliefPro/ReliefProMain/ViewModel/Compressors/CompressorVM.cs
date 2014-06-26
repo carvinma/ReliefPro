@@ -26,6 +26,21 @@ namespace ReliefProMain.ViewModel
         private string DirProtectedSystem { set; get; }
         public string przFile { set; get; }
         private ProIIEqData ProIICompressor;
+
+        private ObservableCollection<string> _CompressorTypes;
+        public ObservableCollection<string> CompressorTypes
+        {
+            get
+            {
+                return this._CompressorTypes;
+            }
+            set
+            {
+                this._CompressorTypes = value;
+                OnPropertyChanged("CompressorTypes");
+            }
+        }
+
         private string _CompressorName;
         public string CompressorName
         {
@@ -99,27 +114,26 @@ namespace ReliefProMain.ViewModel
             SessionProtectedSystem = sessionProtectedSystem;
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
+            CompressorTypes = GetCompressorTypes();
             this.CompressorName = CompressorName;
             if (!string.IsNullOrEmpty(CompressorName))
             {
-
+                CompressorType = CompressorTypes[0];
                 Feeds = GetStreams(SessionProtectedSystem, false);
                 Products = GetStreams(SessionProtectedSystem, true);
 
                 CompressorDAL dbCompressor = new CompressorDAL();
-                    CurrentCompressor = dbCompressor.GetModel(SessionProtectedSystem);
-                    if (CurrentCompressor != null)
-                    {
-                        CompressorName = CurrentCompressor.CompressorName;
-                        //Duty = CurrentCompressor.Duty;                       
-                        CompressorType = CurrentCompressor.CompressorType;
-                    }
-                   
-                
+                CurrentCompressor = dbCompressor.GetModel(SessionProtectedSystem);
+                if (CurrentCompressor != null)
+                {
+                    CompressorName = CurrentCompressor.CompressorName;
+                    //Duty = CurrentCompressor.Duty;                       
+                    CompressorType = CurrentCompressor.CompressorType;
+                }
             }
             else
             {
-                
+
             }
         }
         private ICommand _ImportCommand;
@@ -146,43 +160,35 @@ namespace ReliefProMain.ViewModel
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
                 {
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
-                        ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
-                        przFile = vm.SelectedFile + ".prz";
-                        ProIICompressor = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Compressor");
-                        CompressorName = ProIICompressor.EqName;
-                        //Duty = (double.Parse(ProIICompressor.DutyCalc)*3600).ToString();
+                    ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
+                    przFile = vm.SelectedFile + ".prz";
+                    ProIICompressor = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Compressor");
+                    CompressorType = CompressorTypes[0];
+                    CompressorName = ProIICompressor.EqName;
+                    dicFeeds = new List<string>();
+                    dicProducts = new List<string>();
+                    dicProductTypes = new List<string>();
+                    Feeds = new ObservableCollection<CustomStream>();
+                    Products = new ObservableCollection<CustomStream>();
+                    GetEqFeedProduct(ProIICompressor, ref dicFeeds, ref dicProducts, ref dicProductTypes);
+                    ProIIStreamDataDAL dbStreamData = new ProIIStreamDataDAL();
 
-                        CompressorType = "Shell-Tube Compressor";
-                        //if (double.Parse(Duty) < 0)
-                        //{
-                            CompressorType = "Air cooled Compressor";
-                        //}
-                    
-
-                        Feeds = new ObservableCollection<CustomStream>();
-                        Products = new ObservableCollection<CustomStream>();
-                        GetEqFeedProduct(ProIICompressor, ref dicFeeds, ref dicProducts,ref dicProductTypes);
-                        ProIIStreamDataDAL dbStreamData = new ProIIStreamDataDAL();
-                        
-                        foreach (string k in dicFeeds)
-                        {
-                            ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
-                            CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
-                            cstream.IsProduct = false;
-                            Feeds.Add(cstream);
-                        }
-                        for(int i=0;i<dicProducts.Count;i++)
-                        {
-                            string k=dicProducts[i];
-                            ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
-                            CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
-                            cstream.IsProduct = true;
-                            cstream.ProdType=dicProductTypes[i];
-                            Products.Add(cstream);
-                        }
-
-                    
-
+                    foreach (string k in dicFeeds)
+                    {
+                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
+                        CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
+                        cstream.IsProduct = false;
+                        Feeds.Add(cstream);
+                    }
+                    for (int i = 0; i < dicProducts.Count; i++)
+                    {
+                        string k = dicProducts[i];
+                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
+                        CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
+                        cstream.IsProduct = true;
+                        cstream.ProdType = dicProductTypes[i];
+                        Products.Add(cstream);
+                    }
 
                 }
             }
@@ -284,8 +290,8 @@ namespace ReliefProMain.ViewModel
         private ObservableCollection<string> GetCompressorTypes()
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
-            list.Add("General Seperator");
-            list.Add("Flashing Compressor");
+            list.Add("Centrifugal");
+            list.Add("Piston");
             return list;
         }
     }

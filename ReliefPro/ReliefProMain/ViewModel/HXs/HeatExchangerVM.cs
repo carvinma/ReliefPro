@@ -26,6 +26,19 @@ namespace ReliefProMain.ViewModel
         private string DirProtectedSystem { set; get; }
         public string przFile { set; get; }
         private ProIIEqData ProIIHX;
+        private ObservableCollection<string> _HXTypes;
+        public ObservableCollection<string> HXTypes
+        {
+            get
+            {
+                return this._HXTypes;
+            }
+            set
+            {
+                this._HXTypes = value;
+                OnPropertyChanged("HXTypes");
+            }
+        }
         private string _HXName;
         public string HXName
         {
@@ -99,27 +112,26 @@ namespace ReliefProMain.ViewModel
             SessionProtectedSystem = sessionProtectedSystem;
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
+            HXTypes = GetHXTypes();
             this.HXName = HXName;
             if (!string.IsNullOrEmpty(HXName))
             {
-
+                HXType = HXTypes[0];
                 Feeds = GetStreams(SessionProtectedSystem, false);
                 Products = GetStreams(SessionProtectedSystem, true);
 
                 HeatExchangerDAL dbHX = new HeatExchangerDAL();
-                    CurrentHX = dbHX.GetModel(SessionProtectedSystem);
-                    if (CurrentHX != null)
-                    {
-                        HXName = CurrentHX.HXName;
-                        Duty = CurrentHX.Duty;                       
-                        HXType = CurrentHX.HXType;
-                    }
-                   
-                
+                CurrentHX = dbHX.GetModel(SessionProtectedSystem);
+                if (CurrentHX != null)
+                {
+                    HXName = CurrentHX.HXName;
+                    Duty = CurrentHX.Duty;
+                    HXType = CurrentHX.HXType;
+                }
             }
             else
             {
-                
+
             }
         }
         private ICommand _ImportCommand;
@@ -138,7 +150,7 @@ namespace ReliefProMain.ViewModel
         private void Import(object obj)
         {
             SelectEquipmentView v = new SelectEquipmentView();
-            SelectEquipmentVM vm = new SelectEquipmentVM("Flash",  SessionPlant, DirPlant);
+            SelectEquipmentVM vm = new SelectEquipmentVM("Hx",  SessionPlant, DirPlant);
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.DataContext = vm;
             if (v.ShowDialog() == true)
@@ -146,44 +158,36 @@ namespace ReliefProMain.ViewModel
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
                 {
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
-                        ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
-                        przFile = vm.SelectedFile + ".prz";
-                        ProIIHX = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Flash");
-                        HXName = ProIIHX.EqName;
-                        Duty = (double.Parse(ProIIHX.DutyCalc)*3600).ToString();
+                    ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
+                    przFile = vm.SelectedFile + ".prz";
+                    ProIIHX = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Hx");
+                    HXName = ProIIHX.EqName;
+                    Duty = (double.Parse(ProIIHX.DutyCalc) * 3600).ToString();
+                    HXType = HXTypes[0];
+                    dicFeeds = new List<string>();
+                    dicProducts = new List<string>();
+                    dicProductTypes = new List<string>();
+                    Feeds = new ObservableCollection<CustomStream>();
+                    Products = new ObservableCollection<CustomStream>();
+                    GetEqFeedProduct(ProIIHX, ref dicFeeds, ref dicProducts, ref dicProductTypes);
+                    ProIIStreamDataDAL dbStreamData = new ProIIStreamDataDAL();
 
-                        HXType = "Shell-Tube HX";
-                        if (double.Parse(Duty) < 0)
-                        {
-                            HXType = "Air cooled HX";
-                        }
-                    
-
-                        Feeds = new ObservableCollection<CustomStream>();
-                        Products = new ObservableCollection<CustomStream>();
-                        GetEqFeedProduct(ProIIHX, ref dicFeeds, ref dicProducts,ref dicProductTypes);
-                        ProIIStreamDataDAL dbStreamData = new ProIIStreamDataDAL();
-                        
-                        foreach (string k in dicFeeds)
-                        {
-                            ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
-                            CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
-                            cstream.IsProduct = false;
-                            Feeds.Add(cstream);
-                        }
-                        for(int i=0;i<dicProducts.Count;i++)
-                        {
-                            string k=dicProducts[i];
-                            ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
-                            CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
-                            cstream.IsProduct = true;
-                            cstream.ProdType=dicProductTypes[i];
-                            Products.Add(cstream);
-                        }
-
-                    
-
-
+                    foreach (string k in dicFeeds)
+                    {
+                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
+                        CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
+                        cstream.IsProduct = false;
+                        Feeds.Add(cstream);
+                    }
+                    for (int i = 0; i < dicProducts.Count; i++)
+                    {
+                        string k = dicProducts[i];
+                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
+                        CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
+                        cstream.IsProduct = true;
+                        cstream.ProdType = dicProductTypes[i];
+                        Products.Add(cstream);
+                    }
                 }
             }
         }
@@ -284,8 +288,8 @@ namespace ReliefProMain.ViewModel
         private ObservableCollection<string> GetHXTypes()
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
-            list.Add("General Seperator");
-            list.Add("Flashing HX");
+            list.Add("Shell-Tube");
+            list.Add("Air cooled");
             return list;
         }
     }
