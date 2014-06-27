@@ -65,6 +65,7 @@
     <Compile Include="CondenserCalcDAL.cs" />
     <Compile Include="CustomStreamDAL.cs" />
     <Compile Include="Drums\DrumDAL.cs" />
+    <Compile Include="GlobalDefault\GlobalDefaultDAL.cs" />
     <Compile Include="HXs\HeatExchangerDAL.cs" />
     <Compile Include="ProIIEqDataDAL.cs" />
     <Compile Include="ProIIEqTypeDAL.cs" />
