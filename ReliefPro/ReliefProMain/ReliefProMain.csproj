@@ -150,6 +150,7 @@
     <Compile Include="Model\DrumFireModel.cs" />
     <Compile Include="Model\DrumSizeModel.cs" />
     <Compile Include="Model\FormatUnitsMeasureModel.cs" />
+    <Compile Include="Model\GlobalDefaultModel.cs" />
     <Compile Include="Model\HXs\AirCooledHXFireModel.cs" />
     <Compile Include="Model\HXs\HXBlockedOutletModel.cs" />
     <Compile Include="Model\HXs\HXFireModel.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="ViewModel\Drums\DrumSizeVM.cs" />
     <Compile Include="ViewModel\FeedBottomHXVM.cs" />
     <Compile Include="ViewModel\FormatUnitsMeasureVM.cs" />
+    <Compile Include="ViewModel\GlobalDefaultVM.cs" />
     <Compile Include="ViewModel\HeatSourceListVM.cs" />
     <Compile Include="ViewModel\HXs\AirCooledHXFireVM.cs" />
     <Compile Include="ViewModel\HXs\HeatExchangerVM.cs" />

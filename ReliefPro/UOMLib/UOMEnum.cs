@@ -18,7 +18,7 @@ namespace UOMLib
         public const string SurfaceTension = "N/m";
         public const string Volume = "m3";
         public const string Length = "m";
-        public const string Time = "hr";
+        public const string Time = "min";
         public const string FlowConductance = "(kg/sec)/sqrt(kPa-kg/m3)";
         public const string FineLength = "in";
         public const string MassRate = "Kg/hr";
