@@ -10,6 +10,7 @@
   <property name="WettedArea" column="WettedArea" type="Double"/>
   <property name="LatentHeat" column="LatentHeat" type="Double"/>
   <property name="CrackingHeat" column="CrackingHeat" type="Double"/>
+  <property name="DesignPressure" column="DesignPressure" type="Double"/>
   <property name="ReliefLoad" column="ReliefLoad" type="Double"/>
   <property name="ReliefPressure" column="ReliefPressure" type="Double"/>
   <property name="ReliefTemperature" column="ReliefTemperature" type="Double"/>

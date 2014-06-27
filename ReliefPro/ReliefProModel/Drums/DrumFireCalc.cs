@@ -15,7 +15,7 @@ namespace ReliefProModel.Drums
         public virtual double WettedArea { get; set; }
         public virtual double LatentHeat { get; set; }
         public virtual double CrackingHeat { get; set; }
-
+        public virtual double DesignPressure { get; set; }
         public virtual double ReliefLoad { get; set; }
         public virtual double ReliefPressure { get; set; }
         public virtual double ReliefTemperature { get; set; }
