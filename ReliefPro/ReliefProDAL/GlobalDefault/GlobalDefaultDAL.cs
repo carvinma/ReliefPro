@@ -35,5 +35,17 @@ namespace ReliefProDAL.GlobalDefault
                 }
             }
         }
+
+        public IList<FlareSystem> GetFlareSystem(ISession session)
+        {
+            return session.CreateCriteria<FlareSystem>().List<FlareSystem>();
+        }
+        public ConditionsSettings GetConditionsSettings(ISession session)
+        {
+            var lstSettings = session.CreateCriteria<ConditionsSettings>().List<ConditionsSettings>();
+            if (lstSettings.Count > 0)
+                return lstSettings[0];
+            return null;
+        }
     }
 }
