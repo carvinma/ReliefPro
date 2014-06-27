@@ -79,6 +79,7 @@
     <Compile Include="DrumDepressuringBLL.cs" />
     <Compile Include="ExportExcel.cs" />
     <Compile Include="GeneralFailureCommonBLL.cs" />
+    <Compile Include="GlobalDefaultBLL.cs" />
     <Compile Include="HXBLL.cs" />
     <Compile Include="ImportData.cs" />
     <Compile Include="NHibernateHelper.cs" />
