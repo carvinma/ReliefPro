@@ -275,12 +275,12 @@ namespace ReliefProMain.ViewModel.Drums
         private void CalcTank()
         {
             double designPressure=1;
-            double area=1;
+            double area=model.WettedArea;
             double F=1;
             double L=1;
             double T=1;
             double M=1;
-            double v=Algorithm.CalcStorageTankLoad(area,designPressure,F,L,T,M);
+            
             
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionProtectedSystem);
@@ -314,7 +314,18 @@ namespace ReliefProMain.ViewModel.Drums
                     ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
                     reader.ReleaseProIIReader();
                     CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
-                    model.ReliefLoad = v*double.Parse(proIIVapor.BulkDensityAct);
+                    CustomStream liquidFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
+                    double latent = double.Parse(vaporFire.SpEnthalpy) - double.Parse(liquidFire.SpEnthalpy);
+                    L=latent;
+                    model.LatentHeat = L;
+                    if (model.HeavyOilFluid)
+                    {
+                        L = model.CrackingHeat;
+                    }
+                    T = double.Parse(vaporFire.Temperature);
+                    M = double.Parse(vaporFire.BulkMwOfPhase);
+                    double Q = Algorithm.CalcStorageTankLoad(area, designPressure, F, L, T, M);
+                    model.ReliefLoad = Q/latent;
                     model.ReliefMW = double.Parse(vaporFire.BulkMwOfPhase);
                     model.ReliefPressure = reliefFirePressure;
                     model.ReliefTemperature = double.Parse(vaporFire.Temperature);

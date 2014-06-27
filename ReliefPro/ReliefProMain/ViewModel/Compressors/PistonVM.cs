@@ -10,6 +10,8 @@ using ReliefProMain.Model.Compressors;
 using UOMLib;
 using ReliefProModel.Compressors;
 using ReliefProMain.Model.Compressors;
+using ReliefProDAL;
+using ReliefProModel;
 
 namespace ReliefProMain.ViewModel.Compressors
 {
@@ -51,6 +53,16 @@ namespace ReliefProMain.ViewModel.Compressors
         }
         private void CalcResult(object obj)
         {
+            CustomStreamDAL customStreamDAL = new CustomStreamDAL();
+            IList<CustomStream> csList = customStreamDAL.GetAllList(SessionPF, false);
+            if (csList.Count > 0)
+            {
+                CustomStream cs = csList[0];
+                model.ReliefMW = double.Parse(cs.BulkMwOfPhase);
+                model.ReliefPressure = double.Parse(cs.Pressure);
+                model.Reliefload = double.Parse(cs.WeightFlow) * model.RatedCapacity;
+                model.ReliefTemp = double.Parse(cs.Temperature);
+            }
         }
         private void Save(object obj)
         {

@@ -62,7 +62,16 @@ namespace ReliefProMain.Model
                 NotifyPropertyChanged("ReliefPressureUnit");
             }
         }
-
+        private string designPressureUnit;
+        public string DesignPressureUnit
+        {
+            get { return designPressureUnit; }
+            set
+            {
+                designPressureUnit = value;
+                NotifyPropertyChanged("DesignPressureUnit");
+            }
+        }
         private string reliefTemperatureUnit;
         public string ReliefTemperatureUnit
         {
@@ -87,7 +96,7 @@ namespace ReliefProMain.Model
             this.ReliefMW = dbmodel.ReliefMW;
             this.reliefCpCv = dbmodel.ReliefCpCv;
             this.reliefZ = dbmodel.ReliefZ;
-
+            
             this.heavyOilFluid = dbmodel.HeavyOilFluid;
             this.allGas = dbmodel.AllGas;
             this.equipmentExist = dbmodel.EquipmentExist;

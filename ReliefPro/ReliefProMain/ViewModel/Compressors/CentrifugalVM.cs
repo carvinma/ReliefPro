@@ -48,6 +48,53 @@ namespace ReliefProMain.ViewModel.Compressors
         }
         private void CalcResult(object obj)
         {
+            double PDesign=0;
+            double QNormal = 1;
+            double PressureNormal = 1;
+            double QSurgeNormal = 1;
+            double PSurgeNormal = 1;
+            double bNormal = 0; //y=-0.25x+b
+
+            double Ratio = 1.05; //   max speed/normal speed
+            double QMax = Ratio*QNormal;
+            double PressureMax = Math.Pow(Ratio, 2) * PressureNormal ;
+            //double QSurgeMax = 1;
+            //double PSurgeMax = 1;
+            double bMax = 0;
+            
+            if (Ratio <= 1 || Ratio > 2)
+            {
+                return;
+            }
+            if (QSurgeNormal * 1.1 >= QNormal)
+            {
+                return;
+            }
+
+            bNormal = PressureNormal + 0.25 * QNormal;
+            bMax = PressureMax + 0.25 * QMax;
+            PSurgeNormal = -0.25 * QSurgeNormal + bNormal;
+
+            double rate = PSurgeNormal / QSurgeNormal;
+            double Fsa = bMax / (rate + 0.25);
+            double Psa = -0.25 * Fsa + bMax;
+            
+            //控制线 y=rate（x-1.1)
+            double Fs = (bMax + 1.1 * rate) / (rate + 0.25);
+            double Ps = -0.25 * Fs + bMax;
+
+            double v=0;
+            if (PDesign < Psa)
+                model.Reliefload = 0;
+            else if (PDesign < Ps)
+                v = Fs;
+            else
+                v = (bMax - PDesign) / 0.25;
+            
+            //读取压缩机出口物料的密度
+
+
+
         }
         private void Save(object obj)
         {
