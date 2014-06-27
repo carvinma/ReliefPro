@@ -23,6 +23,10 @@ namespace ReliefProMain.ViewModel
             model.lstFlareSystem = globalDefaultBLL.GetFlareSystem().ToList();
             model.conditSetModel = globalDefaultBLL.GetConditionsSettings();
             model.conditSetModel = globalDefaultBLL.ReadConvertModel(model.conditSetModel);
+
+            UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
+            model.LatentHeatSettingsUnit = uomEnum.UserSpecificEnthalpy;
+            model.DrumSurgeTimeSettingsUnit = uomEnum.UserTime;
         }
         private void WriteConvertModel()
         {
