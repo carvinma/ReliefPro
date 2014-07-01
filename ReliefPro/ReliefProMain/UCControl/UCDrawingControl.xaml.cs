@@ -717,7 +717,7 @@ namespace ReliefProMain.View
 
         private void DrawTank(Visio.Shape shape, StorageTankVM vm)
         {
-            shape.get_Cells("Height").ResultIU = 2;
+            shape.get_Cells("Height").ResultIU = 1;
             double width = shape.get_Cells("Width").ResultIU;
             double height = shape.get_Cells("Height").ResultIU;
             double pinX = shape.get_Cells("PinX").ResultIU;

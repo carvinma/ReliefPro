@@ -96,7 +96,7 @@ namespace ReliefProMain.Model
             this.ReliefMW = dbmodel.ReliefMW;
             this.reliefCpCv = dbmodel.ReliefCpCv;
             this.reliefZ = dbmodel.ReliefZ;
-            
+            this.designPressure = dbmodel.DesignPressure;
             this.heavyOilFluid = dbmodel.HeavyOilFluid;
             this.allGas = dbmodel.AllGas;
             this.equipmentExist = dbmodel.EquipmentExist;
@@ -199,6 +199,17 @@ namespace ReliefProMain.Model
             {
                 reliefZ = value;
                 NotifyPropertyChanged("ReliefZ");
+            }
+        }
+
+        private double designPressure;
+        public double DesignPressure
+        {
+            get { return designPressure; }
+            set
+            {
+                designPressure = value;
+                NotifyPropertyChanged("DesignPressure");
             }
         }
 

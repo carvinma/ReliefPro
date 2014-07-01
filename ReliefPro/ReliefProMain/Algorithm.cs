@@ -72,56 +72,80 @@ namespace ReliefProMain
         }
         public static double GetDrumArea(string Orientation, string HeadType, double Elevation, double Diameter, double Length, double NLL, double BootHeight, double BootDiameter)
         {
+            // L1:NLL   L2:Elevation
             double Area = 0;
 
-            if (Orientation == "Horiz")
+            if (Elevation > 7.6)
             {
-                if (Elevation > 7.6)
-                {
-                    Area = 0;
-                }
-                else if (Diameter <= 1.9)
-                {
-                    Area = (Length + 0.8 * Diameter) * 3.14159 * Math.Pow(Diameter, 2);
-                }
-                else if ((0.5 * Diameter + Elevation) > 7.6)
-                {
-                    Area = 0.5 * (Length + 0.8 * Diameter) * 3.14159 * Math.Pow(Diameter, 2);
-                }
-                else if ((NLL + Elevation) > 7.6)
-                {
-                    double hfire = 7.6 - NLL;
-                    Area = 2 * (Math.Acos(1 - 2 * hfire / Diameter) * 180 / 3.14159) / 360 * 3.14159 * Diameter * Length + 0.5 * 3.14159 * Math.Pow(Diameter, 2);
-                }
-                else
-                {
-                    double hfire = NLL;
-                    Area = 2 * (Math.Acos(1 - 2 * hfire / Diameter) * 180 / 3.14159) / 360 * 3.14159 * Diameter * Length + 0.5 * 3.14159 * Math.Pow(Diameter, 2);
-                }
+                Area = 0;
             }
-            else if (Orientation == "Vertical")
+            else
             {
-
-                if (HeadType == "Eclipse")
+                if (Orientation == "Horizontal")
                 {
-                    if (BootHeight + Elevation <= 7.6)
+
+                    if (Diameter <= 1.9)
                     {
-                        Area = (Elevation + 0.4 * Diameter) * 3.14159 * Diameter;
+                        if (HeadType == "Eclipse")
+                        {
+                            Area = (Length + 0.8 * Diameter) * 3.14159 * Diameter;
+                        }
+                        else
+                        {
+                            Area = (Length + Diameter) * 3.14159 * Diameter;
+                        }
+                    }
+                    else if ((0.5 * Diameter + Elevation) > 7.6)
+                    {
+                        Area = 0.5 * (Length + 0.8 * Diameter) * 3.14159 * Diameter;
+                    }
+                    else if ((NLL + Elevation) > 7.6)
+                    {
+                        double hfire = 7.6 - Elevation;
+                        Area = 2 * (Math.Acos(1 - 2 * hfire / Diameter) * 180 / 3.14159) / 360 * 3.14159 * Diameter * Length + 0.5 * 3.14159 * Math.Pow(Diameter, 2);
                     }
                     else
                     {
-                        Area = (7.6 - BootHeight + 0.4 * Diameter) * 3.14159 * Diameter;
+                        double hfire = NLL;
+                        Area = 2 * (Math.Acos(1 - 2 * hfire / Diameter) * 180 / 3.14159) / 360 * 3.14159 * Diameter * Length + 0.5 * 3.14159 * Math.Pow(Diameter, 2);
+                    }
+                }
+                else if (Orientation == "Vertical")
+                {
+
+                    if (HeadType == "Eclipse")
+                    {
+                        if ((NLL + Elevation) <= 7.6)
+                        {
+                            Area = (NLL + 0.4 * Diameter) * 3.14159 * Diameter;
+                        }
+                        else
+                        {
+                            Area = (7.6 - Elevation + 0.4 * Diameter) * 3.14159 * Diameter;
+                        }
+                    }
+                    else
+                    {
+                        if ((NLL + Elevation) <= 7.6)
+                        {
+                            Area = (NLL + 0.25 * Diameter) * 3.14159 * Diameter;
+                        }
+                        else
+                        {
+                            Area = (7.6 - Elevation + 0.25 * Diameter) * 3.14159 * Diameter;
+                        }
                     }
                 }
                 else
                 {
-                    if (BootHeight + Elevation <= 7.6)
+                    if ((NLL + Elevation) > 7.6)
                     {
-                        Area = (Elevation + 0.25 * Diameter) * 3.14159 * Diameter;
+                        Area = 0.5 * 3.14159 * Math.Pow(Diameter, 2);
                     }
                     else
                     {
-                        Area = (7.6 - BootHeight + 0.25 * Diameter) * 3.14159 * Diameter;
+                        double h = 7.6 - Elevation - 0.5*Diameter;
+                        Area = 0.5 * 3.14159 * Diameter * (Diameter+2*h);
                     }
                 }
             }

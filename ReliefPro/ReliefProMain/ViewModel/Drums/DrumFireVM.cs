@@ -96,9 +96,10 @@ namespace ReliefProMain.ViewModel.Drums
             model.CrackingHeatUnit = uomEnum.UserSpecificEnthalpy;
             model.ReliefLoadUnit = uomEnum.UserMassRate;
             model.ReliefPressureUnit = uomEnum.UserPressure;
+            model.DesignPressureUnit = uomEnum.UserPressure;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
             model.NoneAllGas = !model.AllGas;
-
+            
             reliefPressure = ScenarioReliefPressure(SessionPS);
         }
         private void WriteConvertModel()
@@ -109,6 +110,8 @@ namespace ReliefProMain.ViewModel.Drums
             model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad);
             model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
             model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
+            model.dbmodel.DesignPressure = UnitConvert.Convert(model.DesignPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.DesignPressure);
+            
             model.dbmodel.ReliefMW = model.ReliefMW;
             model.dbmodel.ReliefCpCv = model.ReliefCpCv;
             model.dbmodel.ReliefZ = model.ReliefZ;
@@ -116,6 +119,7 @@ namespace ReliefProMain.ViewModel.Drums
             model.dbmodel.AllGas = model.AllGas;
             model.dbmodel.EquipmentExist = model.EquipmentExist;
             model.dbmodel.HeatInputModel = selectedHeatInputModel;
+            
         }
         private void OpenDrumSize(object obj)
         {
@@ -274,7 +278,13 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void CalcTank()
         {
-            double designPressure=1;
+            if (model.DesignPressure < 0)
+            {
+                MessageBox.Show("Design Pressure could not be zero");
+                return;
+            }
+            string targetUnit="barg";
+            double designPressure = UnitConvert.Convert(model.DesignPressureUnit, targetUnit, model.DesignPressure);
             double area=model.WettedArea;
             double F=1;
             double L=1;
@@ -324,7 +334,19 @@ namespace ReliefProMain.ViewModel.Drums
                     }
                     T = double.Parse(vaporFire.Temperature);
                     M = double.Parse(vaporFire.BulkMwOfPhase);
-                    double Q = Algorithm.CalcStorageTankLoad(area, designPressure, F, L, T, M);
+                    double Q = 0;
+
+                    
+                    if (SelectedHeatInputModel == "API 521" || designPressure>1.034 )
+                    {
+                        Q = Algorithm.GetQ(43200, 1, area);
+                    }
+                    else
+                    {
+
+                        Q = Algorithm.CalcStorageTankLoad(area, designPressure, F, L, T, M); //这是按照2000 来计算的
+                    }
+
                     model.ReliefLoad = Q/latent;
                     model.ReliefMW = double.Parse(vaporFire.BulkMwOfPhase);
                     model.ReliefPressure = reliefFirePressure;
