@@ -46,37 +46,37 @@
             <Grid Margin="0,0,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
-                </Grid.RowDefinitions>
-                <ListView Name="lv" SelectionMode="Single"  ItemsSource="{Binding Path=Details,Mode=TwoWay}" SelectedItem="{Binding SelectedDetail,Mode=TwoWay}" >
+                    <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <ListView Name="lv" SelectionMode="Single" ItemsSource="{Binding Path=model.lstFlareSystem,Mode=TwoWay}">
                     <ListView.View>
                         <GridView >
-                            <GridViewColumn Width="0"    Header="#"   DisplayMemberBinding="{Binding Path=SeqNumber,Mode=TwoWay}"></GridViewColumn>
-                            <GridViewColumn Header="Flare Name" Width="100">
+                            <GridViewColumn Header="Flare Name" Width="150">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding Path=DetailName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="120"></TextBox>
+                                            <TextBox Text="{Binding Path=FlareName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="120"></TextBox>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="Design Back Pressure, MPag"  x:Name="ProcessSideFlowSource" Width="180px"  >
+                            <GridViewColumn Header="Design Back Pressure, MPag"  x:Name="ProcessSideFlowSource" Width="200px"  >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ComboBox ItemsSource="{Binding Path=ProcessSideFlowSources}" SelectedItem="{Binding Path=ProcessSideFlowSource}"  HorizontalAlignment="Stretch" Width="150px">
-                                        </ComboBox>
-                                    </DataTemplate>
+                                            <TextBox Text="{Binding Path=DesignBackPressure,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="120"/>
+                                        </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="" >
+                            <GridViewColumn Header="">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.DeleteCommand}" CommandParameter="{Binding SeqNumber,Mode=TwoWay}" ></Button>
+                                            <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.DelCMD}" CommandParameter="{Binding RowGuid}" ></Button>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>
-            </Grid>
+                    <Button Grid.Row="1" Content="Add" Command="{Binding Path=AddCMD}"   Width="60" HorizontalAlignment="Right"></Button>
+                </Grid>
         </GroupBox>
           <GroupBox Header="General Conditions">
                 <Grid Margin="0,0,0,0">
