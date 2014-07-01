@@ -69,10 +69,10 @@ namespace ReliefProMain
         string currentPlantName;
         //string currentProtectedSystemFile;
         AxDrawingControl visioControl = new AxDrawingControl();
- 
+
         public MainWindow()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
 
@@ -98,7 +98,7 @@ namespace ReliefProMain
 
         #endregion
 
-        
+
         #region FocusedElement
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace ReliefProMain
         {
             try
             {
-                MessageBoxResult r=MessageBox.Show("Are you sure you want to save the document?", "Message Box", MessageBoxButton.YesNoCancel);
+                MessageBoxResult r = MessageBox.Show("Are you sure you want to save the document?", "Message Box", MessageBoxButton.YesNoCancel);
                 if (r == MessageBoxResult.Yes)
                 {
                     string vsdFile = visioControl.Src;
@@ -212,7 +212,7 @@ namespace ReliefProMain
                 }
                 else if (r == MessageBoxResult.No)
                 {
-                   
+
                 }
                 else
                 {
@@ -271,7 +271,7 @@ namespace ReliefProMain
                 switch (item.Header.ToString())
                 {
                     case "Open Plant":
-                        OpenPlant();                       
+                        OpenPlant();
                         break;
                     case "Exit":
                         this.Close();
@@ -282,7 +282,7 @@ namespace ReliefProMain
                     case "Save Plant":
                         SavePlant();
                         break;
-                       
+
                 }
 
             }
@@ -328,7 +328,7 @@ namespace ReliefProMain
                             }
                             visioControl.Window.DeselectAll();
                         }
-                        
+
                         if (lvi.Source.ToString().ToLower().Contains("storagetank"))
                         {
                             Visio.Document currentStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
@@ -380,8 +380,8 @@ namespace ReliefProMain
         }
 
 
-        
-        
+
+
         private void initTower()
         {
             ObservableCollection<ListViewItemData> collections = new ObservableCollection<ListViewItemData>();
@@ -393,12 +393,18 @@ namespace ReliefProMain
             collections.Add(new ListViewItemData { Name = "Storage Tank", Pic = "/images/StorageTank.ico" });
             this.lvTower.ItemsSource = collections;
         }
-        
-       
 
+
+        private void OpenGloadDefalut()
+        {
+            ReliefProMain.View.GlobalDefault.GlobalDefaultView view = new View.GlobalDefault.GlobalDefaultView();
+            GlobalDefaultVM vm = new GlobalDefaultVM();
+            view.DataContext = vm;
+            view.ShowDialog();
+        }
         private void SavePlant()
         {
-           ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
+            ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
         }
 
         private void OpenPlant()
@@ -415,12 +421,13 @@ namespace ReliefProMain
 
                     if (Directory.Exists(currentPlantWorkFolder))
                     {
-                        Directory.Delete(currentPlantWorkFolder, true);                    }
+                        Directory.Delete(currentPlantWorkFolder, true);
+                    }
 
                     ReliefProCommon.CommonLib.CSharpZip.ExtractZipFile(currentPlantFile, "1", currentPlantWorkFolder);
                     string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
 
-                    TreeViewItem item = GetTreeViewItem(currentPlantName, currentPlantWorkFolder, 1, "images/plant.ico", dbPlant_target,null);
+                    TreeViewItem item = GetTreeViewItem(currentPlantName, currentPlantWorkFolder, 1, "images/plant.ico", dbPlant_target, null);
                     DirectoryInfo dirPlant = new DirectoryInfo(currentPlantWorkFolder);
 
                     foreach (DirectoryInfo device in dirPlant.GetDirectories())
@@ -509,9 +516,9 @@ namespace ReliefProMain
 
         }
 
-        private TreeViewItem GetTreeViewItem(string text,string fullname,int type, string imagepath,string dbPlantFile,string dbProtectedSystemFile)
+        private TreeViewItem GetTreeViewItem(string text, string fullname, int type, string imagepath, string dbPlantFile, string dbProtectedSystemFile)
         {
-            
+
             TreeViewItemData data = new TreeViewItemData();
             data.Text = text;
             data.Type = type;
@@ -531,7 +538,7 @@ namespace ReliefProMain
             image.Height = 16;
             // Label
             TextBlock lbl = new TextBlock();
-            lbl.Text = text ;
+            lbl.Text = text;
             // Add into stack
             stack.Children.Add(image);
             stack.Children.Add(lbl);
@@ -558,7 +565,7 @@ namespace ReliefProMain
             }
             return _exit;
         }
-       
+
         private void MainWindowApp_Loaded(object sender, RoutedEventArgs e)
         {
             //string proiiexe = string.Empty;
@@ -594,7 +601,7 @@ namespace ReliefProMain
                     TreeViewItemData data = tvi.Tag as TreeViewItemData;
                     if (data.Type == 4)
                     {
-                        bool b=false;
+                        bool b = false;
                         foreach (LayoutDocument d in firstDocumentPane.Children)
                         {
                             if (d.Description == data.FullName)
@@ -605,15 +612,15 @@ namespace ReliefProMain
                             }
                         }
                         if (!b)
-                        {                            
+                        {
                             LayoutDocument doc = new LayoutDocument();
                             doc.Title = data.Text;
                             doc.Description = data.FullName;
                             UCDrawingControl ucDrawingControl = new UCDrawingControl();
                             doc.Content = ucDrawingControl;
                             ucDrawingControl.Tag = data;
-                            
-                           
+
+
                             firstDocumentPane.Children.Add(doc);
                             visioControl = ucDrawingControl.visioControl;
                         }
@@ -661,7 +668,7 @@ namespace ReliefProMain
                     MenuItem item1 = (MenuItem)rmenu.Items[0];
                     item1.IsEnabled = true;
                 }
-                if (data.Type==4 || data.Type==3)
+                if (data.Type == 4 || data.Type == 3)
                 {
                     for (int i = 0; i < 4; i++)
                     {
@@ -671,9 +678,9 @@ namespace ReliefProMain
                     MenuItem item1 = (MenuItem)rmenu.Items[0];
                     item1.IsEnabled = true;
                 }
-                
 
-                
+
+
 
             }
         }
@@ -684,7 +691,7 @@ namespace ReliefProMain
 
             return source;
         }
-     
+
         public void ImportDataFromOther(object sender, RoutedEventArgs e)
         {
             if (NavigationTreeView.SelectedItem == null)
@@ -699,12 +706,12 @@ namespace ReliefProMain
             imptdata.ShowDialog();
 
         }
-        
+
         public void CreateUnit(object sender, RoutedEventArgs e)
         {
             if (NavigationTreeView.SelectedItem == null)
                 return;
-            TreeViewItem tvi = (TreeViewItem)NavigationTreeView.SelectedItem;           
+            TreeViewItem tvi = (TreeViewItem)NavigationTreeView.SelectedItem;
             TreeViewItemData data = tvi.Tag as TreeViewItemData;
             CreateUnitView v = new CreateUnitView();
             CreateUnitVM vm = new CreateUnitVM(data.FullName);
@@ -714,8 +721,8 @@ namespace ReliefProMain
             v.Owner = this;
             if (v.ShowDialog() == true)
             {
-                
-                TreeViewItem itemUnit = GetTreeViewItem( vm.UnitName,vm.dirUnit, 2, "images/plant.ico", data.dbPlantFile, null);
+
+                TreeViewItem itemUnit = GetTreeViewItem(vm.UnitName, vm.dirUnit, 2, "images/plant.ico", data.dbPlantFile, null);
                 tvi.Items.Add(itemUnit);
 
                 TreeViewItem itemProtectSystem = GetTreeViewItem("ProtectedSystem1", vm.dirProtectedSystem, 3, "images/plant.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
@@ -742,7 +749,7 @@ namespace ReliefProMain
 
             v.Owner = this;
             if (v.ShowDialog() == true)
-            {               
+            {
                 TreeViewItem itemProtectSystem = GetTreeViewItem(vm.ProtectedSystemName, vm.dirProtectedSystem, 3, "images/plant.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
                 tvi.Items.Add(itemProtectSystem);
 
@@ -761,7 +768,7 @@ namespace ReliefProMain
             TreeViewItem tvi = (TreeViewItem)NavigationTreeView.SelectedItem;
             TreeViewItemData data = tvi.Tag as TreeViewItemData;
             ReNameView v = new ReNameView();
-            ReNameVM vm = new ReNameVM(data.Text,data.FullName,data.Type);
+            ReNameVM vm = new ReNameVM(data.Text, data.FullName, data.Type);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
@@ -771,7 +778,7 @@ namespace ReliefProMain
                 data.Text = vm.NewName;
                 data.FullName = vm.NewDir;
 
-               
+
                 StackPanel SP = (StackPanel)tvi.Header;
                 foreach (UIElement uie in SP.Children)
                 {
@@ -782,7 +789,7 @@ namespace ReliefProMain
                     }
                 }
                 tvi.Header = SP;
-                
+
             }
 
         }
@@ -798,12 +805,15 @@ namespace ReliefProMain
                 {
                     case "Open Plant":
                         OpenPlant();
-                        break;                   
+                        break;
                     case "New Plant":
                         CreatePlant();
                         break;
                     case "Save Plant":
                         SavePlant();
+                        break;
+                    case "Global Default":
+                        OpenGloadDefalut();
                         break;
 
                 }
@@ -817,9 +827,9 @@ namespace ReliefProMain
 
         private void MainWindowApp_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            
+
         }
-        
+
 
     }
     public class ListViewItemData
@@ -827,6 +837,6 @@ namespace ReliefProMain
         public string Name { get; set; }
         public string Pic { get; set; }
     }
-    
-   
+
+
 }

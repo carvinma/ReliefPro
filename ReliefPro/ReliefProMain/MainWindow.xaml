@@ -111,8 +111,8 @@
                         <Image Source="/images/uom.png"  ></Image>
                     </Button>
                     <Separator/>
-                    <Button Name="btnGlobalDefault" ToolTip="Global Default" VerticalAlignment="Center"  >
-                        <Image Source="/images/uom.png"  ></Image>
+                    <Button Name="btnGlobalDefault" ToolTip="Global Default" VerticalAlignment="Center"  Click="Button_Click">
+                        <Image Source="/images/GlobalDefault.ico"  ></Image>
                     </Button>
 
 
