@@ -28,9 +28,9 @@ namespace ReliefProLL
         {
             globalDefaultDAL.SaveGlobalDefault(SessionPS, lstFlarem, conditionsSettings);
         }
-        public IList<FlareSystem> GetFlareSystem()
+        public List<FlareSystem> GetFlareSystem()
         {
-            return globalDefaultDAL.GetFlareSystem(SessionPS);
+            return globalDefaultDAL.GetFlareSystem(SessionPS).ToList();
         }
         public ConditionsSettings GetConditionsSettings()
         {
