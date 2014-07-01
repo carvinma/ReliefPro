@@ -7,6 +7,7 @@ using Microsoft.Practices.Prism.Commands;
 using NHibernate;
 using ReliefProLL;
 using ReliefProMain.Model;
+using ReliefProModel.GlobalDefault;
 using UOMLib;
 
 namespace ReliefProMain.ViewModel
@@ -14,13 +15,23 @@ namespace ReliefProMain.ViewModel
     public class GlobalDefaultVM : ViewModelBase
     {
         public ICommand OKCMD { get; set; }
+        public ICommand DelCMD { get; set; }
+        public ICommand AddCMD { get; set; }
         public GlobalDefaultModel model { get; set; }
         private GlobalDefaultBLL globalDefaultBLL;
-        public GlobalDefaultVM(ISession SessionPS, ISession SessionPF)
+        public GlobalDefaultVM()
         {
             OKCMD = new DelegateCommand<object>(Save);
+            DelCMD = new DelegateCommand<object>(DelRow);
+            AddCMD = new DelegateCommand<object>(AddRow);
+            ISession SessionPS = TempleSession.Session;
+            ISession SessionPF = SessionPS;
             globalDefaultBLL = new GlobalDefaultBLL(SessionPS, SessionPF);
             model.lstFlareSystem = globalDefaultBLL.GetFlareSystem().ToList();
+            foreach (var flareSystem in model.lstFlareSystem)
+            {
+                flareSystem.RowGuid = Guid.NewGuid();
+            }
             model.conditSetModel = globalDefaultBLL.GetConditionsSettings();
             model.conditSetModel = globalDefaultBLL.ReadConvertModel(model.conditSetModel);
 
@@ -34,6 +45,21 @@ namespace ReliefProMain.ViewModel
                 model.conditSetModel.LatentHeatSettings = UnitConvert.Convert(model.LatentHeatSettingsUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.conditSetModel.LatentHeatSettings.Value);
             if (model.conditSetModel.DrumSurgeTimeSettings != null)
                 model.conditSetModel.DrumSurgeTimeSettings = UnitConvert.Convert(model.DrumSurgeTimeSettingsUnit, UOMLib.UOMEnum.Time.ToString(), model.conditSetModel.DrumSurgeTimeSettings.Value);
+        }
+        private void DelRow(object obj)
+        {
+            if (obj == null)
+                return;
+            var rowGuid = (Guid)obj;
+            var findFlareSystem = model.lstFlareSystem.FirstOrDefault(p => p.RowGuid == rowGuid);
+            if (findFlareSystem.RowGuid != null)
+                model.lstFlareSystem.Remove(findFlareSystem);
+        }
+        private void AddRow(object obj)
+        {
+            var flareSystem = new FlareSystem();
+            flareSystem.RowGuid = Guid.NewGuid();
+            model.lstFlareSystem.Add(flareSystem);
         }
         private void Save(object obj)
         {
