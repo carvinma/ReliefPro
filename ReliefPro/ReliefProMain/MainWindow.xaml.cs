@@ -399,6 +399,7 @@ namespace ReliefProMain
         {
             ReliefProMain.View.GlobalDefault.GlobalDefaultView view = new View.GlobalDefault.GlobalDefaultView();
             GlobalDefaultVM vm = new GlobalDefaultVM();
+            view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             view.DataContext = vm;
             view.ShowDialog();
         }
