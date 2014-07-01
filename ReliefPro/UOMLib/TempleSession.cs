@@ -9,7 +9,7 @@ namespace UOMLib
 {
     public class TempleSession
     {
-        private static readonly string dbConnectPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\plant.mdb";
+        private static readonly string dbConnectPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"Template\plant.mdb";
 
         public static ISession Session { get; private set; }
         static TempleSession()

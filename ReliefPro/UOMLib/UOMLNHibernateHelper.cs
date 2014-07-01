@@ -12,18 +12,25 @@ namespace UOMLib
 
         public UOMLNHibernateHelper(string dbPath)
         {
-            Configuration config = new Configuration();
-            IDictionary props = new Hashtable();
-            props["current_session_context_class"] = "thread_static";
-            props["connection.provider"] = "NHibernate.Connection.DriverConnectionProvider";
-            props["dialect"] = "NHibernate.JetDriver.JetDialect, NHibernate.JetDriver";
-            props["connection.driver_class"] = "NHibernate.JetDriver.JetDriver, NHibernate.JetDriver";
-            props["connection.connection_string"] = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}", dbPath);
-            foreach (DictionaryEntry de in props)
+            try
             {
-                config.SetProperty(de.Key.ToString(), de.Value.ToString());
+                Configuration config = new Configuration();
+                IDictionary props = new Hashtable();
+                props["current_session_context_class"] = "thread_static";
+                props["connection.provider"] = "NHibernate.Connection.DriverConnectionProvider";
+                props["dialect"] = "NHibernate.JetDriver.JetDialect, NHibernate.JetDriver";
+                props["connection.driver_class"] = "NHibernate.JetDriver.JetDriver, NHibernate.JetDriver";
+                props["connection.connection_string"] = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}", dbPath);
+                foreach (DictionaryEntry de in props)
+                {
+                    config.SetProperty(de.Key.ToString(), de.Value.ToString());
+                }
+                SessionFactory = config.AddAssembly("ReliefProModel").BuildSessionFactory();
             }
-            SessionFactory = config.AddAssembly("ReliefProModel").BuildSessionFactory();
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void BindSession()
