@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
@@ -26,18 +27,23 @@ namespace ReliefProMain.ViewModel
             AddCMD = new DelegateCommand<object>(AddRow);
             ISession SessionPS = TempleSession.Session;
             ISession SessionPF = SessionPS;
+            model = new GlobalDefaultModel();
             globalDefaultBLL = new GlobalDefaultBLL(SessionPS, SessionPF);
-            model.lstFlareSystem = globalDefaultBLL.GetFlareSystem().ToList();
+            model.lstFlareSystem = new ObservableCollection<FlareSystem>(globalDefaultBLL.GetFlareSystem());
             foreach (var flareSystem in model.lstFlareSystem)
             {
                 flareSystem.RowGuid = Guid.NewGuid();
             }
             model.conditSetModel = globalDefaultBLL.GetConditionsSettings();
-            model.conditSetModel = globalDefaultBLL.ReadConvertModel(model.conditSetModel);
-
-            UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
-            model.LatentHeatSettingsUnit = uomEnum.UserSpecificEnthalpy;
-            model.DrumSurgeTimeSettingsUnit = uomEnum.UserTime;
+            if (model.conditSetModel != null)
+                model.conditSetModel = globalDefaultBLL.ReadConvertModel(model.conditSetModel);
+            else
+                model.conditSetModel = new ConditionsSettings();
+            //UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
+            //model.LatentHeatSettingsUnit = uomEnum.UserSpecificEnthalpy;
+            //model.DrumSurgeTimeSettingsUnit = uomEnum.UserTime;
+            model.LatentHeatSettingsUnit = UOMEnum.SpecificEnthalpy;
+            model.DrumSurgeTimeSettingsUnit = UOMEnum.Time;
         }
         private void WriteConvertModel()
         {
@@ -58,6 +64,7 @@ namespace ReliefProMain.ViewModel
         private void AddRow(object obj)
         {
             var flareSystem = new FlareSystem();
+            flareSystem.isDel = true;
             flareSystem.RowGuid = Guid.NewGuid();
             model.lstFlareSystem.Add(flareSystem);
         }
@@ -69,7 +76,7 @@ namespace ReliefProMain.ViewModel
                 if (wd != null)
                 {
                     WriteConvertModel();
-                    globalDefaultBLL.Save(model.lstFlareSystem, model.conditSetModel);
+                    globalDefaultBLL.Save(model.lstFlareSystem.ToList(), model.conditSetModel);
                     wd.DialogResult = true;
                 }
             }

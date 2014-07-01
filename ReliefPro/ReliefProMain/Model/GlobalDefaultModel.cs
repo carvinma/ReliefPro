@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using ReliefProModel.GlobalDefault;
@@ -8,7 +9,7 @@ namespace ReliefProMain.Model
 {
     public class GlobalDefaultModel : ModelBase
     {
-        public List<FlareSystem> lstFlareSystem { get; set; }
+        public ObservableCollection<FlareSystem> lstFlareSystem { get; set; }
         public ConditionsSettings conditSetModel { get; set; }
         public bool AirCondition
         {
