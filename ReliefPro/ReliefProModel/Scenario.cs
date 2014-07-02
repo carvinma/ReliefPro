@@ -19,5 +19,6 @@ namespace ReliefProModel
         public virtual bool Flooding { get; set; }
         public virtual bool IsSurgeCalculation { get; set; }
         public virtual string SurgeTime { get; set; }
+        public virtual string dbPath { get; set; }
     }
 }
