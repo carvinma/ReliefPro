@@ -135,6 +135,7 @@
     <Compile Include="Sink.cs" />
     <Compile Include="AbnormalHeaterDetail.cs" />
     <Compile Include="Critical.cs" />
+    <Compile Include="FlashCalcResult.cs" />
     <EmbeddedResource Include="Compressors\CentrifugalBlockedOutlet.hbm.xml" />
     <EmbeddedResource Include="Compressors\PistonBlockedOutlet.hbm.xml" />
     <EmbeddedResource Include="DemoModel.hbm.xml" />
@@ -151,6 +152,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FlashCalcResult.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Critical.hbm.xml" />
     <EmbeddedResource Include="AbnormalHeaterDetail.hbm.xml" />
     <EmbeddedResource Include="ReactorLoops\GeneralFailureCommonDetail.hbm.xml" />

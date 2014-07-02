@@ -81,7 +81,9 @@ namespace ReliefProMain.ViewModel.Drums
                 Directory.CreateDirectory(tempdir);
             }
             string duty = "0";
-            if (drum.PfeedUpstream(SessionPS) > drum.PSet(SessionPS))
+            double feedupPress = model.MaxPressure;
+            double setPress=drum.PSet(SessionPS);
+            if (feedupPress >setPress )
             {
                 string content = PROIIFileOperator.getUsableContent(drum.Feeds[0].StreamName, DirPlant);
                 if (model.DrumType == "Flashing Drum")

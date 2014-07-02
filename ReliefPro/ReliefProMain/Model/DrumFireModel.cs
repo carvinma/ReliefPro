@@ -97,7 +97,7 @@ namespace ReliefProMain.Model
             this.reliefCpCv = dbmodel.ReliefCpCv;
             this.reliefZ = dbmodel.ReliefZ;
             this.designPressure = dbmodel.DesignPressure;
-            this.heavyOilFluid = dbmodel.HeavyOilFluid;
+            this.HeavyOilFluid = dbmodel.HeavyOilFluid;
             this.allGas = dbmodel.AllGas;
             this.equipmentExist = dbmodel.EquipmentExist;
         }
@@ -220,6 +220,17 @@ namespace ReliefProMain.Model
             set
             {
                 heavyOilFluid = value;
+                if (heavyOilFluid == true)
+                {
+                    EnabledCrack = true;
+                    if (crackingHeat == 0)
+                        CrackingHeat = 210 * 4.187;
+
+                }
+                else
+                {
+                    EnabledCrack = false;
+                }
                 NotifyPropertyChanged("HeavyOilFluid");
             }
         }
@@ -256,6 +267,17 @@ namespace ReliefProMain.Model
             }
         }
 
+        
+        private bool enabledCrack = false;
+        public bool EnabledCrack
+        {
+            get { return enabledCrack; }
+            set
+            {
+                enabledCrack = value;
+                NotifyPropertyChanged("EnabledCrack");
+            }
+        }
 
     }
 }

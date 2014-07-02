@@ -265,6 +265,7 @@ namespace ReliefProMain.ViewModel
 
         private void Save(object window)
         {
+            
             WriteConvert();
             dbsc = new ScenarioDAL();
             if (model == null)
@@ -499,7 +500,12 @@ namespace ReliefProMain.ViewModel
             double reliefLoad = Darcy(rMass, CV, MaxOperatingPressure, ReliefPressure);
             if (CurrentEqNormalVapor != null)
             {
-                VBReliefLoad = (reliefLoad - double.Parse(CurrentEqNormalVapor.WeightFlow)).ToString();
+                double wf=0;
+                if (!string.IsNullOrEmpty(CurrentEqNormalVapor.WeightFlow))
+                {
+                    wf=double.Parse(CurrentEqNormalVapor.WeightFlow);
+                }
+                VBReliefLoad = (reliefLoad -wf ).ToString();
                 VBReliefMW = this.UpStreamVaporData.BulkMwOfPhase;
                 VBReliefTemperature = UpStreamVaporData.Temperature;
             }
@@ -614,6 +620,14 @@ namespace ReliefProMain.ViewModel
         }
         private void WriteConvert()
         {
+            if (string.IsNullOrEmpty(MaxOperatingPressure))
+                MaxOperatingPressure = "0";
+            if (string.IsNullOrEmpty(ReliefLoad))
+                ReliefLoad = "0";
+            if (string.IsNullOrEmpty(ReliefPressure))
+                ReliefPressure = "0";
+            if (string.IsNullOrEmpty(ReliefTemperature))
+                ReliefTemperature = "0";
             this.MaxOperatingPressure = UnitConvert.Convert(_MaxOperatingPressureUnit, UOMEnum.Pressure, double.Parse(MaxOperatingPressure)).ToString();
             this.ReliefLoad = UnitConvert.Convert(reliefloadUnit, UOMEnum.MassRate, double.Parse(ReliefLoad)).ToString();
             this.ReliefPressure = UnitConvert.Convert(reliefPressureUnit, UOMEnum.Pressure, double.Parse(ReliefPressure)).ToString();

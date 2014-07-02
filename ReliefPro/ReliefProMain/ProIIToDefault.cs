@@ -51,6 +51,7 @@ namespace ReliefProMain
             if (!string.IsNullOrEmpty(s.TotalMolarRate))
                 TotalMolarRate = double.Parse(s.TotalMolarRate);
             string bulkmwofphase = s.BulkMwOfPhase;
+            cs.WeightFlow = "0";
             if (!string.IsNullOrEmpty(bulkmwofphase))
             {
                 double wf = TotalMolarRate * double.Parse(bulkmwofphase);
@@ -145,6 +146,7 @@ namespace ReliefProMain
             if (!string.IsNullOrEmpty(s.TotalMolarRate))
                 TotalMolarRate = double.Parse(s.TotalMolarRate);
             string bulkmwofphase = s.BulkMwOfPhase;
+            cs.WeightFlow = "0";
             if (!string.IsNullOrEmpty(bulkmwofphase))
             {
                 double wf = TotalMolarRate * double.Parse(bulkmwofphase);

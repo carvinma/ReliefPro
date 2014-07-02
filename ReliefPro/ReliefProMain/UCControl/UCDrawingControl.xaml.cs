@@ -891,7 +891,7 @@ namespace ReliefProMain.View
 
                     HeatExchangerDAL heatExchangerDAL = new HeatExchangerDAL();
                     HeatExchanger heatExchanger = heatExchangerDAL.GetModel(SessionProtectedSystem);
-                    if (drum != null)
+                    if (heatExchanger != null)
                     {
                         EqType = "HX";
                         EqName = heatExchanger.HXName;
@@ -900,7 +900,7 @@ namespace ReliefProMain.View
                     }
                     CompressorDAL compressorDAL = new CompressorDAL();
                     Compressor compressor = compressorDAL.GetModel(SessionProtectedSystem);
-                    if (drum != null)
+                    if (compressor != null)
                     {
                         EqType = "Compressor";
                         EqName = compressor.CompressorName;

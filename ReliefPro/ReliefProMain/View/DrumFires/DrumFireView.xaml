@@ -75,13 +75,13 @@
 		<Label Content="Relief MW" Grid.Row="12"/>
 		<Label Content="Relief Cp/Cv" Visibility="Hidden" Grid.Row="13"/>
         <Label Content="Relief Z" Visibility="Hidden" Grid.Row="14"/>
-		<CustomControl:UnitConvertTextBox Text="{Binding Path=model.WettedArea,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblArea,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="5"/>
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.LatentHeat,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLatent,Path=Content,Mode=TwoWay}" IsEnabled="{Binding Path=model.NoneAllGas,Mode=TwoWay}" Grid.Column="1"  Grid.Row="6"/>
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.CrackingHeat,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblCraking,Path=Content,Mode=TwoWay}" IsEnabled="{Binding Path=model.NoneAllGas,Mode=TwoWay}" Grid.Column="1"  Grid.Row="7"/>
-		<CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefLoad,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="9"/>
-		<CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPresses,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="10"/>
-		<CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefTemperature,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblTemper,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="11"/>
-		<TextBox Text="{Binding Path=model.ReliefMW,Mode=TwoWay}" Grid.Column="1"  Grid.Row="12"/>
+        <CustomControl:UnitConvertTextBox IsEnabled="False" Text="{Binding Path=model.WettedArea,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblArea,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="5"/>
+        <CustomControl:UnitConvertTextBox IsEnabled="False" Text="{Binding Path=model.LatentHeat,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLatent,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="6"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.CrackingHeat,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblCraking,Path=Content,Mode=TwoWay}" IsEnabled="{Binding Path=model.EnabledCrack,Mode=TwoWay}" Grid.Column="1"  Grid.Row="7"/>
+		<CustomControl:UnitConvertTextBox IsEnabled="False" Text="{Binding Path=model.ReliefLoad,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="9"/>
+        <CustomControl:UnitConvertTextBox IsEnabled="False" Text="{Binding Path=model.ReliefPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPresses,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="10"/>
+        <CustomControl:UnitConvertTextBox IsEnabled="False" Text="{Binding Path=model.ReliefTemperature,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblTemper,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="11"/>
+        <TextBox IsEnabled="False" Text="{Binding Path=model.ReliefMW,Mode=TwoWay}" Grid.Column="1"  Grid.Row="12"/>
         <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefCpCv,Mode=TwoWay}" Grid.Column="1"  Grid.Row="13"/>
         <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefZ,Mode=TwoWay}" Grid.Column="1"  Grid.Row="14"/>
         <Label x:Name="lblArea" Content="{Binding model.WettedAreaUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="5"/>
@@ -96,11 +96,11 @@
 		<ComboBox  ItemsSource="{Binding lstHeatInputModel, Mode=OneWay}" 
 						SelectedItem="{Binding SelectedHeatInputModel,Mode=TwoWay}"
 				   Grid.Column="1" Height="25" Grid.Row="2" Width="120"/>
-		<CheckBox IsChecked="{Binding model.EquipmentExist}" Content="Adequate drainage and firefighting equipment exist" HorizontalAlignment="Left" Margin="31,12,0,0" Grid.Row="3" VerticalAlignment="Top"/>
+        <CheckBox IsEnabled="{Binding Path=EnabledEquipmentExist}" IsChecked="{Binding model.EquipmentExist}" Content="Adequate drainage and firefighting equipment exist" HorizontalAlignment="Left" Margin="31,12,0,0" Grid.Row="3" VerticalAlignment="Top"/>
 
         <Button Content="Drum Size" Command="{Binding DrumSizeCMD}" Grid.Column="0" Grid.Row="1"  Width="125"  Height="21" Margin="30,0,205,0"/>
         <Button Content="Run Calculation" Command="{Binding CalcCMD}"  Grid.Column="0" Grid.Row="4"  Width="125"  Height="21" Margin="30,0,205,0"/>
-		<Button Content="OK" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=DrumFireWin}" Grid.Column="0" Grid.Row="14"  Width="75"  Height="25"/>
+		<Button Content="OK" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=DrumFireWin}" Grid.Column="0" Grid.Row="14"  Width="75"  Height="25" />
 		<Button Content="Cancel" IsCancel="True" Grid.Column="1"  Grid.Row="14" Width="75" Height="25"/>
 	</Grid>
 </Window>

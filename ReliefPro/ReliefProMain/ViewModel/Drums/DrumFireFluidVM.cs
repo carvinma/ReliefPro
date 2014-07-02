@@ -33,7 +33,6 @@ namespace ReliefProMain.ViewModel.Drums
             //  //model.dbmodel.ScenarioID = ScenarioID;
 
             UOMLib.UOMEnum uomEnum = new UOMLib.UOMEnum(SessionPF);
-#warning   inputVesselUnit
             model.VesselUnit = uomEnum.UserArea;
             model.PressureUnit = uomEnum.UserPressure;
             model.TemperatureUnit = uomEnum.UserTemperature;
@@ -55,6 +54,9 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void Save(object obj)
         {
+
+
+
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;
