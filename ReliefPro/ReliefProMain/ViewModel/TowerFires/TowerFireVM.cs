@@ -248,27 +248,27 @@ namespace ReliefProMain.ViewModel.TowerFires
                     SessionProtectedSystem.Flush();
                 }
             }
-            else if (eq.Type == "Other HX")
-            {
-                TowerFireOtherView v = new TowerFireOtherView();
-                TowerFireOtherVM vm = new TowerFireOtherVM(eq.ID, SessionPlant, SessionProtectedSystem);
-                v.DataContext = vm;
-                v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                if (v.ShowDialog() == true)
-                {
-                    EqList.Clear();
-                    eq.WettedArea = vm.Area.ToString();
-                    eq.HeatInput = Algorithm.GetQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
-                    eq.ReliefLoad = (double.Parse(eq.HeatInput) / latentEnthalpy).ToString();
-                    db.Update(eq, SessionProtectedSystem);
-                    IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, MainModel.ID);
-                    foreach (TowerFireEq q in list)
-                    {
-                        EqList.Add(q);
-                    }
-                    SessionProtectedSystem.Flush();
-                }
-            }
+            //else if (eq.Type == "Other HX")
+            //{
+                //TowerFireOtherView v = new TowerFireOtherView();
+                //TowerFireOtherVM vm = new TowerFireOtherVM(eq.ID, SessionPlant, SessionProtectedSystem);
+                //v.DataContext = vm;
+                //v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                //if (v.ShowDialog() == true)
+                //{
+                //    EqList.Clear();
+                //    eq.WettedArea = vm.Area.ToString();
+                //    eq.HeatInput = Algorithm.GetQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
+                //    eq.ReliefLoad = (double.Parse(eq.HeatInput) / latentEnthalpy).ToString();
+                //    db.Update(eq, SessionProtectedSystem);
+                //    IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, MainModel.ID);
+                //    foreach (TowerFireEq q in list)
+                //    {
+                //        EqList.Add(q);
+                //    }
+                //    SessionProtectedSystem.Flush();
+                //}
+           // }
 
 
         }

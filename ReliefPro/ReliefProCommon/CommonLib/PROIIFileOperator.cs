@@ -64,11 +64,22 @@ namespace ReliefProCommon.CommonLib
                     int start = s.IndexOf("=");
                     int end = s.IndexOf(",");
                     string key = s.Substring(start + 1, end - start-1);
-                    if(!keys.Contains(key.ToLower()))
+                    if (!keys.Contains(key.ToLower()))
                     {
-                        s=s.Replace(key,"srk");
+                        //更改方法和名字
+                        int st = s.IndexOf("SET=");
+                        string methodName = s.Substring(st);
+                        int ed = methodName.IndexOf(",");
+                        string mName = s.Substring(st);
+                        if (ed != -1)
+                        {
+                            mName = methodName.Substring(st, ed);
+                        }
+                        string result = "METHOD SYSTEM=SRK," + mName;
+                        sb.Append(result).Append("\n");
                     }
-                    sb.Append(s).Append("\n");
+                    else
+                        sb.Append(s).Append("\n");
                     i++;
                 }
                 else if (s.Trim().IndexOf("SEQUENCE") > -1)

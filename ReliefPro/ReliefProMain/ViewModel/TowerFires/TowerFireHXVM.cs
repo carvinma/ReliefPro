@@ -80,9 +80,8 @@ namespace ReliefProMain.ViewModel.TowerFires
 
             double length = double.Parse(m.Length);
             double pipingContingency = double.Parse(m.PipingContingency);
-            double od = double.Parse(m.OD);
-            double D = double.Parse(m.Elevation);
-            Area = Algorithm.GetHXArea(m.ExposedToFire, m.Type, length, od, D);
+            double od = double.Parse(m.OD);            
+            Area = Algorithm.GetHXArea(m.ExposedToFire, m.Type, length, od);
             Area = Area + Area * double.Parse(model.PipingContingency) / 100;
 
 
@@ -114,18 +113,18 @@ namespace ReliefProMain.ViewModel.TowerFires
         {
             if (!string.IsNullOrEmpty(model.OD))
                 model.OD = UnitConvert.Convert(UOMEnum.Length, oDUnit, double.Parse(model.OD)).ToString();
-            if (!string.IsNullOrEmpty(model.OD))
+            if (!string.IsNullOrEmpty(model.Length))
                 model.Length = UnitConvert.Convert(UOMEnum.Length, lengthUnit, double.Parse(model.Length)).ToString();
-            if (!string.IsNullOrEmpty(model.OD))
+            if (!string.IsNullOrEmpty(model.Elevation))
                 model.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, double.Parse(model.Elevation)).ToString();
         }
         private void WriteConvert()
         {
             if (!string.IsNullOrEmpty(model.OD))
                 model.OD = UnitConvert.Convert(oDUnit, UOMEnum.Length, double.Parse(model.OD)).ToString();
-            if (!string.IsNullOrEmpty(model.OD))
+            if (!string.IsNullOrEmpty(model.Length))
                 model.Length = UnitConvert.Convert(lengthUnit, UOMEnum.Length, double.Parse(model.Length)).ToString();
-            if (!string.IsNullOrEmpty(model.OD))
+            if (!string.IsNullOrEmpty(model.Elevation))
                 model.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, double.Parse(model.Elevation)).ToString();
         }
         private void InitUnit()

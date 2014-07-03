@@ -26,6 +26,7 @@ namespace ReliefProMain.ViewModel.Drums
         private DrumBll drum;
         public DrumBlockedOutletModel model { get; set; }
         public ICommand CalcCMD { get; set; }
+        public ICommand OKCMD { get; set; }
 
         private ISession SessionPS;
         private ISession SessionPF;
@@ -33,7 +34,7 @@ namespace ReliefProMain.ViewModel.Drums
         private string DirProtectedSystem { set; get; }
         private string PrzFile;
         private string PrzVersion;
-
+        double reliefLoad = 0, reliefMW = 0, reliefT = 0, reliefPressure=0;
         public Tuple<double, double, double, double> CalcTuple { get; set; }
         public DrumBlockedOutletVM(int ScenarioID, string przFile, string version, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
@@ -53,7 +54,7 @@ namespace ReliefProMain.ViewModel.Drums
             model.dbmodel.DrumID = drum.GetDrumID(SessionPS);
             model.dbmodel.ScenarioID = ScenarioID;
             CalcCMD = new DelegateCommand<object>(CalcResult);
-
+            OKCMD = new DelegateCommand<object>(Save);
             UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
             model.PressureUnit = uomEnum.UserPressure;
             model.StreamRateUnit = uomEnum.UserMassRate;
@@ -70,9 +71,8 @@ namespace ReliefProMain.ViewModel.Drums
             model.dbmodel.Feed = model.Feed;
         }
         private void CalcResult(object obj)
-        {
-            double reliefLoad = 0, reliefMW = 0, reliefT = 0;
-            double reliefPressure = drum.ScenarioReliefPressure(SessionPS);
+        {            
+            reliefPressure = drum.ScenarioReliefPressure(SessionPS);
             string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
             string liquid = "L_" + Guid.NewGuid().ToString().Substring(0, 6);
             string tempdir = DirProtectedSystem + @"\BlockedOutlet";
@@ -124,6 +124,12 @@ namespace ReliefProMain.ViewModel.Drums
             {
                 reliefLoad = 0;
             }
+           
+            
+        }
+
+        private void Save(object obj)
+        {
             WriteConvertModel();
             CalcTuple = new Tuple<double, double, double, double>(reliefLoad, reliefMW, reliefT, reliefPressure);
             drum.SaveDrumBlockedOutlet(model.dbmodel, SessionPS, reliefLoad, reliefMW, reliefT);

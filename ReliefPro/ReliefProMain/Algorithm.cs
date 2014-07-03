@@ -36,10 +36,10 @@ namespace ReliefProMain
                 Area = 0;
             return Area;
         }
-        public static double GetHXArea(string ExposedToFire, string Type, double Length, double OD, double D)
+        public static double GetHXArea(string ExposedToFire, string Type, double Length, double OD)
         {
             double Area = 0;
-
+            double D = OD;
             if (ExposedToFire == "Shell")
             {
                 if (Type == "Fixed")

@@ -99,7 +99,7 @@ namespace ReliefProMain.ViewModel.TowerFires
 
             TowerFireColumnDetailDAL dbDetail = new TowerFireColumnDetailDAL();
             IList<TowerFireColumnDetail> list = dbDetail.GetAllList(SessionProtectedSystem, model.Instance.ID);
-            model.Details = new ObservableCollection<TowerFireColumnDetail>();
+            //model.Details = new ObservableCollection<TowerFireColumnDetail>();
             foreach (TowerFireColumnDetail d in list)
             {
                 dbDetail.Delete(d,SessionProtectedSystem);
