@@ -1,0 +1,529 @@
+﻿<Window x:Class="ReliefProMain.View.Reports.PUsummaryView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PUsummaryView" Height="700" Width="1360">
+    <Window.Resources>
+        <Style TargetType="{x:Type RowDefinition}">
+            <Setter Property="Height" Value="30"/>
+        </Style>
+        
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="25,5,0,0"/>
+        </Style>
+        <Style x:Key="LabelLeftStyle">
+            <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
+            <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="22"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Plant Name"  Grid.Row="0"/> 
+        <Label Content="Process Unit Name"  Grid.Row="1"/>
+        <Label Content="Description" Margin="400,0,0,0" Grid.Row="0"/>
+        <TextBox Margin="150,0,0,0"  Width="180 "  Grid.Column="0"  Grid.Row="0"/>
+        <TextBox Margin="150,0,0,0" Width="180" Grid.Row="1"/>
+        <TextBox Margin="480,0,0,0" Width="250" Height="50" Grid.Row="0" Grid.RowSpan="2"/>
+        <Button Content="Export Excel" Margin="750,0,0,0" Width="90" HorizontalAlignment="Left"/>
+        <GroupBox Grid.Row="3" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ContentControl Content="{Binding Stackpanel}"/>
+                
+                <DataGrid ItemsSource="{Binding model.listGrid}" IsReadOnly="True" AutoGenerateColumns="False" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="2" 
+                         >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Device #" Binding="{Binding psv.PSVName}"/>
+                        <DataGridTextColumn Header="Protected System"  Binding="{Binding psv.PSVName}"/>
+                        <DataGridTextColumn Header="Device Type"  Binding="{Binding psv.ValveType}"/>
+                        <DataGridTextColumn Header="Set Pressure,MPag" Binding="{Binding psv.Pressure}"/>
+                        <DataGridTextColumn Header="Discharge To" Binding="{Binding psv.DischargeTo}"/>
+
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Border>
+                                            <Label Content="Controlling Single Scenario" Width="340" HorizontalContentAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                         <GridSplitter BorderBrush="Black" BorderThickness="0.5"   HorizontalAlignment="Stretch"/>
+                                        </Border>
+                                        <Border>
+                                            <StackPanel Width="340" Orientation="Horizontal">
+                                                <StackPanel Width="75">
+                                                    <Label Content="Relief Rate,"/>
+                                                    <Label Content="Kg/hr"/>
+                                                </StackPanel>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="Phase" Width="50" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <StackPanel Width="70">
+                                                    <Label Content="MW"/>
+                                                    <Label Content="or SpGr"/>
+                                                </StackPanel>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="T,C" Width="70" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="Z" Width="70" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Width="Auto" Height="Auto" Orientation="Horizontal">
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="77"
+                                        Text="{Binding SingleDS.ReliefLoad}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="48"
+                                        Text="{Binding SingleDS.Phase}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding SingleDS.ReliefMW}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding SingleDS.ReliefTemperature}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding SingleDS.ReliefZ}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Border>
+                                            <Label Content="General Electric Power Failure" Width="340" HorizontalContentAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter BorderBrush="Black" BorderThickness="0.5"   HorizontalAlignment="Stretch"/>
+                                        </Border>
+                                        <Border>
+                                            <StackPanel Width="340" Orientation="Horizontal">
+                                                <StackPanel Width="75">
+                                                    <Label Content="Relief Rate,"/>
+                                                    <Label Content="Kg/hr"/>
+                                                </StackPanel>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="Phase" Width="50" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <StackPanel Width="70">
+                                                    <Label Content="MW"/>
+                                                    <Label Content="or SpGr"/>
+                                                </StackPanel>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="T,C" Width="70" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="Z" Width="70" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Width="Auto" Height="Auto" Orientation="Horizontal">
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="77"
+                                        Text="{Binding PowerDS.ReliefLoad}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="48"
+                                        Text="{Binding PowerDS.Phase}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding PowerDS.ReliefMW}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding PowerDS.ReliefTemperature}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding PowerDS.ReliefZ}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Border>
+                                            <Label Content="General Cooling Water Failure" Width="340" HorizontalContentAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter BorderBrush="Black" BorderThickness="0.5"   HorizontalAlignment="Stretch"/>
+                                        </Border>
+                                        <Border>
+                                            <StackPanel Width="340" Orientation="Horizontal">
+                                                <StackPanel Width="75">
+                                                    <Label Content="Relief Rate,"/>
+                                                    <Label Content="Kg/hr"/>
+                                                </StackPanel>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="Phase" Width="50" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <StackPanel Width="70">
+                                                    <Label Content="MW"/>
+                                                    <Label Content="or SpGr"/>
+                                                </StackPanel>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="T,C" Width="70" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="Z" Width="70" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Width="Auto" Height="Auto" Orientation="Horizontal">
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="77"
+                                        Text="{Binding WaterDS.ReliefLoad}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="48"
+                                        Text="{Binding WaterDS.Phase}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding WaterDS.ReliefMW}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding WaterDS.ReliefTemperature}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding WaterDS.ReliefZ}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Border>
+                                            <Label Content="General Instument Air Failure" Width="340" HorizontalContentAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter BorderBrush="Black" BorderThickness="0.5"   HorizontalAlignment="Stretch"/>
+                                        </Border>
+                                        <Border>
+                                            <StackPanel Width="340" Orientation="Horizontal">
+                                                <StackPanel Width="75">
+                                                    <Label Content="Relief Rate,"/>
+                                                    <Label Content="Kg/hr"/>
+                                                </StackPanel>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="Phase" Width="50" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <StackPanel Width="70">
+                                                    <Label Content="MW"/>
+                                                    <Label Content="or SpGr"/>
+                                                </StackPanel>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="T,C" Width="70" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="Z" Width="70" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Width="Auto" Height="Auto" Orientation="Horizontal">
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="77"
+                                        Text="{Binding AirDS.ReliefLoad}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="48"
+                                        Text="{Binding AirDS.Phase}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding AirDS.ReliefMW}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding AirDS.ReliefTemperature}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding AirDS.ReliefZ}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Border>
+                                            <Label Content="Steam Failure" Width="340" HorizontalContentAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter BorderBrush="Black" BorderThickness="0.5"   HorizontalAlignment="Stretch"/>
+                                        </Border>
+                                        <Border>
+                                            <StackPanel Width="340" Orientation="Horizontal">
+                                                <StackPanel Width="75">
+                                                    <Label Content="Relief Rate,"/>
+                                                    <Label Content="Kg/hr"/>
+                                                </StackPanel>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="Phase" Width="50" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <StackPanel Width="70">
+                                                    <Label Content="MW"/>
+                                                    <Label Content="or SpGr"/>
+                                                </StackPanel>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="T,C" Width="70" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="Z" Width="70" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Width="Auto" Height="Auto" Orientation="Horizontal">
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="77"
+                                        Text="{Binding SteamDS.ReliefLoad}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="48"
+                                        Text="{Binding SteamDS.Phase}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding SteamDS.ReliefMW}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding SteamDS.ReliefTemperature}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding SteamDS.ReliefZ}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Border>
+                                            <Label Content="Fire" Width="340" HorizontalContentAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter BorderBrush="Black" BorderThickness="0.5"   HorizontalAlignment="Stretch"/>
+                                        </Border>
+                                        <Border>
+                                            <StackPanel Width="340" Orientation="Horizontal">
+                                                <StackPanel Width="75">
+                                                    <Label Content="Relief Rate,"/>
+                                                    <Label Content="Kg/hr"/>
+                                                </StackPanel>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="Phase" Width="50" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <StackPanel Width="70">
+                                                    <Label Content="MW"/>
+                                                    <Label Content="or SpGr"/>
+                                                </StackPanel>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="T,C" Width="70" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="Z" Width="70" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Width="Auto" Height="Auto" Orientation="Horizontal">
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="77"
+                                        Text="{Binding FireDS.ReliefLoad}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="48"
+                                        Text="{Binding FireDS.Phase}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding FireDS.ReliefMW}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding FireDS.ReliefTemperature}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding FireDS.ReliefZ}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </GroupBox>
+        <Button Content="OK" Grid.Row="4" Margin="750,0,0,0" Width="90" HorizontalAlignment="Left"/>
+        <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Row="4" Grid.Column="0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="#" Width="30"></DataGridTextColumn>
+                <DataGridTextColumn Header="Notes" Width="*" ></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Content="OK" Grid.Row="5" Margin="750,0,0,0" Width="90" HorizontalAlignment="Left"/>
+    </Grid>
+</Window>
