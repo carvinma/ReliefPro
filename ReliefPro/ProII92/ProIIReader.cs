@@ -149,6 +149,8 @@ namespace ProII92
         /// <param name="trayFlow">1:net 2:total</param>
         public ProIIStreamData CopyStream(string columnName, int tray, int phase, int trayFlow)
         {
+            string pressure1 = "0";
+            
             ProIIStreamData proIIStream = new ProIIStreamData();
             string streamName = "temp" + Guid.NewGuid().ToString().Substring(0, 5).ToUpper();
             CP2Object tempStream = (CP2Object)cp2File.CreateObject("Stream", streamName);
@@ -157,6 +159,17 @@ namespace ProII92
             proIIStream = GetSteamInfo(streamName);
             proIIStream.Tray = tray.ToString();
             proIIStream.ProdType = phase.ToString();
+            if (proIIStream.Pressure == "0")
+            {
+                CP2Object objColumn = (CP2Object)cp2File.ActivateObject("Column", columnName);
+                object v = objColumn.GetAttribute("TrayPressures");
+                if (v is Array)
+                {
+                    object[] values = (object[])v;
+                    pressure1 = values[1].ToString();
+                }
+                proIIStream.Pressure = pressure1;
+            }
             cp2File.DeleteObject("Stream", streamName);
             return proIIStream;
         }
