@@ -159,6 +159,7 @@
     <Compile Include="Model\ReactorLoops\GeneralFailureCommonModel.cs" />
     <Compile Include="Model\ReactorLoops\ReactorLoopCommonModel.cs" />
     <Compile Include="Model\ReactorLoops\ReactorLoopModel.cs" />
+    <Compile Include="Model\Reports\PUsummaryModel.cs" />
     <Compile Include="Model\ScenarioModel.cs" />
     <Compile Include="Model\SinkModel.cs" />
     <Compile Include="Model\TowerFireColumnModel.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="ViewModel\ReactorLoops\GeneralFailureCommonVM.cs" />
     <Compile Include="ViewModel\ReactorLoops\ReactorLoopCommonVM.cs" />
     <Compile Include="ViewModel\ReactorLoops\ReactorLoopVM.cs" />
+    <Compile Include="ViewModel\Reports\PUsummaryVM.cs" />
     <Compile Include="ViewModel\ScenarioListVM.cs" />
     <Compile Include="ViewModel\SelectEquipmentVM.cs" />
     <Compile Include="ViewModel\SourceVM.cs" />
@@ -260,6 +262,9 @@
     </Compile>
     <Compile Include="View\HXs\TubeRuptureView.xaml.cs">
       <DependentUpon>TubeRuptureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Reports\PUsummaryView.xaml.cs">
+      <DependentUpon>PUsummaryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Scenarios\ScenarioHeatSourceListView.xaml.cs">
       <DependentUpon>ScenarioHeatSourceListView.xaml</DependentUpon>
@@ -479,6 +484,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\HXs\TubeRuptureView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Reports\PUsummaryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

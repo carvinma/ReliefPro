@@ -114,7 +114,9 @@
                     <Button Name="btnGlobalDefault" ToolTip="Global Default" VerticalAlignment="Center"  Click="Button_Click">
                         <Image Source="/images/GlobalDefault.ico"  ></Image>
                     </Button>
-
+                    <Button Name="btnReport" ToolTip="Report" VerticalAlignment="Center"  Click="Button_Click">
+                        <Image Source="/images/Report.ico"  ></Image>
+                    </Button>
 
 
                 </ToolBar>

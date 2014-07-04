@@ -39,6 +39,8 @@ using Vo = Microsoft.Office.Interop.VisOcx;
 using Visio = Microsoft.Office.Interop.Visio;
 using ReliefProMain.View;
 using ReliefProMain.ViewModel;
+using ReliefProMain.View.Reports;
+using ReliefProMain.ViewModel.Reports;
 
 namespace ReliefProMain
 {
@@ -399,6 +401,16 @@ namespace ReliefProMain
         {
             ReliefProMain.View.GlobalDefault.GlobalDefaultView view = new View.GlobalDefault.GlobalDefaultView();
             GlobalDefaultVM vm = new GlobalDefaultVM();
+            view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            view.DataContext = vm;
+            view.ShowDialog();
+        }
+        private void OpenReport()
+        {
+            List<string> ReportPath = new List<string>();
+            ReportPath.Add(@"C:\Users\Administrator\AppData\Local\Relief 1.0\testtank\Unit1\ProtectedSystem1\protectedsystem.mdb");
+            PUsummaryView view = new PUsummaryView();
+            PUsummaryVM vm = new PUsummaryVM(ReportPath);
             view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             view.DataContext = vm;
             view.ShowDialog();
@@ -815,6 +827,9 @@ namespace ReliefProMain
                         break;
                     case "Global Default":
                         OpenGloadDefalut();
+                        break;
+                    case "Report":
+                        OpenReport();
                         break;
 
                 }
