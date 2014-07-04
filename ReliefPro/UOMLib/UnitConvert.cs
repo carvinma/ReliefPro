@@ -100,7 +100,7 @@ namespace UOMLib
         }
         public static double Convert(string OriginUnit, string TargetUnit, double value)
         {
-            if (value == 0) return 0;
+            //if (value == 0) return 0;
             if (string.IsNullOrEmpty(OriginUnit) || string.IsNullOrEmpty(TargetUnit))
                 return value;
             if (OriginUnit.ToLower() == TargetUnit.ToLower())

@@ -239,7 +239,8 @@ namespace ReliefProMain.ViewModel
             string copyFile=dirCopyStream+@"\"+fileName;
             File.Copy(PrzFile, copyFile,true);
             CustomStream stream = CopyTop1Liquid(copyFile);
-            if (stream.Pressure == "0")
+            double internPressure = UnitConvert.Convert("MPAG", "KPA", double.Parse(stream.Pressure));
+            if (internPressure == 0)
             {
                 MessageBox.Show("Please Rerun this ProII file and save it.","Message Box");
                 return;
