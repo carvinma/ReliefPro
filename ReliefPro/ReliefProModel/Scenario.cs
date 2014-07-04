@@ -20,5 +20,7 @@ namespace ReliefProModel
         public virtual bool IsSurgeCalculation { get; set; }
         public virtual string SurgeTime { get; set; }
         public virtual string dbPath { get; set; }
+        private string phase = "V";
+        public virtual string Phase { get { return phase; } set { phase = value; } }
     }
 }
