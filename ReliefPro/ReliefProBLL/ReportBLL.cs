@@ -10,6 +10,8 @@ using ReliefProBLL.Common;
 using ReliefProDAL;
 using ReliefProDAL.GlobalDefault;
 using ReliefProModel;
+using ReliefProModel.GlobalDefault;
+using UOMLib;
 
 namespace ReliefProLL
 {
@@ -18,22 +20,21 @@ namespace ReliefProLL
         private GlobalDefaultDAL globalDefaultDAL = new GlobalDefaultDAL();
         private PSVDAL psvDAL = new PSVDAL();
         private ScenarioDAL scenarioDAL = new ScenarioDAL();
-        private ConcurrentBag<ISession> BagList = new ConcurrentBag<ISession>();
-        private ConcurrentBag<PSV> PSVBag = new ConcurrentBag<PSV>();
-        private ConcurrentBag<Scenario> ScenarioBag = new ConcurrentBag<Scenario>();
-        static CountdownEvent countdown = new CountdownEvent(Environment.ProcessorCount);
+        public ConcurrentBag<PSV> PSVBag = new ConcurrentBag<PSV>();
+        public ConcurrentBag<Scenario> ScenarioBag = new ConcurrentBag<Scenario>();
+        static CountdownEvent countdown = new CountdownEvent(0);
         public List<string> ReportPath;
         string ss = "Controlling Single Scenario";
-        string[] ScenarioName = new string[] {"Controlling Single Scenario", "General Electric Power Failure",
+        public string[] ScenarioName = new string[] {"Controlling Single Scenario", "General Electric Power Failure",
             "General Cooling Water Failure","General Instument Air Failure","Steam Failure","Fire" };
         public ReportBLL(List<string> ReportPath)
         {
             this.ReportPath = ReportPath;
             GenerateDbSession();
         }
-        private void GetDisChargeTo(ISession SessionPS)
+        public List<FlareSystem> GetDisChargeTo()
         {
-            globalDefaultDAL.GetFlareSystem(SessionPS).ToList();
+            return globalDefaultDAL.GetFlareSystem(TempleSession.Session).ToList();
         }
         private void GetPSVInfo(ISession SessionPS)
         {
@@ -52,7 +53,7 @@ namespace ReliefProLL
                 foreach (string scenarioName in ScenarioName)
                 {
                     var scenarioInfo = ScenarioBag.FirstOrDefault(s => s.dbPath == p.dbPath && s.ScenarioName == scenarioName);
-                    if (scenarioInfo.ID <= 0)
+                    if (scenarioInfo == null || scenarioInfo.ID <= 0)
                     {
                         Scenario scenario = new Scenario();
                         scenario.dbPath = p.dbPath;
@@ -67,17 +68,24 @@ namespace ReliefProLL
         }
         private void GenerateDbSession()
         {
-            Parallel.ForEach(ReportPath, (p, loopState) =>
+            ReportPath.AsParallel().ForAll(p =>
             {
-                countdown.AddCount();
                 NHibernateHelper helperProtectedSystem = new NHibernateHelper(p);
                 var tmpSession = helperProtectedSystem.GetCurrentSession();
                 GetPSVInfo(tmpSession);
                 GetScenarioInfo(tmpSession);
-                countdown.Signal();
             });
-            countdown.Signal();
-            countdown.Wait();
+            //Parallel.ForEach(ReportPath, (p, loopState) =>
+            //{
+            //    countdown.AddCount();
+            //    NHibernateHelper helperProtectedSystem = new NHibernateHelper(p);
+            //    var tmpSession = helperProtectedSystem.GetCurrentSession();
+            //    GetPSVInfo(tmpSession);
+            //    GetScenarioInfo(tmpSession);
+            //    countdown.Signal();
+            //});
+            //countdown.Signal();
+            //countdown.Wait();
             InitInfo();
         }
     }
