@@ -237,7 +237,7 @@ namespace ReliefProMain.ViewModel
 
             string fileName=System.IO.Path.GetFileName(PrzFile);
             string copyFile=dirCopyStream+@"\"+fileName;
-            File.Copy(PrzFile, copyFile);
+            File.Copy(PrzFile, copyFile,true);
             CustomStream stream = CopyTop1Liquid(copyFile);
             if (stream.Pressure == "0")
             {
@@ -245,18 +245,19 @@ namespace ReliefProMain.ViewModel
                 return;
             }
             PROIIFileOperator.DecompressProIIFile(PrzFile, tempdir);
-            string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-
+            
+            string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
             double ReliefPressure = double.Parse(CurrentModel.ReliefPressureFactor) * double.Parse(CurrentModel.Pressure);
             
             double criticalPressure = 0;
-            bool b=CalcCriticalPressure(content, ReliefPressure, stream, dirPhase,  ref criticalPressure);
+            bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase, ref criticalPressure);
             if(b==false)
                 return ;
             double latentEnthalpy = 0;
             double ReliefTemperature = 0;
             LatentProduct latentVapor = new LatentProduct();
             LatentProduct latentLiquid = new LatentProduct();
+            string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
             if (criticalPressure > ReliefPressure)
             {
                 b = CalcLatent(content, ReliefPressure, stream, dirLatent, ref latentVapor, ref latentLiquid);
