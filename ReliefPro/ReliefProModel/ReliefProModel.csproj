@@ -76,6 +76,8 @@
     <Compile Include="GlobalDefault\ConditionsSettings.cs" />
     <Compile Include="GlobalDefault\FlareSystem.cs" />
     <Compile Include="HXs\HeatExchanger.cs" />
+    <Compile Include="Reports\PUsummary.cs" />
+    <Compile Include="Reports\PUsummaryNote.cs" />
     <Compile Include="StorageTank.cs" />
     <Compile Include="DemoModel.cs">
       <SubType>Code</SubType>
@@ -152,6 +154,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reports\PUsummaryNote.hbm.xml" />
+    <EmbeddedResource Include="Reports\PUsummary.hbm.xml" />
     <EmbeddedResource Include="FlashCalcResult.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
