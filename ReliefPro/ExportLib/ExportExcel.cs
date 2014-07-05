@@ -22,7 +22,8 @@ namespace ExportLib
             string saveFileName = string.Empty;
             SaveFileDialog saveDialog = new SaveFileDialog();
             saveDialog.DefaultExt = "xls";
-            saveDialog.Filter = "Excel文件|*.xls|*.xlsx";
+            // saveDialog.Filter = "Excel文件|*.xls|*.xlsx";
+            saveDialog.Filter = "Excel(*.xls)|*.xls|Excel(*.xlsx)|*.xlsx";
             saveDialog.FileName = fileName;
             saveDialog.DefaultExt = "xlsx";
             saveDialog.ShowDialog();
