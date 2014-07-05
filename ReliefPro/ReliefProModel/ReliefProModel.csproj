@@ -77,6 +77,7 @@
     <Compile Include="GlobalDefault\FlareSystem.cs" />
     <Compile Include="HXs\HeatExchanger.cs" />
     <Compile Include="Reports\PUsummary.cs" />
+    <Compile Include="Reports\PUsummaryGridDS.cs" />
     <Compile Include="Reports\PUsummaryNote.cs" />
     <Compile Include="StorageTank.cs" />
     <Compile Include="DemoModel.cs">
