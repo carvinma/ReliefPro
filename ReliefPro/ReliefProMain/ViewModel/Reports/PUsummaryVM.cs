@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ReliefProBLL;
 using ReliefProLL;
 using ReliefProMain.Commands;
 using ReliefProMain.Model.Reports;
@@ -21,6 +22,7 @@ namespace ReliefProMain.ViewModel.Reports
         StackPanel stackPanel;
         public ICommand OKCMD { get; set; }
         public ICommand BtnReportCMD { get; set; }
+        public ICommand ExportExcelCMD { get; set; }
         public PUsummaryModel model { get; set; }
         List<string> listScenario = new List<string> { "PowerDS", "WaterDS", "AirDS", "SteamDS", "FireDS" };
         List<string> listProperty = new List<string> { "ReliefLoad", "ReliefMW", "ReliefTemperature", "ReliefZ" };
@@ -32,6 +34,7 @@ namespace ReliefProMain.ViewModel.Reports
         public PUsummaryVM(List<string> ReportPath)
         {
             BtnReportCMD = new DelegateCommand<object>(BtnReprotClick);
+            ExportExcelCMD = new DelegateCommand<object>(BtnExportExcel);
             reportBLL = new ReportBLL(ReportPath);
             CreateControl(reportBLL.GetDisChargeTo());
 
@@ -188,6 +191,11 @@ namespace ReliefProMain.ViewModel.Reports
             {
                 InitModel(obj.ToString());
             }
+        }
+        private void BtnExportExcel(object obj)
+        {
+            ExportLib.ExportExcel export = new ExportLib.ExportExcel();
+            export.ExportToExcel(model.listGrid, "PUsummary.xlsx");
         }
         private void CreateControl(List<FlareSystem> lstFlareSystem)
         {
