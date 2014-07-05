@@ -10,6 +10,7 @@ using ReliefProMain.Commands;
 using ReliefProMain.Model.Reports;
 using ReliefProModel;
 using ReliefProModel.GlobalDefault;
+using ReliefProModel.Reports;
 
 namespace ReliefProMain.ViewModel.Reports
 {
@@ -185,6 +186,7 @@ namespace ReliefProMain.ViewModel.Reports
         {
             if (obj != null)
             {
+                InitModel(obj.ToString());
             }
         }
         private void CreateControl(List<FlareSystem> lstFlareSystem)
