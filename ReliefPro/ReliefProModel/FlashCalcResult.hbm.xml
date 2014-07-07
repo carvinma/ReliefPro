@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="ReliefProModel.FlashCalcResult, ReliefProModel" table="tbFlashCalcResult" >
+    <id name="ID" column="ID" type="Int32" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+    <property name="ScenarioID" column="ScenarioID" type="Int32"  />    
+    <property name="Latent" column="Latent" type="Double"  />
+    <property name="ReliefTemperature" column="ReliefTemperature" type="Double" />
+    <property name="ReliefPressure" column="ReliefPressure" type="Double"  />
+    <property name="ReliefMW" column="ReliefMW" type="Double"  />
+    <property name="ReliefCpCv" column="ReliefCpCv" type="Double"  />
+    <property name="ReliefZ" column="ReliefZ" type="Double"  />
+  </class>
+</hibernate-mapping>
