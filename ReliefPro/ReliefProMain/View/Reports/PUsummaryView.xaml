@@ -72,13 +72,13 @@
                                 <DataTemplate>
                                     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                         <Border>
-                                            <Label Content="Controlling Single Scenario" Width="340" HorizontalContentAlignment="Center"/>
+                                            <Label Content="Controlling Single Scenario" Width="410" HorizontalContentAlignment="Center"/>
                                         </Border>
                                         <Border>
                                          <GridSplitter BorderBrush="Black" BorderThickness="0.5"   HorizontalAlignment="Stretch"/>
                                         </Border>
                                         <Border>
-                                            <StackPanel Width="340" Orientation="Horizontal">
+                                            <StackPanel Width="410" Orientation="Horizontal">
                                                 <StackPanel Width="75">
                                                     <Label Content="Relief Rate,"/>
                                                     <Label Content="Kg/hr"/>
@@ -97,6 +97,10 @@
                                                 <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
                                                 <Label Content="Z" Width="70" 
                                                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                <GridSplitter BorderBrush="Black" BorderThickness="0.5"/>
+                                                <Label Content="Scenario" Width="70" 
+                                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                
                                             </StackPanel>
                                         </Border>
                                     </StackPanel>
@@ -136,6 +140,13 @@
                                         <Border>
                                             <TextBlock Margin="1,0,1,0"  Width="68"
                                         Text="{Binding SingleDS.ReliefZ}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border>
+                                            <GridSplitter Background="Black" BorderThickness="0.5" BorderBrush="Black" Margin="0,-1,0,-1"/>
+                                        </Border>
+                                        <Border>
+                                            <TextBlock Margin="1,0,1,0"  Width="68"
+                                        Text="{Binding SingleDS.ScenarioName}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         </Border>
                                     </StackPanel>
                                 </DataTemplate>
