@@ -29,12 +29,12 @@ namespace ReliefProMain
             //TowerScenarioView mainF = new TowerScenarioView();
             //Task.Factory.StartNew(() => { InitData(); });
             InitData();
-            //MainWindow v = new MainWindow();
-            //MainWindowVM vm = new MainWindowVM();
-            //v.DataContext = vm;
-            //v.WindowState = WindowState.Maximized;
+            MainWindow v = new MainWindow();
+            MainWindowVM vm = new MainWindowVM();
+            v.DataContext = vm;
+            v.WindowState = WindowState.Maximized;
 
-            PlantSummaryView v = new PlantSummaryView();
+           // PlantSummaryView v = new PlantSummaryView();
             v.Show();
 
         }
