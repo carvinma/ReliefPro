@@ -76,6 +76,7 @@
     <Compile Include="GlobalDefault\ConditionsSettings.cs" />
     <Compile Include="GlobalDefault\FlareSystem.cs" />
     <Compile Include="HXs\HeatExchanger.cs" />
+    <Compile Include="Reports\PlantSummaryGridDS.cs" />
     <Compile Include="Reports\PUsummary.cs" />
     <Compile Include="Reports\PUsummaryGridDS.cs" />
     <Compile Include="Reports\PUsummaryNote.cs" />
