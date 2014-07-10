@@ -17,7 +17,7 @@ namespace ExportLib
         private List<string> listScenario = new List<string> { "PowerDS", "WaterDS", "AirDS", "SteamDS", "FireDS" };
         private List<string> listProperty = new List<string> { "ReliefLoad", "Phase", "ReliefMW", "ReliefTemperature", "ReliefZ" };
 
-        public void ExportToExcel(List<PUsummaryGridDS> ReportDs, string fileName)
+        public void ExportToExcelPUsummary(List<PUsummaryGridDS> ReportDs, string fileName)
         {
             GC.Collect();//强制回收垃圾
             string saveFileName = string.Empty;
