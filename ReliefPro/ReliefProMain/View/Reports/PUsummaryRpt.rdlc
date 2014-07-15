@@ -21,10 +21,10 @@
               <Width>1.78562cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.5cm</Width>
+              <Width>2.07667cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.20896cm</Width>
+              <Width>1.25646cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.70625cm</Width>
@@ -33,7 +33,7 @@
               <Width>1.5475cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.15063cm</Width>
+              <Width>1.3623cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.57396cm</Width>
@@ -901,8 +901,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>MW
-</Value>
+                              <Value>MW</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -2448,7 +2447,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox193">
+                    <Textbox Name="Textbox1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -2464,7 +2463,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox193</rd:DefaultName>
+                      <rd:DefaultName>Textbox1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -2484,7 +2483,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox192">
+                    <Textbox Name="Textbox2">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -2500,7 +2499,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox192</rd:DefaultName>
+                      <rd:DefaultName>Textbox2</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -3908,14 +3907,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="ScenarioMWorSpGr1">
+                    <Textbox Name="PowerMWorSpGr">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!ScenarioMWorSpGr.Value</Value>
+                              <Value>=Fields!PowerMWorSpGr.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -3924,7 +3923,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>ScenarioMWorSpGr1</rd:DefaultName>
+                      <rd:DefaultName>PowerMWorSpGr</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Solid</Style>
@@ -3959,14 +3958,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="ScenarioT1">
+                    <Textbox Name="PowerT">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!ScenarioT.Value</Value>
+                              <Value>=Fields!PowerT.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -3975,7 +3974,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>ScenarioT1</rd:DefaultName>
+                      <rd:DefaultName>PowerT</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Solid</Style>
@@ -4010,14 +4009,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="ScenarioZ1">
+                    <Textbox Name="PowerZ">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!ScenarioZ.Value</Value>
+                              <Value>=Fields!PowerZ.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -4026,7 +4025,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>ScenarioZ1</rd:DefaultName>
+                      <rd:DefaultName>PowerZ</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Solid</Style>
@@ -8431,7 +8430,7 @@
         </TablixRowHierarchy>
         <DataSetName>PUDataSet</DataSetName>
         <Height>3.6cm</Height>
-        <Width>56.00104cm</Width>
+        <Width>54.83691cm</Width>
         <Style>
           <Border>
             <Style>Solid</Style>

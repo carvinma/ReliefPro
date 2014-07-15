@@ -724,7 +724,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\Reports\PUsummaryRpt.rdlc" />
+    <None Include="View\Reports\PUsummaryRpt.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\ReliefProModel.Reports.PUsummaryReportSource.datasource" />
     <None Include="Properties\Settings.settings">

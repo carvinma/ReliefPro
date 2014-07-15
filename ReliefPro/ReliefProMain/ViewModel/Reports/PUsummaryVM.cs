@@ -5,8 +5,10 @@ using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms.Integration;
 using System.Windows.Input;
 using System.Windows.Media;
+using Microsoft.Reporting.WinForms;
 using ReliefProBLL;
 using ReliefProLL;
 using ReliefProMain.Commands;
@@ -38,6 +40,8 @@ namespace ReliefProMain.ViewModel.Reports
             get;
             set;
         }
+
+        public ReportViewer ReportViewerDS { get; set; }
         public PUsummaryVM(List<string> ReportPath)
         {
             BtnReportCMD = new DelegateCommand<object>(BtnReprotClick);
@@ -49,8 +53,9 @@ namespace ReliefProMain.ViewModel.Reports
             model.listGrid = new List<PUsummaryGridDS>();
             InitModel("ALL");
             StackpanelDraw = new StackPanel();
-            DrawingPUReport draw = new DrawingPUReport(model.listGrid);
-            StackpanelDraw.Children.Add(draw);
+            CreateReport();
+            // DrawingPUReport draw = new DrawingPUReport(model.listGrid);
+            // StackpanelDraw.Children.Add(draw);
         }
         private void InitModel(string ReportDischargeTo)
         {
@@ -59,6 +64,76 @@ namespace ReliefProMain.ViewModel.Reports
                 listPSV = listPSV.Where(p => p.DischargeTo == ReportDischargeTo).ToList();
             model.listGrid = reportBLL.GetPuReprotDS(listPSV);
             model.listGrid = reportBLL.CalcMaxSum(model.listGrid);
+        }
+
+        private void CreateReport()
+        {
+            WindowsFormsHost host = new WindowsFormsHost();
+            host.Width = 1340;
+            host.Height = 500;
+            // host.VerticalAlignment = VerticalAlignment.Stretch;
+            // host.HorizontalAlignment = HorizontalAlignment.Stretch;
+            ReportViewer reportViewer = new ReportViewer();
+            reportViewer.ProcessingMode = Microsoft.Reporting.WinForms.ProcessingMode.Local;
+            string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "View\\Reports\\PUsummaryRpt.rdlc";
+            reportViewer.LocalReport.ReportPath = path;
+            //reportViewer.LocalReport.ReportEmbeddedResource = "ReliefProMain.ViewModel.Reports.PUsummaryRpt.rdlc";
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PUDataSet", CreateReportDataSource()));
+            reportViewer.RefreshReport();
+            ReportViewerDS = reportViewer;
+            host.Child = reportViewer;
+
+            StackpanelDraw.Children.Add(host);
+        }
+        private List<PUsummaryReportSource> CreateReportDataSource()
+        {
+            List<PUsummaryReportSource> listRS = new List<PUsummaryReportSource>();
+            listRS = model.listGrid.Select(p => new PUsummaryReportSource
+            {
+                Device = p.psv.PSVName,
+                ProtectedSystem = p.psv.PSVName,
+                DeviceType = p.psv.ValveType,
+                SetPressure = p.psv.Pressure,
+                DischargeTo = p.psv.DischargeTo,
+
+                ScenarioReliefRate = p.SingleDS.ReliefLoad,
+                ScenarioPhase = p.SingleDS.Phase,
+                ScenarioMWorSpGr = p.SingleDS.ReliefMW,
+                ScenarioT = p.SingleDS.ReliefTemperature,
+                ScenarioZ = p.SingleDS.ReliefZ,
+                ScenarioName = p.SingleDS.ScenarioName,
+
+                PowerReliefRate = p.PowerDS.ReliefLoad,
+                PowerPhase = p.PowerDS.Phase,
+                PowerMWorSpGr = p.PowerDS.ReliefMW,
+                PowerT = p.PowerDS.ReliefTemperature,
+                PowerZ = p.PowerDS.ReliefZ,
+
+                WaterReliefRate = p.WaterDS.ReliefLoad,
+                WaterPhase = p.WaterDS.Phase,
+                WaterMWorSpGr = p.WaterDS.ReliefMW,
+                WaterT = p.WaterDS.ReliefTemperature,
+                WaterZ = p.WaterDS.ReliefZ,
+
+                AirReliefRate = p.AirDS.ReliefLoad,
+                AirPhase = p.AirDS.Phase,
+                AirMWorSpGr = p.AirDS.ReliefMW,
+                AirT = p.AirDS.ReliefTemperature,
+                AirZ = p.AirDS.ReliefZ,
+
+                SteamReliefRate = p.SteamDS.ReliefLoad,
+                SteamPhase = p.SteamDS.Phase,
+                SteamMWorSpGr = p.SteamDS.ReliefMW,
+                SteamT = p.SteamDS.ReliefTemperature,
+                SteamZ = p.SteamDS.ReliefZ,
+
+                FireReliefRate = p.FireDS.ReliefLoad,
+                FirePhase = p.FireDS.Phase,
+                FireMWorSpGr = p.FireDS.ReliefMW,
+                FireT = p.FireDS.ReliefTemperature,
+                FireZ = p.FireDS.ReliefZ
+            }).Take(model.listGrid.Count - 2).ToList();
+            return listRS;
         }
 
         private void BtnReprotClick(object obj)
@@ -107,7 +182,7 @@ namespace ReliefProMain.ViewModel.Reports
             this.listPU = listPU;
             this.AddVisualChild(dv);
             this.Draw();
-        }                                     
+        }
         private void Draw()
         {
             Pen blackp = new Pen(Brushes.Black, 0.2);

@@ -1,14 +1,15 @@
 ﻿<Window x:Class="ReliefProMain.View.Reports.PUsummaryView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:wfi ="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:wf="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms" 
-         xmlns:my="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration" OverridesDefaultStyle="False"
+        xmlns:my="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration" OverridesDefaultStyle="False"
         Title="PUsummaryReport" Height="700" Width="1360">
     <Window.Resources>
         <Style TargetType="{x:Type RowDefinition}">
             <Setter Property="Height" Value="30"/>
         </Style>
-        
+
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -40,7 +41,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Plant Name"  Grid.Row="0"/> 
+        <Label Content="Plant Name"  Grid.Row="0"/>
         <Label Content="Process Unit Name"  Grid.Row="1"/>
         <Label Content="Description" Margin="400,0,0,0" Grid.Row="0"/>
         <TextBox Margin="150,0,0,0"  Width="180 "  Grid.Column="0"  Grid.Row="0"/>
@@ -50,24 +51,23 @@
         <GroupBox Grid.Row="3" >
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition Height="*"/>
                     <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="50*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <ContentControl Content="{Binding Stackpanel}"/>
-                <my:WindowsFormsHost Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="windowsFormsHost1">
-                    <wf:ReportViewer Name="rp"></wf:ReportViewer>
-                </my:WindowsFormsHost>
+                <ContentControl Content="{Binding Stackpanel}" Grid.Row="0" Grid.Column="0"/>
+                <ContentControl Content="{Binding StackpanelDraw}" 
+                                HorizontalAlignment="Stretch" VerticalContentAlignment="Stretch" 
+                                Grid.Row="1" Grid.Column="0"/>
+
             </Grid>
         </GroupBox>
         <DataGrid HorizontalAlignment="Stretch" Opacity="0.7" Foreground="#FF2922B2" Background="#FFF5F2F2" 
                   VerticalAlignment="Stretch" HorizontalContentAlignment="Center" 
-                  BorderBrush="#FF2922B2" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#FF2922B2" VerticalGridLinesBrush="#FF2922B2" FontSize="14"
+                  BorderBrush="#FF2922B2" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#FF2922B2" 
+                  VerticalGridLinesBrush="#FF2922B2" FontSize="14"
                   Grid.Row="4" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="#" Width="30"></DataGridTextColumn>
@@ -75,6 +75,6 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="OK" Grid.Row="5" Margin="750,0,0,0" Width="90" HorizontalAlignment="Left"/>
-        <ContentControl Content="{Binding StackpanelDraw}"/>
+
     </Grid>
 </Window>
