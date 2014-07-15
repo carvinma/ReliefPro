@@ -80,6 +80,7 @@
     <Compile Include="Reports\PUsummary.cs" />
     <Compile Include="Reports\PUsummaryGridDS.cs" />
     <Compile Include="Reports\PUsummaryNote.cs" />
+    <Compile Include="Reports\PUsummaryReportSource.cs" />
     <Compile Include="StorageTank.cs" />
     <Compile Include="DemoModel.cs">
       <SubType>Code</SubType>
