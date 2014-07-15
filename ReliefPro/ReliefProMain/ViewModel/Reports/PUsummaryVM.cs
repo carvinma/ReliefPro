@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using ReliefProBLL;
 using ReliefProLL;
 using ReliefProMain.Commands;
@@ -31,6 +33,11 @@ namespace ReliefProMain.ViewModel.Reports
             get { return stackPanel; }
             set { stackPanel = value; }
         }
+        public StackPanel StackpanelDraw
+        {
+            get;
+            set;
+        }
         public PUsummaryVM(List<string> ReportPath)
         {
             BtnReportCMD = new DelegateCommand<object>(BtnReprotClick);
@@ -41,6 +48,9 @@ namespace ReliefProMain.ViewModel.Reports
             model = new PUsummaryModel();
             model.listGrid = new List<PUsummaryGridDS>();
             InitModel("ALL");
+            StackpanelDraw = new StackPanel();
+            DrawingPUReport draw = new DrawingPUReport(model.listGrid);
+            StackpanelDraw.Children.Add(draw);
         }
         private void InitModel(string ReportDischargeTo)
         {
@@ -84,6 +94,82 @@ namespace ReliefProMain.ViewModel.Reports
             btnALL.Width = 50;
             btnALL.Margin = new System.Windows.Thickness(20, 0, 0, 0);
             Stackpanel.Children.Add(btnALL);
+        }
+    }
+
+
+    public class DrawingPUReport : FrameworkElement
+    {
+        DrawingVisual dv = new DrawingVisual();
+        List<PUsummaryGridDS> listPU;
+        public DrawingPUReport(List<PUsummaryGridDS> listPU)
+        {
+            this.listPU = listPU;
+            this.AddVisualChild(dv);
+            this.Draw();
+        }                                     
+        private void Draw()
+        {
+            Pen blackp = new Pen(Brushes.Black, 0.2);
+            Brush borderBrush = Brushes.LightBlue;
+            System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("zh-cn");
+            FlowDirection fd = FlowDirection.LeftToRight;
+            Typeface tf = new Typeface("宋体");
+            double d = 12;
+            using (DrawingContext dc = dv.RenderOpen())
+            {
+                double DeviceLength = listPU.Max(p =>
+                {
+                    if (p.psv.PSVName == null) return 50;
+                    else return p.psv.PSVName.Length;
+                });
+                double ProtectedLength = listPU.Max(p =>
+                {
+                    if (p.psv.PSVName == null) return 70;
+                    else return p.psv.PSVName.Length;
+                });
+                DeviceLength = DeviceLength + 2;
+                dc.DrawRectangle(borderBrush, blackp, new Rect(10, 0, DeviceLength, 50));
+                dc.DrawRectangle(borderBrush, blackp, new Rect(DeviceLength + 10, 0, ProtectedLength, 50));
+
+                //for (int i = 0; i < 5; i++)
+                //{
+                //    DeviceLength = DeviceLength + 2;
+                //    dc.DrawRectangle(borderBrush, blackp, new Rect(10, 0, DeviceLength, 50));
+                //    //dc.DrawRectangle(borderBrush, blackp, new Rect(50 * i, 0, 50, 50));
+                //    // dc.DrawText(new FormattedText("第" + (i + 1).ToString() + "周", ci, fd, tf, d, Brushes.Green), new Point(217 * i + 70, 10));
+                //}
+                //for (int i = 0; i < 35; i++)
+                //    dc.DrawRectangle(null, blackp, new Rect(31 * i, 30, 31, 30));
+                //int w = new DateTime(2011, 3, 1).DayOfWeek.GetHashCode();
+                //for (int i = w; i < w + 31; i++)
+                //    dc.DrawText(new FormattedText((i - w + 1).ToString(), ci, fd, tf, d, Brushes.Black), new Point(31 * i + 5, 40));
+                //for (int i = 0; i < 35; i++)
+                //    dc.DrawRectangle(null, blackp, new Rect(31 * i, 60, 31, 60));
+                //for (int i = 0; i < dt.Rows.Count; i++)
+                //{
+                //    int week = ((DateTime)dt.Rows[i][1]).DayOfWeek.GetHashCode();
+                //    int day = ((DateTime)dt.Rows[i][1]).Day;
+                //    string s = dt.Rows[i][0].ToString();
+                //    double left = (double)(week + (day + week / 7 * 7 + 1) * 31 + 5);
+                //    double top = i > 30 ? 100 : 70;
+                //    dc.DrawText(new FormattedText(s, ci, fd, tf, d, Brushes.Black), new Point(left, top));
+                //}
+            }
+        }
+
+        protected override int VisualChildrenCount
+        {
+            get
+            {
+                return 1;
+            }
+        }
+        protected override Visual GetVisualChild(int index)
+        {
+            if (index == 0)
+                return dv;
+            throw new IndexOutOfRangeException();
         }
     }
 }
