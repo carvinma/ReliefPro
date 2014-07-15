@@ -75,9 +75,9 @@ namespace ReliefProMain.ViewModel.Reports
             // host.HorizontalAlignment = HorizontalAlignment.Stretch;
             ReportViewer reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = Microsoft.Reporting.WinForms.ProcessingMode.Local;
-            string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "View\\Reports\\PUsummaryRpt.rdlc";
-            reportViewer.LocalReport.ReportPath = path;
-            //reportViewer.LocalReport.ReportEmbeddedResource = "ReliefProMain.ViewModel.Reports.PUsummaryRpt.rdlc";
+            //string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "View\\Reports\\PUsummaryRpt.rdlc";
+            //  reportViewer.LocalReport.ReportPath = path;
+            reportViewer.LocalReport.ReportEmbeddedResource = "ReliefProMain.View.Reports.PUsummaryRpt.rdlc";
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PUDataSet", CreateReportDataSource()));
             reportViewer.RefreshReport();
             ReportViewerDS = reportViewer;
