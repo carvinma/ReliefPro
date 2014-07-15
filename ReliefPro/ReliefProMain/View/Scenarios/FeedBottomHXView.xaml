@@ -33,11 +33,11 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="34*"/>
-            <ColumnDefinition Width="221*"/>
-            <ColumnDefinition Width="210*"/>
-            <ColumnDefinition Width="80*"/>
-            <ColumnDefinition Width="469*"/>
+            <ColumnDefinition Width="33*"/>
+            <ColumnDefinition Width="215*"/>
+            <ColumnDefinition Width="139*"/>
+            <ColumnDefinition Width="143*"/>
+            <ColumnDefinition Width="457*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -56,47 +56,47 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Label Content="Feed Normal Temperature(t in)" Grid.Column="1" Grid.Row="1"/>
-        <Label Content="Feed Normal Temperature(t out)" Grid.Column="1" Grid.Row="2"/>
-        <Label Content="Feed MassRate" Grid.Column="1"  Grid.Row="3"/>
-        <Label Content="Feed Normal Sp Enthalpy(in)" Grid.Column="1" Grid.Row="4"/>
-        <Label Content="Feed Normal Sp Enthalpy(out)" Grid.Column="1" Grid.Row="5"/>
-        <Label Content="Bottom Normal Temperature in" Grid.Column="1" Grid.Row="6"/>
-        <Label Content="Bottom Normal Temperature out" Grid.Column="1" Grid.Row="7" />
-        <Label Content="Bottom Relief Temperature in" Grid.Column="1"  Grid.Row="8"/>
-        <Label Content="Bottom MassRate" Grid.Column="1" Grid.Row="9"/>
-        <Label Content="Duty" Grid.Column="1" Grid.Row="10"/>
-        <Label Content="Feed  Temperature @Relief" Grid.Column="1" Grid.Row="12"/>
-        <Label Content="Feed Sp Enthalpy @Relief" Grid.Column="1" Grid.Row="13"/>
+        <Label Content="Feed Normal Temperature(t in)" Grid.Column="1" Grid.Row="1" Height="25" Width="188"/>
+        <Label Content="Feed Normal Temperature(t out)" Grid.Column="1" Grid.Row="2" Height="25" Width="197"/>
+        <Label Content="Feed MassRate" Grid.Column="1"  Grid.Row="3" Height="25" Width="96"/>
+        <Label Content="Feed Normal Sp Enthalpy(in)" Grid.Column="1" Grid.Row="4" Height="25" Width="174"/>
+        <Label Content="Feed Normal Sp Enthalpy(out)" Grid.Column="1" Grid.Row="5" Height="25" Width="183"/>
+        <Label Content="Bottom Normal Temperature in" Grid.Column="1" Grid.Row="6" Height="25" Width="191"/>
+        <Label Content="Bottom Normal Temperature out" Grid.Column="1" Grid.Row="7" Height="25" Width="200" />
+        <Label Content="Bottom Relief Temperature in" Grid.Column="1"  Grid.Row="8" Height="25" Width="180"/>
+        <Label Content="Bottom MassRate" Grid.Column="1" Grid.Row="9" Height="25" Width="112"/>
+        <Label Content="Duty" Grid.Column="1" Grid.Row="10" Height="25" Width="37"/>
+        <Label Content="Feed  Temperature @Relief" Grid.Column="1" Grid.Row="12" Height="25" Width="167"/>
+        <Label Content="Feed Sp Enthalpy @Relief" Grid.Column="1" Grid.Row="13" Height="25" Width="157"/>
 
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedTin,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="1"  Text="{Binding FeedTin}" />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedTout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="2"  Text="{Binding FeedTout}" />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedMassRate,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="3"  Text="{Binding FeedMassRate}" />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedSpEin,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Text="{Binding FeedSpEin}"   Grid.Row="4" />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedSpEout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Text="{Binding FeedSpEout}"  Grid.Row="5" />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBottomTin,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="6"  Text="{Binding BottomTin}"  />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBottomTout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="7"  Text="{Binding BottomTout}"  />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBottomReliefTin,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="8"  Text="{Binding BottomReliefTin}"  />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBottomMassRate,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="9" Text="{Binding BottomMassRate}" />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblDuty,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="10"  Text="{Binding Duty}" />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedReliefTout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="12"  Text="{Binding FeedReliefTout}"  />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedReliefSpEout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="13"  Text="{Binding FeedReliefSpEout}"  />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedTin,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="1"  Text="{Binding FeedTin}" Height="22" Margin="10,4,9,4" />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedTout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="2"  Text="{Binding FeedTout}" Height="22" Margin="10,4,9,4" />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedMassRate,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="3"  Text="{Binding FeedMassRate}" Height="22" Margin="10,4,9,4" />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedSpEin,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Text="{Binding FeedSpEin}"   Grid.Row="4" Height="22" Margin="10,4,9,4" />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedSpEout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Text="{Binding FeedSpEout}"  Grid.Row="5" Height="22" Margin="10,4,9,4" />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBottomTin,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="6"  Text="{Binding BottomTin}" Height="22" Margin="10,4,9,4"  />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBottomTout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="7"  Text="{Binding BottomTout}" Height="22" Margin="10,4,9,4"  />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBottomReliefTin,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="8"  Text="{Binding BottomReliefTin}" Height="22" Margin="10,4,9,4"  />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBottomMassRate,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="9" Text="{Binding BottomMassRate}" Height="22" Margin="10,4,9,4" />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblDuty,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="10"  Text="{Binding Duty}" Height="22" Margin="10,4,9,4" />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedReliefTout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="12"  Text="{Binding FeedReliefTout}" Height="22" Margin="10,4,9,4"  />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedReliefSpEout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="13"  Text="{Binding FeedReliefSpEout}" Height="22" Margin="10,4,9,4"  />
 
-        <Label x:Name="lblFeedTin" Content="{Binding FeedTinUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="1"/>
-        <Label x:Name="lblFeedTout" Content="{Binding FeedToutUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="2"/>
-        <Label x:Name="lblFeedMassRate" Content="{Binding FeedMassRateUnit,Mode=TwoWay}" Grid.Column="3"  Grid.Row="3"/>
-        <Label x:Name="lblFeedSpEin" Content="{Binding FeedSpEinUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="4"/>
-        <Label x:Name="lblFeedSpEout" Content="{Binding FeedSpEoutUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="5"/>
-        <Label x:Name="lblBottomTin" Content="{Binding BottomTinUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="6"/>
-        <Label x:Name="lblBottomTout" Content="{Binding BottomToutUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="7" />
-        <Label x:Name="lblBottomReliefTin" Content="{Binding BottomReliefTinUnit,Mode=TwoWay}" Grid.Column="3"  Grid.Row="8"/>
-        <Label x:Name="lblBottomMassRate" Content="{Binding BottomMassRateUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="9"/>
-        <Label x:Name="lblDuty" Content="{Binding DutyUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="10"/>
-        <Label x:Name="lblFeedReliefTout" Content="{Binding FeedReliefToutUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="12"/>
-        <Label x:Name="lblFeedReliefSpEout" Content="{Binding FeedReliefSpEoutUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="13"/>
+        <Label x:Name="lblFeedTin" Content="{Binding FeedTinUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="1" Height="10" Margin="10,12,0,8" Width="10"/>
+        <Label x:Name="lblFeedTout" Content="{Binding FeedToutUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="2" Height="10" Margin="10,12,0,8" Width="10"/>
+        <Label x:Name="lblFeedMassRate" Content="{Binding FeedMassRateUnit,Mode=TwoWay}" Grid.Column="3"  Grid.Row="3" Height="10" Margin="10,12,0,8" Width="10"/>
+        <Label x:Name="lblFeedSpEin" Content="{Binding FeedSpEinUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="4" Height="10" Margin="10,12,0,8" Width="10"/>
+        <Label x:Name="lblFeedSpEout" Content="{Binding FeedSpEoutUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="5" Height="10" Margin="10,12,0,8" Width="10"/>
+        <Label x:Name="lblBottomTin" Content="{Binding BottomTinUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="6" Height="10" Margin="10,12,0,8" Width="10"/>
+        <Label x:Name="lblBottomTout" Content="{Binding BottomToutUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="7" Height="10" Margin="10,12,0,8" Width="10" />
+        <Label x:Name="lblBottomReliefTin" Content="{Binding BottomReliefTinUnit,Mode=TwoWay}" Grid.Column="3"  Grid.Row="8" Height="10" Margin="10,12,0,8" Width="10"/>
+        <Label x:Name="lblBottomMassRate" Content="{Binding BottomMassRateUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="9" Height="10" Margin="10,12,0,8" Width="10"/>
+        <Label x:Name="lblDuty" Content="{Binding DutyUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="10" Height="10" Margin="10,12,0,8" Width="10"/>
+        <Label x:Name="lblFeedReliefTout" Content="{Binding FeedReliefToutUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="12" Height="10" Margin="10,12,0,8" Width="10"/>
+        <Label x:Name="lblFeedReliefSpEout" Content="{Binding FeedReliefSpEoutUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="13" Height="10" Margin="10,12,0,8" Width="10"/>
         
         <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="4" HorizontalAlignment="Left" Margin="190,0,0,0" Grid.Row="14" VerticalAlignment="Top" Width="75" Height="22"/>
         <Button Content="Cancel" IsCancel="True" Grid.Column="4" HorizontalAlignment="Left" Margin="296,0,0,0" Grid.Row="14" VerticalAlignment="Top" Width="75" Height="22"/>
-        <Button Content="Calculate" Command="{Binding CalculateCommand}" Grid.Column="2" Grid.Row="11" Width="100" Height="22"/>
+        <Button Content="Calculate" Command="{Binding CalculateCommand}" Grid.Column="2" Grid.Row="11" Margin="46,4,25,4"/>
     </Grid>
 </Window>

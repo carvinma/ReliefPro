@@ -8,6 +8,8 @@ using ReliefProLL;
 using ReliefProMain.Commands;
 using ReliefProMain.Model.Compressors;
 using UOMLib;
+using ReliefProDAL;
+using ReliefProModel;
 
 namespace ReliefProMain.ViewModel.Compressors
 {
@@ -49,9 +51,9 @@ namespace ReliefProMain.ViewModel.Compressors
         private void CalcResult(object obj)
         {
             double PDesign=0;
-            double QNormal = 1;
-            double PressureNormal = 1;
-            double QSurgeNormal = 1;
+            double QNormal = 15614.98;
+            double PressureNormal = 1.222;
+            double QSurgeNormal = 5000;
             double PSurgeNormal = 1;
             double bNormal = 0; //y=-0.25x+b
 
@@ -92,7 +94,13 @@ namespace ReliefProMain.ViewModel.Compressors
                 v = (bMax - PDesign) / 0.25;
             
             //读取压缩机出口物料的密度
-
+             CustomStreamDAL customStreamDAL = new CustomStreamDAL();
+            IList<CustomStream> csList = customStreamDAL.GetAllList(SessionPS, true);
+            if (csList.Count > 0)
+            {
+                CustomStream cs = csList[0];
+                double density = double.Parse(cs.BulkDensityAct);
+            }
 
 
         }

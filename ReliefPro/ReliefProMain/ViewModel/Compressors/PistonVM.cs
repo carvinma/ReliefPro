@@ -54,7 +54,7 @@ namespace ReliefProMain.ViewModel.Compressors
         private void CalcResult(object obj)
         {
             CustomStreamDAL customStreamDAL = new CustomStreamDAL();
-            IList<CustomStream> csList = customStreamDAL.GetAllList(SessionPF, false);
+            IList<CustomStream> csList = customStreamDAL.GetAllList(SessionPS, true);
             if (csList.Count > 0)
             {
                 CustomStream cs = csList[0];

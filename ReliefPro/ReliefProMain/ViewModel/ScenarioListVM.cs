@@ -26,6 +26,7 @@ using ReliefProMain.View.DrumDepressures;
 using ReliefProMain.View.Compressors;
 using ReliefProMain.View.StorageTanks;
 using ReliefProMain.ViewModel.StorageTanks;
+using ReliefProDAL.Compressors;
 
 namespace ReliefProMain.ViewModel
 {
@@ -269,8 +270,11 @@ namespace ReliefProMain.ViewModel
                 {
                     if (ScenarioName.Contains("Outlet"))
                     {
-                        //我今天晚点会加一个tbCompresser表， 这样就可以从该表里获取设备的类型 
-                        string CompresserType = "Centrifugal";
+                        //我今天晚点会加一个tbCompresser表， 这样就可以从该表里获取设备的类型
+                        Compressor comp = new Compressor();
+                        CompressorDAL compDAL = new CompressorDAL();
+                        comp = compDAL.GetModel(SessionProtectedSystem);
+                        string CompresserType = comp.CompressorType;
                         if (CompresserType == "Centrifugal")
                         {
                             CentrifugalBlockedView v = new CentrifugalBlockedView();
@@ -833,6 +837,12 @@ namespace ReliefProMain.ViewModel
             else if (eqType == "StorageTank")
             {
                 list.Add("Fire");
+
+            }
+            else if (eqType == "HX")
+            {
+                list.Add("Fire");
+
 
             }
             return list;
