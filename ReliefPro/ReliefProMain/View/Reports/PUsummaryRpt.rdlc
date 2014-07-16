@@ -5141,14 +5141,14 @@
                 <TablixCell />
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox205">
+                    <Textbox Name="ScenarioReliefRate1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Max(Fields!ScenarioReliefRate.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -5157,7 +5157,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox205</rd:DefaultName>
+                      <rd:DefaultName>ScenarioReliefRate1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Solid</Style>
@@ -5447,7 +5447,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox211">
+                    <Textbox Name="Textbox3">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -5463,7 +5463,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox211</rd:DefaultName>
+                      <rd:DefaultName>Textbox3</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Solid</Style>
@@ -5855,7 +5855,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox219">
+                    <Textbox Name="Textbox4">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -5871,7 +5871,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox219</rd:DefaultName>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Solid</Style>
@@ -6110,7 +6110,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox224">
+                    <Textbox Name="Textbox5">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -6126,7 +6126,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox224</rd:DefaultName>
+                      <rd:DefaultName>Textbox5</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Solid</Style>
@@ -7089,14 +7089,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox247">
+                    <Textbox Name="PowerReliefRate1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(Fields!PowerReliefRate.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7105,7 +7105,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox247</rd:DefaultName>
+                      <rd:DefaultName>PowerReliefRate1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Solid</Style>
@@ -7198,7 +7198,12 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=IIf(IsNothing(Sum(Fields!PowerReliefRate.Value)),Nothing,
+Sum(Fields!PowerReliefRate.Value)/Sum(
+iif(IsNothing(Fields!PowerReliefRate.Value) 
+or IsNothing(Fields!PowerMWorSpGr.Value) 
+Or Fields!PowerMWorSpGr.Value=0,Nothing,
+Fields!PowerReliefRate.Value/Fields!PowerMWorSpGr.Value)))</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7249,7 +7254,17 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(IIf(IsNothing(Fields!PowerReliefRate.Value) 
+or IsNothing(Fields!PowerMWorSpGr.Value) 
+or Fields!PowerMWorSpGr.Value=0,Nothing,
+Fields!PowerReliefRate.Value/Fields!PowerMWorSpGr.Value/
+     Sum(
+	     IIf(IsNothing(Fields!PowerReliefRate.Value) 
+		 or IsNothing(Fields!PowerMWorSpGr.Value) 
+		 or Fields!PowerMWorSpGr.Value=0,Nothing,
+		 Fields!PowerReliefRate.Value/Fields!PowerMWorSpGr.Value))
+		 ))
+*Fields!PowerT.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7300,7 +7315,17 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(IIf(IsNothing(Fields!PowerReliefRate.Value) 
+or IsNothing(Fields!PowerMWorSpGr.Value) 
+or Fields!PowerMWorSpGr.Value=0,Nothing,
+Fields!PowerReliefRate.Value/Fields!PowerMWorSpGr.Value/
+     Sum(
+	     IIf(IsNothing(Fields!PowerReliefRate.Value) 
+		 or IsNothing(Fields!PowerMWorSpGr.Value) 
+		 or Fields!PowerMWorSpGr.Value=0,Nothing,
+		 Fields!PowerReliefRate.Value/Fields!PowerMWorSpGr.Value))
+		 ))
+*Fields!PowerZ.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7351,7 +7376,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(Fields!WaterReliefRate.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7453,7 +7478,12 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=IIf(IsNothing(Sum(Fields!WaterReliefRate.Value)),Nothing,
+Sum(Fields!WaterReliefRate.Value)/Sum(
+iif(IsNothing(Fields!WaterReliefRate.Value) 
+or IsNothing(Fields!WaterMWorSpGr.Value) 
+Or Fields!WaterMWorSpGr.Value=0,Nothing,
+Fields!WaterReliefRate.Value/Fields!WaterMWorSpGr.Value)))</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7497,14 +7527,24 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox255">
+                    <Textbox Name="WaterT1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(IIf(IsNothing(Fields!WaterReliefRate.Value) 
+or IsNothing(Fields!WaterMWorSpGr.Value) 
+or Fields!WaterMWorSpGr.Value=0,Nothing,
+Fields!WaterReliefRate.Value/Fields!WaterMWorSpGr.Value/
+     Sum(
+	     IIf(IsNothing(Fields!WaterReliefRate.Value) 
+		 or IsNothing(Fields!WaterMWorSpGr.Value) 
+		 or Fields!WaterMWorSpGr.Value=0,Nothing,
+		 Fields!WaterReliefRate.Value/Fields!WaterMWorSpGr.Value))
+		 ))
+*Fields!WaterT.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7513,7 +7553,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox255</rd:DefaultName>
+                      <rd:DefaultName>WaterT1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Solid</Style>
@@ -7555,7 +7595,17 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(IIf(IsNothing(Fields!WaterReliefRate.Value) 
+or IsNothing(Fields!WaterMWorSpGr.Value) 
+or Fields!WaterMWorSpGr.Value=0,Nothing,
+Fields!WaterReliefRate.Value/Fields!WaterMWorSpGr.Value/
+     Sum(
+	     IIf(IsNothing(Fields!WaterReliefRate.Value) 
+		 or IsNothing(Fields!WaterMWorSpGr.Value) 
+		 or Fields!WaterMWorSpGr.Value=0,Nothing,
+		 Fields!WaterReliefRate.Value/Fields!WaterMWorSpGr.Value))
+		 ))
+*Fields!WaterZ.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7606,7 +7656,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(Fields!AirReliefRate.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7708,7 +7758,12 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=IIf(IsNothing(Sum(Fields!AirReliefRate.Value)),Nothing,
+Sum(Fields!AirReliefRate.Value)/Sum(
+iif(IsNothing(Fields!AirReliefRate.Value) 
+or IsNothing(Fields!AirMWorSpGr.Value) 
+Or Fields!AirMWorSpGr.Value=0,Nothing,
+Fields!AirReliefRate.Value/Fields!AirMWorSpGr.Value)))</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7752,14 +7807,24 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox260">
+                    <Textbox Name="AirT1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(IIf(IsNothing(Fields!AirReliefRate.Value) 
+or IsNothing(Fields!AirMWorSpGr.Value) 
+or Fields!AirMWorSpGr.Value=0,Nothing,
+Fields!AirReliefRate.Value/Fields!AirMWorSpGr.Value/
+     Sum(
+	     IIf(IsNothing(Fields!AirReliefRate.Value) 
+		 or IsNothing(Fields!AirMWorSpGr.Value) 
+		 or Fields!AirMWorSpGr.Value=0,Nothing,
+		 Fields!AirReliefRate.Value/Fields!AirMWorSpGr.Value))
+		 ))
+*Fields!AirT.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7768,7 +7833,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox260</rd:DefaultName>
+                      <rd:DefaultName>AirT1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Solid</Style>
@@ -7810,7 +7875,17 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(IIf(IsNothing(Fields!AirReliefRate.Value) 
+or IsNothing(Fields!AirMWorSpGr.Value) 
+or Fields!AirMWorSpGr.Value=0,Nothing,
+Fields!AirReliefRate.Value/Fields!AirMWorSpGr.Value/
+     Sum(
+	     IIf(IsNothing(Fields!AirReliefRate.Value) 
+		 or IsNothing(Fields!AirMWorSpGr.Value) 
+		 or Fields!AirMWorSpGr.Value=0,Nothing,
+		 Fields!AirReliefRate.Value/Fields!AirMWorSpGr.Value))
+		 ))
+*Fields!AirZ.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7861,7 +7936,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(Fields!SteamReliefRate.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7963,7 +8038,12 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=IIf(IsNothing(Sum(Fields!SteamReliefRate.Value)),Nothing,
+Sum(Fields!SteamReliefRate.Value)/Sum(
+iif(IsNothing(Fields!SteamReliefRate.Value) 
+or IsNothing(Fields!SteamMWorSpGr.Value) 
+Or Fields!SteamMWorSpGr.Value=0,Nothing,
+Fields!SteamReliefRate.Value/Fields!SteamMWorSpGr.Value)))</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -8014,7 +8094,17 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(IIf(IsNothing(Fields!SteamReliefRate.Value) 
+or IsNothing(Fields!SteamMWorSpGr.Value) 
+or Fields!SteamMWorSpGr.Value=0,Nothing,
+Fields!SteamReliefRate.Value/Fields!SteamMWorSpGr.Value/
+     Sum(
+	     IIf(IsNothing(Fields!SteamReliefRate.Value) 
+		 or IsNothing(Fields!SteamMWorSpGr.Value) 
+		 or Fields!SteamMWorSpGr.Value=0,Nothing,
+		 Fields!SteamReliefRate.Value/Fields!SteamMWorSpGr.Value))
+		 ))
+*Fields!SteamT.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -8065,7 +8155,17 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(IIf(IsNothing(Fields!SteamReliefRate.Value) 
+or IsNothing(Fields!SteamMWorSpGr.Value) 
+or Fields!SteamMWorSpGr.Value=0,Nothing,
+Fields!SteamReliefRate.Value/Fields!SteamMWorSpGr.Value/
+     Sum(
+	     IIf(IsNothing(Fields!SteamReliefRate.Value) 
+		 or IsNothing(Fields!SteamMWorSpGr.Value) 
+		 or Fields!SteamMWorSpGr.Value=0,Nothing,
+		 Fields!SteamReliefRate.Value/Fields!SteamMWorSpGr.Value))
+		 ))
+*Fields!SteamZ.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -8116,7 +8216,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(Fields!FireReliefRate.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -8218,7 +8318,12 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=IIf(IsNothing(Sum(Fields!FireReliefRate.Value)),Nothing,
+Sum(Fields!FireReliefRate.Value)/Sum(
+iif(IsNothing(Fields!FireReliefRate.Value) 
+or IsNothing(Fields!FireMWorSpGr.Value) 
+Or Fields!FireMWorSpGr.Value=0,Nothing,
+Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value)))</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -8269,7 +8374,17 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(IIf(IsNothing(Fields!FireReliefRate.Value) 
+or IsNothing(Fields!FireMWorSpGr.Value) 
+or Fields!FireMWorSpGr.Value=0,Nothing,
+Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
+     Sum(
+	     IIf(IsNothing(Fields!FireReliefRate.Value) 
+		 or IsNothing(Fields!FireMWorSpGr.Value) 
+		 or Fields!FireMWorSpGr.Value=0,Nothing,
+		 Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value))
+		 ))
+*Fields!FireT.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -8320,7 +8435,17 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Sum(IIf(IsNothing(Fields!FireReliefRate.Value) 
+or IsNothing(Fields!FireMWorSpGr.Value) 
+or Fields!FireMWorSpGr.Value=0,Nothing,
+Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
+     Sum(
+	     IIf(IsNothing(Fields!FireReliefRate.Value) 
+		 or IsNothing(Fields!FireMWorSpGr.Value) 
+		 or Fields!FireMWorSpGr.Value=0,Nothing,
+		 Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value))
+		 ))
+*Fields!FireZ.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -8360,6 +8485,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -8430,7 +8556,7 @@
         </TablixRowHierarchy>
         <DataSetName>PUDataSet</DataSetName>
         <Height>3.6cm</Height>
-        <Width>54.83691cm</Width>
+        <Width>54.83692cm</Width>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -8491,23 +8617,23 @@
       <Fields>
         <Field Name="AirMWorSpGr">
           <DataField>AirMWorSpGr</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="AirPhase">
           <DataField>AirPhase</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="AirReliefRate">
           <DataField>AirReliefRate</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="AirT">
           <DataField>AirT</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="AirZ">
           <DataField>AirZ</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="Device">
           <DataField>Device</DataField>
@@ -8523,43 +8649,43 @@
         </Field>
         <Field Name="FireMWorSpGr">
           <DataField>FireMWorSpGr</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="FirePhase">
           <DataField>FirePhase</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="FireReliefRate">
           <DataField>FireReliefRate</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="FireT">
           <DataField>FireT</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="FireZ">
           <DataField>FireZ</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="PowerMWorSpGr">
           <DataField>PowerMWorSpGr</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="PowerPhase">
           <DataField>PowerPhase</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="PowerReliefRate">
           <DataField>PowerReliefRate</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="PowerT">
           <DataField>PowerT</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="PowerZ">
           <DataField>PowerZ</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="ProtectedSystem">
           <DataField>ProtectedSystem</DataField>
@@ -8567,7 +8693,7 @@
         </Field>
         <Field Name="ScenarioMWorSpGr">
           <DataField>ScenarioMWorSpGr</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="ScenarioName">
           <DataField>ScenarioName</DataField>
@@ -8579,15 +8705,15 @@
         </Field>
         <Field Name="ScenarioReliefRate">
           <DataField>ScenarioReliefRate</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="ScenarioT">
           <DataField>ScenarioT</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="ScenarioZ">
           <DataField>ScenarioZ</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="SetPressure">
           <DataField>SetPressure</DataField>
@@ -8595,43 +8721,43 @@
         </Field>
         <Field Name="SteamMWorSpGr">
           <DataField>SteamMWorSpGr</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="SteamPhase">
           <DataField>SteamPhase</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="SteamReliefRate">
           <DataField>SteamReliefRate</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="SteamT">
           <DataField>SteamT</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="SteamZ">
           <DataField>SteamZ</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="WaterMWorSpGr">
           <DataField>WaterMWorSpGr</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="WaterPhase">
           <DataField>WaterPhase</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="WaterReliefRate">
           <DataField>WaterReliefRate</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="WaterT">
           <DataField>WaterT</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="WaterZ">
           <DataField>WaterZ</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
@@ -8641,6 +8767,15 @@
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
+  <Code>Function CalcSum(value As Double ,mw As Double) As Double
+ 
+If value=0 or  mw =0 Then
+       Return 0
+else      
+    Return value/mw
+   End If 
+ 
+End Function</Code>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>525ea6b4-ef53-48bc-a673-91ea4bc70f34</rd:ReportID>
 </Report>
