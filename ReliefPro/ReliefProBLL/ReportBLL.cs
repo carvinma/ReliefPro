@@ -369,30 +369,40 @@ namespace ReliefProLL
             {
                 return a == 0 ? "" : a.ToString();
             }
-            if (ScenarioProperty.Equals("ReliefMW"))
+            else
             {
-                GetSumResult(ScenarioType, "ReliefLoad");
+                var wmw = listGrid.Sum(p =>
+                {
+                    Scenario scenario = (Scenario)p.GetType().GetProperty(ScenarioType).GetValue(p, null);
+                    if (scenario == null) return null;
+                    var objw = scenario.GetType().GetProperty("ReliefLoad").GetValue(scenario, null);
+                    var objmw = scenario.GetType().GetProperty("ReliefMW").GetValue(scenario, null);
+                    if (objw == null || objmw == null || objmw.ToString() == "0") return null;
+                    else return double.Parse(objw.ToString()) / double.Parse(objmw.ToString());
+                });
+                if (ScenarioProperty.Equals("ReliefMW"))
+                {
+                    string w = GetSumResult(ScenarioType, "ReliefLoad");
+                    if (string.IsNullOrEmpty(w) || wmw == 0) return "";
+                    else return (double.Parse(w) / wmw).ToString();
+                }
+                else
+                {
+                    if (wmw == null || wmw == 0) return "";
+                    var twmw = listGrid.Sum(p =>
+                    {
+                        Scenario scenario = (Scenario)p.GetType().GetProperty(ScenarioType).GetValue(p, null);
+                        if (scenario == null) return null;
+                        var objw = scenario.GetType().GetProperty("ReliefLoad").GetValue(scenario, null);
+                        var objmw = scenario.GetType().GetProperty("ReliefMW").GetValue(scenario, null);
+                        var thisvalue = scenario.GetType().GetProperty(ScenarioProperty).GetValue(scenario, null);
+                        if (objw == null || objmw == null || objmw.ToString() == "0" || thisvalue == null) return null;
+                        else return (double.Parse(objw.ToString()) / double.Parse(objmw.ToString()) / wmw) * double.Parse(thisvalue.ToString());
+                    });
+                    return twmw == null ? "" : twmw.ToString();
+                }
             }
 
-            b = listGrid.Sum(p =>
-            {
-                Scenario scenario = (Scenario)p.GetType().GetProperty(ScenarioType).GetValue(p, null);
-                if (scenario == null) return null;
-                obj = scenario.GetType().GetProperty(ScenarioProperty).GetValue(scenario, null);
-                if (obj == null) return null;
-                if (!string.IsNullOrEmpty(scenario.ReliefMW))
-                {
-                    double mw = double.Parse(scenario.ReliefMW);
-                    if (mw != 0)
-                        return double.Parse(obj.ToString()) / mw;
-                }
-                return null;
-            });
-            b = b == 0 ? null : b;
-
-            double? reslut = a / b;
-            reslut = reslut ?? 0;
-            return reslut == 0 ? "" : reslut.ToString();
         }
         #endregion
 
