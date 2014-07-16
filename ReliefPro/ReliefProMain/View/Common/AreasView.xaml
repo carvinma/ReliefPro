@@ -32,9 +32,9 @@
                     <RowDefinition Height="73*"/>
                  </Grid.RowDefinitions>
                 <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblArea,Path=Content,Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Height="23"  Grid.Row="2" TextWrapping="Wrap" Text="{Binding Path=model.WettedArea,Mode=TwoWay}" VerticalAlignment="Top" Width="105"/>
-                <Label Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="1"  Content="Wetted Area" VerticalAlignment="Top" Height="26" Width="82"/>
-                <Label Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="2"  Content="Piping Contingency" VerticalAlignment="Top" Height="26" Width="122"/>
-                <TextBox Grid.Column="2" HorizontalAlignment="Left"  Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=model.PipingContingency,Mode=TwoWay}" Width="105" Grid.ColumnSpan="2" Margin="0,0,0,5"/>
+                <Label Grid.Column="1" HorizontalAlignment="Right"  Grid.Row="1"  Content="Wetted Area" VerticalAlignment="Top" Height="26" Width="82"/>
+                <Label Grid.Column="1" HorizontalAlignment="Right"  Grid.Row="2"  Content="Piping Contingency" VerticalAlignment="Top" Height="26" Width="122"/>
+                <TextBox Grid.Column="2" HorizontalAlignment="Left"  Grid.Row="1" TextWrapping="NoWrap" Text="{Binding Path=model.PipingContingency,Mode=TwoWay}" Width="105" Grid.ColumnSpan="2" Margin="0,0,0,5"/>
                 <Label x:Name="lblArea" Content="{Binding WetteAreaUnit,Mode=TwoWay}" Grid.Column="3" HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Top" Height="26" Width="21"/>
                 <Label Content="%" Grid.Column="3" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Top" Height="26" Width="21" />
             
@@ -51,7 +51,9 @@
             <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
 
         </Grid>
-        <StatusBar HorizontalAlignment="Stretch" Height="16"  Grid.Row="3" VerticalAlignment="Top" Width="390" Grid.ColumnSpan="4"/>
+        <StatusBar HorizontalAlignment="Stretch" Height="20"  Grid.Row="3" VerticalAlignment="Top" Width="390" Grid.ColumnSpan="4">
+            <Label></Label>
+        </StatusBar>
 
 
     </Grid>
