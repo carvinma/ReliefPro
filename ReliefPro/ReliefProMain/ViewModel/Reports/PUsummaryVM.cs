@@ -71,12 +71,9 @@ namespace ReliefProMain.ViewModel.Reports
             WindowsFormsHost host = new WindowsFormsHost();
             host.Width = 1340;
             host.Height = 500;
-            // host.VerticalAlignment = VerticalAlignment.Stretch;
-            // host.HorizontalAlignment = HorizontalAlignment.Stretch;
             ReportViewer reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = Microsoft.Reporting.WinForms.ProcessingMode.Local;
             //string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "View\\Reports\\PUsummaryRpt.rdlc";
-            //  reportViewer.LocalReport.ReportPath = path;
             reportViewer.LocalReport.ReportEmbeddedResource = "ReliefProMain.View.Reports.PUsummaryRpt.rdlc";
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PUDataSet", CreateReportDataSource()));
             reportViewer.RefreshReport();
@@ -96,46 +93,52 @@ namespace ReliefProMain.ViewModel.Reports
                 SetPressure = p.psv.Pressure,
                 DischargeTo = p.psv.DischargeTo,
 
-                ScenarioReliefRate = p.SingleDS.ReliefLoad,
+                ScenarioReliefRate = GetDouble(p.SingleDS.ReliefLoad),
                 ScenarioPhase = p.SingleDS.Phase,
-                ScenarioMWorSpGr = p.SingleDS.ReliefMW,
-                ScenarioT = p.SingleDS.ReliefTemperature,
-                ScenarioZ = p.SingleDS.ReliefZ,
+                ScenarioMWorSpGr = GetDouble(p.SingleDS.ReliefMW),
+                ScenarioT = GetDouble(p.SingleDS.ReliefTemperature),
+                ScenarioZ = GetDouble(p.SingleDS.ReliefZ),
                 ScenarioName = p.SingleDS.ScenarioName,
 
-                PowerReliefRate = p.PowerDS.ReliefLoad,
-                PowerPhase = p.PowerDS.Phase,
-                PowerMWorSpGr = p.PowerDS.ReliefMW,
-                PowerT = p.PowerDS.ReliefTemperature,
-                PowerZ = p.PowerDS.ReliefZ,
+                PowerReliefRate = GetDouble(p.PowerDS.ReliefLoad),
+                PowerPhase = GetDouble(p.PowerDS.Phase),
+                PowerMWorSpGr = GetDouble(p.PowerDS.ReliefMW),
+                PowerT = GetDouble(p.PowerDS.ReliefTemperature),
+                PowerZ = GetDouble(p.PowerDS.ReliefZ),
 
-                WaterReliefRate = p.WaterDS.ReliefLoad,
-                WaterPhase = p.WaterDS.Phase,
-                WaterMWorSpGr = p.WaterDS.ReliefMW,
-                WaterT = p.WaterDS.ReliefTemperature,
-                WaterZ = p.WaterDS.ReliefZ,
+                WaterReliefRate = GetDouble(p.WaterDS.ReliefLoad),
+                WaterPhase = GetDouble(p.WaterDS.Phase),
+                WaterMWorSpGr = GetDouble(p.WaterDS.ReliefMW),
+                WaterT = GetDouble(p.WaterDS.ReliefTemperature),
+                WaterZ = GetDouble(p.WaterDS.ReliefZ),
 
-                AirReliefRate = p.AirDS.ReliefLoad,
-                AirPhase = p.AirDS.Phase,
-                AirMWorSpGr = p.AirDS.ReliefMW,
-                AirT = p.AirDS.ReliefTemperature,
-                AirZ = p.AirDS.ReliefZ,
+                AirReliefRate = GetDouble(p.AirDS.ReliefLoad),
+                AirPhase = GetDouble(p.AirDS.Phase),
+                AirMWorSpGr = GetDouble(p.AirDS.ReliefMW),
+                AirT = GetDouble(p.AirDS.ReliefTemperature),
+                AirZ = GetDouble(p.AirDS.ReliefZ),
 
-                SteamReliefRate = p.SteamDS.ReliefLoad,
-                SteamPhase = p.SteamDS.Phase,
-                SteamMWorSpGr = p.SteamDS.ReliefMW,
-                SteamT = p.SteamDS.ReliefTemperature,
-                SteamZ = p.SteamDS.ReliefZ,
+                SteamReliefRate = GetDouble(p.SteamDS.ReliefLoad),
+                SteamPhase = GetDouble(p.SteamDS.Phase),
+                SteamMWorSpGr = GetDouble(p.SteamDS.ReliefMW),
+                SteamT = GetDouble(p.SteamDS.ReliefTemperature),
+                SteamZ = GetDouble(p.SteamDS.ReliefZ),
 
-                FireReliefRate = p.FireDS.ReliefLoad,
-                FirePhase = p.FireDS.Phase,
-                FireMWorSpGr = p.FireDS.ReliefMW,
-                FireT = p.FireDS.ReliefTemperature,
-                FireZ = p.FireDS.ReliefZ
+                FireReliefRate = GetDouble(p.FireDS.ReliefLoad),
+                FirePhase = GetDouble(p.FireDS.Phase),
+                FireMWorSpGr = GetDouble(p.FireDS.ReliefMW),
+                FireT = GetDouble(p.FireDS.ReliefTemperature),
+                FireZ = GetDouble(p.FireDS.ReliefZ)
             }).Take(model.listGrid.Count - 2).ToList();
             return listRS;
         }
-
+        private double? GetDouble(string value)
+        {
+            double reslut = 0;
+            if (double.TryParse(value, out reslut))
+                return reslut;
+            return null;
+        }
         private void BtnReprotClick(object obj)
         {
             if (obj != null)
