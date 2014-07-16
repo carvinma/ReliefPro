@@ -340,8 +340,6 @@ namespace ReliefProLL
         }
         private void CalcSum(string ScenarioType)
         {
-            SumDs.GetType().GetProperty(ScenarioType).GetValue(SumDs, null).GetType();
-
             PropertyInfo pInfo = SumDs.GetType().GetProperty(ScenarioType);
             Scenario scenario = (Scenario)SumDs.GetType().GetProperty(ScenarioType).GetValue(SumDs, null);
 
