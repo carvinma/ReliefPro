@@ -47,13 +47,21 @@ namespace ReliefProMain.ViewModel.Compressors
             model.dbmodel.Reliefload = UnitConvert.Convert(model.ReliefloadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.Reliefload);
             model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTempUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemp);
             model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
+            model.dbmodel.InletLoad = model.InletLoad;
+            model.dbmodel.OutletPressure = model.OutletPressure;
+            model.dbmodel.SurgeLoad = model.SurgeLoad;
+            //model.dbmodel.InletLoad = UnitConvert.Convert(model.InletLoad, UOMLib.UOMEnum.Viscosity.ToString(), model.ReliefPressure);
+            //model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
+            //model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
         }
         private void CalcResult(object obj)
         {
-            double PDesign=2;
-            double QNormal = 15614.98;
-            double PressureNormal = 1.222;
-            double QSurgeNormal = 5000;
+            PSVDAL psvDAL = new PSVDAL();
+            PSV psv = psvDAL.GetModel(SessionPS);
+            double PDesign = double.Parse(psv.ReliefPressureFactor) * double.Parse(psv.Pressure);
+            double QNormal = model.InletLoad;
+            double PressureNormal = model.OutletPressure;
+            double QSurgeNormal = model.SurgeLoad;
             double PSurgeNormal = 1;
             double bNormal = 0; //y=-0.25x+b
 

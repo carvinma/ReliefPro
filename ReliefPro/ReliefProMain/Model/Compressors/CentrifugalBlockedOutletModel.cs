@@ -63,6 +63,39 @@ namespace ReliefProMain.Model.Compressors
             }
         }
 
+        private double inletLoad;
+        public double InletLoad
+        {
+            get { return inletLoad; }
+            set
+            {
+                inletLoad = value;
+                this.NotifyPropertyChanged("InletLoad");
+            }
+        }
+
+        private double outletPressure;
+        public double OutletPressure
+        {
+            get { return outletPressure; }
+            set
+            {
+                outletPressure = value;
+                this.NotifyPropertyChanged("OutletPressure");
+            }
+        }
+
+        private double surgeLoad;
+        public double SurgeLoad
+        {
+            get { return surgeLoad; }
+            set
+            {
+                surgeLoad = value;
+                this.NotifyPropertyChanged("SurgeLoad");
+            }
+        }
+
         private double reliefMW;
         public double ReliefMW
         {
