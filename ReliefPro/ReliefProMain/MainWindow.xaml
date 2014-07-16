@@ -134,54 +134,56 @@
             </avalonDock:DockingManager.DocumentHeaderTemplate>
             <avalonDock:LayoutRoot PropertyChanged="OnLayoutRootPropertyChanged">
                 <avalonDock:LayoutPanel Orientation="Horizontal">
-                    <avalonDock:LayoutAnchorablePane DockWidth="250">
-                        <avalonDock:LayoutAnchorable x:Name="Navigation"  ContentId="Navigation" Title="Plant Explorer" ToolTip="Plant Explorer" CanHide="False" CanClose="False" >
-                            <TreeView Name="NavigationTreeView"  MouseDoubleClick="NavigationTreeView_MouseDoubleClick" ContextMenu="{StaticResource RightContextMenu}" PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
-                                <TreeView.ItemTemplate   >
-                                    <HierarchicalDataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image  />
-                                            <TextBlock />
-                                        </StackPanel>
-                                    </HierarchicalDataTemplate>
-                                </TreeView.ItemTemplate>
-                            </TreeView>
-                        </avalonDock:LayoutAnchorable>
-                    </avalonDock:LayoutAnchorablePane>
+                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="250">
+                        <avalonDock:LayoutAnchorablePane DockWidth="250">
+                            <avalonDock:LayoutAnchorable x:Name="Navigation"  ContentId="Navigation" Title="Plant Explorer" ToolTip="Plant Explorer" CanHide="False" CanClose="False" >
+                                <TreeView Name="NavigationTreeView"  MouseDoubleClick="NavigationTreeView_MouseDoubleClick" ContextMenu="{StaticResource RightContextMenu}" PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
+                                    <TreeView.ItemTemplate   >
+                                        <HierarchicalDataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image  />
+                                                <TextBlock />
+                                            </StackPanel>
+                                        </HierarchicalDataTemplate>
+                                    </TreeView.ItemTemplate>
+                                </TreeView>
+                            </avalonDock:LayoutAnchorable>
+                        </avalonDock:LayoutAnchorablePane>
+                        <avalonDock:LayoutAnchorablePane >
+                            <avalonDock:LayoutAnchorable ContentId="toolWindow" Title="Tools" Hiding="OnToolWindow1Hiding" >
+                                <Border BorderBrush="LightBlue" BorderThickness="1"  Margin="1">
+                                    <DockPanel>
+                                        <ListView Name="lvTower" AllowDrop="True"   VerticalAlignment="Stretch"    BorderThickness="0"  >
+                                            <ListView.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Vertical"></StackPanel>
+                                                </ItemsPanelTemplate>
+                                            </ListView.ItemsPanel>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="Auto" />
+                                                        </Grid.RowDefinitions>
+                                                        <Image HorizontalAlignment="Left" Width="35px" Height="40px" Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>
+                                                        <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Text="{Binding Name}" Grid.Row="1"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </DockPanel>
+                                </Border>
+                            </avalonDock:LayoutAnchorable>
+                        </avalonDock:LayoutAnchorablePane>
+                    </avalonDock:LayoutAnchorablePaneGroup>
+                    
                     <avalonDock:LayoutDocumentPaneGroup>
                         <avalonDock:LayoutDocumentPane >
 
                         </avalonDock:LayoutDocumentPane>
                     </avalonDock:LayoutDocumentPaneGroup>
-                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="150">
-                        <avalonDock:LayoutAnchorablePane>
-                            <avalonDock:LayoutAnchorable ContentId="toolWindow" Title="Tools" Hiding="OnToolWindow1Hiding">
-                                <Border BorderBrush="LightBlue" BorderThickness="1"  Margin="1">
-                                    <DockPanel>
-                                                <ListView Name="lvTower" AllowDrop="True"   VerticalAlignment="Stretch"    BorderThickness="0"  >
-                                                    <ListView.ItemsPanel>
-                                                        <ItemsPanelTemplate>
-                                                            <StackPanel Orientation="Vertical"></StackPanel>
-                                                        </ItemsPanelTemplate>
-                                                    </ListView.ItemsPanel>
-                                                    <ListView.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <Grid>
-                                                                <Grid.RowDefinitions>
-                                                                    <RowDefinition Height="Auto" />
-                                                                    <RowDefinition Height="Auto" />
-                                                                </Grid.RowDefinitions>
-                                                                <Image HorizontalAlignment="Left" Width="35px" Height="40px" Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>
-                                                                <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Text="{Binding Name}" Grid.Row="1"/>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </ListView.ItemTemplate>
-                                                </ListView>
-                                            </DockPanel>  
-                                </Border>
-                            </avalonDock:LayoutAnchorable>
-                        </avalonDock:LayoutAnchorablePane>
-                    </avalonDock:LayoutAnchorablePaneGroup>
+                    
                 </avalonDock:LayoutPanel>
 
 

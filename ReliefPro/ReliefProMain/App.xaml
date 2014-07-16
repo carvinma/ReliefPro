@@ -4,6 +4,6 @@
              DispatcherUnhandledException="APP_DispatcherUnhandledException"
              Startup="OnStartup">
     <Application.Resources>
-         
+        <ResourceDictionary Source="/themes/Expression.xaml"/>
     </Application.Resources>
 </Application>
