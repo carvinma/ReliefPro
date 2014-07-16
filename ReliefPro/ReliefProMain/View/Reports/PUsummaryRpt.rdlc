@@ -7263,8 +7263,7 @@ Fields!PowerReliefRate.Value/Fields!PowerMWorSpGr.Value/
 		 or IsNothing(Fields!PowerMWorSpGr.Value) 
 		 or Fields!PowerMWorSpGr.Value=0,Nothing,
 		 Fields!PowerReliefRate.Value/Fields!PowerMWorSpGr.Value))
-		 ))
-*Fields!PowerT.Value</Value>
+		 )*Fields!PowerT.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7324,8 +7323,7 @@ Fields!PowerReliefRate.Value/Fields!PowerMWorSpGr.Value/
 		 or IsNothing(Fields!PowerMWorSpGr.Value) 
 		 or Fields!PowerMWorSpGr.Value=0,Nothing,
 		 Fields!PowerReliefRate.Value/Fields!PowerMWorSpGr.Value))
-		 ))
-*Fields!PowerZ.Value</Value>
+		 )*Fields!PowerZ.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7543,8 +7541,7 @@ Fields!WaterReliefRate.Value/Fields!WaterMWorSpGr.Value/
 		 or IsNothing(Fields!WaterMWorSpGr.Value) 
 		 or Fields!WaterMWorSpGr.Value=0,Nothing,
 		 Fields!WaterReliefRate.Value/Fields!WaterMWorSpGr.Value))
-		 ))
-*Fields!WaterT.Value</Value>
+		 )*Fields!WaterT.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7604,8 +7601,7 @@ Fields!WaterReliefRate.Value/Fields!WaterMWorSpGr.Value/
 		 or IsNothing(Fields!WaterMWorSpGr.Value) 
 		 or Fields!WaterMWorSpGr.Value=0,Nothing,
 		 Fields!WaterReliefRate.Value/Fields!WaterMWorSpGr.Value))
-		 ))
-*Fields!WaterZ.Value</Value>
+		 )*Fields!WaterZ.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7823,8 +7819,7 @@ Fields!AirReliefRate.Value/Fields!AirMWorSpGr.Value/
 		 or IsNothing(Fields!AirMWorSpGr.Value) 
 		 or Fields!AirMWorSpGr.Value=0,Nothing,
 		 Fields!AirReliefRate.Value/Fields!AirMWorSpGr.Value))
-		 ))
-*Fields!AirT.Value</Value>
+		 )*Fields!AirT.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -7884,8 +7879,7 @@ Fields!AirReliefRate.Value/Fields!AirMWorSpGr.Value/
 		 or IsNothing(Fields!AirMWorSpGr.Value) 
 		 or Fields!AirMWorSpGr.Value=0,Nothing,
 		 Fields!AirReliefRate.Value/Fields!AirMWorSpGr.Value))
-		 ))
-*Fields!AirZ.Value</Value>
+		 )*Fields!AirZ.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -8103,8 +8097,7 @@ Fields!SteamReliefRate.Value/Fields!SteamMWorSpGr.Value/
 		 or IsNothing(Fields!SteamMWorSpGr.Value) 
 		 or Fields!SteamMWorSpGr.Value=0,Nothing,
 		 Fields!SteamReliefRate.Value/Fields!SteamMWorSpGr.Value))
-		 ))
-*Fields!SteamT.Value</Value>
+		 )*Fields!SteamT.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -8164,8 +8157,7 @@ Fields!SteamReliefRate.Value/Fields!SteamMWorSpGr.Value/
 		 or IsNothing(Fields!SteamMWorSpGr.Value) 
 		 or Fields!SteamMWorSpGr.Value=0,Nothing,
 		 Fields!SteamReliefRate.Value/Fields!SteamMWorSpGr.Value))
-		 ))
-*Fields!SteamZ.Value</Value>
+		 )*Fields!SteamZ.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -8383,8 +8375,7 @@ Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
 		 or IsNothing(Fields!FireMWorSpGr.Value) 
 		 or Fields!FireMWorSpGr.Value=0,Nothing,
 		 Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value))
-		 ))
-*Fields!FireT.Value</Value>
+		 )*Fields!FireT.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -8444,8 +8435,7 @@ Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
 		 or IsNothing(Fields!FireMWorSpGr.Value) 
 		 or Fields!FireMWorSpGr.Value=0,Nothing,
 		 Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value))
-		 ))
-*Fields!FireZ.Value</Value>
+		 )*Fields!FireZ.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -8485,7 +8475,6 @@ Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
