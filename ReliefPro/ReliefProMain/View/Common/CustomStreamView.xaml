@@ -32,6 +32,7 @@
                     <RowDefinition Height="30*"/>
                     <RowDefinition Height="30*"/>
                     <RowDefinition Height="40*"/>
+                    
                 </Grid.RowDefinitions>
                 <Label Content="Stream Name" HorizontalAlignment="Right" Height="28" Grid.Row="0" Grid.Column="1"/>
                 <TextBox Name="txtName" TextWrapping="Wrap" Text="{Binding CurrentModel.StreamName}" Width="150" VerticalAlignment="Center" HorizontalAlignment="Left"  Grid.Row="0" Grid.Column="2" Height="28"/>
