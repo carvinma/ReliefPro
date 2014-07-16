@@ -50,7 +50,7 @@ namespace ReliefProMain.ViewModel.Compressors
         }
         private void CalcResult(object obj)
         {
-            double PDesign=0;
+            double PDesign=2;
             double QNormal = 15614.98;
             double PressureNormal = 1.222;
             double QSurgeNormal = 5000;
@@ -63,7 +63,10 @@ namespace ReliefProMain.ViewModel.Compressors
             //double QSurgeMax = 1;
             //double PSurgeMax = 1;
             double bMax = 0;
-            
+
+            double K2 = PressureNormal / QNormal;
+
+
             if (Ratio <= 1 || Ratio > 2)
             {
                 return;
@@ -73,17 +76,17 @@ namespace ReliefProMain.ViewModel.Compressors
                 return;
             }
 
-            bNormal = PressureNormal + 0.25 * QNormal;
-            bMax = PressureMax + 0.25 * QMax;
-            PSurgeNormal = -0.25 * QSurgeNormal + bNormal;
+            bNormal = PressureNormal + 0.25*K2 * QNormal;
+            bMax = PressureMax + 0.25 * K2 * QMax;
+            PSurgeNormal = -0.25 * K2 * QSurgeNormal + bNormal;
 
             double rate = PSurgeNormal / QSurgeNormal;
-            double Fsa = bMax / (rate + 0.25);
-            double Psa = -0.25 * Fsa + bMax;
+            double Fsa = bMax / (rate + 0.25 * K2);
+            double Psa = -0.25 * K2 * Fsa + bMax;
             
             //控制线 y=rate（x-1.1)
-            double Fs = (bMax + 1.1 * rate) / (rate + 0.25);
-            double Ps = -0.25 * Fs + bMax;
+            double Fs = (bMax + 1.1 * rate) / (rate + 0.25 * K2);
+            double Ps = -0.25 * K2 * Fs + bMax;
 
             double v=0;
             if (PDesign < Psa)
@@ -91,7 +94,10 @@ namespace ReliefProMain.ViewModel.Compressors
             else if (PDesign < Ps)
                 v = Fs;
             else
-                v = (bMax - PDesign) / 0.25;
+                v = (bMax - PDesign) / (0.25 * K2);
+
+            if (v < 0)
+                v = 0;
             
             //读取压缩机出口物料的密度
              CustomStreamDAL customStreamDAL = new CustomStreamDAL();
@@ -100,6 +106,11 @@ namespace ReliefProMain.ViewModel.Compressors
             {
                 CustomStream cs = csList[0];
                 double density = double.Parse(cs.BulkDensityAct);
+                model.Reliefload = density * v;
+                model.ReliefMW = double.Parse(cs.BulkMwOfPhase);
+                model.ReliefTemp = double.Parse(cs.Temperature);
+                model.ReliefPressure = PDesign;
+
             }
 
 
