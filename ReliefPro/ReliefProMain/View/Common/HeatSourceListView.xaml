@@ -46,9 +46,9 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Add" Command="{Binding AddCommand}" HorizontalAlignment="Left" Margin="400,2,0,0" VerticalAlignment="Top" Width="75" Height="22" Grid.Row="1"/>
-        <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  HorizontalAlignment="Left" Margin="400,0,0,0" VerticalAlignment="Top" Width="75" Height="22" Grid.Row="2"/>
-        <Button Content="Cancel" IsCancel="True" Grid.Column="1" HorizontalAlignment="Left" Margin="10,3,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Add" Command="{Binding AddCommand}" HorizontalAlignment="Right"  VerticalAlignment="Center" Width="75" Height="22" Grid.Row="1"/>
+        <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  HorizontalAlignment="Right" VerticalAlignment="Center" Width="75" Height="22" Grid.Row="2"/>
+        <Button Content="Cancel" IsCancel="True" Grid.Column="1" HorizontalAlignment="Center"  Grid.Row="2" VerticalAlignment="Center" Width="75"/>
 
     </Grid>
 </Window>
