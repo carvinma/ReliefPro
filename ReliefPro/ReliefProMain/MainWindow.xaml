@@ -135,8 +135,8 @@
             <avalonDock:LayoutRoot PropertyChanged="OnLayoutRootPropertyChanged">
                 <avalonDock:LayoutPanel Orientation="Horizontal">
                     <avalonDock:LayoutAnchorablePaneGroup DockWidth="250">
-                        <avalonDock:LayoutAnchorablePane DockWidth="250">
-                            <avalonDock:LayoutAnchorable x:Name="Navigation"  ContentId="Navigation" Title="Plant Explorer" ToolTip="Plant Explorer" CanHide="False" CanClose="False" >
+                        <avalonDock:LayoutAnchorablePane DockWidth="250" >
+                            <avalonDock:LayoutAnchorable  x:Name="Navigation"  ContentId="Navigation" Title="Plant Explorer" ToolTip="Plant Explorer" CanHide="False" CanClose="False" >
                                 <TreeView Name="NavigationTreeView"  MouseDoubleClick="NavigationTreeView_MouseDoubleClick" ContextMenu="{StaticResource RightContextMenu}" PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
                                     <TreeView.ItemTemplate   >
                                         <HierarchicalDataTemplate>
@@ -149,8 +149,8 @@
                                 </TreeView>
                             </avalonDock:LayoutAnchorable>
                         </avalonDock:LayoutAnchorablePane>
-                        <avalonDock:LayoutAnchorablePane >
-                            <avalonDock:LayoutAnchorable ContentId="toolWindow" Title="Tools" Hiding="OnToolWindow1Hiding" >
+                        <avalonDock:LayoutAnchorablePane>
+                            <avalonDock:LayoutAnchorable ContentId="toolWindow" Title="Tools" Hiding="OnToolWindow1Hiding"  >
                                 <Border BorderBrush="LightBlue" BorderThickness="1"  Margin="1">
                                     <DockPanel>
                                         <ListView Name="lvTower" AllowDrop="True"   VerticalAlignment="Stretch"    BorderThickness="0"  >
