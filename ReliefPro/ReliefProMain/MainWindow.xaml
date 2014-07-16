@@ -123,6 +123,8 @@
             </ToolBarTray>
         </Border>
 
+
+
         <avalonDock:DockingManager Grid.Row="2" x:Name="dockManager" AllowMixedOrientation="True" DocumentClosing="dockManager_DocumentClosing">
             <avalonDock:DockingManager.DocumentHeaderTemplate>
                 <DataTemplate>
@@ -133,9 +135,9 @@
                 </DataTemplate>
             </avalonDock:DockingManager.DocumentHeaderTemplate>
             <avalonDock:LayoutRoot PropertyChanged="OnLayoutRootPropertyChanged">
-                <avalonDock:LayoutPanel Orientation="Horizontal">
+                <avalonDock:LayoutPanel>
                     <avalonDock:LayoutAnchorablePaneGroup DockWidth="250">
-                        <avalonDock:LayoutAnchorablePane DockWidth="250" >
+                        <avalonDock:LayoutAnchorablePane >
                             <avalonDock:LayoutAnchorable  x:Name="Navigation"  ContentId="Navigation" Title="Plant Explorer" ToolTip="Plant Explorer" CanHide="False" CanClose="False" >
                                 <TreeView Name="NavigationTreeView"  MouseDoubleClick="NavigationTreeView_MouseDoubleClick" ContextMenu="{StaticResource RightContextMenu}" PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
                                     <TreeView.ItemTemplate   >
@@ -148,8 +150,6 @@
                                     </TreeView.ItemTemplate>
                                 </TreeView>
                             </avalonDock:LayoutAnchorable>
-                        </avalonDock:LayoutAnchorablePane>
-                        <avalonDock:LayoutAnchorablePane>
                             <avalonDock:LayoutAnchorable ContentId="toolWindow" Title="Tools" Hiding="OnToolWindow1Hiding"  >
                                 <Border BorderBrush="LightBlue" BorderThickness="1"  Margin="1">
                                     <DockPanel>
@@ -175,6 +175,8 @@
                                     </DockPanel>
                                 </Border>
                             </avalonDock:LayoutAnchorable>
+                        </avalonDock:LayoutAnchorablePane>
+                        <avalonDock:LayoutAnchorablePane>
                         </avalonDock:LayoutAnchorablePane>
                     </avalonDock:LayoutAnchorablePaneGroup>
                     
