@@ -11,6 +11,7 @@
             <RowDefinition Height="207*"/>
             <RowDefinition Height="34*"/>
             <RowDefinition Height="29*"/>
+            <RowDefinition Height="16"/>
         </Grid.RowDefinitions>
         <ListView Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=HeatSources,Mode=TwoWay}" SelectedItem="{Binding SelectedHeatSource,Mode=TwoWay}" Margin="0,0,0,0" Grid.ColumnSpan="2" >
             <ListView.View>
@@ -49,6 +50,8 @@
         <Button Content="Add" Command="{Binding AddCommand}" HorizontalAlignment="Right"  VerticalAlignment="Center" Width="75" Height="22" Grid.Row="1"/>
         <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  HorizontalAlignment="Right" VerticalAlignment="Center" Width="75" Height="22" Grid.Row="2"/>
         <Button Content="Cancel" IsCancel="True" Grid.Column="1" HorizontalAlignment="Center"  Grid.Row="2" VerticalAlignment="Center" Width="75"/>
-
+        <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="9" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+            <Label></Label>
+        </StatusBar>
     </Grid>
 </Window>
