@@ -369,6 +369,10 @@ namespace ReliefProLL
             {
                 return a == 0 ? "" : a.ToString();
             }
+            if (ScenarioProperty.Equals("ReliefMW"))
+            {
+                GetSumResult(ScenarioType, "ReliefLoad");
+            }
 
             b = listGrid.Sum(p =>
             {
