@@ -16,6 +16,7 @@ namespace ReliefProMain.ViewModel.Reports
     {
         private List<PUsummaryGridDS> listPUReportDS;
         private List<PlantSummaryGridDS> listPlantReportDS;
+        
         private ReportBLL report;
         public StackPanel StackpanelReport
         {
