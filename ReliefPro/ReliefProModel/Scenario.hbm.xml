@@ -11,5 +11,6 @@
     <property name="ReliefMW" column="ReliefMW" type="String" length="255" />
     <property name="ReliefCpCv" column="ReliefCpCv" type="String" length="255" />
     <property name="ReliefZ" column="ReliefZ" type="String" length="255" />
+    <property name="ReliefVolumeRate" column="ReliefVolumeRate" type="String" length="255" />
   </class>
 </hibernate-mapping>

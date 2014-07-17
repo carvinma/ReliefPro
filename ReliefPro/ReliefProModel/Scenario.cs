@@ -16,6 +16,7 @@ namespace ReliefProModel
         public virtual string ReliefMW { get; set; }
         public virtual string ReliefCpCv { get; set; }
         public virtual string ReliefZ { get; set; }
+        public virtual string ReliefVolumeRate { get; set; }
         public virtual bool Flooding { get; set; }
         public virtual bool IsSurgeCalculation { get; set; }
         public virtual string SurgeTime { get; set; }
