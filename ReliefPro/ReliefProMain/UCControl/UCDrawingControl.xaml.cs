@@ -860,53 +860,74 @@ namespace ReliefProMain.View
                 {
                     NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystemFile);
                     SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
-                    TowerDAL dbtower = new TowerDAL();
-                    Tower tower = dbtower.GetModel(SessionProtectedSystem);
-                    if (tower != null)
+                    ProtectedSystemDAL psDAL=new ProtectedSystemDAL();
+                    ProtectedSystem ps = psDAL.GetModel(SessionProtectedSystem);
+                    if (ps != null)
                     {
-                        EqType = "Tower";
-                        EqName = tower.TowerName;
-                        PrzFile = DirPlant + @"\" + tower.PrzFile;
-                        PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
-                    }
-                    DrumDAL dbdrum = new DrumDAL();
-                    Drum drum = dbdrum.GetModel(SessionProtectedSystem);
-                    if (drum != null)
-                    {
-                        EqType = "Drum";
-                        EqName = drum.DrumName;
-                        PrzFile = DirPlant + @"\" + drum.PrzFile;
-                        PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
-                    }
+                        switch (ps.PSType)
+                        {
+                            case 1:
+                                TowerDAL dbtower = new TowerDAL();
+                                Tower tower = dbtower.GetModel(SessionProtectedSystem);
+                                if (tower != null)
+                                {
+                                    EqType = "Tower";
+                                    EqName = tower.TowerName;
+                                    PrzFile = DirPlant + @"\" + tower.PrzFile;
+                                    PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                                }
+                                break;
 
-                    StorageTankDAL storageTankDAL = new StorageTankDAL();
-                    StorageTank tank = storageTankDAL.GetModel(SessionProtectedSystem);
-                    if (tank != null)
-                    {
-                        EqType = "StorageTank";
-                        EqName = tank.StorageTankName;
-                        PrzFile = DirPlant + @"\" + tank.PrzFile;
-                        PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                            case 2:
+                                DrumDAL dbdrum = new DrumDAL();
+                                Drum drum = dbdrum.GetModel(SessionProtectedSystem);
+                                if (drum != null)
+                                {
+                                    EqType = "Drum";
+                                    EqName = drum.DrumName;
+                                    PrzFile = DirPlant + @"\" + drum.PrzFile;
+                                    PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                                }
+                                break;
+                            case 3:
+                                CompressorDAL compressorDAL = new CompressorDAL();
+                                Compressor compressor = compressorDAL.GetModel(SessionProtectedSystem);
+                                if (compressor != null)
+                                {
+                                    EqType = "Compressor";
+                                    EqName = compressor.CompressorName;
+                                    PrzFile = DirPlant + @"\" + compressor.PrzFile;
+                                    PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                                }
+                                break;
+                            case 4:
+                                HeatExchangerDAL heatExchangerDAL = new HeatExchangerDAL();
+                                HeatExchanger heatExchanger = heatExchangerDAL.GetModel(SessionProtectedSystem);
+                                if (heatExchanger != null)
+                                {
+                                    EqType = "HX";
+                                    EqName = heatExchanger.HXName;
+                                    PrzFile = DirPlant + @"\" + heatExchanger.PrzFile;
+                                    PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                                }
+                                break;
+                            case 5:
+                                StorageTankDAL storageTankDAL = new StorageTankDAL();
+                                StorageTank tank = storageTankDAL.GetModel(SessionProtectedSystem);
+                                if (tank != null)
+                                {
+                                    EqType = "StorageTank";
+                                    EqName = tank.StorageTankName;
+                                    PrzFile = DirPlant + @"\" + tank.PrzFile;
+                                    PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                                }
+                                break;
+                            case 6:
+                                break;
+                        }
                     }
+                    
 
-                    HeatExchangerDAL heatExchangerDAL = new HeatExchangerDAL();
-                    HeatExchanger heatExchanger = heatExchangerDAL.GetModel(SessionProtectedSystem);
-                    if (heatExchanger != null)
-                    {
-                        EqType = "HX";
-                        EqName = heatExchanger.HXName;
-                        PrzFile = DirPlant + @"\" + heatExchanger.PrzFile;
-                        PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
-                    }
-                    CompressorDAL compressorDAL = new CompressorDAL();
-                    Compressor compressor = compressorDAL.GetModel(SessionProtectedSystem);
-                    if (compressor != null)
-                    {
-                        EqType = "Compressor";
-                        EqName = compressor.CompressorName;
-                        PrzFile = DirPlant + @"\" + compressor.PrzFile;
-                        PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
-                    }
                 });
 
             Task.WaitAll(task, t2, task2);
