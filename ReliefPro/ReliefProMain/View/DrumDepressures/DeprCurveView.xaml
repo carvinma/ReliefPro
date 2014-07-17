@@ -2,13 +2,19 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:dc="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
-        Title="DeprCurveView" Height="500" Width="600" Loaded="Window_Loaded">
+        Title="DeprCurveView" Height="500" Width="710" Loaded="Window_Loaded">
   <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="265*"/>
-            <RowDefinition Height="46*"/>
+            <RowDefinition Height="410*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="16*"/>
         </Grid.RowDefinitions>
-        <Canvas Name="CanChart" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="500*"/>
+            <ColumnDefinition Width="190*"/>
+            <ColumnDefinition Width="10*"/>
+        </Grid.ColumnDefinitions>
+            <Canvas Name="CanChart" Grid.ColumnSpan="2">
             <Grid Name="GridChart" >
                 <dc:Chart Name="mcChart" Width="700"  Height="400"  Background="LightSteelBlue"  Margin="0,0,10,0">
                     <dc:Chart.Series>
@@ -18,6 +24,9 @@
                 </dc:Chart>
             </Grid>
         </Canvas>
-        <Button Content="OK"  HorizontalAlignment="Left" Margin="323,16,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"/>
+        <Button Content="OK"  HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Width="75"/>
+        <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="4" >
+            <Label></Label>
+        </StatusBar>
     </Grid>
 </Window>
