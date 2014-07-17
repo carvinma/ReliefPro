@@ -45,6 +45,9 @@ namespace ReliefProMain.Model.Compressors
         public CentrifugalBlockedOutletModel(CentrifugalBlockedOutlet model)
         {
             dbmodel = model;
+            this.inletLoad = model.InletLoad;
+            this.outletPressure = model.OutletPressure;
+            this.surgeLoad = model.SurgeLoad;
             this.scale = model.Scale;
             this.reliefMW = model.ReliefMW;
             this.reliefload = model.Reliefload;
