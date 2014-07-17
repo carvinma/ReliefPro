@@ -176,8 +176,6 @@
                                 </Border>
                             </avalonDock:LayoutAnchorable>
                         </avalonDock:LayoutAnchorablePane>
-                        <avalonDock:LayoutAnchorablePane>
-                        </avalonDock:LayoutAnchorablePane>
                     </avalonDock:LayoutAnchorablePaneGroup>
                     
                     <avalonDock:LayoutDocumentPaneGroup>
