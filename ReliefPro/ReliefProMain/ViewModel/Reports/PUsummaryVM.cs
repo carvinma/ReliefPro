@@ -101,31 +101,31 @@ namespace ReliefProMain.ViewModel.Reports
                 ScenarioName = p.SingleDS.ScenarioName,
 
                 PowerReliefRate = GetDouble(p.PowerDS.ReliefLoad),
-                PowerPhase = GetDouble(p.PowerDS.Phase),
+                PowerPhase = p.PowerDS.Phase,
                 PowerMWorSpGr = GetDouble(p.PowerDS.ReliefMW),
                 PowerT = GetDouble(p.PowerDS.ReliefTemperature),
                 PowerZ = GetDouble(p.PowerDS.ReliefZ),
 
                 WaterReliefRate = GetDouble(p.WaterDS.ReliefLoad),
-                WaterPhase = GetDouble(p.WaterDS.Phase),
+                WaterPhase = p.WaterDS.Phase,
                 WaterMWorSpGr = GetDouble(p.WaterDS.ReliefMW),
                 WaterT = GetDouble(p.WaterDS.ReliefTemperature),
                 WaterZ = GetDouble(p.WaterDS.ReliefZ),
 
                 AirReliefRate = GetDouble(p.AirDS.ReliefLoad),
-                AirPhase = GetDouble(p.AirDS.Phase),
+                AirPhase = p.AirDS.Phase,
                 AirMWorSpGr = GetDouble(p.AirDS.ReliefMW),
                 AirT = GetDouble(p.AirDS.ReliefTemperature),
                 AirZ = GetDouble(p.AirDS.ReliefZ),
 
                 SteamReliefRate = GetDouble(p.SteamDS.ReliefLoad),
-                SteamPhase = GetDouble(p.SteamDS.Phase),
+                SteamPhase = p.SteamDS.Phase,
                 SteamMWorSpGr = GetDouble(p.SteamDS.ReliefMW),
                 SteamT = GetDouble(p.SteamDS.ReliefTemperature),
                 SteamZ = GetDouble(p.SteamDS.ReliefZ),
 
                 FireReliefRate = GetDouble(p.FireDS.ReliefLoad),
-                FirePhase = GetDouble(p.FireDS.Phase),
+                FirePhase = p.FireDS.Phase,
                 FireMWorSpGr = GetDouble(p.FireDS.ReliefMW),
                 FireT = GetDouble(p.FireDS.ReliefTemperature),
                 FireZ = GetDouble(p.FireDS.ReliefZ)
