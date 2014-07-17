@@ -16,6 +16,7 @@ namespace ReliefProMain.ViewModel.Reports
     {
         private List<PUsummaryGridDS> listPUReportDS;
         private List<PlantSummaryGridDS> listPlantReportDS;
+        private ReportBLL report;
         public StackPanel StackpanelReport
         {
             get;
@@ -24,7 +25,7 @@ namespace ReliefProMain.ViewModel.Reports
         public PlantSummaryVM(List<Tuple<string, List<string>>> UnitPath)
         {
             listPlantReportDS = new List<PlantSummaryGridDS>();
-            ReportBLL report = new ReportBLL();
+            report = new ReportBLL();
             List<FlareSystem> listDischargeTo = report.GetDisChargeTo();
             if (listDischargeTo.Count > 0)
             {
@@ -88,8 +89,12 @@ namespace ReliefProMain.ViewModel.Reports
                 AirT = GetDouble(p.AirDS.ReliefTemperature),
                 AirZ = GetDouble(p.AirDS.ReliefZ)
             }).ToList();
+
+            listRS.AddRange(report.CalcPlantSummary(listPlantReportDS));
             return listRS;
         }
+
+
         private double? GetDouble(string value)
         {
             double reslut = 0;

@@ -40,7 +40,7 @@
 						SelectedItem="{Binding SelectedHeadType,Mode=TwoWay}" 
                    Grid.Row="0" Grid.Column="0" Height="26" Width="120" Margin="258,0,414,0" />
         <Button Content="Export Excel" Command="{Binding ExportExcelCMD}" Grid.Row="0" Grid.Column="0" Margin="427,0,275,0" Height="27" Width="90" RenderTransformOrigin="-1.044,0.733"/>
-        <ContentControl Content="{Binding Stackpanel}" Grid.Row="1" Grid.Column="0"/>
+        <ContentControl Content="{Binding StackpanelReport}" Grid.Row="1" Grid.Column="0"/>
     </Grid>
 
 </Window>
