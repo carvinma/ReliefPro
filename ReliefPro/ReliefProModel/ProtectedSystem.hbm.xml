@@ -4,7 +4,7 @@
     <id name="ID" column="ID" type="Int32" unsaved-value="0">
       <generator class="identity" />
     </id>
-    <property name="DeviceName" column="DeviceName" type="String" length="255" />
-    <property name="ProtectedSystemName" column="ProtectedSystemName" type="String" length="255" />
+    <property name="PSType" column="PSType" type="Int32"  />
+    <property name="FileType" column="FileType" type="Int32"  />
   </class>
 </hibernate-mapping>

@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace ReliefProModel
 {
-    [Serializable]
-    public class ProtectedSystem
+    
+    public class TreeUnit
     {
         public virtual int ID { set; get; }
-        public virtual int PSType { set; get; }
-        public virtual int FileType { set; get; }
+        public virtual string UnitName { set; get; }
+        public virtual string PUName { set; get; }
+        public virtual string PlantName { set; get; }
     }
 }

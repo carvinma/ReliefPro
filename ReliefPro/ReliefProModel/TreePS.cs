@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 namespace ReliefProModel
 {
     
-    public class Device
+    public class TreePS
     {
         public virtual int ID { set; get; }
-        public virtual string DeviceName { set; get; }
+        public virtual int UnitID { set; get; }
+        public virtual string PSName { set; get; }
     }
 }
