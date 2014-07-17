@@ -62,16 +62,19 @@ namespace ReliefProLL
                     PowerVolumeRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefVolumeRate")),
                     PowerMWorSpGr = GetDouble(GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefMW")),
                     PowerT = GetDouble(GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefTemperature")),
+                    PowerCpCv = GetDouble(GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefCpCv")),
 
                     WaterReliefRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefLoad")),
                     WaterVolumeRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefVolumeRate")),
                     WaterMWorSpGr = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefMW")),
                     WaterT = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefTemperature")),
+                    WaterCpCv = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefCpCv")),
 
-                    AirReliefRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefLoad")),
-                    AirVolumeRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefVolumeRate")),
-                    AirMWorSpGr = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefMW")),
-                    AirT = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefTemperature")),
+                    AirReliefRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefLoad")),
+                    AirVolumeRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefVolumeRate")),
+                    AirMWorSpGr = GetDouble(GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefMW")),
+                    AirT = GetDouble(GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefTemperature")),
+                    AirCpCv = GetDouble(GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefCpCv")),
                 });
                 CalcType++;
             });
@@ -87,16 +90,19 @@ namespace ReliefProLL
             plant.PowerDS.ReliefVolumeRate = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "PowerDS", "ReliefVolumeRate");
             plant.PowerDS.ReliefMW = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "PowerDS", "ReliefMW");
             plant.PowerDS.ReliefTemperature = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "PowerDS", "ReliefTemperature");
+            plant.PowerDS.ReliefCpCv = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "PowerDS", "ReliefCpCv");
 
             plant.WaterDS.ReliefLoad = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "WaterDS", "ReliefLoad");
             plant.WaterDS.ReliefVolumeRate = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "WaterDS", "ReliefVolumeRate");
             plant.WaterDS.ReliefMW = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "WaterDS", "ReliefMW");
             plant.WaterDS.ReliefTemperature = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "WaterDS", "ReliefTemperature");
+            plant.WaterDS.ReliefCpCv = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "WaterDS", "ReliefCpCv");
 
             plant.AirDS.ReliefLoad = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "AirDS", "ReliefLoad");
             plant.AirDS.ReliefVolumeRate = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "AirDS", "ReliefVolumeRate");
             plant.AirDS.ReliefMW = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "AirDS", "ReliefMW");
             plant.AirDS.ReliefTemperature = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "AirDS", "ReliefTemperature");
+            plant.AirDS.ReliefCpCv = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "AirDS", "ReliefCpCv");
 
             return plant;
         }
