@@ -3,45 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
         Title="AbnormalHeatInput" Height="504.478" Width="698.507" Name="myWindow">
-    <Window.Resources>
-        <Style TargetType="{x:Type RowDefinition}">
-            <Setter Property="Height" Value="30"/>
-        </Style>
-        <Style TargetType="{x:Type Label}">
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="25,5,0,0"/>
-        </Style>
-        <Style TargetType="{x:Type TextBox}">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Height" Value="23"/>
-            <Setter Property="Width" Value="120"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-        </Style>
-        <Style TargetType="{x:Type CustomControl:UnitConvertTextBox}">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Height" Value="23"/>
-            <Setter Property="Width" Value="120"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-        </Style>
-        <Style x:Key="LabelLeftStyle">
-            <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
-            <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
-        </Style>
-        <Style TargetType="{x:Type Button}">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
-        <Style TargetType="{x:Type ComboBox}">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
-    </Window.Resources>
-    <Grid Margin="0,0,0,0">
+    <Grid Margin="0,15,0,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="163*"/>
+            <ColumnDefinition Width="150*"/>
             <ColumnDefinition Width="167*"/>
             <ColumnDefinition Width="72*"/>
             <ColumnDefinition Width="289*"/>
@@ -53,8 +17,8 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
         <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Heaters, Mode=TwoWay}" SelectedItem="{Binding SelectedHeater, Mode=TwoWay}" Grid.Row="0" Grid.ColumnSpan="4" >
             <ListView.View>
@@ -91,13 +55,13 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label Content="Relief Load"  Grid.Row="2" Height="25" Width="74" />
-        <Label Content="Relief MW"  Grid.Row="3" Height="25" Width="69" />
-        <Label Content="Relief Pressure"  Grid.Row="4" Height="25" Width="94" />
-        <Label Content="Relief Temperature"  Grid.Row="5" Height="25" Width="119" />
-        <Label x:Name="lblReliefLoad" Content="{Binding ReliefLoadUnit,Mode=TwoWay}"  Grid.Row="2" Grid.Column="2" Height="10" Margin="25,12,0,8" Width="10" />
-        <Label x:Name="lblReliefPressure" Content="{Binding ReliefPressureUnit,Mode=TwoWay}"  Grid.Row="4" Grid.Column="2" Height="10" Margin="25,12,0,8" Width="10"/>
-        <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit,Mode=TwoWay}"  Grid.Row="5" Grid.Column="2" Height="10" Margin="25,12,0,8" Width="10"/>
+        <Label Content="Relief Load"  Grid.Row="2" />
+        <Label Content="Relief MW"  Grid.Row="3"  />
+        <Label Content="Relief Pressure"  Grid.Row="4" />
+        <Label Content="Relief Temperature"  Grid.Row="5" />
+        <Label x:Name="lblReliefLoad" Content="{Binding ReliefLoadUnit,Mode=TwoWay}"  Grid.Row="2" Grid.Column="2" Margin="5,12,0,8" />
+        <Label x:Name="lblReliefPressure" Content="{Binding ReliefPressureUnit,Mode=TwoWay}"  Grid.Row="4" Grid.Column="2" Margin="5,12,0,8"/>
+        <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit,Mode=TwoWay}"  Grid.Row="5" Grid.Column="2" Margin="5,12,0,8"/>
         
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="2"  Text="{Binding ReliefLoad}"   />
         <TextBox Grid.Column="1"  Grid.Row="3" Text="{Binding ReliefMW}"  />
@@ -105,8 +69,20 @@
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="5"  Text="{Binding ReliefTemperature}" />
        
         <Button Content="Calculate" Command="{Binding CalculateCommand}" Grid.Column="1"  Grid.Row="1" Height="22" Margin="52,4,57,4" Width="58" />
-        <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="3"  Grid.Row="7" Width="58" Margin="0,0,0,0"  />
-        <Button Content="Cancel" IsCancel="True"  Grid.Column="3"  Grid.Row="7" Margin="182,0,0,0"  />
-        
+
+        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button  Content="OK" HorizontalAlignment="Center" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  VerticalAlignment="Center" Width="75" Height="22" Grid.Column="1" Grid.Row="0"/>
+            <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
+        </Grid>
+
+        <StatusBar HorizontalAlignment="Stretch" Height="20"  Grid.Row="7" VerticalAlignment="Top" Grid.ColumnSpan="4">
+            <Label></Label>
+        </StatusBar>
     </Grid>
 </Window>

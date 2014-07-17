@@ -2,61 +2,25 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
-        Title="TowerShellTubeHX" Height="358.598" Width="529.885" Name="myWindow">
-    <Window.Resources>
-        <Style TargetType="{x:Type RowDefinition}">
-            <Setter Property="Height" Value="30"/>
-        </Style>
-        <Style TargetType="{x:Type Label}">
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="25,5,0,0"/>
-        </Style>
-        <Style TargetType="{x:Type TextBox}">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Height" Value="23"/>
-            <Setter Property="Width" Value="120"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-        </Style>
-        <Style TargetType="{x:Type CustomControl:UnitConvertTextBox}">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Height" Value="23"/>
-            <Setter Property="Width" Value="120"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-        </Style>
-        <Style x:Key="LabelLeftStyle">
-            <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
-            <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
-        </Style>
-        <Style TargetType="{x:Type Button}">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
-        <Style TargetType="{x:Type ComboBox}">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
-    </Window.Resources>
+        Title="TowerShellTubeHX" Height="292.415" Width="450" Name="myWindow">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="35*"/>
-            <ColumnDefinition Width="172*"/>
-            <ColumnDefinition Width="176*"/>
-            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="160*"/>
+            <ColumnDefinition Width="160*"/>
+            <ColumnDefinition Width="80*"/>
             <ColumnDefinition Width="39*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25*"/>
-            <RowDefinition Height="36*"/>
-            <RowDefinition Height="48*"/>
-            <RowDefinition Height="46*"/>
-            <RowDefinition Height="42*"/>
-            <RowDefinition Height="43*"/>
-            <RowDefinition Height="41*"/>
-            <RowDefinition Height="29*"/>
-            <RowDefinition Height="19*"/>
+            <RowDefinition Height="15"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
         <Label Grid.Column="1" Grid.Row="1"  Content="Exposed to Fire" />
         <Label Grid.Column="1"  Grid.Row="2" Content="Type" />
@@ -70,15 +34,26 @@
         <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblElevation,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="5" Text="{Binding model.Elevation}" />
         <TextBox Grid.Column="2" Grid.Row="6" Text="{Binding Path=model.PipingContingency}" />
 
-        <Label x:Name="lblOD" Grid.Column="3" HorizontalAlignment="Left"   Grid.Row="3" Content="{Binding ODUnit,Mode=TwoWay}"/>
-        <Label x:Name="lblLength" Grid.Column="3" HorizontalAlignment="Left"   Grid.Row="4" Content="{Binding LengthUnit,Mode=TwoWay}"/>
-        <Label x:Name="lblElevation" Grid.Column="3" HorizontalAlignment="Left"   Grid.Row="5" Content="{Binding ElevationUnit,Mode=TwoWay}"/>
-        <Label Grid.Column="3" HorizontalAlignment="Left"   Grid.Row="6" Content="%"/>
+        <Label x:Name="lblOD" Grid.Column="3" HorizontalAlignment="Left"  Margin="5,0,0,0" Grid.Row="3" Content="{Binding ODUnit,Mode=TwoWay}"/>
+        <Label x:Name="lblLength" Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0"  Grid.Row="4" Content="{Binding LengthUnit,Mode=TwoWay}"/>
+        <Label x:Name="lblElevation" Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0"  Grid.Row="5" Content="{Binding ElevationUnit,Mode=TwoWay}"/>
+        <Label Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0"  Grid.Row="6" Content="%"/>
         <ComboBox ItemsSource="{Binding ExposedToFires}" SelectedItem="{Binding model.ExposedToFire}" Grid.Column="2"   Grid.Row="1"  Width="120" Height="22"/>
         <ComboBox ItemsSource="{Binding Types}" SelectedItem="{Binding model.Type}" Grid.Column="2"   Grid.Row="2"   Width="120" Height="22"/>
         
-        <Button Content="OK" Command="{Binding OKClick}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="2" HorizontalAlignment="Left" Margin="95,0,0,0" Grid.Row="7" Width="75" Height="22"/>
-        <Button Content="Cancel" Grid.Column="3" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="7"  Width="75" Height="22"/>
+        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="7" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button  Content="OK" HorizontalAlignment="Center" Command="{Binding OKClick}" CommandParameter="{Binding ElementName=myWindow}"  VerticalAlignment="Center" Width="75" Height="22" Grid.Column="1" Grid.Row="0"/>
+            <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
+        </Grid>
 
+        <StatusBar HorizontalAlignment="Stretch" Height="20"  Grid.Row="8" VerticalAlignment="Top" Grid.ColumnSpan="5">
+            <Label></Label>
+        </StatusBar>
     </Grid>
 </Window>
