@@ -70,14 +70,14 @@
         <Label x:Name="lblload" Content="{Binding model.ReliefloadUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="5"  Style="{StaticResource LabelLeftStyle}"  />
         <Label x:Name="lblTemp" Content="{Binding model.ReliefTempUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="7"  Style="{StaticResource LabelLeftStyle}" />
         <Label x:Name="lblPressure" Content="{Binding model.ReliefPressureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="8"  Style="{StaticResource LabelLeftStyle}" Height="26" />
-        <TextBox Text="{Binding Path=model.Scale}"   Grid.Column="2"  Grid.Row="0" />
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.InletLoad}" UnitOrigin="{Binding ElementName=lblInletLoad,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="1" Height="22" />
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.OutletPressure}" UnitOrigin="{Binding ElementName=lblOutletPressure,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="2" Height="22" />
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.SurgeLoad}" UnitOrigin="{Binding ElementName=lblSurgeLoad,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="3" Height="22" />
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Reliefload}" UnitOrigin="{Binding ElementName=lblload,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="5" Height="22" />
-        <TextBox Text="{Binding Path=model.ReliefMW}"  Grid.Column="2" Grid.Row="6" Height="22" />
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefTemp}" UnitOrigin="{Binding ElementName=lblTemp,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="7" Height="22" />
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefPressure}" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="8" Height="22" />
+        <TextBox Text="{Binding Path=model.Scale,Mode=TwoWay}"   Grid.Column="2"  Grid.Row="0" />
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.InletLoad,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblInletLoad,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="1" Height="22" />
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.OutletPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblOutletPressure,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="2" Height="22" />
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.SurgeLoad,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblSurgeLoad,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="3" Height="22" />
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Reliefload,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblload,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="5" Height="22" />
+        <TextBox Text="{Binding Path=model.ReliefMW,Mode=TwoWay}"  Grid.Column="2" Grid.Row="6" Height="22" />
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefTemp,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblTemp,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="7" Height="22" />
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="8" Height="22" />
         <Label Content="Output"  Grid.Row="5" Height="24" Width="50"/>
         <Button Content="Calculate" Command="{Binding CalcCMD}" Grid.Column="1" HorizontalAlignment="Left" Margin="205,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="75" Height="22"/>
         <Button Content="OK" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=CentrifuglWin}" HorizontalAlignment="Right" VerticalAlignment="Center" Width="75" Height="25" Grid.Row="9" Grid.Column="1" />
