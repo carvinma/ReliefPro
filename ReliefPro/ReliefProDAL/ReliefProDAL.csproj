@@ -92,7 +92,6 @@
     <Compile Include="HXs\HXBlockedOutletDAL.cs" />
     <Compile Include="HXs\HXFireDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitDAL.cs" />
     <Compile Include="SourceDAL.cs" />
     <Compile Include="PSVDAL.cs" />
     <Compile Include="ScenarioDAL.cs" />
@@ -119,6 +118,9 @@
     <Compile Include="AbnormalHeaterDetailDAL.cs" />
     <Compile Include="StorageTankDAL.cs" />
     <Compile Include="FlashCalcResultDAL.cs" />
+    <Compile Include="TreeUnitDAL.cs" />
+    <Compile Include="TreePSDAL.cs" />
+    <Compile Include="ProtectedSystemDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReliefProCommon\ReliefProCommon.csproj">
