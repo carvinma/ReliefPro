@@ -30,8 +30,18 @@ namespace ReliefProMain.ViewModel.Compressors
 
             blockBLL = new CompressorBlockedBLL(SessionPS, SessionPF);
             var BlockedModel = blockBLL.GetCentrifugalModel(ScenarioID);
-            BlockedModel = blockBLL.ReadConvertCentrifugalModel(BlockedModel);
+            if (BlockedModel.Scale == 0)
+            {
+                CustomStreamDAL csDAL = new CustomStreamDAL();
+                IList<CustomStream> inletList = csDAL.GetAllList(SessionPS, false);
+                BlockedModel.Scale = 1.05;
+                BlockedModel.InletLoad = double.Parse(inletList[0].WeightFlow) / double.Parse(inletList[0].BulkDensityAct);
 
+                IList<CustomStream> outletList = csDAL.GetAllList(SessionPS, true);
+                BlockedModel.OutletPressure = double.Parse(outletList[0].Pressure);
+            }
+            BlockedModel = blockBLL.ReadConvertCentrifugalModel(BlockedModel);
+            
             model = new CentrifugalBlockedOutletModel(BlockedModel);
             model.dbmodel.ScenarioID = ScenarioID;
 
