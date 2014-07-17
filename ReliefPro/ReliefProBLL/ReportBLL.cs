@@ -26,6 +26,7 @@ namespace ReliefProLL
         public ConcurrentBag<Scenario> ScenarioBag;
         public List<string> ProcessUnitReportPath;
         private PUsummaryGridDS SumDs = new PUsummaryGridDS();
+        public List<string> listPlantCalc = new List<string> { "Direct Summation", "100-30-30", "Sum of first 2 Max", "100-50-50" };
         public string[] ScenarioName = new string[] {"Controlling Single Scenario", "General Electric Power Failure",
             "General Cooling Water Failure","General Instument Air Failure","Steam Failure","Fire" };
 
@@ -51,7 +52,7 @@ namespace ReliefProLL
         public List<PUsummaryReportSource> CalcPlantSummary(List<PlantSummaryGridDS> listPlant)
         {
             List<PUsummaryReportSource> listPlantDS = new List<PUsummaryReportSource>();
-            List<string> listPlantCalc = new List<string> { "Direct Summation", "100-30-30", "Sum of first 2 Max", "100-50-50" };
+
             int CalcType = 0;
             listPlantCalc.ForEach(p =>
             {
