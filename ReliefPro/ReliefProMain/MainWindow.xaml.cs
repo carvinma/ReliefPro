@@ -41,6 +41,7 @@ using ReliefProMain.View;
 using ReliefProMain.ViewModel;
 using ReliefProMain.View.Reports;
 using ReliefProMain.ViewModel.Reports;
+using NHibernate;
 
 namespace ReliefProMain
 {
@@ -71,6 +72,8 @@ namespace ReliefProMain
         string currentPlantName;
         //string currentProtectedSystemFile;
         AxDrawingControl visioControl = new AxDrawingControl();
+        private ISession SessionPlant { set; get; }
+        private ISession SessionProtectedSystem { set; get; }
 
         public MainWindow()
         {
@@ -174,7 +177,7 @@ namespace ReliefProMain
                 LayoutDocument doc = new LayoutDocument();
                 doc.Title = "Test1";
                 firstDocumentPane.Children.Add(doc);
-
+                
                 LayoutDocument doc2 = new LayoutDocument();
                 doc2.Title = "Test2";
                 firstDocumentPane.Children.Add(doc2);
@@ -520,6 +523,20 @@ namespace ReliefProMain
                     NavigationTreeView.Items.Add(item);
                     item.ExpandSubtree();
 
+                    NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlant_target);
+                    SessionPlant = helperProtectedSystem.GetCurrentSession();
+                    TreeUnitDAL treeUnitDAL = new TreeUnitDAL();
+                    TreeUnit treeUnit = new TreeUnit();
+                    treeUnit.UnitName = "Unit1";
+                    treeUnitDAL.Add(treeUnit, SessionPlant);
+
+                    TreePSDAL treePSDAL = new TreePSDAL();
+                    TreePS treePS = new TreePS();
+                    treePS.PSName = "ProtectedSystem1";
+                    treePS.UnitID = treeUnit.ID;
+                    treePSDAL.Add(treePS, SessionPlant);
+
+                    
                 }
             }
             catch (Exception ex)
@@ -745,6 +762,19 @@ namespace ReliefProMain
                 itemProtectSystem.Items.Add(itemProtectSystemfile);
 
                 tvi.ExpandSubtree();
+
+                NHibernateHelper helperProtectedSystem = new NHibernateHelper(data.dbPlantFile);
+                SessionPlant = helperProtectedSystem.GetCurrentSession();
+                TreeUnitDAL treeUnitDAL = new TreeUnitDAL();
+                TreeUnit treeUnit = new TreeUnit();
+                treeUnit.UnitName = vm.UnitName;
+                treeUnitDAL.Add(treeUnit, SessionPlant);
+
+                TreePSDAL treePSDAL = new TreePSDAL();
+                TreePS treePS = new TreePS();
+                treePS.PSName = "ProtectedSystem1";
+                treePS.UnitID = treeUnit.ID;
+                treePSDAL.Add(treePS, SessionPlant);
             }
 
         }
@@ -771,6 +801,17 @@ namespace ReliefProMain
 
                 tvi.ExpandSubtree();
             }
+
+            NHibernateHelper helperProtectedSystem = new NHibernateHelper(data.dbPlantFile);
+            SessionPlant = helperProtectedSystem.GetCurrentSession();
+            TreeUnitDAL treeUnitDAL = new TreeUnitDAL();
+            TreeUnit treeUnit = treeUnitDAL.GetModel(SessionPlant, data.Text);
+           
+            TreePSDAL treePSDAL = new TreePSDAL();
+            TreePS treePS = new TreePS();
+            treePS.PSName = "ProtectedSystem1";
+            treePS.UnitID = treeUnit.ID;
+            treePSDAL.Add(treePS, SessionPlant);
 
         }
 
