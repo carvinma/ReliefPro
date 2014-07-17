@@ -275,6 +275,10 @@ namespace ReliefProMain.ViewModel
                
                 dbCompressor.Add(compressor, SessionProtectedSystem);
 
+                ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
+                ProtectedSystem ps = new ProtectedSystem();
+                ps.PSType = 3;
+                psDAL.Add(ps, SessionProtectedSystem);
 
                 SessionProtectedSystem.Flush();
             

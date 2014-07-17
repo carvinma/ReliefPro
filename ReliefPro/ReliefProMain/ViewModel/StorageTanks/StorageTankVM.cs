@@ -144,6 +144,11 @@ namespace ReliefProMain.ViewModel.StorageTanks
                     tank.StorageTankName = CurrentModel.model.StreamName;
                     tank.PrzFile = przFile;
                     storageTankDAL.Add(tank, SessionProtectedSystem);
+
+                    ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
+                    ProtectedSystem ps = new ProtectedSystem();
+                    ps.PSType = 5;
+                    psDAL.Add(ps, SessionProtectedSystem);
                 }
                 else
                 {
@@ -153,6 +158,10 @@ namespace ReliefProMain.ViewModel.StorageTanks
                     tank.StorageTankName = CurrentModel.model.StreamName;
                     tank.PrzFile = przFile;
                     storageTankDAL.Update(tank, SessionProtectedSystem);
+                    ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
+                    ProtectedSystem ps = psDAL.GetModel(SessionProtectedSystem);
+                    ps.PSType=5;
+                    psDAL.Update(ps, SessionProtectedSystem);
                     SessionProtectedSystem.Flush();
                 }
 

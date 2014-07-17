@@ -27,6 +27,9 @@ using ReliefProMain.View.Compressors;
 using ReliefProMain.View.StorageTanks;
 using ReliefProMain.ViewModel.StorageTanks;
 using ReliefProDAL.Compressors;
+using ReliefProModel.HXs;
+using ReliefProDAL.HXs;
+using ReliefProMain.ViewModel.HXs;
 
 namespace ReliefProMain.ViewModel
 {
@@ -300,6 +303,43 @@ namespace ReliefProMain.ViewModel
                             if (v.ShowDialog() == true)
                             {
                                 SelectedScenario.ReliefLoad = vm.model.dbmodel.Reliefload.ToString();
+                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW.ToString();
+                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure.ToString();
+                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature.ToString();
+                            }
+                        }
+                    }
+                }
+                if (EqType == "HX")
+                {
+                    HeatExchangerDAL hxDAL = new HeatExchangerDAL();
+                    HeatExchanger hx = hxDAL.GetModel(SessionProtectedSystem);
+                    if (hx.HXType == "Shell-Tube")
+                    {
+                        if (ScenarioName.Contains("Blocked Outlet"))
+                        {
+                            StorageTankFireView v = new StorageTankFireView();
+                            HXBlockedOutletVM vm = new HXBlockedOutletVM(ScenarioID,PrzFile,PrzVersion, SessionProtectedSystem, SessionPlant,DirPlant,DirProtectedSystem);
+                            v.DataContext = vm;
+                            if (v.ShowDialog() == true)
+                            {
+                                SelectedScenario.ReliefLoad = vm.model.ReliefLoad.ToString();
+                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW.ToString();
+                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure.ToString();
+                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature.ToString();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (ScenarioName.Contains("Fire"))
+                        {
+                            StorageTankFireView v = new StorageTankFireView();
+                            AirCooledHXFireVM vm = new AirCooledHXFireVM(ScenarioID,PrzFile,PrzVersion, SessionProtectedSystem, SessionPlant,DirPlant,DirProtectedSystem);
+                            v.DataContext = vm;
+                            if (v.ShowDialog() == true)
+                            {
+                                SelectedScenario.ReliefLoad = vm.model.ToString();
                                 SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW.ToString();
                                 SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure.ToString();
                                 SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature.ToString();
@@ -841,6 +881,14 @@ namespace ReliefProMain.ViewModel
             }
             else if (eqType == "HX")
             {
+                HeatExchangerDAL hxDAL = new HeatExchangerDAL();
+                HeatExchanger hx = hxDAL.GetModel(SessionProtectedSystem);
+                if (hx.HXType == "Shell-Tube")
+                {
+                    list.Add("Blocked Outlet");
+                    list.Add("Tube Rupture");
+                }
+                
                 list.Add("Fire");
 
 

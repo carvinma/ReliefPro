@@ -270,40 +270,42 @@ namespace ReliefProMain.ViewModel
         }
         public void Save(object obj)
         {
-            
-                CustomStreamDAL dbCS = new CustomStreamDAL();
-                SourceDAL dbsr = new SourceDAL();
-                foreach (CustomStream cs in Feeds)
-                {
-                    Source sr = new Source();
-                    sr.MaxPossiblePressure = cs.Pressure;
-                    sr.StreamName = cs.StreamName;
-                    sr.SourceType = "Compressor(Motor)";
-                    dbsr.Add(sr, SessionProtectedSystem);
+            CustomStreamDAL dbCS = new CustomStreamDAL();
+            SourceDAL dbsr = new SourceDAL();
+            foreach (CustomStream cs in Feeds)
+            {
+                Source sr = new Source();
+                sr.MaxPossiblePressure = cs.Pressure;
+                sr.StreamName = cs.StreamName;
+                sr.SourceType = "Compressor(Motor)";
+                dbsr.Add(sr, SessionProtectedSystem);
+                dbCS.Add(cs, SessionProtectedSystem);
+            }
 
 
-                    dbCS.Add(cs, SessionProtectedSystem);
-                }
+            foreach (CustomStream cs in Products)
+            {
+                dbCS.Add(cs, SessionProtectedSystem);
+            }
+
+            DrumDAL dbdrum = new DrumDAL();
+            Drum drum = new Drum();
+            drum.DrumName = DrumName;
+            drum.Duty = Duty;
+            drum.DrumType = DrumType;
+            drum.PrzFile = przFile;
+            drum.Pressure = Pressure;
+            drum.Temperature = Temperature;
+            dbdrum.Add(drum, SessionProtectedSystem);
+
+            ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
+            ProtectedSystem ps = new ProtectedSystem();
+            ps.PSType = 2;
+            psDAL.Add(ps, SessionProtectedSystem);
 
 
-                foreach (CustomStream cs in Products)
-                {
-                    dbCS.Add(cs, SessionProtectedSystem);
-                }
+            SessionProtectedSystem.Flush();
 
-                DrumDAL dbdrum = new DrumDAL();
-                Drum drum = new Drum();
-                drum.DrumName = DrumName;
-                drum.Duty = Duty;
-                drum.DrumType = DrumType;
-                drum.PrzFile = przFile;
-                drum.Pressure = Pressure;
-                drum.Temperature = Temperature;
-                dbdrum.Add(drum, SessionProtectedSystem);
-
-
-                SessionProtectedSystem.Flush();
-            
 
             System.Windows.Window wd = obj as System.Windows.Window;
 

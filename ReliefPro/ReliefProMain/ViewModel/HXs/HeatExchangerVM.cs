@@ -273,7 +273,10 @@ namespace ReliefProMain.ViewModel
                
                 dbHX.Add(HX, SessionProtectedSystem);
 
-
+                ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
+                ProtectedSystem ps = new ProtectedSystem();
+                ps.PSType = 4;
+                psDAL.Add(ps, SessionProtectedSystem);
                 SessionProtectedSystem.Flush();
             
 

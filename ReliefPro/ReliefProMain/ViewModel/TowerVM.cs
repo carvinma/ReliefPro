@@ -705,6 +705,10 @@ namespace ReliefProMain.ViewModel
                 tower.PrzFile = przFile;
                 dbtower.Add(tower, SessionProtectedSystem);
 
+                ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
+                ProtectedSystem ps = new ProtectedSystem();
+                ps.PSType = 1;
+                psDAL.Add(ps, SessionProtectedSystem);
 
                 SessionProtectedSystem.Flush();
 
