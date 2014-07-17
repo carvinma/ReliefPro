@@ -48,39 +48,35 @@ namespace ReliefProLL
         }
 
         #region PlantSummary
-        public List<PlantSummaryGridDS> CalcPlantSummary(List<PlantSummaryGridDS> listPlant)
+        public List<PUsummaryReportSource> CalcPlantSummary(List<PlantSummaryGridDS> listPlant)
         {
+            List<PUsummaryReportSource> listPlantDS = new List<PUsummaryReportSource>();
             List<string> listPlantCalc = new List<string> { "Direct Summation", "100-30-30", "Sum of first 2 Max", "100-50-50" };
             int CalcType = 0;
             listPlantCalc.ForEach(p =>
             {
-                PlantSummaryGridDS plant = new PlantSummaryGridDS();
-                plant.ControllingDS = new Scenario();
-                plant.PowerDS = new Scenario();
-                plant.WaterDS = new Scenario();
-                plant.AirDS = new Scenario();
-                plant.ProcessUnit = p;
+                listPlantDS.Add(new PUsummaryReportSource
+                {
+                    Device = p,
+                    PowerReliefRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefLoad")),
+                    PowerVolumeRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefVolumeRate")),
+                    PowerMWorSpGr = GetDouble(GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefMW")),
+                    PowerT = GetDouble(GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefTemperature")),
 
-                plant.ControllingDS.ReliefLoad = GetPlantSumResult(listPlant, CalcType, "ControllingDS", "ReliefLoad");
-                plant.ControllingDS.ReliefMW = GetPlantSumResult(listPlant, CalcType, "ControllingDS", "ReliefMW");
-                plant.ControllingDS.ReliefTemperature = GetPlantSumResult(listPlant, CalcType, "ControllingDS", "ReliefTemperature");
+                    WaterReliefRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefLoad")),
+                    WaterVolumeRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefVolumeRate")),
+                    WaterMWorSpGr = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefMW")),
+                    WaterT = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefTemperature")),
 
-                plant.PowerDS.ReliefLoad = GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefLoad");
-                plant.PowerDS.ReliefMW = GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefMW");
-                plant.PowerDS.ReliefTemperature = GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefTemperature");
-
-                plant.WaterDS.ReliefLoad = GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefLoad");
-                plant.WaterDS.ReliefMW = GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefMW");
-                plant.WaterDS.ReliefTemperature = GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefTemperature");
-
-                plant.AirDS.ReliefLoad = GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefLoad");
-                plant.AirDS.ReliefMW = GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefMW");
-                plant.AirDS.ReliefTemperature = GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefTemperature");
+                    AirReliefRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefLoad")),
+                    AirVolumeRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefVolumeRate")),
+                    AirMWorSpGr = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefMW")),
+                    AirT = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefTemperature")),
+                });
                 CalcType++;
-                listPlant.Add(plant);
             });
 
-            return listPlant;
+            return listPlantDS;
         }
 
         public PlantSummaryGridDS GetPlantReprotDS(List<PUsummaryGridDS> ProcessUnitReprotDS, int CalcType)
@@ -88,14 +84,17 @@ namespace ReliefProLL
             PlantSummaryGridDS plant = new PlantSummaryGridDS();
             plant.ControllingDS = ProcessUnitReprotDS.OrderByDescending(p => p.SingleDS.ReliefLoad).FirstOrDefault().SingleDS;
             plant.PowerDS.ReliefLoad = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "PowerDS", "ReliefLoad");
+            plant.PowerDS.ReliefVolumeRate = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "PowerDS", "ReliefVolumeRate");
             plant.PowerDS.ReliefMW = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "PowerDS", "ReliefMW");
             plant.PowerDS.ReliefTemperature = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "PowerDS", "ReliefTemperature");
 
             plant.WaterDS.ReliefLoad = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "WaterDS", "ReliefLoad");
+            plant.WaterDS.ReliefVolumeRate = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "WaterDS", "ReliefVolumeRate");
             plant.WaterDS.ReliefMW = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "WaterDS", "ReliefMW");
             plant.WaterDS.ReliefTemperature = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "WaterDS", "ReliefTemperature");
 
             plant.AirDS.ReliefLoad = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "AirDS", "ReliefLoad");
+            plant.AirDS.ReliefVolumeRate = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "AirDS", "ReliefVolumeRate");
             plant.AirDS.ReliefMW = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "AirDS", "ReliefMW");
             plant.AirDS.ReliefTemperature = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "AirDS", "ReliefTemperature");
 
@@ -132,7 +131,13 @@ namespace ReliefProLL
              });
             return CalcPlantSumResult();
         }
-
+        private double? GetDouble(string value)
+        {
+            double reslut = 0;
+            if (double.TryParse(value, out reslut))
+                return reslut;
+            return null;
+        }
         private string CalcPlantSumResult()
         {
             double Result = tmpResult.Sum();
