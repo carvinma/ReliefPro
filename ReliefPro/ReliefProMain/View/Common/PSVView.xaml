@@ -47,7 +47,7 @@
         <TextBox Text="{Binding CurrentModel.Description}" HorizontalAlignment="Left" Grid.Column="6" Grid.Row="1" />
 
         <Label x:Name="lblPressure" HorizontalAlignment="Left" Content="{Binding PSVPressureUnit,Mode=TwoWay}" Grid.Row="3" Grid.Column="3" Height="10"  Width="10"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch"   Grid.Row="7" VerticalAlignment="Top" Height="2" Grid.ColumnSpan="8" />
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch"   Grid.Row="7" VerticalAlignment="Top" Height="1" Grid.ColumnSpan="8" />
 
         <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="7" VerticalAlignment="Stretch" Grid.ColumnSpan="8">
             <Grid.ColumnDefinitions>
