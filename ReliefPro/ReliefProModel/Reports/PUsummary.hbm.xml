@@ -4,7 +4,9 @@
 <id name="ID" column="ID" type="Int32" unsaved-value="0">
 <generator class="identity" />
 </id>
+  <property name="UnitID" column="UnitID" type="Int32"/>
   <property name="PlantName" column="PlantName" type="String" length="255"/>
+  <property name="ProcessUnitName" column="ProcessUnitName" type="String" length="255"/>
   <property name="Description" column="Description" type="String" length="255"/>
 </class>
 </hibernate-mapping>
