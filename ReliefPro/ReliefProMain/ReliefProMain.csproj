@@ -160,6 +160,7 @@
     <Compile Include="Model\ReactorLoops\GeneralFailureCommonModel.cs" />
     <Compile Include="Model\ReactorLoops\ReactorLoopCommonModel.cs" />
     <Compile Include="Model\ReactorLoops\ReactorLoopModel.cs" />
+    <Compile Include="Model\Reports\EffectFactorModel.cs" />
     <Compile Include="Model\Reports\PUsummaryModel.cs" />
     <Compile Include="Model\ScenarioModel.cs" />
     <Compile Include="Model\SinkModel.cs" />
