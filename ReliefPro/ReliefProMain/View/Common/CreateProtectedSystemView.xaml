@@ -4,41 +4,37 @@
         Title="New Protected System" Height="180" Width="360" Name="myWindow">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="13*"/>
-            <ColumnDefinition Width="327*"/>
-            <ColumnDefinition Width="12*"/>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="155*"/>
+            <ColumnDefinition Width="155*"/>
+            <ColumnDefinition Width="25*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="15*"/>
-            <RowDefinition Height="106*"/>
-            <RowDefinition Height="29*"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="25*"/>
         </Grid.RowDefinitions>
-        <Border></Border>
-        <GroupBox HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" Height="101" Width="314" Grid.Column="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0*"/>
-                    <ColumnDefinition Width="170*"/>
-                    <ColumnDefinition Width="116*"/>
-                    <ColumnDefinition Width="17*"/>
+        
+        <Label Content="Protected System Name" Grid.Column="1"  Grid.Row="1" HorizontalAlignment="Right"/>
+        <TextBox Grid.Column="2"  Grid.Row="1" TextWrapping="NoWrap" Text="{Binding ProtectedSystemName}"  VerticalAlignment="Top" />
 
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="10"/>
-                    <RowDefinition Height="39*"/>
-                    <RowDefinition Height="16*"/>
-                    <RowDefinition Height="20*"/>
-                    <RowDefinition Height="10"/>
-                </Grid.RowDefinitions>
-                <Label Content="Protected System Name" Grid.Column="1"  Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1"/>
-                <TextBox Grid.Column="2"  Grid.Row="1" TextWrapping="NoWrap" Text="{Binding ProtectedSystemName}" Width="100" Height="28" />
-                <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="3" Height="22" Width="75" Grid.RowSpan="2" Margin="47,0,47,8"/>
-                <Button Content="Cancel" IsCancel="True" Grid.Column="2" Grid.Row="3" Height="22" Width="75" VerticalAlignment="Top"  Grid.RowSpan="2"/>
+        <Border Grid.Column="0" BorderBrush="Black" VerticalAlignment="top" Height="5" Grid.Row="2" Grid.ColumnSpan="4" ></Border>
 
-            </Grid>
-           
-        </GroupBox>
-        <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="2" VerticalAlignment="Stretch" Width="352" Grid.ColumnSpan="3">
+        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="2" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Height="22" Width="75" />
+            <Button Content="Cancel" IsCancel="True" Grid.Column="2" Grid.Row="2" Height="22" Width="75" VerticalAlignment="Center" />
+
+        </Grid>
+
+        
+        <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
             <Label></Label>
         </StatusBar>
         

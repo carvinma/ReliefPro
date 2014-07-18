@@ -10,9 +10,9 @@
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*" />
-            <RowDefinition Height="310*" />
-            <RowDefinition Height="5*" />
+            <RowDefinition Height="9*" />
+            <RowDefinition Height="271*" />
+            <RowDefinition Height="30*" />
             <RowDefinition Height="16*" />
         </Grid.RowDefinitions>
         <GroupBox Header="1(Stream)" HorizontalAlignment="Center" Grid.Row="1"  Grid.Column="1" Width="538">
@@ -31,7 +31,8 @@
                     <RowDefinition Height="30*"/>
                     <RowDefinition Height="30*"/>
                     <RowDefinition Height="30*"/>
-                    <RowDefinition Height="40*"/>
+                    
+
                     
                 </Grid.RowDefinitions>
                 <Label Content="Stream Name" HorizontalAlignment="Right" Height="28" Grid.Row="0" Grid.Column="1"/>
@@ -51,16 +52,25 @@
 
                 <Label Content="Sp H(KJ/Kg)" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="6" Height="28" Grid.Column="1"/>
                 <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblSpEnthalpy,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="28" TextWrapping="Wrap" Text="{Binding CurrentModel.SpEnthalpy,Mode=TwoWay}" VerticalAlignment="Center" Width="150" Grid.Row="6" Grid.Column="2" />
-
-                <Button Content="OK"  Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Center" Grid.Row="7" VerticalAlignment="Center" Width="75" Grid.Column="2" Height="22"/>
-                <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Left"  Grid.Row="7" VerticalAlignment="Center" Width="75" Grid.Column="3" Height="22"/>
-
+                
                 <Label x:Name="lblSpEnthalpy" Content="{Binding CurrentModel.SpEnthalpyUnit,Mode=TwoWay}" Grid.Column="3" HorizontalAlignment="Left"  Grid.Row="6" VerticalAlignment="Center" Height="28" Width="43"/>
                 <Label x:Name="lblWeightFlow" Content="{Binding CurrentModel.WeightFlowUnit,Mode=TwoWay}"  Grid.Column="3" HorizontalAlignment="Left"  Grid.Row="5" VerticalAlignment="Center" Height="28" Width="42"/>
                 <Label x:Name="lblPressure" Content="{Binding CurrentModel.PressureUnit,Mode=TwoWay}" Grid.Column="3" HorizontalAlignment="Left"  Grid.Row="4" VerticalAlignment="Center" Height="28" Width="43"/>
                 <Label x:Name="lblTemperature" Content="{Binding CurrentModel.TemperatureUnit,Mode=TwoWay}"  Grid.Column="3" HorizontalAlignment="Left"  Grid.Row="3" VerticalAlignment="Center" Height="28" Width="30" />
             </Grid>
         </GroupBox>
+        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="2" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Content="OK"  Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Center" Grid.Row="7" VerticalAlignment="Center" Width="75" Grid.Column="1" Height="22"/>
+            <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Center"  Grid.Row="7" VerticalAlignment="Center" Width="75" Grid.Column="2" Height="22"/>
+
+        </Grid>
+
         <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="3">
             <Label></Label>
         </StatusBar>
