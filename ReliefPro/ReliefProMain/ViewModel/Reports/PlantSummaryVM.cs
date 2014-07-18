@@ -18,6 +18,21 @@ namespace ReliefProMain.ViewModel.Reports
         private List<PUsummaryGridDS> listPUReportDS;
         private List<PlantSummaryGridDS> listPlantReportDS;
         private string selectedCalcFun;
+        public string SelectedCalcFun
+        {
+            get { return selectedCalcFun; }
+            set
+            {
+                selectedCalcFun = value;
+                this.OnPropertyChanged("SelectedCalcFun");
+            }
+        }
+
+        public List<FlareSystem> listDischargeTo
+        {
+            get;
+            set;
+        }
         private ReportBLL report;
         public StackPanel StackpanelReport
         {
@@ -28,7 +43,8 @@ namespace ReliefProMain.ViewModel.Reports
         {
             listPlantReportDS = new List<PlantSummaryGridDS>();
             report = new ReportBLL();
-            List<FlareSystem> listDischargeTo = report.GetDisChargeTo();
+
+            listDischargeTo = report.GetDisChargeTo();
             if (listDischargeTo.Count > 0)
             {
                 string firstDischargeTo = listDischargeTo.First().FlareName;

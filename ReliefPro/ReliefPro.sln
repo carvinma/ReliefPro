@@ -46,6 +46,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencie
 		Dependencies\NHibernate.JetDriver.dll = Dependencies\NHibernate.JetDriver.dll
 		Dependencies\NHibernate.xml = Dependencies\NHibernate.xml
 		Dependencies\NPOI.dll = Dependencies\NPOI.dll
+		Dependencies\ProII92.dll = Dependencies\ProII92.dll
 		Dependencies\SharpCompress.dll = Dependencies\SharpCompress.dll
 		Dependencies\System.Windows.Controls.DataVisualization.Toolkit.dll = Dependencies\System.Windows.Controls.DataVisualization.Toolkit.dll
 		Dependencies\Tower.vss = Dependencies\Tower.vss
