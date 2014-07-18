@@ -78,7 +78,7 @@
         <Label x:Name="lblPresses" Content="{Binding model.ReliefPressureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="4"/>
         <Label x:Name="lblTemper" Content="{Binding model.ReliefTemperatureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="5"/>
 
-        <Button Content="Calc Area" HorizontalAlignment="Right" Command="{Binding DrumSizeCMD}" Grid.Column="1" Grid.Row="1"  Width="125"  Height="21" />
+        <Button Content="Calc Area" HorizontalAlignment="Right" Command="{Binding DrumSizeCMD}" Grid.Column="1" Grid.Row="1"  Width="125"  Height="21" Margin="0,5,10,7" />
         <Button Content="Run Calculation" HorizontalAlignment="Right" Command="{Binding CalcCMD}"  Grid.Column="1" Grid.Row="2"  Width="125"  Height="21" />
 		<Button Content="OK" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=DrumFireWin}" Grid.Column="1" Grid.Row="8"  Width="75"  Height="25"/>
 		<Button Content="Cancel" IsCancel="True" Grid.Column="2"  Grid.Row="8" Width="75" Height="25"/>
