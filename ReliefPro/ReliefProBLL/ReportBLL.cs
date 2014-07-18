@@ -10,6 +10,7 @@ using NHibernate;
 using ReliefProBLL.Common;
 using ReliefProDAL;
 using ReliefProDAL.GlobalDefault;
+using ReliefProDAL.Reports;
 using ReliefProModel;
 using ReliefProModel.GlobalDefault;
 using ReliefProModel.Reports;
@@ -21,6 +22,7 @@ namespace ReliefProLL
     {
         private GlobalDefaultDAL globalDefaultDAL = new GlobalDefaultDAL();
         private PSVDAL psvDAL = new PSVDAL();
+        private ISession ProcessUnitSession;
         private ScenarioDAL scenarioDAL = new ScenarioDAL();
         public ConcurrentBag<PSV> PSVBag;
         public ConcurrentBag<Scenario> ScenarioBag;
@@ -327,6 +329,7 @@ namespace ReliefProLL
                 var tmpSession = helperProtectedSystem.GetCurrentSession();
                 if (p.Contains("plant.mdb"))
                 {
+                    ProcessUnitSession = tmpSession;
                     GetProcessUnitName(tmpSession);
                 }
                 else
@@ -462,6 +465,19 @@ namespace ReliefProLL
         }
         #endregion
 
+        #endregion
+
+        #region OperatePUsummary
+        public PUsummary GetPUsummaryModel(int UnitID)
+        {
+            PUsummaryDAL puSummaryDAL = new PUsummaryDAL();
+            return puSummaryDAL.GetModel(UnitID, ProcessUnitSession);
+        }
+        public void SavePUsummary(PUsummary model)
+        {
+            PUsummaryDAL puSummaryDAL = new PUsummaryDAL();
+            puSummaryDAL.AddOrUpdate(model, ProcessUnitSession);
+        }
         #endregion
     }
 }
