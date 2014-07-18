@@ -278,7 +278,11 @@ namespace ReliefProLL
             double? pback = null;
             var PBack = this.GetDisChargeTo().FirstOrDefault(p => p.FlareName.ToUpper().Contains("HP"));
             if (PBack != null)
+            {
                 pback = PBack.DesignBackPressure;
+                if (pback != null)
+                    pback = UnitConvert.Convert(UOMEnum.Pressure, "Kpa", pback.Value);
+            }
             var ScenarioInfo = scenarioDAL.GetAllList(SessionPS).ToList();
             ScenarioInfo.ForEach(p =>
             {
