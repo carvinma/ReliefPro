@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Forms.Integration;
 using Microsoft.Reporting.WinForms;
 using ReliefProLL;
+using ReliefProMain.Model.Reports;
 using ReliefProModel;
 using ReliefProModel.GlobalDefault;
 using ReliefProModel.Reports;
@@ -16,7 +17,7 @@ namespace ReliefProMain.ViewModel.Reports
     {
         private List<PUsummaryGridDS> listPUReportDS;
         private List<PlantSummaryGridDS> listPlantReportDS;
-        
+        private string selectedCalcFun;
         private ReportBLL report;
         public StackPanel StackpanelReport
         {
@@ -54,6 +55,7 @@ namespace ReliefProMain.ViewModel.Reports
             reportViewer.ProcessingMode = Microsoft.Reporting.WinForms.ProcessingMode.Local;
             reportViewer.LocalReport.ReportEmbeddedResource = "ReliefProMain.View.Reports.PlantSummaryRpt.rdlc";
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantDS", CreateReportDataSource()));
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantEffectFactorDS", CreateReportDataSource()));
             reportViewer.RefreshReport();
             host.Child = reportViewer;
 
@@ -91,10 +93,56 @@ namespace ReliefProMain.ViewModel.Reports
                 AirZ = GetDouble(p.AirDS.ReliefZ)
             }).ToList();
 
-            listRS.AddRange(report.CalcPlantSummary(listPlantReportDS));
+            var listEffectFactor = report.CalcPlantSummary(listPlantReportDS);
+            listRS.AddRange(listEffectFactor);
+            CalcEffectFactor(listEffectFactor);
             return listRS;
         }
 
+        private List<EffectFactorModel> CalcEffectFactor(List<PUsummaryReportSource> listEffectFactor)
+        {
+            double? W, T, MW, K;
+            List<EffectFactorModel> lsitCalc = new List<EffectFactorModel>();
+            PUsummaryReportSource RptDS = listEffectFactor.FirstOrDefault(p => p.Device == selectedCalcFun);
+            W = RptDS.PowerReliefRate;
+            T = RptDS.PowerT;
+            MW = RptDS.PowerMWorSpGr;
+            K = RptDS.PowerCpCv;
+
+            EffectFactorModel effectPressure = new EffectFactorModel();
+            EffectFactorModel effectMach = new EffectFactorModel();
+
+
+            if (MW != null && MW != 0)
+            {
+                effectPressure.Power = (W * W * T) / MW;
+                if (K != null && K != 0)
+                    effectMach.Power = (W * W * T) / (MW * K);
+            }
+            W = RptDS.WaterReliefRate;
+            T = RptDS.WaterT;
+            MW = RptDS.WaterMWorSpGr;
+            K = RptDS.WaterCpCv;
+            if (MW != null && MW != 0)
+            {
+                effectPressure.Water = (W * W * T) / MW;
+                if (K != null && K != 0)
+                    effectMach.Water = (W * W * T) / (MW * K);
+            }
+            W = RptDS.AirReliefRate;
+            T = RptDS.AirT;
+            MW = RptDS.AirMWorSpGr;
+            K = RptDS.AirCpCv;
+            if (MW != null && MW != 0)
+            {
+                effectPressure.Air = (W * W * T) / MW;
+                if (K != null && K != 0)
+                    effectMach.Air = (W * W * T) / (MW * K);
+            }
+            lsitCalc.Add(effectPressure);
+            lsitCalc.Add(effectMach);
+            return lsitCalc;
+        }
 
         private double? GetDouble(string value)
         {
