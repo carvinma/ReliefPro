@@ -48,9 +48,11 @@ namespace ReliefProMain.ViewModel.Reports
             BtnReportCMD = new DelegateCommand<object>(BtnReprotClick);
             ExportExcelCMD = new DelegateCommand<object>(BtnExportExcel);
             reportBLL = new ReportBLL(UnitID, ReportPath);
+            PUsummary PU = reportBLL.GetPUsummaryModel(UnitID);
+            if (PU == null) { PU = new PUsummary(); PU.UnitID = UnitID; }
             CreateControl(reportBLL.GetDisChargeTo());
 
-            model = new PUsummaryModel();
+            model = new PUsummaryModel(PU);
             model.listGrid = new List<PUsummaryGridDS>();
             InitModel("ALL");
             StackpanelDraw = new StackPanel();
@@ -61,7 +63,7 @@ namespace ReliefProMain.ViewModel.Reports
 
         private void Save(object obj)
         {
-            throw new NotImplementedException();
+            reportBLL.SavePUsummary(model.pu);
         }
         private void InitModel(string ReportDischargeTo)
         {

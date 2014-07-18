@@ -11,10 +11,10 @@ namespace ReliefProMain.Model.Reports
     {
         public List<PUsummaryGridDS> listGrid { get; set; }
 
-        private PUsummary pu;
-        public PUsummaryModel()
+        public PUsummary pu;
+        public PUsummaryModel(PUsummary pu)
         {
-            pu = new PUsummary();
+            this.pu = pu;
         }
 
         public string PlantName
