@@ -28,6 +28,26 @@ namespace ReliefProMain.ViewModel.Reports
         public ICommand BtnReportCMD { get; set; }
         public ICommand ExportExcelCMD { get; set; }
         public PUsummaryModel model { get; set; }
+        private string selectedDischargeTo;
+        public string SelectedDischargeTo
+        {
+            get
+            {
+                return selectedDischargeTo;
+            }
+            set
+            {
+                selectedDischargeTo = value;
+                this.OnPropertyChanged("SelectedDischargeTo");
+                InitModel(value);
+                CreateReport();
+            }
+        }
+        public List<FlareSystem> listDischargeTo
+        {
+            get;
+            set;
+        }
         List<string> listScenario = new List<string> { "PowerDS", "WaterDS", "AirDS", "SteamDS", "FireDS" };
         List<string> listProperty = new List<string> { "ReliefLoad", "ReliefMW", "ReliefTemperature", "ReliefZ" };
         public StackPanel Stackpanel
@@ -44,10 +64,19 @@ namespace ReliefProMain.ViewModel.Reports
 
         public PUsummaryVM(int UnitID, List<string> ReportPath)
         {
+            StackpanelDraw = new StackPanel();
             OKCMD = new DelegateCommand<object>(Save);
             BtnReportCMD = new DelegateCommand<object>(BtnReprotClick);
             ExportExcelCMD = new DelegateCommand<object>(BtnExportExcel);
             reportBLL = new ReportBLL(UnitID, ReportPath);
+            listDischargeTo = reportBLL.GetDisChargeTo();
+            if (listDischargeTo != null)
+            {
+                FlareSystem fs = new FlareSystem();
+                fs.FlareName = "ALL";
+                listDischargeTo.Insert(0, fs);
+                this.selectedDischargeTo = "ALL";
+            }
             PUsummary PU = reportBLL.GetPUsummaryModel(UnitID);
             if (PU == null) { PU = new PUsummary(); PU.UnitID = UnitID; }
             CreateControl(reportBLL.GetDisChargeTo());
@@ -55,7 +84,6 @@ namespace ReliefProMain.ViewModel.Reports
             model = new PUsummaryModel(PU);
             model.listGrid = new List<PUsummaryGridDS>();
             InitModel("ALL");
-            StackpanelDraw = new StackPanel();
             CreateReport();
             // DrawingPUReport draw = new DrawingPUReport(model.listGrid);
             // StackpanelDraw.Children.Add(draw);
@@ -86,7 +114,7 @@ namespace ReliefProMain.ViewModel.Reports
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PUDataSet", CreateReportDataSource()));
             reportViewer.RefreshReport();
             host.Child = reportViewer;
-
+            StackpanelDraw.Children.Clear();
             StackpanelDraw.Children.Add(host);
         }
         private List<PUsummaryReportSource> CreateReportDataSource()

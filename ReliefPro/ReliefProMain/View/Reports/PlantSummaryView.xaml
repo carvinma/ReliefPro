@@ -39,8 +39,9 @@
         <ComboBox ItemsSource="{Binding listPlantCalc, Mode=OneWay}" 
 						SelectedItem="{Binding SelectedCalcFun,Mode=TwoWay}" 
                    Grid.Row="0" Grid.Column="0" Height="26" Width="120" Margin="290,2,382,2" />
-        <ComboBox ItemsSource="{Binding listDischargeTo, Mode=OneWay}" 
-						SelectedItem="{Binding SelectedDischargeTo,Mode=TwoWay}" 
+        <ComboBox ItemsSource="{Binding listDischargeTo, Mode=OneWay}" DisplayMemberPath="FlareName"  
+                  SelectedValuePath="FlareName"
+						SelectedValue="{Binding SelectedDischargeTo,Mode=TwoWay}" 
                    Grid.Row="0" Grid.Column="0" Height="26" Width="120" Margin="456,2,216,2" />
         <ContentControl Content="{Binding StackpanelReport}" Grid.Row="1" Grid.Column="0"/>
     </Grid>
