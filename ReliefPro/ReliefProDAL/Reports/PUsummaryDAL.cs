@@ -21,5 +21,23 @@ namespace ReliefProDAL.Reports
             }
             return null;
         }
+
+        public void Save(ISession session, PUsummary model)
+        {
+            using (ITransaction tx = session.BeginTransaction())
+            {
+                try
+                {
+                    session.SaveOrUpdate(model);
+                    session.Flush();
+                    tx.Commit();
+                }
+                catch (HibernateException hx)
+                {
+                    tx.Rollback();
+                    throw;
+                }
+            }
+        }
     }
 }
