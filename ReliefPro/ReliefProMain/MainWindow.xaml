@@ -4,10 +4,7 @@
         xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"        
         xmlns:winformsIntegration="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
         Title="MainWindow" Height="800" Width="1200" Name="MainWindowApp" Loaded="MainWindowApp_Loaded" Closing="MainWindowApp_Closing">
-    <Window.Background>
-        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-    </Window.Background>
-
+   
     <Window.Resources>
         <ResourceDictionary>
             <ContextMenu x:Name="RightContextMenu" x:Key="RightContextMenu">
@@ -23,7 +20,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="800*"/>
         </Grid.RowDefinitions>
         <Border BorderBrush="LightBlue" BorderThickness="0"  Margin="1" Grid.Row="0">
             <Border.Background>
@@ -125,7 +122,7 @@
 
 
 
-        <avalonDock:DockingManager Grid.Row="2" x:Name="dockManager" AllowMixedOrientation="True" DocumentClosing="dockManager_DocumentClosing">
+        <avalonDock:DockingManager VerticalAlignment="Stretch" Grid.Row="2" x:Name="dockManager" AllowMixedOrientation="True" DocumentClosing="dockManager_DocumentClosing">
             <avalonDock:DockingManager.DocumentHeaderTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -136,14 +133,14 @@
             </avalonDock:DockingManager.DocumentHeaderTemplate>
             <avalonDock:LayoutRoot PropertyChanged="OnLayoutRootPropertyChanged">
                 <avalonDock:LayoutPanel>
-                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="250">
-                        <avalonDock:LayoutAnchorablePane >
+                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="250" >
+                        <avalonDock:LayoutAnchorablePane>
                             <avalonDock:LayoutAnchorable  x:Name="Navigation"  ContentId="Navigation" Title="Plant Explorer" ToolTip="Plant Explorer" CanHide="False" CanClose="False" >
-                                <TreeView Name="NavigationTreeView"  MouseDoubleClick="NavigationTreeView_MouseDoubleClick" ContextMenu="{StaticResource RightContextMenu}" PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
-                                    <TreeView.ItemTemplate   >
+                                <TreeView VerticalAlignment="Stretch" Name="NavigationTreeView"   MouseDoubleClick="NavigationTreeView_MouseDoubleClick" ContextMenu="{StaticResource RightContextMenu}" PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
+                                    <TreeView.ItemTemplate    >
                                         <HierarchicalDataTemplate>
                                             <StackPanel Orientation="Horizontal">
-                                                <Image  />
+                                                <Image   />
                                                 <TextBlock />
                                             </StackPanel>
                                         </HierarchicalDataTemplate>
@@ -153,21 +150,25 @@
                             <avalonDock:LayoutAnchorable ContentId="toolWindow" Title="Tools" Hiding="OnToolWindow1Hiding"  >
                                 <Border BorderBrush="LightBlue" BorderThickness="1"  Margin="1">
                                     <DockPanel>
-                                        <ListView Name="lvTower" AllowDrop="True"   VerticalAlignment="Stretch"    BorderThickness="0"  >
+                                        <ListView Name="lvTower"  AllowDrop="True"    VerticalAlignment="Stretch"    BorderThickness="0"  >
                                             <ListView.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Vertical"></StackPanel>
+                                                    
+                                                    <StackPanel  Orientation="Vertical" HorizontalAlignment="Center"  ></StackPanel>
+                                                    
                                                 </ItemsPanelTemplate>
                                             </ListView.ItemsPanel>
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
                                                     <Grid>
                                                         <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />                                                          
                                                             <RowDefinition Height="Auto" />
-                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="30" />
                                                         </Grid.RowDefinitions>
-                                                        <Image HorizontalAlignment="Left" Width="35px" Height="40px" Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>
-                                                        <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Text="{Binding Name}" Grid.Row="1"/>
+                                                        
+                                                        <Image Grid.Row="0" HorizontalAlignment="Stretch" Width="48px" Height="48px" Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>
+                                                        <TextBlock Width="100px" Grid.Row="1" Foreground="Black" TextAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding Name}" />
                                                     </Grid>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>

@@ -39,8 +39,14 @@
     <Style TargetType="{x:Type Window}">
         <Setter Property="Background" Value="{DynamicResource BackBrush}" />
     </Style>
+    <Style TargetType="{x:Type TreeView}">
+        <Setter Property="Background" Value="{DynamicResource BackBrush}" />
+    </Style>
+    <Style TargetType="{x:Type ListView}">
+        <Setter Property="Background" Value="{DynamicResource BackBrush}" />
+    </Style>
     <Style TargetType="{x:Type RowDefinition}">
-        <Setter Property="Height" Value="30"/>
+        <Setter Property="Height" Value="30*"/>
     </Style>
     <Style TargetType="{x:Type Label}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
