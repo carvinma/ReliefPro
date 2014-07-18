@@ -42,11 +42,11 @@ namespace ReliefProMain.ViewModel.Reports
         }
 
         public ReportViewer ReportViewerDS { get; set; }
-        public PUsummaryVM(List<string> ReportPath)
+        public PUsummaryVM(int UnitID, List<string> ReportPath)
         {
             BtnReportCMD = new DelegateCommand<object>(BtnReprotClick);
             ExportExcelCMD = new DelegateCommand<object>(BtnExportExcel);
-            reportBLL = new ReportBLL(ReportPath);
+            reportBLL = new ReportBLL(UnitID, ReportPath);
             CreateControl(reportBLL.GetDisChargeTo());
 
             model = new PUsummaryModel();

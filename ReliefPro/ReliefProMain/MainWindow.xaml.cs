@@ -177,7 +177,7 @@ namespace ReliefProMain
                 LayoutDocument doc = new LayoutDocument();
                 doc.Title = "Test1";
                 firstDocumentPane.Children.Add(doc);
-                
+
                 LayoutDocument doc2 = new LayoutDocument();
                 doc2.Title = "Test2";
                 firstDocumentPane.Children.Add(doc2);
@@ -413,7 +413,7 @@ namespace ReliefProMain
             List<string> ReportPath = new List<string>();
             ReportPath.Add(@"C:\Users\Administrator\AppData\Local\Relief 1.0\testtank\Unit1\ProtectedSystem1\protectedsystem.mdb");
             PUsummaryView view = new PUsummaryView();
-            PUsummaryVM vm = new PUsummaryVM(ReportPath);
+            PUsummaryVM vm = new PUsummaryVM(1, ReportPath);
             view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             view.DataContext = vm;
             view.ShowDialog();
@@ -536,7 +536,7 @@ namespace ReliefProMain
                     treePS.UnitID = treeUnit.ID;
                     treePSDAL.Add(treePS, SessionPlant);
 
-                    
+
                 }
             }
             catch (Exception ex)
@@ -806,7 +806,7 @@ namespace ReliefProMain
             SessionPlant = helperProtectedSystem.GetCurrentSession();
             TreeUnitDAL treeUnitDAL = new TreeUnitDAL();
             TreeUnit treeUnit = treeUnitDAL.GetModel(SessionPlant, data.Text);
-           
+
             TreePSDAL treePSDAL = new TreePSDAL();
             TreePS treePS = new TreePS();
             treePS.PSName = "ProtectedSystem1";

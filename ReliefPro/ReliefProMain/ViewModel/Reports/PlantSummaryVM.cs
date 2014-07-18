@@ -40,7 +40,7 @@ namespace ReliefProMain.ViewModel.Reports
         }
         private void InitPUnitReportDS(string ReportDischargeTo, int UnitID, List<string> UnitPath)
         {
-            ReportBLL reportBLL = new ReportBLL(UnitPath);
+            ReportBLL reportBLL = new ReportBLL(UnitID, UnitPath);
             List<PSV> listPSV = reportBLL.PSVBag.ToList();
             listPSV = listPSV.Where(p => p.DischargeTo == ReportDischargeTo).ToList();
             listPUReportDS = reportBLL.GetPuReprotDS(listPSV);
@@ -67,7 +67,7 @@ namespace ReliefProMain.ViewModel.Reports
             List<PUsummaryReportSource> listRS = new List<PUsummaryReportSource>();
             listRS = listPlantReportDS.Select(p => new PUsummaryReportSource
             {
-                //  Device = p.psv.PSVName,
+                Device = p.ProcessUnit,
                 ScenarioReliefRate = GetDouble(p.ControllingDS.ReliefLoad),
                 ScenarioVolumeRate = GetDouble(p.ControllingDS.ReliefVolumeRate),
                 ScenarioMWorSpGr = GetDouble(p.ControllingDS.ReliefMW),
