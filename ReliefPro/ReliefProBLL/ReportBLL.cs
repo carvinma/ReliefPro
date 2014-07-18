@@ -476,7 +476,7 @@ namespace ReliefProLL
         public void SavePUsummary(PUsummary model)
         {
             PUsummaryDAL puSummaryDAL = new PUsummaryDAL();
-            puSummaryDAL.AddOrUpdate(model, ProcessUnitSession);
+            puSummaryDAL.Save(ProcessUnitSession, model);
         }
         #endregion
     }
