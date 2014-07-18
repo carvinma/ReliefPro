@@ -31,6 +31,7 @@
                     <RowDefinition Height="30*"/>
                     <RowDefinition Height="30*"/>
                     <RowDefinition Height="30*"/>
+                    <RowDefinition Height="30"/>
                     
 
                     
@@ -59,6 +60,8 @@
                 <Label x:Name="lblTemperature" Content="{Binding CurrentModel.TemperatureUnit,Mode=TwoWay}"  Grid.Column="3" HorizontalAlignment="Left"  Grid.Row="3" VerticalAlignment="Center" Height="28" Width="30" />
             </Grid>
         </GroupBox>
+        <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1" VerticalAlignment="top" Height="1"  Grid.Row="2" Grid.ColumnSpan="4" ></Border>
+
         <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="2" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -71,7 +74,7 @@
 
         </Grid>
 
-        <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="3">
+        <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="3">
             <Label></Label>
         </StatusBar>
     </Grid>
