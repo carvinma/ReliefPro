@@ -31,11 +31,10 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="90"/>
-            <RowDefinition Height="22"/>
             <RowDefinition Height="0"/>
+            <RowDefinition Height="200*"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="22"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -48,20 +47,9 @@
         <TextBox Margin="480,0,0,0" Text="{Binding model.Description,Mode=TwoWay}" Width="250" Height="50" Grid.Row="0" Grid.RowSpan="2"/>
         <Button Content="Export Excel" Command="{Binding ExportExcelCMD}" Margin="750,0,0,0" Width="90" HorizontalAlignment="Left"/>
         <GroupBox Grid.Row="3" >
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="50*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <ContentControl Content="{Binding Stackpanel}" Grid.Row="0" Grid.Column="0"/>
                 <ContentControl Content="{Binding StackpanelDraw}" 
-                                HorizontalAlignment="Stretch" VerticalContentAlignment="Stretch" 
-                                Grid.Row="1" Grid.Column="0"/>
-
-            </Grid>
+                                HorizontalAlignment="Stretch" VerticalContentAlignment="Top" 
+                              />
         </GroupBox>
         <DataGrid HorizontalAlignment="Stretch" Opacity="0.7" Foreground="#FF2922B2" Background="#FFF5F2F2" 
                   VerticalAlignment="Stretch" HorizontalContentAlignment="Center" 
