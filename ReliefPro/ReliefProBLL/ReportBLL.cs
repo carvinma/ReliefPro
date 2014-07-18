@@ -260,8 +260,25 @@ namespace ReliefProLL
         }
         private void GetScenarioInfo(ISession SessionPS)
         {
+            double? pback = null;
+            var PBack = this.GetDisChargeTo().FirstOrDefault(p => p.FlareName.ToUpper().Contains("HP"));
+            if (PBack != null)
+                pback = PBack.DesignBackPressure;
             var ScenarioInfo = scenarioDAL.GetAllList(SessionPS).ToList();
-            ScenarioInfo.ForEach(p => { p.dbPath = SessionPS.Connection.ConnectionString; ScenarioBag.Add(p); });
+            ScenarioInfo.ForEach(p =>
+            {
+                p.dbPath = SessionPS.Connection.ConnectionString;
+                if (pback != null && pback != 0)
+                {
+                    double W, T, MW;
+                    W = !string.IsNullOrEmpty(p.ReliefLoad) ? double.Parse(p.ReliefLoad) : 0;
+                    T = !string.IsNullOrEmpty(p.ReliefTemperature) ? double.Parse(p.ReliefTemperature) : 0;
+                    MW = !string.IsNullOrEmpty(p.ReliefMW) ? double.Parse(p.ReliefMW) : 0;
+                    if (MW != 0)
+                        p.ReliefVolumeRate = ((W * 8.314 * (T + 273.15)) / (pback * MW)).ToString();
+                }
+                ScenarioBag.Add(p);
+            });
         }
         private void InitInfo()
         {
