@@ -57,6 +57,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
+                
             </Grid.ColumnDefinitions>
             <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="22" Grid.Column="1" Grid.Row="2"/>
             <Button Content="Cancel" IsCancel="True" Grid.Column="2" HorizontalAlignment="Center"  Grid.Row="2" VerticalAlignment="Center" Width="75"/>
