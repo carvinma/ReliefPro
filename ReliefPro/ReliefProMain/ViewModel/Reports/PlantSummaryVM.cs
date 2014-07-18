@@ -17,6 +17,7 @@ namespace ReliefProMain.ViewModel.Reports
     {
         private List<PUsummaryGridDS> listPUReportDS;
         private List<PlantSummaryGridDS> listPlantReportDS;
+        private List<Tuple<int, List<string>>> ProcessUnitPath;
         private string selectedCalcFun;
         public string SelectedCalcFun
         {
@@ -25,9 +26,25 @@ namespace ReliefProMain.ViewModel.Reports
             {
                 selectedCalcFun = value;
                 this.OnPropertyChanged("SelectedCalcFun");
+                ChangerDischargeTo(selectedDischargeTo);
             }
         }
 
+        private string selectedDischargeTo;
+        public string SelectedDischargeTo
+        {
+            get
+            {
+                return selectedDischargeTo;
+            }
+            set
+            {
+                selectedDischargeTo = value;
+                this.OnPropertyChanged("SelectedDischargeTo");
+                ChangerDischargeTo(value);
+            }
+        }
+        public List<string> listPlantCalc { get; set; }
         public List<FlareSystem> listDischargeTo
         {
             get;
@@ -39,19 +56,30 @@ namespace ReliefProMain.ViewModel.Reports
             get;
             set;
         }
+
         public PlantSummaryVM(List<Tuple<int, List<string>>> UnitPath)
         {
+            ProcessUnitPath = UnitPath;
             listPlantReportDS = new List<PlantSummaryGridDS>();
             report = new ReportBLL();
-
+            listPlantCalc = report.listPlantCalc;
             listDischargeTo = report.GetDisChargeTo();
             if (listDischargeTo.Count > 0)
             {
                 string firstDischargeTo = listDischargeTo.First().FlareName;
-                UnitPath.ForEach(p =>
+                ChangerDischargeTo(firstDischargeTo);
+            }
+
+        }
+        private void ChangerDischargeTo(string ReportDischargeTo)
+        {
+            if (listDischargeTo.Count > 0)
+            {
+                ProcessUnitPath.ForEach(p =>
                 {
-                    InitPUnitReportDS(firstDischargeTo, p.Item1, p.Item2);
+                    InitPUnitReportDS(ReportDischargeTo, p.Item1, p.Item2);
                 });
+                CreateReport();
             }
         }
         private void InitPUnitReportDS(string ReportDischargeTo, int UnitID, List<string> UnitPath)
@@ -78,7 +106,7 @@ namespace ReliefProMain.ViewModel.Reports
 
             reportViewer.RefreshReport();
             host.Child = reportViewer;
-
+            StackpanelReport.Children.Clear();
             StackpanelReport.Children.Add(host);
         }
         private List<PUsummaryReportSource> CreateReportDataSource(out List<EffectFactorModel> listEffect, out PlantReprotHead reportHeadDS)

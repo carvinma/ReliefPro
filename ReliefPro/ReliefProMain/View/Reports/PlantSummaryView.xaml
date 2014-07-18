@@ -36,9 +36,12 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Label Content="Design Total Plant Flare Load Summation" Grid.Row="0" Grid.Column="0"/>
-        <ComboBox ItemsSource="{Binding listDischargeTo, Mode=OneWay}" 
+        <ComboBox ItemsSource="{Binding listPlantCalc, Mode=OneWay}" 
 						SelectedItem="{Binding SelectedCalcFun,Mode=TwoWay}" 
-                   Grid.Row="0" Grid.Column="0" Height="26" Width="120" Margin="258,0,414,0" />
+                   Grid.Row="0" Grid.Column="0" Height="26" Width="120" Margin="290,2,382,2" />
+        <ComboBox ItemsSource="{Binding listDischargeTo, Mode=OneWay}" 
+						SelectedItem="{Binding SelectedDischargeTo,Mode=TwoWay}" 
+                   Grid.Row="0" Grid.Column="0" Height="26" Width="120" Margin="456,2,216,2" />
         <ContentControl Content="{Binding StackpanelReport}" Grid.Row="1" Grid.Column="0"/>
     </Grid>
 
