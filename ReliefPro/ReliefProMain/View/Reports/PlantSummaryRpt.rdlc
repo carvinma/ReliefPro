@@ -3499,7 +3499,6 @@
         </TablixRowHierarchy>
         <DataSetName>PlantDS</DataSetName>
         <Top>1.45203cm</Top>
-        <Left>0.08974cm</Left>
         <Height>3.88229cm</Height>
         <Width>38.50417cm</Width>
         <Style>
@@ -3565,7 +3564,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value />
+                <Value>=First(Fields!SummationFun.Value, "PlantHeadDS")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -3574,10 +3573,60 @@
         </Paragraphs>
         <rd:DefaultName>Textbox8</rd:DefaultName>
         <Top>0.49953cm</Top>
-        <Left>9.99808cm</Left>
+        <Left>9.68058cm</Left>
         <Height>0.6cm</Height>
         <Width>3.61125cm</Width>
         <ZIndex>2</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+          <TopBorder>
+            <Color>Black</Color>
+            <Style>Solid</Style>
+            <Width>1pt</Width>
+          </TopBorder>
+          <BottomBorder>
+            <Color>Black</Color>
+            <Style>Solid</Style>
+            <Width>1pt</Width>
+          </BottomBorder>
+          <LeftBorder>
+            <Color>Black</Color>
+            <Style>Solid</Style>
+            <Width>1pt</Width>
+          </LeftBorder>
+          <RightBorder>
+            <Color>Black</Color>
+            <Style>Solid</Style>
+            <Width>1pt</Width>
+          </RightBorder>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox2">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Controlling Scenario for Plant Flare</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>0.49953cm</Top>
+        <Left>15.26328cm</Left>
+        <Height>0.6cm</Height>
+        <Width>5.62208cm</Width>
+        <ZIndex>3</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -3588,11 +3637,61 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
+      <Textbox Name="Textbox4">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!PlantFlare.Value, "PlantHeadDS")</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox4</rd:DefaultName>
+        <Top>0.49953cm</Top>
+        <Left>21.3487cm</Left>
+        <Height>0.6cm</Height>
+        <Width>5.38339cm</Width>
+        <ZIndex>4</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+          <TopBorder>
+            <Color>Black</Color>
+            <Style>Solid</Style>
+            <Width>1pt</Width>
+          </TopBorder>
+          <BottomBorder>
+            <Color>Black</Color>
+            <Style>Solid</Style>
+            <Width>1pt</Width>
+          </BottomBorder>
+          <LeftBorder>
+            <Color>Black</Color>
+            <Style>Solid</Style>
+            <Width>1pt</Width>
+          </LeftBorder>
+          <RightBorder>
+            <Color>Black</Color>
+            <Style>Solid</Style>
+            <Width>1pt</Width>
+          </RightBorder>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
     <Height>2.1112in</Height>
     <Style />
   </Body>
-  <Width>15.20487in</Width>
+  <Width>15.15912in</Width>
   <Page>
     <PageHeight>29.7cm</PageHeight>
     <PageWidth>21cm</PageWidth>
@@ -3625,6 +3724,13 @@
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
       <rd:DataSourceID>e8bfebc1-e8fc-49b5-ba04-8df46a57fda0</rd:DataSourceID>
+    </DataSource>
+    <DataSource Name="ReliefProMainModelReports1">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>73b9a8ef-31b7-43a9-97d6-2a6048ccbba3</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
@@ -3832,6 +3938,27 @@
         <rd:DataSetName>ReliefProMain.Model.Reports</rd:DataSetName>
         <rd:TableName>EffectFactorModel</rd:TableName>
         <rd:ObjectDataSourceType>ReliefProMain.Model.Reports.EffectFactorModel, ReliefProMain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="PlantHeadDS">
+      <Query>
+        <DataSourceName>ReliefProMainModelReports1</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="PlantFlare">
+          <DataField>PlantFlare</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SummationFun">
+          <DataField>SummationFun</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>ReliefProMain.Model.Reports</rd:DataSetName>
+        <rd:TableName>PlantReprotHead</rd:TableName>
+        <rd:ObjectDataSourceType>ReliefProMain.Model.Reports.PlantReprotHead, ReliefProMain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

@@ -161,6 +161,7 @@
     <Compile Include="Model\ReactorLoops\ReactorLoopCommonModel.cs" />
     <Compile Include="Model\ReactorLoops\ReactorLoopModel.cs" />
     <Compile Include="Model\Reports\EffectFactorModel.cs" />
+    <Compile Include="Model\Reports\PlantReprotHead.cs" />
     <Compile Include="Model\Reports\PUsummaryModel.cs" />
     <Compile Include="Model\ScenarioModel.cs" />
     <Compile Include="Model\SinkModel.cs" />
@@ -744,6 +745,7 @@
     <EmbeddedResource Include="View\Reports\PlantSummaryRpt.rdlc" />
     <EmbeddedResource Include="View\Reports\PUsummaryRpt.rdlc" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\ReliefProMain.Model.Reports.PlantReprotHead.datasource" />
     <None Include="Properties\DataSources\ReliefProModel.Reports.PUsummaryReportSource.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -71,14 +71,17 @@ namespace ReliefProMain.ViewModel.Reports
             reportViewer.ProcessingMode = Microsoft.Reporting.WinForms.ProcessingMode.Local;
             reportViewer.LocalReport.ReportEmbeddedResource = "ReliefProMain.View.Reports.PlantSummaryRpt.rdlc";
             List<EffectFactorModel> listEffect = new List<EffectFactorModel>();
-            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantDS", CreateReportDataSource(out listEffect)));
+            PlantReprotHead reportHeadDS = new PlantReprotHead();
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantDS", CreateReportDataSource(out listEffect, out reportHeadDS)));
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantEffectFactorDS", listEffect));
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantHeadDS", reportHeadDS));
+
             reportViewer.RefreshReport();
             host.Child = reportViewer;
 
             StackpanelReport.Children.Add(host);
         }
-        private List<PUsummaryReportSource> CreateReportDataSource(out List<EffectFactorModel> listEffect)
+        private List<PUsummaryReportSource> CreateReportDataSource(out List<EffectFactorModel> listEffect, out PlantReprotHead reportHeadDS)
         {
             List<PUsummaryReportSource> listRS = new List<PUsummaryReportSource>();
             listRS = listPlantReportDS.Select(p => new PUsummaryReportSource
@@ -113,6 +116,21 @@ namespace ReliefProMain.ViewModel.Reports
             var listEffectFactor = report.CalcPlantSummary(listPlantReportDS);
             listRS.AddRange(listEffectFactor);
             listEffect = CalcEffectFactor(listEffectFactor);
+
+            reportHeadDS = new PlantReprotHead();
+            reportHeadDS.SummationFun = selectedCalcFun;
+            if (listEffect[0].Power >= listEffect[0].Water && listEffect[0].Power >= listEffect[0].Air)
+            {
+                reportHeadDS.PlantFlare = "General Electric Power Failure";
+            }
+            else if (listEffect[0].Water >= listEffect[0].Power && listEffect[0].Water >= listEffect[0].Air)
+            {
+                reportHeadDS.PlantFlare = "General Cooling Water Failure";
+            }
+            else if (listEffect[0].Air >= listEffect[0].Power && listEffect[0].Air >= listEffect[0].Water)
+            {
+                reportHeadDS.PlantFlare = "General Instrument Air Failure";
+            }
             return listRS;
         }
 
