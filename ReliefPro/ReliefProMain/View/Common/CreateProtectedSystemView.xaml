@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="26*"/>
             <RowDefinition Height="55*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="43*"/>
             <RowDefinition Height="26*"/>
         </Grid.RowDefinitions>
@@ -21,7 +22,7 @@
 
         <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1" VerticalAlignment="top" Height="1" Grid.Row="2" Grid.ColumnSpan="4" ></Border>
 
-        <Grid HorizontalAlignment="Stretch"  Grid.Row="2" VerticalAlignment="Stretch" Grid.ColumnSpan="4" Margin="0,9,0,10">
+        <Grid HorizontalAlignment="Stretch"  Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="4" Margin="0,9,0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -35,7 +36,7 @@
         </Grid>
 
         
-        <StatusBar  HorizontalAlignment="Stretch" Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="4" Margin="0,5">
+        <StatusBar  HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="4" Margin="0,5">
             <Label></Label>
         </StatusBar>
         

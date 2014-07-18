@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="9*"/>
             <RowDefinition Height="55*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="37*"/>
             <RowDefinition Height="19*"/>
         </Grid.RowDefinitions>
@@ -20,7 +21,7 @@
         <TextBox Grid.Column="2" HorizontalAlignment="Left"    Grid.Row="1" Text="{Binding Name}" VerticalAlignment="Center" />
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch"   Grid.Row="2" VerticalAlignment="Top" Height="1" Grid.ColumnSpan="4" />
 
-        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="2" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -34,7 +35,7 @@
         </Grid>
 
        
-        <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+        <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
             <Label></Label>
         </StatusBar>
     </Grid>

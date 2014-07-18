@@ -10,6 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="207*"/>
             <RowDefinition Height="34*"/>
+            <RowDefinition Height="2"/>
             <RowDefinition Height="29*"/>
             <RowDefinition Height="16"/>
         </Grid.RowDefinitions>
@@ -51,7 +52,7 @@
 
         <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1" VerticalAlignment="top" Height="1"  Grid.Row="2" Grid.ColumnSpan="2" ></Border>
 
-        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="2" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
+        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -65,7 +66,7 @@
         </Grid>
 
         
-        <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="9" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+        <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
             <Label></Label>
         </StatusBar>
     </Grid>

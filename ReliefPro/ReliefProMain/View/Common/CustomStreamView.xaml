@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="9*" />
             <RowDefinition Height="271*" />
+            <RowDefinition Height="2*" />
             <RowDefinition Height="30*" />
             <RowDefinition Height="16*" />
         </Grid.RowDefinitions>
@@ -62,7 +63,7 @@
         </GroupBox>
         <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1" VerticalAlignment="top" Height="1"  Grid.Row="2" Grid.ColumnSpan="4" ></Border>
 
-        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="2" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
