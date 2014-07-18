@@ -71,7 +71,7 @@
     <Compile Include="ProIIEqTypeDAL.cs" />
     <Compile Include="ReactorLoops\GeneralFailureCommonDAL.cs" />
     <Compile Include="ReactorLoops\ReactorLoopDAL.cs" />
-    <Compile Include="Reports\GeneralFailureCommonDAL.cs" />
+    <Compile Include="Reports\PUsummaryDAL.cs" />
     <Compile Include="StreamDAL.cs" />
     <Compile Include="SystemScenarioFactorDAL.cs" />
     <Compile Include="SystemUnitDAL.cs" />
