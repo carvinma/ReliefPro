@@ -2,21 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ReliefProModel;
 using ReliefProModel.Reports;
 
 namespace ReliefProMain.Model.Reports
 {
-    public class PUsummaryModel : ModelBase
+    public class PlantSummaryModel : ModelBase
     {
-        public List<PUsummaryGridDS> listGrid { get; set; }
-
         private PUsummary pu;
-        public PUsummaryModel()
+        public PlantSummaryModel()
         {
             pu = new PUsummary();
         }
-
         public string PlantName
         {
             get { return pu.PlantName; }
@@ -24,16 +20,6 @@ namespace ReliefProMain.Model.Reports
             {
                 pu.PlantName = value;
                 this.NotifyPropertyChanged("PlantName");
-            }
-        }
-
-        public string ProcessUnitName
-        {
-            get { return pu.ProcessUnitName; }
-            set
-            {
-                pu.ProcessUnitName = value;
-                this.NotifyPropertyChanged("ProcessUnitName");
             }
         }
         public string Description

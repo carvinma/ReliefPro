@@ -43,9 +43,9 @@
         <Label Content="Plant Name"  Grid.Row="0"/>
         <Label Content="Process Unit Name"  Grid.Row="1"/>
         <Label Content="Description" Margin="400,0,0,0" Grid.Row="0"/>
-        <TextBox Margin="150,0,0,0"  Width="180 "  Grid.Column="0"  Grid.Row="0"/>
-        <TextBox Margin="150,0,0,0" Width="180" Grid.Row="1"/>
-        <TextBox Margin="480,0,0,0" Width="250" Height="50" Grid.Row="0" Grid.RowSpan="2"/>
+        <TextBox Margin="150,0,0,0"  Text="{Binding model.PlantName,Mode=TwoWay}" Width="180 "  Grid.Column="0"  Grid.Row="0"/>
+        <TextBox Margin="150,0,0,0" Text="{Binding model.ProcessUnitName,Mode=TwoWay}" Width="180" Grid.Row="1"/>
+        <TextBox Margin="480,0,0,0" Text="{Binding model.Description,Mode=TwoWay}" Width="250" Height="50" Grid.Row="0" Grid.RowSpan="2"/>
         <Button Content="Export Excel" Command="{Binding ExportExcelCMD}" Margin="750,0,0,0" Width="90" HorizontalAlignment="Left"/>
         <GroupBox Grid.Row="3" >
             <Grid>
@@ -73,7 +73,7 @@
                 <DataGridTextColumn Header="Notes" Width="*" ></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="OK" Grid.Row="5" Margin="750,0,0,0" Width="90" HorizontalAlignment="Left"/>
+        <Button Content="OK" Command="{Binding OKCMD}" Grid.Row="5" Margin="750,0,0,0" Width="90" HorizontalAlignment="Left"/>
 
     </Grid>
 </Window>

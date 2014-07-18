@@ -41,9 +41,10 @@ namespace ReliefProMain.ViewModel.Reports
             set;
         }
 
-        public ReportViewer ReportViewerDS { get; set; }
+
         public PUsummaryVM(int UnitID, List<string> ReportPath)
         {
+            OKCMD = new DelegateCommand<object>(Save);
             BtnReportCMD = new DelegateCommand<object>(BtnReprotClick);
             ExportExcelCMD = new DelegateCommand<object>(BtnExportExcel);
             reportBLL = new ReportBLL(UnitID, ReportPath);
@@ -56,6 +57,11 @@ namespace ReliefProMain.ViewModel.Reports
             CreateReport();
             // DrawingPUReport draw = new DrawingPUReport(model.listGrid);
             // StackpanelDraw.Children.Add(draw);
+        }
+
+        private void Save(object obj)
+        {
+            throw new NotImplementedException();
         }
         private void InitModel(string ReportDischargeTo)
         {
@@ -77,7 +83,6 @@ namespace ReliefProMain.ViewModel.Reports
             reportViewer.LocalReport.ReportEmbeddedResource = "ReliefProMain.View.Reports.PUsummaryRpt.rdlc";
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PUDataSet", CreateReportDataSource()));
             reportViewer.RefreshReport();
-            ReportViewerDS = reportViewer;
             host.Child = reportViewer;
 
             StackpanelDraw.Children.Add(host);

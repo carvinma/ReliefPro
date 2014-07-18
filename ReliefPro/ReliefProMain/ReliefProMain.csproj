@@ -162,6 +162,7 @@
     <Compile Include="Model\ReactorLoops\ReactorLoopModel.cs" />
     <Compile Include="Model\Reports\EffectFactorModel.cs" />
     <Compile Include="Model\Reports\PlantReprotHead.cs" />
+    <Compile Include="Model\Reports\PlantSummaryModel.cs" />
     <Compile Include="Model\Reports\PUsummaryModel.cs" />
     <Compile Include="Model\ScenarioModel.cs" />
     <Compile Include="Model\SinkModel.cs" />
