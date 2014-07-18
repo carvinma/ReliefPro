@@ -65,11 +65,11 @@
         <Label Content="Relief MW" HorizontalAlignment="Right" Grid.Row="6" Grid.Column="1"/>
         <Label Content="Relief Cp/Cv" Visibility="Hidden" Grid.Row="7" Grid.Column="1"/>
         <Label Content="Relief Z" Visibility="Hidden" Grid.Row="8" Grid.Column="1"/>
-		<CustomControl:UnitConvertTextBox Text="{Binding Path=model.WettedArea,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblArea,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="1" HorizontalAlignment="Left" Margin="12,7,0,7"/>
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefLoad,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="3"/>
-		<CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPresses,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="4"/>
-		<CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefTemperature,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblTemper,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="5"/>
-		<TextBox Text="{Binding Path=model.ReliefMW,Mode=TwoWay}" Grid.Column="2"  Grid.Row="6"/>
+		<CustomControl:UnitConvertTextBox Text="{Binding Path=model.WettedArea,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblArea,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="1" HorizontalAlignment="Left" />
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefLoad,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Grid.Column="2"  Grid.Row="3"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPresses,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Grid.Column="2"  Grid.Row="4"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefTemperature,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblTemper,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Grid.Column="2"  Grid.Row="5"/>
+        <TextBox Text="{Binding Path=model.ReliefMW,Mode=TwoWay}" HorizontalAlignment="Left" Grid.Column="2"  Grid.Row="6"/>
         <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefCpCv,Mode=TwoWay}" Grid.Column="2"  Grid.Row="7"/>
         <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefZ,Mode=TwoWay}" Grid.Column="2"  Grid.Row="8"/>
         
@@ -78,10 +78,24 @@
         <Label x:Name="lblPresses" Content="{Binding model.ReliefPressureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="4"/>
         <Label x:Name="lblTemper" Content="{Binding model.ReliefTemperatureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="5"/>
 
-        <Button Content="Calc Area" HorizontalAlignment="Right" Command="{Binding DrumSizeCMD}" Grid.Column="1" Grid.Row="1"  Width="125"  Height="21" Margin="0,5,10,7" />
-        <Button Content="Run Calculation" HorizontalAlignment="Right" Command="{Binding CalcCMD}"  Grid.Column="1" Grid.Row="2"  Width="125"  Height="21" />
-		<Button Content="OK" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=DrumFireWin}" Grid.Column="1" Grid.Row="8"  Width="75"  Height="25"/>
-		<Button Content="Cancel" IsCancel="True" Grid.Column="2"  Grid.Row="8" Width="75" Height="25"/>
+        <Button Content="Calc Area" HorizontalAlignment="Right" Command="{Binding DrumSizeCMD}" Grid.Column="1" Grid.Row="1"  Width="125"  Height="21"  />
+        <Button Content="Run Calculation" HorizontalAlignment="Center" Command="{Binding CalcCMD}"  Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2"  Width="125"  Height="21" />
+
+        <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1" VerticalAlignment="top" Height="1"  Grid.Row="8" Grid.ColumnSpan="4" ></Border>
+
+        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="8" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Content="OK" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=DrumFireWin}" Grid.Column="1"   Width="75"  Height="25"/>
+            <Button Content="Cancel" IsCancel="True" Grid.Column="2"  Width="75" Height="25"/>
+
+        </Grid>
+
+        
         <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="9" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
             <Label></Label>
         </StatusBar>
