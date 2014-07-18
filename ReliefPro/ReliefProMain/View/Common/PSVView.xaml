@@ -3,43 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"            
         Title="PSV" Height="360" Width="800" Name="myWindow">
-    <Window.Resources>
-        <Style TargetType="RowDefinition">
-            <Setter Property="Height" Value="30"></Setter>
-        </Style>
-        <Style TargetType="Label">
-            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Margin" Value="10,5,0,0"></Setter>
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Height" Value="23"></Setter>
-            <Setter Property="Width" Value="120"></Setter>
-            <Setter Property="TextWrapping" Value="Wrap"></Setter>
-        </Style>
-        <Style TargetType="{x:Type CustomControl:UnitConvertTextBox}">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Height" Value="23"/>
-            <Setter Property="Width" Value="120"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-        </Style>
-        <Style x:Key="LabelLeftStyle">
-            <Setter Property="Control.HorizontalAlignment" Value="Left"></Setter>
-            <Setter Property="Control.VerticalAlignment" Value="Center"></Setter>
-        </Style>
-    </Window.Resources>
+    
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="47*"/>
             <ColumnDefinition Width="109*"/>
             <ColumnDefinition Width="131*"/>
             <ColumnDefinition Width="43*"/>
-            <ColumnDefinition Width="38*"/>
+            <ColumnDefinition Width="58*"/>
             <ColumnDefinition Width="138*"/>
-            <ColumnDefinition Width="256*"/>
+            <ColumnDefinition Width="236*"/>
             <ColumnDefinition Width="30*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -54,45 +27,57 @@
             <RowDefinition Height="16*"/>
             
         </Grid.RowDefinitions>
-        <Label Content="PSV Name" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Height="26" Margin="0,11,0,6" Width="70"/>
-        <Label Content="Valve Number" HorizontalAlignment="Right"  Grid.Row="2" Grid.Column="1" Height="26" Margin="0,11,0,6" Width="92"/>
-        <Label Content="Description" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="5" Height="26" Margin="0,11,0,6" Width="76"/>
-        <Label Content="Valve Type" HorizontalAlignment="Right"  Grid.Row="2" Grid.Column="5" Height="26" Margin="0,11,0,6" Width="72"/>
-        <Label Content="Set Pressure" HorizontalAlignment="Right" Grid.Row="3" Grid.Column="1" Height="26" Margin="0,11,0,6" Width="80"/>
-        <Label Content="Description" HorizontalAlignment="Right" Grid.Row="5"  Grid.Column="1" Height="26" Margin="0,11,0,6" Width="76"/>
-        <Label Content="Prelief" HorizontalAlignment="Right" Grid.Row="4" Grid.Column="1" Height="26" Margin="0,11,0,5" Width="46"/>
-        <Label Content="Pset" HorizontalAlignment="Right" Grid.Row="4" Grid.Column="3" Height="26" Margin="0,11,0,5" Width="34"/>
-        <Label Content="Critical Pressure" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="6" Height="26" Margin="0,10,0,6" Width="99" />
+        <Label Content="PSV Name" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1"  />
+        <Label Content="Valve Number" HorizontalAlignment="Right"  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"  />
+        <Label Content="Description" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="5"  />
+        <Label Content="Valve Type" HorizontalAlignment="Right"  Grid.Row="2" Grid.Column="5"  />
+        <Label Content="Set Pressure" HorizontalAlignment="Right" Grid.Row="3" Grid.Column="1"  />
+        <Label Content="Description" HorizontalAlignment="Right" Grid.Row="5"  Grid.Column="1"  />
+        <Label Content="Prelief" HorizontalAlignment="Right" Grid.Row="4" Grid.Column="1"  />
+        <Label Content="Pset"  Grid.Row="4" Grid.Column="4"  />
+        <Label Content="Critical Pressure" HorizontalAlignment="Right" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6"   />
 
-        <TextBox Name="txtName" HorizontalAlignment="Left" Text="{Binding CurrentModel.PSVName}" Grid.Row="1" Grid.Column="2" Margin="0,10"/>
-        <TextBox Name="txtValveNumber" HorizontalAlignment="Left" Text="{Binding CurrentModel.ValveNumber}"   Grid.Row="2" Grid.Column="2" Margin="0,10"/>
-        <ComboBox Name="cbxValueType" HorizontalAlignment="Left" ItemsSource="{Binding ValveTypes}" SelectedItem="{Binding CurrentModel.ValveType}" Width="120"  Grid.Row="2" Grid.Column="6" Margin="0,11,0,10"/>
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Text="{Binding CurrentModel.Pressure}" Grid.Row="3" Grid.Column="2" Margin="0,10"/>
-        <TextBox Name="txtLocationDescription"  Text="{Binding CurrentModel.LocationDescription}" Height="49" HorizontalAlignment="Left" TextWrapping="Wrap"  Grid.Row="4" Grid.Column="2" Margin="0,39" Grid.RowSpan="3" />
-        <TextBox Name="txtPrelief"  Text="{Binding CurrentModel.ReliefPressureFactor}" HorizontalAlignment="Left"  Grid.Row="4" Grid.Column="2" Height="24" Margin="0,9"/>
-        <TextBox Name="txtCritical" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="6" Height="22" Margin="0,10"/>
-        <TextBox Text="{Binding CurrentModel.Description}" HorizontalAlignment="Left" Grid.Column="6" Grid.Row="1" Margin="0,10"/>
+        <TextBox Name="txtName" HorizontalAlignment="Left" Text="{Binding CurrentModel.PSVName}" Grid.Row="1" Grid.Column="2" />
+        <TextBox Name="txtValveNumber" HorizontalAlignment="Left" Text="{Binding CurrentModel.ValveNumber}"   Grid.Row="2" Grid.Column="2" />
+        <ComboBox Name="cbxValueType" HorizontalAlignment="Left" ItemsSource="{Binding ValveTypes}" SelectedItem="{Binding CurrentModel.ValveType}" Width="120"  Grid.Row="2" Grid.Column="6"/>
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Text="{Binding CurrentModel.Pressure}" Grid.Row="3" Grid.Column="2" />
+        <TextBox Name="txtLocationDescription"  Text="{Binding CurrentModel.LocationDescription}" Height="49" HorizontalAlignment="Left" TextWrapping="Wrap"  Grid.Row="4" Grid.Column="2"  Grid.RowSpan="3" />
+        <TextBox Name="txtPrelief"  Text="{Binding CurrentModel.ReliefPressureFactor}" HorizontalAlignment="Left"  Grid.Row="4" Grid.Column="2" />
+        <TextBox Name="txtCritical" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="6" Height="22" />
+        <TextBox Text="{Binding CurrentModel.Description}" HorizontalAlignment="Left" Grid.Column="6" Grid.Row="1" />
 
-        <Label x:Name="lblPressure" HorizontalAlignment="Left" Content="{Binding PSVPressureUnit,Mode=TwoWay}" Grid.Row="3" Grid.Column="3" Height="10" Margin="10,19,0,14" Width="10"/>
+        <Label x:Name="lblPressure" HorizontalAlignment="Left" Content="{Binding PSVPressureUnit,Mode=TwoWay}" Grid.Row="3" Grid.Column="3" Height="10"  Width="10"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch"   Grid.Row="7" VerticalAlignment="Top" Height="2" Grid.ColumnSpan="8" />
-        <Button Content="Save"  HorizontalAlignment="Right" Grid.Row="7" VerticalAlignment="Center" Width="75" Height="22" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName= myWindow}" Grid.Column="5" Margin="0,10,0,11"/>
-        <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Center"  Grid.Row="7" VerticalAlignment="Center" Width="76" Height="22" Grid.Column="6" Margin="90,10,90,11"/>
-        <Button Content="Calculate Critical Pressure" Grid.Column="6" HorizontalAlignment="Left"  Grid.Row="3" VerticalAlignment="Center" Width="178" Height="22" Margin="0,10,0,11"/>
+
+        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="7" VerticalAlignment="Stretch" Grid.ColumnSpan="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Content="Save"  HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName= myWindow}" Grid.Column="1" />
+            <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Center"  Grid.Row="7" VerticalAlignment="Center" Width="76" Height="22" Grid.Column="2" />
+
+        </Grid>
+
+      
+        <Button Content="Calculate Critical Pressure" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center"  Grid.Row="3" VerticalAlignment="Center" Width="178" Height="22" Margin="0,10,0,11"/>
      
         <GroupBox Name="g1" Grid.Column="5" Header="Additional PSV on Reflux Drum"  Grid.Row="4"  Grid.RowSpan="3"  Grid.ColumnSpan="2">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="124*" />
-                    <ColumnDefinition Width="120*" />
-                    <ColumnDefinition Width="135*" />
+                    <ColumnDefinition Width="137*" />
+                    <ColumnDefinition Width="125*" />
+                    <ColumnDefinition Width="110*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="10*"/>
-                    <RowDefinition Height="30*"/>
-                    <RowDefinition Height="30*"/>
+                    <RowDefinition Height="20*"/>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="40*"/>
                 </Grid.RowDefinitions>
                 <Label Content="PSV Name" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
-                <TextBox Name="txtDrumPSVName" HorizontalAlignment="Left" Height="23"  TextWrapping="Wrap" Text="{Binding CurrentModel.DrumPSVName}" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Width="120"/>
+                <TextBox Name="txtDrumPSVName" HorizontalAlignment="Left" Height="23"  TextWrapping="Wrap" Text="{Binding CurrentModel.DrumPSVName}" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" />
                 <Label Content="Set Pressure" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Column="0" Grid.Row="2"/>
                 <CustomControl:UnitConvertTextBox  UnitOrigin="{Binding ElementName=lblDrumPressure,Path=Content,Mode=TwoWay}"  HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="{Binding CurrentModel.DrumPressure}" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Width="120"/>
                 <Label x:Name="lblDrumPressure" Content="{Binding DrumPressureUnit}" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="2" VerticalAlignment="Center"/>
