@@ -14,7 +14,7 @@
 			<RowDefinition Height="30*"></RowDefinition>
 			<RowDefinition Height="30*"></RowDefinition>
 			<RowDefinition Height="30*"></RowDefinition>
-			<RowDefinition Height="10*"></RowDefinition>
+			<RowDefinition Height="5*"></RowDefinition>
 			<RowDefinition Height="30*"></RowDefinition>
 			<RowDefinition Height="16*"></RowDefinition>
 		</Grid.RowDefinitions>
@@ -26,7 +26,7 @@
 		</Grid.ColumnDefinitions>
         <Label Content="Relief Load" HorizontalAlignment="Right" Grid.Row="3" Grid.Column="1"/>
         <Label Content="Relief Pressure" HorizontalAlignment="Right" Grid.Row="4" Grid.Column="1"/>
-        <Label Content="Relief Temperature" HorizontalAlignment="Right" Grid.Row="5" Grid.Column="1"/>
+        <Label Content="Relief Temperature" HorizontalAlignment="Right" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"/>
         <Label Content="Relief MW" HorizontalAlignment="Right" Grid.Row="6" Grid.Column="1"/>
         <Label Content="Relief Cp/Cv" Visibility="Hidden" Grid.Row="7" Grid.Column="1"/>
         <Label Content="Relief Z" Visibility="Hidden" Grid.Row="8" Grid.Column="1"/>
