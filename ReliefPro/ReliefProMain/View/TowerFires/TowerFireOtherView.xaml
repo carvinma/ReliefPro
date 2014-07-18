@@ -12,7 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="8*"/>
             <RowDefinition Height="100*"/>
-            <RowDefinition Height="25*"/>
+            <RowDefinition Height="38*"/>
             <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
         <GroupBox Grid.Column="1" Header="Area Data" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="340">
@@ -40,7 +40,7 @@
             </Grid>
         </GroupBox>
 
-
+        <Border BorderBrush="black"  VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1"  Grid.Row="2" Grid.ColumnSpan="4" Margin="0,0,0,0"/>
         <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="2" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />

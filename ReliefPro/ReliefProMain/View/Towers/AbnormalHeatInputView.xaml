@@ -70,6 +70,7 @@
        
         <Button Content="Calculate" Command="{Binding CalculateCommand}" Grid.Column="1"  Grid.Row="1" Height="22" Margin="52,4,57,4" Width="58" />
 
+        <Border BorderBrush="black"  VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1"  Grid.Row="6" Grid.ColumnSpan="4" Margin="0,5,0,0"/>
         <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />

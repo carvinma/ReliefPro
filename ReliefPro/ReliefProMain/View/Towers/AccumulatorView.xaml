@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-        Title="AccumulatorView" Height="255" Width="450" Name="myWindow">
+        Title="AccumulatorView" Height="245" Width="450" Name="myWindow">
     <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -18,26 +18,27 @@
             <RowDefinition Height="25"/>
             <RowDefinition Height="25"/>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="55*"/>
+            <RowDefinition Height="45"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <Label Content="Accumulator Name:"  Grid.Row="1" Grid.Column="1"/>        
-        <Label Content="Vessel Orientation:"  Grid.Row="2"  Grid.Column="1" />
-        <Label Content="Diameter:"    Grid.Row="3"  Grid.Column="1" Height="26" Width="66"/>
-        <Label Content="Length T/T:"  Grid.Row="4" Height="26" Width="94" Grid.Column="1"/>
-        <Label Content="Normal Liquid Level:"  Grid.Row="5" Grid.Column="1"  />
-        <TextBox  Text="{Binding CurrentAccumulator.AccumulatorName}"  Grid.Row="1" Grid.Column="2"  />
-        <RadioButton Name="voH" IsChecked="{Binding Horiz}" GroupName="orientation" Content="Horiz" HorizontalAlignment="Left" Margin="30,6,0,0" VerticalAlignment="Top" Grid.Row="2" Grid.Column="2"/>
-        <RadioButton Name="voV" IsChecked="{Binding Vertical}" GroupName="orientation" Content="Vert" HorizontalAlignment="Left" Margin="90,5,0,0" VerticalAlignment="Top" Grid.Row="2" Grid.Column="2"/>
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblDiameter,Path=Content,Mode=TwoWay}"  Text="{Binding Diameter}"   Grid.Row="3" Grid.Column="2"  />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLength,Path=Content,Mode=TwoWay}" Text="{Binding Length}"  Grid.Row="4" Grid.Column="2"  />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblNormalLiquidLevel,Path=Content,Mode=TwoWay}"  Text="{Binding NormalLiquidLevel}" Grid.Row="5" Grid.Column="2" />
+        <Label Content="Accumulator Name:"  Height="26" Grid.Row="1" Grid.Column="1" Margin="25,2,0,22" Grid.RowSpan="2" Width="124"/>
+        <Label Content="Vessel Orientation:"  Height="26" Grid.Row="2"  Grid.Column="1" Margin="25,2,0,22" Grid.RowSpan="2" Width="118" />
+        <Label Content="Diameter:"    Grid.Row="3"  Grid.Column="1" Height="26" Width="66" Margin="25,2,0,22" Grid.RowSpan="2"/>
+        <Label Content="Length T/T:"  Grid.Row="4" Height="26" Width="94" Grid.Column="1" Margin="25,2,0,22" Grid.RowSpan="2"/>
+        <Label Content="Normal Liquid Level:"  Height="26" Grid.Row="4" Grid.Column="1" Margin="25,24,0,0" Grid.RowSpan="2" Width="128"  />
+        <TextBox  Text="{Binding CurrentAccumulator.AccumulatorName}"  Grid.Row="1" Grid.Column="2" Margin="25,1,24,1"  />
+        <RadioButton Name="voH" IsChecked="{Binding Horiz}" GroupName="orientation" Content="Horiz" HorizontalAlignment="Left" Margin="30,6,0,0" VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" Height="14" Width="50"/>
+        <RadioButton Name="voV" IsChecked="{Binding Vertical}" GroupName="orientation" Content="Vert" HorizontalAlignment="Left" Margin="90,5,0,0" VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" Height="14" Width="43"/>
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblDiameter,Path=Content,Mode=TwoWay}"  Text="{Binding Diameter}"   Grid.Row="3" Grid.Column="2" Margin="25,1,24,1"  />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLength,Path=Content,Mode=TwoWay}" Text="{Binding Length}"  Grid.Row="4" Grid.Column="2" Margin="25,1,24,1"  />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblNormalLiquidLevel,Path=Content,Mode=TwoWay}"  Text="{Binding NormalLiquidLevel}" Grid.Row="5" Grid.Column="2" Margin="25,1,24,1" />
 
-        <Label x:Name="lblDiameter" Grid.Column="3" Grid.Row="3" Content="{Binding DiameterUnit,Mode=TwoWay}"   />
-        <Label x:Name="lblLength" Grid.Column="3" Grid.Row="4" Content="{Binding LengthUnit,Mode=TwoWay}"  />
-        <Label x:Name="lblNormalLiquidLevel" Grid.Column="3" Grid.Row="5" Content="{Binding NormalLiquidLevelUnit,Mode=TwoWay}" />
-        
-        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+        <Label x:Name="lblDiameter" Grid.Column="3" Grid.Row="3" Content="{Binding DiameterUnit,Mode=TwoWay}" Height="10" Margin="25,10,0,5" Width="10"   />
+        <Label x:Name="lblLength" Grid.Column="3" Grid.Row="4" Content="{Binding LengthUnit,Mode=TwoWay}" Height="10" Margin="25,10,0,5" Width="10"  />
+        <Label x:Name="lblNormalLiquidLevel" Grid.Column="3" Grid.Row="5" Content="{Binding NormalLiquidLevelUnit,Mode=TwoWay}" Height="10" Margin="25,10,0,5" Width="10" />
+
+        <Border BorderBrush="black"  VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1"  Grid.Row="6" Grid.ColumnSpan="5" Margin="0,10,0,0"/>
+        <Grid HorizontalAlignment="Stretch" Height="30"  Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="5" Margin="0,10,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -48,7 +49,7 @@
             <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
         </Grid>
 
-        <StatusBar HorizontalAlignment="Stretch" Height="20"  Grid.Row="7" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+        <StatusBar HorizontalAlignment="Stretch" Height="20" Grid.Row="7" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
             <Label></Label>
         </StatusBar>
     </Grid>

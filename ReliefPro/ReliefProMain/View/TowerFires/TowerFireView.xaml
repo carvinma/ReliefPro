@@ -81,6 +81,8 @@
         
         <Button Content="Total" Command="{Binding TotalClick }" Grid.Column="1" HorizontalAlignment="Left" Margin="15,0,0,0" Grid.Row="3" Width="75"/>
 
+
+        <Border BorderBrush="black"  VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1"  Grid.Row="5" Grid.ColumnSpan="4" Margin="0,0,0,0"/>
         <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200*" />

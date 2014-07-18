@@ -40,8 +40,9 @@
         <Label Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0"  Grid.Row="6" Content="%"/>
         <ComboBox ItemsSource="{Binding ExposedToFires}" SelectedItem="{Binding model.ExposedToFire}" Grid.Column="2"   Grid.Row="1"  Width="120" Height="22"/>
         <ComboBox ItemsSource="{Binding Types}" SelectedItem="{Binding model.Type}" Grid.Column="2"   Grid.Row="2"   Width="120" Height="22"/>
-        
-        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="7" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+
+        <Border BorderBrush="black"  VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1"  Grid.Row="7" Grid.ColumnSpan="5" Margin="0,2,0,0"/>
+        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="7" VerticalAlignment="Stretch" Grid.ColumnSpan="5" Margin="0,5,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />

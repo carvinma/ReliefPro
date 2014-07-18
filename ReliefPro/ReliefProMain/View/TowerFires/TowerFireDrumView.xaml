@@ -54,7 +54,8 @@
         <ComboBox ItemsSource="{Binding Orientations}" SelectedItem="{Binding model.Orientation}"  Grid.Column="1" Grid.Row="1"/>
         <ComboBox ItemsSource="{Binding HeadTypes}" SelectedItem="{Binding model.HeadType}" Grid.Column="1" Grid.Row="6"/>
 
-        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="10" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+        <Border BorderBrush="black"  VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1"  Grid.Row="10" Grid.ColumnSpan="6" Margin="0,6,0,0"/>
+        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="10" VerticalAlignment="Stretch" Grid.ColumnSpan="4" Margin="0,5,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
