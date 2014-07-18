@@ -24,7 +24,7 @@ namespace ReliefProMain.ViewModel.Reports
             get;
             set;
         }
-        public PlantSummaryVM(List<Tuple<string, List<string>>> UnitPath)
+        public PlantSummaryVM(List<Tuple<int, List<string>>> UnitPath)
         {
             listPlantReportDS = new List<PlantSummaryGridDS>();
             report = new ReportBLL();
@@ -34,11 +34,11 @@ namespace ReliefProMain.ViewModel.Reports
                 string firstDischargeTo = listDischargeTo.First().FlareName;
                 UnitPath.ForEach(p =>
                 {
-                    InitPUnitReportDS(firstDischargeTo, p.Item2);
+                    InitPUnitReportDS(firstDischargeTo, p.Item1, p.Item2);
                 });
             }
         }
-        private void InitPUnitReportDS(string ReportDischargeTo, List<string> UnitPath)
+        private void InitPUnitReportDS(string ReportDischargeTo, int UnitID, List<string> UnitPath)
         {
             ReportBLL reportBLL = new ReportBLL(UnitPath);
             List<PSV> listPSV = reportBLL.PSVBag.ToList();
@@ -54,14 +54,15 @@ namespace ReliefProMain.ViewModel.Reports
             ReportViewer reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = Microsoft.Reporting.WinForms.ProcessingMode.Local;
             reportViewer.LocalReport.ReportEmbeddedResource = "ReliefProMain.View.Reports.PlantSummaryRpt.rdlc";
-            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantDS", CreateReportDataSource()));
-            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantEffectFactorDS", CreateReportDataSource()));
+            List<EffectFactorModel> listEffect = new List<EffectFactorModel>();
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantDS", CreateReportDataSource(out listEffect)));
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantEffectFactorDS", listEffect));
             reportViewer.RefreshReport();
             host.Child = reportViewer;
 
             StackpanelReport.Children.Add(host);
         }
-        private List<PUsummaryReportSource> CreateReportDataSource()
+        private List<PUsummaryReportSource> CreateReportDataSource(out List<EffectFactorModel> listEffect)
         {
             List<PUsummaryReportSource> listRS = new List<PUsummaryReportSource>();
             listRS = listPlantReportDS.Select(p => new PUsummaryReportSource
@@ -95,7 +96,7 @@ namespace ReliefProMain.ViewModel.Reports
 
             var listEffectFactor = report.CalcPlantSummary(listPlantReportDS);
             listRS.AddRange(listEffectFactor);
-            CalcEffectFactor(listEffectFactor);
+            listEffect = CalcEffectFactor(listEffectFactor);
             return listRS;
         }
 
@@ -111,7 +112,6 @@ namespace ReliefProMain.ViewModel.Reports
 
             EffectFactorModel effectPressure = new EffectFactorModel();
             EffectFactorModel effectMach = new EffectFactorModel();
-
 
             if (MW != null && MW != 0)
             {
