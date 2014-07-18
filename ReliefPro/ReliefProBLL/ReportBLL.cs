@@ -33,11 +33,14 @@ namespace ReliefProLL
         List<string> listScenario = new List<string> { "PowerDS", "WaterDS", "AirDS", "SteamDS", "FireDS" };
         List<string> listProperty = new List<string> { "ReliefLoad", "ReliefMW", "ReliefTemperature", "ReliefZ" };
         List<PUsummaryGridDS> listGrid;
+        private int UnitID;
+        private string ProcessUnitName;
         List<double> tmpResult = new List<double>();
         public ReportBLL()
         { }
-        public ReportBLL(List<string> ProcessUnitReportPath)
+        public ReportBLL(int UnitID, List<string> ProcessUnitReportPath)
         {
+            this.UnitID = UnitID;
             PSVBag = new ConcurrentBag<PSV>();
             ScenarioBag = new ConcurrentBag<Scenario>();
             this.ProcessUnitReportPath = ProcessUnitReportPath;
@@ -86,6 +89,8 @@ namespace ReliefProLL
         public PlantSummaryGridDS GetPlantReprotDS(List<PUsummaryGridDS> ProcessUnitReprotDS, int CalcType)
         {
             PlantSummaryGridDS plant = new PlantSummaryGridDS();
+            if (ProcessUnitReprotDS.Count > 0)
+                plant.ProcessUnit = ProcessUnitReprotDS.FirstOrDefault().ProcessUnit;
             plant.ControllingDS = ProcessUnitReprotDS.OrderByDescending(p => p.SingleDS.ReliefLoad).FirstOrDefault().SingleDS;
             plant.PowerDS.ReliefLoad = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "PowerDS", "ReliefLoad");
             plant.PowerDS.ReliefVolumeRate = GetPlantSumResult(ProcessUnitReprotDS, CalcType, "PowerDS", "ReliefVolumeRate");
@@ -213,6 +218,7 @@ namespace ReliefProLL
             foreach (var PSV in listPSV)
             {
                 PUsummaryGridDS gridDs = new PUsummaryGridDS();
+                gridDs.ProcessUnit = ProcessUnitName;
                 gridDs.psv = PSV;
                 gridDs.PowerDS = this.ScenarioBag.FirstOrDefault(p => p.ScenarioName == this.ScenarioName[1] && p.dbPath == PSV.dbPath);
                 gridDs.WaterDS = this.ScenarioBag.FirstOrDefault(p => p.ScenarioName == this.ScenarioName[2] && p.dbPath == PSV.dbPath);
@@ -253,6 +259,15 @@ namespace ReliefProLL
         #endregion
 
         #region Process Unit ALL Info
+        private void GetProcessUnitName(ISession SessionPS)
+        {
+            TreeUnitDAL dal = new TreeUnitDAL();
+            var TreeUnit = dal.GetModel(UnitID, SessionPS);
+            if (TreeUnit != null)
+            {
+                ProcessUnitName = TreeUnit.PUName;
+            }
+        }
         private void GetPSVInfo(ISession SessionPS)
         {
             var PSVInfo = psvDAL.GetAllList(SessionPS).ToList();
@@ -306,8 +321,16 @@ namespace ReliefProLL
             {
                 NHibernateHelper helperProtectedSystem = new NHibernateHelper(p);
                 var tmpSession = helperProtectedSystem.GetCurrentSession();
-                GetPSVInfo(tmpSession);
-                GetScenarioInfo(tmpSession);
+                if (p.Contains("plant.mdb"))
+                {
+                    GetProcessUnitName(tmpSession);
+                }
+                else
+                {
+                    GetPSVInfo(tmpSession);
+                    GetScenarioInfo(tmpSession);
+                }
+
             });
             //Parallel.ForEach(ReportPath, (p, loopState) =>
             //{
