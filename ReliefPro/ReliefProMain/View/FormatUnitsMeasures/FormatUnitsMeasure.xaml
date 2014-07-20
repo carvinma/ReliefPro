@@ -2,113 +2,108 @@
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" x:Class="ReliefProMain.View.FormatUnitsMeasure"
-		Title="ReliefPro - Default  Units of Measure" Height="458" Width="658">
-	<Window.Resources>
-		<Style TargetType="{x:Type RowDefinition}">
-			<Setter Property="Height" Value="25"/>
-		</Style>
-		<Style TargetType="{x:Type Label}">
-			<Setter Property="HorizontalAlignment" Value="Left"/>
-			<Setter Property="VerticalAlignment" Value="Center"/>
-			<Setter Property="Margin" Value="2,0,0,0"/>
-		</Style>
-		<Style TargetType="{x:Type TextBox}">
-			<Setter Property="HorizontalAlignment" Value="Center"/>
-			<Setter Property="VerticalAlignment" Value="Center"/>
-			<Setter Property="Height" Value="23"/>
-			<Setter Property="Width" Value="120"/>
-			<Setter Property="TextWrapping" Value="Wrap"/>
-		</Style>
-		<Style TargetType="{x:Type CustomControl:CustomComboBox}">
-			<Setter Property="HorizontalAlignment" Value="Center"/>
-			<Setter Property="VerticalAlignment" Value="Center"/>
-			<Setter Property="Height" Value="21"/>
-			<Setter Property="Width" Value="178"/>
-		</Style>
-		<Style x:Key="LabelLeftStyle">
-			<Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
-			<Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
-		</Style>
-	</Window.Resources>
+		Title="ReliefPro - Default  Units of Measure" Height="530" Width="658">
+	
 	<Grid>
 		<DockPanel>
-			<Menu Height="40" VerticalAlignment="Top" DockPanel.Dock="Top"/>
-			<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Content="Set This Basic To Defalut"  Command="{Binding BasicUnitDefaultCommand}" DockPanel.Dock="Bottom" Width="155" Height="25" Margin="0,0,130,0"/>
-                <Button Content="OK"  Command="{Binding SaveCommand}" DockPanel.Dock="Bottom" Width="75" Height="25" Margin="0,0,30,0"/>
-                <Button x:Name="btnCancel" Content="Cancel" DockPanel.Dock="Bottom" Width="75" Height="25" Click="btnCancel_Click" Margin="0,0,10,0"/>
-			</StackPanel>
-			<GroupBox Header="UOM">
-				<Grid HorizontalAlignment="Left"  VerticalAlignment="Top" Width="630">
-					<Grid.RowDefinitions>
-						<RowDefinition/>
-						<RowDefinition/>
-						<RowDefinition/>
-						<RowDefinition/>
-						<RowDefinition/>
-						<RowDefinition/>
-						<RowDefinition/>
-						<RowDefinition/>
-						<RowDefinition/>
-						<RowDefinition/>
+            <Menu Height="40" VerticalAlignment="Top" DockPanel.Dock="Top"/>
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Width="658" Height="95">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
+                    <Button Content="Set This Basic To Defalut"  Command="{Binding BasicUnitDefaultCommand}" DockPanel.Dock="Top" HorizontalAlignment="Center" Grid.Row="0" Width="155" Height="25" />
+                    <Border  BorderBrush="Black" BorderThickness="0,0,0,1" VerticalAlignment="Center" Height="1" Grid.Row="1" Width="658" ></Border>
+                    <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="2" VerticalAlignment="Stretch" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button Content="OK"  Command="{Binding SaveCommand}" DockPanel.Dock="Bottom" Grid.Column="1" Width="75" Height="25" />
+                        <Button x:Name="btnCancel" Content="Cancel" DockPanel.Dock="Bottom" Grid.Column="2" Width="75" Height="25" Click="btnCancel_Click" />
+
+                    </Grid>
+                    <StatusBar  HorizontalAlignment="Stretch" Grid.Row="3" VerticalAlignment="Bottom" Grid.ColumnSpan="2" >
+                        <Label></Label>
+                    </StatusBar>
+                    </Grid>
+                </StackPanel>
+            <GroupBox Header="UOM">
+                <Grid HorizontalAlignment="Left"  VerticalAlignment="Top" Width="630">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="145"/>
-						<ColumnDefinition Width="179"/>
-						<ColumnDefinition Width="120"/>
-						<ColumnDefinition Width="*"/>
-					</Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="145"/>
+                        <ColumnDefinition Width="179"/>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
                     <Button Content="Copy from this Basic and Add NewBasic"  Command="{Binding NewBasicCommand}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Width="250"  Height="22"/>
-					<Label Content="Basic:" Grid.Row="0" Grid.Column="0" />
-					<Label Content="Temperature:" Grid.Row="1" Grid.Column="0" />
-					<Label Content="Pressure:" Grid.Row="2" Grid.Column="0"/>
-					<Label Content="Weight(wt):" Grid.Row="3" Grid.Column="0" />
-					<Label Content="Molar:" Grid.Row="4" Grid.Column="0"/>
-					<Label Content="Standard Volume Rate:" Grid.Row="5" Grid.Column="0" />
-					<Label Content="Viscosity:" Grid.Row="6" Grid.Column="0"/>
-					<Label Content="Heat Capacity:" Grid.Row="7" Grid.Column="0" />
-					<Label Content="Thermal Conductivity:" Grid.Row="8" Grid.Column="0"/>
-					<Label Content="Heat Trans. Coeffcient:" Grid.Row="9" Grid.Column="0" />
-                    <Label Content="Mass Rate:" Grid.Row="10" Grid.Column="0" />
-                    <Label Content="Volume Rate:" Grid.Row="11" Grid.Column="0"/>
-                    <Label Content="Density:" Grid.Row="12" Grid.Column="0" />
+                    <Label Content="Basic" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <Label Content="Temperature" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <Label Content="Pressure" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <Label Content="Weight(wt)" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <Label Content="Molar" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <Label Content="Standard Volume Rate" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <Label Content="Viscosity" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <Label Content="Heat Capacity" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <Label Content="Thermal Conductivity" Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <Label Content="Heat Trans. Coeffcient" Grid.Row="9" Grid.Column="0" HorizontalAlignment="Right" />
+                    <Label Content="Mass Rate" Grid.Row="10" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <Label Content="Volume Rate" Grid.Row="11" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <Label Content="Density" Grid.Row="12" Grid.Column="0" HorizontalAlignment="Right"/>
 
-                    <Label Content="Surface Tension:" Grid.Row="1" Grid.Column="2"/>
-                    <Label Content="Fine Length:" Grid.Row="2" Grid.Column="2" />
-					<Label Content="Machine Speed:" Grid.Row="3" Grid.Column="2"/>
-					<Label Content="Volume:" Grid.Row="4" Grid.Column="2" />
-					<Label Content="Length:" Grid.Row="5" Grid.Column="2"/>
-					<Label Content="Aera:" Grid.Row="6" Grid.Column="2" />
-					<Label Content="Energy:" Grid.Row="7" Grid.Column="2"/>
-					<Label Content="Time:" Grid.Row="8" Grid.Column="2" />
-					<Label Content="Flow Conductance:" Grid.Row="9" Grid.Column="2" />
-                    <Label Content="Specific Enthalpy:" Grid.Row="10" Grid.Column="2" />
-                    <Label Content="Enthalpy:" Grid.Row="11" Grid.Column="2"/>
-                    
+                    <Label Content="Surface Tension" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right"/>
+                    <Label Content="Fine Length" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right"/>
+                    <Label Content="Machine Speed" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right"/>
+                    <Label Content="Volume" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Right"/>
+                    <Label Content="Length" Grid.Row="5" Grid.Column="2" HorizontalAlignment="Right"/>
+                    <Label Content="Aera" Grid.Row="6" Grid.Column="2" HorizontalAlignment="Right"/>
+                    <Label Content="Energy" Grid.Row="7" Grid.Column="2" HorizontalAlignment="Right"/>
+                    <Label Content="Time" Grid.Row="8" Grid.Column="2" HorizontalAlignment="Right"/>
+                    <Label Content="Flow Conductance" Grid.Row="9" Grid.Column="2" HorizontalAlignment="Right"/>
+                    <Label Content="Specific Enthalpy" Grid.Row="10" Grid.Column="2" HorizontalAlignment="Right"/>
+                    <Label Content="Enthalpy" Grid.Row="11" Grid.Column="2" HorizontalAlignment="Right"/>
+
                     <CustomControl:CustomComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding model.ObBasicUnit, Mode=OneWay}" 
                         SelectedValuePath="ID" DisplayMemberPath="UnitName"
 						SelectedItem="{Binding model.BasicUnitselectLocation,Mode=TwoWay}" />
-					<CustomControl:CustomComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding model.ObcTemperature, Mode=OneWay}" 
+                    <CustomControl:CustomComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding model.ObcTemperature, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.TemperatureSelectLocation,Mode=TwoWay}"/>
-				   
-					<CustomControl:CustomComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding model.ObcPressure, Mode=OneWay}" 
+
+                    <CustomControl:CustomComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding model.ObcPressure, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.PressureSelectLocation,Mode=TwoWay}"/>
-					<CustomControl:CustomComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding model.ObcWeight, Mode=OneWay}" 
+                    <CustomControl:CustomComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding model.ObcWeight, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.WeightSelectLocation,Mode=TwoWay}"/>
-					<CustomControl:CustomComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding model.ObcMolar, Mode=OneWay}" 
+                    <CustomControl:CustomComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding model.ObcMolar, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.MolarSelectLocation,Mode=TwoWay}"/>
-					<CustomControl:CustomComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding model.ObcStandardVolumeRate, Mode=OneWay}" 
+                    <CustomControl:CustomComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding model.ObcStandardVolumeRate, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.StandardVolumeRateSelectLocation,Mode=TwoWay}"/>
-					<CustomControl:CustomComboBox Grid.Row="6" Grid.Column="1" ItemsSource="{Binding model.ObcViscosity, Mode=OneWay}" 
+                    <CustomControl:CustomComboBox Grid.Row="6" Grid.Column="1" ItemsSource="{Binding model.ObcViscosity, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.ViscositySelectLocation,Mode=TwoWay}"/>
-					<CustomControl:CustomComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding model.ObcHeatCapacity, Mode=OneWay}" 
+                    <CustomControl:CustomComboBox Grid.Row="7" Grid.Column="1" ItemsSource="{Binding model.ObcHeatCapacity, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.HeatCapacitySelectLocation,Mode=TwoWay}"/>
-					<CustomControl:CustomComboBox Grid.Row="8" Grid.Column="1" ItemsSource="{Binding model.ObcThermalConductivity, Mode=OneWay}" 
+                    <CustomControl:CustomComboBox Grid.Row="8" Grid.Column="1" ItemsSource="{Binding model.ObcThermalConductivity, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.ThermalConductivitySelectLocation,Mode=TwoWay}"/>
-					<CustomControl:CustomComboBox Grid.Row="9" Grid.Column="1" ItemsSource="{Binding model.ObcHeatTransCoeffcient, Mode=OneWay}" 
+                    <CustomControl:CustomComboBox Grid.Row="9" Grid.Column="1" ItemsSource="{Binding model.ObcHeatTransCoeffcient, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.HeatTransCoeffcientSelectLocation,Mode=TwoWay}"/>
                     <CustomControl:CustomComboBox Grid.Row="10" Grid.Column="1" ItemsSource="{Binding model.ObcMassRate, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.MassRateSelectLocation,Mode=TwoWay}"/>
@@ -123,26 +118,28 @@
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.SurfaceTensionSelectLocation,Mode=TwoWay}"/>
                     <CustomControl:CustomComboBox Grid.Row="2" Grid.Column="3" ItemsSource="{Binding model.ObcFineLength, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.FineLengthSelectLocation,Mode=TwoWay}"/>
-					<CustomControl:CustomComboBox Grid.Row="3" Grid.Column="3" ItemsSource="{Binding model.ObcMachineSpeed, Mode=OneWay}" 
+                    <CustomControl:CustomComboBox Grid.Row="3" Grid.Column="3" ItemsSource="{Binding model.ObcMachineSpeed, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.MachineSpeedSelectLocation,Mode=TwoWay}"/>
-					<CustomControl:CustomComboBox Grid.Row="4" Grid.Column="3" ItemsSource="{Binding model.ObcVolume, Mode=OneWay}" 
+                    <CustomControl:CustomComboBox Grid.Row="4" Grid.Column="3" ItemsSource="{Binding model.ObcVolume, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.VolumeSelectLocation,Mode=TwoWay}"/>
-					<CustomControl:CustomComboBox Grid.Row="5" Grid.Column="3" ItemsSource="{Binding model.ObcLength, Mode=OneWay}" 
+                    <CustomControl:CustomComboBox Grid.Row="5" Grid.Column="3" ItemsSource="{Binding model.ObcLength, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.LengthSelectLocation,Mode=TwoWay}"/>
-					<CustomControl:CustomComboBox Grid.Row="6" Grid.Column="3" ItemsSource="{Binding model.ObcAera, Mode=OneWay}" 
+                    <CustomControl:CustomComboBox Grid.Row="6" Grid.Column="3" ItemsSource="{Binding model.ObcAera, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.AeraSelectLocation,Mode=TwoWay}"/>
-					<CustomControl:CustomComboBox Grid.Row="7" Grid.Column="3" ItemsSource="{Binding model.ObcEnergy, Mode=OneWay}" 
+                    <CustomControl:CustomComboBox Grid.Row="7" Grid.Column="3" ItemsSource="{Binding model.ObcEnergy, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.EnergySelectLocation,Mode=TwoWay}"/>
-					<CustomControl:CustomComboBox Grid.Row="8" Grid.Column="3" ItemsSource="{Binding model.ObcTime, Mode=OneWay}" 
+                    <CustomControl:CustomComboBox Grid.Row="8" Grid.Column="3" ItemsSource="{Binding model.ObcTime, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.TimeSelectLocation,Mode=TwoWay}"/>
-					<CustomControl:CustomComboBox Grid.Row="9" Grid.Column="3" ItemsSource="{Binding model.ObcFlowConductance, Mode=OneWay}" 
+                    <CustomControl:CustomComboBox Grid.Row="9" Grid.Column="3" ItemsSource="{Binding model.ObcFlowConductance, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.FlowConductanceSelectLocation,Mode=TwoWay}"/>
                     <CustomControl:CustomComboBox Grid.Row="10" Grid.Column="3" ItemsSource="{Binding model.ObcSpecificEnthalpy, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.SpecificEnthalpySelectLocation,Mode=TwoWay}"/>
                     <CustomControl:CustomComboBox Grid.Row="11" Grid.Column="3" ItemsSource="{Binding model.ObcEnthalpy, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.EnthalpySelectLocation,Mode=TwoWay}"/>
                 </Grid>
-			</GroupBox>
+            </GroupBox>
+            
+			
 		  
 		</DockPanel>
 	</Grid>
