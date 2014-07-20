@@ -18,8 +18,8 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="222"></ColumnDefinition>
-            <ColumnDefinition Width="151"></ColumnDefinition>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="125"></ColumnDefinition>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Label Content="Gas/Vapor MW"  Grid.Row="0" Height="24" HorizontalAlignment="Right"/>
         <Label Content="Exposed Surface Area of Vessel" Grid.Row="1"  HorizontalAlignment="Right"/>
