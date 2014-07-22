@@ -38,7 +38,7 @@
         <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit,Mode=TwoWay}" HorizontalAlignment="Left" Margin="294,55,0,0" Grid.Row="1"  VerticalAlignment="Top"/>
         <Label x:Name="lblReliefPressure" Content="{Binding ReliefPressureUnit,Mode=TwoWay}" HorizontalAlignment="Left" Margin="286,79,0,0" Grid.Row="1" VerticalAlignment="Top"/>
 
-        <StatusBar HorizontalAlignment="Stretch" Height="20"  Grid.Row="3" VerticalAlignment="Top">
+        <StatusBar HorizontalAlignment="Stretch" Height="20"  Grid.Row="3" VerticalAlignment="Bottom">
             <Label></Label>
         </StatusBar>
     </Grid>

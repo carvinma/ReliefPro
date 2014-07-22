@@ -104,9 +104,19 @@
         </TabControl>
 
         <Border BorderBrush="black" VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1" Margin="0,1,0,0" Grid.Row="5"/>
-        <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Left" Width="75" Height="25"  Margin="280,0,0,0" Grid.Row="5"/>
-        <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Left" Width="75" Height="25" Margin="410,0,0,0" Grid.Row="5"/>
 
+        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="5" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Center" Width="75" Height="25"  Grid.Column="1"/>
+            <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Center" Width="75" Height="25" Grid.Column="2"/>
+        </Grid>
+
+        
         <StatusBar HorizontalAlignment="Stretch" Height="20"  Grid.Row="6" VerticalAlignment="Top">
             <Label></Label>
         </StatusBar>
