@@ -30,5 +30,27 @@ namespace ReliefProModel
         public virtual double? Factor { get; set; }
         public virtual bool IsPinch { get; set; }
         public virtual double? Area { get; set; }
+
+        public virtual string TowerScenarioHXID_Color { get; set; }
+        public virtual string Coldtin_Color { get; set; }
+        public virtual string Coldtout_Color { get; set; }
+        public virtual string HeatTin_Color { get; set; }
+        public virtual string HeatTout_Color { get; set; }
+        public virtual string SourceType_Color { get; set; }
+        public virtual string StreamName_Color { get; set; }
+        public virtual string SupplyHeadPressure_Color { get; set; }
+        public virtual string IsUseFlowStop_Color { get; set; }
+        public virtual string IsHotStreamInProII_Color { get; set; }
+        public virtual string UDesign_Color { get; set; }
+        public virtual string UClean_Color { get; set; }
+        public virtual string ReliefColdtout_Color { get; set; }
+        public virtual string ReliefHeatTin_Color { get; set; }
+        public virtual string Duty_Color { get; set; }
+        public virtual string ReliefDuty_Color { get; set; }
+        public virtual string TotalCount_Color { get; set; }
+        public virtual string QRQN_Color { get; set; }
+        public virtual string Factor_Color { get; set; }
+        public virtual string IsPinch_Color { get; set; }
+        public virtual string Area_Color { get; set; }
     }
 }
