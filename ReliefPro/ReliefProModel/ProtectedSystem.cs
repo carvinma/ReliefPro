@@ -12,5 +12,8 @@ namespace ReliefProModel
         public virtual int ID { set; get; }
         public virtual int PSType { set; get; }
         public virtual int FileType { set; get; }
+
+        public virtual string PSType_Color { set; get; }
+        public virtual string FileType_Color { set; get; }
     }
 }

@@ -23,13 +23,19 @@ namespace ReliefProModel
         public virtual string DischargeTo { get; set; }
         public virtual string dbPath { get; set; }
 
-        //public virtual string PSVName_Color { get; set; }
-        //public virtual string Description_Color { get; set; }
-        //public virtual string ValveNumber_Color { get; set; }
-        //public virtual string Valvetype_Color { get; set; }
-        //public virtual string Pressure_Color { get; set; }
-        //public virtual string ReliefPressureFactor_Color { get; set; }
-        //public virtual string Location_Color { get; set; }
-        //public virtual string LocationDescription_Color { get; set; }
+        //color
+        public virtual string PSVName_Color { get; set; }
+        public virtual string Description_Color { get; set; }
+        public virtual string ValveNumber_Color { get; set; }
+        public virtual string ValveType_Color { get; set; }
+        public virtual string Pressure_Color { get; set; }
+        public virtual string ReliefPressureFactor_Color { get; set; }
+        public virtual string Location_Color { get; set; }
+        public virtual string LocationDescription_Color { get; set; }
+        public virtual string DrumPSVName_Color { get; set; }
+        public virtual string DrumPressure_Color { get; set; }
+        public virtual string MWAP_Color { get; set; }
+        public virtual string DischargeTo_Color { get; set; }
+        public virtual string dbPath_Color { get; set; }
     }
 }

@@ -6,5 +6,8 @@
     </id>
     <property name="PSType" column="PSType" type="Int32"  />
     <property name="FileType" column="FileType" type="Int32"  />
+
+    <property name="PSType_Color" column="PSType_Color" type="String" length="255" />
+    <property name="FileType_Color" column="FileType_Color" type="String" length="255" />
   </class>
 </hibernate-mapping>
