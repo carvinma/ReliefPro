@@ -11,5 +11,12 @@
   <property name="Pressure" column="Pressure" type="Double" />
   <property name="Temperature" column="Temperature" type="Double" />
   <property name="PrzFile" column="PrzFile" type="String" length="255"/>
+
+  <property name="DrumName_Color" column="DrumName_Color" type="String" length="255"/>
+  <property name="DrumType_Color" column="DrumType_Color" type="String" length="255"/>
+  <property name="Duty_Color" column="Duty_Color" type="String" length="255" />
+  <property name="Pressure_Color" column="Pressure_Color" type="String" length="255" />
+  <property name="Temperature_Color" column="Temperature_Color" type="String" length="255"/>
+  <property name="PrzFile_Color" column="PrzFile_Color" type="String" length="255"/>
 </class>
 </hibernate-mapping>

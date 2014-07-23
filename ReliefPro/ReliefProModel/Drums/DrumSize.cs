@@ -19,5 +19,16 @@ namespace ReliefProModel.Drums
         public virtual double? HeadNumber { get; set; }
         public virtual double? BootDiameter { get; set; }
         public virtual double? BootHeight { get; set; }
+
+        public virtual string DrumFireCalcID_Color { get; set; }
+        public virtual string Orientation_Color { get; set; }
+        public virtual string HeadType_Color { get; set; }
+        public virtual string Elevation_Color { get; set; }
+        public virtual string Diameter_Color { get; set; }
+        public virtual string Length_Color { get; set; }
+        public virtual string NormalLiquidLevel_Color { get; set; }
+        public virtual string HeadNumber_Color { get; set; }
+        public virtual string BootDiameter_Color { get; set; }
+        public virtual string BootHeight_Color { get; set; }
     }
 }

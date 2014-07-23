@@ -23,5 +23,26 @@
   <property name="DeltaP" column="DeltaP" type="Double"/>
   <property name="DeltaPTime" column="DeltaPTime" type="Double"/>
   <property name="TimeStep" column="TimeStep" type="Double"/>
+
+
+  <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"/>
+  <property name="ShortCut_Color" column="ShortCut_Color" type="String" length="255"/>
+  <property name="FireHeatInput_Color" column="FireHeatInput_Color" type="String" length="255"/>
+  <property name="InitialPressure_Color" column="InitialPressure_Color" type="String" length="255"/>
+  <property name="VaporDensity_Color" column="VaporDensity_Color" not-null="false" type="String" length="255"/>
+  <property name="TotalVaporVolume_Color" column="TotalVaporVolume_Color" type="String" length="255"/>
+  <property name="Vesseldesignpressure_Color" column="Vesseldesignpressure_Color" type="String" length="255"/>
+  <property name="DepressuringRequirements_Color" column="DepressuringRequirements_Color" type="String" length="255"/>
+  <property name="TotalWettedArea_Color" column="TotalWettedArea_Color" type="String" length="255"/>
+  <property name="HeatInputModel_Color" column="HeatInputModel_Color" type="String" length="255" />
+  <property name="ValveConstantforSonicFlow_Color" column="ValveConstantforSonicFlow_Color" type="String" length="255"/>
+  <property name="InitialDepressuringRate_Color" column="InitialDepressuringRate_Color" type="String" length="255"/>
+  <property name="Timespecify_Color" column="Timespecify_Color" type="String" length="255"/>
+  <property name="CalculatedVesselPressure_Color" column="CalculatedVesselPressure_Color" type="String" length="255"/>
+  <property name="CalculatedDepressuringRate_Color" column="CalculatedDepressuringRate_Color" type="String" length="255"/>
+
+  <property name="DeltaP_Color" column="DeltaP_Color" type="String" length="255"/>
+  <property name="DeltaPTime_Color" column="DeltaPTime_Color" type="String" length="255"/>
+  <property name="TimeStep_Color" column="TimeStep_Color" type="String" length="255"/>
 </class>
 </hibernate-mapping>

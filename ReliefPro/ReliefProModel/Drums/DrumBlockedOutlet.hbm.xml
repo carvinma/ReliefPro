@@ -13,5 +13,15 @@
   <property name="FDReliefCondition" column="FDReliefCondition" type="Double"/>
   <property name="Feed" column="Feed" type="Boolean"/>
   <property name="ReboilerPinch" column="ReboilerPinch" type="Boolean"/>
+
+  <property name="DrumID_Color" column="DrumID_Color" type="String" length="255"/>
+  <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"/>
+  <property name="MaxPressure_Color" column="MaxPressure_Color" ttype="String" length="255"/>
+  <property name="MaxStreamRate_Color" column="MaxStreamRate_Color" type="String" length="255"/>
+  <property name="DrumType_Color" column="DrumType_Color" type="String" length="255"/>
+  <property name="NormalFlashDuty_Color" column="NormalFlashDuty_Color" type="String" length="255"/>
+  <property name="FDReliefCondition_Color" column="FDReliefCondition_Color" type="String" length="255"/>
+  <property name="Feed_Color" column="Feed_Color" type="String" length="255"/>
+  <property name="ReboilerPinch_Color" column="ReboilerPinch_Color" type="String" length="255"/>
 </class>
 </hibernate-mapping>

@@ -14,5 +14,16 @@
   <property name="HeadNumber" column="HeadNumber" type="Double"/>
   <property name="BootDiameter" column="BootDiameter" type="Double"/>
   <property name="BootHeight" column="BootHeight" type="Double"/>
+
+  <property name="DrumFireCalcID_Color" column="DrumFireCalcID_Color" type="String" length="255"/>
+  <property name="Orientation_Color" column="Orientation_Color" type="String" length="255"/>
+  <property name="HeadType_Color" column="HeadType_Color" type="String" length="255"/>
+  <property name="Elevation_Color" column="Elevation_Color" type="String" length="255"/>
+  <property name="Diameter_Color" column="Diameter_Color" type="String" length="255"/>
+  <property name="Length_Color" column="Length_Color" type="String" length="255"/>
+  <property name="NormalLiquidLevel_Color" column="NormalLiquidLevel_Color" type="String" length="255"/>
+  <property name="HeadNumber_Color" column="HeadNumber_Color" type="String" length="255"/>
+  <property name="BootDiameter_Color" column="BootDiameter_Color" type="String" length="255"/>
+  <property name="BootHeight_Color" column="BootHeight_Color" type="String" length="255"/>
 </class>
 </hibernate-mapping>

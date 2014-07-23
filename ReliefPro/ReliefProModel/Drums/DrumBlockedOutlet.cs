@@ -18,5 +18,15 @@ namespace ReliefProModel.Drums
         public virtual double? FDReliefCondition { get; set; }
         public virtual bool Feed { get; set; }
         public virtual bool ReboilerPinch { get; set; }
+
+        public virtual string DrumID_Color { get; set; }
+        public virtual string ScenarioID_Color { get; set; }
+        public virtual string MaxPressure_Color { get; set; }
+        public virtual string MaxStreamRate_Color { get; set; }
+        public virtual string DrumType_Color { get; set; }
+        public virtual string NormalFlashDuty_Color { get; set; }
+        public virtual string FDReliefCondition_Color { get; set; }
+        public virtual string Feed_Color { get; set; }
+        public virtual string ReboilerPinch_Color { get; set; }
     }
 }

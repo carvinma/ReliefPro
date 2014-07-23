@@ -15,5 +15,12 @@ namespace ReliefProModel.Drums
         public virtual double? Pressure { get; set; }
         public virtual double? Temperature { get; set; }
         public virtual string PrzFile { get; set; }
+
+        public virtual string DrumName_Color { get; set; }
+        public virtual string DrumType_Color { get; set; }
+        public virtual string Duty_Color { get; set; }
+        public virtual string Pressure_Color { get; set; }
+        public virtual string Temperature_Color { get; set; }
+        public virtual string PrzFile_Color { get; set; }
     }
 }

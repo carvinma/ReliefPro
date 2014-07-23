@@ -26,5 +26,23 @@ namespace ReliefProModel.Drums
         public virtual bool HeavyOilFluid { get; set; }
         public virtual bool AllGas { get; set; }
         public virtual bool EquipmentExist { get; set; }
+
+
+        public virtual string DrumID { get; set; }
+        public virtual string ScenarioID { get; set; }
+        public virtual string HeatInputModel { get; set; }
+        public virtual string WettedArea { get; set; }
+        public virtual string LatentHeat { get; set; }
+        public virtual string CrackingHeat { get; set; }
+        public virtual string DesignPressure { get; set; }
+        public virtual string ReliefLoad { get; set; }
+        public virtual string ReliefPressure { get; set; }
+        public virtual string ReliefTemperature { get; set; }
+        public virtual string ReliefMW { get; set; }
+        public virtual string ReliefCpCv { get; set; }
+        public virtual string ReliefZ { get; set; }
+        public virtual string HeavyOilFluid { get; set; }
+        public virtual string AllGas { get; set; }
+        public virtual string EquipmentExist { get; set; }
     }
 }

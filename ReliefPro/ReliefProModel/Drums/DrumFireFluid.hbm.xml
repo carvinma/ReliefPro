@@ -11,5 +11,13 @@
   <property name="NormalPressure" column="NormalPressure" type="Double"/>
   <property name="PSVPressure" column="PSVPressure" type="Double"/>
   <property name="TW" column="TW" type="Double"/>
+
+  <property name="DrumFireCalcID_Color" column="DrumFireCalcID_Color" type="String" length="255"/>
+  <property name="GasVaporMW_Color" column="GasVaporMW_Color" type="String" length="255"/>
+  <property name="ExposedVesse_Color" column="ExposedVesse_Color" type="String" length="255"/>
+  <property name="NormaTemperature_Color" column="NormaTemperature_Color" type="String" length="255"/>
+  <property name="NormalPressure_Color" column="NormalPressure_Color" type="String" length="255"/>
+  <property name="PSVPressure_Color" column="PSVPressure_Color" type="String" length="255"/>
+  <property name="TW_Color" column="TW_Color" type="String" length="255"/>
 </class>
 </hibernate-mapping>

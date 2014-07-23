@@ -20,5 +20,22 @@
   <property name="HeavyOilFluid" column="HeavyOilFluid" type="Boolean"/>
   <property name="AllGas" column="AllGas" type="Boolean"/>
   <property name="EquipmentExist" column="EquipmentExist" type="Boolean"/>
+
+  <property name="DrumID_Color" column="DrumID_Color" type="String" length="255"/>
+  <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"/>
+  <property name="HeatInputModel_Color" column="HeatInputModel_Color" type="String" length="255"/>
+  <property name="WettedArea_Color" column="WettedArea_Color" type="String" length="255"/>
+  <property name="LatentHeat_Color" column="LatentHeat_Color" type="String" length="255"/>
+  <property name="CrackingHeat_Color" column="CrackingHeat_Color" type="String" length="255"/>
+  <property name="DesignPressure_Color" column="DesignPressure_Color" type="String" length="255"/>
+  <property name="ReliefLoad_Color" column="ReliefLoad_Color" type="String" length="255"/>
+  <property name="ReliefPressure_Color" column="ReliefPressure_Color" type="String" length="255"/>
+  <property name="ReliefTemperature_Color" column="ReliefTemperature_Color" type="String" length="255"/>
+  <property name="ReliefMW_Color" column="ReliefMW_Color" type="String" length="255"/>
+  <property name="ReliefCpCv_Color" column="ReliefCpCv_Color" type="String" length="255"/>
+  <property name="ReliefZ_Color" column="ReliefZ_Color" type="String" length="255"/>
+  <property name="HeavyOilFluid_Color" column="HeavyOilFluid_Color" type="String" length="255"/>
+  <property name="AllGas_Color" column="AllGas_Color" type="String" length="255"/>
+  <property name="EquipmentExist_Color" column="EquipmentExist_Color" type="String" length="255"/>
 </class>
 </hibernate-mapping>
