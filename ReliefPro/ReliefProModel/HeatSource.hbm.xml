@@ -8,5 +8,10 @@
     <property name="HeatSourceType" column="HeatSourceType" type="String" length="255" />
     <property name="Duty" column="Duty" type="Double"  />
     <property name="SourceID" column="SourceID"  type="Int32" />
+  
+    <property name="HeatSourceName_Color" column="HeatSourceName_Color" type="String" length="255" />
+    <property name="HeatSourceType_Color" column="HeatSourceType_Color" type="String" length="255" />
+    <property name="Duty_Color" column="Duty_Color" type="String" length="255" />
+    <property name="SourceID_Color" column="SourceID_Color" type="String" length="255" />
   </class>
 </hibernate-mapping>

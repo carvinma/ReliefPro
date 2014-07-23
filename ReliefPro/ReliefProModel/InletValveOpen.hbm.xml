@@ -15,5 +15,16 @@
     <property name="ReliefPressure" column="ReliefPressure" type="Double"  />
     <property name="ReliefMW" column="ReliefMW" type="Double"  />
     
+  
+    <property name="VesselName_Color" column="VesselName_Color" type="String" length="255" />    
+    <property name="UpStameName_Color" column="UpStameName_Color" type="String" length="255" />
+    <property name="OperatingPhase_Color" column="OperatingPhase_Color" type="String" length="255" />
+    <property name="MaxOperatingPressure_Color" column="MaxOperatingPressure_Color" type="String" length="255"/>
+    <property name="DownStreamName_Color" column="DownStreamName_Color" type="String" length="255" />
+    <property name="CV_Color" column="CV_Color" type="String" length="255"  />
+    <property name="ReliefLoad_Color" column="ReliefLoad_Color" type="String" length="255" />
+    <property name="ReliefTemperature_Color" column="ReliefTemperature_Color" type="String" length="255"  />
+    <property name="ReliefPressure_Color" column="ReliefPressure_Color" type="String" length="255"  />
+    <property name="ReliefMW_Color" column="ReliefMW_Color" type="String" length="255" />
   </class>
 </hibernate-mapping>
