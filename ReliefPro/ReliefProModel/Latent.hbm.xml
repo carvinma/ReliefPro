@@ -8,5 +8,10 @@
     <property name="ReliefTemperature" column="ReliefTemperature" type="Double" />
     <property name="ReliefPressure" column="ReliefPressure" type="Double"  />
     <property name="ReliefOHWeightFlow" column="ReliefOHWeightFlow" type="Double"  />
+  
+    <property name="LatentEnthalpy_Color" column="LatentEnthalpy_Color" type="String" length="255" />
+    <property name="ReliefTemperature_Color" column="ReliefTemperature_Color" type="String" length="255" />
+    <property name="ReliefPressure_Color" column="ReliefPressure_Color" type="String" length="255"  />
+    <property name="ReliefOHWeightFlow_Color" column="ReliefOHWeightFlow_Color" type="String" length="255"  />
   </class>
 </hibernate-mapping>

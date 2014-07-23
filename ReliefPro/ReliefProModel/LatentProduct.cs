@@ -36,5 +36,34 @@ namespace ReliefProModel
         public virtual double? InertWeightEnthalpy { get; set; }
         public virtual double? InertWeightRate { get; set; }
         public virtual string Description { get; set; }
+
+        //color
+        public virtual string StreamName_Color { get; set; }
+        public virtual string TotalMolarRate_Color { get; set; }
+        public virtual string TotalComposition_Color { get; set; }
+        public virtual string CompIn_Color { get; set; }
+        public virtual string Componentid_Color { get; set; }
+        public virtual string PrintNumber_Color { get; set; }
+        public virtual string ProdType_Color { get; set; }
+        public virtual string Pressure_Color { get; set; }
+        public virtual string Temperature_Color { get; set; }
+        public virtual string IsProduct_Color { get; set; }
+        public virtual string WeightFlow_Color { get; set; }
+        public virtual string SpEnthalpy_Color { get; set; }
+        public virtual string Tray_Color { get; set; }
+        public virtual string BulkDensityAct_Color { get; set; }
+
+        public virtual string VaporFraction_Color { get; set; }
+        public virtual string BulkMwOfPhase_Color { get; set; }
+        public virtual string BulkViscosity_Color { get; set; }
+        public virtual string BulkCPCVRatio_Color { get; set; }
+        public virtual string VaporZFmKVal_Color { get; set; }
+        public virtual string BulkCP_Color { get; set; }
+        public virtual string BulkThermalCond_Color { get; set; }
+        public virtual string BulkSurfTension_Color { get; set; }
+        public virtual string TotalMolarEnthalpy_Color { get; set; }
+        public virtual string InertWeightEnthalpy_Color { get; set; }
+        public virtual string InertWeightRate_Color { get; set; }
+        public virtual string Description_Color { get; set; }
     }
 }
