@@ -11,6 +11,6 @@
 
   <property name="CompressorName_Color" column="CompressorName_Color" type="String" length="255"/>
   <property name="CompressorType_Color" column="CompressorType_Color" type="String" length="255"/>
-  <property name="PrzFile_Color" column="PrzFile_Color" type="String" length="255"/>
+  <property name="PrzFile_Color" column="PrzFile_Color" type="String" length="255"/> 
 </class>
 </hibernate-mapping>

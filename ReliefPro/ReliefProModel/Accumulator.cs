@@ -20,6 +20,6 @@ namespace ReliefProModel
         public virtual string Diameter_Color { get; set; }
         public virtual string Length_Color { get; set; }
         public virtual string NormalLiquidLevel_Color { get; set; }
-       
+        
     }
 }

@@ -15,6 +15,6 @@ namespace ReliefProModel
 
         public virtual string Flooding_Color { get; set; }
         public virtual string SurgeTime_Color { get; set; }
-        public virtual string IsSurgeTime_Color { get; set; }
+        public virtual string IsSurgeTime_Color { get; set; } 
     }
 }

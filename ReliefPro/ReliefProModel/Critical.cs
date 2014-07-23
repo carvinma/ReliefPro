@@ -11,6 +11,6 @@ namespace ReliefProModel
         public virtual int ID { get; set; }
         public virtual double? CriticalPressure { get; set; }
 
-        public virtual string CriticalPressure_Color { get; set; }
+        public virtual string CriticalPressure_Color { get; set; } 
     }
 }

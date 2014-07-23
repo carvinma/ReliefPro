@@ -15,5 +15,5 @@
   <property name="Diameter_Color" column="Diameter_Color" type="String" length="255"  />
   <property name="Length_Color" column="Length_Color" type="String" length="255" />
   <property name="NormalLiquidLevel_Color" column="NormalLiquidLevel_Color" type="String" length="255" />
-</class>
+</class> 
 </hibernate-mapping>
