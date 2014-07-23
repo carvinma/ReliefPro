@@ -16,6 +16,14 @@ namespace ReliefProModel
         public virtual double? ReliefMW { get; set; }
         public virtual double? ReliefCpCv { get; set; }
         public virtual double? ReliefZ { get; set; }
+
+        public virtual string ScenarioID_Color { get; set; }
+        public virtual string Latent_Color { get; set; }
+        public virtual string ReliefTemperature_Color { get; set; }
+        public virtual string ReliefPressure_Color { get; set; }
+        public virtual string ReliefMW_Color { get; set; }
+        public virtual string ReliefCpCv_Color { get; set; }
+        public virtual string ReliefZ_Color { get; set; }
         
     }
 }

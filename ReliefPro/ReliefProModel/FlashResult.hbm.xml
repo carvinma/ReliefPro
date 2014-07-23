@@ -11,5 +11,12 @@
     <property name="Tray" column="Tray" type="Int32"  />
     <property name="ProdType" column="ProdType" type="Int32"  />
 
+    <property name="PrzFile_Color" column="PrzFile_Color" type="String" length="255" />
+    <property name="LiquidName_Color" column="LiquidName_Color" type="String" length="255" />
+    <property name="VaporName_Color" column="VaporName_Color" type="String" length="255" />
+    <property name="StreamName_Color" column="StreamName_Color" type="String" length="255" />
+    <property name="Tray_Color" column="Tray_Color" type="String" length="255" />
+    <property name="ProdType_Color" column="ProdType_Color" type="String" length="255"  />
+
   </class>
 </hibernate-mapping>
