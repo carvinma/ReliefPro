@@ -7,5 +7,9 @@
     <property name="WettedArea" column="WettedArea" type="Double"  />
     <property name="PipingContingency" column="PipingContingency" type="Double" />
     <property name="EqID" column="EqID" type="Int32" />
+  
+    <property name="WettedArea_Color" column="WettedArea_Color" type="String" length="255"  />
+    <property name="PipingContingency_Color" column="PipingContingency_Color" type="String" length="255"  />
+    <property name="EqID_Color" column="EqID_Color" ttype="String" length="255"  />
   </class>
 </hibernate-mapping>

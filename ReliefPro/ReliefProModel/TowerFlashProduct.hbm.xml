@@ -16,5 +16,18 @@
     <property name="Componentid" column="Componentid" type="String" length="255" />
     <property name="ProdType" column="ProdType" type="String" length="255" />
     <property name="Tray" column="Tray"   type="Int" />
+  
+    <!--color-->
+    <property name="StreamName_Color" column="StreamName_Color" type="String" length="255" />
+    <property name="Pressure_Color" column="pressure_Color" type="String" length="255"  />
+    <property name="Temperature_Color" column="temperature_Color" type="String" length="255" />
+    <property name="WeightFlow_Color" column="weightflow_Color" type="String" length="255"  />
+    <property name="SpEnthalpy_Color" column="spenthalpy_Color" type="String" length="255" />
+    <property name="TotalMolarRate_Color" column="TotalMolarRate_Color" type="String" length="255"  />
+    <property name="TotalComposition_Color" column="TotalComposition_Color" type="String" length="255" />
+    <property name="CompIn_Color" column="CompIn_Color" type="String" length="255" />
+    <property name="Componentid_Color" column="Componentid_Color" type="String" length="255" />
+    <property name="ProdType_Color" column="ProdType_Color" type="String" length="255" />
+    <property name="Tray_Color" column="Tray_Color"  type="String" length="255" />
   </class>
 </hibernate-mapping>

@@ -18,5 +18,15 @@ namespace ReliefProModel
         public virtual string HeatInput { get; set; }
         public virtual double? ReliefLoad { get; set; }
         public virtual int FireID { get; set; }
+
+        public virtual string EqName_Color { get; set; }
+        public virtual string Type_Color { get; set; }
+        public virtual string Elevation_Color { get; set; }
+        public virtual string FireZone_Color { get; set; }
+        public virtual string FFactor_Color { get; set; }
+        public virtual string WettedArea_Color { get; set; }
+        public virtual string HeatInput_Color { get; set; }
+        public virtual string ReliefLoad_Color { get; set; }
+        public virtual string FireID_Color { get; set; }
     }
 }
