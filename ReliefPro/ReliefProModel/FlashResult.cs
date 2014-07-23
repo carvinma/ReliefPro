@@ -15,7 +15,7 @@ namespace ReliefProModel
         public virtual string VaporName { get; set; }
         public virtual string StreamName { get; set; }
         public virtual int Tray { get; set; }
-        public virtual int ProdType { get; set; }
+        public virtual string ProdType { get; set; }
 
         public virtual string PrzFile_Color { get; set; }
         public virtual string LiquidName_Color { get; set; }
