@@ -11,5 +11,8 @@ namespace ReliefProModel
         public virtual int ID { get; set; }
         public virtual string StorageTankName { get; set; }
         public virtual string PrzFile { get; set; }
+
+        public virtual string StorageTankName_Color { get; set; }
+        public virtual string PrzFile_Color { get; set; }
     }
 }

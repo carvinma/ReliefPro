@@ -6,5 +6,8 @@
     </id>   
     <property name="StorageTankName" column="StorageTankName" type="String" length="255" />
     <property name="PrzFile" column="PrzFile" type="String" length="255" />
+
+    <property name="StorageTankName_Color" column="StorageTankName_Color" type="String" length="255" />
+    <property name="PrzFile_Color" column="PrzFile_Color" type="String" length="255" />
   </class>
 </hibernate-mapping>
