@@ -20,5 +20,17 @@ namespace ReliefProModel
         public virtual double? PipingContingency { get; set; }
         public virtual int EqID { get; set; }
         public virtual double? Elevation { get; set; }
+
+        public virtual string Diameter_Color { get; set; }
+        public virtual string Orientation_Color { get; set; }
+        public virtual string Length_Color { get; set; }
+        public virtual string NormalLiquidLevel_Color { get; set; }
+        public virtual string HeadNumber_Color { get; set; }
+        public virtual string HeadType_Color { get; set; }
+        public virtual string BootDiameter_Color { get; set; }
+        public virtual string BootHeight_Color { get; set; }
+        public virtual string PipingContingency_Color { get; set; }
+        public virtual string EqID_Color { get; set; }
+        public virtual string Elevation_Color { get; set; }
     }
 }
