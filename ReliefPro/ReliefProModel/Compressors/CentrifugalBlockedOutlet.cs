@@ -18,7 +18,15 @@ namespace ReliefProModel.Compressors
         public virtual double? ReliefTemperature { get; set; }
         public virtual double? ReliefPressure { get; set; }
 
-       
+        public virtual string ScenarioID_Color { get; set; }
+        public virtual string Scale_Color { get; set; }
+        public virtual string InletLoad_Color { get; set; }
+        public virtual string SurgeLoad_Color { get; set; }
+        public virtual string OutletPressure_Color { get; set; }
+        public virtual string Reliefload_Color { get; set; }
+        public virtual string ReliefMW_Color { get; set; }
+        public virtual string ReliefTemperature_Color { get; set; }
+        public virtual string ReliefPressure_Color { get; set; }
 
     }
 }
