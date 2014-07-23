@@ -10,25 +10,25 @@ namespace ReliefProModel
     {
         public virtual int ID { get; set; }
         public virtual int TowerScenarioHXID { get; set; }
-        public virtual string Coldtin { get; set; }
-        public virtual string Coldtout { get; set; }
-        public virtual string HeatTin { get; set; }
-        public virtual string HeatTout { get; set; }
+        public virtual double? Coldtin { get; set; }
+        public virtual double? Coldtout { get; set; }
+        public virtual double? HeatTin { get; set; }
+        public virtual double? HeatTout { get; set; }
         public virtual string SourceType { get; set; }
         public virtual string StreamName { get; set; }
-        public virtual string SupplyHeadPressure { get; set; }
+        public virtual double? SupplyHeadPressure { get; set; }
         public virtual bool IsUseFlowStop { get; set; }
         public virtual bool IsHotStreamInProII { get; set; }
-        public virtual string UDesign { get; set; }
-        public virtual string UClean { get; set; }
-        public virtual string ReliefColdtout { get; set; }
-        public virtual string ReliefHeatTin { get; set; }
-        public virtual string Duty { get; set; }
-        public virtual string ReliefDuty { get; set; }
-        public virtual string TotalCount { get; set; }
-        public virtual string QRQN { get; set; }
-        public virtual string Factor { get; set; }
+        public virtual double? UDesign { get; set; }
+        public virtual double? UClean { get; set; }
+        public virtual double? ReliefColdtout { get; set; }
+        public virtual double? ReliefHeatTin { get; set; }
+        public virtual double? Duty { get; set; }
+        public virtual double? ReliefDuty { get; set; }
+        public virtual int TotalCount { get; set; }
+        public virtual double? QRQN { get; set; }
+        public virtual double? Factor { get; set; }
         public virtual bool IsPinch { get; set; }
-        public virtual string Area { get; set; }
+        public virtual double? Area { get; set; }
     }
 }

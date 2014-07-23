@@ -7,7 +7,7 @@
     <property name="SinkName" column="SinkName" type="String" length="255" />
     <property name="Description" column="Description" type="String" length="255" />
     <property name="SinkType" column="SinkType" type="String" length="255" />
-    <property name="MaxPossiblePressure" column="MaxPossiblePressure" type="String" length="255" />    
+    <property name="MaxPossiblePressure" column="MaxPossiblePressure" type="Double" />    
     <property name="StreamName" column="StreamName" type="String" length="255" />
   </class>
 </hibernate-mapping>

@@ -82,9 +82,6 @@
     <Compile Include="Reports\PUsummaryNote.cs" />
     <Compile Include="Reports\PUsummaryReportSource.cs" />
     <Compile Include="StorageTank.cs" />
-    <Compile Include="DemoModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Drums\Drum.cs" />
     <Compile Include="Drums\DrumBlockedOutlet.cs" />
     <Compile Include="Drums\DrumFireFluid.cs" />
@@ -143,8 +140,9 @@
     <Compile Include="FlashCalcResult.cs" />
     <Compile Include="TreePS.cs" />
     <EmbeddedResource Include="Compressors\CentrifugalBlockedOutlet.hbm.xml" />
-    <EmbeddedResource Include="Compressors\PistonBlockedOutlet.hbm.xml" />
-    <EmbeddedResource Include="DemoModel.hbm.xml" />
+    <EmbeddedResource Include="Compressors\PistonBlockedOutlet.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="TowerHXDetail.hbm.xml" />
     <EmbeddedResource Include="Scenario.hbm.xml">
       <SubType>Designer</SubType>

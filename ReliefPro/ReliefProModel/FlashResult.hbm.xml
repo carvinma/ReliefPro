@@ -8,8 +8,8 @@
     <property name="LiquidName" column="LiquidName" type="String" length="255" />
     <property name="VaporName" column="VaporName" type="String" length="255" />
     <property name="StreamName" column="StreamName" type="String" length="255" />
-    <property name="Tray" column="Tray" type="String" length="255" />
-    <property name="ProdType" column="ProdType" type="String" length="255" />
+    <property name="Tray" column="Tray" type="Int32"  />
+    <property name="ProdType" column="ProdType" type="Int32"  />
 
   </class>
 </hibernate-mapping>

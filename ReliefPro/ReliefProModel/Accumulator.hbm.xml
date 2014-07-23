@@ -6,8 +6,8 @@
 </id>
   <property name="AccumulatorName" column="AccumulatorName" type="String" length="255" />
   <property name="Orientation" column="Orientation" type="Boolean"/>
-  <property name="Diameter" column="Diameter" type="String" length="255" />
-  <property name="Length" column="Length" type="String" length="255" />
-  <property name="NormalLiquidLevel" column="NormalLiquidLevel" type="String" length="255" />
+  <property name="Diameter" column="Diameter" type="Double"  />
+  <property name="Length" column="Length" type="Double"  />
+  <property name="NormalLiquidLevel" column="NormalLiquidLevel" type="Double"  />
 </class>
 </hibernate-mapping>

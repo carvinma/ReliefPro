@@ -4,20 +4,20 @@
     <id name="ID" column="ID" type="Int32" unsaved-value="0">
       <generator class="identity" />
     </id>
-    <property name="FeedTin" column="FeedTin" type="String" length="255" />    
-    <property name="FeedTout" column="FeedTout" type="String" length="255" />
+    <property name="FeedTin" column="FeedTin" type="Double"  />    
+    <property name="FeedTout" column="FeedTout" type="Double"  />
     <property name="StreamName" column="StreamName" type="String" length="255" />
-    <property name="FeedSpEin" column="FeedSpEin" type="String" length="255" />
-    <property name="FeedSpEout" column="FeedSpEout" type="String" length="255" />
-    <property name="BottomReliefTin" column="BottomReliefTin" type="String" length="255" />
-    <property name="FeedMassRate" column="FeedMassRate" type="String" length="255" />
-    <property name="BottomTin" column="BottomTin" type="String" length="255" />
-    <property name="BottomTout" column="BottomTout" type="String" length="255" />
-    <property name="BottomMassRate" column="BottomMassRate" type="String" length="255" />
-    <property name="Duty" column="Duty" type="String" length="255" />
+    <property name="FeedSpEin" column="FeedSpEin" type="Double"  />
+    <property name="FeedSpEout" column="FeedSpEout" type="Double"  />
+    <property name="BottomReliefTin" column="BottomReliefTin" type="Double"  />
+    <property name="FeedMassRate" column="FeedMassRate" type="Double"  />
+    <property name="BottomTin" column="BottomTin" type="Double"  />
+    <property name="BottomTout" column="BottomTout" type="Double" />
+    <property name="BottomMassRate" column="BottomMassRate" type="Double" />
+    <property name="Duty" column="Duty" type="Double" />
     <property name="HeatSourceID" column="HeatSourceID" type="Int32"  />
-    <property name="FeedReliefTout" column="FeedReliefTout" type="String" length="255"  />
-    <property name="FeedReliefSpEout" column="FeedReliefSpEout" type="String" length="255"  />
-    <property name="Factor" column="Factor" type="String" length="255"  />
+    <property name="FeedReliefTout" column="FeedReliefTout" type="Double"   />
+    <property name="FeedReliefSpEout" column="FeedReliefSpEout" type="Double"   />
+    <property name="Factor" column="Factor" type="Double"   />
   </class>
 </hibernate-mapping>

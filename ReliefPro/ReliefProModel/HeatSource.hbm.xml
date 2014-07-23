@@ -6,7 +6,7 @@
     </id>   
     <property name="HeatSourceName" column="HeatSourceName" type="String" length="255" />
     <property name="HeatSourceType" column="HeatSourceType" type="String" length="255" />
-    <property name="Duty" column="Duty" type="String" length="255" />
+    <property name="Duty" column="Duty" type="Double"  />
     <property name="SourceID" column="SourceID"  type="Int32" />
   </class>
 </hibernate-mapping>

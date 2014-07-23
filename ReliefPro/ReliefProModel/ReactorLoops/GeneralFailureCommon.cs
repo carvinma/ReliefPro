@@ -13,14 +13,14 @@ namespace ReliefProModel.ReactorLoops
 
         public virtual bool RecycleCompressorFailure { get; set; }
         public virtual bool CalcInjectionWaterStream { get; set; }
-        public virtual double InjectionWaterStream { get; set; }
+        public virtual double? InjectionWaterStream { get; set; }
 
         public virtual bool CalcHXNetworkColdStream { get; set; }
-        public virtual double HXNetworkColdStream { get; set; }
+        public virtual double? HXNetworkColdStream { get; set; }
 
-        public virtual double ReliefLoad { get; set; }
-        public virtual double ReliefMW { get; set; }
-        public virtual double ReliefTemperature { get; set; }
-        public virtual double ReliefPressure { get; set; }
+        public virtual double? ReliefLoad { get; set; }
+        public virtual double? ReliefMW { get; set; }
+        public virtual double? ReliefTemperature { get; set; }
+        public virtual double? ReliefPressure { get; set; }
     }
 }

@@ -4,12 +4,12 @@
     <id name="ID" column="ID" type="Int32" unsaved-value="0">
       <generator class="identity" />
     </id>
-    <property name="ExposedToFire" column="ExposedToFire" type="String" length="255" />
+    <property name="ExposedToFire" column="ExposedToFire" type="Double"  />
     <property name="Type" column="Type" type="String" length="255" />
-    <property name="OD" column="OD" type="String" length="255" />
-    <property name="Length" column="Length" type="String" length="255" />
-    <property name="PipingContingency" column="PipingContingency" type="String" length="255" />
+    <property name="OD" column="OD" type="Double"  />
+    <property name="Length" column="Length" type="Double"  />
+    <property name="PipingContingency" column="PipingContingency" type="Double"  />
     <property name="EqID" column="EqID" type="Int32" />
-    <property name="Elevation" column="Elevation" type="String" length="255" />
+    <property name="Elevation" column="Elevation" type="Double"  />
   </class>
 </hibernate-mapping>

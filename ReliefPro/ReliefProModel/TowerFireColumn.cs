@@ -9,11 +9,11 @@ namespace ReliefProModel
     public class TowerFireColumn
     {
         public virtual int ID { get; set; }
-        public virtual string NumberOfSegment { get; set; }
-        public virtual string Elevation { get; set; }
-        public virtual string BNLL { get; set; }
-        public virtual string LiquidHoldup { get; set; }        
-        public virtual string PipingContingency { get; set; }
+        public virtual int NumberOfSegment { get; set; }
+        public virtual double? Elevation { get; set; }
+        public virtual double? BNLL { get; set; }
+        public virtual double? LiquidHoldup { get; set; }
+        public virtual double? PipingContingency { get; set; }
         public virtual int EqID { get; set; }
        
     }

@@ -11,14 +11,14 @@ namespace ReliefProModel
         public virtual int ID { get; set; }
         public virtual string PSVName { get; set; }
         public virtual string Description { get; set; }
-        public virtual string ValveNumber { get; set; }
+        public virtual int ValveNumber { get; set; }
         public virtual string ValveType { get; set; }
-        public virtual string Pressure { get; set; }
-        public virtual string ReliefPressureFactor { get; set; }
+        public virtual double? Pressure { get; set; }
+        public virtual double? ReliefPressureFactor { get; set; }
         public virtual string Location { get; set; }
         public virtual string LocationDescription { get; set; }
         public virtual string DrumPSVName { get; set; }
-        public virtual string DrumPressure { get; set; }
+        public virtual double? DrumPressure { get; set; }
         public virtual string MWAP { get; set; }
         public virtual string DischargeTo { get; set; }
         public virtual string dbPath { get; set; }

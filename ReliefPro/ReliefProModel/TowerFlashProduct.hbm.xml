@@ -5,16 +5,16 @@
       <generator class="identity" />
     </id>
     <property name="StreamName" column="StreamName" type="String" length="255" />
-    <property name="Pressure" column="pressure" type="String" length="255" />
-    <property name="Temperature" column="temperature" type="String" length="255" />
-    <property name="WeightFlow" column="weightflow" type="String" length="255" />
-    <property name="SpEnthalpy" column="spenthalpy" type="String" length="255" />
+    <property name="Pressure" column="pressure" type="Double"  />
+    <property name="Temperature" column="temperature" type="Double" />
+    <property name="WeightFlow" column="weightflow" type="Double"  />
+    <property name="SpEnthalpy" column="spenthalpy" type="Double" />
 
-    <property name="TotalMolarRate" column="TotalMolarRate" type="String" length="255" />
+    <property name="TotalMolarRate" column="TotalMolarRate" type="Double"  />
     <property name="TotalComposition" column="TotalComposition" type="String" length="255" />
     <property name="CompIn" column="CompIn" type="String" length="255" />
     <property name="Componentid" column="Componentid" type="String" length="255" />
     <property name="ProdType" column="ProdType" type="String" length="255" />
-    <property name="Tray" column="Tray"   type="String" length="255"/>
+    <property name="Tray" column="Tray"   type="Int" />
   </class>
 </hibernate-mapping>

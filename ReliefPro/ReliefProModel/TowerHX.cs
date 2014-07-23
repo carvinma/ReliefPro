@@ -11,10 +11,11 @@ namespace ReliefProModel
         public virtual int ID { get; set; }
         public virtual string HeaterName { get; set; }
         public virtual string Description { get; set; }
-        public virtual string HeaterDuty { get; set; }
-        public virtual string HeaterName_Color { get; set; }
-        public virtual string Description_Color { get; set; }
-        public virtual string HeaterDuty_Color { get; set; }
+        public virtual double? HeaterDuty { get; set; }
+
+        public virtual int HeaterName_Color { get; set; }
+        public virtual int Description_Color { get; set; }
+        public virtual int HeaterDuty_Color { get; set; }
         public virtual int HeaterType { get; set; }
         
         

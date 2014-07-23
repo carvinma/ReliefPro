@@ -7,11 +7,11 @@
     <property name="EqName" column="EqName" type="String" length="255" />
     <property name="FireZone" column="FireZone" type="Boolean" />
     <property name="Type" column="Type" type="String" length="255" />
-    <property name="Elevation" column="Elevation" type="String" length="255" />
-    <property name="FFactor" column="FFactor" type="String" length="255" />
-    <property name="WettedArea" column="WettedArea" type="String" length="255" />
+    <property name="Elevation" column="Elevation" type="Double"  />
+    <property name="FFactor" column="FFactor" type="Double"  />
+    <property name="WettedArea" column="WettedArea" type="Double" />
     <property name="HeatInput" column="HeatInput" type="String" />
-    <property name="ReliefLoad" column="ReliefLoad" type="String" length="255" />  
+    <property name="ReliefLoad" column="ReliefLoad" type="Double"  />  
     <property name="FireID" column="FireID" type="Int32"  />  
   </class>
 </hibernate-mapping>

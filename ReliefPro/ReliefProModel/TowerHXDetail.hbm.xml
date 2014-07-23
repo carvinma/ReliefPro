@@ -8,8 +8,8 @@
     <property name="ProcessSideFlowSource" column="ProcessSideFlowSource" type="String" length="255" />
     <property name="Medium" column="Medium" type="String" length="255" />
     <property name="MediumSideFlowSource" column="MediumSideFlowSource" type="String" length="255" />
-    <property name="DutyPercentage" column="DutyPercentage" type="String" length="255" />
-    <property name="Duty" column="Duty" type="String" length="255" />
+    <property name="DutyPercentage" column="DutyPercentage" type="Double"  />
+    <property name="Duty" column="Duty" type="Double"  />
     <property name="HXID" column="HXID" type="Int32"  />
 
   </class>

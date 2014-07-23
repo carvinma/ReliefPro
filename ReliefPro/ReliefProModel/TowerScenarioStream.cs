@@ -12,7 +12,7 @@ namespace ReliefProModel
         public virtual int ScenarioID { get; set; }
         public virtual string StreamName { get; set; }
         public virtual bool FlowStop { get; set; }
-        public virtual string FlowCalcFactor { get; set; }
+        public virtual double? FlowCalcFactor { get; set; }
         public virtual string SourceType { get; set; }
         public virtual bool IsProduct { get; set; }
     }

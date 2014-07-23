@@ -7,13 +7,13 @@
     <property name="VesselName" column="VesselName" type="String" length="255" />    
     <property name="UpStameName" column="UpStameName" type="String" length="255" />
     <property name="OperatingPhase" column="OperatingPhase" type="String" length="255" />
-    <property name="MaxOperatingPressure" column="MaxOperatingPressure" type="String" length="255" />
+    <property name="MaxOperatingPressure" column="MaxOperatingPressure" type="Double" />
     <property name="DownStreamName" column="DownStreamName" type="String" length="255" />
-    <property name="CV" column="CV" type="String" length="255" />
-    <property name="ReliefLoad" column="ReliefLoad" type="String" length="255" />
-    <property name="ReliefTemperature" column="ReliefTemperature" type="String" length="255" />
-    <property name="ReliefPressure" column="ReliefPressure" type="String" length="255" />
-    <property name="ReliefMW" column="ReliefMW" type="String" length="255" />
+    <property name="CV" column="CV" type="Double"  />
+    <property name="ReliefLoad" column="ReliefLoad" type="Double"  />
+    <property name="ReliefTemperature" column="ReliefTemperature" type="Double"  />
+    <property name="ReliefPressure" column="ReliefPressure" type="Double"  />
+    <property name="ReliefMW" column="ReliefMW" type="Double"  />
     
   </class>
 </hibernate-mapping>

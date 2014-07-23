@@ -11,7 +11,7 @@ namespace ReliefProModel.HXs
         public virtual int ID { get; set; }
         public virtual string HXName { get; set; }
         public virtual string HXType { get; set; }
-        public virtual string Duty { get; set; }
+        public virtual double? Duty { get; set; }
         public virtual string PrzFile { get; set; }
     }
 }

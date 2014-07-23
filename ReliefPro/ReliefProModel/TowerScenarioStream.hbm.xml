@@ -7,7 +7,7 @@
     <property name="ScenarioID" column="ScenarioID" type="Int32" length="255" />
     <property name="StreamName" column="StreamName" type="String" length="255" />
     <property name="FlowStop" column="FlowStop" type="Boolean" />
-    <property name="FlowCalcFactor" column="FlowCalcFactor" type="String" length="255" />
+    <property name="FlowCalcFactor" column="FlowCalcFactor" type="Double"  />
     <property name="SourceType" column="SourceType" type="String" length="255" />
     <property name="IsProduct" column="IsProduct" type="Boolean" />
   </class>

@@ -7,7 +7,7 @@
   
   <property name="HXName" column="HXName" type="String" length="255"/>
   <property name="HXType" column="HXType" type="String" length="255"/>
-  <property name="Duty" column="Duty" type="String" length="255"/>
+  <property name="Duty" column="Duty" type="Double"/>
   <property name="PrzFile" column="PrzFile" type="String" length="255"/>
 </class>
 </hibernate-mapping>

@@ -9,8 +9,8 @@ namespace ReliefProModel
    public class TowerFireOther
     {
         public virtual int ID { get; set; }
-        public virtual string WettedArea { get; set; }
-        public virtual string PipingContingency { get; set; }
+        public virtual double? WettedArea { get; set; }
+        public virtual double? PipingContingency { get; set; }
         public virtual int EqID { get; set; }
     }
 }

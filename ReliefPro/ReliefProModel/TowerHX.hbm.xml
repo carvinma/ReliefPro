@@ -5,11 +5,11 @@
       <generator class="identity" />
     </id>
     <property name="HeaterName" column="HeaterName" type="String" length="255" />
-    <property name="HeaterDuty" column="HeaterDuty" type="String" length="255" />
+    <property name="HeaterDuty" column="HeaterDuty" type="Double" />
     <property name="Description" column="Description" type="String" length="255" />
-    <property name="HeaterName_Color" column="HeaterName_Color" type="String" length="255" />
-    <property name="HeaterDuty_Color" column="HeaterDuty_Color" type="String" length="255" />
-    <property name="Description_Color" column="Description_Color" type="String" length="255" />
+    <property name="HeaterName_Color" column="HeaterName_Color" type="Int32"  />
+    <property name="HeaterDuty_Color" column="HeaterDuty_Color" type="Int32"  />
+    <property name="Description_Color" column="Description_Color" type="Int32"  />
     <property name="HeaterType" column="HeaterType" type="Int32"  />
 
   </class>

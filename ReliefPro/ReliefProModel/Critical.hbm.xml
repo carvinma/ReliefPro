@@ -4,7 +4,7 @@
     <id name="ID" column="ID" type="Int32" unsaved-value="0">
       <generator class="identity" />
     </id>   
-    <property name="CriticalPressure" column="CriticalPressure" type="String" length="255" />
+    <property name="CriticalPressure" column="CriticalPressure" type="Double"  />
    
   </class>
 </hibernate-mapping>

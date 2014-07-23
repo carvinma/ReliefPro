@@ -13,5 +13,11 @@
   <property name="ReliefMW" column="ReliefMW" type="Double"/>
   <property name="ReliefTemperature" column="ReliefTemperature" type="Double"/>
   <property name="ReliefPressure" column="ReliefPressure" type="Double"/>
+  
+  
+  
+  
+  
+  
 </class>
 </hibernate-mapping>
