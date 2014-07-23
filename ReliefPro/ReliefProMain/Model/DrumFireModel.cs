@@ -103,8 +103,8 @@ namespace ReliefProMain.Model
         }
 
 
-        private double wettedArea;
-        public double WettedArea
+        private double? wettedArea;
+        public double? WettedArea
         {
             get { return wettedArea; }
             set
@@ -114,8 +114,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        private double latentHeat;
-        public double LatentHeat
+        private double? latentHeat;
+        public double? LatentHeat
         {
             get { return latentHeat; }
             set
@@ -125,8 +125,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        private double crackingHeat;
-        public double CrackingHeat
+        private double? crackingHeat;
+        public double? CrackingHeat
         {
             get { return crackingHeat; }
             set
@@ -136,8 +136,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        private double reliefLoad;
-        public double ReliefLoad
+        private double? reliefLoad;
+        public double? ReliefLoad
         {
             get { return reliefLoad; }
             set
@@ -147,8 +147,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        private double reliefPressure;
-        public double ReliefPressure
+        private double? reliefPressure;
+        public double? ReliefPressure
         {
             get { return reliefPressure; }
             set
@@ -158,8 +158,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        private double reliefTemperature;
-        public double ReliefTemperature
+        private double? reliefTemperature;
+        public double? ReliefTemperature
         {
             get { return reliefTemperature; }
             set
@@ -169,8 +169,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        private double reliefMW;
-        public double ReliefMW
+        private double? reliefMW;
+        public double? ReliefMW
         {
             get { return reliefMW; }
             set
@@ -180,8 +180,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        private double reliefCpCv;
-        public double ReliefCpCv
+        private double? reliefCpCv;
+        public double? ReliefCpCv
         {
             get { return reliefCpCv; }
             set
@@ -191,8 +191,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        private double reliefZ;
-        public double ReliefZ
+        private double? reliefZ;
+        public double? ReliefZ
         {
             get { return reliefZ; }
             set
@@ -202,8 +202,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        private double designPressure;
-        public double DesignPressure
+        private double? designPressure;
+        public double? DesignPressure
         {
             get { return designPressure; }
             set
@@ -279,5 +279,173 @@ namespace ReliefProMain.Model
             }
         }
 
+
+
+
+
+        private string wettedArea_Color;
+        public string WettedArea_Color
+        {
+            get { return wettedArea_Color; }
+            set
+            {
+                wettedArea_Color = value;
+                NotifyPropertyChanged("WettedArea_Color");
+            }
+        }
+
+        private string latentHeat_Color;
+        public string LatentHeat_Color
+        {
+            get { return latentHeat_Color; }
+            set
+            {
+                latentHeat_Color = value;
+                NotifyPropertyChanged("LatentHeat_Color");
+            }
+        }
+
+        private string crackingHeat_Color;
+        public string CrackingHeat_Color
+        {
+            get { return crackingHeat_Color; }
+            set
+            {
+                crackingHeat_Color = value;
+                NotifyPropertyChanged("CrackingHeat_Color");
+            }
+        }
+
+        private string reliefLoad_Color;
+        public string ReliefLoad_Color
+        {
+            get { return reliefLoad_Color; }
+            set
+            {
+                reliefLoad_Color = value;
+                NotifyPropertyChanged("ReliefLoad_Color");
+            }
+        }
+
+        private string reliefPressure_Color;
+        public string ReliefPressure_Color
+        {
+            get { return reliefPressure_Color; }
+            set
+            {
+                reliefPressure_Color = value;
+                NotifyPropertyChanged("ReliefPressure_Color");
+            }
+        }
+
+        private string reliefTemperature_Color;
+        public string ReliefTemperature_Color
+        {
+            get { return reliefTemperature_Color; }
+            set
+            {
+                reliefTemperature_Color = value;
+                NotifyPropertyChanged("ReliefTemperature_Color");
+            }
+        }
+
+        private string reliefMW_Color;
+        public string ReliefMW_Color
+        {
+            get { return reliefMW_Color; }
+            set
+            {
+                reliefMW_Color = value;
+                NotifyPropertyChanged("ReliefMW_Color");
+            }
+        }
+
+        private string reliefCpCv_Color;
+        public string ReliefCpCv_Color
+        {
+            get { return reliefCpCv_Color; }
+            set
+            {
+                reliefCpCv_Color = value;
+                NotifyPropertyChanged("ReliefCpCv_Color");
+            }
+        }
+
+        private string reliefZ_Color;
+        public string ReliefZ_Color
+        {
+            get { return reliefZ_Color; }
+            set
+            {
+                reliefZ_Color = value;
+                NotifyPropertyChanged("ReliefZ_Color");
+            }
+        }
+
+        private string designPressure_Color;
+        public string DesignPressure_Color
+        {
+            get { return designPressure_Color; }
+            set
+            {
+                designPressure_Color = value;
+                NotifyPropertyChanged("DesignPressure_Color");
+            }
+        }
+
+        private string heavyOilFluid_Color;
+        public string HeavyOilFluid_Color
+        {
+            get { return heavyOilFluid_Color; }
+            set
+            {
+                heavyOilFluid_Color = value;
+
+                NotifyPropertyChanged("HeavyOilFluid_Color");
+            }
+        }
+        private string allGas_Color;
+        public string AllGas_Color
+        {
+            get { return allGas_Color; }
+            set
+            {
+                allGas_Color = value;
+                NotifyPropertyChanged("AllGas_Color");
+            }
+        }
+
+        private string noneallGas_Color;
+        public string NoneAllGas_Color
+        {
+            get { return noneallGas_Color; }
+            set
+            {
+                noneallGas_Color = value;
+                NotifyPropertyChanged("NoneAllGas_Color");
+            }
+        }
+        private string equipmentExist_Color;
+        public string EquipmentExist
+        {
+            get { return equipmentExist_Color; }
+            set
+            {
+                equipmentExist_Color = value;
+                NotifyPropertyChanged("EquipmentExist_Color");
+            }
+        }
+
+
+        private string enabledCrack_Color;
+        public string EnabledCrack_Color
+        {
+            get { return enabledCrack_Color; }
+            set
+            {
+                enabledCrack_Color = value;
+                NotifyPropertyChanged("EnabledCrack_Color");
+            }
+        }
     }
 }

@@ -48,13 +48,13 @@ namespace ReliefProMain.Model.Compressors
             this.ratedCapacity = model.RatedCapacity;
             this.reliefMW = model.ReliefMW;
             this.reliefload = model.Reliefload;
-            this.reliefTemp = model.ReliefTemperature;
+            this.reliefTemperature = model.ReliefTemperature;
             this.reliefPressure = model.ReliefPressure;
 
             this.ratedCapacity_Color = model.RatedCapacity_Color;
             this.reliefMW_Color = model.ReliefMW_Color;
             this.reliefload_Color = model.Reliefload_Color;
-            this.reliefTemp_Color = model.ReliefTemperature_Color;
+            this.reliefTemperature_Color = model.ReliefTemperature_Color;
             this.reliefPressure_Color = model.ReliefPressure_Color;
         }
 
@@ -120,7 +120,7 @@ namespace ReliefProMain.Model.Compressors
             set
             {
                 ratedCapacity_Color = value;
-                this.NotifyPropertyChanged("RatedCapacity");
+                this.NotifyPropertyChanged("RatedCapacity_Color");
             }
         }
 
@@ -131,7 +131,7 @@ namespace ReliefProMain.Model.Compressors
             set
             {
                 reliefMW_Color = value;
-                this.NotifyPropertyChanged("ReliefMW");
+                this.NotifyPropertyChanged("ReliefMW_Color");
             }
         }
 
@@ -142,7 +142,7 @@ namespace ReliefProMain.Model.Compressors
             set
             {
                 reliefload_Color = value;
-                this.NotifyPropertyChanged("Reliefload");
+                this.NotifyPropertyChanged("Reliefload_Color");
             }
         }
 
@@ -153,7 +153,7 @@ namespace ReliefProMain.Model.Compressors
             set
             {
                 reliefTemperature_Color = value;
-                this.NotifyPropertyChanged("ReliefTemp");
+                this.NotifyPropertyChanged("ReliefTemperature_Color");
             }
         }
 
@@ -164,7 +164,7 @@ namespace ReliefProMain.Model.Compressors
             set
             {
                 reliefPressure_Color = value;
-                this.NotifyPropertyChanged("ReliefPressure");
+                this.NotifyPropertyChanged("ReliefPressure_Color");
             }
         }
     }

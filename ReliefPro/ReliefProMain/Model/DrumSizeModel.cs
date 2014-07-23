@@ -87,9 +87,19 @@ namespace ReliefProMain.Model
             this.normalLiquidLevel = sizemodel.NormalLiquidLevel;
             this.bootDiameter = sizemodel.BootDiameter;
             this.bootHeight = sizemodel.BootHeight;
+
+            this.orientation_Color = sizemodel.Orientation_Color;
+            this.headnumber_Color = sizemodel.HeadNumber_Color;
+            this.headType_Color = sizemodel.HeadType_Color;
+            this.elevation_Color = sizemodel.Elevation_Color;
+            this.diameter_Color = sizemodel.Diameter_Color;
+            this.length_Color = sizemodel.Length_Color;
+            this.normalLiquidLevel_Color = sizemodel.NormalLiquidLevel_Color;
+            this.bootDiameter_Color = sizemodel.BootDiameter_Color;
+            this.bootHeight_Color = sizemodel.BootHeight_Color;
         }
-        private double elevation;
-        public double Elevation
+        private double? elevation;
+        public double? Elevation
         {
             get { return elevation; }
             set
@@ -99,8 +109,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        public double diameter;
-        public double Diameter
+        public double? diameter;
+        public double? Diameter
         {
             get { return diameter; }
             set
@@ -109,8 +119,8 @@ namespace ReliefProMain.Model
                 this.NotifyPropertyChanged("Diameter");
             }
         }
-        private double length;
-        public double Length
+        private double? length;
+        public double? Length
         {
             get { return length; }
             set
@@ -120,8 +130,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        public double normalLiquidLevel;
-        public double NormalLiquidLevel
+        public double? normalLiquidLevel;
+        public double? NormalLiquidLevel
         {
             get { return normalLiquidLevel; }
             set
@@ -130,8 +140,8 @@ namespace ReliefProMain.Model
                 this.NotifyPropertyChanged("NormalLiquidLevel");
             }
         }
-        private double bootDiameter;
-        public double BootDiameter
+        private double? bootDiameter;
+        public double? BootDiameter
         {
             get { return bootDiameter; }
             set
@@ -141,8 +151,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        public double bootHeight;
-        public double BootHeight
+        public double? bootHeight;
+        public double? BootHeight
         {
             get { return bootHeight; }
             set
@@ -164,8 +174,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        public double headnumber;
-        public double Headnumber
+        public double? headnumber;
+        public double? Headnumber
         {
             get { return headnumber; }
             set
@@ -183,6 +193,106 @@ namespace ReliefProMain.Model
             {
                 headType = value;
                 this.NotifyPropertyChanged("HeadType");
+            }
+        }
+
+
+
+        private string elevation_Color;
+        public string Elevation_Color
+        {
+            get { return elevation_Color; }
+            set
+            {
+                elevation_Color = value;
+                this.NotifyPropertyChanged("Elevation_Color");
+            }
+        }
+
+        public string diameter_Color;
+        public string Diameter_Color
+        {
+            get { return diameter_Color; }
+            set
+            {
+                diameter_Color = value;
+                this.NotifyPropertyChanged("Diameter_Color");
+            }
+        }
+        private string length_Color;
+        public string Length_Color
+        {
+            get { return length_Color; }
+            set
+            {
+                length_Color = value;
+                this.NotifyPropertyChanged("Length_Color");
+            }
+        }
+
+        public string normalLiquidLevel_Color;
+        public string NormalLiquidLevel_Color
+        {
+            get { return normalLiquidLevel_Color; }
+            set
+            {
+                normalLiquidLevel_Color = value;
+                this.NotifyPropertyChanged("NormalLiquidLevel_Color");
+            }
+        }
+        private string bootDiameter_Color;
+        public string BootDiameter_Color
+        {
+            get { return bootDiameter_Color; }
+            set
+            {
+                bootDiameter_Color = value;
+                this.NotifyPropertyChanged("BootDiameter_Color");
+            }
+        }
+
+        public string bootHeight_Color;
+        public string BootHeight_Color
+        {
+            get { return bootHeight_Color; }
+            set
+            {
+                bootHeight_Color = value;
+                this.NotifyPropertyChanged("BootHeight_Color");
+            }
+        }
+
+
+        private string orientation_Color;
+        public string Orientation_Color
+        {
+            get { return orientation_Color; }
+            set
+            {
+                orientation_Color = value;
+                this.NotifyPropertyChanged("Orientation_Color");
+            }
+        }
+
+        public string headnumber_Color;
+        public string Headnumber_Color
+        {
+            get { return headnumber_Color; }
+            set
+            {
+                headnumber_Color = value;
+                this.NotifyPropertyChanged("Headnumber_Color");
+            }
+        }
+
+        private string headType_Color;
+        public string HeadType_Color
+        {
+            get { return headType_Color; }
+            set
+            {
+                headType_Color = value;
+                this.NotifyPropertyChanged("HeadType_Color");
             }
         }
 

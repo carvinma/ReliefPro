@@ -52,7 +52,7 @@ namespace ReliefProMain.Model.Compressors
             this.scale = model.Scale;
             this.reliefMW = model.ReliefMW;
             this.reliefload = model.Reliefload;
-            this.reliefTemp = model.ReliefTemperature;
+            this.reliefTemperature = model.ReliefTemperature;
             this.reliefPressure = model.ReliefPressure;
 
             this.inletLoad_Color = model.InletLoad_Color;
@@ -61,7 +61,7 @@ namespace ReliefProMain.Model.Compressors
             this.scale_Color = model.Scale_Color;
             this.reliefMW_Color = model.ReliefMW_Color;
             this.reliefload_Color = model.Reliefload_Color;
-            this.reliefTemp_Color = model.ReliefTemperature_Color;
+            this.reliefTemperature_Color = model.ReliefTemperature_Color;
             this.reliefPressure_Color = model.ReliefPressure_Color;
         }
 
@@ -131,13 +131,13 @@ namespace ReliefProMain.Model.Compressors
             }
         }
 
-        private double? reliefTemp;
-        public double? ReliefTemp
+        private double? reliefTemperature;
+        public double? ReliefTemperature
         {
-            get { return reliefTemp; }
+            get { return reliefTemperature; }
             set
             {
-                reliefTemp = value;
+                reliefTemperature = value;
                 this.NotifyPropertyChanged("ReliefTemp");
             }
         }
@@ -172,7 +172,7 @@ namespace ReliefProMain.Model.Compressors
             set
             {
                 inletLoad_Color = value;
-                this.NotifyPropertyChanged("InletLoad");
+                this.NotifyPropertyChanged("InletLoad_Color");
             }
         }
 
@@ -183,7 +183,7 @@ namespace ReliefProMain.Model.Compressors
             set
             {
                 outletPressure_Color = value;
-                this.NotifyPropertyChanged("OutletPressure");
+                this.NotifyPropertyChanged("OutletPressure_Color");
             }
         }
 
@@ -194,7 +194,7 @@ namespace ReliefProMain.Model.Compressors
             set
             {
                 surgeLoad_Color = value;
-                this.NotifyPropertyChanged("SurgeLoad");
+                this.NotifyPropertyChanged("SurgeLoad_Color");
             }
         }
 
@@ -205,7 +205,7 @@ namespace ReliefProMain.Model.Compressors
             set
             {
                 reliefMW_Color = value;
-                this.NotifyPropertyChanged("ReliefMW");
+                this.NotifyPropertyChanged("ReliefMW_Color");
             }
         }
 
@@ -216,18 +216,18 @@ namespace ReliefProMain.Model.Compressors
             set
             {
                 reliefload_Color = value;
-                this.NotifyPropertyChanged("Reliefload");
+                this.NotifyPropertyChanged("Reliefload_Color");
             }
         }
 
-        private string reliefTemp_Color;
-        public string ReliefTemp_Color
+        private string reliefTemperature_Color;
+        public string ReliefTemperature_Color
         {
-            get { return reliefTemp_Color; }
+            get { return reliefTemperature_Color; }
             set
             {
-                reliefTemp_Color = value;
-                this.NotifyPropertyChanged("ReliefTemp");
+                reliefTemperature_Color = value;
+                this.NotifyPropertyChanged("ReliefTemperature_Color");
             }
         }
 
@@ -238,7 +238,7 @@ namespace ReliefProMain.Model.Compressors
             set
             {
                 reliefPressure_Color = value;
-                this.NotifyPropertyChanged("ReliefPressure");
+                this.NotifyPropertyChanged("ReliefPressure_Color");
             }
         }
     }

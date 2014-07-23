@@ -73,8 +73,8 @@ namespace ReliefProMain.Model
             this.tw = firemodel.TW;
         }
 
-        private double vaporMW;
-        public double VaporMW
+        private double? vaporMW;
+        public double? VaporMW
         {
             get { return vaporMW; }
             set
@@ -83,8 +83,8 @@ namespace ReliefProMain.Model
                 this.NotifyPropertyChanged("VaporMW");
             }
         }
-        private double vessel;
-        public double Vessel
+        private double? vessel;
+        public double? Vessel
         {
             get { return vessel; }
             set
@@ -94,8 +94,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        private double temperature;
-        public double Temperature
+        private double? temperature;
+        public double? Temperature
         {
             get { return temperature; }
             set
@@ -105,8 +105,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        private double pressure;
-        public double Pressure
+        private double? pressure;
+        public double? Pressure
         {
             get { return pressure; }
             set
@@ -116,8 +116,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        private double pSVPressure;
-        public double PSVPressure
+        private double? pSVPressure;
+        public double? PSVPressure
         {
             get { return pSVPressure; }
             set
@@ -127,14 +127,81 @@ namespace ReliefProMain.Model
             }
         }
 
-        private double tw;
-        public double TW
+        private double? tw;
+        public double? TW
         {
             get { return tw; }
             set
             {
                 tw = value;
                 this.NotifyPropertyChanged("TW");
+            }
+        }
+
+
+
+        private string vaporMW_Color;
+        public string VaporMW_Color
+        {
+            get { return vaporMW_Color; }
+            set
+            {
+                vaporMW_Color = value;
+                this.NotifyPropertyChanged("VaporMW_Color");
+            }
+        }
+        private string vessel_Color;
+        public string Vessel_Color
+        {
+            get { return vessel_Color; }
+            set
+            {
+                vessel_Color = value;
+                this.NotifyPropertyChanged("Vessel_Color");
+            }
+        }
+
+        private string temperature_Color;
+        public string Temperature_Color
+        {
+            get { return temperature_Color; }
+            set
+            {
+                temperature_Color = value;
+                this.NotifyPropertyChanged("Temperature_Color");
+            }
+        }
+
+        private string pressure_Color;
+        public string Pressure_Color
+        {
+            get { return pressure_Color; }
+            set
+            {
+                pressure_Color = value;
+                this.NotifyPropertyChanged("Pressure_Color");
+            }
+        }
+
+        private string pSVPressure_Color;
+        public string PSVPressure_Color
+        {
+            get { return pSVPressure_Color; }
+            set
+            {
+                pSVPressure_Color = value;
+                this.NotifyPropertyChanged("PSVPressure_Color");
+            }
+        }
+
+        private string tw_Color;
+        public string TW_Color
+        {
+            get { return tw_Color; }
+            set
+            {
+                tw_Color = value;
+                this.NotifyPropertyChanged("TW_Color");
             }
         }
     }

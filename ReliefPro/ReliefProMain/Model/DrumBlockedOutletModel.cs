@@ -64,8 +64,8 @@ namespace ReliefProMain.Model
         }
         public DrumBlockedOutlet dbmodel { get; set; }
 
-        private double maxPressure;
-        public double MaxPressure
+        private double? maxPressure;
+        public double? MaxPressure
         {
             get { return maxPressure; }
             set
@@ -76,8 +76,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        private double maxStreamRate;
-        public double MaxStreamRate
+        private double? maxStreamRate;
+        public double? MaxStreamRate
         {
             get { return maxStreamRate; }
             set
@@ -98,8 +98,8 @@ namespace ReliefProMain.Model
                 this.NotifyPropertyChanged("DrumType");
             }
         }
-        private double normalFlashDuty;
-        public double NormalFlashDuty
+        private double? normalFlashDuty;
+        public double? NormalFlashDuty
         {
             get { return normalFlashDuty; }
             set
@@ -109,8 +109,8 @@ namespace ReliefProMain.Model
                 this.NotifyPropertyChanged("NormalFlashDuty");
             }
         }
-        private double fdReliefCondition;
-        public double FDReliefCondition
+        private double? fdReliefCondition;
+        public double? FDReliefCondition
         {
             get { return fdReliefCondition; }
             set
@@ -140,6 +140,88 @@ namespace ReliefProMain.Model
                 reboilerPinch = value;
                 dbmodel.ReboilerPinch = value;
                 this.NotifyPropertyChanged("ReboilerPinch");
+            }
+        }
+
+
+
+
+        private string maxPressure_Color;
+        public string MaxPressure_Color
+        {
+            get { return maxPressure_Color; }
+            set
+            {
+                maxPressure_Color = value;
+                dbmodel.MaxPressure_Color = maxPressure_Color;
+                this.NotifyPropertyChanged("MaxPressure_Color");
+            }
+        }
+
+        private string maxStreamRate_Color;
+        public string MaxStreamRate_Color
+        {
+            get { return maxStreamRate_Color; }
+            set
+            {
+                maxStreamRate_Color = value;
+                dbmodel.MaxStreamRate_Color = value;
+                this.NotifyPropertyChanged("MaxStreamRate");
+            }
+        }
+        private string drumType_Color;
+        public string DrumType_Color
+        {
+            get { return drumType_Color; }
+            set
+            {
+                drumType_Color = value;
+                dbmodel.DrumType_Color = value;
+                this.NotifyPropertyChanged("DrumType_Color");
+            }
+        }
+        private string normalFlashDuty_Color;
+        public string NormalFlashDuty_Color
+        {
+            get { return normalFlashDuty_Color; }
+            set
+            {
+                normalFlashDuty_Color = value;
+                dbmodel.NormalFlashDuty_Color = value;
+                this.NotifyPropertyChanged("NormalFlashDuty_Color");
+            }
+        }
+        private string fdReliefCondition_Color;
+        public string FDReliefCondition_Color
+        {
+            get { return fdReliefCondition_Color; }
+            set
+            {
+                fdReliefCondition_Color = value;
+                dbmodel.FDReliefCondition_Color = value;
+                this.NotifyPropertyChanged("FDReliefCondition_Color");
+            }
+        }
+        private string feed_Color;
+        public string Feed_Color
+        {
+            get { return feed_Color; }
+            set
+            {
+                feed_Color = value;
+                dbmodel.Feed_Color = value;
+                this.NotifyPropertyChanged("Feed_Color");
+            }
+        }
+        public string reboilerPinch_Color;
+        public string ReboilerPinch
+        {
+            get { return reboilerPinch_Color; }
+            set
+            {
+                reboilerPinch_Color = value;
+                dbmodel.ReboilerPinch_Color = value;
+                this.NotifyPropertyChanged("ReboilerPinch_Color");
             }
         }
     }
