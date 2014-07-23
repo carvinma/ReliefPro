@@ -53,18 +53,16 @@ namespace ReliefProMain.Model.HXs
             this.length = model.Length;
             this.elevation = model.Elevation;
             this.pipingContingency = model.PipingContingency;
+
+            this.exposedToFire_Color = model.ExposedToFire_Color;
+            this.type_Color = model.Type_Color;
+            this.oD_Color = model.OD_Color;
+            this.length_Color = model.Length_Color;
+            this.elevation_Color = model.Elevation_Color;
+            this.pipingContingency_Color = model.PipingContingency_Color;
         }
 
-        private string exposedToFire;
-        public string ExposedToFire
-        {
-            get { return exposedToFire; }
-            set
-            {
-                exposedToFire = value;
-                NotifyPropertyChanged("ExposedToFire");
-            }
-        }
+       
         private string type;
         public string Type
         {
@@ -76,8 +74,18 @@ namespace ReliefProMain.Model.HXs
             }
         }
 
-        private double oD;
-        public double OD
+        private double? exposedToFire;
+        public double? ExposedToFire
+        {
+            get { return exposedToFire; }
+            set
+            {
+                exposedToFire = value;
+                NotifyPropertyChanged("ExposedToFire");
+            }
+        }
+        private double? oD;
+        public double? OD
         {
             get { return oD; }
             set
@@ -87,8 +95,8 @@ namespace ReliefProMain.Model.HXs
             }
         }
 
-        private double length;
-        public double Length
+        private double? length;
+        public double? Length
         {
             get { return length; }
             set
@@ -98,8 +106,8 @@ namespace ReliefProMain.Model.HXs
             }
         }
 
-        private double elevation;
-        public double Elevation
+        private double? elevation;
+        public double? Elevation
         {
             get { return elevation; }
             set
@@ -109,13 +117,78 @@ namespace ReliefProMain.Model.HXs
             }
         }
 
-        private double pipingContingency;
-        public double PipingContingency
+        private double? pipingContingency;
+        public double? PipingContingency
         {
             get { return pipingContingency; }
             set
             {
                 pipingContingency = value;
+                this.NotifyPropertyChanged("PipingContingency");
+            }
+        }
+
+
+        private string type_Color;
+        public string Type_Color
+        {
+            get { return type_Color; }
+            set
+            {
+                type_Color = value;
+                this.NotifyPropertyChanged("Type");
+            }
+        }
+        private string exposedToFire_Color;
+        public string ExposedToFire_Color
+        {
+            get { return exposedToFire_Color; }
+            set
+            {
+                exposedToFire_Color = value;
+                NotifyPropertyChanged("ExposedToFire");
+            }
+        }
+        private string oD_Color;
+        public string _Color
+        {
+            get { return oD_Color; }
+            set
+            {
+                oD_Color = value;
+                NotifyPropertyChanged("OD");
+            }
+        }
+
+        private string length_Color;
+        public string Length_Color
+        {
+            get { return length_Color; }
+            set
+            {
+                length_Color = value;
+                this.NotifyPropertyChanged("Length");
+            }
+        }
+
+        private string elevation_Color;
+        public string Elevation_Color
+        {
+            get { return elevation_Color; }
+            set
+            {
+                elevation_Color = value;
+                this.NotifyPropertyChanged("Elevation");
+            }
+        }
+
+        private string pipingContingency_Color;
+        public string PipingContingency_Color
+        {
+            get { return pipingContingency_Color; }
+            set
+            {
+                pipingContingency_Color = value;
                 this.NotifyPropertyChanged("PipingContingency");
             }
         }

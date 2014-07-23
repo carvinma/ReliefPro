@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ReliefProModel.Compressors;
 
+
 namespace ReliefProMain.Model.Compressors
 {
     public class CentrifugalBlockedOutletModel : ModelBase
@@ -53,10 +54,19 @@ namespace ReliefProMain.Model.Compressors
             this.reliefload = model.Reliefload;
             this.reliefTemp = model.ReliefTemperature;
             this.reliefPressure = model.ReliefPressure;
+
+            this.inletLoad_Color = model.InletLoad_Color;
+            this.outletPressure_Color = model.OutletPressure_Color;
+            this.surgeLoad_Color = model.SurgeLoad_Color;
+            this.scale_Color = model.Scale_Color;
+            this.reliefMW_Color = model.ReliefMW_Color;
+            this.reliefload_Color = model.Reliefload_Color;
+            this.reliefTemp_Color = model.ReliefTemperature_Color;
+            this.reliefPressure_Color = model.ReliefPressure_Color;
         }
 
-        private double scale;
-        public double Scale
+        private double? scale;
+        public double? Scale
         {
             get { return scale; }
             set
@@ -66,8 +76,8 @@ namespace ReliefProMain.Model.Compressors
             }
         }
 
-        private double inletLoad;
-        public double InletLoad
+        private double? inletLoad;
+        public double? InletLoad
         {
             get { return inletLoad; }
             set
@@ -77,8 +87,8 @@ namespace ReliefProMain.Model.Compressors
             }
         }
 
-        private double outletPressure;
-        public double OutletPressure
+        private double? outletPressure;
+        public double? OutletPressure
         {
             get { return outletPressure; }
             set
@@ -88,8 +98,8 @@ namespace ReliefProMain.Model.Compressors
             }
         }
 
-        private double surgeLoad;
-        public double SurgeLoad
+        private double? surgeLoad;
+        public double? SurgeLoad
         {
             get { return surgeLoad; }
             set
@@ -99,8 +109,8 @@ namespace ReliefProMain.Model.Compressors
             }
         }
 
-        private double reliefMW;
-        public double ReliefMW
+        private double? reliefMW;
+        public double? ReliefMW
         {
             get { return reliefMW; }
             set
@@ -110,8 +120,8 @@ namespace ReliefProMain.Model.Compressors
             }
         }
 
-        private double reliefload;
-        public double Reliefload
+        private double? reliefload;
+        public double? Reliefload
         {
             get { return reliefload; }
             set
@@ -121,8 +131,8 @@ namespace ReliefProMain.Model.Compressors
             }
         }
 
-        private double reliefTemp;
-        public double ReliefTemp
+        private double? reliefTemp;
+        public double? ReliefTemp
         {
             get { return reliefTemp; }
             set
@@ -132,13 +142,102 @@ namespace ReliefProMain.Model.Compressors
             }
         }
 
-        private double reliefPressure;
-        public double ReliefPressure
+        private double? reliefPressure;
+        public double? ReliefPressure
         {
             get { return reliefPressure; }
             set
             {
                 reliefPressure = value;
+                this.NotifyPropertyChanged("ReliefPressure");
+            }
+        }
+
+
+        private string scale_Color;
+        public string Scale_Color
+        {
+            get { return scale_Color; }
+            set
+            {
+                scale_Color = value;
+                this.NotifyPropertyChanged("Scale_Color");
+            }
+        }
+
+        private string inletLoad_Color;
+        public string InletLoad_Color
+        {
+            get { return inletLoad_Color; }
+            set
+            {
+                inletLoad_Color = value;
+                this.NotifyPropertyChanged("InletLoad");
+            }
+        }
+
+        private string outletPressure_Color;
+        public string OutletPressure_Color
+        {
+            get { return outletPressure_Color; }
+            set
+            {
+                outletPressure_Color = value;
+                this.NotifyPropertyChanged("OutletPressure");
+            }
+        }
+
+        private string surgeLoad_Color;
+        public string SurgeLoad_Color
+        {
+            get { return surgeLoad_Color; }
+            set
+            {
+                surgeLoad_Color = value;
+                this.NotifyPropertyChanged("SurgeLoad");
+            }
+        }
+
+        private string reliefMW_Color;
+        public string ReliefMW_Color
+        {
+            get { return reliefMW_Color; }
+            set
+            {
+                reliefMW_Color = value;
+                this.NotifyPropertyChanged("ReliefMW");
+            }
+        }
+
+        private string reliefload_Color;
+        public string Reliefload_Color
+        {
+            get { return reliefload_Color; }
+            set
+            {
+                reliefload_Color = value;
+                this.NotifyPropertyChanged("Reliefload");
+            }
+        }
+
+        private string reliefTemp_Color;
+        public string ReliefTemp_Color
+        {
+            get { return reliefTemp_Color; }
+            set
+            {
+                reliefTemp_Color = value;
+                this.NotifyPropertyChanged("ReliefTemp");
+            }
+        }
+
+        private string reliefPressure_Color;
+        public string ReliefPressure_Color
+        {
+            get { return reliefPressure_Color; }
+            set
+            {
+                reliefPressure_Color = value;
                 this.NotifyPropertyChanged("ReliefPressure");
             }
         }

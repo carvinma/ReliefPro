@@ -50,10 +50,16 @@ namespace ReliefProMain.Model.Compressors
             this.reliefload = model.Reliefload;
             this.reliefTemp = model.ReliefTemperature;
             this.reliefPressure = model.ReliefPressure;
+
+            this.ratedCapacity_Color = model.RatedCapacity_Color;
+            this.reliefMW_Color = model.ReliefMW_Color;
+            this.reliefload_Color = model.Reliefload_Color;
+            this.reliefTemp_Color = model.ReliefTemperature_Color;
+            this.reliefPressure_Color = model.ReliefPressure_Color;
         }
 
-        private double ratedCapacity;
-        public double RatedCapacity
+        private double? ratedCapacity;
+        public double? RatedCapacity
         {
             get { return ratedCapacity; }
             set
@@ -63,8 +69,8 @@ namespace ReliefProMain.Model.Compressors
             }
         }
 
-        private double reliefMW;
-        public double ReliefMW
+        private double? reliefMW;
+        public double? ReliefMW
         {
             get { return reliefMW; }
             set
@@ -74,8 +80,8 @@ namespace ReliefProMain.Model.Compressors
             }
         }
 
-        private double reliefload;
-        public double Reliefload
+        private double? reliefload;
+        public double? Reliefload
         {
             get { return reliefload; }
             set
@@ -85,24 +91,79 @@ namespace ReliefProMain.Model.Compressors
             }
         }
 
-        private double reliefTemp;
-        public double ReliefTemp
+        private double? reliefTemperature;
+        public double? ReliefTemperature
         {
-            get { return reliefTemp; }
+            get { return reliefTemperature; }
             set
             {
-                reliefTemp = value;
-                this.NotifyPropertyChanged("ReliefTemp");
+                reliefTemperature = value;
+                this.NotifyPropertyChanged("ReliefTemperature");
             }
         }
 
-        private double reliefPressure;
-        public double ReliefPressure
+        private double? reliefPressure;
+        public double? ReliefPressure
         {
             get { return reliefPressure; }
             set
             {
                 reliefPressure = value;
+                this.NotifyPropertyChanged("ReliefPressure");
+            }
+        }
+
+        private string ratedCapacity_Color;
+        public string RatedCapacity_Color
+        {
+            get { return ratedCapacity_Color; }
+            set
+            {
+                ratedCapacity_Color = value;
+                this.NotifyPropertyChanged("RatedCapacity");
+            }
+        }
+
+        private string reliefMW_Color;
+        public string _Color
+        {
+            get { return reliefMW_Color; }
+            set
+            {
+                reliefMW_Color = value;
+                this.NotifyPropertyChanged("ReliefMW");
+            }
+        }
+
+        private string reliefload_Color;
+        public string Reliefload_Color
+        {
+            get { return reliefload_Color; }
+            set
+            {
+                reliefload_Color = value;
+                this.NotifyPropertyChanged("Reliefload");
+            }
+        }
+
+        private string reliefTemperature_Color;
+        public string ReliefTemperature_Color
+        {
+            get { return reliefTemperature_Color; }
+            set
+            {
+                reliefTemperature_Color = value;
+                this.NotifyPropertyChanged("ReliefTemp");
+            }
+        }
+
+        private string reliefPressure_Color;
+        public string ReliefPressure_Color
+        {
+            get { return reliefPressure_Color; }
+            set
+            {
+                reliefPressure_Color = value;
                 this.NotifyPropertyChanged("ReliefPressure");
             }
         }

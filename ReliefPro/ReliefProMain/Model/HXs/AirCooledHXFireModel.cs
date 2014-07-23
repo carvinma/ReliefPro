@@ -64,8 +64,8 @@ namespace ReliefProMain.Model.HXs
             this.reliefPressure = model.ReliefPressure;
         }
 
-        private double wettedBundle;
-        public double WettedBundle
+        private double? wettedBundle;
+        public double? WettedBundle
         {
             get { return wettedBundle; }
             set
@@ -74,8 +74,8 @@ namespace ReliefProMain.Model.HXs
                 NotifyPropertyChanged("WettedBundle");
             }
         }
-        private double pipingContingency;
-        public double PipingContingency
+        private double? pipingContingency;
+        public double? PipingContingency
         {
             get { return pipingContingency; }
             set
@@ -85,8 +85,8 @@ namespace ReliefProMain.Model.HXs
             }
         }
 
-        private double reliefMW;
-        public double ReliefMW
+       private double? reliefMW;
+        public double? ReliefMW
         {
             get { return reliefMW; }
             set
@@ -96,35 +96,90 @@ namespace ReliefProMain.Model.HXs
             }
         }
 
-        private double reliefload;
-        public double ReliefLoad
+        private double? reliefload;
+        public double? Reliefload
         {
             get { return reliefload; }
             set
             {
                 reliefload = value;
-                this.NotifyPropertyChanged("ReliefLoad");
+                this.NotifyPropertyChanged("Reliefload");
             }
         }
 
-        private double reliefTemperature;
-        public double ReliefTemperature
+        private double? reliefTemperature;
+        public double? ReliefTemperature
         {
             get { return reliefTemperature; }
             set
             {
                 reliefTemperature = value;
-                this.NotifyPropertyChanged("ReliefTemperature");
+                this.NotifyPropertyChanged("ReliefTemp");
             }
         }
 
-        private double reliefPressure;
-        public double ReliefPressure
+        private double? reliefPressure;
+        public double? ReliefPressure
         {
             get { return reliefPressure; }
             set
             {
                 reliefPressure = value;
+                this.NotifyPropertyChanged("ReliefPressure");
+            }
+        }
+
+        private string ratedCapacity_Color;
+        public string RatedCapacity_Color
+        {
+            get { return ratedCapacity_Color; }
+            set
+            {
+                ratedCapacity_Color = value;
+                this.NotifyPropertyChanged("RatedCapacity");
+            }
+        }
+
+        private string reliefMW_Color;
+        public string _Color
+        {
+            get { return reliefMW_Color; }
+            set
+            {
+                reliefMW_Color = value;
+                this.NotifyPropertyChanged("ReliefMW");
+            }
+        }
+
+        private string reliefload_Color;
+        public string Reliefload_Color
+        {
+            get { return reliefload_Color; }
+            set
+            {
+                reliefload_Color = value;
+                this.NotifyPropertyChanged("Reliefload");
+            }
+        }
+
+        private string reliefTemperature_Color;
+        public string ReliefTemperature_Color
+        {
+            get { return reliefTemperature_Color; }
+            set
+            {
+                reliefTemperature_Color = value;
+                this.NotifyPropertyChanged("ReliefTemp");
+            }
+        }
+
+        private string reliefPressure_Color;
+        public string ReliefPressure_Color
+        {
+            get { return reliefPressure_Color; }
+            set
+            {
+                reliefPressure_Color = value;
                 this.NotifyPropertyChanged("ReliefPressure");
             }
         }
