@@ -11,6 +11,14 @@
     <property name="DutyPercentage" column="DutyPercentage" type="Double"  />
     <property name="Duty" column="Duty" type="Double"  />
     <property name="HXID" column="HXID" type="Int32"  />
+    
+    <property name="DetailName_Color" column="DetailName_Color" type="String" length="255" />
+    <property name="ProcessSideFlowSource_Color" column="ProcessSideFlowSource_Color" type="String" length="255" />
+    <property name="Medium_Color" column="Medium_Color" type="String" length="255" />
+    <property name="MediumSideFlowSource_Color" column="MediumSideFlowSource_Color" type="String" length="255" />
+    <property name="DutyPercentage_Color" column="DutyPercentage_Color" type="String" length="255"  />
+    <property name="Duty_Color" column="Duty_Color" type="String" length="255"  />
+    <property name="HXID_Color" column="HXID_Color" type="String" length="255"  />
 
   </class>
 </hibernate-mapping>

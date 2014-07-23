@@ -7,11 +7,21 @@
     <property name="ScenarioID" column="ScenarioID" type="Int32"  />
     <property name="DetailID" column="DetailID" type="Int32"  />
     <property name="DutyLost" column="DutyLost" type="Boolean"  />
-    <property name="DutyCalcFactor" column="DutyCalcFactor" type="Double" length="255" />
+    <property name="DutyCalcFactor" column="DutyCalcFactor" type="Double" />
     <property name="IsPinch" column="IsPinch" type="Boolean"  />
-    <property name="PinchFactor" column="PinchFactor" type="Double" length="255" />
+    <property name="PinchFactor" column="PinchFactor" type="Double"  />
     <property name="DetailName" column="DetailName" type="String" length="255" />
     <property name="HeaterType" column="HeaterType" type="Int32" />
     <property name="Medium" column="Medium" type="String" length="255" />
+
+    <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"  />
+    <property name="DetailID_Color" column="DetailID_Color" type="String" length="255"  />
+    <property name="DutyLost_Color" column="DutyLost_Color" type="String" length="255" />
+    <property name="DutyCalcFactor_Color" column="DutyCalcFactor_Color" type="String" length="255" />
+    <property name="IsPinch_Color" column="IsPinch_Color" type="String" length="255" />
+    <property name="PinchFactor_Color" column="PinchFactor_Color" type="String" length="255" />
+    <property name="DetailName_Color" column="DetailName_Color" type="String" length="255" />
+    <property name="HeaterType_Color" column="HeaterType_Color" type="String" length="255" />
+    <property name="Medium_Color" column="Medium_Color" type="String" length="255" />
   </class>
 </hibernate-mapping>

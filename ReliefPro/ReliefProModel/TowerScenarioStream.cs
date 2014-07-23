@@ -15,5 +15,12 @@ namespace ReliefProModel
         public virtual double? FlowCalcFactor { get; set; }
         public virtual string SourceType { get; set; }
         public virtual bool IsProduct { get; set; }
+
+        public virtual string ScenarioID_Color { get; set; }
+        public virtual string StreamName_Color { get; set; }
+        public virtual string FlowStop_Color { get; set; }
+        public virtual string FlowCalcFactor_Color { get; set; }
+        public virtual string SourceType_Color { get; set; }
+        public virtual string IsProduct_Color { get; set; }
     }
 }
