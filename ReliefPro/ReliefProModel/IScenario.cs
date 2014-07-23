@@ -12,5 +12,6 @@ namespace ReliefProModel
         double? ReliefMW { get; set; }
         double? ReliefTemperature { get; set; }
         double? ReliefPressure { get; set; }
+
     }
 }
