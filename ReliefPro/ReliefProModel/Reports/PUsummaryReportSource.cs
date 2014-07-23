@@ -10,7 +10,7 @@ namespace ReliefProModel.Reports
         public string Device { get; set; }
         public string ProtectedSystem { get; set; }
         public string DeviceType { get; set; }
-        public string SetPressure { get; set; }
+        public double? SetPressure { get; set; }
         public string DischargeTo { get; set; }
 
         public double? ScenarioReliefRate { get; set; }
