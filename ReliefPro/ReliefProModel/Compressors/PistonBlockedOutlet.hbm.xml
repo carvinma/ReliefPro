@@ -11,11 +11,11 @@
   <property name="ReliefTemperature" column="ReliefTemperature" type="Double"/>
   <property name="ReliefPressure" column="ReliefPressure" type="Double"/>
 
-  <property name="ScenarioID_Color" column="ScenarioID" type="String" length="255"/>
-  <property name="RatedCapacity_Color" column="RatedCapacity" type="String" length="255"/>
-  <property name="Reliefload_Color" column="Reliefload" type="String" length="255"/>
-  <property name="ReliefMW_Color" column="ReliefMW" type="String" length="255"/>
-  <property name="ReliefTemperature_Color" column="ReliefTemperature" type="String" length="255"/>
-  <property name="ReliefPressure_Color" column="ReliefPressure" type="String" length="255"/>
+  <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"/>
+  <property name="RatedCapacity_Color" column="RatedCapacity_Color" type="String" length="255"/>
+  <property name="Reliefload_Color" column="Reliefload_Color" type="String" length="255"/>
+  <property name="ReliefMW_Color" column="ReliefMW_Color" type="String" length="255"/>
+  <property name="ReliefTemperature_Color" column="ReliefTemperature_Color" type="String" length="255"/>
+  <property name="ReliefPressure_Color" column="ReliefPressure_Color" type="String" length="255"/>
 </class>
 </hibernate-mapping>
