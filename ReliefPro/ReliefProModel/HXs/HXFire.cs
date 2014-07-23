@@ -17,5 +17,13 @@ namespace ReliefProModel.HXs
         public virtual double? Elevation { get; set; }
         public virtual double? PipingContingency { get; set; }
 
+        public virtual string ScenarioID_Color { get; set; }
+        public virtual string ExposedToFire_Color { get; set; }
+        public virtual string Type_Color { get; set; }
+        public virtual string OD_Color { get; set; }
+        public virtual string Length_Color { get; set; }
+        public virtual string Elevation_Color { get; set; }
+        public virtual string PipingContingency_Color { get; set; }
+
     }
 }
