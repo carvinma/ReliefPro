@@ -10,7 +10,7 @@ namespace ReliefProModel.HXs
         public virtual int ID { get; set; }
         public virtual int ScenarioID { get; set; }
 
-        public virtual string ExposedToFire { get; set; }
+        public virtual double? ExposedToFire { get; set; }
         public virtual string Type { get; set; }
         public virtual double? OD { get; set; }
         public virtual double? Length { get; set; }
