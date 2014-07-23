@@ -8,5 +8,10 @@
   <property name="HXName" column="HXName" type="String"/>
   <property name="Stop" column="Stop" type="Boolean"/>
   <property name="DutyFactor" column="DutyFactor" type="Double"/>
+
+  <property name="GeneralFailureCommonID_Color" column="GeneralFailureCommonID_Color" type="String" length="255"/>
+  <property name="HXName_Color" column="HXName_Color" type="String" length="255"/>
+  <property name="Stop_Color" column="Stop_Color" type="String" length="255"/>
+  <property name="DutyFactor_Color" column="DutyFactor_Color" type="String" length="255"/>
 </class>
 </hibernate-mapping>

@@ -22,5 +22,17 @@ namespace ReliefProModel.ReactorLoops
         public virtual double? ReliefMW { get; set; }
         public virtual double? ReliefTemperature { get; set; }
         public virtual double? ReliefPressure { get; set; }
+
+        public virtual string ScenarioID_Color { get; set; }
+        public virtual string GeneralType_Color { get; set; } //0-GeneralCoolingWaterFailure,1-GeneralElectricPowerFailure
+        public virtual string RecycleCompressorFailure_Color { get; set; }
+        public virtual string CalcInjectionWaterStream_Color { get; set; }
+        public virtual string InjectionWaterStream_Color { get; set; }
+        public virtual string CalcHXNetworkColdStream_Color { get; set; }
+        public virtual string HXNetworkColdStream_Color { get; set; }
+        public virtual string ReliefLoad_Color { get; set; }
+        public virtual string ReliefMW_Color { get; set; }
+        public virtual string ReliefTemperature_Color { get; set; }
+        public virtual string ReliefPressure_Color { get; set; }
     }
 }

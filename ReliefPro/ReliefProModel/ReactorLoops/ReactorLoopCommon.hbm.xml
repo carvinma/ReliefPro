@@ -14,5 +14,16 @@
   <property name="ReliefTemperature" column="ReliefTemperature" type="Double"/>
   <property name="ReliefCpCv" column="ReliefCpCv" type="Double"/>
   <property name="ReliefZ" column="ReliefZ" type="Double"/>
+
+  <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"/>
+  <property name="ReactorType_Color" column="ReactorType_Color" type="String" length="255"/>
+  <property name="EffluentTemperature_Color" column="EffluentTemperature_Color" type="String" length="255"/>
+  <property name="MaxGasRate_Color" column="MaxGasRate_Color" type="String" length="255"/>
+  <property name="TotalPurgeRate_Color" column="TotalPurgeRate_Color" type="String" length="255"/>
+  <property name="ReliefLoad_Color" column="ReliefLoad_Color" type="String" length="255"/>
+  <property name="ReliefMW_Color" column="ReliefMW_Color" type="String" length="255"/>
+  <property name="ReliefTemperature_Color" column="ReliefTemperature_Color" type="String" length="255"/>
+  <property name="ReliefCpCv_Color" column="ReliefCpCv_Color" type="String" length="255"/>
+  <property name="ReliefZ_Color" column="ReliefZ_Color" type="String" length="255"/>
 </class>
 </hibernate-mapping>

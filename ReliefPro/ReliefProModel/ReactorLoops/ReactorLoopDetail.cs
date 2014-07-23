@@ -12,5 +12,9 @@ namespace ReliefProModel.ReactorLoops
         public virtual int ReactorLoopID { get; set; }
         public virtual int ReactorType { get; set; }
         public virtual string DetailInfo { get; set; }
+
+        public virtual string ReactorLoopID_Color { get; set; }
+        public virtual string ReactorType_Color { get; set; }
+        public virtual string DetailInfo_Color { get; set; }
     }
 }

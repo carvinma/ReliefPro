@@ -11,5 +11,13 @@
   <property name="ColdHighPressureSeparator" column="ColdHighPressureSeparator" type="String"/>
   <property name="HXNetworkColdStream" column="HXNetworkColdStream" type="String"/>
   <property name="InjectionWaterStream" column="InjectionWaterStream" type="String"/>
+
+  <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"/>
+  <property name="EffluentStream_Color" column="EffluentStream_Color" type="String" length="255"/>
+  <property name="ColdReactorFeedStream_Color" column="ColdReactorFeedStream_Color" type="String" length="255"/>
+  <property name="HotHighPressureSeparator_Color" column="HotHighPressureSeparator_Color" type="String" length="255"/>
+  <property name="ColdHighPressureSeparator_Color" column="ColdHighPressureSeparator_Color" type="String" length="255"/>
+  <property name="HXNetworkColdStream_Color" column="HXNetworkColdStream_Color" type="String" length="255"/>
+  <property name="InjectionWaterStream_Color" column="InjectionWaterStream_Color" type="String" length="255"/>
 </class>
 </hibernate-mapping>

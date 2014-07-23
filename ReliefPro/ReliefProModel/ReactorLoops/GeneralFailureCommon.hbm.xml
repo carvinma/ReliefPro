@@ -18,5 +18,18 @@
   <property name="ReliefMW" column="ReliefMW" type="Double"/>
   <property name="ReliefTemperature" column="ReliefTemperature" type="Double"/>
   <property name="ReliefPressure" column="ReliefPressure" type="Double"/>
+
+
+  <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"/>
+  <property name="GeneralType_Color" column="GeneralType_Color" type="String" length="255"/>
+  <property name="RecycleCompressorFailure_Color" column="RecycleCompressorFailure_Color" type="String" length="255"/>
+  <property name="CalcInjectionWaterStream_Color" column="CalcInjectionWaterStream_Color" type="String" length="255"/>
+  <property name="InjectionWaterStream_Color" column="InjectionWaterStream_Color" type="String" length="255"/>
+  <property name="CalcHXNetworkColdStream_Color" column="CalcHXNetworkColdStream_Color" type="String" length="255"/>
+  <property name="HXNetworkColdStream_Color" column="HXNetworkColdStream_Color" type="String" length="255"/>
+  <property name="ReliefLoad_Color" column="ReliefLoad_Color" type="String" length="255"/>
+  <property name="ReliefMW_Color" column="ReliefMW_Color" type="String" length="255"/>
+  <property name="ReliefTemperature_Color" column="ReliefTemperature_Color" type="String" length="255"/>
+  <property name="ReliefPressure_Color" column="ReliefPressure_Color" type="String" length="255"/>
 </class>
 </hibernate-mapping>
