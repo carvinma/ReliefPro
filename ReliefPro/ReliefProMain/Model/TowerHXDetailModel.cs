@@ -116,8 +116,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        private string _DutyPercentage;
-        public string DutyPercentage
+        private double? _DutyPercentage;
+        public double? DutyPercentage
         {
             get
             {
@@ -132,8 +132,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        private string _Duty;
-        public string Duty
+        private double? _Duty;
+        public double? Duty
         {
             get
             {

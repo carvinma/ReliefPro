@@ -346,7 +346,6 @@
     <Compile Include="UCControl\UCDrawingControl.xaml.cs">
       <DependentUpon>UCDrawingControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\ListDemoViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\Common\ImportDataView.xaml.cs">
       <DependentUpon>ImportDataView.xaml</DependentUpon>
@@ -725,7 +724,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\ListDemoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

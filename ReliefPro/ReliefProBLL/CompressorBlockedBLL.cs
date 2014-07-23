@@ -48,9 +48,9 @@ namespace ReliefProLL
             CentrifugalBlockedOutlet Model = new CentrifugalBlockedOutlet();
             Model = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
-            Model.Reliefload = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.Reliefload);
-            Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature);
-            Model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);
+            Model.Reliefload = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.Reliefload.Value);
+            Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature.Value);
+            Model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure.Value);
             return Model;
         }
         public PistonBlockedOutlet ReadConvertPistonModel(PistonBlockedOutlet model)
@@ -64,9 +64,9 @@ namespace ReliefProLL
             PistonBlockedOutlet Model = new PistonBlockedOutlet();
             Model = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
-            Model.Reliefload = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.Reliefload);
-            Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature);
-            Model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);
+            Model.Reliefload = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.Reliefload.Value);
+            Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature.Value);
+            Model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure.Value);
             return Model;
         }
 
@@ -75,10 +75,10 @@ namespace ReliefProLL
             dbcentrifugal.Save(SessionPS, model);
             ScenarioDAL db = new ScenarioDAL();
             var sModel = db.GetModel(model.ScenarioID, SessionPS);
-            sModel.ReliefLoad = model.Reliefload.ToString();
-            sModel.ReliefPressure = model.ReliefPressure.ToString();
-            sModel.ReliefTemperature = model.ReliefTemperature.ToString();
-            sModel.ReliefMW = model.ReliefMW.ToString();
+            sModel.ReliefLoad = model.Reliefload;
+            sModel.ReliefPressure = model.ReliefPressure;
+            sModel.ReliefTemperature = model.ReliefTemperature;
+            sModel.ReliefMW = model.ReliefMW;
             db.Update(sModel, SessionPS);
         }
 
@@ -87,10 +87,10 @@ namespace ReliefProLL
             dbpiston.Save(SessionPS, model);
             ScenarioDAL db = new ScenarioDAL();
             var sModel = db.GetModel(model.ScenarioID, SessionPS);
-            sModel.ReliefLoad = model.Reliefload.ToString();
-            sModel.ReliefPressure = model.ReliefPressure.ToString();
-            sModel.ReliefTemperature = model.ReliefTemperature.ToString();
-            sModel.ReliefMW = model.ReliefMW.ToString();
+            sModel.ReliefLoad = model.Reliefload;
+            sModel.ReliefPressure = model.ReliefPressure;
+            sModel.ReliefTemperature = model.ReliefTemperature;
+            sModel.ReliefMW = model.ReliefMW;
             db.Update(sModel, SessionPS);
         }
     }

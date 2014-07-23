@@ -11,7 +11,7 @@ namespace ReliefProMain.Model
         public PSVModel()
         {
             PSVName = "PSV1";
-            ValveNumber = "2";
+            ValveNumber = 2;
         }
         private string _PSVName;
         public string PSVName
@@ -40,8 +40,8 @@ namespace ReliefProMain.Model
             }
         }
 
-        private string _ValveNumber;
-        public string ValveNumber
+        private int _ValveNumber;
+        public int ValveNumber
         {
             get
             {
@@ -50,11 +50,11 @@ namespace ReliefProMain.Model
             set
             {
                 this._ValveNumber = value;
-                int number = int.Parse(_ValveNumber);
+                int number = _ValveNumber;
                 if (number == 1)
-                    ReliefPressureFactor = "1.0";
+                    ReliefPressureFactor = 1.0;
                 else
-                    ReliefPressureFactor = "1.16";
+                    ReliefPressureFactor = 1.16;
                 NotifyPropertyChanged("ValveNumber");
             }
         }
@@ -72,8 +72,8 @@ namespace ReliefProMain.Model
                 NotifyPropertyChanged("ValveType");
             }
         }
-        private string _Pressure;
-        public string Pressure
+        private double? _Pressure;
+        public double? Pressure
         {
             get
             {
@@ -98,8 +98,8 @@ namespace ReliefProMain.Model
                 NotifyPropertyChanged("PressureUnit");
             }
         }
-        private string _ReliefPressureFactor;
-        public string ReliefPressureFactor
+        private double? _ReliefPressureFactor;
+        public double? ReliefPressureFactor
         {
             get
             {
@@ -124,8 +124,8 @@ namespace ReliefProMain.Model
                 NotifyPropertyChanged("DrumPSVName");
             }
         }
-        private string _DrumPressure;
-        public string DrumPressure
+        private double? _DrumPressure;
+        public double? DrumPressure
         {
             get
             {

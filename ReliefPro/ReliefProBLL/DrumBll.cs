@@ -33,10 +33,10 @@ namespace ReliefProBLL
             ScenarioDAL db = new ScenarioDAL();
             var sModel = db.GetModel(model.ScenarioID, SessionPS);
 
-            sModel.ReliefLoad = reliefLoad.ToString();
-            sModel.ReliefMW = reliefMW.ToString();
-            sModel.ReliefTemperature = reliefT.ToString();
-            sModel.ReliefPressure = ScenarioReliefPressure(SessionPS).ToString();
+            sModel.ReliefLoad = reliefLoad;
+            sModel.ReliefMW = reliefMW;
+            sModel.ReliefTemperature = reliefT;
+            sModel.ReliefPressure = ScenarioReliefPressure(SessionPS);
             db.Update(sModel, SessionPS);
 
         }
@@ -49,7 +49,7 @@ namespace ReliefProBLL
             if (lstDrum.Count() > 0)
             {
                 Model.DrumType = lstDrum[0].DrumType;
-                Model.NormalFlashDuty = double.Parse(lstDrum[0].Duty);
+                Model.NormalFlashDuty =lstDrum[0].Duty;
                 Model.DrumID = lstDrum[0].ID;
             }
 
@@ -65,20 +65,18 @@ namespace ReliefProBLL
             List<Source> listSource = dbSource.GetAllList(SessionPS).ToList();
             if (listSource.Count() > 0)
             {
-                double MaxPressure = 0;
-                if (double.TryParse(listSource.First().MaxPossiblePressure, out MaxPressure))
+                if (listSource.First().MaxPossiblePressure!=null)
                 {
-                    Model.MaxPressure = MaxPressure;
+                    Model.MaxPressure = listSource.First().MaxPossiblePressure.Value;
                 }
             }
 
             List<CustomStream> liststream = dbsteam.GetAllList(SessionPS, false).ToList();
             if (liststream.Count() > 0)
             {
-                double MaxStreamRate = 0;
-                if (double.TryParse(liststream.First().WeightFlow, out MaxStreamRate))
+                if (liststream.First().WeightFlow!=null)
                 {
-                    Model.MaxStreamRate = MaxStreamRate;
+                    Model.MaxStreamRate = liststream.First().WeightFlow.Value;
                 }
             }
             return Model;
@@ -95,9 +93,9 @@ namespace ReliefProBLL
             DrumBlockedOutlet outletModel = new DrumBlockedOutlet();
             outletModel = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPlan);
-            outletModel.MaxPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, outletModel.MaxPressure);
-            outletModel.MaxStreamRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserWeightFlow, outletModel.MaxStreamRate);
-            outletModel.NormalFlashDuty = UnitConvert.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(), uomEnum.UserEnthalpyDuty, outletModel.NormalFlashDuty);
+            outletModel.MaxPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, outletModel.MaxPressure.Value);
+            outletModel.MaxStreamRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserWeightFlow, outletModel.MaxStreamRate.Value);
+            outletModel.NormalFlashDuty = UnitConvert.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(), uomEnum.UserEnthalpyDuty, outletModel.NormalFlashDuty.Value);
             return outletModel;
         }
 
@@ -108,8 +106,8 @@ namespace ReliefProBLL
             var streamModel = stream.GetAllList(SessionPS).FirstOrDefault();
             if (streamModel != null)
             {
-                if (!string.IsNullOrEmpty(streamModel.Pressure))
-                    return double.Parse(streamModel.Pressure);
+                if (streamModel.Pressure!=null)
+                    return streamModel.Pressure.Value;
             }
 
             return 0;
@@ -120,8 +118,8 @@ namespace ReliefProBLL
             var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
             if (psvModel != null)
             {
-                if (!string.IsNullOrEmpty(psvModel.Pressure))
-                    return double.Parse(psvModel.Pressure) * double.Parse(psvModel.ReliefPressureFactor);
+                if (psvModel.Pressure!=null)
+                    return psvModel.Pressure.Value * psvModel.ReliefPressureFactor.Value;
             }
             return 0;
         }
@@ -132,8 +130,8 @@ namespace ReliefProBLL
             var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
             if (psvModel != null)
             {
-                if (!string.IsNullOrEmpty(psvModel.Pressure))
-                    return double.Parse(psvModel.Pressure);
+                if (psvModel.Pressure!=null)
+                    return psvModel.Pressure.Value;
             }
             return 0;
         }

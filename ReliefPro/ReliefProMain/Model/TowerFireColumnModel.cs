@@ -27,7 +27,7 @@ namespace ReliefProMain.Model
             }
         }
 
-        public string NumberOfSegment
+        public int NumberOfSegment
         {
             get
             {
@@ -37,11 +37,11 @@ namespace ReliefProMain.Model
             {
                 this.Instance.NumberOfSegment = value;
                 _Details.Clear();
-                int count = int.Parse(this.Instance.NumberOfSegment);
+                int count =this.Instance.NumberOfSegment;
                 for (int i = 0; i < count; i++)
                 {
                     TowerFireColumnDetail detail=new TowerFireColumnDetail();
-                    detail.Segment = (i + 1).ToString();
+                    detail.Segment = i + 1;
                     detail.ColumnID = Instance.ID;
                     _Details.Add(detail);
                 }

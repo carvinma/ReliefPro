@@ -426,7 +426,7 @@ namespace ReliefProMain.Model
             }
         }
         private string equipmentExist_Color;
-        public string EquipmentExist
+        public string EquipmentExist_Color
         {
             get { return equipmentExist_Color; }
             set

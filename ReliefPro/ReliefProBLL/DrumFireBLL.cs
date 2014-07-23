@@ -45,18 +45,12 @@ namespace ReliefProLL
             var sModel = db.GetModel(ScenarioID, SessionPS);
             if (sModel != null)
             {
-                if (!string.IsNullOrEmpty(sModel.ReliefLoad))
-                    firemodel.ReliefLoad = double.Parse(sModel.ReliefLoad);
-                if (!string.IsNullOrEmpty(sModel.ReliefPressure))
-                    firemodel.ReliefPressure = double.Parse(sModel.ReliefPressure);
-                if (!string.IsNullOrEmpty(sModel.ReliefTemperature))
-                    firemodel.ReliefTemperature = double.Parse(sModel.ReliefTemperature);
-                if (!string.IsNullOrEmpty(sModel.ReliefMW))
-                    firemodel.ReliefMW = double.Parse(sModel.ReliefMW);
-                if (!string.IsNullOrEmpty(sModel.ReliefCpCv))
-                    firemodel.ReliefCpCv = double.Parse(sModel.ReliefCpCv);
-                if (!string.IsNullOrEmpty(sModel.ReliefZ))
-                    firemodel.ReliefZ = double.Parse(sModel.ReliefZ);
+                firemodel.ReliefLoad = sModel.ReliefLoad;
+                firemodel.ReliefPressure = sModel.ReliefPressure;
+                firemodel.ReliefTemperature = sModel.ReliefTemperature;
+                firemodel.ReliefMW = sModel.ReliefMW;
+                firemodel.ReliefCpCv = sModel.ReliefCpCv;
+                firemodel.ReliefZ = sModel.ReliefZ;
             }
             return firemodel;
         }
@@ -72,12 +66,12 @@ namespace ReliefProLL
             DrumFireCalc fireModel = new DrumFireCalc();
             fireModel = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
-            fireModel.WettedArea = UnitConvert.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, fireModel.WettedArea);
-            fireModel.LatentHeat = UnitConvert.Convert(UOMLib.UOMEnum.SpecificEnthalpy.ToString(), uomEnum.UserSpecificEnthalpy, fireModel.LatentHeat);
-            fireModel.CrackingHeat = UnitConvert.Convert(UOMLib.UOMEnum.SpecificEnthalpy.ToString(), uomEnum.UserSpecificEnthalpy, fireModel.CrackingHeat);
-            fireModel.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserWeightFlow, fireModel.ReliefLoad);
-            fireModel.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, fireModel.ReliefPressure);
-            fireModel.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.ReliefTemperature);
+            fireModel.WettedArea = UnitConvert.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, fireModel.WettedArea.Value);
+            fireModel.LatentHeat = UnitConvert.Convert(UOMLib.UOMEnum.SpecificEnthalpy.ToString(), uomEnum.UserSpecificEnthalpy, fireModel.LatentHeat.Value);
+            fireModel.CrackingHeat = UnitConvert.Convert(UOMLib.UOMEnum.SpecificEnthalpy.ToString(), uomEnum.UserSpecificEnthalpy, fireModel.CrackingHeat.Value);
+            fireModel.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserWeightFlow, fireModel.ReliefLoad.Value);
+            fireModel.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, fireModel.ReliefPressure.Value);
+            fireModel.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.ReliefTemperature.Value);
             return fireModel;
         }
 
@@ -99,12 +93,12 @@ namespace ReliefProLL
                 DrumSizeDAL dbSize = new DrumSizeDAL();
                 dbSize.SaveDrumSize(SessionPS, sizeModel);
             }
-            sModel.ReliefLoad = model.ReliefLoad.ToString();
-            sModel.ReliefPressure = model.ReliefPressure.ToString();
-            sModel.ReliefTemperature = model.ReliefTemperature.ToString();
-            sModel.ReliefMW = model.ReliefMW.ToString();
-            sModel.ReliefCpCv = model.ReliefCpCv.ToString();
-            sModel.ReliefZ = model.ReliefZ.ToString();
+            sModel.ReliefLoad = model.ReliefLoad;
+            sModel.ReliefPressure = model.ReliefPressure;
+            sModel.ReliefTemperature = model.ReliefTemperature;
+            sModel.ReliefMW = model.ReliefMW;
+            sModel.ReliefCpCv = model.ReliefCpCv;
+            sModel.ReliefZ = model.ReliefZ;
             db.Update(sModel, SessionPS);
 
         }

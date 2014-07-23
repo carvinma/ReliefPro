@@ -47,9 +47,9 @@ namespace ReliefProMain.ViewModel.Compressors
         {
             model.dbmodel.RatedCapacity = model.RatedCapacity;
             model.dbmodel.ReliefMW = model.ReliefMW;
-            model.dbmodel.Reliefload = UnitConvert.Convert(model.ReliefloadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.Reliefload);
-            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTempUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemp);
-            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
+            model.dbmodel.Reliefload = UnitConvert.Convert(model.ReliefloadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.Reliefload.Value);
+            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTempUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature.Value);
+            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure.Value);
         }
         private void CalcResult(object obj)
         {
@@ -58,10 +58,10 @@ namespace ReliefProMain.ViewModel.Compressors
             if (csList.Count > 0)
             {
                 CustomStream cs = csList[0];
-                model.ReliefMW = double.Parse(cs.BulkMwOfPhase);
-                model.ReliefPressure = double.Parse(cs.Pressure);
-                model.Reliefload = double.Parse(cs.WeightFlow) * model.RatedCapacity;
-                model.ReliefTemp = double.Parse(cs.Temperature);
+                model.ReliefMW = cs.BulkMwOfPhase;
+                model.ReliefPressure = cs.Pressure;
+                model.Reliefload = cs.WeightFlow.Value * model.RatedCapacity.Value;
+                model.ReliefTemperature = cs.Temperature;
             }
         }
         private void Save(object obj)

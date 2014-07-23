@@ -54,11 +54,11 @@ namespace ReliefProBLL
             DrumFireFluid fireModel = new DrumFireFluid();
             fireModel = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
-            fireModel.ExposedVesse = UnitConvert.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, fireModel.ExposedVesse);
-            fireModel.NormaTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.NormaTemperature);
-            fireModel.NormalPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, fireModel.NormalPressure);
-            fireModel.PSVPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, fireModel.PSVPressure);
-            fireModel.TW = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.TW);
+            fireModel.ExposedVesse = UnitConvert.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, fireModel.ExposedVesse.Value);
+            fireModel.NormaTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.NormaTemperature.Value);
+            fireModel.NormalPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, fireModel.NormalPressure.Value);
+            fireModel.PSVPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, fireModel.PSVPressure.Value);
+            fireModel.TW = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.TW.Value);
             return fireModel;
         }
         private Tuple<double, double, double, double> GetFluidInfo()
@@ -68,20 +68,20 @@ namespace ReliefProBLL
             var lstStream = dbs.GetAllList(SessionPS).Where(p => p.IsProduct == true && p.ProdType == "1").ToList();
             if (lstStream.Count > 0)
             {
-                double.TryParse(lstStream[0].BulkMwOfPhase, out s);
+                s = lstStream[0].BulkMwOfPhase.Value;
             }
             DrumDAL dbd = new DrumDAL();
             var lstDrum = dbd.GetAllList(SessionPS);
             if (lstDrum.Count > 0)
             {
-                double.TryParse(lstDrum[0].Temperature, out drumt);
-                double.TryParse(lstDrum[0].Pressure, out drump);
+                drumt = lstDrum[0].Temperature.Value;
+                drump = lstDrum[0].Pressure.Value;
             }
             PSVDAL dbpsv = new PSVDAL();
             var lstPsv = dbpsv.GetAllList(SessionPS);
             if (lstPsv.Count > 0)
             {
-                double.TryParse(lstPsv[0].Pressure, out psv);
+                psv = lstPsv[0].Pressure.Value;
             }
             return Tuple.Create(s, drumt, drump, psv);
         }

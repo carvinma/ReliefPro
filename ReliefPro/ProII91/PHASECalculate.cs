@@ -60,9 +60,9 @@ namespace ProII91
             data1.Append("\tPROP STRM=").Append(streamName.ToUpper()).Append(",&\n");
             data1.Append("\t PRESSURE(MPAG)=").Append(stream.Pressure).Append(",&\n");
             data1.Append("\t TEMPERATURE(C)=").Append(stream.Temperature).Append(",&\n");
-            string rate = stream.TotalMolarRate;
-            if (rate == "")
-                rate = "1";
+            double? rate = stream.TotalMolarRate;
+            if (rate == null)
+                rate = 1;
             data1.Append("\t RATE(KGM/S)=").Append(rate).Append(",&\n");
             string com = stream.TotalComposition;
             string Componentid =stream.Componentid;

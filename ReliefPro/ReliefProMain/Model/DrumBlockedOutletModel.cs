@@ -214,7 +214,7 @@ namespace ReliefProMain.Model
             }
         }
         public string reboilerPinch_Color;
-        public string ReboilerPinch
+        public string ReboilerPinch_Color
         {
             get { return reboilerPinch_Color; }
             set

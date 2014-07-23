@@ -122,14 +122,14 @@ namespace ReliefProMain.ViewModel
             PSVModel model = new PSVModel();
             model.ID = psv.ID;
             model.PSVName = m.PSVName;
-            model.Pressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, double.Parse(m.Pressure)).ToString();
+            model.Pressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, m.Pressure.Value);
             model.ReliefPressureFactor = m.ReliefPressureFactor;
             model.ValveNumber = m.ValveNumber;
             model.ValveType = m.ValveType;
             model.DrumPSVName = m.DrumPSVName;
-            if (!string.IsNullOrEmpty(m.DrumPressure))
+            if (m.DrumPressure!=null)
             {
-                model.DrumPressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, double.Parse(m.DrumPressure)).ToString();
+                model.DrumPressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, m.DrumPressure.Value);
             }
             model.Description = m.Description;
             model.LocationDescription = m.LocationDescription;
@@ -138,14 +138,14 @@ namespace ReliefProMain.ViewModel
         private void ConvertModel(PSVModel m, ref PSV model)
         {
             model.PSVName = m.PSVName;
-            model.Pressure = UnitConvert.Convert(psvPressureUnit, UOMEnum.Pressure, double.Parse(m.Pressure)).ToString();
+            model.Pressure = UnitConvert.Convert(psvPressureUnit, UOMEnum.Pressure, m.Pressure.Value);
             model.ReliefPressureFactor = m.ReliefPressureFactor;
             model.ValveNumber = m.ValveNumber;
             model.ValveType = m.ValveType;
             model.DrumPSVName = m.DrumPSVName;
-            if (!string.IsNullOrEmpty(m.DrumPressure))
+            if (m.DrumPressure!=null)
             {
-                model.DrumPressure = UnitConvert.Convert(DrumPressureUnit, UOMEnum.Pressure, double.Parse(m.DrumPressure)).ToString();
+                model.DrumPressure = UnitConvert.Convert(DrumPressureUnit, UOMEnum.Pressure, m.DrumPressure.Value);
             }
             model.Description = m.Description;
             model.LocationDescription = m.LocationDescription;
@@ -173,12 +173,12 @@ namespace ReliefProMain.ViewModel
                 MessageBox.Show("PSV Name can't be empty.", "Message Box");
                 return;
             }
-            if (string.IsNullOrEmpty(CurrentModel.Pressure))
+            if (CurrentModel.Pressure==null)
             {
                 MessageBox.Show("PSV Pressure can't be empty.", "Message Box");
                 return;
             }
-            if (string.IsNullOrEmpty(CurrentModel.ReliefPressureFactor))
+            if (CurrentModel.ReliefPressureFactor==null)
             {
                 MessageBox.Show("Relief Pressure Factor can't be empty.", "Message Box");
                 return;
@@ -239,7 +239,7 @@ namespace ReliefProMain.ViewModel
             string copyFile=dirCopyStream+@"\"+fileName;
             File.Copy(PrzFile, copyFile,true);
             CustomStream stream = CopyTop1Liquid(copyFile);
-            double internPressure = UnitConvert.Convert("MPAG", "KPA", double.Parse(stream.Pressure));
+            double internPressure = UnitConvert.Convert("MPAG", "KPA", stream.Pressure.Value);
             if (internPressure == 0)
             {
                 MessageBox.Show("Please Rerun this ProII file and save it.","Message Box");
@@ -248,7 +248,7 @@ namespace ReliefProMain.ViewModel
             PROIIFileOperator.DecompressProIIFile(PrzFile, tempdir);
             
             string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
-            double ReliefPressure = double.Parse(CurrentModel.ReliefPressureFactor) * double.Parse(CurrentModel.Pressure);
+            double ReliefPressure = CurrentModel.ReliefPressureFactor.Value * CurrentModel.Pressure.Value;
             
             double criticalPressure = 0;
             bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase, ref criticalPressure);
@@ -264,13 +264,13 @@ namespace ReliefProMain.ViewModel
                 b = CalcLatent(content, ReliefPressure, stream, dirLatent, ref latentVapor, ref latentLiquid);
                 if (b == false)
                     return;
-                latentEnthalpy = double.Parse(latentVapor.SpEnthalpy) - double.Parse(latentLiquid.SpEnthalpy);
-                ReliefTemperature = double.Parse(latentVapor.Temperature);
+                latentEnthalpy = latentVapor.SpEnthalpy.Value - latentLiquid.SpEnthalpy.Value;
+                ReliefTemperature = latentVapor.Temperature.Value;
             }
             else
             {
                 latentEnthalpy = 116.3152;
-                ReliefTemperature = double.Parse(stream.Temperature);
+                ReliefTemperature = stream.Temperature.Value;
             }
             IList<CustomStream> products = null;
             CustomStreamDAL dbstream = new CustomStreamDAL();
@@ -284,17 +284,17 @@ namespace ReliefProMain.ViewModel
             for (int i = 1; i <= count; i++)
             {
                 CustomStream p = products[i - 1];
-                if (p.TotalMolarRate != "0")
+                if (p.TotalMolarRate != null && p.TotalMolarRate.Value>0)
                 {
                     IFlashCalculate fc = ProIIFactory.CreateFlashCalculate(PrzVersion);
                     string gd = Guid.NewGuid().ToString();
                     string vapor = "S_" + gd.Substring(0, 5).ToUpper();
                     string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
                     string prodtype = p.ProdType;
-                    string tray = p.Tray;
+                    int tray = p.Tray;
                     string streamname = p.StreamName;
-                    string strPressure = p.Pressure;
-                    string strTemperature = p.Temperature;
+                    double strPressure = p.Pressure.Value;
+                    double strTemperature = p.Temperature.Value;
                     string f = string.Empty;
 
 
@@ -302,13 +302,13 @@ namespace ReliefProMain.ViewModel
                     if (!Directory.Exists(dirflash))
                         Directory.CreateDirectory(dirflash);
                     double prodpressure = 0;
-                    if (strPressure != "")
+                    if (p.Pressure!=null)
                     {
-                        prodpressure = double.Parse(strPressure);
+                        prodpressure = p.Pressure.Value;
                     }
                     string usablecontent = PROIIFileOperator.getUsableContent(p.StreamName, tempdir);
 
-                    if (prodtype == "4" || (prodtype == "2" && tray == "1")) // 2个条件是等同含义，后者是有气有液
+                    if (prodtype == "4" || (prodtype == "2" && tray == 1)) // 2个条件是等同含义，后者是有气有液
                     {
                         f = fc.Calculate(usablecontent, 1, ReliefPressure.ToString(), 4, "", p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
                     }
@@ -319,7 +319,7 @@ namespace ReliefProMain.ViewModel
                     }
                     else
                     {
-                        double press = ReliefPressure + (double.Parse(p.Pressure) - overHeadPressure);
+                        double press = ReliefPressure + (p.Pressure.Value - overHeadPressure);
                         f = fc.Calculate(usablecontent, 1, press.ToString(), 3, "", p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
                     }
                     if (ImportResult == 1 || ImportResult == 2)
@@ -379,14 +379,14 @@ namespace ReliefProMain.ViewModel
             {
                 FlashResult fr = listFlashResult[i - 1];
                 string prodtype = fr.ProdType;
-                string tray = fr.Tray;
+                int tray = fr.Tray;
                 if (fr.PrzFile != "")
                 {
                     CustomStream cs = null;
                     IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
                     reader.InitProIIReader(fr.PrzFile);
                     TowerFlashProduct product = new TowerFlashProduct();
-                    if (prodtype == "4" || (prodtype == "2" && tray == "1") || prodtype == "3" || prodtype == "6")
+                    if (prodtype == "4" || (prodtype == "2" && tray == 1) || prodtype == "3" || prodtype == "6")
                     {
                         ProIIStreamData data = reader.GetSteamInfo(fr.VaporName);
                         cs = ProIIToDefault.ConvertProIIStreamToCustomStream(data);
@@ -417,17 +417,17 @@ namespace ReliefProMain.ViewModel
 
 
             Critical c = new Critical();
-            c.CriticalPressure = criticalPressure.ToString() ;
+            c.CriticalPressure = criticalPressure ;
             CriticalDAL dbcritical = new CriticalDAL();
             dbcritical.Add(c, SessionProtectedSystem);
 
 
 
             Latent latent = new Latent();
-            latent.LatentEnthalpy = latentEnthalpy.ToString();
-            latent.ReliefTemperature = ReliefTemperature.ToString();
+            latent.LatentEnthalpy = latentEnthalpy;
+            latent.ReliefTemperature = ReliefTemperature;
             latent.ReliefOHWeightFlow = latentVapor.BulkMwOfPhase;
-            latent.ReliefPressure = (double.Parse(CurrentModel.Pressure) * double.Parse(CurrentModel.ReliefPressureFactor)).ToString();
+            latent.ReliefPressure = CurrentModel.Pressure.Value * CurrentModel.ReliefPressureFactor.Value;
             dblatent.Add(latent, SessionProtectedSystem);
 
             foreach (TowerFlashProduct p in listFlashProduct)
@@ -457,7 +457,7 @@ namespace ReliefProMain.ViewModel
             {
                 if (cs.ProdType == "3" || cs.ProdType == "4")
                 {
-                    overHeadPressure = double.Parse(cs.Pressure);
+                    overHeadPressure = cs.Pressure.Value;
                     break;
                 }
             }

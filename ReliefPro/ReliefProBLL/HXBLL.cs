@@ -41,15 +41,15 @@ namespace ReliefProBLL
             HXBlockedOutlet Model = new HXBlockedOutlet();
             Model = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
-            Model.NormalDuty = UnitConvert.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(), uomEnum.UserEnthalpyDuty, Model.NormalDuty);
-            Model.NormalHotTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.NormalHotTemperature);
-            Model.NormalColdInletTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.NormalColdInletTemperature);
-            Model.NormalColdOutletTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.NormalColdOutletTemperature);
+            Model.NormalDuty = UnitConvert.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(), uomEnum.UserEnthalpyDuty, Model.NormalDuty.Value);
+            Model.NormalHotTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.NormalHotTemperature.Value);
+            Model.NormalColdInletTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.NormalColdInletTemperature.Value);
+            Model.NormalColdOutletTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.NormalColdOutletTemperature.Value);
 
-            Model.LatentPoint = UnitConvert.Convert(UOMLib.UOMEnum.SpecificEnthalpy.ToString(), uomEnum.UserSpecificEnthalpy, Model.LatentPoint);
-            Model.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.ReliefLoad);
-            Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature);
-            Model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);
+            Model.LatentPoint = UnitConvert.Convert(UOMLib.UOMEnum.SpecificEnthalpy.ToString(), uomEnum.UserSpecificEnthalpy, Model.LatentPoint.Value);
+            Model.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.ReliefLoad.Value);
+            Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature.Value);
+            Model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure.Value);
             return Model;
         }
 
@@ -72,10 +72,10 @@ namespace ReliefProBLL
             Model = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
 
-            Model.WettedBundle = UnitConvert.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, Model.WettedBundle);
-            Model.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.ReliefLoad);
-            Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature);
-            Model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);
+            Model.WettedBundle = UnitConvert.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, Model.WettedBundle.Value);
+            Model.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.ReliefLoad.Value);
+            Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature.Value);
+            Model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure.Value);
             return Model;
         }
 
@@ -98,9 +98,9 @@ namespace ReliefProBLL
             Model = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
 
-            Model.OD = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, Model.OD);
-            Model.Length = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, Model.Length);
-            Model.Elevation = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, Model.Elevation);
+            Model.OD = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, Model.OD.Value);
+            Model.Length = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, Model.Length.Value);
+            Model.Elevation = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, Model.Elevation.Value);
             return Model;
         }
 
@@ -108,10 +108,10 @@ namespace ReliefProBLL
         {
             ScenarioDAL db = new ScenarioDAL();
             var sModel = db.GetModel(model.ScenarioID, SessionPS);
-            sModel.ReliefLoad = model.ReliefLoad.ToString();
-            sModel.ReliefPressure = model.ReliefPressure.ToString();
-            sModel.ReliefTemperature = model.ReliefTemperature.ToString();
-            sModel.ReliefMW = model.ReliefMW.ToString();
+            sModel.ReliefLoad = model.ReliefLoad;
+            sModel.ReliefPressure = model.ReliefPressure;
+            sModel.ReliefTemperature = model.ReliefTemperature;
+            sModel.ReliefMW = model.ReliefMW;
             db.Update(sModel, SessionPS);
         }
 

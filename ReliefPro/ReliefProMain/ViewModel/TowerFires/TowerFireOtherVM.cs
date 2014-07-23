@@ -33,7 +33,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             {
                 model = new TowerFireOther();
                 model.EqID = EqID;
-                model.PipingContingency = "10";
+                model.PipingContingency = 10;
                 db.Add(model, SessionProtectedSystem);
             }
 
@@ -55,21 +55,21 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private void Update(object window)
         {
-            model.WettedArea = model.WettedArea.Trim();
-            if (model.WettedArea == "")
+            model.WettedArea = model.WettedArea;
+            if (model.WettedArea == null)
             {
                 throw new ArgumentException("Please type in WettedArea.");
             }
-            
-                TowerFireOtherDAL db = new TowerFireOtherDAL();
-                TowerFireOther m = db.GetModel(model.ID, SessionProtectedSystem);
-                m.WettedArea = model.WettedArea;
-                m.PipingContingency = model.PipingContingency;
-                db.Update(m, SessionProtectedSystem);
-                SessionProtectedSystem.Flush();
-                Area = double.Parse(m.WettedArea);
-                Area = Area + Area * double.Parse(model.PipingContingency) / 100;
-            
+
+            TowerFireOtherDAL db = new TowerFireOtherDAL();
+            TowerFireOther m = db.GetModel(model.ID, SessionProtectedSystem);
+            m.WettedArea = model.WettedArea;
+            m.PipingContingency = model.PipingContingency;
+            db.Update(m, SessionProtectedSystem);
+            SessionProtectedSystem.Flush();
+            Area = m.WettedArea.Value;
+            Area = Area + Area * model.PipingContingency.Value / 100;
+
             System.Windows.Window wd = window as System.Windows.Window;
 
             if (wd != null)

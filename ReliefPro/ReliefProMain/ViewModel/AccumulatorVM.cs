@@ -48,8 +48,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private string _Diameter;
-        public string Diameter
+        private double? _Diameter;
+        public double? Diameter
         {
             get
             {
@@ -58,16 +58,16 @@ namespace ReliefProMain.ViewModel
             set
             {
                 this._Diameter = value;
-                if (Horiz && string.IsNullOrEmpty(NormalLiquidLevel) && !string.IsNullOrEmpty(_Diameter))
+                if (Horiz  && _NormalLiquidLevel != null && _Diameter != null)
                 {
-                    NormalLiquidLevel = (double.Parse(Diameter) / 2).ToString();
+                    NormalLiquidLevel = _Diameter.Value / 2;
                 }
                 OnPropertyChanged("Diameter");
             }
         }
 
-        private string _Length;
-        public string Length
+        private double? _Length;
+        public double? Length
         {
             get
             {
@@ -76,15 +76,15 @@ namespace ReliefProMain.ViewModel
             set
             {
                 this._Length = value;
-                if (Vertical && string.IsNullOrEmpty(NormalLiquidLevel) && !string.IsNullOrEmpty(_Length))
+                if (Vertical && _NormalLiquidLevel != null && _Length != null)
                 {
-                    NormalLiquidLevel = (double.Parse(Length) / 2).ToString();
+                    NormalLiquidLevel = _Length.Value/ 2;                    
                 }
                 OnPropertyChanged("Length");
             }
         }
-        private string _NormalLiquidLevel;
-        public string NormalLiquidLevel
+        private double? _NormalLiquidLevel;
+        public double? NormalLiquidLevel
         {
             get
             {
@@ -97,7 +97,48 @@ namespace ReliefProMain.ViewModel
             }
         }
 
+        private string _Diameter_Color;
+        public string Diameter_Color
+        {
+            get
+            {
+                return this._Diameter_Color;
+            }
+            set
+            {
+                this._Diameter_Color = value;
 
+                OnPropertyChanged("Diameter_Color");
+            }
+        }
+
+        private string _Length_Color;
+        public string Length_Color
+        {
+            get
+            {
+                return this._Length_Color;
+            }
+            set
+            {
+                this._Length_Color = value;
+
+                OnPropertyChanged("Length_Color");
+            }
+        }
+        private string _NormalLiquidLevel_Color;
+        public string NormalLiquidLevel_Color
+        {
+            get
+            {
+                return this._NormalLiquidLevel_Color;
+            }
+            set
+            {
+                this._NormalLiquidLevel_Color = value;
+                OnPropertyChanged("NormalLiquidLevel_Color");
+            }
+        }
 
         public List<string> AccumulatorTypes { get; set; }
         public Accumulator CurrentAccumulator { get; set; }
@@ -183,21 +224,21 @@ namespace ReliefProMain.ViewModel
 
         private void ReadConvert()
         {
-            if (!string.IsNullOrEmpty(_Diameter))
-                _Diameter = UnitConvert.Convert(UOMEnum.Length, _DiameterUnit, double.Parse(_Diameter)).ToString();
-            if (!string.IsNullOrEmpty(_Length))
-                _Length = UnitConvert.Convert(UOMEnum.Length, _LengthUnit, double.Parse(_Length)).ToString();
-            if (!string.IsNullOrEmpty(_NormalLiquidLevel))
-                _NormalLiquidLevel = UnitConvert.Convert(UOMEnum.Length, _NormalLiquidLevelUnit, double.Parse(_NormalLiquidLevel)).ToString();
+            if (_Diameter!=null)
+                _Diameter = UnitConvert.Convert(UOMEnum.Length, _DiameterUnit, _Diameter.Value);
+            if (_Length!=null)
+                _Length = UnitConvert.Convert(UOMEnum.Length, _LengthUnit, _Length.Value);
+            if (_NormalLiquidLevel!=null)
+                _NormalLiquidLevel = UnitConvert.Convert(UOMEnum.Length, _NormalLiquidLevelUnit, _NormalLiquidLevel.Value);
         }
         private void WriteConvert()
         {
-            if (!string.IsNullOrEmpty(_Diameter))
-                _Diameter = UnitConvert.Convert(_DiameterUnit, UOMEnum.Length, double.Parse(_Diameter)).ToString();
-            if (!string.IsNullOrEmpty(_Length))
-                _Length = UnitConvert.Convert(_LengthUnit, UOMEnum.Length, double.Parse(_Length)).ToString();
-            if (!string.IsNullOrEmpty(_NormalLiquidLevel))
-                _NormalLiquidLevel = UnitConvert.Convert(_NormalLiquidLevelUnit, UOMEnum.Length, double.Parse(_NormalLiquidLevel)).ToString();
+            if (_Diameter != null)
+                _Diameter = UnitConvert.Convert(_DiameterUnit, UOMEnum.Length, _Diameter.Value);
+            if (_Length != null)
+                _Length = UnitConvert.Convert(_LengthUnit, UOMEnum.Length, _Length.Value);
+            if (_NormalLiquidLevel != null)
+                _NormalLiquidLevel = UnitConvert.Convert(_NormalLiquidLevelUnit, UOMEnum.Length, _NormalLiquidLevel.Value);
         }
         private void InitUnit()
         {

@@ -35,10 +35,10 @@ namespace ReliefProMain.ViewModel.Compressors
                 CustomStreamDAL csDAL = new CustomStreamDAL();
                 IList<CustomStream> inletList = csDAL.GetAllList(SessionPS, false);
                 BlockedModel.Scale = 1.05;
-                BlockedModel.InletLoad = double.Parse(inletList[0].WeightFlow) / double.Parse(inletList[0].BulkDensityAct);
+                BlockedModel.InletLoad = inletList[0].WeightFlow.Value / inletList[0].BulkDensityAct.Value;
 
                 IList<CustomStream> outletList = csDAL.GetAllList(SessionPS, true);
-                BlockedModel.OutletPressure = double.Parse(outletList[0].Pressure);
+                BlockedModel.OutletPressure = outletList[0].Pressure.Value;
             }
             BlockedModel = blockBLL.ReadConvertCentrifugalModel(BlockedModel);
             
@@ -54,9 +54,9 @@ namespace ReliefProMain.ViewModel.Compressors
         {
             model.dbmodel.Scale = model.Scale;
             model.dbmodel.ReliefMW = model.ReliefMW;
-            model.dbmodel.Reliefload = UnitConvert.Convert(model.ReliefloadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.Reliefload);
-            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTempUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemp);
-            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
+            model.dbmodel.Reliefload = UnitConvert.Convert(model.ReliefloadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.Reliefload.Value);
+            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTempUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature.Value);
+            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure.Value);
             model.dbmodel.InletLoad = model.InletLoad;
             model.dbmodel.OutletPressure = model.OutletPressure;
             model.dbmodel.SurgeLoad = model.SurgeLoad;
@@ -68,10 +68,10 @@ namespace ReliefProMain.ViewModel.Compressors
         {
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionPS);
-            double PDesign = double.Parse(psv.ReliefPressureFactor) * double.Parse(psv.Pressure);
-            double QNormal = model.InletLoad;
-            double PressureNormal = model.OutletPressure;
-            double QSurgeNormal = model.SurgeLoad;
+            double PDesign = psv.ReliefPressureFactor.Value * psv.Pressure.Value;
+            double QNormal = model.InletLoad.Value;
+            double PressureNormal = model.OutletPressure.Value;
+            double QSurgeNormal = model.SurgeLoad.Value;
             double PSurgeNormal = 1;
             double bNormal = 0; //y=-0.25x+b
 
@@ -123,10 +123,10 @@ namespace ReliefProMain.ViewModel.Compressors
             if (csList.Count > 0)
             {
                 CustomStream cs = csList[0];
-                double density = double.Parse(cs.BulkDensityAct);
+                double density = cs.BulkDensityAct.Value;
                 model.Reliefload = density * v;
-                model.ReliefMW = double.Parse(cs.BulkMwOfPhase);
-                model.ReliefTemp = double.Parse(cs.Temperature);
+                model.ReliefMW = cs.BulkMwOfPhase;
+                model.ReliefTemperature = cs.Temperature;
                 model.ReliefPressure = PDesign;
 
             }

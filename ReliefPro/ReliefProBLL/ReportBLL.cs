@@ -64,23 +64,23 @@ namespace ReliefProLL
                 listPlantDS.Add(new PUsummaryReportSource
                 {
                     Device = p,
-                    PowerReliefRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefLoad")),
-                    PowerVolumeRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefVolumeRate")),
-                    PowerMWorSpGr = GetDouble(GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefMW")),
-                    PowerT = GetDouble(GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefTemperature")),
-                    PowerCpCv = GetDouble(GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefCpCv")),
+                    PowerReliefRate = GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefLoad"),
+                    PowerVolumeRate = GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefVolumeRate"),
+                    PowerMWorSpGr = GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefMW"),
+                    PowerT = GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefTemperature"),
+                    PowerCpCv = GetPlantSumResult(listPlant, CalcType, "PowerDS", "ReliefCpCv"),
 
-                    WaterReliefRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefLoad")),
-                    WaterVolumeRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefVolumeRate")),
-                    WaterMWorSpGr = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefMW")),
-                    WaterT = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefTemperature")),
-                    WaterCpCv = GetDouble(GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefCpCv")),
+                    WaterReliefRate = GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefLoad"),
+                    WaterVolumeRate = GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefVolumeRate"),
+                    WaterMWorSpGr = GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefMW"),
+                    WaterT = GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefTemperature"),
+                    WaterCpCv = GetPlantSumResult(listPlant, CalcType, "WaterDS", "ReliefCpCv"),
 
-                    AirReliefRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefLoad")),
-                    AirVolumeRate = GetDouble(GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefVolumeRate")),
-                    AirMWorSpGr = GetDouble(GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefMW")),
-                    AirT = GetDouble(GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefTemperature")),
-                    AirCpCv = GetDouble(GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefCpCv")),
+                    AirReliefRate = GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefLoad"),
+                    AirVolumeRate = GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefVolumeRate"),
+                    AirMWorSpGr = GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefMW"),
+                    AirT = GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefTemperature"),
+                    AirCpCv = GetPlantSumResult(listPlant, CalcType, "AirDS", "ReliefCpCv"),
                 });
                 CalcType++;
             });
@@ -114,7 +114,7 @@ namespace ReliefProLL
 
             return plant;
         }
-        private string GetPlantSumResult<T>(List<T> ProcessUnitReprotDS, int CalcType, string ScenarioType, string ScenarioProperty)
+        private double GetPlantSumResult<T>(List<T> ProcessUnitReprotDS, int CalcType, string ScenarioType, string ScenarioProperty)
         {
             if (CalcType == 2)
             {
@@ -152,11 +152,11 @@ namespace ReliefProLL
                 return reslut;
             return null;
         }
-        private string CalcPlantSumResult()
+        private double CalcPlantSumResult()
         {
             double Result = tmpResult.Sum();
             tmpResult.Clear();
-            return Result.ToString();
+            return Result;
         }
 
         private void DirectSummation(double value)
@@ -236,11 +236,11 @@ namespace ReliefProLL
         #region  ControllingSingleScenarioDS
         private void InitControllingSingleScenarioDS(ref PUsummaryGridDS gridDs)
         {
-            double maxPowerDS = !string.IsNullOrEmpty(gridDs.PowerDS.ReliefLoad) ? double.Parse(gridDs.PowerDS.ReliefLoad) : 0;
-            double maxWaterDS = !string.IsNullOrEmpty(gridDs.WaterDS.ReliefLoad) ? double.Parse(gridDs.WaterDS.ReliefLoad) : 0;
-            double maxAirDS = !string.IsNullOrEmpty(gridDs.AirDS.ReliefLoad) ? double.Parse(gridDs.AirDS.ReliefLoad) : 0;
-            double maxSteamDS = !string.IsNullOrEmpty(gridDs.SteamDS.ReliefLoad) ? double.Parse(gridDs.SteamDS.ReliefLoad) : 0;
-            double maxFireDS = !string.IsNullOrEmpty(gridDs.FireDS.ReliefLoad) ? double.Parse(gridDs.FireDS.ReliefLoad) : 0;
+            double maxPowerDS = gridDs.PowerDS.ReliefLoad.Value;
+            double maxWaterDS = gridDs.WaterDS.ReliefLoad.Value;
+            double maxAirDS = gridDs.AirDS.ReliefLoad.Value;
+            double maxSteamDS = gridDs.SteamDS.ReliefLoad.Value;
+            double maxFireDS = gridDs.FireDS.ReliefLoad.Value;
             List<double> MaxList = new List<double> { maxPowerDS, maxWaterDS, maxAirDS, maxSteamDS, maxFireDS };
             var v = MaxList.Select((m, index) => new { index, m }).OrderByDescending(n => n.m).Take(1);
             int Index = 0;
@@ -292,11 +292,11 @@ namespace ReliefProLL
                 if (pback != null && pback != 0)
                 {
                     double W, T, MW;
-                    W = !string.IsNullOrEmpty(p.ReliefLoad) ? double.Parse(p.ReliefLoad) : 0;
-                    T = !string.IsNullOrEmpty(p.ReliefTemperature) ? double.Parse(p.ReliefTemperature) : 0;
-                    MW = !string.IsNullOrEmpty(p.ReliefMW) ? double.Parse(p.ReliefMW) : 0;
+                    W = p.ReliefLoad.Value;
+                    T = p.ReliefTemperature.Value;
+                    MW = p.ReliefMW.Value;
                     if (MW != 0)
-                        p.ReliefVolumeRate = ((W * 8.314 * (T + 273.15)) / (pback * MW)).ToString();
+                        p.ReliefVolumeRate = (W * 8.314 * (T + 273.15)) / (pback * MW);
                 }
                 ScenarioBag.Add(p);
             });
@@ -372,10 +372,10 @@ namespace ReliefProLL
             MaxDs.SingleDS.ReliefLoad = listGrid.Max(p =>
             {
                 if (p.SingleDS == null) return null;
-                if (!string.IsNullOrEmpty(p.SingleDS.ReliefLoad))
-                    return double.Parse(p.SingleDS.ReliefLoad);
+                if (p.SingleDS.ReliefLoad!=null)
+                    return p.SingleDS.ReliefLoad.Value;
                 else return null;
-            }).ToString();
+            });
             listGrid.Insert(listGrid.Count - 1, MaxDs);
             return listGrid;
         }

@@ -41,11 +41,11 @@ namespace ReliefProMain.ViewModel.TowerFires
             if (model.Instance == null)
             {
                 model.Instance = new TowerFireColumn();
-                model.Instance.NumberOfSegment = "0";
+                model.Instance.NumberOfSegment = 0;
                 model.Instance = new TowerFireColumn();
-                model.Instance.NumberOfSegment = "0";
+                model.Instance.NumberOfSegment = 0;
                 model.Instance.EqID = EqID;
-                model.Instance.PipingContingency = "10";
+                model.Instance.PipingContingency = 10;
                 try
                 {
                     db.Add(model.Instance, sessionProtectedSystem);

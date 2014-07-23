@@ -75,7 +75,7 @@ namespace ReliefProMain.ViewModel
                     else
                     {
                         UpStreamNames = GetFlashProducts(dicEqData[SelectedVessel]);
-                        MaxOperatingPressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(dicEqData[_SelectedVessel].PressCalc)).ToString();
+                        MaxOperatingPressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(dicEqData[_SelectedVessel].PressCalc));
                     }
                 }
 
@@ -84,8 +84,8 @@ namespace ReliefProMain.ViewModel
         }
 
 
-        private string _ReliefTemperature { get; set; }
-        public string ReliefTemperature
+        private double? _ReliefTemperature { get; set; }
+        public double? ReliefTemperature
         {
             get { return _ReliefTemperature; }
             set
@@ -94,8 +94,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefTemperature");
             }
         }
-        private string _ReliefPressure { get; set; }
-        public string ReliefPressure
+        private double? _ReliefPressure { get; set; }
+        public double? ReliefPressure
         {
             get { return _ReliefPressure; }
             set
@@ -104,8 +104,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefPressure");
             }
         }
-        private string _ReliefLoad { get; set; }
-        public string ReliefLoad
+        private double? _ReliefLoad { get; set; }
+        public double? ReliefLoad
         {
             get { return _ReliefLoad; }
             set
@@ -114,8 +114,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefLoad");
             }
         }
-        private string _ReliefMW { get; set; }
-        public string ReliefMW
+        private double? _ReliefMW { get; set; }
+        public double? ReliefMW
         {
             get { return _ReliefMW; }
             set
@@ -125,8 +125,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private string _MaxOperatingPressure { get; set; }
-        public string MaxOperatingPressure
+        private double? _MaxOperatingPressure { get; set; }
+        public double? MaxOperatingPressure
         {
             get { return _MaxOperatingPressure; }
             set
@@ -137,8 +137,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private string _CV { get; set; }
-        public string CV
+        private double? _CV { get; set; }
+        public double? CV
         {
             get { return _CV; }
             set
@@ -407,26 +407,26 @@ namespace ReliefProMain.ViewModel
             return list;
         }
 
-        private string GetProIIStreamDataPressure(string streamName)
+        private double GetProIIStreamDataPressure(string streamName)
         {
-            string press = "0";
+            double press = 0;
 
             ProIIStreamDataDAL db = new ProIIStreamDataDAL();
 
             ProIIStreamData data = db.GetModel(SessionPlant, streamName, SourceFile);
             CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(data);
-            press = cs.Pressure;
+            press = cs.Pressure.Value;
 
             return press;
         }
 
 
-        private double Darcy(string Rmass, string Cv, string UPStreamPressure, string DownStreamPressure)
+        private double Darcy(double Rmass, double Cv, double UPStreamPressure, double DownStreamPressure)
         {
-            double dRmass = double.Parse(Rmass);
-            double dCv = double.Parse(Cv);
-            double dUPStreamPressure = double.Parse(UPStreamPressure);
-            double dDownStreamPressure = double.Parse(DownStreamPressure);
+            double dRmass = Rmass;
+            double dCv = Cv;
+            double dUPStreamPressure = UPStreamPressure;
+            double dDownStreamPressure = DownStreamPressure;
             double detaP = dUPStreamPressure - dDownStreamPressure;
             if (detaP < 0)
                 return 0;
@@ -437,7 +437,7 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private void LiquidFlashing(string Rmass, string Cv, string UPStreamPressure, string DownStreamPressure, string przFile, ref string FLReliefLoad, ref string FLReliefMW, ref string FLReliefTemperature)
+        private void LiquidFlashing(double Rmass, double Cv, double UPStreamPressure, double DownStreamPressure, string przFile, ref double FLReliefLoad, ref double FLReliefMW, ref double FLReliefTemperature)
         {
             string rMass = string.Empty;
 
@@ -477,17 +477,17 @@ namespace ReliefProMain.ViewModel
                 return;
             }
             CustomStream vaporStream = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIStreamData);
-            if (!string.IsNullOrEmpty(vaporStream.WeightFlow) && CurrentEqNormalVapor != null)
+            if (vaporStream.WeightFlow!=null && CurrentEqNormalVapor != null)
             {
-                FLReliefLoad = (double.Parse(vaporStream.WeightFlow) - double.Parse(CurrentEqNormalVapor.WeightFlow)).ToString();
+                FLReliefLoad = vaporStream.WeightFlow.Value - CurrentEqNormalVapor.WeightFlow.Value;
                 FLReliefMW = vaporStream.BulkMwOfPhase;
                 FLReliefTemperature = vaporStream.Temperature;
             }
             else
             {
-                FLReliefLoad = "0";
-                FLReliefMW = "0";
-                FLReliefTemperature = "0";
+                FLReliefLoad = 0;
+                FLReliefMW = 0;
+                FLReliefTemperature = 0;
             }
 
         }
