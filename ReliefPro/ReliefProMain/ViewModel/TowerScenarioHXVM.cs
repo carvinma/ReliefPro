@@ -162,7 +162,7 @@ namespace ReliefProMain.ViewModel
             foreach (TowerScenarioHX hx in list)
             {
                 double duty = GetCondenserDetailDuty(SessionProtectedSystem, hx.DetailID);
-                ScenarioCondenserDuty = ScenarioCondenserDuty + hx.DutyCalcFactor * duty;
+                ScenarioCondenserDuty = ScenarioCondenserDuty + hx.DutyCalcFactor.Value * duty;
                 TowerScenarioHXModel shx = new TowerScenarioHXModel(hx);
                 Details.Add(shx);
                 dicHXs.Add(shx.ID, shx);
@@ -201,34 +201,34 @@ namespace ReliefProMain.ViewModel
             double diameter = 0;
             double liquidlevel = 0;
             double length = 0;
-            if (string.IsNullOrEmpty(CurrentAccumulator.Diameter))
+            if (CurrentAccumulator.Diameter==null)
             {
                 MessageBox.Show("Accumulator's diameter cann't be empty.","Message Box");
                 return;
             }
             else
             {
-                diameter = double.Parse(CurrentAccumulator.Diameter);
+                diameter = CurrentAccumulator.Diameter.Value;
             }
 
-            if (string.IsNullOrEmpty(CurrentAccumulator.NormalLiquidLevel))
+            if (CurrentAccumulator.NormalLiquidLevel==null)
             {
                 MessageBox.Show("Accumulator's normal liquid level cann't be empty.", "Message Box");
                 return;
             }
             else
             {
-                liquidlevel = double.Parse(CurrentAccumulator.NormalLiquidLevel);
+                liquidlevel = CurrentAccumulator.NormalLiquidLevel.Value;
             }
 
-            if (string.IsNullOrEmpty(CurrentAccumulator.Length))
+            if (CurrentAccumulator.Length==null)
             {
                 MessageBox.Show("Accumulator's length cann't be empty.", "Message Box");
                 return;
             }
             else
             {
-                length = double.Parse(CurrentAccumulator.Length);
+                length = CurrentAccumulator.Length.Value;
             }
 
             accumulatorTotalVolume = 3.14159 * Math.Pow(diameter, 2) * length / 4 + 3.14159 * Math.Pow(diameter, 3) / 12;
@@ -253,7 +253,7 @@ namespace ReliefProMain.ViewModel
             Latent model=db.GetModel(Session);
             if (model != null)
             {
-                r = double.Parse(model.LatentEnthalpy);
+                r = model.LatentEnthalpy.Value;
             }
             return r;
         }
@@ -264,7 +264,7 @@ namespace ReliefProMain.ViewModel
             LatentProduct model = db.GetModel(Session, "2");
             if (model != null)
             {
-                r = double.Parse(model.BulkDensityAct);
+                r = model.BulkDensityAct.Value;
             }
             return r;
         }
@@ -275,7 +275,7 @@ namespace ReliefProMain.ViewModel
             TowerHXDetail model = db.GetModel(Session,id);
             if (model != null)
             {
-                r = double.Parse(model.Duty);
+                r = model.Duty.Value;
             }
             return r;
         }
@@ -289,10 +289,10 @@ namespace ReliefProMain.ViewModel
             {
                 foreach (CustomStream s in list)
                 {
-                    if (s.TotalMolarRate != "0")
+                    if (s.TotalMolarRate != null && s.TotalMolarRate!=0)
                     {
-                        double weightflow = double.Parse(s.WeightFlow);
-                        double bulkdensityact = double.Parse(s.BulkDensityAct);
+                        double weightflow = s.WeightFlow.Value;
+                        double bulkdensityact = s.BulkDensityAct.Value;
                         if (s.ProdType == "2" || s.ProdType == "6")
                         {
                             r = r + weightflow / bulkdensityact;
@@ -322,9 +322,9 @@ namespace ReliefProMain.ViewModel
             if (v.ShowDialog() == true)
             {
                 SelectedHX.IsPinch = vm.IsPinch;
-                if (vm.Factor != "")
+                if (vm.Factor != null)
                 {
-                    SelectedHX.PinchFactor = double.Parse(vm.Factor);
+                    SelectedHX.PinchFactor = vm.Factor.Value;
                 }
             }
         }

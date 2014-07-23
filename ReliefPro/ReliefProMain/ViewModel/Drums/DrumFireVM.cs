@@ -123,13 +123,13 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void WriteConvertModel()
         {
-            model.dbmodel.WettedArea = UnitConvert.Convert(model.WettedAreaUnit, UOMLib.UOMEnum.Area.ToString(), model.WettedArea);
-            model.dbmodel.LatentHeat = UnitConvert.Convert(model.LatentHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.LatentHeat);
-            model.dbmodel.CrackingHeat = UnitConvert.Convert(model.CrackingHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.CrackingHeat);
-            model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad);
-            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
-            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
-            model.dbmodel.DesignPressure = UnitConvert.Convert(model.DesignPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.DesignPressure);
+            model.dbmodel.WettedArea = UnitConvert.Convert(model.WettedAreaUnit, UOMLib.UOMEnum.Area.ToString(), model.WettedArea.Value);
+            model.dbmodel.LatentHeat = UnitConvert.Convert(model.LatentHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.LatentHeat.Value);
+            model.dbmodel.CrackingHeat = UnitConvert.Convert(model.CrackingHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.CrackingHeat.Value);
+            model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad.Value);
+            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure.Value);
+            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature.Value);
+            model.dbmodel.DesignPressure = UnitConvert.Convert(model.DesignPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.DesignPressure.Value);
             
             model.dbmodel.ReliefMW = model.ReliefMW;
             model.dbmodel.ReliefCpCv = model.ReliefCpCv;
@@ -160,7 +160,7 @@ namespace ReliefProMain.ViewModel.Drums
                         sizeModel = sizeBll.GetSizeModel(model.dbmodel.ID);
                     }
                     if (sizeModel != null)
-                        Area = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, sizeModel.NormalLiquidLevel, sizeModel.BootHeight, sizeModel.BootDiameter);
+                        Area = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation.Value, sizeModel.Diameter.Value, sizeModel.Length.Value, sizeModel.NormalLiquidLevel.Value, sizeModel.BootHeight.Value, sizeModel.BootDiameter.Value);
                     model.WettedArea = Area;
                 }
             }
@@ -182,7 +182,7 @@ namespace ReliefProMain.ViewModel.Drums
                         sizeModel = sizeBll.GetSizeModel(model.dbmodel.ID);
                     }
                     if (sizeModel != null)
-                        Area = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, sizeModel.NormalLiquidLevel, sizeModel.BootHeight, sizeModel.BootDiameter);
+                        Area = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation.Value, sizeModel.Diameter.Value, sizeModel.Length.Value, sizeModel.NormalLiquidLevel.Value, sizeModel.BootHeight.Value, sizeModel.BootDiameter.Value);
                     model.WettedArea = Area;
                 }
             }
@@ -203,12 +203,12 @@ namespace ReliefProMain.ViewModel.Drums
             {
                 fireFluidModel = vm.model.dbmodel;
                 //需要转换成算法GetFullVaporW 要求的单位。
-                double dmw = fireFluidModel.GasVaporMW;
-                double dp1 = fireFluidModel.PSVPressure * 1.21;
-                double darea = fireFluidModel.ExposedVesse;
-                double dtw = fireFluidModel.TW;
-                double dtn = fireFluidModel.NormaTemperature;
-                double dpn = fireFluidModel.NormalPressure;
+                double dmw = fireFluidModel.GasVaporMW.Value;
+                double dp1 = fireFluidModel.PSVPressure.Value * 1.21;
+                double darea = fireFluidModel.ExposedVesse.Value;
+                double dtw = fireFluidModel.TW.Value;
+                double dtn = fireFluidModel.NormaTemperature.Value;
+                double dpn = fireFluidModel.NormalPressure.Value;
 
 
 
@@ -239,7 +239,7 @@ namespace ReliefProMain.ViewModel.Drums
         private void CalcDrum()
         {
             double Qfire = 0;
-            double Area = model.WettedArea;
+            double Area = model.WettedArea.Value;
             //求出面积---你查看下把durmsize的 数据传进来。
             if (sizeModel == null)
             {
@@ -247,7 +247,7 @@ namespace ReliefProMain.ViewModel.Drums
                 sizeModel = sizeBll.GetSizeModel(model.dbmodel.ID);
             }
             if (sizeModel != null)
-                Area = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, sizeModel.NormalLiquidLevel, sizeModel.BootHeight, sizeModel.BootDiameter);
+                Area = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation.Value, sizeModel.Diameter.Value, sizeModel.Length.Value, sizeModel.NormalLiquidLevel.Value, sizeModel.BootHeight.Value, sizeModel.BootDiameter.Value);
             //计算Qfire
             double C1 = 0;
             if (model.EquipmentExist)
@@ -262,19 +262,19 @@ namespace ReliefProMain.ViewModel.Drums
 
             if (model.HeavyOilFluid)
             {
-                double L = model.CrackingHeat;
+                double L = model.CrackingHeat.Value;
                 model.ReliefLoad = Qfire / L;
                 model.ReliefMW = 114;
                 model.ReliefTemperature = 400;
             }
             else if (model.AllGas)
             {
-                double mw=fireFluidModel.GasVaporMW;
-                double area=UnitConvert.Convert("m2","ft2",fireFluidModel.ExposedVesse);
-                double tw=UnitConvert.Convert("C","R",fireFluidModel.TW);
-                double tn=UnitConvert.Convert("C","R",fireFluidModel.NormaTemperature);
-                double pn=UnitConvert.Convert("MPag","psia",fireFluidModel.NormalPressure);
-                double p1=UnitConvert.Convert("MPag","psia",fireFluidModel.PSVPressure*1.21);
+                double mw = fireFluidModel.GasVaporMW.Value;
+                double area = UnitConvert.Convert("m2", "ft2", fireFluidModel.ExposedVesse.Value);
+                double tw = UnitConvert.Convert("C", "R", fireFluidModel.TW.Value);
+                double tn = UnitConvert.Convert("C", "R", fireFluidModel.NormaTemperature.Value);
+                double pn = UnitConvert.Convert("MPag", "psia", fireFluidModel.NormalPressure.Value);
+                double p1 = UnitConvert.Convert("MPag", "psia", fireFluidModel.PSVPressure.Value * 1.21);
                 double t1 = 0;
                 double w= Algorithm.GetFullVaporW(mw, p1, area, tw, pn, tn, ref t1);
                 if (t1 >= tw)
@@ -324,11 +324,11 @@ namespace ReliefProMain.ViewModel.Drums
                     reader.ReleaseProIIReader();
                     CustomStream csVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
                     CustomStream csLiquid = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIliquid);
-                    double latent = double.Parse(csVapor.SpEnthalpy) - double.Parse(csLiquid.SpEnthalpy);
+                    double latent = csVapor.SpEnthalpy.Value - csLiquid.SpEnthalpy.Value;
 
                     double reliefLoad = Qfire / latent;
-                    double reliefMW = double.Parse(csVapor.BulkMwOfPhase);
-                    double reliefT = double.Parse(csVapor.Temperature);
+                    double reliefMW = csVapor.BulkMwOfPhase.Value;
+                    double reliefT = csVapor.Temperature.Value;
                     model.ReliefLoad = reliefLoad;
                     model.ReliefMW = reliefMW;
                     model.ReliefPressure = reliefPressure;
@@ -336,9 +336,9 @@ namespace ReliefProMain.ViewModel.Drums
                     model.LatentHeat = latent;
                     if (csVapor.BulkCPCVRatio != null)
                     {
-                        model.ReliefCpCv = double.Parse(csVapor.BulkCPCVRatio);
+                        model.ReliefCpCv = csVapor.BulkCPCVRatio.Value;
                     }
-                    model.ReliefZ = double.Parse(csVapor.VaporZFmKVal);
+                    model.ReliefZ = csVapor.VaporZFmKVal.Value;
 
 
                     FlashCalcResultDAL flashCalcResultDAL = new FlashCalcResultDAL();
@@ -354,7 +354,7 @@ namespace ReliefProMain.ViewModel.Drums
                 }
                 else
                 {
-                    double latent = model.LatentHeat;
+                    double latent = model.LatentHeat.Value;
                     model.ReliefLoad = Qfire / latent;
                     FlashCalcResultDAL flashCalcResultDAL = new FlashCalcResultDAL();
                     FlashCalcResult flashCalcResult = flashCalcResultDAL.GetModel(SessionProtectedSystem, ScenarioID);
@@ -372,7 +372,7 @@ namespace ReliefProMain.ViewModel.Drums
         private void CalcTank()
         {
             string targetUnit = "barg";
-            double designPressure = UnitConvert.Convert(model.DesignPressureUnit, targetUnit, model.DesignPressure);
+            double designPressure = UnitConvert.Convert(model.DesignPressureUnit, targetUnit, model.DesignPressure.Value);
 
             if (designPressure < 0)
             {
@@ -385,7 +385,7 @@ namespace ReliefProMain.ViewModel.Drums
                 SelectedHeatInputModel = "API 521";                
             }
             
-            double area=model.WettedArea;
+            double area=model.WettedArea.Value;
             double F=1;
             double L=1;
             double T=1;
@@ -394,7 +394,7 @@ namespace ReliefProMain.ViewModel.Drums
             
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionProtectedSystem);
-            double pressure = double.Parse(psv.Pressure);
+            double pressure = psv.Pressure.Value;
 
             double reliefFirePressure = pressure * 1.21;
             if (model.HeavyOilFluid)
@@ -423,7 +423,7 @@ namespace ReliefProMain.ViewModel.Drums
                 {
                     Q = Algorithm.CalcStorageTankLoad(area, designPressure, F, L, T, M); //这是按照2000 来计算的
                 }
-                L = model.CrackingHeat;
+                L = model.CrackingHeat.Value;
                 model.ReliefLoad = Q / L;
                 model.ReliefMW = 114;
                 model.ReliefTemperature = 400;
@@ -461,12 +461,12 @@ namespace ReliefProMain.ViewModel.Drums
                             reader.ReleaseProIIReader();
                             CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
                             CustomStream liquidFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
-                            double latent = double.Parse(vaporFire.SpEnthalpy) - double.Parse(liquidFire.SpEnthalpy);
+                            double latent = vaporFire.SpEnthalpy.Value - liquidFire.SpEnthalpy.Value;
                             L = latent;
                             model.LatentHeat = L;
 
-                            T = double.Parse(vaporFire.Temperature);
-                            M = double.Parse(vaporFire.BulkMwOfPhase);
+                            T = vaporFire.Temperature.Value;
+                            M = vaporFire.BulkMwOfPhase.Value;
                             double Q = 0;
                             if (SelectedHeatInputModel == "API 521")
                             {
@@ -478,14 +478,14 @@ namespace ReliefProMain.ViewModel.Drums
                             }
 
                             model.ReliefLoad = Q / latent;
-                            model.ReliefMW = double.Parse(vaporFire.BulkMwOfPhase);
+                            model.ReliefMW =vaporFire.BulkMwOfPhase.Value;
                             model.ReliefPressure = reliefFirePressure;
-                            model.ReliefTemperature = double.Parse(vaporFire.Temperature);
+                            model.ReliefTemperature = vaporFire.Temperature.Value;
                             if (vaporFire.BulkCPCVRatio != null)
                             {
-                                model.ReliefCpCv = double.Parse(vaporFire.BulkCPCVRatio);
+                                model.ReliefCpCv = vaporFire.BulkCPCVRatio.Value;
                             }
-                            model.ReliefZ = double.Parse(vaporFire.VaporZFmKVal);
+                            model.ReliefZ = vaporFire.VaporZFmKVal.Value;
 
 
                             FlashCalcResultDAL flashCalcResultDAL = new FlashCalcResultDAL();
@@ -514,7 +514,7 @@ namespace ReliefProMain.ViewModel.Drums
                 }
                 else
                 {
-                    double latent = model.LatentHeat;
+                    double latent = model.LatentHeat.Value;
                     double Q = 0;
                     if (SelectedHeatInputModel == "API 521")
                     {
@@ -583,8 +583,8 @@ namespace ReliefProMain.ViewModel.Drums
             var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
             if (psvModel != null)
             {
-                if (!string.IsNullOrEmpty(psvModel.Pressure))
-                    return double.Parse(psvModel.Pressure) * double.Parse(psvModel.ReliefPressureFactor);
+                if (psvModel.Pressure!=null)
+                    return psvModel.Pressure.Value * psvModel.ReliefPressureFactor.Value;
             }
             return 0;
         }

@@ -74,8 +74,8 @@ namespace ReliefProMain.Model.HXs
             }
         }
 
-        private double? exposedToFire;
-        public double? ExposedToFire
+        private string exposedToFire;
+        public string ExposedToFire
         {
             get { return exposedToFire; }
             set

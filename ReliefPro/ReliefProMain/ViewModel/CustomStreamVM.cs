@@ -69,25 +69,25 @@ namespace ReliefProMain.ViewModel
 
         private void ReadConvert()
         {
-            if (!string.IsNullOrEmpty(CurrentModel.Temperature))
-                CurrentModel.Temperature = UnitConvert.Convert(UOMEnum.Temperature, CurrentModel.TemperatureUnit, double.Parse(CurrentModel.Temperature)).ToString();
-            if (!string.IsNullOrEmpty(CurrentModel.Pressure))
-                CurrentModel.Pressure = UnitConvert.Convert(UOMEnum.Pressure, CurrentModel.PressureUnit, double.Parse(CurrentModel.Pressure)).ToString();
-            if (!string.IsNullOrEmpty(CurrentModel.WeightFlow))
-                CurrentModel.WeightFlow = UnitConvert.Convert(UOMEnum.MassRate, CurrentModel.WeightFlowUnit, double.Parse(CurrentModel.WeightFlow)).ToString();
-            if (!string.IsNullOrEmpty(CurrentModel.SpEnthalpy))
-                CurrentModel.SpEnthalpy = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, CurrentModel.SpEnthalpyUnit, double.Parse(CurrentModel.SpEnthalpy)).ToString();
+            if (CurrentModel.Temperature!=null)
+                CurrentModel.Temperature = UnitConvert.Convert(UOMEnum.Temperature, CurrentModel.TemperatureUnit, CurrentModel.Temperature.Value);
+            if (CurrentModel.Pressure!=null)
+                CurrentModel.Pressure = UnitConvert.Convert(UOMEnum.Pressure, CurrentModel.PressureUnit, CurrentModel.Pressure.Value);
+            if (CurrentModel.WeightFlow!=null)
+                CurrentModel.WeightFlow = UnitConvert.Convert(UOMEnum.MassRate, CurrentModel.WeightFlowUnit, CurrentModel.WeightFlow.Value);
+            if (CurrentModel.SpEnthalpy!=null)
+                CurrentModel.SpEnthalpy = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, CurrentModel.SpEnthalpyUnit, CurrentModel.SpEnthalpy.Value);
         }
         private void WriteConvert()
         {
-            if (!string.IsNullOrEmpty(CurrentModel.Temperature))
-                CurrentModel.Temperature = UnitConvert.Convert(CurrentModel.TemperatureUnit, UOMEnum.Temperature, double.Parse(CurrentModel.Temperature)).ToString();
-            if (!string.IsNullOrEmpty(CurrentModel.Pressure))
-                CurrentModel.Pressure = UnitConvert.Convert(CurrentModel.PressureUnit, UOMEnum.Pressure, double.Parse(CurrentModel.Pressure)).ToString();
-            if (!string.IsNullOrEmpty(CurrentModel.WeightFlow))
-                CurrentModel.WeightFlow = UnitConvert.Convert(CurrentModel.WeightFlowUnit, UOMEnum.MassRate, double.Parse(CurrentModel.WeightFlow)).ToString();
-            if (!string.IsNullOrEmpty(CurrentModel.SpEnthalpy))
-                CurrentModel.SpEnthalpy = UnitConvert.Convert(CurrentModel.SpEnthalpyUnit, UOMEnum.SpecificEnthalpy, double.Parse(CurrentModel.SpEnthalpy)).ToString();
+            if (CurrentModel.Temperature!=null)
+                CurrentModel.Temperature = UnitConvert.Convert(CurrentModel.TemperatureUnit, UOMEnum.Temperature, CurrentModel.Temperature.Value);
+            if (CurrentModel.Pressure!=null)
+                CurrentModel.Pressure = UnitConvert.Convert(CurrentModel.PressureUnit, UOMEnum.Pressure, CurrentModel.Pressure.Value);
+            if (CurrentModel.WeightFlow!=null)
+                CurrentModel.WeightFlow = UnitConvert.Convert(CurrentModel.WeightFlowUnit, UOMEnum.MassRate, CurrentModel.WeightFlow.Value);
+            if (CurrentModel.SpEnthalpy!=null)
+                CurrentModel.SpEnthalpy = UnitConvert.Convert(CurrentModel.SpEnthalpyUnit, UOMEnum.SpecificEnthalpy, CurrentModel.SpEnthalpy.Value);
         }
         private void Save(object obj)
         {

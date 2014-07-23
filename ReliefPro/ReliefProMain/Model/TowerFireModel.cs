@@ -65,7 +65,7 @@ namespace ReliefProMain.Model
             }
         }
 
-        public string ReliefLoad
+        public double? ReliefLoad
         {
             get
             {
@@ -81,7 +81,7 @@ namespace ReliefProMain.Model
             }
         }
 
-        public string ReliefTemperature
+        public double? ReliefTemperature
         {
             get
             {
@@ -97,7 +97,7 @@ namespace ReliefProMain.Model
             }
         }
 
-        public string ReliefPressure
+        public double? ReliefPressure
         {
             get
             {
@@ -113,7 +113,7 @@ namespace ReliefProMain.Model
             }
         }
 
-        public string ReliefMW
+        public double? ReliefMW
         {
             get
             {
@@ -129,7 +129,7 @@ namespace ReliefProMain.Model
             }
         }
 
-        public string ReliefCpCv
+        public double? ReliefCpCv
         {
             get
             {
@@ -145,7 +145,7 @@ namespace ReliefProMain.Model
             }
         }
 
-        public string ReliefZ
+        public double? ReliefZ
         {
             get
             {

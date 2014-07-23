@@ -51,8 +51,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private string _ReliefLoad;
-        public string ReliefLoad
+        private double? _ReliefLoad;
+        public double? ReliefLoad
         {
             get
             {
@@ -66,8 +66,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private string _ReliefMW;
-        public string ReliefMW
+        private double? _ReliefMW;
+        public double? ReliefMW
         {
             get
             {
@@ -80,8 +80,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefMW");
             }
         }
-        private string _ReliefTemperature;
-        public string ReliefTemperature
+        private double? _ReliefTemperature;
+        public double? ReliefTemperature
         {
             get
             {
@@ -94,8 +94,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefTemperature");
             }
         }
-        private string _ReliefPressure;
-        public string ReliefPressure
+        private double? _ReliefPressure;
+        public double? ReliefPressure
         {
             get
             {
@@ -190,14 +190,14 @@ namespace ReliefProMain.ViewModel
                     TowerFlashProduct product = dbFlashP.GetModel(SessionProtectedSystem, cstream.StreamName);
                     if (!s.FlowStop)
                     {
-                        ProductTotal = ProductTotal + (double.Parse(s.FlowCalcFactor) * double.Parse(product.SpEnthalpy) * double.Parse(product.WeightFlow));
+                        ProductTotal = ProductTotal + (s.FlowCalcFactor.Value * product.SpEnthalpy.Value * product.WeightFlow.Value);
                         if (cstream.ProdType == "6")
                         {
-                            waterWeightFlow = double.Parse(cstream.WeightFlow);
+                            waterWeightFlow = cstream.WeightFlow.Value;
                         }
                         if (cstream.ProdType == "4")
                         {
-                            overHeadWeightFlow = double.Parse(cstream.WeightFlow);
+                            overHeadWeightFlow = cstream.WeightFlow.Value;
                         }
                     }
                 }
@@ -205,7 +205,7 @@ namespace ReliefProMain.ViewModel
                 {
                     if (!s.FlowStop)
                     {
-                        FeedTotal = FeedTotal + (double.Parse(s.FlowCalcFactor) * double.Parse(cstream.SpEnthalpy) * double.Parse(cstream.WeightFlow));
+                        FeedTotal = FeedTotal + (s.FlowCalcFactor.Value * cstream.SpEnthalpy.Value * cstream.WeightFlow.Value);
                     }
                 }
             }
@@ -219,11 +219,11 @@ namespace ReliefProMain.ViewModel
                 if (!shx.DutyLost)
                 {
                     TowerHXDetail detail = dbDetail.GetModel(SessionProtectedSystem, shx.DetailID);
-                    HeatTotal = HeatTotal + shx.DutyCalcFactor * double.Parse(detail.Duty);
+                    HeatTotal = HeatTotal + shx.DutyCalcFactor.Value * detail.Duty.Value;
                 }
             }
             double totalAbnomalDuty = GetAbnormalTotalDuty();
-            double latestH = double.Parse(latent.LatentEnthalpy);
+            double latestH = latent.LatentEnthalpy.Value;
             double totalH = FeedTotal - ProductTotal + HeatTotal + totalAbnomalDuty;
             double wAccumulation = totalH / latestH + overHeadWeightFlow;
             double wRelief = wAccumulation;
@@ -232,16 +232,16 @@ namespace ReliefProMain.ViewModel
                 wRelief = 0;
             }
             double reliefLoad = wAccumulation + waterWeightFlow;
-            double reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / double.Parse(latent.ReliefOHWeightFlow) + waterWeightFlow / 18);
+            double reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / latent.ReliefOHWeightFlow.Value + waterWeightFlow / 18);
             ReliefTemperature = latent.ReliefTemperature;
             ReliefPressure = latent.ReliefPressure;
-            ReliefLoad = reliefLoad.ToString();
-            ReliefMW = reliefMW.ToString();
+            ReliefLoad = reliefLoad;
+            ReliefMW = reliefMW;
             ScenarioDAL dbTS = new ScenarioDAL();
             Scenario scenario = dbTS.GetModel(ScenarioID, SessionProtectedSystem);
-            scenario.ReliefLoad = ReliefLoad.ToString();
+            scenario.ReliefLoad = ReliefLoad;
             scenario.ReliefPressure = latent.ReliefPressure;
-            scenario.ReliefMW = ReliefMW.ToString();
+            scenario.ReliefMW = ReliefMW;
             scenario.ReliefTemperature = latent.ReliefTemperature;
             dbTS.Update(scenario, SessionProtectedSystem);
             SessionProtectedSystem.Flush();
@@ -262,11 +262,11 @@ namespace ReliefProMain.ViewModel
             foreach (TowerScenarioStream s in feeds)
             {
                 CustomStream cs = dbstream.GetModel(SessionProtectedSystem, s.StreamName);
-                double wf = double.Parse(cs.WeightFlow);
+                double wf = cs.WeightFlow.Value;
                 Total = Total + wf;
                 if (!s.FlowStop)
                 {
-                    currentTotal = wf * double.Parse(s.FlowCalcFactor);
+                    currentTotal = wf * s.FlowCalcFactor.Value;
                 }
             }
             diffTotal = Total - currentTotal;
@@ -286,19 +286,19 @@ namespace ReliefProMain.ViewModel
                                          where m.StreamName == p.StreamName
                                          select m).SingleOrDefault();
                 double factor = 1;
-                double flowrate = double.Parse(p.WeightFlow);
+                double flowrate = p.WeightFlow.Value;
                 double tempH = factor * flowrate;
                 if (tempH >= diffTotal)
                 {
                     double tempfactor = (tempH - diffTotal) / tempH;
-                    s.FlowCalcFactor = tempfactor.ToString();
+                    s.FlowCalcFactor = tempfactor;
                     diffTotal = 0;
                     towerScenarioStreamDAL.Update(s, SessionProtectedSystem);
                     break;
                 }
                 else
                 {
-                    s.FlowCalcFactor = "0";
+                    s.FlowCalcFactor = 0;
                     towerScenarioStreamDAL.Update(s, SessionProtectedSystem);
                     diffTotal = diffTotal - tempH;
                 }
@@ -318,19 +318,19 @@ namespace ReliefProMain.ViewModel
                                              where m.StreamName == p.StreamName
                                              select m).SingleOrDefault();
                     double factor = 1;
-                    double flowrate = double.Parse(p.WeightFlow);
+                    double flowrate = p.WeightFlow.Value;
                     double tempH = factor * flowrate;
                     if (tempH >= diffTotal)
                     {
                         double tempfactor = (tempH - diffTotal) / tempH;
-                        s.FlowCalcFactor = tempfactor.ToString();
+                        s.FlowCalcFactor = tempfactor;
                         towerScenarioStreamDAL.Update(s, SessionProtectedSystem);
                         diffTotal = 0;
                         break;
                     }
                     else
                     {
-                        s.FlowCalcFactor = "0";
+                        s.FlowCalcFactor = 0;
                         towerScenarioStreamDAL.Update(s, SessionProtectedSystem);
                         diffTotal = diffTotal - tempH;
                     }
@@ -345,7 +345,7 @@ namespace ReliefProMain.ViewModel
             double total = 0;
             foreach (AbnormalHeaterDetailModel m in Heaters)
             {
-                total = total + (m.DutyFactor - 1) * m.Duty;
+                total = total + (m.DutyFactor.Value - 1) * m.Duty.Value;
             }
             return total;
         }
@@ -391,21 +391,21 @@ namespace ReliefProMain.ViewModel
         
         private void ReadConvert()
         {
-            if (!string.IsNullOrEmpty(_ReliefLoad))
-                _ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, _ReliefLoadUnit, double.Parse(_ReliefLoad)).ToString();
-            if (!string.IsNullOrEmpty(_ReliefTemperature))
-                _ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, _ReliefTemperatureUnit, double.Parse(_ReliefTemperature)).ToString();
-            if (!string.IsNullOrEmpty(_ReliefPressure))
-                _ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, _ReliefPressureUnit, double.Parse(_ReliefPressure)).ToString();
+            if (_ReliefLoad!=null)
+                _ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, _ReliefLoadUnit, _ReliefLoad.Value);
+            if (_ReliefTemperature!=null)
+                _ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, _ReliefTemperatureUnit, _ReliefTemperature.Value);
+            if (_ReliefPressure!=null)
+                _ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, _ReliefPressureUnit, _ReliefPressure.Value);
         }
         private void WriteConvert()
         {
-            if (!string.IsNullOrEmpty(_ReliefLoad))
-                _ReliefLoad = UnitConvert.Convert(_ReliefLoadUnit, UOMEnum.MassRate, double.Parse(_ReliefLoad)).ToString();
-            if (!string.IsNullOrEmpty(_ReliefTemperature))
-                _ReliefTemperature = UnitConvert.Convert(_ReliefTemperatureUnit, UOMEnum.Temperature, double.Parse(_ReliefTemperature)).ToString();
-            if (!string.IsNullOrEmpty(_ReliefPressure))
-                _ReliefPressure = UnitConvert.Convert(_ReliefPressureUnit, UOMEnum.Pressure, double.Parse(_ReliefPressure)).ToString();
+            if (_ReliefLoad!=null)
+                _ReliefLoad = UnitConvert.Convert(_ReliefLoadUnit, UOMEnum.MassRate, _ReliefLoad.Value);
+            if (_ReliefTemperature!=null)
+                _ReliefTemperature = UnitConvert.Convert(_ReliefTemperatureUnit, UOMEnum.Temperature, _ReliefTemperature.Value);
+            if (_ReliefPressure!=null)
+                _ReliefPressure = UnitConvert.Convert(_ReliefPressureUnit, UOMEnum.Pressure, _ReliefPressure.Value);
         }
         private void InitUnit()
         {

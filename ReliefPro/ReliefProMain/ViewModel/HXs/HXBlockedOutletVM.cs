@@ -78,13 +78,13 @@ namespace ReliefProMain.ViewModel.HXs
             CustomStream normalHotInlet = new CustomStream();
             CustomStream normalColdInlet = new CustomStream();
             CustomStream normalColdOutlet = new CustomStream();
-            double tAvg = 0.5 * (double.Parse(normalColdInlet.Temperature) + double.Parse(normalColdOutlet.Temperature));
+            double tAvg = 0.5 * (normalColdInlet.Temperature.Value + normalColdOutlet.Temperature.Value);
 
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionPS);
-            double pressure = double.Parse(psv.Pressure);
+            double pressure = psv.Pressure.Value;
 
-            double reliefFirePressure = pressure * double.Parse(psv.ReliefPressureFactor);
+            double reliefFirePressure = pressure * psv.ReliefPressureFactor.Value;
 
             CustomStream stream = normalColdInlet;
             string tempdir = DirProtectedSystem + @"\temp\";
@@ -112,14 +112,14 @@ namespace ReliefProMain.ViewModel.HXs
                     reader.ReleaseProIIReader();
                     CustomStream liquidcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
                     CustomStream vaporcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
-                    double latent = double.Parse(vaporcs.SpEnthalpy) - double.Parse(liquidcs.SpEnthalpy);
+                    double latent = vaporcs.SpEnthalpy.Value- liquidcs.SpEnthalpy.Value;
                     double tcoldbprelief = double.Parse(flash.TempCalc);
-                    double tnormalHotInlet=double.Parse(normalHotInlet.Temperature);
-
+                    double tnormalHotInlet=normalHotInlet.Temperature.Value;
+                    
                     model.ReliefLoad = Q / latent * tnormalHotInlet - tcoldbprelief / (tnormalHotInlet-tAvg);
-                    model.ReliefMW = double.Parse(vaporcs.BulkMwOfPhase);
+                    model.ReliefMW = vaporcs.BulkMwOfPhase.Value;
                     model.ReliefPressure = reliefFirePressure;
-                    model.ReliefTemperature = double.Parse(vaporcs.Temperature);
+                    model.ReliefTemperature = vaporcs.Temperature.Value;
 
                 }
 

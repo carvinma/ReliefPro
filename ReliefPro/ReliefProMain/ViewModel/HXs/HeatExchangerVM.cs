@@ -66,8 +66,8 @@ namespace ReliefProMain.ViewModel
             }
         }
         public HeatExchanger CurrentHX { get; set; }
-        private string _Duty;
-        public string Duty
+        private double? _Duty;
+        public double? Duty
         {
             get
             {
@@ -162,7 +162,7 @@ namespace ReliefProMain.ViewModel
                     przFile = vm.SelectedFile + ".prz";
                     ProIIHX = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Hx");
                     HXName = ProIIHX.EqName;
-                    Duty = (double.Parse(ProIIHX.DutyCalc) * 3600).ToString();
+                    Duty = (double.Parse(ProIIHX.DutyCalc) * 3600);
                     HXType = HXTypes[0];
                     dicFeeds = new List<string>();
                     dicProducts = new List<string>();

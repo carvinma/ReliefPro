@@ -49,8 +49,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("Desciption");
             }
         }
-        private string _StageNumber;
-        public string StageNumber
+        private int _StageNumber;
+        public int StageNumber
         {
             get
             {
@@ -216,7 +216,7 @@ namespace ReliefProMain.ViewModel
                         CurrentTower = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Column");
 
                         TowerName = CurrentTower.EqName;
-                        StageNumber = CurrentTower.NumberOfTrays;
+                        StageNumber = int.Parse(CurrentTower.NumberOfTrays);
 
                         SideColumnList = dbEq.GetAllList(SessionPlant, przFile, "SideColumn");
                         foreach (ProIIEqData d in SideColumnList)
@@ -238,7 +238,7 @@ namespace ReliefProMain.ViewModel
                         {
                             ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k.Key, przFile);
                             CustomStream cstream =ProIIToDefault.ConvertProIIStreamToCustomStream(d);
-                            cstream.Tray = k.Value;
+                            cstream.Tray = int.Parse(k.Value);
                             cstream.IsProduct = false;
                             
                             Feeds.Add(cstream);
@@ -249,7 +249,7 @@ namespace ReliefProMain.ViewModel
                             if (d.TotalMolarRate != "0")
                             {
                                 CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
-                                cstream.Tray = k.Value;
+                                cstream.Tray = int.Parse(k.Value);
                                 cstream.IsProduct = true;
                                 if (dicProdTypes.Keys.Contains(k.Key))
                                 {
@@ -280,12 +280,12 @@ namespace ReliefProMain.ViewModel
             string[] arrHeaterTrayLoc = heaterTrayLoc.Split(',');
             for (int i = 0; i < arrHeaterNames.Length; i++)
             {
-                decimal duty = decimal.Parse(arrHeaterDuties[i]) * 3600;  //KJ/hr
+                double duty = double.Parse(arrHeaterDuties[i]) * 3600;  //KJ/hr
                 if (arrHeaterNames[i] == "CONDENSER")
                 {
                     TowerHX hx = new TowerHX();
                     hx.HeaterName=arrHeaterNames[i];
-                    hx.HeaterDuty=duty.ToString();
+                    hx.HeaterDuty=duty;
                     hx.HeaterType=1;
                     Condensers.Add(hx);
 
@@ -295,7 +295,7 @@ namespace ReliefProMain.ViewModel
 
                     TowerHX hx = new TowerHX();
                     hx.HeaterName=arrHeaterNames[i];
-                    hx.HeaterDuty=duty.ToString();
+                    hx.HeaterDuty=duty;
                     hx.HeaterType = 3;
                     this.Reboilers.Add(hx);
 
@@ -306,7 +306,7 @@ namespace ReliefProMain.ViewModel
                     {
                         TowerHX hx = new TowerHX();
                         hx.HeaterName = arrHeaterNames[i];
-                        hx.HeaterDuty = duty.ToString();
+                        hx.HeaterDuty = duty;
                         hx.HeaterType = 1;
                         Condensers.Add(hx);
                     }
@@ -314,7 +314,7 @@ namespace ReliefProMain.ViewModel
                     {
                         TowerHX hx = new TowerHX();
                         hx.HeaterName = arrHeaterNames[i];
-                        hx.HeaterDuty = duty.ToString();
+                        hx.HeaterDuty = duty;
                         hx.HeaterType = 2;
                         HxCondensers.Add(hx);
                     }
@@ -325,7 +325,7 @@ namespace ReliefProMain.ViewModel
                     {
                         TowerHX hx = new TowerHX();
                         hx.HeaterName = arrHeaterNames[i];
-                        hx.HeaterDuty = duty.ToString();
+                        hx.HeaterDuty = duty;
                         hx.HeaterType = 3;
                         Reboilers.Add(hx);
                     }
@@ -333,7 +333,7 @@ namespace ReliefProMain.ViewModel
                     {
                         TowerHX hx = new TowerHX();
                         hx.HeaterName = arrHeaterNames[i];
-                        hx.HeaterDuty = duty.ToString();
+                        hx.HeaterDuty = duty;
                         hx.HeaterType = 4;
                         HxReboilers.Add(hx);
                     }
@@ -513,7 +513,7 @@ namespace ReliefProMain.ViewModel
             string H2O = "H2O";
             if (dic.Keys.Contains(H2O))
             {
-                if (dic[H2O] == "1" &&s.VaporFraction=="1")
+                if (dic[H2O] == "1" &&s.VaporFraction==1)
                     b = true;
             }
             return b;
@@ -609,7 +609,7 @@ namespace ReliefProMain.ViewModel
                     TowerHXDetail detail = new TowerHXDetail();
                     detail.DetailName = hx.HeaterName + "_1";
                     detail.Duty = hx.HeaterDuty;
-                    detail.DutyPercentage = "100";
+                    detail.DutyPercentage = 100;
                     detail.HXID = hx.ID;
                     detail.ProcessSideFlowSource = "Pressure Driven";
                     detail.Medium = "Cooling Water";
@@ -622,7 +622,7 @@ namespace ReliefProMain.ViewModel
                     TowerHXDetail detail = new TowerHXDetail();
                     detail.DetailName = hx.HeaterName + "_1";
                     detail.Duty = hx.HeaterDuty;
-                    detail.DutyPercentage = "100";
+                    detail.DutyPercentage = 100;
                     detail.HXID = hx.ID;
                     detail.ProcessSideFlowSource = "Pressure Driven";
                     detail.Medium = "Process Stream";
@@ -635,7 +635,7 @@ namespace ReliefProMain.ViewModel
                     TowerHXDetail detail = new TowerHXDetail();
                     detail.DetailName = hx.HeaterName + "_1";
                     detail.Duty = hx.HeaterDuty;
-                    detail.DutyPercentage = "100";
+                    detail.DutyPercentage = 100;
                     detail.HXID = hx.ID;
                     detail.ProcessSideFlowSource = "Pressure Driven";
                     detail.Medium = "Steam";
@@ -648,7 +648,7 @@ namespace ReliefProMain.ViewModel
                     TowerHXDetail detail = new TowerHXDetail();
                     detail.DetailName = hx.HeaterName + "_1";
                     detail.Duty = hx.HeaterDuty;
-                    detail.DutyPercentage = "100";
+                    detail.DutyPercentage = 100;
                     detail.HXID = hx.ID;
                     detail.ProcessSideFlowSource = "Pressure Driven";
                     detail.Medium = "Steam";

@@ -347,7 +347,7 @@ namespace ReliefProMain.View
             Visio.Master endMaster = startStencil.Masters.get_ItemU(@"Clarifier");
 
 
-            int stagenumber = int.Parse(vm.StageNumber);
+            int stagenumber = vm.StageNumber;
 
             int start = 16;
             double multiple = 0.125;
@@ -448,10 +448,9 @@ namespace ReliefProMain.View
             foreach (CustomStream cs in vm.Products)
             {
                 int tray = -1;
-                if (!string.IsNullOrEmpty(cs.Tray))
-                {
-                    tray = int.Parse(cs.Tray);
-                }
+                
+                tray =cs.Tray;
+                
                 if (tray == 1)
                 {
                     if (vm.Condensers.Count == 0)

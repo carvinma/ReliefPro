@@ -46,8 +46,8 @@ namespace ReliefProMain.Model
                 NotifyPropertyChanged("StreamName");
             }
         }
-        private string _FlowCalcFactor;
-        public string FlowCalcFactor
+        private double? _FlowCalcFactor;
+        public double? FlowCalcFactor
         {
             get
             {

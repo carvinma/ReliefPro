@@ -68,12 +68,12 @@ namespace ReliefProMain.ViewModel.Drums
             model.dbmodel.HeadNumber = model.Headnumber;
             model.dbmodel.HeadType = selectedHeadType;
 
-            model.dbmodel.Elevation = UnitConvert.Convert(model.ElevationUnit, UOMLib.UOMEnum.Length.ToString(), model.Elevation);
-            model.dbmodel.Diameter = UnitConvert.Convert(model.DiameterUnit, UOMLib.UOMEnum.Length.ToString(), model.Diameter);
-            model.dbmodel.Length = UnitConvert.Convert(model.LengthUnit, UOMLib.UOMEnum.Length.ToString(), model.Length);
-            model.dbmodel.NormalLiquidLevel = UnitConvert.Convert(model.NormalLiquidLevelUnit, UOMLib.UOMEnum.Length.ToString(), model.NormalLiquidLevel);
-            model.dbmodel.BootDiameter = UnitConvert.Convert(model.BootDiameterUnit, UOMLib.UOMEnum.Length.ToString(), model.BootDiameter);
-            model.dbmodel.BootHeight = UnitConvert.Convert(model.BootHeightUnit, UOMLib.UOMEnum.Length.ToString(), model.BootHeight);
+            model.dbmodel.Elevation = UnitConvert.Convert(model.ElevationUnit, UOMLib.UOMEnum.Length.ToString(), model.Elevation.Value);
+            model.dbmodel.Diameter = UnitConvert.Convert(model.DiameterUnit, UOMLib.UOMEnum.Length.ToString(), model.Diameter.Value);
+            model.dbmodel.Length = UnitConvert.Convert(model.LengthUnit, UOMLib.UOMEnum.Length.ToString(), model.Length.Value);
+            model.dbmodel.NormalLiquidLevel = UnitConvert.Convert(model.NormalLiquidLevelUnit, UOMLib.UOMEnum.Length.ToString(), model.NormalLiquidLevel.Value);
+            model.dbmodel.BootDiameter = UnitConvert.Convert(model.BootDiameterUnit, UOMLib.UOMEnum.Length.ToString(), model.BootDiameter.Value);
+            model.dbmodel.BootHeight = UnitConvert.Convert(model.BootHeightUnit, UOMLib.UOMEnum.Length.ToString(), model.BootHeight.Value);
         }
         private void Save(object obj)
         {

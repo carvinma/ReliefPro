@@ -94,8 +94,8 @@ namespace ReliefProMain.Model
                 }
             }
         }
-        private string _Duty;
-        public string Duty
+        private double? _Duty;
+        public double? Duty
         {
             get
             {

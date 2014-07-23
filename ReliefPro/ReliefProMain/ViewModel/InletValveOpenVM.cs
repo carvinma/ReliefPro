@@ -37,7 +37,7 @@ namespace ReliefProMain.ViewModel
         private CustomStream UpStreamLiquidData;
         //private CustomStream UpVesselNormalVapor;
         private CustomStream CurrentEqNormalVapor;
-        private string rMass;
+        private double rMass;
         private string PrzVersion;
         private string tempdir;
         private string PrzFile;
@@ -453,7 +453,7 @@ namespace ReliefProMain.ViewModel
             string content = PROIIFileOperator.getUsableContent(UpStreamLiquidData.StreamName, DirPlant);
             int ImportResult = 0;
             int RunResult = 0;
-            string f = flashCalc.Calculate(content, 1, DownStreamPressure, 5, "0", UpStreamLiquidData, vapor, liquid, Wliquidvalve.ToString(), dirInletValveOpen, ref ImportResult, ref RunResult);
+            string f = flashCalc.Calculate(content, 1, DownStreamPressure.ToString(), 5, "0", UpStreamLiquidData, vapor, liquid, Wliquidvalve.ToString(), dirInletValveOpen, ref ImportResult, ref RunResult);
             ProIIStreamData proIIStreamData;
             if (ImportResult == 1 || ImportResult == 2)
             {
@@ -480,8 +480,8 @@ namespace ReliefProMain.ViewModel
             if (vaporStream.WeightFlow!=null && CurrentEqNormalVapor != null)
             {
                 FLReliefLoad = vaporStream.WeightFlow.Value - CurrentEqNormalVapor.WeightFlow.Value;
-                FLReliefMW = vaporStream.BulkMwOfPhase;
-                FLReliefTemperature = vaporStream.Temperature;
+                FLReliefMW = vaporStream.BulkMwOfPhase.Value;
+                FLReliefTemperature = vaporStream.Temperature.Value;
             }
             else
             {
@@ -492,22 +492,22 @@ namespace ReliefProMain.ViewModel
 
         }
 
-        private void VaporBreakthrough(ref string VBReliefLoad, ref string VBReliefMW, ref string VBReliefTemperature)
+        private void VaporBreakthrough(ref double VBReliefLoad, ref double VBReliefMW, ref double VBReliefTemperature)
         {
             string dirInletValveOpen = tempdir + "InletValveOpen";
             if (!Directory.Exists(dirInletValveOpen))
                 Directory.CreateDirectory(dirInletValveOpen);
-            double reliefLoad = Darcy(rMass, CV, MaxOperatingPressure, ReliefPressure);
+            double reliefLoad = Darcy(rMass, CV.Value, MaxOperatingPressure.Value, ReliefPressure.Value);
             if (CurrentEqNormalVapor != null)
             {
                 double wf=0;
-                if (!string.IsNullOrEmpty(CurrentEqNormalVapor.WeightFlow))
+                if (CurrentEqNormalVapor.WeightFlow!=null)
                 {
-                    wf=double.Parse(CurrentEqNormalVapor.WeightFlow);
+                    wf=CurrentEqNormalVapor.WeightFlow.Value;
                 }
-                VBReliefLoad = (reliefLoad -wf ).ToString();
-                VBReliefMW = this.UpStreamVaporData.BulkMwOfPhase;
-                VBReliefTemperature = UpStreamVaporData.Temperature;
+                VBReliefLoad = (reliefLoad -wf );
+                VBReliefMW = this.UpStreamVaporData.BulkMwOfPhase.Value;
+                VBReliefTemperature = UpStreamVaporData.Temperature.Value;
             }
         }
 
@@ -538,25 +538,25 @@ namespace ReliefProMain.ViewModel
                 MessageBox.Show("Please Select Operating Phase.", "Message Box");
                 return;
             }
-            if (string.IsNullOrEmpty(CV))
+            if (CV==null)
             {
                 MessageBox.Show("Please Input CV.", "Message Box");
                 return;
             }
-            if (string.IsNullOrEmpty(MaxOperatingPressure))
+            if (MaxOperatingPressure==null)
             {
                 MessageBox.Show("Max Operating Pressure can't be empty.", "Message Box");
                 return;
             }
-            string flReliefLoad = string.Empty;
-            string flReliefMW = string.Empty;
-            string flReliefTemperature = string.Empty;
+            double flReliefLoad = 0;
+            double flReliefMW = 0;
+            double flReliefTemperature = 0;
             if (UpStreamLiquidData != null)
             {
-                rMass = UpStreamLiquidData.BulkDensityAct;
-                if (rMass != "" && rMass != "0")
+                rMass = UpStreamLiquidData.BulkDensityAct.Value;
+                if (rMass != null && rMass != 0)
                 {
-                    LiquidFlashing(rMass, CV, MaxOperatingPressure, ReliefPressure, PrzFile, ref flReliefLoad, ref flReliefMW, ref flReliefTemperature);
+                    LiquidFlashing(rMass, CV.Value, MaxOperatingPressure.Value, ReliefPressure.Value, PrzFile, ref flReliefLoad, ref flReliefMW, ref flReliefTemperature);
                 }
 
             }
@@ -570,16 +570,16 @@ namespace ReliefProMain.ViewModel
             {
                 if (UpStreamVaporData == null)
                 {
-                    ReliefLoad = "0";
+                    ReliefLoad = 0;
                 }
                 else
                 {
-                    string vbReliefLoad = string.Empty;
-                    string vbReliefMW = string.Empty;
-                    string vbReliefTemperature = string.Empty;
-                    rMass = UpStreamVaporData.BulkDensityAct;
+                    double vbReliefLoad = 0;
+                    double vbReliefMW =0;
+                    double vbReliefTemperature = 0;
+                    rMass = UpStreamVaporData.BulkDensityAct.Value;
                     VaporBreakthrough(ref vbReliefLoad, ref vbReliefMW, ref vbReliefTemperature);
-                    if (double.Parse(vbReliefLoad) > double.Parse(flReliefLoad))
+                    if (vbReliefLoad > flReliefLoad)
                     {
                         ReliefLoad = vbReliefLoad;
                         ReliefMW = vbReliefMW;
@@ -601,37 +601,41 @@ namespace ReliefProMain.ViewModel
 
         private void ReadConvert()
         {
-            if (!string.IsNullOrEmpty(MaxOperatingPressure))
+            if (MaxOperatingPressure!=null)
             {
-                this.MaxOperatingPressure = UnitConvert.Convert(UOMEnum.Pressure, _MaxOperatingPressureUnit, double.Parse(MaxOperatingPressure)).ToString();
+                this.MaxOperatingPressure = UnitConvert.Convert(UOMEnum.Pressure, _MaxOperatingPressureUnit, MaxOperatingPressure.Value);
             }
-            if (!string.IsNullOrEmpty(ReliefLoad))
+            if (ReliefLoad != null)
             {
-                this.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, reliefloadUnit, double.Parse(ReliefLoad)).ToString();
+                this.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, reliefloadUnit, ReliefLoad.Value);
             }
-            if (!string.IsNullOrEmpty(ReliefPressure))
+            if (ReliefPressure!=null)
             {
-                this.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit, double.Parse(ReliefPressure)).ToString();
+                this.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit, ReliefPressure.Value);
             }
-            if (!string.IsNullOrEmpty(ReliefTemperature))
+            if (ReliefTemperature!=null)
             {
-                this.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit, double.Parse(ReliefTemperature)).ToString();
+                this.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit, ReliefTemperature.Value);
             }
         }
         private void WriteConvert()
         {
-            if (string.IsNullOrEmpty(MaxOperatingPressure))
-                MaxOperatingPressure = "0";
-            if (string.IsNullOrEmpty(ReliefLoad))
-                ReliefLoad = "0";
-            if (string.IsNullOrEmpty(ReliefPressure))
-                ReliefPressure = "0";
-            if (string.IsNullOrEmpty(ReliefTemperature))
-                ReliefTemperature = "0";
-            this.MaxOperatingPressure = UnitConvert.Convert(_MaxOperatingPressureUnit, UOMEnum.Pressure, double.Parse(MaxOperatingPressure)).ToString();
-            this.ReliefLoad = UnitConvert.Convert(reliefloadUnit, UOMEnum.MassRate, double.Parse(ReliefLoad)).ToString();
-            this.ReliefPressure = UnitConvert.Convert(reliefPressureUnit, UOMEnum.Pressure, double.Parse(ReliefPressure)).ToString();
-            this.ReliefTemperature = UnitConvert.Convert(reliefTemperatureUnit, UOMEnum.Temperature, double.Parse(ReliefTemperature)).ToString();
+            if (MaxOperatingPressure!=null)
+            {
+                this.MaxOperatingPressure = UnitConvert.Convert(_MaxOperatingPressureUnit, UOMEnum.Pressure, MaxOperatingPressure.Value);            
+            }
+            if (ReliefLoad!=null)
+            {
+                this.ReliefLoad = UnitConvert.Convert(reliefloadUnit, UOMEnum.MassRate, ReliefLoad.Value);            
+            }
+            if (ReliefPressure!=null)
+            {
+                 this.ReliefPressure = UnitConvert.Convert(reliefPressureUnit, UOMEnum.Pressure, ReliefPressure.Value);           
+            }
+            if (ReliefTemperature!=null)
+            {
+                this.ReliefTemperature = UnitConvert.Convert(reliefTemperatureUnit, UOMEnum.Temperature, ReliefTemperature.Value);        
+            }
         }
         private void InitUnit()
         {

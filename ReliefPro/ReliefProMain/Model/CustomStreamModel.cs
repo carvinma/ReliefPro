@@ -44,7 +44,7 @@ namespace ReliefProMain.Model
         }
 
 
-        public string Pressure
+        public double? Pressure
         {
             get
             {
@@ -59,7 +59,7 @@ namespace ReliefProMain.Model
                 }
             }
         }
-        public string SpEnthalpy
+        public double? SpEnthalpy
         {
             get
             {
@@ -75,7 +75,7 @@ namespace ReliefProMain.Model
             }
         }
 
-        public string Temperature
+        public double? Temperature
         {
             get
             {
@@ -91,7 +91,7 @@ namespace ReliefProMain.Model
             }
         }
 
-        public string VaporFraction
+        public double? VaporFraction
         {
             get
             {
@@ -107,7 +107,7 @@ namespace ReliefProMain.Model
             }
         }
 
-        public string WeightFlow
+        public double? WeightFlow
         {
             get
             {

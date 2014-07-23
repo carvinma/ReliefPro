@@ -58,7 +58,7 @@ namespace ReliefProMain.Model
                 if (model.HeatSourceName != value)
                 {                    
                     model.HeatSourceName = value;
-                    Duty = (double.Parse(data[model.HeatSourceName].DutyCalc)*3.6).ToString();
+                    Duty = double.Parse(data[model.HeatSourceName].DutyCalc)*3.6;
                     NotifyPropertyChanged("HeatSourceName");
                 }
             }
@@ -80,7 +80,7 @@ namespace ReliefProMain.Model
             }
         }
 
-        public string Duty
+        public double? Duty
         {
             get
             {

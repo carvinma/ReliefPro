@@ -391,7 +391,7 @@ namespace ReliefProMain.ViewModel
                 FeedSpEout = csFeedOut.SpEnthalpy;
                 BottomMassRate = csBottomIn.WeightFlow;
                 FeedMassRate = csFeedIn.WeightFlow;
-                Duty = (double.Parse(hx.DutyCalc) * 3600).ToString();
+                Duty = (double.Parse(hx.DutyCalc) * 3600);
 
 
 

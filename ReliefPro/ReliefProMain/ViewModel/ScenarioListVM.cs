@@ -228,10 +228,10 @@ namespace ReliefProMain.ViewModel
                         {
                             if (vm.CalcTuple != null)
                             {
-                                SelectedScenario.ReliefLoad = vm.CalcTuple.Item1.ToString();
-                                SelectedScenario.ReliefPressure = vm.CalcTuple.Item4.ToString();
-                                SelectedScenario.ReliefTemperature = vm.CalcTuple.Item3.ToString();
-                                SelectedScenario.ReliefMW = vm.CalcTuple.Item2.ToString();
+                                SelectedScenario.ReliefLoad = vm.CalcTuple.Item1;
+                                SelectedScenario.ReliefPressure = vm.CalcTuple.Item4;
+                                SelectedScenario.ReliefTemperature = vm.CalcTuple.Item3;
+                                SelectedScenario.ReliefMW = vm.CalcTuple.Item2;
                             }
                         }
                         //CreateDrumOutlet(ScenarioID, Session);
@@ -246,10 +246,10 @@ namespace ReliefProMain.ViewModel
                         if (v.ShowDialog() == true)
                         {
                             //需要把ReliefLoad等值传回给SelectedScenario.ReliefLoad。 参考CreateInletValveOpen
-                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad.ToString();
-                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW.ToString();
-                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure.ToString();
-                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature.ToString();
+                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
+                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                         }
 
                     }
@@ -287,10 +287,10 @@ namespace ReliefProMain.ViewModel
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {
-                                SelectedScenario.ReliefLoad = vm.model.dbmodel.Reliefload.ToString();
-                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW.ToString();
-                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure.ToString();
-                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature.ToString();
+                                SelectedScenario.ReliefLoad = vm.model.dbmodel.Reliefload;
+                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                             }
                         }
                         else if (CompresserType == "Piston")
@@ -302,10 +302,10 @@ namespace ReliefProMain.ViewModel
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {
-                                SelectedScenario.ReliefLoad = vm.model.dbmodel.Reliefload.ToString();
-                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW.ToString();
-                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure.ToString();
-                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature.ToString();
+                                SelectedScenario.ReliefLoad = vm.model.dbmodel.Reliefload;
+                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                             }
                         }
                     }
@@ -323,10 +323,10 @@ namespace ReliefProMain.ViewModel
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {
-                                SelectedScenario.ReliefLoad = vm.model.ReliefLoad.ToString();
-                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW.ToString();
-                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure.ToString();
-                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature.ToString();
+                                SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
+                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                             }
                         }
                     }
@@ -339,10 +339,10 @@ namespace ReliefProMain.ViewModel
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {
-                                SelectedScenario.ReliefLoad = vm.model.ToString();
-                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW.ToString();
-                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure.ToString();
-                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature.ToString();
+                                SelectedScenario.ReliefLoad = vm.model.Reliefload;
+                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                             }
                         }
                     }
@@ -356,10 +356,10 @@ namespace ReliefProMain.ViewModel
                         v.DataContext = vm;
                         if (v.ShowDialog() == true)
                         {
-                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad.ToString();
-                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW.ToString();
-                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure.ToString();
-                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature.ToString();
+                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
+                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                         }
                     }
                 }
@@ -388,7 +388,7 @@ namespace ReliefProMain.ViewModel
                 TowerFireEq eq = new TowerFireEq();
                 eq.EqName = tower.TowerName;
                 eq.Type = "Column";
-                eq.FFactor = "1";
+                eq.FFactor = 1;
                 eq.FireZone = true;
                 eq.FireID = tf.ID;
                 dbtfeq.Add(eq, Session);
@@ -398,7 +398,7 @@ namespace ReliefProMain.ViewModel
                 eq = new TowerFireEq();
                 eq.EqName = accumulator.AccumulatorName;
                 eq.Type = "Drum";
-                eq.FFactor = "1";
+                eq.FFactor = 1;
                 eq.FireZone = true;
                 eq.FireID = tf.ID;
                 dbtfeq.Add(eq, Session);
@@ -406,7 +406,7 @@ namespace ReliefProMain.ViewModel
                 eq = new TowerFireEq();
                 eq.EqName = "Other";
                 eq.Type = "Other HX";
-                eq.FFactor = "1";
+                eq.FFactor = 1;
                 eq.FireZone = true;
                 eq.FireID = tf.ID;
                 dbtfeq.Add(eq, Session);
@@ -418,7 +418,7 @@ namespace ReliefProMain.ViewModel
                     eq = new TowerFireEq();
                     eq.EqName = s.EqName;
                     eq.Type = "Side Column";
-                    eq.FFactor = "1";
+                    eq.FFactor = 1;
                     eq.FireZone = true;
                     eq.FireID = tf.ID;
                     dbtfeq.Add(eq, Session);
@@ -432,7 +432,7 @@ namespace ReliefProMain.ViewModel
                     eq = new TowerFireEq();
                     eq.EqName = s.DetailName;
                     eq.FireZone = true;
-                    eq.FFactor = "1";
+                    eq.FFactor = 1;
                     eq.FireID = tf.ID;
                     if (s.Medium.Contains("Air"))
                     {
@@ -544,7 +544,7 @@ namespace ReliefProMain.ViewModel
                         {
                             shs = new ScenarioHeatSource();
                             shs.HeatSourceID = hs.ID;
-                            shs.DutyFactor = "1";
+                            shs.DutyFactor =1;
                             shs.ScenarioStreamID = tss.ID;
                             shs.ScenarioID = ScenarioID;
                             scenarioHeatSourceDAL.Add(shs, SessionProtectedSystem);
@@ -564,7 +564,7 @@ namespace ReliefProMain.ViewModel
                     tss = new TowerScenarioStream();
                     tss.ScenarioID = ScenarioID;
                     tss.StreamName = s.StreamName;
-                    tss.FlowCalcFactor = "1";// GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
+                    tss.FlowCalcFactor = 1;// GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
                     tss.FlowStop = false;
                     tss.IsProduct = true;
                     tss.SourceType = s.SinkType;
@@ -587,10 +587,10 @@ namespace ReliefProMain.ViewModel
                 List<TowerHXDetail> listTowerHXDetail = towerHXDetailDAL.GetAllList(Session, hx.ID).ToList();
                 foreach (TowerHXDetail detail in listTowerHXDetail)
                 {
-                    string ProcessSideFlowSourceFactor = GetSystemScenarioFactor("1", detail.ProcessSideFlowSource, ScenarioName);
-                    string MediumFactor = GetSystemScenarioFactor("2", detail.Medium, ScenarioName);
-                    string MediumSideFlowSourceFactor = GetSystemScenarioFactor("3", detail.MediumSideFlowSource, ScenarioName);
-                    double factor = double.Parse(ProcessSideFlowSourceFactor) * double.Parse(MediumFactor) * double.Parse(MediumSideFlowSourceFactor);
+                    double ProcessSideFlowSourceFactor = GetSystemScenarioFactor("1", detail.ProcessSideFlowSource, ScenarioName);
+                    double MediumFactor = GetSystemScenarioFactor("2", detail.Medium, ScenarioName);
+                    double MediumSideFlowSourceFactor = GetSystemScenarioFactor("3", detail.MediumSideFlowSource, ScenarioName);
+                    double factor = ProcessSideFlowSourceFactor * MediumFactor * MediumSideFlowSourceFactor;
 
                     TowerScenarioHX tsHX = towerScenarioHXDAL.GetModel(Session, detail.ID, ScenarioID);
                     if (tsHX == null)
@@ -604,7 +604,7 @@ namespace ReliefProMain.ViewModel
                         tsHX.Medium = detail.Medium;
                         tsHX.HeaterType = hx.HeaterType;
 
-                        if (ScenarioName == "BlockedOutlet" && double.Parse(detail.Duty) < 0)
+                        if (ScenarioName == "BlockedOutlet" && detail.Duty.Value < 0)
                         {
                             tsHX.DutyLost = true;
                         }
@@ -615,7 +615,7 @@ namespace ReliefProMain.ViewModel
                         tsHX.DutyCalcFactor = factor;
                         tsHX.DetailName = detail.DetailName;
                         tsHX.Medium = detail.Medium;                        
-                        if (ScenarioName == "BlockedOutlet" && double.Parse(detail.Duty) < 0)
+                        if (ScenarioName == "BlockedOutlet" && detail.Duty.Value < 0)
                         {
                             tsHX.DutyLost = true;
                         }
@@ -676,7 +676,7 @@ namespace ReliefProMain.ViewModel
                         {
                             d = new AbnormalHeaterDetail();
                             d.AbnormalType = 1;
-                            d.Duty = double.Parse(hs.Duty);
+                            d.Duty = hs.Duty;
                             d.DutyFactor = 1;
                             d.HeaterID = hs.ID;
                             d.HeaterName = hs.HeatSourceName;
@@ -686,7 +686,7 @@ namespace ReliefProMain.ViewModel
                         }
                         else
                         {
-                            d.Duty = double.Parse( hs.Duty);
+                            d.Duty = hs.Duty;
                             d.HeaterName = hs.HeatSourceName;
                             abnormalHeaterDetailDAL.Update(d, Session);
                             Session.Flush();
@@ -707,7 +707,7 @@ namespace ReliefProMain.ViewModel
                     tss = new TowerScenarioStream();
                     tss.ScenarioID = ScenarioID;
                     tss.StreamName = s.StreamName;
-                    tss.FlowCalcFactor = "1";// GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
+                    tss.FlowCalcFactor = 1;// GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
                     tss.FlowStop = false;
                     tss.IsProduct = true;
                     tss.SourceType = s.SinkType;
@@ -730,10 +730,10 @@ namespace ReliefProMain.ViewModel
                 List<TowerHXDetail> listTowerHXDetail = towerHXDetailDAL.GetAllList(Session, hx.ID).ToList();
                 foreach (TowerHXDetail detail in listTowerHXDetail)
                 {
-                    string ProcessSideFlowSourceFactor = GetSystemScenarioFactor("1", detail.ProcessSideFlowSource, ScenarioName);
-                    string MediumFactor = GetSystemScenarioFactor("2", detail.Medium, ScenarioName);
-                    string MediumSideFlowSourceFactor = GetSystemScenarioFactor("3", detail.MediumSideFlowSource, ScenarioName);
-                    double factor = double.Parse(ProcessSideFlowSourceFactor) * double.Parse(MediumFactor) * double.Parse(MediumSideFlowSourceFactor);
+                    double ProcessSideFlowSourceFactor = GetSystemScenarioFactor("1", detail.ProcessSideFlowSource, ScenarioName);
+                    double MediumFactor = GetSystemScenarioFactor("2", detail.Medium, ScenarioName);
+                    double MediumSideFlowSourceFactor = GetSystemScenarioFactor("3", detail.MediumSideFlowSource, ScenarioName);
+                    double factor = ProcessSideFlowSourceFactor * MediumFactor * MediumSideFlowSourceFactor;
 
                     TowerScenarioHX tsHX = towerScenarioHXDAL.GetModel(Session, detail.ID, ScenarioID);
                     if (tsHX == null)
@@ -747,7 +747,7 @@ namespace ReliefProMain.ViewModel
                         tsHX.Medium = detail.Medium;
                         tsHX.HeaterType = hx.HeaterType;
 
-                        if (ScenarioName == "BlockedOutlet" && double.Parse(detail.Duty) < 0)
+                        if (ScenarioName == "BlockedOutlet" && detail.Duty.Value < 0)
                         {
                             tsHX.DutyLost = true;
                         }
@@ -759,7 +759,7 @@ namespace ReliefProMain.ViewModel
                             AbnormalHeaterDetail d = new AbnormalHeaterDetail();
                             d = new AbnormalHeaterDetail();
                             d.AbnormalType = 2;
-                            d.Duty = double.Parse(hx.HeaterDuty) * double.Parse(detail.DutyPercentage)/100;
+                            d.Duty = hx.HeaterDuty.Value * detail.DutyPercentage.Value/100;
                             d.DutyFactor = 1;
                             d.HeaterID = detail.ID;
                             d.HeaterName = detail.DetailName;
@@ -774,7 +774,7 @@ namespace ReliefProMain.ViewModel
                         tsHX.DutyCalcFactor = factor;
                         tsHX.DetailName = detail.DetailName;
                         tsHX.Medium = detail.Medium;
-                        if (ScenarioName == "BlockedOutlet" && double.Parse(detail.Duty) < 0)
+                        if (ScenarioName == "BlockedOutlet" && detail.Duty.Value < 0)
                         {
                             tsHX.DutyLost = true;
                         }
@@ -783,7 +783,7 @@ namespace ReliefProMain.ViewModel
                         if (tsHX.HeaterType == 3 || tsHX.HeaterType == 4)
                         {
                             AbnormalHeaterDetail d = abnormalHeaterDetailDAL.GetModel(Session,ScenarioID,tsHX.ID,2);
-                            d.Duty = double.Parse(hx.HeaterDuty) * tsHX.DutyCalcFactor;
+                            d.Duty = hx.HeaterDuty.Value * tsHX.DutyCalcFactor;
                             d.HeaterName = detail.DetailName;
                             d.HeaterType = detail.Medium;
                             abnormalHeaterDetailDAL.Update(d, Session);
@@ -905,7 +905,7 @@ namespace ReliefProMain.ViewModel
 
         }
 
-        private string GetSystemScenarioFactor(string category, string categoryvalue, string ScenarioName)
+        private double GetSystemScenarioFactor(string category, string categoryvalue, string ScenarioName)
         {
             string factor = "0";
 
@@ -953,7 +953,7 @@ namespace ReliefProMain.ViewModel
                     factor = model.AutomaticControlsFailure;
                     break;
             }
-            return factor;
+            return double.Parse(factor);
         }
 
         public ChangeUnitDelegate cud { get; set; }

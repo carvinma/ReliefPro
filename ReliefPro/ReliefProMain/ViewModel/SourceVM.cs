@@ -36,8 +36,8 @@ namespace ReliefProMain.ViewModel
         public string SourceName { get; set; }
         public string Description { get; set; }
         public string SourceType { get; set; }
-        private string maxPossiblePressure;
-        public string MaxPossiblePressure
+        private double? maxPossiblePressure;
+        public double? MaxPossiblePressure
         {
             get { return maxPossiblePressure; }
             set
@@ -189,13 +189,13 @@ namespace ReliefProMain.ViewModel
         }
         private void ReadConvert()
         {
-            if (!string.IsNullOrEmpty(CurrentSource.MaxPossiblePressure))
-                MaxPossiblePressure = UnitConvert.Convert(UOMEnum.Pressure, pressureUnit, double.Parse(CurrentSource.MaxPossiblePressure)).ToString();
+            if (CurrentSource.MaxPossiblePressure != null)
+                MaxPossiblePressure = UnitConvert.Convert(UOMEnum.Pressure, pressureUnit, CurrentSource.MaxPossiblePressure.Value);
         }
         private void WriteConvert()
         {
-            if (!string.IsNullOrEmpty(MaxPossiblePressure))
-                CurrentSource.MaxPossiblePressure = UnitConvert.Convert(pressureUnit, UOMEnum.Pressure, double.Parse(MaxPossiblePressure)).ToString();
+            if (MaxPossiblePressure != null)
+                CurrentSource.MaxPossiblePressure = UnitConvert.Convert(pressureUnit, UOMEnum.Pressure, MaxPossiblePressure.Value);
         }
         private void InitUnit()
         {

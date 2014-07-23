@@ -63,10 +63,10 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void WriteConvertModel()
         {
-            model.dbmodel.MaxPressure = UnitConvert.Convert(model.PressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.MaxPressure);
-            model.dbmodel.MaxStreamRate = UnitConvert.Convert(model.StreamRateUnit, UOMLib.UOMEnum.MassRate.ToString(), model.MaxStreamRate);
-            model.dbmodel.NormalFlashDuty = UnitConvert.Convert(model.FlashingDutyUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.NormalFlashDuty);
-            model.dbmodel.FDReliefCondition = UnitConvert.Convert(model.ReliefConditionUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.FDReliefCondition);
+            model.dbmodel.MaxPressure = UnitConvert.Convert(model.PressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.MaxPressure.Value);
+            model.dbmodel.MaxStreamRate = UnitConvert.Convert(model.StreamRateUnit, UOMLib.UOMEnum.MassRate.ToString(), model.MaxStreamRate.Value);
+            model.dbmodel.NormalFlashDuty = UnitConvert.Convert(model.FlashingDutyUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.NormalFlashDuty.Value);
+            model.dbmodel.FDReliefCondition = UnitConvert.Convert(model.ReliefConditionUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.FDReliefCondition.Value);
             model.dbmodel.ReboilerPinch = model.ReboilerPinch;
             model.dbmodel.Feed = model.Feed;
         }
@@ -81,7 +81,7 @@ namespace ReliefProMain.ViewModel.Drums
                 Directory.CreateDirectory(tempdir);
             }
             string duty = "0";
-            double feedupPress = model.MaxPressure;
+            double feedupPress = model.MaxPressure.Value;
             double setPress=drum.PSet(SessionPS);
             if (feedupPress >setPress )
             {
@@ -104,9 +104,9 @@ namespace ReliefProMain.ViewModel.Drums
                         reader.ReleaseProIIReader();
                         CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
 
-                        reliefMW = double.Parse(cs.BulkMwOfPhase);
-                        reliefT = double.Parse(cs.Temperature);
-                        reliefLoad = double.Parse(cs.WeightFlow);
+                        reliefMW = cs.BulkMwOfPhase.Value;
+                        reliefT = cs.Temperature.Value;
+                        reliefLoad = cs.WeightFlow.Value;
                     }
                     else
                     {

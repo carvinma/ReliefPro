@@ -60,8 +60,8 @@ namespace ReliefProMain.Model
                 NotifyPropertyChanged("Description");
             }
         }
-        private string _HeaterDuty;
-        public string HeaterDuty
+        private double? _HeaterDuty;
+        public double? HeaterDuty
         {
             get
             {

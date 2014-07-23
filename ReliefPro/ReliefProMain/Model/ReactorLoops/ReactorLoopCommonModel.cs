@@ -88,8 +88,8 @@ namespace ReliefProMain.Model.ReactorLoops
                 this.NotifyPropertyChanged("ReactorType");
             }
         }
-        private double effluentTemperature;
-        public double EffluentTemperature
+        private double? effluentTemperature;
+        public double? EffluentTemperature
         {
             get { return effluentTemperature; }
             set
@@ -99,8 +99,8 @@ namespace ReliefProMain.Model.ReactorLoops
             }
         }
 
-        private double maxGasRate;
-        public double MaxGasRate
+        private double? maxGasRate;
+        public double? MaxGasRate
         {
             get { return maxGasRate; }
             set
@@ -110,8 +110,8 @@ namespace ReliefProMain.Model.ReactorLoops
             }
         }
 
-        private double totalPurgeRate;
-        public double TotalPurgeRate
+        private double? totalPurgeRate;
+        public double? TotalPurgeRate
         {
             get { return totalPurgeRate; }
             set
@@ -121,8 +121,8 @@ namespace ReliefProMain.Model.ReactorLoops
             }
         }
 
-        private double reliefload;
-        public double ReliefLoad
+        private double? reliefload;
+        public double? ReliefLoad
         {
             get { return reliefload; }
             set
@@ -132,8 +132,8 @@ namespace ReliefProMain.Model.ReactorLoops
             }
         }
 
-        private double reliefTemperature;
-        public double ReliefTemperature
+        private double? reliefTemperature;
+        public double? ReliefTemperature
         {
             get { return reliefTemperature; }
             set
@@ -143,8 +143,8 @@ namespace ReliefProMain.Model.ReactorLoops
             }
         }
 
-        private double reliefMW;
-        public double ReliefMW
+        private double? reliefMW;
+        public double? ReliefMW
         {
             get { return reliefMW; }
             set
@@ -154,8 +154,8 @@ namespace ReliefProMain.Model.ReactorLoops
             }
         }
 
-        private double reliefCpCv;
-        public double ReliefCpCv
+        private double? reliefCpCv;
+        public double? ReliefCpCv
         {
             get { return reliefCpCv; }
             set
@@ -165,8 +165,8 @@ namespace ReliefProMain.Model.ReactorLoops
             }
         }
 
-        private double reliefZ;
-        public double ReliefZ
+        private double? reliefZ;
+        public double? ReliefZ
         {
             get { return reliefZ; }
             set

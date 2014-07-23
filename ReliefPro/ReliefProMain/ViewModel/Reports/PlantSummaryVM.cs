@@ -115,30 +115,30 @@ namespace ReliefProMain.ViewModel.Reports
             listRS = listPlantReportDS.Select(p => new PUsummaryReportSource
             {
                 Device = p.ProcessUnit,
-                ScenarioReliefRate = GetDouble(p.ControllingDS.ReliefLoad),
-                ScenarioVolumeRate = GetDouble(p.ControllingDS.ReliefVolumeRate),
-                ScenarioMWorSpGr = GetDouble(p.ControllingDS.ReliefMW),
-                ScenarioT = GetDouble(p.ControllingDS.ReliefTemperature),
-                ScenarioZ = GetDouble(p.ControllingDS.ReliefZ),
+                ScenarioReliefRate = p.ControllingDS.ReliefLoad,
+                ScenarioVolumeRate = p.ControllingDS.ReliefVolumeRate,
+                ScenarioMWorSpGr = p.ControllingDS.ReliefMW,
+                ScenarioT = p.ControllingDS.ReliefTemperature,
+                ScenarioZ = p.ControllingDS.ReliefZ,
                 ScenarioName = p.ControllingDS.ScenarioName,
 
-                PowerReliefRate = GetDouble(p.PowerDS.ReliefLoad),
-                PowerVolumeRate = GetDouble(p.PowerDS.ReliefVolumeRate),
-                PowerMWorSpGr = GetDouble(p.PowerDS.ReliefMW),
-                PowerT = GetDouble(p.PowerDS.ReliefTemperature),
-                PowerZ = GetDouble(p.PowerDS.ReliefZ),
+                PowerReliefRate = p.PowerDS.ReliefLoad,
+                PowerVolumeRate = p.PowerDS.ReliefVolumeRate,
+                PowerMWorSpGr = p.PowerDS.ReliefMW,
+                PowerT = p.PowerDS.ReliefTemperature,
+                PowerZ = p.PowerDS.ReliefZ,
 
-                WaterReliefRate = GetDouble(p.WaterDS.ReliefLoad),
-                WaterVolumeRate = GetDouble(p.WaterDS.ReliefVolumeRate),
-                WaterMWorSpGr = GetDouble(p.WaterDS.ReliefMW),
-                WaterT = GetDouble(p.WaterDS.ReliefTemperature),
-                WaterZ = GetDouble(p.WaterDS.ReliefZ),
+                WaterReliefRate = p.WaterDS.ReliefLoad,
+                WaterVolumeRate = p.WaterDS.ReliefVolumeRate,
+                WaterMWorSpGr = p.WaterDS.ReliefMW,
+                WaterT = p.WaterDS.ReliefTemperature,
+                WaterZ = p.WaterDS.ReliefZ,
 
-                AirReliefRate = GetDouble(p.AirDS.ReliefLoad),
-                AirVolumeRate = GetDouble(p.AirDS.ReliefVolumeRate),
-                AirMWorSpGr = GetDouble(p.AirDS.ReliefMW),
-                AirT = GetDouble(p.AirDS.ReliefTemperature),
-                AirZ = GetDouble(p.AirDS.ReliefZ)
+                AirReliefRate = p.AirDS.ReliefLoad,
+                AirVolumeRate = p.AirDS.ReliefVolumeRate,
+                AirMWorSpGr = p.AirDS.ReliefMW,
+                AirT = p.AirDS.ReliefTemperature,
+                AirZ = p.AirDS.ReliefZ
             }).ToList();
 
             var listEffectFactor = report.CalcPlantSummary(listPlantReportDS);
@@ -206,12 +206,6 @@ namespace ReliefProMain.ViewModel.Reports
             return lsitCalc;
         }
 
-        private double? GetDouble(string value)
-        {
-            double reslut = 0;
-            if (double.TryParse(value, out reslut))
-                return reslut;
-            return null;
-        }
+       
     }
 }

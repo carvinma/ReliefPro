@@ -58,12 +58,12 @@ namespace ReliefProMain.ViewModel.HXs
         }
         private void WriteConvertModel()
         {
-            model.dbmodel.WettedBundle = UnitConvert.Convert(model.WettedBundleUnit, UOMLib.UOMEnum.Area.ToString(), model.WettedBundle);
+            model.dbmodel.WettedBundle = UnitConvert.Convert(model.WettedBundleUnit, UOMLib.UOMEnum.Area.ToString(), model.WettedBundle.Value);
             model.dbmodel.PipingContingency = model.PipingContingency;
             model.dbmodel.ReliefMW = model.ReliefMW;
-            model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad);
-            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
-            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
+            model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.Reliefload.Value);
+            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature.Value);
+            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure.Value);
         }
         private void CalcResult(object obj)
         {
@@ -81,7 +81,7 @@ namespace ReliefProMain.ViewModel.HXs
 
 
 
-            if (feed.VaporFraction == "1" && product.VaporFraction == "1")
+            if (feed.VaporFraction == 1 && product.VaporFraction == 1)
             {
                 MessageBox.Show("No calc", "Message Box");
                 return ;
@@ -89,11 +89,11 @@ namespace ReliefProMain.ViewModel.HXs
             else
             {
                 CustomStream maxTStream = feed;
-                if (double.Parse(product.Temperature) > double.Parse(feed.Temperature))
+                if (product.Temperature.Value > feed.Temperature.Value)
                     maxTStream = product;
 
                 CustomStream stream=new CustomStream();
-                if (double.Parse(maxTStream.VaporFraction) == 1)
+                if (maxTStream.VaporFraction == 1)
                     stream = getFlashCalcLiquidStreamVF1(maxTStream);
                 else
                     stream = getFlashCalcLiquidStreamVF0(maxTStream);
@@ -102,7 +102,7 @@ namespace ReliefProMain.ViewModel.HXs
                 {
                     PSVDAL psvDAL = new PSVDAL();
                     PSV psv = psvDAL.GetModel(SessionPS);
-                    double pressure = double.Parse(psv.Pressure);
+                    double pressure = psv.Pressure.Value;
 
                     double reliefFirePressure = pressure * 1.21;
                     string tempdir = DirProtectedSystem + @"\temp\";
@@ -131,11 +131,11 @@ namespace ReliefProMain.ViewModel.HXs
                             reader.ReleaseProIIReader();
                             CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
                             CustomStream liquidFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
-                            double latent = double.Parse(vaporFire.SpEnthalpy) - double.Parse(liquidFire.SpEnthalpy);
-                            model.ReliefLoad = Q / latent;
-                            model.ReliefMW = double.Parse(vaporFire.BulkMwOfPhase);
+                            double latent = vaporFire.SpEnthalpy.Value - liquidFire.SpEnthalpy.Value;
+                            model.Reliefload = Q / latent;
+                            model.ReliefMW = vaporFire.BulkMwOfPhase;
                             model.ReliefPressure = reliefFirePressure;
-                            model.ReliefTemperature = double.Parse(vaporFire.Temperature);
+                            model.ReliefTemperature = vaporFire.Temperature;
                             //model.ReliefCpCv = double.Parse(vaporFire.BulkCPCVRatio);
                             //model.ReliefZ = double.Parse(vaporFire.VaporZFmKVal);
 

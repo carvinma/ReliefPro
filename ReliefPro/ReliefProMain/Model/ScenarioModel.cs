@@ -47,8 +47,8 @@ namespace ReliefProMain.Model
                 NotifyPropertyChanged("ScenarioName");
             }
         }
-        private string _ReliefLoad;
-        public string ReliefLoad
+        private double? _ReliefLoad;
+        public double? ReliefLoad
         {
             get
             {
@@ -60,8 +60,8 @@ namespace ReliefProMain.Model
                 NotifyPropertyChanged("ReliefLoad");
             }
         }
-        private string _ReliefTemperature;
-        public string ReliefTemperature
+        private double? _ReliefTemperature;
+        public double? ReliefTemperature
         {
             get
             {
@@ -73,8 +73,8 @@ namespace ReliefProMain.Model
                 NotifyPropertyChanged("ReliefTemperature");
             }
         }
-        private string _ReliefPressure;
-        public string ReliefPressure
+        private double? _ReliefPressure;
+        public double? ReliefPressure
         {
             get
             {
@@ -86,8 +86,8 @@ namespace ReliefProMain.Model
                 NotifyPropertyChanged("ReliefPressure");
             }
         }
-        private string _ReliefMW;
-        public string ReliefMW
+        private double? _ReliefMW;
+        public double? ReliefMW
         {
             get
             {

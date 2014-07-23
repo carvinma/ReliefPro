@@ -59,10 +59,11 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private void Update(object window)
         {
-            model.WettedArea = model.WettedArea.Trim();
-            if (model.WettedArea == "")
+            model.WettedArea = model.WettedArea;
+            if (model.WettedArea==null)
             {
                 throw new ArgumentException("Please type in WettedArea.");
+                return;
             }
 
             TowerFireCoolerDAL db = new TowerFireCoolerDAL();
@@ -72,8 +73,8 @@ namespace ReliefProMain.ViewModel.TowerFires
             m.PipingContingency = model.PipingContingency;
             db.Update(m, SessionProtectedSystem);
             SessionProtectedSystem.Flush();
-            Area = double.Parse(m.WettedArea);
-            Area = Area + Area * double.Parse(model.PipingContingency) / 100;
+            Area = m.WettedArea.Value;
+            Area = Area + Area * model.PipingContingency.Value / 100;
 
 
             System.Windows.Window wd = window as System.Windows.Window;
@@ -86,13 +87,13 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private void ReadConvert()
         {
-            if (!string.IsNullOrEmpty(model.WettedArea))
-                model.WettedArea = UnitConvert.Convert(UOMEnum.Area, wetteAreaUnit, double.Parse(model.WettedArea)).ToString();
+            if (model.WettedArea!=null)
+                model.WettedArea = UnitConvert.Convert(UOMEnum.Area, wetteAreaUnit, model.WettedArea.Value);
         }
         private void WriteConvert()
         {
-            if (!string.IsNullOrEmpty(model.WettedArea))
-                model.WettedArea = UnitConvert.Convert(wetteAreaUnit, UOMEnum.Area, double.Parse(model.WettedArea)).ToString();
+            if (model.WettedArea!=null)
+                model.WettedArea = UnitConvert.Convert(wetteAreaUnit, UOMEnum.Area, model.WettedArea.Value);
         }
         private void InitUnit()
         {

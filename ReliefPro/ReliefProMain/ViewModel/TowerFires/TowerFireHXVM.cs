@@ -78,11 +78,11 @@ namespace ReliefProMain.ViewModel.TowerFires
             db.Update(m, SessionProtectedSystem);
             SessionProtectedSystem.Flush();
 
-            double length = double.Parse(m.Length);
-            double pipingContingency = double.Parse(m.PipingContingency);
-            double od = double.Parse(m.OD);            
+            double length = m.Length.Value;
+            double pipingContingency = m.PipingContingency.Value;
+            double od = m.OD.Value;            
             Area = Algorithm.GetHXArea(m.ExposedToFire, m.Type, length, od);
-            Area = Area + Area * double.Parse(model.PipingContingency) / 100;
+            Area = Area + Area * model.PipingContingency.Value / 100;
 
 
             System.Windows.Window wd = window as System.Windows.Window;
@@ -111,21 +111,21 @@ namespace ReliefProMain.ViewModel.TowerFires
         }
         private void ReadConvert()
         {
-            if (!string.IsNullOrEmpty(model.OD))
-                model.OD = UnitConvert.Convert(UOMEnum.Length, oDUnit, double.Parse(model.OD)).ToString();
-            if (!string.IsNullOrEmpty(model.Length))
-                model.Length = UnitConvert.Convert(UOMEnum.Length, lengthUnit, double.Parse(model.Length)).ToString();
-            if (!string.IsNullOrEmpty(model.Elevation))
-                model.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, double.Parse(model.Elevation)).ToString();
+            if (model.OD!=null)
+                model.OD = UnitConvert.Convert(UOMEnum.Length, oDUnit, model.OD.Value);
+            if (model.Length!=null)
+                model.Length = UnitConvert.Convert(UOMEnum.Length, lengthUnit, model.Length.Value);
+            if (model.Elevation!=null)
+                model.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, model.Elevation.Value);
         }
         private void WriteConvert()
         {
-            if (!string.IsNullOrEmpty(model.OD))
-                model.OD = UnitConvert.Convert(oDUnit, UOMEnum.Length, double.Parse(model.OD)).ToString();
-            if (!string.IsNullOrEmpty(model.Length))
-                model.Length = UnitConvert.Convert(lengthUnit, UOMEnum.Length, double.Parse(model.Length)).ToString();
-            if (!string.IsNullOrEmpty(model.Elevation))
-                model.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, double.Parse(model.Elevation)).ToString();
+            if (model.OD!=null)
+                model.OD = UnitConvert.Convert(oDUnit, UOMEnum.Length, model.OD.Value);
+            if (model.Length!=null)
+                model.Length = UnitConvert.Convert(lengthUnit, UOMEnum.Length, model.Length.Value);
+            if (model.Elevation!=null)
+                model.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, model.Elevation.Value);
         }
         private void InitUnit()
         {

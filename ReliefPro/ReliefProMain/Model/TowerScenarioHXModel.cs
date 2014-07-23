@@ -58,7 +58,7 @@ namespace ReliefProMain.Model
                 }
             }
         }
-        public double DutyCalcFactor
+        public double? DutyCalcFactor
         {
             get
             {
@@ -118,7 +118,7 @@ namespace ReliefProMain.Model
                 }
             }
         }
-        public double PinchFactor
+        public double? PinchFactor
         {
             get
             {

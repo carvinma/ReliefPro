@@ -53,8 +53,8 @@ namespace ReliefProMain.ViewModel
             }
         }
         public Drum CurrentDrum { get; set; }
-        private string _Duty;
-        public string Duty
+        private double? _Duty;
+        public double? Duty
         {
             get
             {
@@ -67,8 +67,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private string _Temperature;
-        public string Temperature
+        private double? _Temperature;
+        public double? Temperature
         {
             get
             {
@@ -81,8 +81,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private string _Pressure;
-        public string Pressure
+        private double? _Pressure;
+        public double? Pressure
         {
             get
             {
@@ -179,12 +179,12 @@ namespace ReliefProMain.ViewModel
                     przFile = vm.SelectedFile + ".prz";
                     ProIIDrum = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Flash");
                     DrumName = ProIIDrum.EqName;
-                    Duty = (double.Parse(ProIIDrum.DutyCalc) * 3600).ToString();
-                    Temperature = UnitConvert.Convert("K", "C", double.Parse(ProIIDrum.TempCalc)).ToString(); ;
-                    Pressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(ProIIDrum.PressCalc)).ToString(); ;
+                    Duty = (double.Parse(ProIIDrum.DutyCalc) * 3600);
+                    Temperature = UnitConvert.Convert("K", "C", double.Parse(ProIIDrum.TempCalc));
+                    Pressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(ProIIDrum.PressCalc)) ;
 
                     DrumType = "Flashing Drum";
-                    if (Duty == "0")
+                    if (Duty == 0)
                     {
                         DrumType = "General Seperator";
                     }
