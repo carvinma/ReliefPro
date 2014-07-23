@@ -19,5 +19,21 @@
     <property name="FeedReliefTout" column="FeedReliefTout" type="Double"   />
     <property name="FeedReliefSpEout" column="FeedReliefSpEout" type="Double"   />
     <property name="Factor" column="Factor" type="Double"   />
+    
+     <property name="FeedTin_Color" column="FeedTin_Color" type="String" length="255"   />    
+    <property name="FeedTout_Color" column="FeedTout_Color" type="String" length="255"   />
+    <property name="StreamName_Color" column="StreamName_Color" type="String" length="255" />
+    <property name="FeedSpEin_Color" column="FeedSpEin_Color" type="String" length="255"   />
+    <property name="FeedSpEout_Color" column="FeedSpEout_Color" type="String" length="255"   />
+    <property name="BottomReliefTin_Color" column="BottomReliefTin_Color" type="String" length="255"   />
+    <property name="FeedMassRate_Color" column="FeedMassRate_Color" type="String" length="255"  />
+    <property name="BottomTin_Color" column="BottomTin_Color" type="String" length="255" />
+    <property name="BottomTout_Color" column="BottomTout_Color" type="String" length="255" />
+    <property name="BottomMassRate_Color" column="BottomMassRate_Color" type="String" length="255"  />
+    <property name="Duty_Color" column="Duty_Color" type="String" length="255"  />
+    <property name="HeatSourceID_Color" column="HeatSourceID_Color" type="String" length="255"   />
+    <property name="FeedReliefTout_Color" column="FeedReliefTout_Color" type="String" length="255"   />
+    <property name="FeedReliefSpEout_Color" column="FeedReliefSpEout_Color" type="String" length="255"  />
+    <property name="Factor_Color" column="Factor_Color" type="String" length="255"  />
   </class>
 </hibernate-mapping>

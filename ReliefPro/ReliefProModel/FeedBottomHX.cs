@@ -24,5 +24,21 @@ namespace ReliefProModel
         public virtual double? FeedReliefTout { get; set; }
         public virtual double? FeedReliefSpEout { get; set; }
         public virtual double? Factor { get; set; }
+
+        public virtual string StreamName_Color { get; set; }
+        public virtual string FeedTin_Color { get; set; }
+        public virtual string FeedTout_Color { get; set; }
+        public virtual string FeedMassRate_Color { get; set; }
+        public virtual string FeedSpEin_Color { get; set; }
+        public virtual string FeedSpEout_Color { get; set; }
+        public virtual string BottomTin_Color { get; set; }
+        public virtual string BottomTout_Color { get; set; }
+        public virtual string BottomReliefTin_Color { get; set; }
+        public virtual string BottomMassRate_Color { get; set; }
+        public virtual string Duty_Color { get; set; }
+        public virtual string HeatSourceID_Color { get; set; }
+        public virtual string FeedReliefTout_Color { get; set; }
+        public virtual string FeedReliefSpEout_Color { get; set; }
+        public virtual string Factor_Color { get; set; }
     }
 }
