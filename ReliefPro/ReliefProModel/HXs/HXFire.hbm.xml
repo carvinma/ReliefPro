@@ -11,5 +11,13 @@
   <property name="Length" column="Length" type="Double"/>
   <property name="Elevation" column="Elevation" type="Double"/>
   <property name="PipingContingency" column="PipingContingency" type="Double"/>
+
+  <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"/>
+  <property name="ExposedToFire_Color" column="ExposedToFire_Color" type="String" length="255"/>
+  <property name="Type_Color" column="Type_Color" type="String" length="255"/>
+  <property name="OD_Color" column="OD_Color" type="String" length="255"/>
+  <property name="Length_Color" column="Length_Color" type="String" length="255"/>
+  <property name="Elevation_Color" column="Elevation_Color" type="String" length="255"/>
+  <property name="PipingContingency_Color" column="PipingContingency_Color" type="String" length="255"/>
 </class>
 </hibernate-mapping>
