@@ -15,6 +15,13 @@ namespace ReliefProModel
         public virtual double? LiquidHoldup { get; set; }
         public virtual double? PipingContingency { get; set; }
         public virtual int EqID { get; set; }
+
+        public virtual string NumberOfSegment_Color { get; set; }
+        public virtual string Elevation_Color { get; set; }
+        public virtual string BNLL_Color { get; set; }
+        public virtual string LiquidHoldup_Color { get; set; }
+        public virtual string PipingContingency_Color { get; set; }
+        public virtual string EqID_Color { get; set; }
        
     }
 }

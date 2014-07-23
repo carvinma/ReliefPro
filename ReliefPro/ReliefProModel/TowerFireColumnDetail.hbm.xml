@@ -10,5 +10,12 @@
     <property name="Diameter" column="Diameter" type="String" length="255" />
     <property name="ColumnID" column="ColumnID" type="Int32"  />
     <property name="Segment" column="Segment" type="String" length="255" />
+    
+    <property name="Internal_Color" column="Internal_Color" type="String" length="255" />
+    <property name="Trays_Color" column="Trays_Color" type="String" length="255" />
+    <property name="Height_Color" column="Height_Color" type="String" length="255" />
+    <property name="Diameter_Color" column="Diameter_Color" type="String" length="255" />
+    <property name="ColumnID_Color" column="ColumnID_Color" type="String" length="255"  />
+    <property name="Segment_Color" column="Segment_Color" type="String" length="255" />
   </class>
 </hibernate-mapping>
