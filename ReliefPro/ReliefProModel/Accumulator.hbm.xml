@@ -9,5 +9,11 @@
   <property name="Diameter" column="Diameter" type="Double"  />
   <property name="Length" column="Length" type="Double"  />
   <property name="NormalLiquidLevel" column="NormalLiquidLevel" type="Double"  />
+  
+  <property name="AccumulatorName_Color" column="AccumulatorName_Color" type="String" length="255" />
+  <property name="Orientation_Color" column="Orientation_Color" type="String" length="255"/>
+  <property name="Diameter_Color" column="Diameter_Color" type="String" length="255"  />
+  <property name="Length_Color" column="Length_Color" type="String" length="255" />
+  <property name="NormalLiquidLevel_Color" column="NormalLiquidLevel_Color" type="String" length="255" />
 </class>
 </hibernate-mapping>

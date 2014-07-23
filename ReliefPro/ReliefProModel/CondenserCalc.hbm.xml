@@ -8,5 +8,9 @@
     <property name="Flooding" column="Flooding" type="Boolean" />
     <property name="SurgeTime" column="SurgeTime" type="String" length="255" />
     <property name="IsSurgeTime" column="IsSurgeTime" type="Boolean"  />
+
+    <property name="Flooding_Color" column="Flooding_Color" type="String" length="255"  />
+    <property name="SurgeTime_Color" column="SurgeTime_Color" type="String" length="255" />
+    <property name="IsSurgeTime_Color" column="IsSurgeTime_Color" type="String" length="255"   />
   </class>
 </hibernate-mapping>

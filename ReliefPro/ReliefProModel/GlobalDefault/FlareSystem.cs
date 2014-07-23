@@ -13,5 +13,7 @@ namespace ReliefProModel.GlobalDefault
         public virtual double? DesignBackPressure { get; set; }
         public virtual bool isDel { get; set; }
 
+
+
     }
 }

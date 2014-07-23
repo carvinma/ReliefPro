@@ -12,5 +12,9 @@ namespace ReliefProModel
         public virtual string CompressorName { get; set; }
         public virtual string CompressorType { get; set; }      
         public virtual string PrzFile { get; set; }
+
+        public virtual string CompressorName_Color { get; set; }
+        public virtual string CompressorType_Color { get; set; }
+        public virtual string PrzFile_Color { get; set; }
     }
 }

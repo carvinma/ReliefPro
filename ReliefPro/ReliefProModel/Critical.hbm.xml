@@ -5,6 +5,7 @@
       <generator class="identity" />
     </id>   
     <property name="CriticalPressure" column="CriticalPressure" type="Double"  />
-   
+
+    <property name="CriticalPressure_Color" column="CriticalPressure_Color" type="String" length="255"  />
   </class>
 </hibernate-mapping>

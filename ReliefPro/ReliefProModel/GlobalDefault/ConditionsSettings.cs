@@ -13,5 +13,7 @@ namespace ReliefProModel.GlobalDefault
         public virtual bool SteamCondition { get; set; }
         public virtual double? LatentHeatSettings { get; set; }
         public virtual double? DrumSurgeTimeSettings { get; set; }
+
+       
     }
 }

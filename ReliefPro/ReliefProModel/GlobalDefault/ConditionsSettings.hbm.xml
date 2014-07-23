@@ -9,5 +9,7 @@
   <property name="SteamCondition" column="SteamCondition" type="Boolean"/>
   <property name="LatentHeatSettings" column="LatentHeatSettings" type="Double"/>
   <property name="DrumSurgeTimeSettings" column="DrumSurgeTimeSettings" type="Double"/>
+
+  
 </class>
 </hibernate-mapping>

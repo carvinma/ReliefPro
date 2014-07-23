@@ -14,6 +14,12 @@ namespace ReliefProModel
         public virtual double? Diameter { get; set; }
         public virtual double? Length { get; set; }
         public virtual double? NormalLiquidLevel { get; set; }
+
+        public virtual string AccumulatorName_Color { get; set; }
+        public virtual string Orientation_Color { get; set; }
+        public virtual string Diameter_Color { get; set; }
+        public virtual string Length_Color { get; set; }
+        public virtual string NormalLiquidLevel_Color { get; set; }
        
     }
 }
