@@ -15,7 +15,7 @@ namespace ReliefProModel
         public virtual string CompIn { get; set; }
         public virtual string Componentid { get; set; }
         public virtual string PrintNumber { get; set; }
-        public virtual int ProdType { get; set; }
+        public virtual string ProdType { get; set; }
         public virtual double? Pressure { get; set; }
         public virtual double? Temperature { get; set; }
         public virtual bool IsProduct { get; set; }

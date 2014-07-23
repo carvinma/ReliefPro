@@ -15,7 +15,7 @@
     <property name="PrintNumber" column="PrintNumber" type="String" length="255" />
     <property name="CompIn" column="CompIn" type="String" length="255" />
     <property name="Componentid" column="Componentid" type="String" length="255" />
-    <property name="ProdType" column="ProdType" type="Int32" />
+    <property name="ProdType" column="ProdType" type="String" />
     <property name="IsProduct" column="IsProduct" type="Boolean"  />
     <property name="Tray" column="Tray" type="Double"  />
     <property name="BulkDensityAct" column="BulkDensityAct" type="Double"  />
