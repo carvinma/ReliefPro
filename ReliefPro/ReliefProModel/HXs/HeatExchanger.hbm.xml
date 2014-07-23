@@ -9,5 +9,10 @@
   <property name="HXType" column="HXType" type="String" length="255"/>
   <property name="Duty" column="Duty" type="Double"/>
   <property name="PrzFile" column="PrzFile" type="String" length="255"/>
+
+  <property name="HXName_Color" column="HXName_Color" type="String" length="255"/>
+  <property name="HXType_Color" column="HXType_Color" type="String" length="255"/>
+  <property name="Duty_Color" column="Duty_Color" type="String" length="255"/>
+  <property name="PrzFile_Color" column="PrzFile_Color" type="String" length="255"/>
 </class>
 </hibernate-mapping>
