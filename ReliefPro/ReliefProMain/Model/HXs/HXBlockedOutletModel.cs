@@ -112,7 +112,7 @@ namespace ReliefProMain.Model.HXs
             this.reliefPressure = model.ReliefPressure;
         }
 
-        private string coldStream = "S123";
+        private string coldStream;
         public string ColdStream
         {
             get { return coldStream; }
@@ -123,8 +123,8 @@ namespace ReliefProMain.Model.HXs
             }
         }
 
-        private double normalDuty;
-        public double NormalDuty
+        private double? normalDuty;
+        public double? NormalDuty
         {
             get { return normalDuty; }
             set
@@ -134,8 +134,8 @@ namespace ReliefProMain.Model.HXs
             }
         }
 
-        private double normalHotTemperature;
-        public double NormalHotTemperature
+        private double? normalHotTemperature;
+        public double? NormalHotTemperature
         {
             get { return normalHotTemperature; }
             set
@@ -145,8 +145,8 @@ namespace ReliefProMain.Model.HXs
             }
         }
 
-        private double normalColdInletTemperature;
-        public double NormalColdInletTemperature
+        private double? normalColdInletTemperature;
+        public double? NormalColdInletTemperature
         {
             get { return normalColdInletTemperature; }
             set
@@ -156,8 +156,8 @@ namespace ReliefProMain.Model.HXs
             }
         }
 
-        private double normalColdOutletTemperature;
-        public double NormalColdOutletTemperature
+        private double? normalColdOutletTemperature;
+        public double? NormalColdOutletTemperature
         {
             get { return normalColdOutletTemperature; }
             set
@@ -167,8 +167,8 @@ namespace ReliefProMain.Model.HXs
             }
         }
 
-        private double latentPoint;
-        public double LatentPoint
+        private double? latentPoint;
+        public double? LatentPoint
         {
             get { return latentPoint; }
             set
@@ -178,8 +178,8 @@ namespace ReliefProMain.Model.HXs
             }
         }
 
-        private double reliefMW;
-        public double ReliefMW
+        private double? reliefMW;
+        public double? ReliefMW
         {
             get { return reliefMW; }
             set
@@ -189,8 +189,8 @@ namespace ReliefProMain.Model.HXs
             }
         }
 
-        private double reliefload;
-        public double ReliefLoad
+        private double? reliefload;
+        public double? ReliefLoad
         {
             get { return reliefload; }
             set
@@ -200,8 +200,8 @@ namespace ReliefProMain.Model.HXs
             }
         }
 
-        private double reliefTemperature;
-        public double ReliefTemperature
+        private double? reliefTemperature;
+        public double? ReliefTemperature
         {
             get { return reliefTemperature; }
             set
@@ -211,8 +211,8 @@ namespace ReliefProMain.Model.HXs
             }
         }
 
-        private double reliefPressure;
-        public double ReliefPressure
+        private double? reliefPressure;
+        public double? ReliefPressure
         {
             get { return reliefPressure; }
             set
@@ -221,5 +221,121 @@ namespace ReliefProMain.Model.HXs
                 this.NotifyPropertyChanged("ReliefPressure");
             }
         }
+
+
+
+
+
+
+        private string coldStream_Color;
+        public string ColdStream_Color
+        {
+            get { return coldStream_Color; }
+            set
+            {
+                coldStream_Color = value;
+                NotifyPropertyChanged("ColdStream_Color");
+            }
+        }
+
+        private double? normalDuty_Color;
+        public double? NormalDuty_Color
+        {
+            get { return normalDuty_Color; }
+            set
+            {
+                normalDuty_Color = value;
+                NotifyPropertyChanged("NormalDuty_Color");
+            }
+        }
+
+        private double? normalHotTemperature_Color;
+        public double? NormalHotTemperature_Color
+        {
+            get { return normalHotTemperature_Color; }
+            set
+            {
+                normalHotTemperature_Color = value;
+                NotifyPropertyChanged("NormalHotTemperature_Color");
+            }
+        }
+
+        private double? normalColdInletTemperature_Color;
+        public double? NormalColdInletTemperature_Color
+        {
+            get { return normalColdInletTemperature_Color; }
+            set
+            {
+                normalColdInletTemperature_Color = value;
+                NotifyPropertyChanged("NormalColdInletTemperature_Color");
+            }
+        }
+
+        private double? normalColdOutletTemperature_Color;
+        public double? NormalColdOutletTemperature_Color
+        {
+            get { return normalColdOutletTemperature_Color; }
+            set
+            {
+                normalColdOutletTemperature_Color = value;
+                NotifyPropertyChanged("NormalColdOutletTemperature_Color");
+            }
+        }
+
+        private double? latentPoint_Color;
+        public double? LatentPoint_Color
+        {
+            get { return latentPoint_Color; }
+            set
+            {
+                latentPoint_Color = value;
+                NotifyPropertyChanged("LatentPoint_Color");
+            }
+        }
+
+        private double? reliefMW_Color;
+        public double? ReliefMW_Color
+        {
+            get { return reliefMW_Color; }
+            set
+            {
+                reliefMW_Color = value;
+                this.NotifyPropertyChanged("ReliefMW_Color");
+            }
+        }
+
+        private double? reliefload_Color;
+        public double? ReliefLoad_Color
+        {
+            get { return reliefload_Color; }
+            set
+            {
+                reliefload_Color = value;
+                this.NotifyPropertyChanged("ReliefLoad_Color");
+            }
+        }
+
+        private double? reliefTemperature_Color;
+        public double? ReliefTemperature_Color
+        {
+            get { return reliefTemperature_Color; }
+            set
+            {
+                reliefTemperature_Color = value;
+                this.NotifyPropertyChanged("ReliefTemperature_Color");
+            }
+        }
+
+        private double? reliefPressure_Color;
+        public double? ReliefPressure_Color
+        {
+            get { return reliefPressure_Color; }
+            set
+            {
+                reliefPressure_Color = value;
+                this.NotifyPropertyChanged("ReliefPressure_Color");
+            }
+        }
+
     }
 }

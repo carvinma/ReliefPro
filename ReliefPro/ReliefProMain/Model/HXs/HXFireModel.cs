@@ -136,7 +136,7 @@ namespace ReliefProMain.Model.HXs
             set
             {
                 type_Color = value;
-                this.NotifyPropertyChanged("Type");
+                this.NotifyPropertyChanged("Type_Color");
             }
         }
         private string exposedToFire_Color;
@@ -146,7 +146,7 @@ namespace ReliefProMain.Model.HXs
             set
             {
                 exposedToFire_Color = value;
-                NotifyPropertyChanged("ExposedToFire");
+                NotifyPropertyChanged("ExposedToFire_Color");
             }
         }
         private string oD_Color;
@@ -156,7 +156,7 @@ namespace ReliefProMain.Model.HXs
             set
             {
                 oD_Color = value;
-                NotifyPropertyChanged("OD");
+                NotifyPropertyChanged("OD_Color");
             }
         }
 
@@ -167,7 +167,7 @@ namespace ReliefProMain.Model.HXs
             set
             {
                 length_Color = value;
-                this.NotifyPropertyChanged("Length");
+                this.NotifyPropertyChanged("Length_Color");
             }
         }
 
@@ -178,7 +178,7 @@ namespace ReliefProMain.Model.HXs
             set
             {
                 elevation_Color = value;
-                this.NotifyPropertyChanged("Elevation");
+                this.NotifyPropertyChanged("Elevation_Color");
             }
         }
 
@@ -189,8 +189,11 @@ namespace ReliefProMain.Model.HXs
             set
             {
                 pipingContingency_Color = value;
-                this.NotifyPropertyChanged("PipingContingency");
+                this.NotifyPropertyChanged("PipingContingency_Color");
             }
         }
+
+
+        
     }
 }
