@@ -10,6 +10,8 @@ namespace ReliefProModel
     {
         public virtual int ID { get; set; }
         public virtual string EqName { get; set; }
+
+        public virtual string EqName_Color { get; set; }
        
        
     }

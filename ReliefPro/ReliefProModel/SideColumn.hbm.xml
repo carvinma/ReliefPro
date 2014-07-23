@@ -6,5 +6,7 @@
 </id>
   <property name="EqName" column="EqName" type="String" length="255" />
   
+<property name="EqName_Color" column="EqName_Color" type="String" length="255" />
+  
 </class>
 </hibernate-mapping>

@@ -9,5 +9,11 @@
     <property name="SinkType" column="SinkType" type="String" length="255" />
     <property name="MaxPossiblePressure" column="MaxPossiblePressure" type="Double" />    
     <property name="StreamName" column="StreamName" type="String" length="255" />
+
+    <property name="SinkName_Color" column="SinkName_Color" type="String" length="255" />
+    <property name="Description_Color" column="Description_Color" type="String" length="255" />
+    <property name="SinkType_Color" column="SinkType_Color" type="String" length="255" />
+    <property name="MaxPossiblePressure_Color" column="MaxPossiblePressure_Color" type="String" length="255" />
+    <property name="StreamName_Color" column="StreamName_Color" type="String" length="255" />
   </class>
 </hibernate-mapping>
