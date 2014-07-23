@@ -28,21 +28,21 @@ namespace ReliefProModel.Drums
         public virtual bool EquipmentExist { get; set; }
 
 
-        public virtual string DrumID { get; set; }
-        public virtual string ScenarioID { get; set; }
-        public virtual string HeatInputModel { get; set; }
-        public virtual string WettedArea { get; set; }
-        public virtual string LatentHeat { get; set; }
-        public virtual string CrackingHeat { get; set; }
-        public virtual string DesignPressure { get; set; }
-        public virtual string ReliefLoad { get; set; }
-        public virtual string ReliefPressure { get; set; }
-        public virtual string ReliefTemperature { get; set; }
-        public virtual string ReliefMW { get; set; }
-        public virtual string ReliefCpCv { get; set; }
-        public virtual string ReliefZ { get; set; }
-        public virtual string HeavyOilFluid { get; set; }
-        public virtual string AllGas { get; set; }
-        public virtual string EquipmentExist { get; set; }
+        public virtual string DrumID_Color { get; set; }
+        public virtual string ScenarioID_Color { get; set; }
+        public virtual string HeatInputModel_Color { get; set; }
+        public virtual string WettedArea_Color { get; set; }
+        public virtual string LatentHeat_Color { get; set; }
+        public virtual string CrackingHeat_Color { get; set; }
+        public virtual string DesignPressure_Color { get; set; }
+        public virtual string ReliefLoad_Color { get; set; }
+        public virtual string ReliefPressure_Color { get; set; }
+        public virtual string ReliefTemperature_Color { get; set; }
+        public virtual string ReliefMW_Color { get; set; }
+        public virtual string ReliefCpCv_Color { get; set; }
+        public virtual string ReliefZ_Color { get; set; }
+        public virtual string HeavyOilFluid_Color { get; set; }
+        public virtual string AllGas_Color { get; set; }
+        public virtual string EquipmentExist_Color { get; set; }
     }
 }
