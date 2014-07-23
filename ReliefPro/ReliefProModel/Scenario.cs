@@ -23,5 +23,21 @@ namespace ReliefProModel
         public virtual string dbPath { get; set; }
         private string phase = "V";
         public virtual string Phase { get { return phase; } set { phase = value; } }
+
+        //color
+        public virtual string ScenarioName_Color { get; set; }
+        public virtual string ReliefLoad_Color { get; set; }
+        public virtual string ReliefTemperature_Color { get; set; }
+        public virtual string ReliefPressure_Color { get; set; }
+        public virtual string ReliefMW_Color { get; set; }
+        public virtual string ReliefCpCv_Color { get; set; }
+        public virtual string ReliefZ_Color { get; set; }
+        public virtual string ReliefVolumeRate_Color { get; set; }
+        public virtual string Flooding_Color { get; set; }
+        public virtual string IsSurgeCalculation_Color { get; set; }
+        public virtual string SurgeTime_Color { get; set; }
+        public virtual string dbPath_Color { get; set; }
+        
+        public virtual string Phase_Color { get { return phase; } set { phase = value; } }
     }
 }

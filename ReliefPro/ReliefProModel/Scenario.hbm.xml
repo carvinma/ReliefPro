@@ -12,5 +12,13 @@
     <property name="ReliefCpCv" column="ReliefCpCv" type="String" length="255" />
     <property name="ReliefZ" column="ReliefZ" type="String" length="255" />
    
+    <!--color-->
+    <property name="ScenarioName_Color" column="ScenarioName_Color" type="String" length="255" />
+    <property name="ReliefLoad_Color" column="ReliefLoad_Color" type="String" length="255" />
+    <property name="ReliefTemperature_Color" column="ReliefTemperature_Color" type="String" length="255" />
+    <property name="ReliefPressure_Color" column="ReliefPressure_Color" type="String" length="255" />
+    <property name="ReliefMW_Color" column="ReliefMW_Color" type="String" length="255" />
+    <property name="ReliefCpCv_Color" column="ReliefCpCv_Color" type="String" length="255" />
+    <property name="ReliefZ_Color" column="ReliefZ_Color" type="String" length="255" />
   </class>
 </hibernate-mapping>
