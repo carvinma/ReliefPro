@@ -40,7 +40,7 @@
 
         <TextBox Name="txtName" HorizontalAlignment="Left" Text="{Binding CurrentModel.PSVName}" Grid.Row="1" Grid.Column="2" />
         <TextBox Name="txtValveNumber" HorizontalAlignment="Left" Text="{Binding CurrentModel.ValveNumber}"   Grid.Row="2" Grid.Column="2" />
-        <ComboBox Name="cbxValueType" HorizontalAlignment="Left" ItemsSource="{Binding ValveTypes}" SelectedItem="{Binding CurrentModel.ValveType}" Width="120"  Grid.Row="2" Grid.Column="6"/>
+        <ComboBox Name="cbxValueType" HorizontalAlignment="Left" ItemsSource="{Binding ValveTypes}" SelectedItem="{Binding CurrentModel.ValveType}" Width="120"  Grid.Row="2" Grid.Column="6" Height="25"/>
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Text="{Binding CurrentModel.Pressure}" Grid.Row="3" Grid.Column="2" />
         <TextBox Name="txtLocationDescription"  Text="{Binding CurrentModel.LocationDescription}" Height="49" HorizontalAlignment="Left" TextWrapping="Wrap"  Grid.Row="4" Grid.Column="2"  Grid.RowSpan="3" />
         <TextBox Name="txtPrelief"  Text="{Binding CurrentModel.ReliefPressureFactor}" HorizontalAlignment="Left"  Grid.Row="4" Grid.Column="2" />
@@ -80,8 +80,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Content="Save"  HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName= myWindow}" Grid.Column="1" />
-            <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Center"  Grid.Row="7" VerticalAlignment="Center" Width="76" Height="22" Grid.Column="2" />
+            <Button Content="{DynamicResource Save}"  HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName= myWindow}" Grid.Column="1" />
+            <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center"  Grid.Row="7" VerticalAlignment="Center" Width="76" Height="22" Grid.Column="2" />
 
         </Grid>
 

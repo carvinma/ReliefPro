@@ -55,8 +55,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Content="OK" Name="btnOK" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="25" Click="btnOK_Click"  Grid.Column="1"/>
-            <Button Content="Cancel" Name="btnCancel" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="25" Click="btnCancel_Click"   Grid.Column="2"/>
+            <Button Content="{DynamicResource OK}" Name="btnOK" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="25" Click="btnOK_Click"  Grid.Column="1"/>
+            <Button Content="{DynamicResource Cancel}" Name="btnCancel" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="25" Click="btnCancel_Click"   Grid.Column="2"/>
 
         </Grid>
 

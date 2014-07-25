@@ -49,8 +49,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button  Content="OK" HorizontalAlignment="Center" Command="{Binding OKClick}" CommandParameter="{Binding ElementName=myWindow}"    Grid.Column="1" Grid.Row="0"/>
-            <Button Content="Cancel" IsCancel="True"    Grid.Column="2" Grid.Row="0"/>
+            <Button  Content="{DynamicResource OK}" HorizontalAlignment="Center" Command="{Binding OKClick}" CommandParameter="{Binding ElementName=myWindow}"    Grid.Column="1" Grid.Row="0"/>
+            <Button Content="{DynamicResource Cancel}" IsCancel="True"    Grid.Column="2" Grid.Row="0"/>
 
         </Grid>
         <Border Grid.Column="0"  Grid.Row="4" Grid.ColumnSpan="4" Style="{DynamicResource Hborder}" ></Border>

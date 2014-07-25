@@ -74,9 +74,9 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-             
-            <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="9" VerticalAlignment="Center" Width="75" Height="22"  />
-            <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Center" Grid.Row="9" Grid.Column="2" VerticalAlignment="Center" Width="75" Height="22" />
+
+            <Button Content="{DynamicResource OK}" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="9" VerticalAlignment="Center" Width="75" Height="22"  />
+            <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center" Grid.Row="9" Grid.Column="2" VerticalAlignment="Center" Width="75" Height="22" />
 
         </Grid>
 

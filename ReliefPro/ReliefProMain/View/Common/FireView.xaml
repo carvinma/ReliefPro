@@ -57,8 +57,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Content="OK" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=DrumFireWin}" Grid.Column="1"   Width="75"  Height="25"/>
-            <Button Content="Cancel" IsCancel="True" Grid.Column="2"  Width="75" Height="25"/>
+            <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=DrumFireWin}" Grid.Column="1"   Width="75"  Height="25"/>
+            <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="2"  Width="75" Height="25"/>
 
         </Grid>
 

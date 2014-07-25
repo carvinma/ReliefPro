@@ -41,8 +41,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button x:Name="btnOK" Content="OK" Command="{Binding Update}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Grid.Column="1"/>
-            <Button x:Name="btnCancel" IsCancel="True" Content="Cancel" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Grid.Column="3"  />
+            <Button x:Name="btnOK" Content="{DynamicResource OK}" Command="{Binding Update}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Grid.Column="1"/>
+            <Button x:Name="btnCancel" IsCancel="True" Content="{DynamicResource Cancel}" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Grid.Column="3"  />
 
         </Grid>
 
