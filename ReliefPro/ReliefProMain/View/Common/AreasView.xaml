@@ -17,8 +17,8 @@
             <RowDefinition Height="32"/>
             <RowDefinition Height="2"/>
             <RowDefinition Height="24"/>
-        </Grid.RowDefinitions>        
-        <GroupBox Grid.Column="1" Header="Area Data" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="92" Width="359">
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Column="1" Header="{DynamicResource Area Data}" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="92" Width="359">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="28*"/>
