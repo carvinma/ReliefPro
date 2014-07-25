@@ -816,6 +816,7 @@
     <Resource Include="Images\pt.ico" />
     <Resource Include="Images\save.ico" />
     <Resource Include="Images\un.ico" />
+    <None Include="Resources\Image1.bmp" />
     <Content Include="Template\common.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

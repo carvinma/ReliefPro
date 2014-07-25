@@ -139,8 +139,8 @@
                                 <TreeView VerticalAlignment="Stretch" Name="NavigationTreeView"   MouseDoubleClick="NavigationTreeView_MouseDoubleClick" ContextMenu="{StaticResource RightContextMenu}" PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
                                     <TreeView.ItemTemplate    >
                                         <HierarchicalDataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image   />
+                                            <StackPanel Orientation="Horizontal" >
+                                                <Image Margin="0,0,10,0"   />
                                                 <TextBlock />
                                             </StackPanel>
                                         </HierarchicalDataTemplate>
