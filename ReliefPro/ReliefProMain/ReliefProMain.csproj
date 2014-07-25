@@ -277,11 +277,14 @@
     <Compile Include="View\HXs\AirCooledHXFireView.xaml.cs">
       <DependentUpon>AirCooledHXFireView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\HXs\HXFireView.xaml.cs">
+      <DependentUpon>HXFireView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\HXs\HeatExchangerView.xaml.cs">
       <DependentUpon>HeatExchangerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\HXs\HXFireView.xaml.cs">
-      <DependentUpon>HXFireView.xaml</DependentUpon>
+    <Compile Include="View\HXs\HXFireSize.xaml.cs">
+      <DependentUpon>HXFireSize.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\HXs\TubeRuptureView.xaml.cs">
       <DependentUpon>TubeRuptureView.xaml</DependentUpon>
@@ -526,11 +529,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\HXs\HXFireView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\HXs\HeatExchangerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\HXs\HXFireView.xaml">
+    <Page Include="View\HXs\HXFireSize.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

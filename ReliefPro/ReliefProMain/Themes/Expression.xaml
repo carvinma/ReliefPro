@@ -32,13 +32,16 @@
     <SolidColorBrush x:Key="NormalBorderBrush" Color="#FF9B9999" />
     <SolidColorBrush x:Key="HoverBrush" Color="{StaticResource HoverColor}" />
     <SolidColorBrush x:Key="GlyphBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="BackBrush" Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/> 
+    <SolidColorBrush x:Key="BackBrush" Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+   
     <Style TargetType="{x:Type Grid}">
         <Setter Property="Background" Value="{DynamicResource BackBrush}" />
     </Style>
     <Style TargetType="{x:Type Window}">
         <Setter Property="Background" Value="{DynamicResource BackBrush}" />
+        <Setter Property="ResizeMode" Value="NoResize" />
     </Style>
+    
     <Style TargetType="{x:Type TreeView}">
         <Setter Property="Background" Value="{DynamicResource BackBrush}" />
     </Style>

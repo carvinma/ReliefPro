@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"        
         xmlns:winformsIntegration="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
-        Title="MainWindow" Height="800" Width="1200" Name="MainWindowApp" Loaded="MainWindowApp_Loaded" Closing="MainWindowApp_Closing">
+        Title="MainWindow" Height="800" Width="1200" Name="MainWindowApp" Loaded="MainWindowApp_Loaded" Closing="MainWindowApp_Closing" >
    
     <Window.Resources>
         <ResourceDictionary>
@@ -137,7 +137,7 @@
                         <avalonDock:LayoutAnchorablePane>
                             <avalonDock:LayoutAnchorable  x:Name="Navigation"  ContentId="Navigation" Title="Plant Explorer" ToolTip="Plant Explorer" CanHide="False" CanClose="False" >
                                 <TreeView VerticalAlignment="Stretch" Name="NavigationTreeView"   MouseDoubleClick="NavigationTreeView_MouseDoubleClick" ContextMenu="{StaticResource RightContextMenu}" PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
-                                    <TreeView.ItemTemplate    >
+                                    <TreeView.ItemTemplate>
                                         <HierarchicalDataTemplate>
                                             <StackPanel Orientation="Horizontal" >
                                                 <Image Margin="0,0,10,0"   />

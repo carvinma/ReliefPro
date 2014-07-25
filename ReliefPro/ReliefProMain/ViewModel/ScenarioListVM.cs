@@ -30,6 +30,7 @@ using ReliefProDAL.Compressors;
 using ReliefProModel.HXs;
 using ReliefProDAL.HXs;
 using ReliefProMain.ViewModel.HXs;
+using ReliefProMain.View.HXs;
 
 namespace ReliefProMain.ViewModel
 {
@@ -318,7 +319,8 @@ namespace ReliefProMain.ViewModel
                     {
                         if (ScenarioName.Contains("Blocked Outlet"))
                         {
-                            StorageTankFireView v = new StorageTankFireView();
+
+                            HXBlockedOutletView v = new HXBlockedOutletView();
                             HXBlockedOutletVM vm = new HXBlockedOutletVM(ScenarioID,PrzFile,PrzVersion, SessionProtectedSystem, SessionPlant,DirPlant,DirProtectedSystem);
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
@@ -329,12 +331,25 @@ namespace ReliefProMain.ViewModel
                                 SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                             }
                         }
+                        else if (ScenarioName.Contains("Fire"))
+                        {
+                            HXFireView v = new HXFireView();
+                            //HXFireVM vm = new HXFireVM(ScenarioID, PrzFile, PrzVersion, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
+                            //v.DataContext = vm;
+                            if (v.ShowDialog() == true)
+                            {
+                                //SelectedScenario.ReliefLoad = vm.model.Reliefload;
+                               //SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                                //SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                                //SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                            }
+                        }
                     }
                     else
                     {
                         if (ScenarioName.Contains("Fire"))
                         {
-                            StorageTankFireView v = new StorageTankFireView();
+                            AirCooledHXFireView v = new AirCooledHXFireView();
                             AirCooledHXFireVM vm = new AirCooledHXFireVM(ScenarioID,PrzFile,PrzVersion, SessionProtectedSystem, SessionPlant,DirPlant,DirProtectedSystem);
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
