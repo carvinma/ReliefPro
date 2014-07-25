@@ -104,39 +104,110 @@
     <s:String x:Key="Steam">Steam</s:String>
     <s:String x:Key="Heat Source">Heat Source</s:String>
 
+    <!--CentrifugalBlockedView.xaml-->
+    <s:String x:Key="CentrifugalBlockedView Title">CompressorBlocked</s:String>
+    <s:String x:Key="Max Speed_Normal Speed">Max Speed/Normal Speed</s:String>
+    <s:String x:Key="Inlet Load">Inlet Load</s:String>
+    <s:String x:Key="Outlet Pressure">Outlet Pressure</s:String>
+    <s:String x:Key="Surge Load">Surge Load</s:String>
+    <s:String x:Key="Output">Output</s:String>
+    <s:String x:Key="Relief Temp">Relief Temp</s:String>
+
+    <!--CompressorView.xaml-->
+    <s:String x:Key="CompressorView Title">Drum</s:String>
+    <s:String x:Key="Compressor Name">Compressor Name</s:String>
+    <s:String x:Key="Compressor Type">Compressor Type</s:String>
+    <s:String x:Key="Import From Database">Import From Database</s:String>
+    <s:String x:Key="Feed">Feed</s:String>
+    <s:String x:Key="Product">Product</s:String>
+
+    <!--PistonCompressorBlocked.xaml-->
+    <s:String x:Key="PistonCompressorBlocked Title">CompressorBlocked</s:String>
+    <s:String x:Key="Input">Input</s:String>
+    <s:String x:Key="Rated Capacity_Normal capacity">Rated Capacity/Normal capacity</s:String>
+
+    <!--CriticalFluid.xaml-->
+    <s:String x:Key="CriticalFluid Title">StorageTank</s:String>
+    <s:String x:Key="Fluid Type">Fluid Type</s:String>
+    <s:String x:Key="MPag">MPag</s:String>
+    <s:String x:Key="Critical">Critical</s:String>
+    <s:String x:Key="Sub_Critical">Sub-Critical</s:String>
+
+    <!--DEPRColumnDetailsView.xaml-->
+    <s:String x:Key="DEPRColumnDetailsView Title">DEPRColumnDetails</s:String>
+    <s:String x:Key="Number of segment">Number of segment</s:String>
+    <s:String x:Key="segment">segment</s:String>
+    <s:String x:Key="Internal">Internal</s:String>
+    <s:String x:Key="of actual trays_or void frac"># of actual trays/or void frac.</s:String>
+    <s:String x:Key="total height_m">total height,m</s:String>
+    <s:String x:Key="Diameter_m">Diameter,m</s:String>
+    <s:String x:Key="Bottom NHLL_m">Bottom NHLL, m</s:String>
+
+    <!--DeprCurveView.xaml-->
+    <s:String x:Key="DeprCurveView Title">DeprCurveView</s:String>
+    <s:String x:Key="Depr">Depr</s:String>
+
+    <!--DEPRDetailView.xaml-->
+    <s:String x:Key="DEPRDetailView Title">DEPR</s:String>
+    <s:String x:Key="Total Volume">Total Volume</s:String>
+    <s:String x:Key="Volume Contingency">Volume Contingency</s:String>
+    <s:String x:Key="Total Effective Volume">Total Effective Volume</s:String>
+    <s:String x:Key="Liquid Holdup Contingency">Liquid Holdup Contingency</s:String>
+    <s:String x:Key="Total Liquid Holdup">Total Liquid Holdup</s:String>
+    <s:String x:Key="Total Wetted Area">Total Wetted Area</s:String>
+    <s:String x:Key="Reactor">Reactor</s:String>
+    <s:String x:Key="Separator">Separator</s:String>
+    <s:String x:Key="HX_air cooler excld">HX (air cooler excld.)</s:String>
+    <s:String x:Key="Column">Column</s:String>
+    <s:String x:Key="Volume_m3">Volume,m3</s:String>
+    <s:String x:Key="Vol_occupied bycatInert_m3">Vol. occupied by cat./Inert, m3</s:String>
+    <s:String x:Key="Liquid holdup Percentage">Liquid holdup Percentage</s:String>
+    <s:String x:Key="Liquid Holdupm3">Liquid Holdup, m3</s:String>
+    <s:String x:Key="Elevation_m">Elevation,m</s:String>
+    <s:String x:Key="Wetted Area_m2">Wetted area,m2</s:String>
+    <s:String x:Key="Orientation">Orientation</s:String>
+    <s:String x:Key="Height_m">Height,m</s:String>
+    <s:String x:Key="Head">Head #</s:String>
+    <s:String x:Key="Normal Liquid Level_m">Normal Liquid Level,m</s:String>
+    <s:String x:Key="Details">Details</s:String>
+    <s:String x:Key="Total Volume_m3">Total Volume,m3</s:String>
+    <s:String x:Key="m3">m3</s:String>
+    <s:String x:Key="m2">m2</s:String>
+
+    <!--DrumDepressureView.xaml-->
+    <s:String x:Key="DrumDepressureView Title">DEPR</s:String>
+    <s:String x:Key="Initial Pressure">Initial Pressure</s:String>
+    <s:String x:Key="Vapor Densit">Vapor Densit</s:String>
+    <s:String x:Key="Total Vapor Volume">Total Vapor Volume</s:String>
+    <s:String x:Key="Vessel design pressure">Vessel design pressure</s:String>
+    <s:String x:Key="Depressuring Requirements">Depressuring Requirements</s:String>
+    <s:String x:Key="Heat Input Model">Heat Input Model</s:String>
+    <s:String x:Key="Valve Constant for Sonic Flow">Valve Constant for Sonic Flow</s:String>
+    <s:String x:Key="Initial Depressuring rate">Initial Depressuring rate</s:String>
+    <s:String x:Key="Time specify">Time (specify)</s:String>
+    <s:String x:Key="Calculated vessel pressure">Calculated vessel pressure</s:String>
+    <s:String x:Key="in">in</s:String>
+    <s:String x:Key="Delta P">Delta P</s:String>
+    <s:String x:Key="Time Step">Time Step</s:String>
+    <s:String x:Key="Detailed">Detailed</s:String>
+    <s:String x:Key="Depressuring Curve">Depressuring Curve</s:String>
+    <s:String x:Key="Calculated Depressuring Rate">Calculated Depressuring Rate</s:String>
 
 
 
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
 
     <!--CustomStreamView-->
     
