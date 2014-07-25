@@ -15,7 +15,7 @@ namespace ReliefProModel
         public virtual bool FireZone { get; set; }
         public virtual double? FFactor { get; set; }
         public virtual double? WettedArea { get; set; }
-        public virtual string HeatInput { get; set; }
+        public virtual double? HeatInput { get; set; }
         public virtual double? ReliefLoad { get; set; }
         public virtual int FireID { get; set; }
 

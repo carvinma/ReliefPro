@@ -4,7 +4,7 @@
     <id name="ID" column="ID" type="Int32" unsaved-value="0">
       <generator class="identity" />
     </id>
-    <property name="ExposedToFire" column="ExposedToFire" type="Double"  />
+    <property name="ExposedToFire" column="ExposedToFire" type="String"  />
     <property name="Type" column="Type" type="String" length="255" />
     <property name="OD" column="OD" type="Double"  />
     <property name="Length" column="Length" type="Double"  />

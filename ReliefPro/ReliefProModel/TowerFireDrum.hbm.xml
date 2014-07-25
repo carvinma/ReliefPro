@@ -4,15 +4,15 @@
     <id name="ID" column="ID" type="Int32" unsaved-value="0">
       <generator class="identity" />
     </id>
-    <property name="Diameter" column="Diameter" type="String" length="255" />
+    <property name="Diameter" column="Diameter" type="Double"  />
     <property name="Orientation" column="Orientation" type="String" length="255" />
-    <property name="Length" column="Length" type="String" length="255" />
-    <property name="NormalLiquidLevel" column="NormalLiquidLevel" type="String" length="255" />
-    <property name="HeadNumber" column="HeadNumber" type="String" length="255" />
+    <property name="Length" column="Length" type="Double"  />
+    <property name="NormalLiquidLevel" column="NormalLiquidLevel" type="Double"  />
+    <property name="HeadNumber" column="HeadNumber" type="Int32"  />
     <property name="HeadType" column="HeadType" type="String" length="255" />
-    <property name="BootDiameter" column="BootDiameter" type="String" />
-    <property name="BootHeight" column="BootHeight" type="String" length="255" />  
-    <property name="PipingContingency" column="PipingContingency" type="String" length="255" />
+    <property name="BootDiameter" column="BootDiameter" type="Double" />
+    <property name="BootHeight" column="BootHeight" type="Double"  />  
+    <property name="PipingContingency" column="PipingContingency" type="Double"  />
     <property name="EqID" column="EqID" type="Int32" />
     <property name="Elevation" column="Elevation" type="String" length="255" />
   

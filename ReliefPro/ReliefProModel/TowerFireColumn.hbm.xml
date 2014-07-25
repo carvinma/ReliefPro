@@ -4,11 +4,11 @@
     <id name="ID" column="ID" type="Int32" unsaved-value="0">
       <generator class="identity" />
     </id>
-    <property name="NumberOfSegment" column="NumberOfSegment" type="String" length="255" />
-    <property name="Elevation" column="Elevation" type="String" length="255" />
-    <property name="BNLL" column="BNLL" type="String" length="255" />
-    <property name="LiquidHoldup" column="LiquidHoldup" type="String" length="255" />
-    <property name="PipingContingency" column="PipingContingency" type="String" length="255" />
+    <property name="NumberOfSegment" column="NumberOfSegment" type="Int32"  />
+    <property name="Elevation" column="Elevation" type="Double"  />
+    <property name="BNLL" column="BNLL" type="Double" />
+    <property name="LiquidHoldup" column="LiquidHoldup" type="Double" />
+    <property name="PipingContingency" column="PipingContingency" type="Double"  />
     <property name="EqID" column="EqID" type="Int32" />
 
     <property name="NumberOfSegment_Color" column="NumberOfSegment_Color" type="String" length="255" />

@@ -15,7 +15,7 @@
     <property name="CompIn" column="CompIn" type="String" length="255" />
     <property name="Componentid" column="Componentid" type="String" length="255" />
     <property name="ProdType" column="ProdType" type="String" length="255" />
-    <property name="Tray" column="Tray"   type="Int" />
+    <property name="Tray" column="Tray"   type="Int32" />
   
     <!--color-->
     <property name="StreamName_Color" column="StreamName_Color" type="String" length="255" />

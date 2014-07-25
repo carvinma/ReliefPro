@@ -5,11 +5,11 @@
       <generator class="identity" />
     </id>
     <property name="Internal" column="Internal" type="String" length="255" />
-    <property name="Trays" column="Trays" type="String" length="255" />
-    <property name="Height" column="Height" type="String" length="255" />
-    <property name="Diameter" column="Diameter" type="String" length="255" />
+    <property name="Trays" column="Trays" type="Int32"  />
+    <property name="Height" column="Height" type="Double"  />
+    <property name="Diameter" column="Diameter" type="Double"  />
     <property name="ColumnID" column="ColumnID" type="Int32"  />
-    <property name="Segment" column="Segment" type="String" length="255" />
+    <property name="Segment" column="Segment" type="Int32"  />
     
     <property name="Internal_Color" column="Internal_Color" type="String" length="255" />
     <property name="Trays_Color" column="Trays_Color" type="String" length="255" />

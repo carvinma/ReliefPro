@@ -6,14 +6,14 @@
     </id>
     <property name="PSVName" column="PSVName" type="String" length="255" />
     <property name="Description" column="Description" type="String" length="255" />
-    <property name="ValveNumber" column="ValveNumber" type="String" length="255" />
+    <property name="ValveNumber" column="ValveNumber" type="Int32"  />
     <property name="ValveType" column="ValveType" type="String" length="255" />
-    <property name="Pressure" column="Pressure" type="String" length="255" />
-    <property name="ReliefPressureFactor" column="ReliefPressureFactor" type="String" length="255" />
+    <property name="Pressure" column="Pressure" type="Double"  />
+    <property name="ReliefPressureFactor" column="ReliefPressureFactor" type="Double"  />
     <property name="Location" column="Location" type="String" length="255" />
     <property name="LocationDescription" column="LocationDescription" type="String" length="255" />
     <property name="DrumPSVName" column="DrumPSVName" type="String" length="255" />
-    <property name="DrumPressure" column="DrumPressure" type="String" length="255" />
+    <property name="DrumPressure" column="DrumPressure" type="Double"  />
     <property name="MWAP" column="MWAP" type="String" length="255" />
     <property name="DischargeTo" column="DischargeTo" type="String" length="255" />
 

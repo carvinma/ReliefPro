@@ -10,7 +10,7 @@
     <property name="Elevation" column="Elevation" type="Double"  />
     <property name="FFactor" column="FFactor" type="Double"  />
     <property name="WettedArea" column="WettedArea" type="Double" />
-    <property name="HeatInput" column="HeatInput" type="String" />
+    <property name="HeatInput" column="HeatInput" type="Double" />
     <property name="ReliefLoad" column="ReliefLoad" type="Double"  />  
     <property name="FireID" column="FireID" type="Int32"  />
 

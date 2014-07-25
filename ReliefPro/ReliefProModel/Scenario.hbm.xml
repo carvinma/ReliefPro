@@ -5,12 +5,12 @@
       <generator class="identity" />
     </id>
     <property name="ScenarioName" column="ScenarioName" type="String" length="255" />    
-    <property name="ReliefLoad" column="ReliefLoad" type="String" length="255" />
-    <property name="ReliefTemperature" column="ReliefTemperature" type="String" length="255" />
-    <property name="ReliefPressure" column="ReliefPressure" type="String" length="255" />
-    <property name="ReliefMW" column="ReliefMW" type="String" length="255" />
-    <property name="ReliefCpCv" column="ReliefCpCv" type="String" length="255" />
-    <property name="ReliefZ" column="ReliefZ" type="String" length="255" />
+    <property name="ReliefLoad" column="ReliefLoad" type="Double"  />
+    <property name="ReliefTemperature" column="ReliefTemperature" type="Double"  />
+    <property name="ReliefPressure" column="ReliefPressure" type="Double"  />
+    <property name="ReliefMW" column="ReliefMW" type="Double"  />
+    <property name="ReliefCpCv" column="ReliefCpCv" type="Double"  />
+    <property name="ReliefZ" column="ReliefZ" type="Double"  />
    
     <!--color-->
     <property name="ScenarioName_Color" column="ScenarioName_Color" type="String" length="255" />

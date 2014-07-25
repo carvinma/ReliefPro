@@ -17,7 +17,7 @@
     <property name="Componentid" column="Componentid" type="String" length="255" />
     <property name="ProdType" column="ProdType" type="String" />
     <property name="IsProduct" column="IsProduct" type="Boolean"  />
-    <property name="Tray" column="Tray" type="Double"  />
+    <property name="Tray" column="Tray" type="Int32"  />
     <property name="BulkDensityAct" column="BulkDensityAct" type="Double"  />
 
     <property name="VaporFraction" column="VaporFraction" type="Double"  />
