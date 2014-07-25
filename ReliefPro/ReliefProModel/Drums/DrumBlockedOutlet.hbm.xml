@@ -16,7 +16,7 @@
 
   <property name="DrumID_Color" column="DrumID_Color" type="String" length="255"/>
   <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"/>
-  <property name="MaxPressure_Color" column="MaxPressure_Color" ttype="String" length="255"/>
+  <property name="MaxPressure_Color" column="MaxPressure_Color" type="String" length="255"/>
   <property name="MaxStreamRate_Color" column="MaxStreamRate_Color" type="String" length="255"/>
   <property name="DrumType_Color" column="DrumType_Color" type="String" length="255"/>
   <property name="NormalFlashDuty_Color" column="NormalFlashDuty_Color" type="String" length="255"/>
