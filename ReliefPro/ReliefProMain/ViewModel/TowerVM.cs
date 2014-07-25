@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * 塔基础信息界面
+ * 该文件主要是实现塔基础信息的导入与信息展示。
+ * 信息包括了塔的名称，塔层数以及塔的feed,product,condenser,reboiler
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -536,6 +541,11 @@ namespace ReliefProMain.ViewModel
 
         public void Save(object obj)
         {
+            if (string.IsNullOrEmpty(TowerName))
+            {
+                MessageBox.Show("TowerName cann't be blank", "Message Box");                
+                return;
+            }
             if (Feeds.Count == 0)
             {
                 return;

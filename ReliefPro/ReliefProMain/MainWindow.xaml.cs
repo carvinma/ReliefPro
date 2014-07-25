@@ -444,20 +444,20 @@ namespace ReliefProMain
                     ReliefProCommon.CommonLib.CSharpZip.ExtractZipFile(currentPlantFile, "1", currentPlantWorkFolder);
                     string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
 
-                    TreeViewItem item = GetTreeViewItem(currentPlantName, currentPlantWorkFolder, 1, "images/plant.ico", dbPlant_target, null);
+                    TreeViewItem item = GetTreeViewItem(currentPlantName, currentPlantWorkFolder, 1, "images/pt.ico", dbPlant_target, null);
                     DirectoryInfo dirPlant = new DirectoryInfo(currentPlantWorkFolder);
 
                     foreach (DirectoryInfo device in dirPlant.GetDirectories())
                     {
-                        TreeViewItem itemDevice = GetTreeViewItem(device.Name, device.FullName, 2, "images/plant.ico", dbPlant_target, null);
+                        TreeViewItem itemDevice = GetTreeViewItem(device.Name, device.FullName, 2, "images/un.ico", dbPlant_target, null);
                         item.Items.Add(itemDevice);
                         foreach (DirectoryInfo dirProtectedSystem in device.GetDirectories())
                         {
                             string dbProtectSystem_target = dirProtectedSystem.FullName + @"\protectedsystem.mdb";
-                            TreeViewItem itemProtectSystem = GetTreeViewItem(dirProtectedSystem.Name, dirProtectedSystem.FullName, 3, "images/plant.ico", dbPlant_target, dbProtectSystem_target);
+                            TreeViewItem itemProtectSystem = GetTreeViewItem(dirProtectedSystem.Name, dirProtectedSystem.FullName, 3, "images/ps.ico", dbPlant_target, dbProtectSystem_target);
                             itemDevice.Items.Add(itemProtectSystem);
 
-                            TreeViewItem itemProtectSystemfile = GetTreeViewItem(dirProtectedSystem.Name, dirProtectedSystem.FullName + @"\design.vsd", 4, "images/project.ico", dbPlant_target, dbProtectSystem_target);
+                            TreeViewItem itemProtectSystemfile = GetTreeViewItem(dirProtectedSystem.Name, dirProtectedSystem.FullName + @"\design.vsd", 4, "images/file.ico", dbPlant_target, dbProtectSystem_target);
                             itemProtectSystem.Items.Add(itemProtectSystemfile);
                         }
 
@@ -510,15 +510,15 @@ namespace ReliefProMain
 
                     ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
 
-                    TreeViewItem item = GetTreeViewItem(currentPlantName, currentPlantWorkFolder, 1, "images/plant.ico", dbPlant_target, null);
+                    TreeViewItem item = GetTreeViewItem(currentPlantName, currentPlantWorkFolder, 1, "images/pt.ico", dbPlant_target, null);
 
-                    TreeViewItem itemUnit = GetTreeViewItem("Unit1", unit1, 2, "images/plant.ico", dbPlant_target, null);
+                    TreeViewItem itemUnit = GetTreeViewItem("Unit1", unit1, 2, "images/un.ico", dbPlant_target, null);
                     item.Items.Add(itemUnit);
 
-                    TreeViewItem itemProtectSystem = GetTreeViewItem("ProtectedSystem1", protectedsystem1, 3, "images/plant.ico", dbPlant_target, dbProtectedSystem_target);
+                    TreeViewItem itemProtectSystem = GetTreeViewItem("ProtectedSystem1", protectedsystem1, 3, "images/ps.ico", dbPlant_target, dbProtectedSystem_target);
                     itemUnit.Items.Add(itemProtectSystem);
 
-                    TreeViewItem itemProtectSystemfile = GetTreeViewItem("ProtectedSystem1", visioProtectedSystem_target, 4, "images/project.ico", dbPlant_target, dbProtectedSystem_target);
+                    TreeViewItem itemProtectSystemfile = GetTreeViewItem("ProtectedSystem1", visioProtectedSystem_target, 4, "images/file.ico", dbPlant_target, dbProtectedSystem_target);
                     itemProtectSystem.Items.Add(itemProtectSystemfile);
 
                     NavigationTreeView.Items.Add(item);

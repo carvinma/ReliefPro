@@ -46,7 +46,7 @@ namespace ReliefProMain.Model
                 }
             }
         }
-        public double DutyFactor
+        public double? DutyFactor
         {
             get
             {
