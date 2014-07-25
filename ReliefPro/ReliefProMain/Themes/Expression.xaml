@@ -39,9 +39,12 @@
     </Style>
     <Style TargetType="{x:Type Window}">
         <Setter Property="Background" Value="{DynamicResource BackBrush}" />
-        <Setter Property="ResizeMode" Value="NoResize" />
+       
     </Style>
-    
+    <Style x:Key="WinStyle" TargetType="{x:Type Window}">
+        <Setter Property="ResizeMode" Value="NoResize" />
+
+    </Style>
     <Style TargetType="{x:Type TreeView}">
         <Setter Property="Background" Value="{DynamicResource BackBrush}" />
     </Style>
@@ -81,6 +84,10 @@
     <Style TargetType="{x:Type ComboBox}">
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    <Style TargetType="{x:Type StatusBar}">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="Black"/>
     </Style>
 </ResourceDictionary>
 
