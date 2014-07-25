@@ -468,6 +468,16 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Content Include="Resources\Langs\en-US.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Langs\zh-CN.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Page Include="Themes\Expression.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -758,6 +768,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="View\Reports\PlantSummaryRpt.rdlc" />
     <EmbeddedResource Include="View\Reports\PUsummaryRpt.rdlc" />
@@ -816,7 +827,6 @@
     <Resource Include="Images\pt.ico" />
     <Resource Include="Images\save.ico" />
     <Resource Include="Images\un.ico" />
-    <None Include="Resources\Image1.bmp" />
     <Content Include="Template\common.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
