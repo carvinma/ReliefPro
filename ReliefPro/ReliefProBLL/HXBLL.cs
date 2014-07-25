@@ -16,8 +16,8 @@ namespace ReliefProBLL
         private ISession SessionPS;
         private ISession SessionPF;
         private HXBlockedOutletDAL dbBlock = new HXBlockedOutletDAL();
-        private AirCooledHXFireDAL dbAir = new AirCooledHXFireDAL();
-        private HXFireDAL dbFire = new HXFireDAL();
+        private AirCooledHXFireSizeDAL dbAir = new AirCooledHXFireSizeDAL();
+        private HXFireSizeDAL dbFire = new HXFireSizeDAL();
         public HXBLL(ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
@@ -53,14 +53,14 @@ namespace ReliefProBLL
             return Model;
         }
 
-        public AirCooledHXFire GetAirCooledHXFireModel(int ScenarioID)
+        public AirCooledHXFireSize GetAirCooledHXFireSizeModel(int ScenarioID)
         {
             var model = dbAir.GetModelByScenarioID(SessionPS, ScenarioID);
             if (model == null)
-                model = new AirCooledHXFire();
+                model = new AirCooledHXFireSize();
             return model;
         }
-        public AirCooledHXFire ReadConvertAirCooledHXFireModel(AirCooledHXFire model)
+        public AirCooledHXFireSize ReadConvertAirCooledHXFireSizeModel(AirCooledHXFireSize model)
         {
             UnitInfo unitInfo = new UnitInfo();
             BasicUnit basicUnit = unitInfo.GetBasicUnitUOM(this.SessionPF);
@@ -68,25 +68,22 @@ namespace ReliefProBLL
             {
                 return model;
             }
-            AirCooledHXFire Model = new AirCooledHXFire();
+            AirCooledHXFireSize Model = new AirCooledHXFireSize();
             Model = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
 
-            Model.WettedBundle = UnitConvert.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, Model.WettedBundle.Value);
-            Model.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.ReliefLoad.Value);
-            Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature.Value);
-            Model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure.Value);
+            Model.WettedBundle = UnitConvert.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, Model.WettedBundle.Value);          
             return Model;
         }
 
-        public HXFire GetHXFireModel(int ScenarioID)
+        public HXFireSize GetHXFireSizeModel(int ScenarioID)
         {
             var model = dbFire.GetModelByScenarioID(SessionPS, ScenarioID);
             if (model == null)
-                model = new HXFire();
+                model = new HXFireSize();
             return model;
         }
-        public HXFire ReadConvertHXFireModel(HXFire model)
+        public HXFireSize ReadConvertHXFireSizeModel(HXFireSize model)
         {
             UnitInfo unitInfo = new UnitInfo();
             BasicUnit basicUnit = unitInfo.GetBasicUnitUOM(this.SessionPF);
@@ -94,7 +91,7 @@ namespace ReliefProBLL
             {
                 return model;
             }
-            HXFire Model = new HXFire();
+            HXFireSize Model = new HXFireSize();
             Model = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
 
@@ -120,12 +117,12 @@ namespace ReliefProBLL
             dbBlock.Save(SessionPS, model as HXBlockedOutlet);
             SaveScenario(model);
         }
-        public void SaveAirCooledHXFire(IScenarioModel model)
+        public void SaveAirCooledHXFireSize(IScenarioModel model)
         {
-            dbAir.Save(SessionPS, model as AirCooledHXFire);
+            dbAir.Save(SessionPS, model as AirCooledHXFireSize);
             SaveScenario(model);
         }
-        public void SaveHXFire(HXFire model)
+        public void SaveHXFireSize(HXFireSize model)
         {
             dbFire.Save(SessionPS, model);
         }
