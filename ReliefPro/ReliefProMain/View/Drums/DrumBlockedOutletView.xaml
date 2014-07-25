@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
         x:Class="ReliefProMain.View.Drums.DrumBlockedOutletView"
-        Title="Drum_BlockedOutlet" Height="530" Width="580">
+        Title="{DynamicResource DrumBlockedOutletView Title}" Height="530" Width="580">
     
     <Grid>
         <Grid.RowDefinitions>
@@ -29,17 +29,17 @@
             <ColumnDefinition Width="130"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Max Source Pressure"  Grid.Row="1" HorizontalAlignment="Right"/>
-        <Label Content="Max Source stream rate" Grid.Row="2" HorizontalAlignment="Right"/>
-        <Label Content="Drum Type"  Grid.Row="3" HorizontalAlignment="Right"/>
-        <Label Content="Normal Flashing Duty" Grid.Row="4" HorizontalAlignment="Right"/>
-        <Label Content="Flashing Duty @ Relief Condition" Grid.Row="5" HorizontalAlignment="Right"/>
-        <Label Content="Relief Load" Grid.Row="9" HorizontalAlignment="Right"/>
-        <Label Content="Relief Pressure" Grid.Row="10" HorizontalAlignment="Right"/>
-        <Label Content="Relief Temperature" Grid.Row="11" HorizontalAlignment="Right"/>
-        <Label Content="Relief MW" Grid.Row="12" HorizontalAlignment="Right"/>
-        <Label Content="Relief Cp/Cv" Visibility="Hidden" Grid.Row="13" HorizontalAlignment="Right"/>
-        <Label Content="Relief Z" Visibility="Hidden" Grid.Row="14" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Max Source Pressure}"  Grid.Row="1" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Max Source stream rate}" Grid.Row="2" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Drum Type}"  Grid.Row="3" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Normal Flashing Duty}" Grid.Row="4" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Flashing Duty @ Relief Condition}" Grid.Row="5" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Relief Load}" Grid.Row="9" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Relief Pressure}" Grid.Row="10" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Relief Temperature}" Grid.Row="11" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Relief MW}" Grid.Row="12" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Relief Cp_Cv}" Visibility="Hidden" Grid.Row="13" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Relief Z}" Visibility="Hidden" Grid.Row="14" HorizontalAlignment="Right"/>
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.MaxPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="1" />
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.MaxStreamRate}" UnitOrigin="{Binding ElementName=lblStreamRate,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="2"/>
         <TextBox Text="{Binding Path=model.DrumType}" Grid.Column="1"  Grid.Row="3" IsEnabled="False" />
@@ -53,15 +53,15 @@
         
         <CheckBox x:Name="chkFeed" Content="Feed/Btm HX"  IsChecked="{Binding model.Feed}" HorizontalAlignment="Center"  Grid.Row="6" VerticalAlignment="Center"/>
         <CheckBox x:Name="chkPinch" Content="Reboiler Pinch"  IsChecked="{Binding model.ReboilerPinch}" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="6" VerticalAlignment="Center"/>
-        <Button Content="Run Calculation" Command="{Binding CalcCMD}"  Grid.Column="0" Grid.Row="7" HorizontalAlignment="Right" Width="125"  Height="21" />
+        <Button Content="{DynamicResource Run Calculation}" Command="{Binding CalcCMD}"  Grid.Column="0" Grid.Row="7" HorizontalAlignment="Right" Width="125"  Height="21" />
         <CustomControl:UnitConvertTextBox IsEnabled="False" Text="{Binding Path=model.ReliefLoad,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="9"/>
         <CustomControl:UnitConvertTextBox IsEnabled="False" Text="{Binding Path=model.ReliefPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPresses,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="10"/>
         <CustomControl:UnitConvertTextBox IsEnabled="False" Text="{Binding Path=model.ReliefTemperature,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblTemper,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="11"/>
         <TextBox IsEnabled="False" Text="{Binding Path=model.ReliefMW,Mode=TwoWay}" Grid.Column="1"  Grid.Row="12"/>
         <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefCpCv,Mode=TwoWay}" Grid.Column="1"  Grid.Row="13"/>
         <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefZ,Mode=TwoWay}" Grid.Column="1"  Grid.Row="14"/>
-        <Button Content="Open"  IsEnabled="{Binding ElementName=chkFeed,Path=IsChecked}"  HorizontalAlignment="Right"  VerticalAlignment="Center" Width="75" Height="25" Grid.Row="6" Grid.Column="0" />
-        <Button Content="Open"  IsEnabled="{Binding ElementName=chkPinch,Path=IsChecked}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="70" Height="25" Grid.Row="6" Grid.Column="2" />
+        <Button Content="{DynamicResource Open}"  IsEnabled="{Binding ElementName=chkFeed,Path=IsChecked}"  HorizontalAlignment="Right"  VerticalAlignment="Center" Width="75" Height="25" Grid.Row="6" Grid.Column="0" />
+        <Button Content="{DynamicResource Open}"  IsEnabled="{Binding ElementName=chkPinch,Path=IsChecked}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="70" Height="25" Grid.Row="6" Grid.Column="2" />
 
         <Grid HorizontalAlignment="Stretch" Height="52"  Grid.Row="15" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
             <Grid.ColumnDefinitions>
@@ -76,8 +76,8 @@
                 <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
             <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1" VerticalAlignment="Center" Height="1" Grid.Row="0" Grid.ColumnSpan="4" ></Border>
-            <Button Content="OK" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="25" Grid.Row="1" Grid.Column="1" />
-            <Button Content="Cancel" HorizontalAlignment="Right" IsCancel="True"  VerticalAlignment="Center" Width="75" Height="25" Grid.Row="1" Grid.Column="2" />
+            <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="25" Grid.Row="1" Grid.Column="1" />
+            <Button Content="{DynamicResource Cancel}" HorizontalAlignment="Right" IsCancel="True"  VerticalAlignment="Center" Width="75" Height="25" Grid.Row="1" Grid.Column="2" />
             <StatusBar  HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Bottom" Grid.ColumnSpan="4" >
                 <Label></Label>
             </StatusBar>
