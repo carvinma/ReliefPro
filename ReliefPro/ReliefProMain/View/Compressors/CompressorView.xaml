@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.Compressors.CompressorView"
          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Drum" Height="310" Width="600" Name="myWindow">
+        Title="{DynamicResource CompressorView Title}" Height="310" Width="600" Name="myWindow">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20*"/>
@@ -20,29 +20,29 @@
             <RowDefinition Height="36*"/>
             <RowDefinition Height="16*"/>
         </Grid.RowDefinitions>
-        <Label Content="Compressor Name"  Grid.Column="1" HorizontalAlignment="Right"  Grid.Row="1" VerticalAlignment="Top"  />
-        <Label Content="Compressor Type" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right"  Grid.Row="2" VerticalAlignment="Top"  />
+        <Label Content="{DynamicResource Compressor Name}"  Grid.Column="1" HorizontalAlignment="Right"  Grid.Row="1" VerticalAlignment="Top"  />
+        <Label Content="{DynamicResource Compressor Type}" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right"  Grid.Row="2" VerticalAlignment="Top"  />
         <TextBox IsEnabled="False" Grid.Column="2" HorizontalAlignment="Left" Height="23" Grid.Row="1" TextWrapping="Wrap" Text="{Binding CompressorName}" VerticalAlignment="Center" Width="135" />
         <ComboBox  ItemsSource="{Binding CompressorTypes}" SelectedItem ="{Binding CompressorType,Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Width="135" Grid.Row="2" VerticalAlignment="Center" Height="22" />
-        <Button Content="Import From Database" Command="{Binding ImportCommand}" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Width="143" Height="22"/>
+        <Button Content="{DynamicResource Import From Database}" Command="{Binding ImportCommand}" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Width="143" Height="22"/>
         <TabControl Grid.ColumnSpan="4" Grid.Column="1" HorizontalAlignment="Stretch"  Margin="0,0,0,0" Grid.Row="3" VerticalAlignment="Stretch" >
-            <TabItem Header="Feed">
+            <TabItem Header="{DynamicResource Feed}">
                 <Grid Background="#FFE5E5E5" Margin="0,0,0,0">
                     <ListView ItemsSource="{Binding Feeds}"  HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch"  >
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Stream Name" DisplayMemberBinding="{Binding StreamName}" />
+                                <GridViewColumn Header="{DynamicResource Stream Name}" DisplayMemberBinding="{Binding StreamName}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
                 </Grid>
             </TabItem>
-            <TabItem Header="Product">
+            <TabItem Header="{DynamicResource Product}">
                 <Grid Background="#FFE5E5E5" Margin="0,0,0,0">
                     <ListView ItemsSource="{Binding Products}"  HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch"  >
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Stream Name" DisplayMemberBinding="{Binding StreamName}" />
+                                <GridViewColumn Header="{DynamicResource Stream Name}" DisplayMemberBinding="{Binding StreamName}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
