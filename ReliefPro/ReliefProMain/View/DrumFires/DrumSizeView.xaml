@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-        Title="Drum_fire" Height="420" Width="570">
+        Title="{DynamicResource DrumSizeView Title}" Height="420" Width="570">
     
     <Grid>
         <Grid.RowDefinitions>
@@ -24,15 +24,15 @@
             <ColumnDefinition Width="125"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Content="Orientation"  Grid.Row="1" HorizontalAlignment="Right"/>
-        <Label Content="Elevation" Grid.Row="3" HorizontalAlignment="Right"/>
-        <Label Content="Diameter"  Grid.Row="4" HorizontalAlignment="Right"/>
-        <Label Content="Length" Grid.Row="5" HorizontalAlignment="Right"/>
-        <Label Content="Normal Liquid Level" Grid.Row="6" HorizontalAlignment="Right"/>
-        <Label Content="Head number" Grid.Row="7" HorizontalAlignment="Right"/>
-        <Label Content="Head Type" Grid.Row="8" HorizontalAlignment="Right"/>
-        <Label Content="Boot Diameter" Grid.Row="9" HorizontalAlignment="Right"/>
-        <Label Content="Boot Height" Grid.Row="10" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Orientation}"  Grid.Row="1" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Elevation}" Grid.Row="3" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Diameter}"  Grid.Row="4" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Length}" Grid.Row="5" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Normal Liquid Level}" Grid.Row="6" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Head number}" Grid.Row="7" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Head Type}" Grid.Row="8" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Boot Diameter}" Grid.Row="9" HorizontalAlignment="Right"/>
+        <Label Content="{DynamicResource Boot Height}" Grid.Row="10" HorizontalAlignment="Right"/>
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Elevation,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblElevation,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="3"/>
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Diameter,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblDiameter,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="4"/>
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Length,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLength,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="5"/>
@@ -65,8 +65,8 @@
                 <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
             <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1" VerticalAlignment="Center" Height="1" Grid.Row="0" Grid.ColumnSpan="4" ></Border>
-            <Button Content="OK" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=DrumSizeWin}" Grid.Column="1" Grid.Row="1"  Width="75"  Height="25"/>
-            <Button Content="Cancel" IsCancel="True" Grid.Column="2"  Grid.Row="1" Width="75" Height="25"/>
+            <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=DrumSizeWin}" Grid.Column="1" Grid.Row="1"  Width="75"  Height="25"/>
+            <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="2"  Grid.Row="1" Width="75" Height="25"/>
             <StatusBar  HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Bottom" Grid.ColumnSpan="4" >
                 <Label></Label>
             </StatusBar>
