@@ -24,7 +24,7 @@
                 </dc:Chart>
             </Grid>
         </Canvas>
-        <Button Content="OK"  HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Width="75"/>
+        <Button Content="{DynamicResource OK}"  HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Width="75"/>
         <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="4" >
             <Label></Label>
         </StatusBar>
