@@ -3,15 +3,148 @@
     xmlns:s="clr-namespace:System;assembly=mscorlib">
 
     <s:String x:Key="OK">OK</s:String>
+    <s:String x:Key="Save">Save</s:String>
     <s:String x:Key="Cancel">Cancel</s:String>
 
+    <!--AreasView.xaml-->
+    <s:String x:Key="AreasView Title">TowerFireCooler</s:String>
+    <s:String x:Key="Area Data">Area Data</s:String>
+    <s:String x:Key="Wetted Area">Wetted Area</s:String>
+    <s:String x:Key="Piping Contingency">Piping Contingency</s:String>
 
+    <!--CreateProtectedSystemView.xaml-->
+    <s:String x:Key="CreateProtectedSystemView Title">New Protected System</s:String>
+    <s:String x:Key="Protected System Name">Protected System Name</s:String>
+
+    <!--CreateUnitView.xaml-->
+    <s:String x:Key="CreateUnitView Title">Unit Name</s:String>
+    <s:String x:Key="Unit_Name">Unit Name</s:String>
+    
+    <!--CustomStreamView.xaml-->
+    <s:String x:Key="CustomStreamView Title">1(Stream)</s:String>
+    <s:String x:Key="1_Stream">1(Stream)</s:String>
+    <s:String x:Key="Stream Name">Stream Name</s:String>
+    <s:String x:Key="Description">Description</s:String>
+    <s:String x:Key="VabFrac">VabFrac</s:String>
+    <s:String x:Key="Temperature">Temperature</s:String>
+    <s:String x:Key="Presressure_Mpag">Presressure(Mpag)</s:String>
+    <s:String x:Key="Workflow_Kg_hr)">Workflow(Kg/hr)</s:String>
+    <s:String x:Key="Sp H_KJ_Kg">Sp H(KJ/Kg)</s:String>
+
+    <!--FireView.xaml-->
+    <s:String x:Key="FireView Title">Drum_fire</s:String>
+    <s:String x:Key="Calc Area">Calc Area</s:String>
+    <s:String x:Key="Run Calculation">Run Calculation</s:String>
+    <s:String x:Key="Relief Load">Relief Load</s:String>
+    <s:String x:Key="Relief Pressure">Relief Pressure</s:String>
+    <s:String x:Key="Relief Temperature">Relief Temperature</s:String>
+    <s:String x:Key="Relief MW">Relief MW</s:String>
+    <s:String x:Key="Relief Cp_Cv">Relief Cp_Cv</s:String>
+    <s:String x:Key="Relief Z">Relief Z</s:String>
+
+    <!--HeatSourceListView.xaml-->
+    <s:String x:Key="HeatSourceListView Title">HeatSourceListView</s:String>
+    <s:String x:Key="HeatSourceListViewType">Type</s:String>
+    <s:String x:Key="HeatSourceListViewName">Name</s:String>
+    <s:String x:Key="HeatSourceListViewDuty kg_hr">Duty, kg/hr</s:String>
+    <s:String x:Key="HeatSourceListViewAdd">Add</s:String>
+
+    <!--CreateUnitView.xaml-->
+    <s:String x:Key="ImportDataView Title">Import Data</s:String>
+    <s:String x:Key="Simulation File Type">Simulation File Type</s:String>
+    <s:String x:Key="PRO_II">PRO/II</s:String>
+    <s:String x:Key="Aspen Plus">Aspen Plus</s:String>
+    <s:String x:Key="Hysys">Hysys</s:String>
+    <s:String x:Key="Find File">Find File</s:String>
+
+    <!--InletValveOpenView.xaml-->
+    <s:String x:Key="InletValveOpenView Title">InletValveOpen</s:String>
+    <s:String x:Key="UpStream Vessel">UpStream Vessel</s:String>
+    <s:String x:Key="Name">Name</s:String>
+    <s:String x:Key="Operating Phase">Operating Phase</s:String>
+    <s:String x:Key="Max Operating Pressure">Max Operating Pressure</s:String>
+    <s:String x:Key="Inlet Valve Total Cv">Inlet Valve Total Cv</s:String>
+    <s:String x:Key="Calculate">Calculate</s:String>
+
+    <!--PSVView.xaml-->
+    <s:String x:Key="PSVView Title">PSV</s:String>
+    <s:String x:Key="PSV Name">PSV Name</s:String>
+    <s:String x:Key="Valve Number">Valve Number</s:String>
+    <s:String x:Key="Valve Type">Valve Type</s:String>
+    <s:String x:Key="Set Pressure">Set Pressure</s:String>
+    <s:String x:Key="Prelief">Prelief</s:String>
+    <s:String x:Key="Pset">Pset</s:String>
+    <s:String x:Key="Critical Pressure">Critical Pressure</s:String>
+    <s:String x:Key="Calculate Critical Pressure">Calculate Critical Pressure</s:String>
+    <s:String x:Key="Additional PSV on Reflux Drum">Additional PSV on Reflux Drum</s:String>
+
+    <!--ReNameView.xaml-->
+    <s:String x:Key="ReNameView Title">ReName</s:String>
+    <s:String x:Key="New Name">New Name</s:String>
+
+    <!--SelectEquipmentView.xaml-->
+    <s:String x:Key="Select Equipment Title">Select Equipment</s:String>
+    <s:String x:Key="File Path">File Path</s:String>
+    <s:String x:Key="Equipment">Equipment</s:String>
+
+    <!--SelectStreamView.xaml-->
+    <s:String x:Key="SelectStreamView Title">Select Stream</s:String>
+    <s:String x:Key="Stream">Stream</s:String>
+
+    <!--SinkView.xaml-->
+    <s:String x:Key="SinkView Title">Sink</s:String>
+    <s:String x:Key="Sink Name">Sink Name</s:String>
+    <s:String x:Key="Sink Type">Sink Type</s:String>
+    <s:String x:Key="Max Possible Pressure">Max Possible Pressure</s:String>
+
+    <!--CreateUnitView.xaml-->
+    <s:String x:Key="SourceView Title">Source</s:String>
+    <s:String x:Key="Source Name">Source Name</s:String>
+    <s:String x:Key="Source Type">Source Type</s:String>
+    <s:String x:Key="Steam">Steam</s:String>
+    <s:String x:Key="Heat Source">Heat Source</s:String>
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <!--CustomStreamView-->
     
     <s:String x:Key="DrumMainWindowTitle">Drum</s:String>
     <s:String x:Key="DrumlblPressure">Pressure</s:String>
     <s:String x:Key="DrumlblTemperature">Temperature</s:String>
     <s:String x:Key="DrumInfoMsg">Drum name cannot be empty</s:String>
-    
+   
     
     <s:String x:Key="CompressorName">Compressor Name</s:String>
     <s:String x:Key="CompressorType">Compressor Type</s:String>
