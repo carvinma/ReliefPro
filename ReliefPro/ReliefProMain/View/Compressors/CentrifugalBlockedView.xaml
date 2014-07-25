@@ -82,8 +82,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Content="OK" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=CentrifuglWin}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="25"  Grid.Column="1" />
-            <Button Content="Cancel" HorizontalAlignment="Center" IsCancel="True"  VerticalAlignment="Center" Width="75" Height="25"  Grid.Column="3" />
+            <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=CentrifuglWin}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="25"  Grid.Column="1" />
+            <Button Content="{DynamicResource Cancel}" HorizontalAlignment="Center" IsCancel="True"  VerticalAlignment="Center" Width="75" Height="25"  Grid.Column="3" />
 
         </Grid>
 
