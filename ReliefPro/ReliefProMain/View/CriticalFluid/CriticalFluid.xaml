@@ -46,8 +46,8 @@
         <TextBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" />
         <Label x:Name="lblPressure" Content="{DynamicResource MPag}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3"  Grid.Row="1" />
 
-        <Button Content="OK" Grid.Column="2"  Grid.Row="3" Width="76" Height="21" />
-        <Button Content="Cancle" HorizontalAlignment="Left" Grid.Column="3" Grid.Row="3" Width="75" Height="21" />
+        <Button Content="{DynamicResource OK}" Grid.Column="2"  Grid.Row="3" Width="76" Height="21" />
+        <Button Content="{DynamicResource Cancel}" HorizontalAlignment="Left" Grid.Column="3" Grid.Row="3" Width="75" Height="21" />
         <RadioButton Content="{DynamicResource Critical}" Grid.Column="2" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Center" />
         <RadioButton Content="{DynamicResource Sub_Critical}" Grid.Column="3" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Center" />
         <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="4" >
