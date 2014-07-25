@@ -1,8 +1,19 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="clr-namespace:System;assembly=mscorlib">
+
+    <s:String x:Key="OK">OK</s:String>
+    <s:String x:Key="Cancel">Cancel</s:String>
+
+
+    
     <s:String x:Key="DrumMainWindowTitle">Drum</s:String>
     <s:String x:Key="DrumlblPressure">Pressure</s:String>
     <s:String x:Key="DrumlblTemperature">Temperature</s:String>
     <s:String x:Key="DrumInfoMsg">Drum name cannot be empty</s:String>
+    
+    
+    <s:String x:Key="CompressorName">Compressor Name</s:String>
+    <s:String x:Key="CompressorType">Compressor Type</s:String>
+    <s:String x:Key="CompressorNameErrorMsg">Compressor name cannot be empty!</s:String>
 </ResourceDictionary>

@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
         <Label Content="Compressor Name"  Grid.Column="1" HorizontalAlignment="Right"  Grid.Row="1" VerticalAlignment="Top"  />
         <Label Content="Compressor Type" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right"  Grid.Row="2" VerticalAlignment="Top"  />
-        <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Grid.Row="1" TextWrapping="Wrap" Text="{Binding CompressorName}" VerticalAlignment="Center" Width="135" />
+        <TextBox IsEnabled="False" Grid.Column="2" HorizontalAlignment="Left" Height="23" Grid.Row="1" TextWrapping="Wrap" Text="{Binding CompressorName}" VerticalAlignment="Center" Width="135" />
         <ComboBox  ItemsSource="{Binding CompressorTypes}" SelectedItem ="{Binding CompressorType,Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Width="135" Grid.Row="2" VerticalAlignment="Center" Height="22" />
         <Button Content="Import From Database" Command="{Binding ImportCommand}" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Width="143" Height="22"/>
         <TabControl Grid.ColumnSpan="4" Grid.Column="1" HorizontalAlignment="Stretch"  Margin="0,0,0,0" Grid.Row="3" VerticalAlignment="Stretch" >

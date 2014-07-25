@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
-        Title="TowerFireCooler" Height="195.253" Width="398.023" Name="myWindow">
+        Title="TowerFireCooler" Height="195.253" Width="438.023" Name="myWindow">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="16*"/>
@@ -17,7 +17,7 @@
             <RowDefinition Height="44"/>
             <RowDefinition Height="0*"/>
         </Grid.RowDefinitions>        
-        <GroupBox Grid.Column="1" Header="Area Data" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="92" Width="324">
+        <GroupBox Grid.Column="1" Header="Area Data" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="92" Width="359">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="28*"/>
@@ -33,7 +33,7 @@
                  </Grid.RowDefinitions>
                 <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblArea,Path=Content,Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Height="23"  Grid.Row="2" TextWrapping="Wrap" Text="{Binding Path=model.WettedArea,Mode=TwoWay}" VerticalAlignment="Top" Width="105"/>
                 <Label Grid.Column="1" HorizontalAlignment="Right"  Grid.Row="1"  Content="Wetted Area" VerticalAlignment="Top" Height="26" Width="82"/>
-                <Label Grid.Column="1" HorizontalAlignment="Right"  Grid.Row="2"  Content="Piping Contingency" VerticalAlignment="Top" Height="26" Width="122"/>
+                <Label Grid.Column="1" HorizontalAlignment="Right"  Grid.Row="2"  Content="Piping Contingency" VerticalAlignment="Top" Height="26" Width="137" Margin="0,5,0,0" Grid.RowSpan="2"/>
                 <TextBox Grid.Column="2" HorizontalAlignment="Left"  Grid.Row="1" TextWrapping="NoWrap" Text="{Binding Path=model.PipingContingency,Mode=TwoWay}" Width="105" Grid.ColumnSpan="2" Margin="0,0,0,5"/>
                 <Label x:Name="lblArea" Content="{Binding WetteAreaUnit,Mode=TwoWay}" Grid.Column="3" HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Top" Height="26" Width="21"/>
                 <Label Content="%" Grid.Column="3" HorizontalAlignment="Left"  Grid.Row="2" VerticalAlignment="Top" Height="26" Width="21" />

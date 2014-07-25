@@ -5,4 +5,6 @@
     <s:String x:Key="DrumblPressure">压力</s:String>
     <s:String x:Key="DrumblTemperature">温度</s:String>
     <s:String x:Key="DrumInfoMsg">罐的名称不能为空！</s:String>
+    <s:String x:Key="CompressorName">压缩机</s:String>
+    <s:String x:Key="CompressorNameErrorMsg">压缩机名称不能为空</s:String>
 </ResourceDictionary>
