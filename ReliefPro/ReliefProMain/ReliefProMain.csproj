@@ -299,6 +299,9 @@
     <Compile Include="View\Reports\PUsummaryView.xaml.cs">
       <DependentUpon>PUsummaryView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Reports\ReportTreeView.xaml.cs">
+      <DependentUpon>ReportTreeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Scenarios\ScenarioHeatSourceListView.xaml.cs">
       <DependentUpon>ScenarioHeatSourceListView.xaml</DependentUpon>
     </Compile>
@@ -558,6 +561,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Reports\PUsummaryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Reports\ReportTreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
