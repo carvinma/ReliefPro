@@ -350,14 +350,14 @@ namespace ReliefProMain.ViewModel
                         if (ScenarioName.Contains("Fire"))
                         {
                             AirCooledHXFireView v = new AirCooledHXFireView();
-                            AirCooledHXFireVM vm = new AirCooledHXFireVM(ScenarioID,PrzFile,PrzVersion, SessionProtectedSystem, SessionPlant,DirPlant,DirProtectedSystem);
+                            AirCooledHXFireSizeVM vm = new AirCooledHXFireSizeVM(ScenarioID,PrzFile,PrzVersion, SessionProtectedSystem, SessionPlant,DirPlant,DirProtectedSystem);
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {
-                                SelectedScenario.ReliefLoad = vm.model.Reliefload;
-                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
-                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                                //SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
+                                //SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                                //SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                                //SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                             }
                         }
                     }
