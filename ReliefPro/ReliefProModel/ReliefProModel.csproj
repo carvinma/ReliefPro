@@ -89,9 +89,9 @@
     <Compile Include="Drums\DrumDepressuring.cs" />
     <Compile Include="Drums\DrumSize.cs" />
     <Compile Include="FeedBottomHX.cs" />
-    <Compile Include="HXs\AirCooledHXFire.cs" />
+    <Compile Include="HXs\AirCooledHXFireSize.cs" />
     <Compile Include="HXs\HXBlockedOutlet.cs" />
-    <Compile Include="HXs\HXFire.cs" />
+    <Compile Include="HXs\HXFireSize.cs" />
     <Compile Include="InletValveOpen.cs" />
     <Compile Include="IScenario.cs" />
     <Compile Include="Latent.cs" />
@@ -231,10 +231,10 @@
     <EmbeddedResource Include="HXs\HXBlockedOutlet.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="HXs\AirCooledHXFire.hbm.xml">
+    <EmbeddedResource Include="HXs\AirCooledHXFireSize.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="HXs\HXFire.hbm.xml">
+    <EmbeddedResource Include="HXs\HXFireSize.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="HXs\HeatExchanger.hbm.xml" />
