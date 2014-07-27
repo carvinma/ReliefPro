@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
          xmlns:wf="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms" 
         xmlns:my="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration" OverridesDefaultStyle="False"
-        Title="PlantSummaryView" Height="700" Width="800">
+        Title="{DynamicResource PlantSummaryView Title}" Height="700" Width="800">
     <Window.Resources>
         <Style TargetType="{x:Type RowDefinition}">
             <Setter Property="Height" Value="30"/>
@@ -35,7 +35,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Label Content="Design Total Plant Flare Load Summation" Grid.Row="0" Grid.Column="0"/>
+        <Label Content="{DynamicResource Design Total Plant Flare Load Summation}" Grid.Row="0" Grid.Column="0"/>
         <ComboBox ItemsSource="{Binding listPlantCalc, Mode=OneWay}" 
 						SelectedItem="{Binding SelectedCalcFun,Mode=TwoWay}" 
                    Grid.Row="0" Grid.Column="0" Height="26" Width="120" Margin="290,2,382,2" />
