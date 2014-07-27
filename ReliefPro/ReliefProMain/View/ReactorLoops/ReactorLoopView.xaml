@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.ReactorLoops.ReactorLoopView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Reactor Loop" Height="700" Width="883.582">
+        Title="{DynamicResource ReactorLoopView Title}" Height="700" Width="883.582">
     <Window.Resources>
         <Style TargetType="RowDefinition">
             <Setter Property="Height" Value="30"></Setter>
@@ -63,14 +63,14 @@
             <ColumnDefinition Width="236"></ColumnDefinition>
             <ColumnDefinition Width="228"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Content="Effluent Stream"  Grid.Row="0" Height="25" Width="100"/>
-        <Label Content="Cold Reactor Feed Stream"  Grid.Row="1" Height="25" Margin="56,5,0,0"/>
-        <Label Content="Hot High Pressure Separator"  Grid.Row="2" Height="25" Margin="56,5,0,0"/>      
-        <Label Content="Cold High Pressure Separator"  Grid.Row="3" Height="25" Margin="56,5,0,0"/>
+        <Label Content="{DynamicResource Effluent Stream}"  Grid.Row="0" Height="25" Width="100"/>
+        <Label Content="{DynamicResource Cold Reactor Feed Stream}"  Grid.Row="1" Height="25" Margin="56,5,0,0"/>
+        <Label Content="{DynamicResource Hot High Pressure Separator}"  Grid.Row="2" Height="25" Margin="56,5,0,0"/>
+        <Label Content="{DynamicResource Cold High Pressure Separator}"  Grid.Row="3" Height="25" Margin="56,5,0,0"/>
 
-        <Label Content="HX network cold stream"  Grid.Row="4" Height="25" Margin="56,5,0,0"/>
-        <Label Content="Injection water stream"  Grid.Row="5" Height="25"  Margin="56,5,0,0"/>
-        <Button Content="OK" Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="0,10,64,6" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
+        <Label Content="{DynamicResource HX network cold stream}"  Grid.Row="4" Height="25" Margin="56,5,0,0"/>
+        <Label Content="{DynamicResource Injection water stream}"  Grid.Row="5" Height="25"  Margin="56,5,0,0"/>
+        <Button Content="{DynamicResource OK}" Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="0,10,64,6" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
         <ComboBox ItemsSource="{Binding Streams}" SelectedItem="EffluentStream" Grid.Column="1" />
         <ComboBox ItemsSource="{Binding Streams}" SelectedItem="ColdFeedStream" Grid.Column="1"   Grid.Row="1"/>
         <ComboBox ItemsSource="{Binding Separators}" SelectedItem="HotHighPressureSeparator" Grid.Column="1"   Grid.Row="2"/>
@@ -84,12 +84,12 @@
         <ComboBox ItemsSource="{Binding Path=model.HXNetworkColdStreamSource}" SelectedItem="{Binding model.HXNetworkColdStream,Mode=TwoWay}" Grid.Column="1"   Grid.Row="4"/>
         <ComboBox ItemsSource="{Binding Path=model.InjectionWaterStreamSource}" SelectedItem="{Binding model.InjectionWaterStream,Mode=TwoWay}" Grid.Column="1"   Grid.Row="5"/>
 
-        <GroupBox Header="Process HX" HorizontalAlignment="Left" Margin="56,2,0,0" Grid.Row="6" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="140" Grid.RowSpan="5" Width="300">
+        <GroupBox Header="{DynamicResource Process HX}" HorizontalAlignment="Left" Margin="56,2,0,0" Grid.Row="6" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="140" Grid.RowSpan="5" Width="300">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=model.ObcProcessHX,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}" Margin="0,0,0,0" Grid.Row="1" >
                     <ListView.View>
-                        <GridView >                      
-                            <GridViewColumn Header="HX Name" Width="150px" >
+                        <GridView >
+                            <GridViewColumn Header="{DynamicResource HX Name}" Width="150px" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox IsEnabled="False" Text="{Binding Path=DetailInfo,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
@@ -103,12 +103,12 @@
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="Process HX" HorizontalAlignment="Left" Margin="275,2,-346,0" Grid.Row="6" VerticalAlignment="Top" Height="140" Grid.RowSpan="5" Width="300" Grid.Column="1">
+        <GroupBox Header="{DynamicResource Process HX}" HorizontalAlignment="Left" Margin="275,2,-346,0" Grid.Row="6" VerticalAlignment="Top" Height="140" Grid.RowSpan="5" Width="300" Grid.Column="1">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=model.ObcProcessHXSource,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}" Margin="0,0,0,0" Grid.Row="1" >
                     <ListView.View>
                         <GridView >
-                            <GridViewColumn Header="HX Name" Width="150px" >
+                            <GridViewColumn Header="{DynamicResource HX Name}" Width="150px" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox IsEnabled="False" Text="{Binding Path=DetailInfo,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
@@ -123,13 +123,13 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Header="Utility HX" HorizontalAlignment="Left" Margin="56,10,0,0" Grid.Row="11" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="140" Grid.RowSpan="5" Width="300">
+        <GroupBox Header="{DynamicResource Utility HX}" HorizontalAlignment="Left" Margin="56,10,0,0" Grid.Row="11" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="140" Grid.RowSpan="5" Width="300">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=model.ObcUtilityHX,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}" Margin="0,0,0,0" Grid.Row="1" >
                     <ListView.View>
                         <GridView >
-                           
-                            <GridViewColumn Header="HX Name" Width="150px" >
+
+                            <GridViewColumn Header="{DynamicResource HX Name}" Width="150px" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox IsEnabled="False" Text="{Binding Path=DetailInfo,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
@@ -143,12 +143,12 @@
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="Utility HX" HorizontalAlignment="Left" Margin="275,2,-346,0" Grid.Row="11" VerticalAlignment="Top" Height="140" Grid.RowSpan="5" Width="300" Grid.Column="1">
+        <GroupBox Header="{DynamicResource Utility HX}" HorizontalAlignment="Left" Margin="275,2,-346,0" Grid.Row="11" VerticalAlignment="Top" Height="140" Grid.RowSpan="5" Width="300" Grid.Column="1">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=ObcUtilityHXSource,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}" Margin="0,0,0,0" Grid.Row="1" >
                     <ListView.View>
                         <GridView >
-                            <GridViewColumn Header="HX Name" Width="150px" >
+                            <GridViewColumn Header="{DynamicResource HX Name}" Width="150px" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox IsEnabled="False" Text="{Binding Path=DetailInfo,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
@@ -163,12 +163,12 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Header="Mixer/Splitter" HorizontalAlignment="Left" Margin="56,20,0,0" Grid.Row="16" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="120" Grid.RowSpan="5" Width="300">
+        <GroupBox Header="{DynamicResource Mixer_Splitter}" HorizontalAlignment="Left" Margin="56,20,0,0" Grid.Row="16" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="120" Grid.RowSpan="5" Width="300">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding model.ObcMixerSplitter, Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel, Mode=OneWayToSource}" Margin="0,0,0,0" >
                     <ListView.View>
                         <GridView >
-                            <GridViewColumn Header="Splitter Name" Width="150px" >
+                            <GridViewColumn Header="{DynamicResource Splitter Name}" Width="150px" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox IsEnabled="False" Text="{Binding DetailInfo, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" />
@@ -182,12 +182,12 @@
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="Mixer/Splitter" HorizontalAlignment="Left" Margin="275,20,-346,0" Grid.Row="16" VerticalAlignment="Top" Height="120" Grid.RowSpan="5" Width="300" Grid.Column="1">
+        <GroupBox Header="{DynamicResource Mixer_Splitter}" HorizontalAlignment="Left" Margin="275,20,-346,0" Grid.Row="16" VerticalAlignment="Top" Height="120" Grid.RowSpan="5" Width="300" Grid.Column="1">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding ObcMixerSplitterSource, Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel, Mode=OneWayToSource}" Margin="0,0,0,0" >
                     <ListView.View>
                         <GridView >
-                            <GridViewColumn Header="Splitter Name" Width="150px" >
+                            <GridViewColumn Header="{DynamicResource Splitter Name}" Width="150px" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox IsEnabled="False" Text="{Binding DetailInfo, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" />
@@ -201,9 +201,9 @@
             </Grid>
         </GroupBox>
 
-        <Button Command="{Binding OKCMD}" Content="OK" Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="0,10,64,6" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
-        <Button Content="Cancel" IsCancel="True"  Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="215,10,-60,6" RenderTransformOrigin="0.392,-4.083" />
-        <Button Command="{Binding SimulationCMD}" Content="Simulation" Height="24" Grid.Row="21" Width="74" Margin="0,6,20,10" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
+        <Button Command="{Binding OKCMD}" Content="{DynamicResource OK}" Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="0,10,64,6" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
+        <Button Content="{DynamicResource Cancel}" IsCancel="True"  Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="215,10,-60,6" RenderTransformOrigin="0.392,-4.083" />
+        <Button Command="{Binding SimulationCMD}" Content="{DynamicResource Simulation}" Height="24" Grid.Row="21" Width="74" Margin="0,6,20,10" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
         <Button Command="{Binding ProcessHXAddCMD}" Content="&lt;--" Grid.Column="1" HorizontalAlignment="Left" Margin="144,0,0,8" Grid.Row="8" VerticalAlignment="Stretch" Width="75"/>
         <Button Command="{Binding ProcessHXDelCMD}" Content="--&gt;" Grid.Column="1" HorizontalAlignment="Left" Margin="144,0,0,0" Grid.Row="9" VerticalAlignment="Top" Width="75"/>
         <Button Command="{Binding UtilityHXAddCMD}" Content="&lt;--" Grid.Column="1" HorizontalAlignment="Left" Margin="144,0,0,8" Grid.Row="13" VerticalAlignment="Stretch" Width="75"/>
@@ -212,8 +212,8 @@
         <Button Command="{Binding MixerSplitterDelCMD}" Content="--&gt;" Grid.Column="1" HorizontalAlignment="Left" Margin="154,0,0,0" Grid.Row="19" VerticalAlignment="Top" Width="75"/>
 
 
-        <Button Content="Cancel"  Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="215,10,-60,6" RenderTransformOrigin="0.392,-4.083" />
-        <Button Content="Simulation" Height="24" Grid.Row="21" Width="74" Margin="0,6,20,10" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
+        <Button Content="{DynamicResource Cancel}"  Grid.Column="1" Height="24" Grid.Row="21" Width="74" Margin="215,10,-60,6" RenderTransformOrigin="0.392,-4.083" />
+        <Button Content="{DynamicResource Simulation}" Height="24" Grid.Row="21" Width="74" Margin="0,6,20,10" RenderTransformOrigin="0.392,-4.083" HorizontalAlignment="Right" />
         
     </Grid>
 </Window>
