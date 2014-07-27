@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         
-        Title="{DynamicResource SelectStreamView Title}" Height="160" Width="434" Name="myWindow">
+        Title="Select Equipment" Height="160" Width="434" Name="myWindow">
     
         <Grid DockPanel.Dock="Top">
         <Grid.RowDefinitions>
@@ -21,8 +21,8 @@
         </Grid.ColumnDefinitions>
         <ComboBox x:Name="cbxFilePath" ItemsSource="{Binding SourceFiles}" SelectedItem="{Binding SelectedFile}" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Column="2" Grid.ColumnSpan="2" Width="262"  Height="22"/>
         <ComboBox x:Name="cbxStream" ItemsSource="{Binding EqNames}" SelectedItem="{Binding SelectedEq}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.ColumnSpan="2"  Width="262" Grid.Row="1" Height="22"/>
-        <Label Content="{DynamicResource File Path}" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Column="1" Height="26" />
-        <Label Content="{DynamicResource Stream}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" />
+        <Label Content="File Path" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Column="1" Height="26" />
+        <Label Content="Stream" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" />
         <Border BorderBrush="black"    VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1"   Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5">
         </Border>
         <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
@@ -33,8 +33,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Content="{DynamicResource OK}" Command="{Binding OKCommand}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="25" Grid.Column="1" />
-            <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="25"  Grid.Column="3" />
+            <Button Content="OK" Command="{Binding OKCommand}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="25" Grid.Column="1" />
+            <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="25"  Grid.Column="3" />
 
         </Grid>
 

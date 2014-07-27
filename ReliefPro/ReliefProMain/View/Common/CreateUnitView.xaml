@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.CreateUnitView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{DynamicResource CreateUnitView Title}" Height="150" Width="350" Name="myWindow">
+        Title="New Unit" Height="150" Width="350" Name="myWindow">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="22*"/>
@@ -30,7 +30,7 @@
                     
                     <RowDefinition Height="5*"/>
                 </Grid.RowDefinitions>
-                <Label  Content="{DynamicResource Unit_Name}"  HorizontalAlignment="Right"  Grid.Column="1" Grid.Row="0" Height="28" />
+                <Label Content="Unit Name" HorizontalAlignment="Right"  Grid.Column="1" Grid.Row="0" Height="28" Width="75" />
                 <TextBox Grid.Column="2"  Grid.Row="0" TextWrapping="NoWrap" Text="{Binding UnitName}" Height="28" Width="100" Grid.ColumnSpan="1" />
                 
             </Grid>
@@ -45,8 +45,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Content="{DynamicResource OK}" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="1"  Grid.Row="2" Height="22"  Width="75"/>
-            <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="3" Grid.Row="2" Height="22" Width="75" />
+            <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="1"  Grid.Row="2" Height="22"  Width="75"/>
+            <Button Content="Cancel" IsCancel="True" Grid.Column="3" Grid.Row="2" Height="22" Width="75" />
 
         </Grid>
 
