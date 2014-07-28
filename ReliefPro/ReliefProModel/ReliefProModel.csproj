@@ -147,7 +147,9 @@
     <EmbeddedResource Include="Scenario.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="TowerScenarioHX.hbm.xml" />
+    <EmbeddedResource Include="TowerScenarioHX.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="TowerScenarioStream.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
