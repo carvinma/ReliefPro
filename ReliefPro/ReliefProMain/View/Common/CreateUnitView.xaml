@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.CreateUnitView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{DynamicResource CreateUnitView Title}" Height="150" Width="350" Name="myWindow">
+        Title="{DynamicResource CreateUnitViewTitle}" Height="150" Width="350" Name="myWindow">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="22*"/>

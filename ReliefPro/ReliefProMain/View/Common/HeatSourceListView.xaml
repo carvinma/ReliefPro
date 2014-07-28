@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.HeatSourceListView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{DynamicResource HeatSourceListView Title}" Height="302.299" Width="597.701" Name="myWindow">
+        Title="{DynamicResource HeatSourceListViewTitle}" Height="302.299" Width="597.701" Name="myWindow">
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50*"/>
@@ -31,7 +31,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource HeatSourceListViewDuty kg_hr}" Width="150px" >
+                    <GridViewColumn Header="{DynamicResource HeatSourceListViewDutykg_hr}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox  Text="{Binding Path=Duty,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
@@ -41,7 +41,7 @@
                     <GridViewColumn Header="" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.DeleteCommand}" CommandParameter="{Binding SeqNumber,Mode=TwoWay}" ></Button>
+                                <Button Content="{DynamicResource Delete}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.DeleteCommand}" CommandParameter="{Binding SeqNumber,Mode=TwoWay}" ></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

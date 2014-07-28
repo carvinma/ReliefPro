@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"            
-        Title="{DynamicResource PSVView Title}" Height="391.724" Width="787.586" Name="myWindow">
+        Title="{DynamicResource PSVViewTitle}" Height="391.724" Width="787.586" Name="myWindow">
     
     <Grid >
         <Grid.ColumnDefinitions>
@@ -30,15 +30,15 @@
             <RowDefinition Height="19*"/>
             
         </Grid.RowDefinitions>
-        <Label Content="{DynamicResource PSVView Title}" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Height="26" Width="32"  />
-        <Label Content="{DynamicResource Valve Number}" HorizontalAlignment="Right"  Grid.Row="2" Grid.Column="1" Height="26" Width="92"  />
+        <Label Content="{DynamicResource PSVViewTitle}" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Height="26" Width="32"  />
+        <Label Content="{DynamicResource ValveNumber}" HorizontalAlignment="Right"  Grid.Row="2" Grid.Column="1" Height="26" Width="92"  />
         <Label Content="{DynamicResource Description}" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="5" Height="26" Width="76"  />
-        <Label Content="{DynamicResource Valve Type}" HorizontalAlignment="Right"  Grid.Row="2" Grid.Column="5" Height="26" Width="72"  />
-        <Label Content="{DynamicResource Set Pressure}" HorizontalAlignment="Right" Grid.Row="3" Grid.Column="1" Height="26" Width="80"  />
+        <Label Content="{DynamicResource ValveType}" HorizontalAlignment="Right"  Grid.Row="2" Grid.Column="5" Height="26" Width="72"  />
+        <Label Content="{DynamicResource SetPressure}" HorizontalAlignment="Right" Grid.Row="3" Grid.Column="1" Height="26" Width="80"  />
         <Label Content="{DynamicResource Description}" HorizontalAlignment="Right" Grid.Row="6"  Grid.Column="1" Height="26" Width="76" Margin="0,1,0,0"  />
         <Label Content="{DynamicResource Prelief}" HorizontalAlignment="Right" Grid.Row="4" Grid.Column="1" Height="26" Width="46"  />
         <Label Content="{DynamicResource Pset}"  Grid.Row="4" Grid.Column="4" Height="26" Width="34"  />
-        <Label Content="{DynamicResource Critical Pressure}" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="7" Height="26" Width="101" Margin="0,6,0,0"   />
+        <Label Content="{DynamicResource CriticalPressure}" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="7" Height="26" Width="101" Margin="0,6,0,0"   />
 
         <TextBox Name="txtName" HorizontalAlignment="Left" Text="{Binding CurrentModel.PSVName}" Grid.Row="1" Grid.Column="2" />
         <TextBox Name="txtValveNumber" HorizontalAlignment="Left" Text="{Binding CurrentModel.ValveNumber}"   Grid.Row="2" Grid.Column="2" />
@@ -52,9 +52,9 @@
         <Label x:Name="lblPressure"  Content="{Binding PSVPressureUnit,Mode=TwoWay}" Grid.Row="3" Grid.Column="3" Height="10" Width="10" />
 
 
-        <Button Content="{DynamicResource Calculate Critical Pressure}" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center"  Grid.Row="3" VerticalAlignment="Center" Width="178" Height="22" Margin="107,2,108,5"/>
+        <Button Content="{DynamicResource CalculateCriticalPressure}" Grid.Column="5" Grid.ColumnSpan="2" HorizontalAlignment="Center"  Grid.Row="3" VerticalAlignment="Center" Width="178" Height="22" Margin="107,2,108,5"/>
 
-        <GroupBox Name="g1" Grid.Column="5" Header="{DynamicResource Additional PSV on Reflux Drum}"  Grid.Row="4"  Grid.RowSpan="4"  Grid.ColumnSpan="2" Margin="0,0,10,0">
+        <GroupBox Name="g1" Grid.Column="5" Header="{DynamicResource AdditionalPSVonRefluxDrum}"  Grid.Row="4"  Grid.RowSpan="4"  Grid.ColumnSpan="2" Margin="0,0,10,0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="137*" />
@@ -66,9 +66,9 @@
                     <RowDefinition Height="46*"/>
                     <RowDefinition Height="67*"/>
                 </Grid.RowDefinitions>
-                <Label Content="{DynamicResource PSV Name}" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Height="26" Margin="0,11,0,9" Width="70"/>
+                <Label Content="{DynamicResource PSVName}" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Height="26" Margin="0,11,0,9" Width="70"/>
                 <TextBox Name="txtDrumPSVName" HorizontalAlignment="Left" Height="22"  TextWrapping="Wrap" Text="{Binding CurrentModel.DrumPSVName}" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="0,13,0,11" />
-                <Label Content="{DynamicResource Set Pressure}" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Height="26" Margin="0,10,0,31" Width="80"/>
+                <Label Content="{DynamicResource SetPressure}" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Height="26" Margin="0,10,0,31" Width="80"/>
                 <CustomControl:UnitConvertTextBox  UnitOrigin="{Binding ElementName=lblDrumPressure,Path=Content,Mode=TwoWay}"  HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" Text="{Binding CurrentModel.DrumPressure}" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Width="120" Margin="0,0,0,43"/>
                 <Label x:Name="lblDrumPressure" Content="{Binding DrumPressureUnit}" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" Height="10" Margin="0,27,0,30" Width="10"/>
                 
