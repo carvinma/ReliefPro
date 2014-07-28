@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-        Title="{DynamicResource GeneralElectricPowerFailureView Title}" Height="580.597" Width="671.343">
+        Title="{DynamicResource GeneralElectricPowerFailureViewTitle}" Height="580.597" Width="671.343">
     <Window.Resources>
         <Style TargetType="RowDefinition">
             <Setter Property="Height" Value="30"></Setter>
@@ -68,13 +68,13 @@
             <ColumnDefinition Width="12*"/>
             <ColumnDefinition Width="53*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="{DynamicResource HX network cold stream}"  Grid.Row="1" Height="25" Width="154"/>
-        <Label Content="{DynamicResource Utility HX}"  Grid.Row="3" Height="25" Width="64" Margin="66,0,0,5"/>
-        <Label Content="{DynamicResource Simulation Solved Unsolved}"  Grid.Row="10" Height="25" Width="180"/>
-        <Label Content="{DynamicResource Relief Load}"  Grid.Row="12" Height="25" Width="74"/>
-        <Label Content="{DynamicResource Relief Temperature}"  Grid.Row="13" Height="25" Width="119"/>
-        <Label Content="{DynamicResource Relief MW}"  Grid.Row="14" Height="25" Width="69"/>
-        <Label Content="{DynamicResource Relief Pressure}"  Grid.Row="15" Height="25" Width="138" />
+        <Label Content="{DynamicResource HXnetworkcoldstream}"  Grid.Row="1" Height="25" Width="154"/>
+        <Label Content="{DynamicResource UtilityHX}"  Grid.Row="3" Height="25" Width="64" Margin="66,0,0,5"/>
+        <Label Content="{DynamicResource SimulationSolvedUnsolved}"  Grid.Row="10" Height="25" Width="180"/>
+        <Label Content="{DynamicResource ReliefLoad}"  Grid.Row="12" Height="25" Width="74"/>
+        <Label Content="{DynamicResource ReliefTemperature}"  Grid.Row="13" Height="25" Width="119"/>
+        <Label Content="{DynamicResource ReliefMW}"  Grid.Row="14" Height="25" Width="69"/>
+        <Label Content="{DynamicResource ReliefPressure}"  Grid.Row="15" Height="25" Width="138" />
         <Label x:Name="lblReliefLoad" Content="{Binding Path=model.ReliefLoadUnit,Mode=TwoWay}"  Style="{StaticResource LabelLeftStyle}" Grid.Column="2"  Grid.Row="12" Margin="0,2" />
         <Label x:Name="lblReliefTemperature" Content="{Binding Path=model.ReliefTemperatureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="13" Margin="0,2" />
         <Label x:Name="lblReliefPressure" Content="{Binding Path=model.ReliefPressureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="15" Margin="0,2" />
@@ -87,7 +87,7 @@
                   Margin="0,0,46,10" Grid.Row="3" Grid.ColumnSpan="3" Grid.Column="1" Grid.RowSpan="5" >
             <ListView.View>
                 <GridView >
-                    <GridViewColumn Header="{DynamicResource HX Name}" Width="150px" >
+                    <GridViewColumn Header="{DynamicResource HXName}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox IsEnabled="False" Text="{Binding Path=HXName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
@@ -102,7 +102,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Duty Factor}" Width="150px" >
+                    <GridViewColumn Header="{DynamicResource DutyFactor}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox  Text="{Binding Path=DutyFactor,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
@@ -113,8 +113,8 @@
             </ListView.View>
         </ListView>
 
-        <Button Content="{DynamicResource Run Case Simulation}" Command="{Binding ElectricRunCaseSimulationCMD}" Grid.Column="0" Height="26" Grid.Row="9" Width="130" Margin="56,2" />
-        <Button Content="{DynamicResource Launch Simulator}" Command="{Binding ElectricLaunchSimulatorCMD}" Grid.Column="1" Height="26" Grid.Row="9" Width="120" Margin="19,2,22,2" />
+        <Button Content="{DynamicResource RunCaseSimulation}" Command="{Binding ElectricRunCaseSimulationCMD}" Grid.Column="0" Height="26" Grid.Row="9" Width="130" Margin="56,2" />
+        <Button Content="{DynamicResource LaunchSimulator}" Command="{Binding ElectricLaunchSimulatorCMD}" Grid.Column="1" Height="26" Grid.Row="9" Width="120" Margin="19,2,22,2" />
         <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" Grid.Column="2" Height="24" Grid.Row="16" Width="74" Margin="41,6,145,0" Grid.ColumnSpan="2" />
         <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="3" Height="24" Grid.Row="16" Width="76" Margin="89.776,6,46,0" />
         <CheckBox Content="" IsChecked="{Binding Path=model.CalcHXNetworkColdStream,Mode=TwoWay}" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,4" Grid.Row="1" VerticalAlignment="Center" Height="16" Width="17"/>
