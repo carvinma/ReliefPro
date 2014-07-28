@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.ScenarioHeatSourceListView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="HeatSourceListView" Height="243.288" Width="833.038" Name="myWindow">
+        Title="{DynamicResource ScenarioHeatSourceListView Title}" Height="243.288" Width="833.038" Name="myWindow">
     <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="58*"/>
@@ -10,42 +10,42 @@
         <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=HeatSources,Mode=TwoWay}" SelectedItem="{Binding SelectedHeatSource,Mode=TwoWay}" Margin="0,0,0,0" >
             <ListView.View>
                 <GridView >
-                    <GridViewColumn Header="Type" Width="150">
+                    <GridViewColumn Header="{DynamicResource Type}" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox IsEnabled="False" Text="{Binding Path=HeatSourceType,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Name" Width="150px" >
+                    <GridViewColumn Header="{DynamicResource Name}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox IsEnabled="False" Text="{Binding Path=HeatSourceName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Normal Duty,KJ/hr" Width="150px" >
+                    <GridViewColumn Header="{DynamicResource Normal Duty KJhr}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox IsEnabled="False" Text="{Binding Path=Duty,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Duty Factor" Width="100px" >
+                    <GridViewColumn Header="{DynamicResource Duty Factor}" Width="100px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox  Text="{Binding Path=DutyFactor,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Is FB" Width="90px" >
+                    <GridViewColumn Header="{DynamicResource Is FB}" Width="90px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox  IsChecked="{Binding Path=IsFB,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="50px" ></CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Feed/Bottom">
+                    <GridViewColumn Header="{DynamicResource Feed Bottom}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="Calculate" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.CalculateCommand}" CommandParameter="{Binding ID}" ></Button>
@@ -55,7 +55,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="OK" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  HorizontalAlignment="Left" Margin="611,10,0,0" VerticalAlignment="Top" Width="75" Height="22" Grid.Row="1"/>
+        <Button Content="{DynamicResource OK}" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  HorizontalAlignment="Left" Margin="611,10,0,0" VerticalAlignment="Top" Width="75" Height="22" Grid.Row="1"/>
 
     </Grid>
 </Window>

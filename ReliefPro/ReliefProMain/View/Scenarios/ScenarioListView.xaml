@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        Title="Scenario List" Height="500" Width="911" >
+        Title="{DynamicResource ScenarioListView Title}" Height="500" Width="911" >
     <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="19*"/>
@@ -15,7 +15,7 @@
             <ListView.View>
                 <GridView >
                     <GridViewColumn Width="0"    Header="#"   DisplayMemberBinding="{Binding Path=SeqNumber,Mode=TwoWay}"></GridViewColumn>
-                    <GridViewColumn Header="Scenario Name" Width="200">
+                    <GridViewColumn Header="{DynamicResource Scenario Name}" Width="200">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.ScenarioNameList}" SelectedItem="{Binding Path=ScenarioName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="180"></ComboBox>
@@ -25,7 +25,7 @@
 
                     <GridViewColumn  Width="150px" >
                         <GridViewColumn.Header>
-                            <CustomControl:GVColumnHeader UOrigin="kg/hr" ColInfo="test" ChangeUnitEvent="{Binding cud}" Content="Relief Load, kg/hr">
+                            <CustomControl:GVColumnHeader UOrigin="kg/hr" ColInfo="test" ChangeUnitEvent="{Binding cud}" Content="{DynamicResource Relief Load kghr}">
                             </CustomControl:GVColumnHeader>
                         </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
@@ -34,22 +34,22 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Relief Pressure,MPag" Width="150px" >
+                    <GridViewColumn Header="{DynamicResource Relief Pressure MPag}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox IsEnabled="False" Text="{Binding Path=ReliefPressure,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Relief Temperature, C" Width="150px" >
+                    <GridViewColumn Header="{DynamicResource Relief Temperature C}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox IsEnabled="False" Text="{Binding Path=ReliefTemperature,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    
-                    <GridViewColumn Header="Relief MW" Width="150px" >
+
+                    <GridViewColumn Header="{DynamicResource Relief MW}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox IsEnabled="False" Text="{Binding Path=ReliefMW,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
@@ -59,22 +59,22 @@
                     <GridViewColumn Header="" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Calculation" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.CalculateCommand}" CommandParameter="{Binding ID,Mode=TwoWay}" ></Button>
+                                <Button Content="{DynamicResource Calculation}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.CalculateCommand}" CommandParameter="{Binding ID,Mode=TwoWay}" ></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.DeleteCommand}" CommandParameter="{Binding SeqNumber,Mode=TwoWay}" ></Button>
+                                <Button Content="{DynamicResource Delete}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.DeleteCommand}" CommandParameter="{Binding SeqNumber,Mode=TwoWay}" ></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Add" Command="{Binding AddCommand}" HorizontalAlignment="Left" Margin="729,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Height="22"/>
-        <Button Content="OK" IsCancel="True" HorizontalAlignment="Left" Margin="729,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Button Content="{DynamicResource Add}" Command="{Binding AddCommand}" HorizontalAlignment="Left" Margin="729,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Button Content="{DynamicResource OK}" IsCancel="True" HorizontalAlignment="Left" Margin="729,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Height="22"/>
         
 
     </Grid>
