@@ -295,7 +295,10 @@ namespace ReliefProMain.ViewModel.TowerFires
             {
                 if (eq.FireZone)
                 {
-                    reliefload = reliefload + eq.ReliefLoad.Value;
+                    if (eq.ReliefLoad != null)
+                    {
+                        reliefload = reliefload + eq.ReliefLoad.Value;
+                    }
                 }
             }
             MainModel.ReliefLoad = reliefload;
