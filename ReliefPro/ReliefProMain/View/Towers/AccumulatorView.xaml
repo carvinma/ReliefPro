@@ -21,11 +21,11 @@
             <RowDefinition Height="45"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <Label Content="{DynamicResource Accumulator Name}"  Height="26" Grid.Row="1" Grid.Column="1" Margin="25,2,0,22" Grid.RowSpan="2" Width="124"/>
-        <Label Content="{DynamicResource Vessel Orientation}"  Height="26" Grid.Row="2"  Grid.Column="1" Margin="25,2,0,22" Grid.RowSpan="2" Width="118" />
+        <Label Content="{DynamicResource AccumulatorName}"  Height="26" Grid.Row="1" Grid.Column="1" Margin="25,2,0,22" Grid.RowSpan="2" Width="124"/>
+        <Label Content="{DynamicResource VesselOrientation}"  Height="26" Grid.Row="2"  Grid.Column="1" Margin="25,2,0,22" Grid.RowSpan="2" Width="118" />
         <Label Content="{DynamicResource Diameter}"    Grid.Row="3"  Grid.Column="1" Height="26" Width="66" Margin="25,2,0,22" Grid.RowSpan="2"/>
-        <Label Content="{DynamicResource Length TT}"  Grid.Row="4" Height="26" Width="94" Grid.Column="1" Margin="25,2,0,22" Grid.RowSpan="2"/>
-        <Label Content="{DynamicResource Normal Liquid Level}"  Height="26" Grid.Row="4" Grid.Column="1" Margin="25,24,0,0" Grid.RowSpan="2" Width="128"  />
+        <Label Content="{DynamicResource LengthTT}"  Grid.Row="4" Height="26" Width="94" Grid.Column="1" Margin="25,2,0,22" Grid.RowSpan="2"/>
+        <Label Content="{DynamicResource NormalLiquidLevel}"  Height="26" Grid.Row="4" Grid.Column="1" Margin="25,24,0,0" Grid.RowSpan="2" Width="128"  />
         <TextBox  Text="{Binding CurrentAccumulator.AccumulatorName}"  Grid.Row="1" Grid.Column="2" Margin="25,1,24,1"  />
         <RadioButton Name="voH" IsChecked="{Binding Horiz}" GroupName="orientation" Content="{DynamicResource Horiz}" HorizontalAlignment="Left" Margin="30,6,0,0" VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" Height="14" Width="50"/>
         <RadioButton Name="voV" IsChecked="{Binding Vertical}" GroupName="orientation" Content="{DynamicResource Vert}" HorizontalAlignment="Left" Margin="90,5,0,0" VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" Height="14" Width="43"/>

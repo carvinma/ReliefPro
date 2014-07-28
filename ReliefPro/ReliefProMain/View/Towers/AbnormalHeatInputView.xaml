@@ -37,14 +37,14 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Normal Duty KJhr}" Width="150px" >
+                    <GridViewColumn Header="{DynamicResource NormalDutyKJhr}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox IsEnabled="False" Text="{Binding Path=Duty,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Duty Factor}" Width="150px" >
+                    <GridViewColumn Header="{DynamicResource DutyFactor}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox  Text="{Binding DutyFactor, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" />
@@ -55,10 +55,10 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label Content="{DynamicResource Relief Load}"  Grid.Row="2" />
-        <Label Content="{DynamicResource Relief MW}"  Grid.Row="3"  />
-        <Label Content="{DynamicResource Relief Pressure}"  Grid.Row="4" />
-        <Label Content="{DynamicResource Relief Temperature}"  Grid.Row="5" />
+        <Label Content="{DynamicResource ReliefLoad}"  Grid.Row="2" />
+        <Label Content="{DynamicResource ReliefMW}"  Grid.Row="3"  />
+        <Label Content="{DynamicResource ReliefPressure}"  Grid.Row="4" />
+        <Label Content="{DynamicResource ReliefTemperature}"  Grid.Row="5" />
         <Label x:Name="lblReliefLoad" Content="{Binding ReliefLoadUnit,Mode=TwoWay}"  Grid.Row="2" Grid.Column="2" Margin="5,12,0,8" />
         <Label x:Name="lblReliefPressure" Content="{Binding ReliefPressureUnit,Mode=TwoWay}"  Grid.Row="4" Grid.Column="2" Margin="5,12,0,8"/>
         <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit,Mode=TwoWay}"  Grid.Row="5" Grid.Column="2" Margin="5,12,0,8"/>

@@ -13,17 +13,17 @@
         <Button Content="{DynamicResource Feed}"   HorizontalAlignment="Left" Margin="150,10,0,0" VerticalAlignment="Top" Width="75" Height="39" Command="{Binding FeedCommand}"/>
         <Button Content="{DynamicResource Reboiler}"   HorizontalAlignment="Left" Margin="90,67,0,0" VerticalAlignment="Top" Width="75" Height="50" Command="{Binding ReboilerCommand}"/>
         <Button  HorizontalAlignment="Left" Margin="196,67,0,0" VerticalAlignment="Top" Width="90" Height="50" Command="{Binding PumparoundHeatingCommand}" >
-            <TextBlock TextWrapping="Wrap" Text="{DynamicResource Pumparound Heating}"></TextBlock>
+            <TextBlock TextWrapping="Wrap" Text="{DynamicResource PumparoundHeating}"></TextBlock>
         </Button>
         <Button Content="Condenser" HorizontalAlignment="Left" Margin="90,137,0,0" VerticalAlignment="Top" Width="75" Height="53" Command="{Binding CondenserCommand}"/>
         <Button HorizontalAlignment="Left" Margin="196,137,0,0" VerticalAlignment="Top" Width="90" Height="53" Command="{Binding PumparoundCoolingCommand}" >
-            <TextBlock Text="{DynamicResource Pumparound Cooling}" TextWrapping="Wrap"></TextBlock>
+            <TextBlock Text="{DynamicResource PumparoundCooling}" TextWrapping="Wrap"></TextBlock>
         </Button>
         <Button Content="{DynamicResource Calculate}"  HorizontalAlignment="Left" Margin="150,208,0,0" VerticalAlignment="Top" Width="75" Command="{Binding CalcCommand}"/>
-        <TextBlock HorizontalAlignment="Left" Margin="50,15,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{DynamicResource Relief Load}" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="50,45,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{DynamicResource Relief Temperature}" VerticalAlignment="Top"/>
-        <Label Content="{DynamicResource Relief Pressure}" HorizontalAlignment="Left" Margin="46,70,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="50,105,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{DynamicResource Relief MW}" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="50,15,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{DynamicResource ReliefLoad}" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="50,45,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{DynamicResource ReliefTemperature}" VerticalAlignment="Top"/>
+        <Label Content="{DynamicResource ReliefPressure}" HorizontalAlignment="Left" Margin="46,70,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="50,105,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{DynamicResource ReliefMW}" VerticalAlignment="Top"/>
 
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}"  HorizontalAlignment="Left" Height="23" Margin="165,13,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding ReliefLoad}" VerticalAlignment="Top" Width="120"/>
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}"  HorizontalAlignment="Left" Height="23" Margin="165,43,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding ReliefTemperature}" VerticalAlignment="Top" Width="120"/>
