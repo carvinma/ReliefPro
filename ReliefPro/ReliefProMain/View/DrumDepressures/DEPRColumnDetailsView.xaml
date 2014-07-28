@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.DrumDepressures.DEPRColumnDetailsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{DynamicResource DEPRColumnDetailsView Title}" Height="260" Width="630">
+        Title="{DynamicResource DEPRColumnDetailsViewTitle}" Height="260" Width="630">
     <Window.Resources>
         <Style TargetType="RowDefinition">
             <Setter Property="Height" Value="30"></Setter>
@@ -32,16 +32,16 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Content="{DynamicResource Number of segment}" Grid.Column="0"  Grid.Row="0" Height="26" Margin="10,6,0,0" Width="126"/>
+        <Label Content="{DynamicResource Numberofsegment}" Grid.Column="0"  Grid.Row="0" Height="26" Margin="10,6,0,0" Width="126"/>
         <TextBox HorizontalAlignment="Left" Width="60" Margin="155,5,0,3" Text="" VerticalAlignment="Center" Height="24"/>
         <DataGrid Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="612" Height="26">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource segment}"/>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Internal}"/>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource of actual trays_or void frac}"/>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource total height_m}"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource ofactualtrays_orvoidfrac}"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource totalheight_m}"/>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Diameter_m}"/>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Bottom NHLL_m}"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource BottomNHLL_m}"/>
             </DataGrid.Columns>
         </DataGrid>
         <StatusBar  HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch" Margin="0,1,0,0" >
