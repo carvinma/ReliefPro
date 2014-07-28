@@ -18,8 +18,8 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{DynamicResource Name}" Width="200px"  DisplayMemberBinding="{Binding Path=DetailName}"></GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Heat Medium}" Width="200px"  DisplayMemberBinding="{Binding Path=Medium}"></GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Duty Factor}" Width="100px"  DisplayMemberBinding="{Binding Path=DutyCalcFactor}"></GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource HeatMedium}" Width="200px"  DisplayMemberBinding="{Binding Path=Medium}"></GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource DutyFactor}" Width="100px"  DisplayMemberBinding="{Binding Path=DutyCalcFactor}"></GridViewColumn>
 
                     <GridViewColumn Header="{DynamicResource Stop}" Width="50px">
                         <GridViewColumn.CellTemplate>
@@ -28,14 +28,14 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Is Pinch}" Width="50px"  >
+                    <GridViewColumn Header="{DynamicResource IsPinch}" Width="50px"  >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox IsChecked="{Binding Path=IsPinch}"></CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Pinch Factor}" Width="150"   >
+                    <GridViewColumn Header="{DynamicResource PinchFactor}" Width="150"   >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox  Text="{Binding Path=PinchFactor}"></TextBox>
@@ -56,7 +56,7 @@
         </ListView>
 
         <Button Content="{DynamicResource OK}" IsCancel="True" HorizontalAlignment="Right" Margin="0,5,20,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Height="22"/>
-        <Button IsEnabled="{Binding IsSurgeTime}"  Visibility="{Binding IsDisplay}" Content="{DynamicResource Reflux Drum Surge Time}"  Command="{Binding CalculateSurgeTimeClick}"  HorizontalAlignment="Left" Margin="212,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="170"/>
+        <Button IsEnabled="{Binding IsSurgeTime}"  Visibility="{Binding IsDisplay}" Content="{DynamicResource RefluxDrumSurgeTime}"  Command="{Binding CalculateSurgeTimeClick}"  HorizontalAlignment="Left" Margin="212,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="170"/>
         <TextBlock HorizontalAlignment="Left"  Margin="193,8,0,0" Grid.Row="2" TextWrapping="Wrap"  VerticalAlignment="Top"/>
         <CheckBox IsChecked="{Binding IsFlooding}"  Content="{DynamicResource Flooding}" Visibility="{Binding IsDisplay}" HorizontalAlignment="Left" Margin="40,5,0,0" Grid.Row="2" VerticalAlignment="Top"/>
         <CheckBox IsChecked="{Binding IsSurgeTime}" Visibility="{Binding IsDisplay}" Content="" HorizontalAlignment="Left" Margin="188,10,0,0" Grid.Row="2" VerticalAlignment="Top"/>

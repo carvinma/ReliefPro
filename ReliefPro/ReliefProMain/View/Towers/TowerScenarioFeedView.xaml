@@ -12,10 +12,10 @@
         <ListView Grid.Row="0" Margin="0,0,0,0" ItemsSource="{Binding Path=Feeds}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="{DynamicResource Stream Name}" Width="200px"  DisplayMemberBinding="{Binding Path=StreamName}"></GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Flow Source}" Width="200px"  DisplayMemberBinding="{Binding Path=SourceType}"></GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource StreamName}" Width="200px"  DisplayMemberBinding="{Binding Path=StreamName}"></GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource FlowSource}" Width="200px"  DisplayMemberBinding="{Binding Path=SourceType}"></GridViewColumn>
 
-                    <GridViewColumn Header="{DynamicResource Flow Factor}" Width="100px">
+                    <GridViewColumn Header="{DynamicResource FlowFactor}" Width="100px">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding Path=FlowCalcFactor}"></TextBox>
@@ -31,10 +31,10 @@
                     </GridViewColumn>
 
 
-                    <GridViewColumn Header="{DynamicResource Heat Source}">
+                    <GridViewColumn Header="{DynamicResource HeatSource}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="{DynamicResource Heat Source}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.CalculateCommand}" CommandParameter="{Binding ID}" ></Button>
+                                <Button Content="{DynamicResource HeatSource}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.CalculateCommand}" CommandParameter="{Binding ID}" ></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

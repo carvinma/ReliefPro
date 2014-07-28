@@ -21,7 +21,7 @@
             <RowDefinition Height="35*"/>
             <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
-        <GroupBox Header="{DynamicResource Detail Data}"  Margin="0,0,0,0" Grid.Row="3"   Grid.ColumnSpan="6" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" >
+        <GroupBox Header="{DynamicResource DetailData}"  Margin="0,0,0,0" Grid.Row="3"   Grid.ColumnSpan="6" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" >
             <Grid Margin="0,0,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -38,7 +38,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="{DynamicResource Process Side Flow Source}"  x:Name="ProcessSideFlowSource" Width="180px"  >
+                            <GridViewColumn Header="{DynamicResource ProcessSideFlowSource}"  x:Name="ProcessSideFlowSource" Width="180px"  >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox ItemsSource="{Binding Path=ProcessSideFlowSources}" SelectedItem="{Binding Path=ProcessSideFlowSource}"  HorizontalAlignment="Stretch" Width="150px">
@@ -54,7 +54,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="{DynamicResource Medium Side Flow Source}"  x:Name="MediumSideFlowSource"  Width="180px" >
+                            <GridViewColumn Header="{DynamicResource MediumSideFlowSource}"  x:Name="MediumSideFlowSource"  Width="180px" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox ItemsSource="{Binding Path=MediumSideFlowSources,Mode=TwoWay}" SelectedItem="{Binding Path=MediumSideFlowSource,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" >
@@ -62,14 +62,14 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="{DynamicResource Duty Percentage}" Width="120px" >
+                            <GridViewColumn Header="{DynamicResource DutyPercentage}" Width="120px" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox Text="{Binding Path=DutyPercentage,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="120px" ></TextBox>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="200px"  Header="{DynamicResource Duty KJhr}" DisplayMemberBinding="{Binding Path=Duty,Mode=TwoWay}"></GridViewColumn>
+                            <GridViewColumn Width="200px"  Header="{DynamicResource DutyKJhr}" DisplayMemberBinding="{Binding Path=Duty,Mode=TwoWay}"></GridViewColumn>
                             <GridViewColumn Header="" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -82,7 +82,7 @@
                 </ListView>
             </Grid>
         </GroupBox>
-        <Label HorizontalAlignment="Left" Margin="0,0,0,0" Content="{DynamicResource Total Duty}" VerticalAlignment="Top" Height="26" Width="93" Grid.Row="2" Grid.Column="1"/>
+        <Label HorizontalAlignment="Left" Margin="0,0,0,0" Content="{DynamicResource TotalDuty}" VerticalAlignment="Top" Height="26" Width="93" Grid.Row="2" Grid.Column="1"/>
         <Label HorizontalAlignment="Left" Margin="0,0,0,0" Content="{DynamicResource Name}" VerticalAlignment="Top" Height="27" Width="64" Grid.Row="1" Grid.Column="1"/>
         <CustomControl:UnitConvertTextBox  UnitOrigin="{Binding ElementName=lblDuty,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding Path=model.HeaterDuty}" VerticalAlignment="Top" Grid.Column="2" Grid.Row="2"/>
         <TextBox Name="txtName"  Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="0,0,0,0" TextWrapping="NoWrap" Text="{Binding Path=model.HeaterName}" VerticalAlignment="Top" Grid.Row="1"/>
