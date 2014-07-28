@@ -18,32 +18,32 @@
             <RowDefinition Height="38*"/>
             <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="35,10,0,0" Grid.Row="1" Text="{DynamicResource Heat Input Model}" Width="120"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="35,10,0,0" Grid.Row="1" Text="{DynamicResource HeatInputModel}" Width="120"/>
         <ComboBox ItemsSource="{Binding Path=HeatInputModels,Mode=TwoWay}" SelectedItem="{Binding MainModel.HeatInputModel,Mode=TwoWay}" Grid.Column="1" HorizontalAlignment="Left" Margin="163,11,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120"/>
-        <CheckBox Content="{DynamicResource Adequate drainage and firefighting equipment exist}" IsChecked="{Binding MainModel.IsExist}" Grid.Column="1" HorizontalAlignment="Left" Margin="380,17,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <CheckBox Content="{DynamicResource Adequatedrainageandfirefightingequipmentexist}" IsChecked="{Binding MainModel.IsExist}" Grid.Column="1" HorizontalAlignment="Left" Margin="380,17,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <ListView Grid.Column="1" HorizontalAlignment="Stretch" Height="163"  Grid.Row="2" VerticalAlignment="Top" ItemsSource="{Binding EqList,Mode=TwoWay}" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{DynamicResource EqName}"  DisplayMemberBinding="{Binding Path=EqName}"></GridViewColumn>
                     <GridViewColumn Header="{DynamicResource EqType}"  DisplayMemberBinding="{Binding Path=Type}"></GridViewColumn>
                     <GridViewColumn Header="{DynamicResource Elevation_m}" DisplayMemberBinding="{Binding Path=Elevation}"></GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Fire Zone}"  >
+                    <GridViewColumn Header="{DynamicResource FireZone}"  >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox IsChecked="{Binding Path=FireZone}" ></CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource F Factor}"  >
+                    <GridViewColumn Header="{DynamicResource FFactor}"  >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding Path=FFactor}"  HorizontalAlignment="Stretch" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Wetted Area_m2}"  DisplayMemberBinding="{Binding Path=WettedArea}"></GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Heat Input KJ_hr}"  DisplayMemberBinding="{Binding Path=HeatInput}"></GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Relief Load kghr}"  DisplayMemberBinding="{Binding Path=ReliefLoad}"></GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource WettedArea_m2}"  DisplayMemberBinding="{Binding Path=WettedArea}"></GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource HeatInputKJ_hr}"  DisplayMemberBinding="{Binding Path=HeatInput}"></GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource ReliefLoadkghr}"  DisplayMemberBinding="{Binding Path=ReliefLoad}"></GridViewColumn>
                     <GridViewColumn Header="{DynamicResource Edit}" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -59,12 +59,12 @@
         </ListView>
         <GroupBox Grid.Column="1" Header="{DynamicResource GroupBox}" HorizontalAlignment="Stretch"  Grid.Row="4" VerticalAlignment="Top" Height="180" >
             <Grid>
-                <TextBlock HorizontalAlignment="Left" Margin="70,20,0,0" Text="{DynamicResource Relief Load}" VerticalAlignment="Top"/>
-                <TextBlock HorizontalAlignment="Left" Margin="70,50,0,0" Text="{DynamicResource Relief Pressure}" VerticalAlignment="Top"/>
-                <TextBlock HorizontalAlignment="Left" Margin="70,80,0,0" Text="{DynamicResource Relief Temperature}" VerticalAlignment="Top"/>
-                <TextBlock HorizontalAlignment="Left" Margin="70,110,0,0" Text="{DynamicResource Relief MW}" VerticalAlignment="Top"/>
-                <TextBlock Visibility="Hidden" HorizontalAlignment="Left" Margin="69,140,0,0" Text="{DynamicResource Relief Cp_Cv}" VerticalAlignment="Top"/>
-                <TextBlock Visibility="Hidden" HorizontalAlignment="Left" Margin="67,170,0,0" Text="{DynamicResource Relief Z}" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" Margin="70,20,0,0" Text="{DynamicResource ReliefLoad}" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" Margin="70,50,0,0" Text="{DynamicResource ReliefPressure}" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" Margin="70,80,0,0" Text="{DynamicResource ReliefTemperature}" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" Margin="70,110,0,0" Text="{DynamicResource ReliefMW}" VerticalAlignment="Top"/>
+                <TextBlock Visibility="Hidden" HorizontalAlignment="Left" Margin="69,140,0,0" Text="{DynamicResource ReliefCp_Cv}" VerticalAlignment="Top"/>
+                <TextBlock Visibility="Hidden" HorizontalAlignment="Left" Margin="67,170,0,0" Text="{DynamicResource ReliefZ}" VerticalAlignment="Top"/>
 
                 <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="205,20,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefLoad,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
                 <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="205,50,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefPressure,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>

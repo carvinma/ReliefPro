@@ -15,7 +15,7 @@
             <RowDefinition Height="38*"/>
             <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
-        <GroupBox Grid.Column="1" Header="{DynamicResource Area Data}" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="340">
+        <GroupBox Grid.Column="1" Header="{DynamicResource AreaData}" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="340">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10*"/>
@@ -29,8 +29,8 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="10*"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1"  Content="{DynamicResource Wetted Area}" />
-                <Label Grid.Column="1" HorizontalAlignment="Left" Grid.Row="2"  Content="{DynamicResource Piping Contingency}" />
+                <Label Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1"  Content="{DynamicResource WettedArea}" />
+                <Label Grid.Column="1" HorizontalAlignment="Left" Grid.Row="2"  Content="{DynamicResource PipingContingency}" />
 
                 <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" Text="{Binding Path=model.WettedArea,Mode=TwoWay}"/>
                 <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="2" Text="{Binding Path=model.PipingContingency,Mode=TwoWay}" />

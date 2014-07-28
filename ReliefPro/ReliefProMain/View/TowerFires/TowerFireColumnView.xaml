@@ -28,7 +28,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
-            <Label Grid.Column="1" Grid.Row="0"  Content="{DynamicResource Number of segment}" HorizontalAlignment="Left" Height="24" />
+            <Label Grid.Column="1" Grid.Row="0"  Content="{DynamicResource Numberofsegment}" HorizontalAlignment="Left" Height="24" />
             <TextBox Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="{Binding Path=model.NumberOfSegment,Mode=TwoWay}" Height="24"/>
         </Grid>
 
@@ -95,7 +95,7 @@
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
             <Label Grid.Column="1" Grid.Row="0"  Content="{DynamicResource Elevation}" />
-            <Label Grid.Column="1" Grid.Row="1"  Content="{DynamicResource Bottom Normal Liquid Level}" />
+            <Label Grid.Column="1" Grid.Row="1"  Content="{DynamicResource BottomNormalLiquidLevel}" />
             <Label Grid.Column="1" Grid.Row="2"  Content="{DynamicResource PipingContingency}" />
 
             <CustomControl:UnitConvertTextBox  Grid.Row="0" Grid.Column="2" UnitOrigin="{Binding ElementName=lblElevation,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Text="{Binding model.Instance.Elevation}" />
