@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.ScenarioHeatSourceListView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{DynamicResource ScenarioHeatSourceListView Title}" Height="243.288" Width="833.038" Name="myWindow">
+        Title="{DynamicResource ScenarioHeatSourceListViewTitle}" Height="243.288" Width="833.038" Name="myWindow">
     <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="58*"/>
@@ -24,31 +24,31 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Normal Duty KJhr}" Width="150px" >
+                    <GridViewColumn Header="{DynamicResource NormalDutyKJhr}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox IsEnabled="False" Text="{Binding Path=Duty,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Duty Factor}" Width="100px" >
+                    <GridViewColumn Header="{DynamicResource DutyFactor}" Width="100px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox  Text="{Binding Path=DutyFactor,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Is FB}" Width="90px" >
+                    <GridViewColumn Header="{DynamicResource IsFB}" Width="90px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox  IsChecked="{Binding Path=IsFB,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="50px" ></CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Feed Bottom}">
+                    <GridViewColumn Header="{DynamicResource FeedBottom}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Calculate" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.CalculateCommand}" CommandParameter="{Binding ID}" ></Button>
+                                <Button Content="{DynamicResource Calculate}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.CalculateCommand}" CommandParameter="{Binding ID}" ></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

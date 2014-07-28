@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-        Title="{DynamicResource ReboilerPinchView Title}" Height="570" Width="1000" Name="myWindow">
+        Title="{DynamicResource ReboilerPinchViewTitle}" Height="570" Width="1000" Name="myWindow">
     <Window.Resources>
         <Style TargetType="RowDefinition">
             <Setter Property="Height" Value="30"></Setter>
@@ -64,19 +64,19 @@
             <ColumnDefinition Width="150"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Content="{DynamicResource Heat Source}" Grid.Column="1" Grid.Row="1"/>
-        <Label Content="{DynamicResource Cold Side inlet temperature normal Condition}" Grid.Column="1"  Grid.Row="3"/>
-        <Label Content="{DynamicResource Cold Side outlet temperature normal Condition}" Grid.Column="1" Grid.Row="4"/>
-        <Label Content="{DynamicResource Heat source inlet temperature normal condition}" Grid.Column="1" Grid.Row="5"/>
-        <Label Content="{DynamicResource Heat source outlet temperature normal condition}" Grid.Column="1" Grid.Row="6"/>
-        <Label Content="{DynamicResource Overall Heat transfer Coefficient Design U design}" Grid.Column="1" Grid.Row="7"/>
-        <Label Content="{DynamicResource Overall Heat transfer Coefficient Clean U clean}" Grid.Column="1" Grid.Row="8"/>
-        <Label Content="{DynamicResource Heat Transfer Area}" Grid.Column="1" Grid.Row="9"/>
-        <Label Content="{DynamicResource U design Area}" Grid.Column="1"   Grid.Row="10"/>
-        <Label Content="{DynamicResource U clean U design}" Grid.Column="1" Grid.Row="11"/>
-        <Label Content="{DynamicResource Cold side outlet temperature relief condition}" Grid.Column="1" Grid.Row="12"/>
-        <Label Content="{DynamicResource Heat Source inlet temperature relief condition}" Grid.Column="1" Grid.Row="13"/>
-        <Label Content="{DynamicResource Duty normal condition}" Grid.Column="1" Grid.Row="14"/>
+        <Label Content="{DynamicResource HeatSource}" Grid.Column="1" Grid.Row="1"/>
+        <Label Content="{DynamicResource ColdSideinlettemperaturenormalCondition}" Grid.Column="1"  Grid.Row="3"/>
+        <Label Content="{DynamicResource ColdSideoutlettemperaturenormalCondition}" Grid.Column="1" Grid.Row="4"/>
+        <Label Content="{DynamicResource Heatsourceinlettemperaturenormalcondition}" Grid.Column="1" Grid.Row="5"/>
+        <Label Content="{DynamicResource Heatsourceoutlettemperaturenormalcondition}" Grid.Column="1" Grid.Row="6"/>
+        <Label Content="{DynamicResource OverallHeattransferCoefficientDesignUdesign}" Grid.Column="1" Grid.Row="7"/>
+        <Label Content="{DynamicResource OverallHeattransferCoefficientCleanUclean}" Grid.Column="1" Grid.Row="8"/>
+        <Label Content="{DynamicResource HeatTransferArea}" Grid.Column="1" Grid.Row="9"/>
+        <Label Content="{DynamicResource UdesignArea}" Grid.Column="1"   Grid.Row="10"/>
+        <Label Content="{DynamicResource UcleanUdesign}" Grid.Column="1" Grid.Row="11"/>
+        <Label Content="{DynamicResource Coldsideoutlettemperaturereliefcondition}" Grid.Column="1" Grid.Row="12"/>
+        <Label Content="{DynamicResource HeatSourceinlettemperaturereliefcondition}" Grid.Column="1" Grid.Row="13"/>
+        <Label Content="{DynamicResource Dutynormalcondition}" Grid.Column="1" Grid.Row="14"/>
 
         <Label x:Name="lblColdtin" Content="{Binding ColdtinUnit}" Grid.Column="3" Grid.Row="3"  Style="{StaticResource LabelLeftStyle}"/>
         <Label x:Name="lblColdtout" Content="{Binding ColdtoutUnit}" Grid.Column="3" Grid.Row="4"  Style="{StaticResource LabelLeftStyle}"/>
@@ -110,17 +110,17 @@
         <CustomControl:UnitConvertTextBox Grid.Column="5" UnitOrigin="{Binding ElementName=lblHeaderPressure,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Width="60" Grid.Row="1"/>
         <TextBox Grid.Column="5" HorizontalAlignment="Left" Width="60" Grid.Row="2" Text="S105"/>
 
-        <Button Content="{DynamicResource Pinch Calculation}" Command="{Binding PinchCalcCommand}" Grid.Column="1" Grid.Row="15" Width="120" Height="19"/>
-        <Button Content="{DynamicResource Use Pinch Duty}" Command="{Binding SavePinchCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="3" Grid.Row="17" Width="100" HorizontalAlignment="Right" Height="22"/>
+        <Button Content="{DynamicResource PinchCalculation}" Command="{Binding PinchCalcCommand}" Grid.Column="1" Grid.Row="15" Width="120" Height="19"/>
+        <Button Content="{DynamicResource UsePinchDuty}" Command="{Binding SavePinchCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="3" Grid.Row="17" Width="100" HorizontalAlignment="Right" Height="22"/>
         <Button Content="{DynamicResource Browse}" Grid.Column="4" Grid.Row="2" Width="100" HorizontalAlignment="Center" Height="22"/>
-        <Button Content="{DynamicResource Use Normal Duty}" Command="{Binding SaveNormalCommand}" CommandParameter="{Binding ElementName=myWindow}"  Grid.Column="4" Grid.Row="17" Width="120" HorizontalAlignment="Center" Height="22"/>
+        <Button Content="{DynamicResource UseNormalDuty}" Command="{Binding SaveNormalCommand}" CommandParameter="{Binding ElementName=myWindow}"  Grid.Column="4" Grid.Row="17" Width="120" HorizontalAlignment="Center" Height="22"/>
         <Button Content="{DynamicResource Discard}" IsCancel="True" Grid.Column="5" Grid.Row="17" Width="80" HorizontalAlignment="Center" Height="22"/>
         <TextBox IsEnabled="False" Text="{Binding SourceType}" Grid.Column="2" Grid.Row="1" Height="25" Width="120"/>
         <Label Content="{DynamicResource Input}"  Grid.Row="3"/>
         <Label Content="{DynamicResource Output}"  Grid.Row="16"/>
-        <Label Content="{DynamicResource Duty relief condition}" Grid.Column="1" Grid.Row="16"/>
-        <Label Content="{DynamicResource Pinch Factor}" Grid.Column="1" Grid.Row="17"/>
-        <CheckBox Content="{DynamicResource Steam uses Flow Control}" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center"/>
-        <CheckBox Content="{DynamicResource Hot Oil stream in PROII}" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center"/>
+        <Label Content="{DynamicResource Dutyreliefcondition}" Grid.Column="1" Grid.Row="16"/>
+        <Label Content="{DynamicResource PinchFactor}" Grid.Column="1" Grid.Row="17"/>
+        <CheckBox Content="{DynamicResource SteamusesFlowControl}" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center"/>
+        <CheckBox Content="{DynamicResource HotOilstreaminPROII}" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center"/>
     </Grid>
 </Window>

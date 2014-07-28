@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        Title="{DynamicResource ScenarioListView Title}" Height="500" Width="911" >
+        Title="{DynamicResource ScenarioListViewTitle}" Height="500" Width="911" >
     <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="19*"/>
@@ -15,7 +15,7 @@
             <ListView.View>
                 <GridView >
                     <GridViewColumn Width="0"    Header="#"   DisplayMemberBinding="{Binding Path=SeqNumber,Mode=TwoWay}"></GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Scenario Name}" Width="200">
+                    <GridViewColumn Header="{DynamicResource ScenarioName}" Width="200">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.ScenarioNameList}" SelectedItem="{Binding Path=ScenarioName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="180"></ComboBox>
@@ -25,7 +25,7 @@
 
                     <GridViewColumn  Width="150px" >
                         <GridViewColumn.Header>
-                            <CustomControl:GVColumnHeader UOrigin="kg/hr" ColInfo="test" ChangeUnitEvent="{Binding cud}" Content="{DynamicResource Relief Load kghr}">
+                            <CustomControl:GVColumnHeader UOrigin="kg/hr" ColInfo="test" ChangeUnitEvent="{Binding cud}" Content="{DynamicResource ReliefLoadkghr}">
                             </CustomControl:GVColumnHeader>
                         </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
@@ -34,14 +34,14 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Relief Pressure MPag}" Width="150px" >
+                    <GridViewColumn Header="{DynamicResource ReliefPressureMPag}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox IsEnabled="False" Text="{Binding Path=ReliefPressure,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Relief Temperature C}" Width="150px" >
+                    <GridViewColumn Header="{DynamicResource ReliefTemperatureC}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox IsEnabled="False" Text="{Binding Path=ReliefTemperature,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
@@ -49,7 +49,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="{DynamicResource Relief MW}" Width="150px" >
+                    <GridViewColumn Header="{DynamicResource ReliefMW}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox IsEnabled="False" Text="{Binding Path=ReliefMW,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
