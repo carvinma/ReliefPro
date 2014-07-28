@@ -4,6 +4,12 @@
              DispatcherUnhandledException="APP_DispatcherUnhandledException"
              Startup="OnStartup">
     <Application.Resources>
-        <ResourceDictionary Source="/themes/Expression.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/themes/Expression.xaml"/>
+                <ResourceDictionary Source="pack://siteOfOrigin:,,,/Resources/Langs/en-US.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
+    
 </Application>
