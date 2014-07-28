@@ -1,0 +1,150 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Collections;
+using System.Collections.ObjectModel;
+using System.Windows;
+using ReliefProMain.ViewModel.Trees;
+using System.Windows.Input;
+using ReliefProMain.Commands;
+using ReliefProMain.View.Reports;
+using System.IO;
+
+namespace ReliefProMain.ViewModel.Reports
+{
+    public class ReportTreeVM: ViewModelBase
+    {
+        public string CurrentPlantPath;        
+        public ReportTreeVM(string plantName,string dirPlant)
+        {
+            PlantCollection = new ObservableCollection<PlantVM>();
+            CurrentPlantPath = dirPlant;
+            PlantVM plantvm = new PlantVM(plantName,dirPlant);
+            
+            PlantCollection.Add(plantvm);
+        }
+
+        private ObservableCollection<PlantVM> _PlantCollection;
+        public ObservableCollection<PlantVM> PlantCollection
+        {
+            get { return _PlantCollection; }
+            set
+            {
+                if (_PlantCollection != value)
+                {
+                    _PlantCollection = value;
+                    OnPropertyChanged("PlantCollection");
+                }
+            }
+        }
+
+        private ICommand _PlantSummaryCommand;
+        public ICommand PlantSummaryCommand
+        {
+            get
+            {
+                if (_PlantSummaryCommand == null)
+                {
+                    _PlantSummaryCommand = new RelayCommand(PlantSummary);
+                }
+                return _PlantSummaryCommand;
+            }
+        }
+        private void PlantSummary(object obj)
+        {
+            List<Tuple<int, List<string>>> UnitPath = new List<Tuple<int, List<string>>>();
+            List<UnitVM> list = GetCheckedUnits();
+            if (list.Count > 0)
+            {
+                foreach (UnitVM uvm in list)
+                {
+                    string dirUnit = CurrentPlantPath + @"\" + uvm.UnitName;
+                    List<string> ReportPath = new List<string>();
+                    foreach (PSVM p in uvm.PSCollection)
+                    {
+                        if (p.IsChecked)
+                        {
+                            ReportPath.Add(dirUnit + @"\" + p.PSName + @"\protectedsystem.mdb");
+                        }
+                    }
+                    Tuple<int, List<string>> t = new Tuple<int, List<string>>(uvm.ID, ReportPath);
+                    UnitPath.Add(t);
+
+                }
+
+                PlantSummaryView view = new PlantSummaryView();
+                PlantSummaryVM vm = new PlantSummaryVM(UnitPath);
+                view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                view.DataContext = vm;
+                view.ShowDialog();
+            }
+        }
+        private ICommand _UnitSummaryCommand;
+        public ICommand UnitSummaryCommand
+        {
+            get
+            {
+                if (_UnitSummaryCommand == null)
+                {
+                    _UnitSummaryCommand = new RelayCommand(UnitSummary);
+                }
+                return _UnitSummaryCommand;
+            }
+        }
+        private void UnitSummary(object obj)
+        {
+            UnitVM uvm = GetSingleCheckedUnit();
+            if (uvm != null)
+            {
+                string unitPath = CurrentPlantPath + @"\" + uvm.UnitName;                
+                List<string> ReportPath = new List<string>();
+                foreach (PSVM p in uvm.PSCollection)
+                {
+                    if (p.IsChecked)
+                    {
+                        ReportPath.Add(unitPath + @"\" + p.PSName + @"\protectedsystem.mdb");
+                    }
+                }
+                PUsummaryView view = new PUsummaryView();
+                PUsummaryVM vm = new PUsummaryVM(uvm.ID, ReportPath);
+                view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                view.DataContext = vm;
+                view.ShowDialog();
+            }
+        }
+        private UnitVM GetSingleCheckedUnit()
+        {
+            UnitVM curUnitVM = null;
+            foreach (PlantVM plantvm in PlantCollection)
+            {
+                foreach (UnitVM uvm in plantvm.UnitCollection)
+                {
+                    if (uvm.IsChecked)
+                    {
+                        curUnitVM = uvm;
+                        break;
+                    }
+                }
+            }
+            return curUnitVM;
+           
+        }
+        private List<UnitVM> GetCheckedUnits()
+        {
+            List<UnitVM> chkedUnit = new List<UnitVM>();
+            foreach (PlantVM plantvm in PlantCollection)
+            {
+                foreach (UnitVM uvm in plantvm.UnitCollection)
+                {
+                    if (uvm.IsChecked)
+                    {
+                        chkedUnit.Add(uvm);
+                    }
+                }
+            }
+            return chkedUnit;
+
+        }
+    }
+}
