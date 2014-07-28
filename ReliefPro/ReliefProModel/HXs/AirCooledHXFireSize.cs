@@ -11,7 +11,6 @@ namespace ReliefProModel.HXs
         public virtual int ScenarioID { get; set; }
         public virtual double? WettedBundle { get; set; }
         public virtual double? PipingContingency { get; set; }
-        public virtual string ScenarioID_Color { get; set; }
         public virtual string WettedBundle_Color { get; set; }
         public virtual string PipingContingency_Color { get; set; }
        
