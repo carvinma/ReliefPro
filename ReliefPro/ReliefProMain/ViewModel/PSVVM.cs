@@ -150,6 +150,7 @@ namespace ReliefProMain.ViewModel
             }
             model.Description = m.Description;
             model.LocationDescription = m.LocationDescription;
+            model.DischargeTo = m.DischargeTo;
             return model;
         }
         private void ConvertModel(PSVModel m, ref PSV model)
@@ -166,6 +167,7 @@ namespace ReliefProMain.ViewModel
             }
             model.Description = m.Description;
             model.LocationDescription = m.LocationDescription;
+            model.DischargeTo = m.DischargeTo;
         }
 
 
