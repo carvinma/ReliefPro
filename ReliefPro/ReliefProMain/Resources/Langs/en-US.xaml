@@ -25,7 +25,7 @@
     <!--CustomStreamView.xaml-->
     <s:String x:Key="CustomStreamViewTitle">1(Stream)</s:String>
     <s:String x:Key="1_Stream">1(Stream)</s:String>
-    <s:String x:Key="Stream Name">Stream Name</s:String>
+    <s:String x:Key="StreamName">Stream Name</s:String>
     <s:String x:Key="Description">Description</s:String>
     <s:String x:Key="VabFrac">VabFrac</s:String>
     <s:String x:Key="Temperature">Temperature</s:String>
