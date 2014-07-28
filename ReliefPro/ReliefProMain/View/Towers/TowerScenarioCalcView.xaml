@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-        Title="TowerScenarioCalc" Height="480" Width="391.045" Name="myWindow">
+        Title="{DynamicResource TowerScenarioCalcViewTitle}" Height="480" Width="391.045" Name="myWindow">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="200*"/>
@@ -10,20 +10,20 @@
             <RowDefinition Height="38*"/>
             <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
-        <Button Content="Feed"   HorizontalAlignment="Left" Margin="150,10,0,0" VerticalAlignment="Top" Width="75" Height="39" Command="{Binding FeedCommand}"/>
-        <Button Content="Reboiler"   HorizontalAlignment="Left" Margin="90,67,0,0" VerticalAlignment="Top" Width="75" Height="50" Command="{Binding ReboilerCommand}"/>
+        <Button Content="{DynamicResource Feed}"   HorizontalAlignment="Left" Margin="150,10,0,0" VerticalAlignment="Top" Width="75" Height="39" Command="{Binding FeedCommand}"/>
+        <Button Content="{DynamicResource Reboiler}"   HorizontalAlignment="Left" Margin="90,67,0,0" VerticalAlignment="Top" Width="75" Height="50" Command="{Binding ReboilerCommand}"/>
         <Button  HorizontalAlignment="Left" Margin="196,67,0,0" VerticalAlignment="Top" Width="90" Height="50" Command="{Binding PumparoundHeatingCommand}" >
-            <TextBlock>Pumparound<LineBreak/>(Heating)</TextBlock>
+            <TextBlock TextWrapping="Wrap" Text="{DynamicResource Pumparound Heating}"></TextBlock>
         </Button>
         <Button Content="Condenser" HorizontalAlignment="Left" Margin="90,137,0,0" VerticalAlignment="Top" Width="75" Height="53" Command="{Binding CondenserCommand}"/>
         <Button HorizontalAlignment="Left" Margin="196,137,0,0" VerticalAlignment="Top" Width="90" Height="53" Command="{Binding PumparoundCoolingCommand}" >
-            <TextBlock>Pumparound<LineBreak/>(Cooling)</TextBlock>
+            <TextBlock Text="{DynamicResource Pumparound Cooling}" TextWrapping="Wrap"></TextBlock>
         </Button>
-        <Button Content="Calculation"  HorizontalAlignment="Left" Margin="150,208,0,0" VerticalAlignment="Top" Width="75" Command="{Binding CalcCommand}"/>
-        <TextBlock HorizontalAlignment="Left" Margin="50,15,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Relief Load" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="50,45,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Relief Temperature" VerticalAlignment="Top"/>
-        <Label Content="Relief Pressure" HorizontalAlignment="Left" Margin="46,70,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="50,105,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Relief MW" VerticalAlignment="Top"/>
+        <Button Content="{DynamicResource Calculate}"  HorizontalAlignment="Left" Margin="150,208,0,0" VerticalAlignment="Top" Width="75" Command="{Binding CalcCommand}"/>
+        <TextBlock HorizontalAlignment="Left" Margin="50,15,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{DynamicResource Relief Load}" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="50,45,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{DynamicResource Relief Temperature}" VerticalAlignment="Top"/>
+        <Label Content="{DynamicResource Relief Pressure}" HorizontalAlignment="Left" Margin="46,70,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="50,105,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{DynamicResource Relief MW}" VerticalAlignment="Top"/>
 
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}"  HorizontalAlignment="Left" Height="23" Margin="165,13,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding ReliefLoad}" VerticalAlignment="Top" Width="120"/>
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}"  HorizontalAlignment="Left" Height="23" Margin="165,43,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding ReliefTemperature}" VerticalAlignment="Top" Width="120"/>
@@ -31,8 +31,8 @@
         <TextBox HorizontalAlignment="Left" Name="txtReliefMW" Height="23" Margin="165,103,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding ReliefMW}" VerticalAlignment="Top" Width="120"/>
         
         <Border BorderBrush="black"    VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1" Margin="0,1,0,0" Grid.Row="2"/>
-        <Button Content="OK" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Height="25"  Margin="110,10,0,0" Grid.Row="2"  Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"/>
-        <Button Content="Cancel" HorizontalAlignment="Left" IsCancel="True"  VerticalAlignment="Top" Width="75" Height="25"  Margin="211,10,0,0" Grid.Row="2"/>
+        <Button Content="{DynamicResource OK}" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Height="25"  Margin="110,10,0,0" Grid.Row="2"  Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"/>
+        <Button Content="{DynamicResource Cancel}" HorizontalAlignment="Left" IsCancel="True"  VerticalAlignment="Top" Width="75" Height="25"  Margin="211,10,0,0" Grid.Row="2"/>
 
         <Label x:Name="lblReliefLoad" Content="{Binding ReliefLoadUnit,Mode=TwoWay}" HorizontalAlignment="Left" Margin="281,18,0,0" Grid.Row="1"  VerticalAlignment="Top"/>
         <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit,Mode=TwoWay}" HorizontalAlignment="Left" Margin="294,55,0,0" Grid.Row="1"  VerticalAlignment="Top"/>

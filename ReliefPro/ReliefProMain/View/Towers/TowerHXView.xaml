@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-        Title="TowerHX" Height="473" Width="1104.478" Name="myWindow" >
+        Title="{DynamicResource TowerHXViewTitle}" Height="473" Width="1104.478" Name="myWindow" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="97*"/>
@@ -21,7 +21,7 @@
             <RowDefinition Height="35*"/>
             <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
-        <GroupBox Header="Detail data"  Margin="0,0,0,0" Grid.Row="3"   Grid.ColumnSpan="6" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" >
+        <GroupBox Header="{DynamicResource Detail Data}"  Margin="0,0,0,0" Grid.Row="3"   Grid.ColumnSpan="6" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" >
             <Grid Margin="0,0,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -31,14 +31,14 @@
                         <GridView >
                             <GridViewColumn Width="0"    Header="#"   DisplayMemberBinding="{Binding Path=SeqNumber,Mode=TwoWay}"></GridViewColumn>
 
-                            <GridViewColumn Header="Name" Width="100">
+                            <GridViewColumn Header="{DynamicResource Name}" Width="100">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox Text="{Binding Path=DetailName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="120"></TextBox>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="Process Side Flow Source"  x:Name="ProcessSideFlowSource" Width="180px"  >
+                            <GridViewColumn Header="{DynamicResource Process Side Flow Source}"  x:Name="ProcessSideFlowSource" Width="180px"  >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox ItemsSource="{Binding Path=ProcessSideFlowSources}" SelectedItem="{Binding Path=ProcessSideFlowSource}"  HorizontalAlignment="Stretch" Width="150px">
@@ -46,7 +46,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn  Header="Medium"     x:Name="Medium"  Width="180px" >
+                            <GridViewColumn  Header="{DynamicResource Medium}"     x:Name="Medium"  Width="180px" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox ItemsSource="{Binding Path=Mediums}" SelectedItem="{Binding Path=Medium,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" >
@@ -54,7 +54,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="Medium Side Flow Source"  x:Name="MediumSideFlowSource"  Width="180px" >
+                            <GridViewColumn Header="{DynamicResource Medium Side Flow Source}"  x:Name="MediumSideFlowSource"  Width="180px" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox ItemsSource="{Binding Path=MediumSideFlowSources,Mode=TwoWay}" SelectedItem="{Binding Path=MediumSideFlowSource,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" >
@@ -62,18 +62,18 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="Duty Percentage,%" Width="120px" >
+                            <GridViewColumn Header="{DynamicResource Duty Percentage}" Width="120px" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox Text="{Binding Path=DutyPercentage,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="120px" ></TextBox>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="200px"  Header="Duty,KJ/hr" DisplayMemberBinding="{Binding Path=Duty,Mode=TwoWay}"></GridViewColumn>
+                            <GridViewColumn Width="200px"  Header="{DynamicResource Duty KJhr}" DisplayMemberBinding="{Binding Path=Duty,Mode=TwoWay}"></GridViewColumn>
                             <GridViewColumn Header="" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.DeleteCommand}" CommandParameter="{Binding SeqNumber,Mode=TwoWay}" ></Button>
+                                        <Button Content="{DynamicResource Delete}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.DeleteCommand}" CommandParameter="{Binding SeqNumber,Mode=TwoWay}" ></Button>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -82,13 +82,13 @@
                 </ListView>
             </Grid>
         </GroupBox>
-        <Label HorizontalAlignment="Left" Margin="0,0,0,0" Content="Total Duty:" VerticalAlignment="Top" Height="26" Width="93" Grid.Row="2" Grid.Column="1"/>        
-        <Label HorizontalAlignment="Left" Margin="0,0,0,0" Content="Name:" VerticalAlignment="Top" Height="27" Width="64" Grid.Row="1" Grid.Column="1"/>
+        <Label HorizontalAlignment="Left" Margin="0,0,0,0" Content="{DynamicResource Total Duty}" VerticalAlignment="Top" Height="26" Width="93" Grid.Row="2" Grid.Column="1"/>
+        <Label HorizontalAlignment="Left" Margin="0,0,0,0" Content="{DynamicResource Name}" VerticalAlignment="Top" Height="27" Width="64" Grid.Row="1" Grid.Column="1"/>
         <CustomControl:UnitConvertTextBox  UnitOrigin="{Binding ElementName=lblDuty,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding Path=model.HeaterDuty}" VerticalAlignment="Top" Grid.Column="2" Grid.Row="2"/>
         <TextBox Name="txtName"  Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="0,0,0,0" TextWrapping="NoWrap" Text="{Binding Path=model.HeaterName}" VerticalAlignment="Top" Grid.Row="1"/>
         <Label x:Name="lblDuty" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="2" Content="{Binding DutyUnit,Mode=TwoWay}" VerticalAlignment="Top" Height="26" Width="55" />
         <Border BorderBrush="black"    VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1"  Grid.Row="5" Grid.ColumnSpan="6" Margin="0,0,0,0"/>
-        <Button Name="btnAdd" Content="Add" Grid.Column="5" HorizontalAlignment="Left" Margin="149,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="75" Command="{Binding AddCommand}" Height="22"/>
+        <Button Name="btnAdd" Content="{DynamicResource Add}" Grid.Column="5" HorizontalAlignment="Left" Margin="149,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="75" Command="{Binding AddCommand}" Height="22"/>
         
         <Grid HorizontalAlignment="Stretch" Height="32" Margin="0,5,0,0" Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="6">
             <Grid.ColumnDefinitions>
@@ -97,8 +97,8 @@
                 <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="300" />
             </Grid.ColumnDefinitions>
-            <Button  Content="OK" HorizontalAlignment="Center" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  VerticalAlignment="Center" Width="75" Height="22" Grid.Column="1" Grid.Row="0"/>
-            <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
+            <Button  Content="{DynamicResource OK}" HorizontalAlignment="Center" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  VerticalAlignment="Center" Width="75" Height="22" Grid.Column="1" Grid.Row="0"/>
+            <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
         </Grid>
 
         <StatusBar HorizontalAlignment="Stretch" Height="20"  Grid.Row="6" VerticalAlignment="Bottom" Grid.ColumnSpan="6">
