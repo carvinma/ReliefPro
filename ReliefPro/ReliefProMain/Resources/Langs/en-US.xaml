@@ -7,6 +7,7 @@
     <s:String x:Key="Cancel">Cancel</s:String>
     <s:String x:Key="Delete">Delete</s:String>
     <s:String x:Key="Finish">Finish</s:String>
+    <s:String x:Key="Total">Total</s:String>
 
     <!--AreasView.xaml-->
     <s:String x:Key="AreasView Title">TowerFireCooler</s:String>
@@ -439,17 +440,94 @@
     <s:String x:Key="Tank Size">Tank Size</s:String>
 
     <!--StorageTankSizeView.xaml-->
-    <s:String x:Key="StorageTankSizeView Title">StorageTank</s:String>
-    <s:String x:Key="Orientation">Orientation</s:String>
-    <s:String x:Key="Elevation">Elevation</s:String>
-    <s:String x:Key="Diameter">Diameter</s:String>
-    <s:String x:Key="Length">Length</s:String>
-    <s:String x:Key="Normal Liquid Level">Normal Liquid Level</s:String>
-    <s:String x:Key="Head number">Head number</s:String>
-    <s:String x:Key="Head Type">Head Type</s:String>
-    
-    
-    
-    
-    
+    <s:String x:Key="StorageTankSizeViewTitle">StorageTank</s:String>
+
+    <!--StorageTankView.xaml-->
+    <s:String x:Key="StorageTankViewTitle">1(Stream)</s:String>
+
+    <!--TowerFireColumnView.xaml-->
+    <s:String x:Key="TowerFireColumnViewTitle">TowerFireInfo</s:String>
+    <s:String x:Key="Segment">Segment</s:String>
+    <s:String x:Key="Trays">Trays</s:String>
+    <s:String x:Key="Bottom Normal Liquid Level">Bottom Normal Liquid Level</s:String>
+    <s:String x:Key="PipingContingency">PipingContingency</s:String>
+
+    <!--TowerFireDrumView.xaml-->
+    <s:String x:Key="TowerFireDrumViewTitle">Drum Area Info</s:String>
+
+    <!--TowerFireHXView.xaml-->
+    <s:String x:Key="TowerFireHXViewTitle">TowerShellTubeHX</s:String>
+    <s:String x:Key="Exposed to Fire">Exposed to Fire</s:String>
+    <s:String x:Key="OD">OD</s:String>
+
+    <!--TowerFireOtherView.xaml-->
+    <s:String x:Key="TowerFireOtherViewTitle">TowerFireCooler</s:String>
+
+    <!--TowerFireView.xaml-->
+    <s:String x:Key="TowerFireViewTitle">TowerFire</s:String>
+    <s:String x:Key="EqName">EqName</s:String>
+    <s:String x:Key="EqType">EqType</s:String>
+    <s:String x:Key="Fire Zone">Fire Zone</s:String>
+    <s:String x:Key="F Factor">F Factor</s:String>
+    <s:String x:Key="Edit">Edit</s:String>
+    <s:String x:Key="GroupBox">GroupBox</s:String>
+    <s:String x:Key="Heat Input KJ_hr">Heat Input,KJ/hr</s:String>
+
+    <!--AbnormalHeatInputView.xaml-->
+    <s:String x:Key="AbnormalHeatInputViewTitle">AbnormalHeatInput</s:String>
+
+    <!--AccumulatorView.xaml-->
+    <s:String x:Key="AccumulatorViewTitle">AccumulatorView</s:String>
+    <s:String x:Key="Accumulator Name">Accumulator Name</s:String>
+    <s:String x:Key="Vessel Orientation">Vessel Orientation</s:String> 
+    <s:String x:Key="Length TT">Length T/T</s:String>
+    <s:String x:Key="Horiz">Horiz</s:String>
+    <s:String x:Key="Vert">Vert</s:String>
+
+    <!--TowerHXView.xaml-->
+    <s:String x:Key="TowerHXViewTitle">TowerHX</s:String>
+    <s:String x:Key="Process Side Flow Source">Process Side Flow Source</s:String>
+    <s:String x:Key="Medium">Medium</s:String>
+    <s:String x:Key="Detail Data">Detail Data</s:String>
+    <s:String x:Key="Medium Side Flow Source">Medium Side Flow Source</s:String>
+    <s:String x:Key="Duty Percentage">Duty Percentage,%</s:String>
+    <s:String x:Key="Duty KJhr">Duty,KJ/hr</s:String>
+    <s:String x:Key="Total Duty">Total Duty</s:String>
+
+    <!--TowerScenarioCalcView.xaml-->
+    <s:String x:Key="TowerScenarioCalcViewTitle">TowerScenarioCalc</s:String>
+    <s:String x:Key="Reboiler">Reboiler</s:String>
+    <s:String x:Key="Pumparound Heating">Pumparound (Heating)</s:String>
+    <s:String x:Key="Pumparound Cooling">Pumparound (Cooling)</s:String>
+
+    <!--TowerScenarioFeedView.xaml-->
+    <s:String x:Key="TowerScenarioFeedViewTitle">Feed Stream</s:String>
+    <s:String x:Key="Flow Source">Flow Source</s:String>
+    <s:String x:Key="Flow Factor">Flow Factor</s:String>
+
+    <!--TowerScenarioHXView.xaml-->
+    <s:String x:Key="TowerScenarioHXViewTitle">TowerHX</s:String>
+    <s:String x:Key="Flooding">Flooding</s:String>
+    <s:String x:Key="Reflux Drum Surge Time">Reflux Drum Surge Time</s:String>
+    <s:String x:Key="min">min</s:String>
+    <s:String x:Key="Heat Medium">Heat Medium</s:String>
+    <s:String x:Key="Is Pinch">Is Pinch</s:String>
+    <s:String x:Key="Calculation">Calculation</s:String>
+
+    <!--TowerView.xaml-->
+    <s:String x:Key="TowerViewTitle">Tower</s:String>
+    <s:String x:Key="Tower Name">Tower Name</s:String>
+    <s:String x:Key="Stage Number">Stage Number</s:String>
+    <s:String x:Key="Stage">Stage</s:String>
+    <s:String x:Key="Condenser">Condenser</s:String>
+    <s:String x:Key="Condenser Name">Condenser Name</s:String>
+    <s:String x:Key="Reboiler Name">Reboiler Name</s:String>
+
+
+
+
+
+
+
+
 </ResourceDictionary>
