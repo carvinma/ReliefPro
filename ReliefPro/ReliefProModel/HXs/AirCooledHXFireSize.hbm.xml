@@ -7,7 +7,6 @@
   <property name="ScenarioID" column="ScenarioID" type="Int32"/>
   <property name="WettedBundle" column="WettedBundle" type="Double"/>
   <property name="PipingContingency" column="PipingContingency" type="Double"/>
-  <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"/>
   <property name="WettedBundle_Color" column="WettedBundle_Color" type="String" length="255"/>
   <property name="PipingContingency_Color" column="PipingContingency_Color" type="String" length="255"/>
    
