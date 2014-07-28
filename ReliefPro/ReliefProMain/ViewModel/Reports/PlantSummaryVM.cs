@@ -59,6 +59,7 @@ namespace ReliefProMain.ViewModel.Reports
 
         public PlantSummaryVM(List<Tuple<int, List<string>>> UnitPath)
         {
+            StackpanelReport = new StackPanel();
             ProcessUnitPath = UnitPath;
             listPlantReportDS = new List<PlantSummaryGridDS>();
             report = new ReportBLL();
@@ -79,6 +80,7 @@ namespace ReliefProMain.ViewModel.Reports
                 {
                     InitPUnitReportDS(ReportDischargeTo, p.Item1, p.Item2);
                 });
+
                 CreateReport();
             }
         }
@@ -88,7 +90,9 @@ namespace ReliefProMain.ViewModel.Reports
             List<PSV> listPSV = reportBLL.PSVBag.ToList();
             listPSV = listPSV.Where(p => p.DischargeTo == ReportDischargeTo).ToList();
             listPUReportDS = reportBLL.GetPuReprotDS(listPSV);
-            listPlantReportDS.Add(reportBLL.GetPlantReprotDS(listPUReportDS, 0));
+            PlantSummaryGridDS psDS = reportBLL.GetPlantReprotDS(listPUReportDS, 0);
+            if (psDS != null)
+                listPlantReportDS.Add(psDS);
         }
         private void CreateReport()
         {
@@ -99,17 +103,20 @@ namespace ReliefProMain.ViewModel.Reports
             reportViewer.ProcessingMode = Microsoft.Reporting.WinForms.ProcessingMode.Local;
             reportViewer.LocalReport.ReportEmbeddedResource = "ReliefProMain.View.Reports.PlantSummaryRpt.rdlc";
             List<EffectFactorModel> listEffect = new List<EffectFactorModel>();
-            PlantReprotHead reportHeadDS = new PlantReprotHead();
+
+            List<PlantReprotHead> reportHeadDS = new List<PlantReprotHead>();
+
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantDS", CreateReportDataSource(out listEffect, out reportHeadDS)));
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantEffectFactorDS", listEffect));
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantHeadDS", reportHeadDS));
+
 
             reportViewer.RefreshReport();
             host.Child = reportViewer;
             StackpanelReport.Children.Clear();
             StackpanelReport.Children.Add(host);
         }
-        private List<PUsummaryReportSource> CreateReportDataSource(out List<EffectFactorModel> listEffect, out PlantReprotHead reportHeadDS)
+        private List<PUsummaryReportSource> CreateReportDataSource(out List<EffectFactorModel> listEffect, out List<PlantReprotHead> reportHeadDS)
         {
             List<PUsummaryReportSource> listRS = new List<PUsummaryReportSource>();
             listRS = listPlantReportDS.Select(p => new PUsummaryReportSource
@@ -140,25 +147,35 @@ namespace ReliefProMain.ViewModel.Reports
                 AirT = p.AirDS.ReliefTemperature,
                 AirZ = p.AirDS.ReliefZ
             }).ToList();
+            if (listPlantReportDS.Count > 0)
+            {
+                var listEffectFactor = report.CalcPlantSummary(listPlantReportDS);
+                listRS.AddRange(listEffectFactor);
+                listEffect = CalcEffectFactor(listEffectFactor);
+            }
+            else listEffect = new List<EffectFactorModel>();
 
-            var listEffectFactor = report.CalcPlantSummary(listPlantReportDS);
-            listRS.AddRange(listEffectFactor);
-            listEffect = CalcEffectFactor(listEffectFactor);
+            reportHeadDS = new List<PlantReprotHead>();
+            var plantReprotHead = new PlantReprotHead();
+            plantReprotHead.SummationFun = selectedCalcFun;
+            plantReprotHead.PlantFlare = string.Empty;
+            if (listEffect.Count > 0)
+            {
+                if (listEffect[0].Power >= listEffect[0].Water && listEffect[0].Power >= listEffect[0].Air)
+                {
+                    plantReprotHead.PlantFlare = "General Electric Power Failure";
+                }
+                else if (listEffect[0].Water >= listEffect[0].Power && listEffect[0].Water >= listEffect[0].Air)
+                {
+                    plantReprotHead.PlantFlare = "General Cooling Water Failure";
+                }
+                else if (listEffect[0].Air >= listEffect[0].Power && listEffect[0].Air >= listEffect[0].Water)
+                {
+                    plantReprotHead.PlantFlare = "General Instrument Air Failure";
+                }
 
-            reportHeadDS = new PlantReprotHead();
-            reportHeadDS.SummationFun = selectedCalcFun;
-            if (listEffect[0].Power >= listEffect[0].Water && listEffect[0].Power >= listEffect[0].Air)
-            {
-                reportHeadDS.PlantFlare = "General Electric Power Failure";
             }
-            else if (listEffect[0].Water >= listEffect[0].Power && listEffect[0].Water >= listEffect[0].Air)
-            {
-                reportHeadDS.PlantFlare = "General Cooling Water Failure";
-            }
-            else if (listEffect[0].Air >= listEffect[0].Power && listEffect[0].Air >= listEffect[0].Water)
-            {
-                reportHeadDS.PlantFlare = "General Instrument Air Failure";
-            }
+            reportHeadDS.Add(plantReprotHead);
             return listRS;
         }
 
@@ -206,6 +223,6 @@ namespace ReliefProMain.ViewModel.Reports
             return lsitCalc;
         }
 
-       
+
     }
 }
