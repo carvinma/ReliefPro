@@ -10,7 +10,7 @@ namespace ReliefProDAL
 {
     public class TreeUnitDAL : IBaseDAL<TreeUnit>
     {
-
+        
         public TreeUnit GetModel(ISession session,string UnitName)
         {
             TreeUnit model = null;
@@ -33,6 +33,20 @@ namespace ReliefProDAL
             }
             
             return model;
+        }
+
+        public IList<TreeUnit> GetAllList(ISession session)
+        {
+            IList<TreeUnit> list = null;
+            try
+            {
+                list = session.CreateCriteria<TreeUnit>().List<TreeUnit>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
         }
     }
 }

@@ -10,7 +10,19 @@ namespace ReliefProDAL
 {
     public class TreePSDAL : IBaseDAL<TreePS>
     {
-
+        public IList<TreePS> GetAllList(int UnitID, ISession session)
+        {
+            IList<TreePS> list = null;
+            try
+            {
+                list = session.CreateCriteria<TreePS>().Add(Expression.Eq("UnitID", UnitID)).List<TreePS>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
         public TreePS GetModel(ISession session)
         {
             TreePS model = null;
