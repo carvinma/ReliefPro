@@ -24,7 +24,7 @@ namespace ReliefProMain.View.Reports
         public PlantSummaryView()
         {
             //this.VisualEdgeMode = EdgeMode.Aliased;
-            //InitializeComponent();
+            InitializeComponent();
             //double ddd = 100.40000;
             //string ss= ddd.ToString("N");
 
