@@ -72,6 +72,19 @@ namespace ReliefProMain.Model
                 NotifyPropertyChanged("ValveType");
             }
         }
+        private string _DischargeTo;
+        public string DischargeTo
+        {
+            get
+            {
+                return this._DischargeTo;
+            }
+            set
+            {
+                this._DischargeTo = value;
+                NotifyPropertyChanged("DischargeTo");
+            }
+        }
         private double? _Pressure;
         public double? Pressure
         {

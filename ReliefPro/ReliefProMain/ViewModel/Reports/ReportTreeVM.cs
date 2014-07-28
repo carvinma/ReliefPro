@@ -53,14 +53,16 @@ namespace ReliefProMain.ViewModel.Reports
         }
         private void PlantSummary(object obj)
         {
+            string dbPlantFile = CurrentPlantPath + @"\plant.mdb";
             List<Tuple<int, List<string>>> UnitPath = new List<Tuple<int, List<string>>>();
             List<UnitVM> list = GetCheckedUnits();
             if (list.Count > 0)
             {
                 foreach (UnitVM uvm in list)
                 {
-                    string dirUnit = CurrentPlantPath + @"\" + uvm.UnitName;
                     List<string> ReportPath = new List<string>();
+                    ReportPath.Add(dbPlantFile);
+                    string dirUnit = CurrentPlantPath + @"\" + uvm.UnitName;                    
                     foreach (PSVM p in uvm.PSCollection)
                     {
                         if (p.IsChecked)
@@ -94,11 +96,13 @@ namespace ReliefProMain.ViewModel.Reports
         }
         private void UnitSummary(object obj)
         {
+            string dbPlantFile = CurrentPlantPath + @"\plant.mdb";
             UnitVM uvm = GetSingleCheckedUnit();
             if (uvm != null)
             {
-                string unitPath = CurrentPlantPath + @"\" + uvm.UnitName;                
                 List<string> ReportPath = new List<string>();
+                ReportPath.Add(dbPlantFile);
+                string unitPath = CurrentPlantPath + @"\" + uvm.UnitName;                                
                 foreach (PSVM p in uvm.PSCollection)
                 {
                     if (p.IsChecked)

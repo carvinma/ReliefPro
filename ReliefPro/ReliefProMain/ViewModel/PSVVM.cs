@@ -17,6 +17,9 @@ using UOMLib;
 using NHibernate;
 using ProII;
 using ReliefProCommon.CommonLib;
+using ReliefProDAL.GlobalDefault;
+using ReliefProModel.GlobalDefault;
+
 namespace ReliefProMain.ViewModel
 {
     public class PSVVM : ViewModelBase
@@ -77,6 +80,7 @@ namespace ReliefProMain.ViewModel
         public List<string> ValveTypes { get; set; }
         public PSVModel CurrentModel { get; set; }
 
+        public List<string> DischargeTos { get; set; }
 
         public PSV psv;
         PSVDAL dbpsv = new PSVDAL();
@@ -90,6 +94,18 @@ namespace ReliefProMain.ViewModel
             list.Add("Temperature Actuated");
             return list;
         }
+        public List<string> GetDischargeTos()
+        {
+            List<string> list = new List<string>();
+            GlobalDefaultDAL gdDAL = new GlobalDefaultDAL();
+            IList<FlareSystem> fs = gdDAL.GetFlareSystem(SessionPlant);
+            foreach (FlareSystem m in fs)
+            {
+                list.Add(m.FlareName);
+            }
+
+            return list;
+        }
         public PSVVM(string eqName, string eqType, string przFile, string version, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
             EqName = eqName;
@@ -99,6 +115,7 @@ namespace ReliefProMain.ViewModel
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
             ValveTypes = GetValveTypes();
+            DischargeTos = GetDischargeTos();
             PrzFile = przFile;
             PrzVersion = version;
 
