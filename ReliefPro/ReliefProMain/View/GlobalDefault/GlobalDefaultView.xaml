@@ -76,7 +76,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Content="{DynamicResource LatentHeatforSupercriticalFluid}"  HorizontalAlignment="Right" Grid.Row="0"/>
-                    <Label Content="{DynamicResource DruSurgeTimeThreshold}"  HorizontalAlignment="Right" Grid.Row="1"/>
+                    <Label Content="{DynamicResource DrumSurgeTimeThreshold}"  HorizontalAlignment="Right" Grid.Row="1"/>
                     <Label x:Name="lblLatentHeatSettings" Content="{Binding model.LatentHeatSettingsUnit,Mode=TwoWay}" Margin="0,0,0,0" Grid.Row="0" Grid.Column="2"/>
                     <Label x:Name="lblDrumSurgeTimeSettings" Content="{Binding model.DrumSurgeTimeSettingsUnit,Mode=TwoWay}"  Margin="0,0,0,0" Grid.Row="1"  Grid.Column="2"/>
                     <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLatentHeatSettings,Path=Content,Mode=TwoWay}" Text="{Binding model.LatentHeatSettings,Mode=TwoWay}" Width="90" Grid.Row="0" Grid.Column="1" />
