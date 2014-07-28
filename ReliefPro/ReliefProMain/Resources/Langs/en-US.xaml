@@ -13,7 +13,6 @@
     <s:String x:Key="AreasViewTitle">TowerFireCooler</s:String>
     <s:String x:Key="AreaData">Area Data</s:String>
     <s:String x:Key="WettedArea">Wetted Area</s:String>
-    <s:String x:Key="PipingContingency">Piping Contingency</s:String>
 
     <!--CreateProtectedSystemView.xaml-->
     <s:String x:Key="CreateProtectedSystemViewTitle">New Protected System</s:String>
@@ -118,8 +117,6 @@
 
     <!--CompressorView.xaml-->
     <s:String x:Key="CompressorViewTitle">Drum</s:String>
-    <s:String x:Key="CompressorName">Compressor Name</s:String>
-    <s:String x:Key="CompressorType">Compressor Type</s:String>
     <s:String x:Key="ImportFromDatabase">Import From Database</s:String>
     <s:String x:Key="Feed">Feed</s:String>
     <s:String x:Key="Product">Product</s:String>
