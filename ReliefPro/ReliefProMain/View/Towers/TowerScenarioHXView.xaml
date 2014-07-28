@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.TowerScenarioHXView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="TowerHX" Height="400" Width="900" Loaded="Window_Loaded_1">
+        Title="{DynamicResource TowerScenarioHXViewTitle}" Height="400" Width="900" Loaded="Window_Loaded_1">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -16,26 +16,26 @@
 
         <ListView Grid.Row="1" Margin="0,5,0,0" ItemsSource="{Binding Path=Details,Mode=TwoWay}" SelectedItem="{Binding SelectedDetail,Mode=TwoWay}">
             <ListView.View>
-                <GridView>                    
-                    <GridViewColumn Header="Name" Width="200px"  DisplayMemberBinding="{Binding Path=DetailName}"></GridViewColumn>
-                    <GridViewColumn Header="Heat Medium" Width="200px"  DisplayMemberBinding="{Binding Path=Medium}"></GridViewColumn>
-                    <GridViewColumn Header="Duty Factor" Width="100px"  DisplayMemberBinding="{Binding Path=DutyCalcFactor}"></GridViewColumn>
-                    
-                    <GridViewColumn Header="Stop" Width="50px">
+                <GridView>
+                    <GridViewColumn Header="{DynamicResource Name}" Width="200px"  DisplayMemberBinding="{Binding Path=DetailName}"></GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource Heat Medium}" Width="200px"  DisplayMemberBinding="{Binding Path=Medium}"></GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource Duty Factor}" Width="100px"  DisplayMemberBinding="{Binding Path=DutyCalcFactor}"></GridViewColumn>
+
+                    <GridViewColumn Header="{DynamicResource Stop}" Width="50px">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox IsChecked="{Binding Path=DutyLost}"></CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Is Pinch" Width="50px"  >
+                    <GridViewColumn Header="{DynamicResource Is Pinch}" Width="50px"  >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox IsChecked="{Binding Path=IsPinch}"></CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Pinch Factor" Width="150"   >
+                    <GridViewColumn Header="{DynamicResource Pinch Factor}" Width="150"   >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox  Text="{Binding Path=PinchFactor}"></TextBox>
@@ -43,10 +43,10 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Header="Calculation"   >
+                    <GridViewColumn Header="{DynamicResource Calculation}"   >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Calculation" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.PinchCalcCommand}" CommandParameter="{Binding ID}" ></Button>
+                                <Button Content="{DynamicResource Calculation}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.PinchCalcCommand}" CommandParameter="{Binding ID}" ></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -55,13 +55,13 @@
             </ListView.View>
         </ListView>
 
-        <Button Content="OK" IsCancel="True" HorizontalAlignment="Right" Margin="0,5,20,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Height="22"/>
-        <Button IsEnabled="{Binding IsSurgeTime}"  Visibility="{Binding IsDisplay}" Content="Reflux Drum Surge Time"  Command="{Binding CalculateSurgeTimeClick}"  HorizontalAlignment="Left" Margin="212,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="170"/>
+        <Button Content="{DynamicResource OK}" IsCancel="True" HorizontalAlignment="Right" Margin="0,5,20,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Button IsEnabled="{Binding IsSurgeTime}"  Visibility="{Binding IsDisplay}" Content="{DynamicResource Reflux Drum Surge Time}"  Command="{Binding CalculateSurgeTimeClick}"  HorizontalAlignment="Left" Margin="212,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="170"/>
         <TextBlock HorizontalAlignment="Left"  Margin="193,8,0,0" Grid.Row="2" TextWrapping="Wrap"  VerticalAlignment="Top"/>
-        <CheckBox IsChecked="{Binding IsFlooding}"  Content="Flooding" Visibility="{Binding IsDisplay}" HorizontalAlignment="Left" Margin="40,5,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <CheckBox IsChecked="{Binding IsFlooding}"  Content="{DynamicResource Flooding}" Visibility="{Binding IsDisplay}" HorizontalAlignment="Left" Margin="40,5,0,0" Grid.Row="2" VerticalAlignment="Top"/>
         <CheckBox IsChecked="{Binding IsSurgeTime}" Visibility="{Binding IsDisplay}" Content="" HorizontalAlignment="Left" Margin="188,10,0,0" Grid.Row="2" VerticalAlignment="Top"/>
         <TextBox IsEnabled="{Binding IsSurgeTime}" Visibility="{Binding IsDisplay}" HorizontalAlignment="Left" Height="23" Margin="398,4,0,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding SurgeTime}" VerticalAlignment="Top" Width="120"/>
-        <Label Visibility="{Binding IsDisplay}"  Content="min" HorizontalAlignment="Left" Margin="523,3,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Label Visibility="{Binding IsDisplay}"  Content="{DynamicResource min}" HorizontalAlignment="Left" Margin="523,3,0,0" Grid.Row="2" VerticalAlignment="Top"/>
 
         <StatusBar HorizontalAlignment="Stretch" Height="20"  Grid.Row="3" VerticalAlignment="Top">
             <Label></Label>
