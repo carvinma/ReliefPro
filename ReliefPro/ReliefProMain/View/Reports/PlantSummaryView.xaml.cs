@@ -23,28 +23,28 @@ namespace ReliefProMain.View.Reports
 
         public PlantSummaryView()
         {
-            this.VisualEdgeMode = EdgeMode.Aliased;
-            InitializeComponent();
-            double ddd = 100.40000;
-            string ss= ddd.ToString("N");
+            //this.VisualEdgeMode = EdgeMode.Aliased;
+            //InitializeComponent();
+            //double ddd = 100.40000;
+            //string ss= ddd.ToString("N");
 
-            double d = 1.00d;
-            string s = d.ToString("N2"); 
-            var host = new DrawingTest();
+            //double d = 1.00d;
+            //string s = d.ToString("N2"); 
+            //var host = new DrawingTest();
 
-            this.grd.Children.Add(host);
+            //this.grd.Children.Add(host);
         }
-        protected override void OnRender(DrawingContext dc)
-        {
-            base.OnRender(dc);
+        //protected override void OnRender(DrawingContext dc)
+        //{
+        //    base.OnRender(dc);
 
-            dc.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.Red, 1),
-                new Rect(new Point(10, 10), new Size(100, 50)));
+        //    dc.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.Red, 1),
+        //        new Rect(new Point(10, 10), new Size(100, 50)));
 
-            dc.DrawText(new FormattedText("my canvas", CultureInfo.CurrentCulture,
-                FlowDirection.LeftToRight, new Typeface("Tahoma"), 20, Brushes.Green),
-                new Point(50, 25));
-        }
+        //    dc.DrawText(new FormattedText("my canvas", CultureInfo.CurrentCulture,
+        //        FlowDirection.LeftToRight, new Typeface("Tahoma"), 20, Brushes.Green),
+        //        new Point(50, 25));
+        //}
 
     }
     class MyCanvas : Canvas
