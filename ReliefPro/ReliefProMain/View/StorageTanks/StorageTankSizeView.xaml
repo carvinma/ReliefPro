@@ -57,9 +57,9 @@
         <Label Content="{DynamicResource Elevation}"  Grid.Row="2"/>
         <Label Content="{DynamicResource Diameter}"  Grid.Row="3"/>
         <Label Content="{DynamicResource Length}"  Grid.Row="4"/>
-        <Label Content="{DynamicResource Normal Liquid Level}" Grid.Row="5"/>
-        <Label Content="{DynamicResource Head number}"  Grid.Row="7" Visibility="Hidden"/>
-        <Label Content="{DynamicResource Head Type}" Grid.Row="6"/>
+        <Label Content="{DynamicResource NormalLiquidLevel}" Grid.Row="5"/>
+        <Label Content="{DynamicResource Headnumber}"  Grid.Row="7" Visibility="Hidden"/>
+        <Label Content="{DynamicResource HeadType}" Grid.Row="6"/>
         <ComboBox ItemsSource="{Binding lstHeadType}" SelectedItem="{Binding SelectedHeadType,Mode=TwoWay}" Grid.Column="1"  Grid.Row="6"/>
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Elevation,Mode=TwoWay}" Grid.Column="1" Grid.Row="2"/>
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Diameter,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblDiameter,Path=Content,Mode=TwoWay}"   Grid.Column="1" Grid.Row="3"/>
