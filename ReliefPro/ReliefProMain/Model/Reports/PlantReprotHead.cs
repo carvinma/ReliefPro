@@ -9,5 +9,6 @@ namespace ReliefProMain.Model.Reports
     {
         public string SummationFun { get; set; }
         public string PlantFlare { get; set; }
+        public string DischargeTo { get; set; }
     }
 }
