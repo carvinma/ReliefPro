@@ -136,7 +136,7 @@
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.SpecificEnthalpySelectLocation,Mode=TwoWay}"/>
                     <CustomControl:CustomComboBox Grid.Row="11" Grid.Column="3" ItemsSource="{Binding model.ObcEnthalpy, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.EnthalpySelectLocation,Mode=TwoWay}"/>
-                </Grid>
+                </Grid> 
             </GroupBox>
             
 			
