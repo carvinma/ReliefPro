@@ -410,13 +410,19 @@ namespace ReliefProMain
         }
         private void OpenReport()
         {
-            List<string> ReportPath = new List<string>();
-            ReportPath.Add(@"C:\Users\Administrator\AppData\Local\Relief 1.0\testtank\plant.mdb");
-            ReportPath.Add(@"C:\Users\Administrator\AppData\Local\Relief 1.0\testtank\Unit1\ProtectedSystem1\protectedsystem.mdb");
-            PUsummaryView view = new PUsummaryView();
-            PUsummaryVM vm = new PUsummaryVM(1, ReportPath);
-            view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            //List<string> ReportPath = new List<string>();
+            //ReportPath.Add(@"C:\Users\Administrator\AppData\Local\Relief 1.0\testtank\plant.mdb");
+            //ReportPath.Add(@"C:\Users\Administrator\AppData\Local\Relief 1.0\testtank\Unit1\ProtectedSystem1\protectedsystem.mdb");
+            //PUsummaryView view = new PUsummaryView();
+            //PUsummaryVM vm = new PUsummaryVM(1, ReportPath);
+            //view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            //view.DataContext = vm;
+            //view.ShowDialog();
+
+            ReportTreeView view = new ReportTreeView();
+            ReportTreeVM vm = new ReportTreeVM(currentPlantName,currentPlantWorkFolder);
             view.DataContext = vm;
+            
             view.ShowDialog();
         }
         private void SavePlant()

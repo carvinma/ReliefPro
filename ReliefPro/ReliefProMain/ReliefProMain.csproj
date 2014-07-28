@@ -227,6 +227,7 @@
     <Compile Include="ViewModel\ReactorLoops\ReactorLoopVM.cs" />
     <Compile Include="ViewModel\Reports\PlantSummaryVM.cs" />
     <Compile Include="ViewModel\Reports\PUsummaryVM.cs" />
+    <Compile Include="ViewModel\Reports\ReportTreeVM.cs" />
     <Compile Include="ViewModel\ScenarioListVM.cs" />
     <Compile Include="ViewModel\SelectEquipmentVM.cs" />
     <Compile Include="ViewModel\SourceVM.cs" />
@@ -254,6 +255,9 @@
     <Compile Include="ViewModel\AbnormalHeatInputVM.cs" />
     <Compile Include="ViewModel\SinkVM.cs" />
     <Compile Include="ViewModel\SelectStreamVM.cs" />
+    <Compile Include="ViewModel\Trees\UnitVM.cs" />
+    <Compile Include="ViewModel\Trees\PlantVM.cs" />
+    <Compile Include="ViewModel\Trees\PSVM.cs" />
     <Compile Include="View\Common\FireView.xaml.cs">
       <DependentUpon>FireView.xaml</DependentUpon>
     </Compile>

@@ -1,7 +1,43 @@
 ﻿<Window x:Class="ReliefProMain.View.Reports.ReportTreeView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ReportTreeView" Height="500" Width="422.989">
+        Title="ReportTreeView" Height="500" Width="498.989">
+    <Window.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="PSTemplate">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Focusable="False"
+                      IsChecked="{Binding IsChecked,Mode=TwoWay}"
+                      VerticalAlignment="Center" Margin="5" />
+                    <TextBlock Text="{Binding PSName}"
+                       VerticalAlignment="Center" Margin="5" />
+                </StackPanel>
+            </DataTemplate>
+            
+            <HierarchicalDataTemplate x:Key="UnitTemplate"
+                              ItemsSource="{Binding PSCollection}"
+                              ItemTemplate="{StaticResource PSTemplate}">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Focusable="False" Margin="5"
+                      IsChecked="{Binding IsChecked,Mode=TwoWay}"
+                      VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding UnitName}"
+                       Margin="5 5 10 10" />
+                </StackPanel>
+            </HierarchicalDataTemplate>
+            <HierarchicalDataTemplate x:Key="PlantTemplate"
+                              ItemsSource="{Binding UnitCollection}"
+                              ItemTemplate="{StaticResource UnitTemplate}">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Focusable="False" Margin="5"
+                      IsChecked="{Binding IsChecked,Mode=TwoWay}"
+                      VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding PlantName}"
+                       Margin="5 5 10 10" />
+                </StackPanel>
+            </HierarchicalDataTemplate>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>
@@ -10,17 +46,12 @@
             <RowDefinition Height="10"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <TreeView VerticalAlignment="Stretch" Grid.Row="1" >
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate>
-                    <StackPanel Orientation="Horizontal" >
-                        <CheckBox  />
-                        <Image Margin="0,0,10,0"   />
-                        <TextBlock />
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
+        <TreeView ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  
+                          BorderThickness="0"
+                          Background="#FFF"                          
+                          ItemsSource="{Binding PlantCollection}"
+                          ItemTemplate="{DynamicResource PlantTemplate}" Margin="0,0,0,144" Grid.Row="1"  />
         <Grid HorizontalAlignment="Stretch"  Grid.Row="2" VerticalAlignment="Stretch"   >
             <Grid.RowDefinitions>
                 <RowDefinition Height="0*"/>
@@ -28,15 +59,15 @@
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="17*"/>
-                <ColumnDefinition Width="110*"/>
-                <ColumnDefinition Width="110*"/>
-                <ColumnDefinition Width="110*"/>
-                <ColumnDefinition Width="16*"/>
+                <ColumnDefinition Width="19*"/>
+                <ColumnDefinition Width="114*"/>
+                <ColumnDefinition Width="138*"/>
+                <ColumnDefinition Width="126*"/>
+                <ColumnDefinition Width="18*"/>
             </Grid.ColumnDefinitions>
-            <Button Content="Plant" Grid.Column="1" Grid.RowSpan="3" />
-            <Button Content="Unit" Grid.Column="2" Grid.RowSpan="3" />
-            <Button Content="ProtectedSystem" Grid.Column="3" Grid.RowSpan="3" />
+            <Button Content="Plant Summary" Command="{Binding PlantSummaryCommand}" Grid.RowSpan="3" Margin="14,2,19,1" Width="100" Grid.ColumnSpan="2" />
+            <Button Content="Process Unit Load Summary" Command="{Binding UnitSummaryCommand}" Grid.Column="2" Grid.RowSpan="3" Margin="0,2,135,1" Width="177" Grid.ColumnSpan="2" />
+            <Button Content="Relief Device Datasheet" Command="{Binding PlantSummaryCommand}" Grid.Column="3" Grid.RowSpan="3" Margin="21,2,1,1" Width="104" />
         </Grid>
         <StatusBar HorizontalAlignment="Stretch"   Grid.Row="4" VerticalAlignment="Stretch">
             <DockPanel>
