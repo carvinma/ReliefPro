@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
-        Title="TowerFireInfo" Height="428.313" Width="588.506" Name="myWindow">
+        Title="{DynamicResource TowerFireColumnViewTitle}" Height="428.313" Width="588.506" Name="myWindow">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20*"/>
@@ -28,21 +28,21 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
-            <Label Grid.Column="1" Grid.Row="0"  Content="Number of segment" HorizontalAlignment="Left" Height="24" />
+            <Label Grid.Column="1" Grid.Row="0"  Content="{DynamicResource Number of segment}" HorizontalAlignment="Left" Height="24" />
             <TextBox Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="{Binding Path=model.NumberOfSegment,Mode=TwoWay}" Height="24"/>
         </Grid>
 
         <ListView Grid.Column="1" HorizontalAlignment="Stretch" Height="134"  Grid.Row="2" VerticalAlignment="Top" Grid.ColumnSpan="2" ItemsSource="{Binding model.Details}" >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Segment" Width="100"  >
+                    <GridViewColumn Header="{DynamicResource Segment}" Width="100"  >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Segment}"  />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Internal"  Width="100">
+                    <GridViewColumn Header="{DynamicResource Internal}"  Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox 
@@ -56,21 +56,21 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Trays" Width="100" >
+                    <GridViewColumn Header="{DynamicResource Trays}" Width="100" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding Trays}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Height,m" Width="100" >
+                    <GridViewColumn Header="{DynamicResource Height_m}" Width="100" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding Height}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Diameter,m" Width="100" >
+                    <GridViewColumn Header="{DynamicResource Diameter_m}" Width="100" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding Diameter}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
@@ -94,9 +94,9 @@
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
-            <Label Grid.Column="1" Grid.Row="0"  Content="Elevation" />
-            <Label Grid.Column="1" Grid.Row="1"  Content="Bottom Normal Liquid Level" />
-            <Label Grid.Column="1" Grid.Row="2"  Content="PipingContingency" />
+            <Label Grid.Column="1" Grid.Row="0"  Content="{DynamicResource Elevation}" />
+            <Label Grid.Column="1" Grid.Row="1"  Content="{DynamicResource Bottom Normal Liquid Level}" />
+            <Label Grid.Column="1" Grid.Row="2"  Content="{DynamicResource PipingContingency}" />
 
             <CustomControl:UnitConvertTextBox  Grid.Row="0" Grid.Column="2" UnitOrigin="{Binding ElementName=lblElevation,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Text="{Binding model.Instance.Elevation}" />
             <CustomControl:UnitConvertTextBox  Grid.Row="1" Grid.Column="2" UnitOrigin="{Binding ElementName=lblLevel,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Text="{Binding model.Instance.BNLL}" />
@@ -114,9 +114,9 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            
-            <Button  Content="OK" HorizontalAlignment="Center" Command="{Binding OKClick}" CommandParameter="{Binding ElementName=myWindow}"  VerticalAlignment="Center" Width="75" Height="22" Grid.Column="1" Grid.Row="0"/>
-            <Button Content="Cancel" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
+
+            <Button  Content="{DynamicResource OK}" HorizontalAlignment="Center" Command="{Binding OKClick}" CommandParameter="{Binding ElementName=myWindow}"  VerticalAlignment="Center" Width="75" Height="22" Grid.Column="1" Grid.Row="0"/>
+            <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
         </Grid>
 
         <StatusBar HorizontalAlignment="Stretch" Height="20"  Grid.Row="5" VerticalAlignment="Top" Grid.ColumnSpan="4">
