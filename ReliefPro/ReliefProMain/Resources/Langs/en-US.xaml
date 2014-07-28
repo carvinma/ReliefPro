@@ -53,7 +53,7 @@
 
     <!--CreateUnitView.xaml-->
     <s:String x:Key="ImportDataViewTitle">Import Data</s:String>
-    <s:String x:Key="Simulation FileType">Simulation File Type</s:String>
+    <s:String x:Key="SimulationFileType">Simulation File Type</s:String>
     <s:String x:Key="PRO_II">PRO/II</s:String>
     <s:String x:Key="AspenPlus">Aspen Plus</s:String>
     <s:String x:Key="Hysys">Hysys</s:String>
@@ -77,7 +77,7 @@
     <s:String x:Key="Prelief">Prelief</s:String>
     <s:String x:Key="Pset">Pset</s:String>
     <s:String x:Key="CriticalPressure">Critical Pressure</s:String>
-    <s:String x:Key="CalculateCritical Pressure">Calculate Critical Pressure</s:String>
+    <s:String x:Key="CalculateCriticalPressure">Calculate Critical Pressure</s:String>
     <s:String x:Key="AdditionalPSVonRefluxDrum">Additional PSV on Reflux Drum</s:String>
 
     <!--ReNameView.xaml-->
@@ -183,10 +183,11 @@
     <s:String x:Key="DepressuringRequirements">Depressuring Requirements</s:String>
     <s:String x:Key="HeatInputModel">Heat Input Model</s:String>
     <s:String x:Key="ValveConstantforSonicFlow">Valve Constant for Sonic Flow</s:String>
-    <s:String x:Key="InitialDepressuring rate">Initial Depressuring rate</s:String>
+    <s:String x:Key="InitialDepressuringrate">Initial Depressuring rate</s:String>
     <s:String x:Key="Timespecify">Time (specify)</s:String>
     <s:String x:Key="Calculatedvesselpressure">Calculated vessel pressure</s:String>
     <s:String x:Key="in">in</s:String>
+    <s:String x:Key="FireHeatInput">Fire Heat Input</s:String>
     <s:String x:Key="DeltaP">Delta P</s:String>
     <s:String x:Key="TimeStep">Time Step</s:String>
     <s:String x:Key="Detailed">Detailed</s:String>
@@ -203,7 +204,7 @@
     <s:String x:Key="TW">TW</s:String>
 
     <!--CreateUnitView.xaml-->
-    <s:String x:Key="DrumFireView Title">Drum_fire</s:String>
+    <s:String x:Key="DrumFireViewTitle">Drum_fire</s:String>
     <s:String x:Key="All GasSupercritical Fluid">All Gas/Supercritical Fluid</s:String>
     <s:String x:Key="LatentHeat">Latent Heat</s:String>
     <s:String x:Key="CrackingHeat">Cracking Heat</s:String>
