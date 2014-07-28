@@ -1,0 +1,62 @@
+﻿<Window x:Class="ReliefProMain.View.SourceView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"     
+        xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
+        Title="{DynamicResource SourceView Title}" Height="300" Width="530"  Name="myWindow">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="17*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="160*"/>
+            <ColumnDefinition Width="170*"/>
+            <ColumnDefinition Width="90*"/>
+            <ColumnDefinition Width="60*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="{DynamicResource Source Name}"  HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Column="1"/>
+        <TextBox Name="txtName"  HorizontalAlignment="Left" Height="23"  TextWrapping="Wrap" Text="{Binding Path=SourceName}" VerticalAlignment="Center" Grid.Column="2" Grid.ColumnSpan="2"  Width="169" />
+        <Label Content="{DynamicResource Description}" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Column="1" Grid.Row="1"/>
+        <TextBox Name="txtDescription" HorizontalAlignment="Left" Height="23"  TextWrapping="Wrap" Text="{Binding Path=Description}" VerticalAlignment="Center" Grid.Column="2" Grid.ColumnSpan="2" Width="169" Grid.Row="1"/>
+        <Label Content="{DynamicResource Source Type}" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Column="1" Grid.Row="2"/>
+        <ComboBox ItemsSource="{Binding Path=SourceTypes}" SelectedItem="{Binding SourceType}"   Name="cbxType" HorizontalAlignment="Left"  VerticalAlignment="Center" Width="169" Grid.Column="2" Grid.ColumnSpan="2"  Grid.Row="2"/>
+
+        <Label Content="{DynamicResource Max Possible Pressure}" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3"/>
+
+        <Border BorderBrush="black"    VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1"   Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5">
+        </Border>
+        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnOK" Content="{DynamicResource OK}" Command="{Binding Update}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Grid.Column="1"/>
+            <Button x:Name="btnCancel" IsCancel="True" Content="{DynamicResource Cancel}" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Grid.Column="3"  />
+
+        </Grid>
+
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=MaxPossiblePressure}"  UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" TextWrapping="Wrap" Width="169" VerticalAlignment="Center" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="3"/>
+        <Label x:Name="lblPressure" Content="{Binding  PressureUnit,Mode=TwoWay}" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Column="3" Grid.Row="3"/>
+
+
+        <CheckBox Content="{DynamicResource Steam}" IsChecked="{Binding IsSteam}" HorizontalAlignment="Center"  VerticalAlignment="Center" Grid.Column="3"/>
+        <CheckBox Content="" IsChecked="{Binding IsHeatSource}" HorizontalAlignment="Right"  Grid.Row="4" Grid.Column="1" VerticalAlignment="Center"/>
+        <Button Content="{DynamicResource Heat Source}" IsEnabled="{Binding IsHeatSource}" Command="{Binding ShowHeatSourceListCommand}"   HorizontalAlignment="Left" Grid.Column="2" Grid.Row="4" VerticalAlignment="Center" Width="94"/>
+
+        <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="7" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+            <Label></Label>
+        </StatusBar>
+    </Grid>
+
+</Window>
