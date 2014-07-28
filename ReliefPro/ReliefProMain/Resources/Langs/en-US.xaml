@@ -5,6 +5,8 @@
     <s:String x:Key="OK">OK</s:String>
     <s:String x:Key="Save">Save</s:String>
     <s:String x:Key="Cancel">Cancel</s:String>
+    <s:String x:Key="Delete">Delete</s:String>
+    <s:String x:Key="Finish">Finish</s:String>
 
     <!--AreasView.xaml-->
     <s:String x:Key="AreasView Title">TowerFireCooler</s:String>
@@ -39,7 +41,7 @@
     <s:String x:Key="Relief Pressure">Relief Pressure</s:String>
     <s:String x:Key="Relief Temperature">Relief Temperature</s:String>
     <s:String x:Key="Relief MW">Relief MW</s:String>
-    <s:String x:Key="Relief Cp_Cv">Relief Cp_Cv</s:String>
+    <s:String x:Key="Relief Cp_Cv">Relief Cp/Cv</s:String>
     <s:String x:Key="Relief Z">Relief Z</s:String>
 
     <!--HeatSourceListView.xaml-->
@@ -239,52 +241,215 @@
     <s:String x:Key="BasicUnitInfo Title">Add New BasicUnit</s:String>
     <s:String x:Key="New Basic Name">New Basic Name</s:String>
 
+    <!--FormatUnitsMeasure.xaml-->
+    <s:String x:Key="FormatUnitsMeasure Title">ReliefPro - Default  Units of Measure</s:String>
+    <s:String x:Key="Set This Basic To Defalut">Set This Basic To Defalut</s:String>
+    <s:String x:Key="UOM">UOM</s:String>
+    <s:String x:Key="Copy from this Basic and Add NewBasic">Copy from this Basic and Add NewBasic</s:String>
+    <s:String x:Key="Basic">Basic</s:String>
+    <s:String x:Key="Pressure">Pressure</s:String>
+    <s:String x:Key="Weight_wt">Weight(wt)</s:String>
+    <s:String x:Key="Molar">Molar</s:String>
+    <s:String x:Key="Standard Volume Rate">Standard Volume Rate</s:String>
+    <s:String x:Key="Viscosity">Viscosity</s:String>
+    <s:String x:Key="Heat Capacity">Heat Capacity</s:String>
+    <s:String x:Key="Thermal Conductivity">Thermal Conductivity</s:String>
+    <s:String x:Key="Heat Trans Coeffcient">Heat Trans. Coeffcient</s:String>
+    <s:String x:Key="Mass Rate">Mass Rate</s:String>
+    <s:String x:Key="Volume Rate">Volume Rate</s:String>
+    <s:String x:Key="Density">Density</s:String>
+    <s:String x:Key="Surface Tension">Surface Tension</s:String>
+    <s:String x:Key="Fine Length">Fine Length</s:String>
+    <s:String x:Key="Machine Speed">Machine Speed</s:String>
+    <s:String x:Key="Volume">Volume</s:String>
+    <s:String x:Key="Energy">Energy</s:String>
+    <s:String x:Key="Aera">Aera</s:String>
+    <s:String x:Key="Time">Time</s:String>
+    <s:String x:Key="Flow Conductance">Flow Conductance</s:String>
+    <s:String x:Key="Specific Enthalpy">Specific Enthalpy</s:String>
+    <s:String x:Key="Enthalpy">Enthalpy</s:String>
 
+    <!--GlobalDefaultView.xaml-->
+    <s:String x:Key="GlobalDefaultView Title">GlobalDefault</s:String>
+    <s:String x:Key="Flare System">Flare System</s:String>
+    <s:String x:Key="Flare Name">Flare Name</s:String>
+    <s:String x:Key="Design Back Pressure MPag">Design Back Pressure, MPag</s:String>
+    <s:String x:Key="Add">Add</s:String>
+    <s:String x:Key="General Conditions">General Conditions</s:String>
+    <s:String x:Key="General Instrument Air Failure is a credible scenario">General Instrument Air Failure is a credible scenario</s:String>
+    <s:String x:Key="Cooling water stops at General Electric Power Failure Scenario">Cooling water stops at General Electric Power Failure Scenario</s:String>
+    <s:String x:Key="Steam supply stops at General Electric Power Failure Scenario">Steam supply stops at General Electric Power Failure Scenario</s:String>
+    <s:String x:Key="Default Settings">Default Settings</s:String>
+    <s:String x:Key="Latent Heat for Supercritical Fluid">Latent Heat for Supercritical Fluid</s:String>
+    <s:String x:Key="Drum Surge Time Threshold">Drum Surge Time Threshold</s:String>
 
+    <!--AirCooledHXFireView.xaml-->
+    <s:String x:Key="AirCooledHXFireView Title">AirCoolerFireView</s:String>
+    <s:String x:Key="wetted bare area of tube bundle">wetted bare area of tube bundle</s:String>
 
+    <!--CreateUnitView.xaml-->
+    <s:String x:Key="HeatExchangerView Title">HX Info</s:String>
+    <s:String x:Key="Hx Name">Hx Name</s:String>
+    <s:String x:Key="HX Type">HX Type</s:String>
 
+    <!--HXBlockedOutletView.xaml-->
+    <s:String x:Key="HXBlockedOutletView Title">HX</s:String>
+    <s:String x:Key="Cold side inlet stream">Cold side inlet stream</s:String>
+    <s:String x:Key="Normal Duty">Normal Duty</s:String>
+    <s:String x:Key="Normal hot side inlet temperature">Normal hot side inlet temperature</s:String>
+    <s:String x:Key="Normal cold side inlet temperature">Normal cold side inlet temperature</s:String>
+    <s:String x:Key="Normal cold side outlet temperature">Normal cold side outlet temperature</s:String>
+    <s:String x:Key="Latent heat of cold side at boiling point">Latent heat of cold side at boiling point</s:String>
 
+    <!--HXFireView.xaml-->
+    <s:String x:Key="HXFireView Title">HX Fire</s:String>
 
+    <!--TubeRuptureView.xaml-->
+    <s:String x:Key="TubeRuptureView Title">TubeRuptureView</s:String>
 
+    <!--GeneralCoolingWaterFailureView.xaml-->
+    <s:String x:Key="GeneralCoolingWaterFailureView Title">General Cooling Water Failure</s:String>
+    <s:String x:Key="Injection water stream">Injection water stream</s:String>
+    <s:String x:Key="Utility HX">Utility HX</s:String>
+    <s:String x:Key="Simulation Solved Unsolved">Simulation Solved (Unsolved).</s:String>
+    <s:String x:Key="Run Case Simulation">Run Case Simulation</s:String>
+    <s:String x:Key="Launch Simulator">Launch Simulator</s:String>
+    <s:String x:Key="Recycle Compressor failure">Recycle Compressor failure</s:String>
+    <s:String x:Key="HX Name">HX Name</s:String>
+    <s:String x:Key="Stop">Stop</s:String>
+    <s:String x:Key="Duty Factor">Duty Factor</s:String>
 
+    <!--GeneralElectricPowerFailureView.xaml-->
+    <s:String x:Key="GeneralElectricPowerFailureView Title">General Electric Power Failure</s:String>
+    <s:String x:Key="HX network cold stream">HX network cold stream</s:String>
 
+    <!--LossOfColdFeedView.xaml-->
+    <s:String x:Key="LossOfColdFeedView Title">Loss Of Cold Feed</s:String>
 
+    <!--LossOfReactorQuenchView.xaml-->
+    <s:String x:Key="LossOfReactorQuenchView Title">Loss of reactor quench</s:String>
+    <s:String x:Key="Effluent temperature">Effluent temperature</s:String>
 
+    <!--ReactorLoopBlockedOutletView.xaml-->
+    <s:String x:Key="ReactorLoopBlockedOutletView Title">Blocked Outlet</s:String>
+    <s:String x:Key="Max makeup gas rate">Max makeup gas rate</s:String>
+    <s:String x:Key="Total reactor purge rate">Total reactor purge rate</s:String>
 
+    <!--ReactorLoopSimulationView.xaml-->
+    <s:String x:Key="ReactorLoopSimulationView Title">Units In Reactor Loop2</s:String>
+    <s:String x:Key="Error Report">Error Report</s:String>
+    <s:String x:Key="Base case simulation NOT matchs original model">Base case simulation (NOT) matchs original model.</s:String>
+    <s:String x:Key="Errors">Errors</s:String>
+    <s:String x:Key="Check Data">Check Data</s:String>
+    <s:String x:Key="Run Simulation">Run Simulation</s:String>
+    <s:String x:Key="Diff">Diff%</s:String>
+    <s:String x:Key="Base case">Base case</s:String>
+    <s:String x:Key="Original Model">Original Model</s:String>
+    <s:String x:Key="Type">Type</s:String>
+    <s:String x:Key="Unit">Unit</s:String>
 
+    <!--ReactorLoopView.xaml-->
+    <s:String x:Key="ReactorLoopView Title">Reactor Loop</s:String>
+    <s:String x:Key="Effluent Stream">Effluent Stream</s:String>
+    <s:String x:Key="Cold Reactor Feed Stream">Cold Reactor Feed Stream</s:String>
+    <s:String x:Key="Hot High Pressure Separator">Hot High Pressure Separator</s:String>
+    <s:String x:Key="Cold High Pressure Separator">Cold High Pressure Separator</s:String>
+    <s:String x:Key="Process HX">Process HX</s:String>
+    <s:String x:Key="Mixer_Splitter">Mixer/Splitter</s:String>
+    <s:String x:Key="Splitter Name">Splitter Name</s:String>
+    <s:String x:Key="Simulation">Simulation</s:String>
 
+    <!--PlantSummaryView.xaml-->
+    <s:String x:Key="PlantSummaryView Title">PlantSummaryView</s:String>
+    <s:String x:Key="Design Total Plant Flare Load Summation">Design Total Plant Flare Load Summation</s:String>
 
+    <!--PUsummaryView.xaml-->
+    <s:String x:Key="PUsummaryView Title">PUsummaryReport</s:String>
+    <s:String x:Key="Plant Name">Plant Name</s:String>
+    <s:String x:Key="Process Unit Name">Process Unit Name</s:String>
+    <s:String x:Key="Notes">Notes</s:String>
+    <s:String x:Key="#">#</s:String>
+    <s:String x:Key="Export Excel">Export Excel</s:String>
 
+    <!--FeedBottomHXView.xaml-->
+    <s:String x:Key="FeedBottomHXView Title">FeedBottomHXView</s:String>
+    <s:String x:Key="Feed Normal Temperature t in">Feed Normal Temperature(t in)</s:String>
+    <s:String x:Key="Feed Normal Temperature t out">Feed Normal Temperature(t out)</s:String>
+    <s:String x:Key="Feed MassRate">Feed MassRate</s:String>
+    <s:String x:Key="Feed Normal Sp Enthalpy in">Feed Normal Sp Enthalpy(in)</s:String>
+    <s:String x:Key="Feed Normal Sp Enthalpy out">Feed Normal Sp Enthalpy(out)</s:String>
+    <s:String x:Key="Bottom Normal Temperature in">Bottom Normal Temperature in</s:String>
+    <s:String x:Key="Bottom Normal Temperature out">Bottom Normal Temperature out</s:String>
+    <s:String x:Key="Bottom Relief Temperature in">Bottom Relief Temperature in</s:String>
+    <s:String x:Key="Bottom MassRate">Bottom MassRate</s:String>
+    <s:String x:Key="Duty">Duty</s:String>
+    <s:String x:Key="Feed Temperature Relief">Feed  Temperature @Relief</s:String>
+    <s:String x:Key="Feed Sp Enthalpy Relief">Feed Sp Enthalpy @Relief</s:String>
 
+    <!--ReboilerPinchView.xaml-->
+    <s:String x:Key="ReboilerPinchView Title">ReboilerPinch</s:String>
+    <s:String x:Key="Cold Side inlet temperature normal Condition">Heat Cold Side inlet temperature @ normal Condition</s:String>
+    <s:String x:Key="Cold Side outlet temperature normal Condition">Cold Side outlet temperature @ normal Condition</s:String>
+    <s:String x:Key="Heat source inlet temperature normal condition">Heat source inlet temperature @ normal condition</s:String>
+    <s:String x:Key="Heat source outlet temperature normal condition">Heat source outlet temperature @ normal condition</s:String>
+    <s:String x:Key="Overall Heat transfer Coefficient Design U design">Overall Heat transfer Coefficient- Design U[design]</s:String>
+    <s:String x:Key="Overall Heat transfer Coefficient Clean U clean">Overall Heat transfer Coefficient- Clean U[clean]</s:String>
+    <s:String x:Key="Heat Transfer Area">Heat Transfer Area</s:String>
+    <s:String x:Key="U design Area">U[design] * Area</s:String>
+    <s:String x:Key="U clean U design">U[clean]/U[design]</s:String>
+    <s:String x:Key="Cold side outlet temperature relief condition">Cold side outlet temperature @ relief condition</s:String>
+    <s:String x:Key="Heat Source inlet temperature relief condition">Heat Source inlet temperature @ relief condition</s:String>
+    <s:String x:Key="Duty normal condition">Duty @ normal condition</s:String>
+    <s:String x:Key="Supply Header Pressure">Supply Header Pressure</s:String>
+    <s:String x:Key="Pinch Calculation">Pinch Calculation</s:String>
+    <s:String x:Key="Use Pinch Duty">Use Pinch Duty</s:String>
+    <s:String x:Key="Browse">Browse</s:String>
+    <s:String x:Key="Use Normal Duty">Use Normal Duty</s:String>
+    <s:String x:Key="Discard">Discard</s:String>
+    <s:String x:Key="Duty relief condition">Duty @ relief condition</s:String>
+    <s:String x:Key="Pinch Factor">Pinch Factor</s:String>
+    <s:String x:Key="Steam uses Flow Control">Steam uses Flow Control?</s:String>
+    <s:String x:Key="Hot Oil stream in PROII">Hot Oil stream in PRO/II?</s:String>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!--CustomStreamView-->
-    
+    <!--CustomStreamView-->   
     <s:String x:Key="DrumMainWindowTitle">Drum</s:String>
     <s:String x:Key="DrumlblPressure">Pressure</s:String>
     <s:String x:Key="DrumlblTemperature">Temperature</s:String>
-    <s:String x:Key="DrumInfoMsg">Drum name cannot be empty</s:String>
-   
-    
+    <s:String x:Key="DrumInfoMsg">Drum name cannot be empty</s:String>    
     <s:String x:Key="CompressorName">Compressor Name</s:String>
     <s:String x:Key="CompressorType">Compressor Type</s:String>
     <s:String x:Key="CompressorNameErrorMsg">Compressor name cannot be empty!</s:String>
+
+    <!--ScenarioHeatSourceListView.xaml-->
+    <s:String x:Key="ScenarioHeatSourceListView Title">HeatSourceListView</s:String> 
+    <s:String x:Key="Normal Duty KJhr">Normal Duty,KJ/hr</s:String>
+    <s:String x:Key="Is FB">Is FB</s:String>
+    <s:String x:Key="Feed Bottom">Feed/Bottom</s:String>
+
+    <!--ScenarioListView.xaml-->
+    <s:String x:Key="ScenarioListView Title">Scenario List</s:String>
+    <s:String x:Key="Scenario Name">Scenario Name</s:String>
+    <s:String x:Key="Relief Load kghr">Relief Load, kg/hr</s:String>
+    <s:String x:Key="Relief Pressure MPag">Relief Pressure,MPag</s:String>
+    <s:String x:Key="Relief Temperature C">Relief Temperature, C</s:String>
+
+    <!--StorageTankFireView.xaml-->
+    <s:String x:Key="StorageTankFireView Title">StorageTank2</s:String>
+    <s:String x:Key="Design Pressure">Design Pressure</s:String>
+    <s:String x:Key="Tank Size">Tank Size</s:String>
+
+    <!--StorageTankSizeView.xaml-->
+    <s:String x:Key="StorageTankSizeView Title">StorageTank</s:String>
+    <s:String x:Key="Orientation">Orientation</s:String>
+    <s:String x:Key="Elevation">Elevation</s:String>
+    <s:String x:Key="Diameter">Diameter</s:String>
+    <s:String x:Key="Length">Length</s:String>
+    <s:String x:Key="Normal Liquid Level">Normal Liquid Level</s:String>
+    <s:String x:Key="Head number">Head number</s:String>
+    <s:String x:Key="Head Type">Head Type</s:String>
+    
+    
+    
+    
+    
 </ResourceDictionary>
