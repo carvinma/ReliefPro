@@ -21,7 +21,7 @@ namespace ReliefProModel
         public virtual bool IsProduct { get; set; }
         public virtual double? WeightFlow { get; set; }
         public virtual double? SpEnthalpy { get; set; }
-        public virtual double? Tray { get; set; }
+        public virtual int Tray { get; set; }
         public virtual double? BulkDensityAct { get; set; }
 
         public virtual double? VaporFraction { get; set; }

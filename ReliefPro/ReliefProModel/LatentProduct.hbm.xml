@@ -16,9 +16,9 @@
     <property name="PrintNumber" column="PrintNumber" type="String" length="255" />
     <property name="CompIn" column="CompIn" type="String" length="255" />
     <property name="Componentid" column="Componentid" type="String" length="255" />
-    <property name="ProdType" column="ProdType" type="Int32" />
+    <property name="ProdType" column="ProdType" type="String" length="255" />
     <property name="IsProduct" column="IsProduct" type="Boolean"  />
-    <property name="Tray" column="Tray" type="Double"  />
+    <property name="Tray" column="Tray" type="Int32"  />
     <property name="BulkDensityAct" column="BulkDensityAct" type="Double"  />
 
     <property name="VaporFraction" column="VaporFraction" type="Double"  />
@@ -27,7 +27,7 @@
     <property name="BulkCPCVRatio" column="BulkCPCVRatio" type="Double"  />
     <property name="VaporZFmKVal" column="VaporZFmKVal" type="Double"  />
 
-    <property name="BulkCP" column="BulkCP" type="Double" length="255" />
+    <property name="BulkCP" column="BulkCP" type="Double"  />
     <property name="BulkThermalCond" column="BulkThermalCond" type="Double"  />
     <property name="BulkSurfTension" column="BulkSurfTension" type="Double"  />
     <property name="TotalMolarEnthalpy" column="TotalMolarEnthalpy" type="Double"  />
