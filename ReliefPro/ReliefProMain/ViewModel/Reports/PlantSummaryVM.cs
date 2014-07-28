@@ -18,7 +18,7 @@ namespace ReliefProMain.ViewModel.Reports
         private List<PUsummaryGridDS> listPUReportDS;
         private List<PlantSummaryGridDS> listPlantReportDS;
         private List<Tuple<int, List<string>>> ProcessUnitPath;
-        private string selectedCalcFun;
+        private string selectedCalcFun = "100-30-30";
         public string SelectedCalcFun
         {
             get { return selectedCalcFun; }
@@ -67,8 +67,8 @@ namespace ReliefProMain.ViewModel.Reports
             listDischargeTo = report.GetDisChargeTo();
             if (listDischargeTo.Count > 0)
             {
-                string firstDischargeTo = listDischargeTo.First().FlareName;
-                ChangerDischargeTo(firstDischargeTo);
+                selectedDischargeTo = listDischargeTo.First().FlareName;
+                ChangerDischargeTo(selectedDischargeTo);
             }
 
         }
@@ -103,13 +103,11 @@ namespace ReliefProMain.ViewModel.Reports
             reportViewer.ProcessingMode = Microsoft.Reporting.WinForms.ProcessingMode.Local;
             reportViewer.LocalReport.ReportEmbeddedResource = "ReliefProMain.View.Reports.PlantSummaryRpt.rdlc";
             List<EffectFactorModel> listEffect = new List<EffectFactorModel>();
-
             List<PlantReprotHead> reportHeadDS = new List<PlantReprotHead>();
 
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantDS", CreateReportDataSource(out listEffect, out reportHeadDS)));
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantEffectFactorDS", listEffect));
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantHeadDS", reportHeadDS));
-
 
             reportViewer.RefreshReport();
             host.Child = reportViewer;
@@ -159,6 +157,7 @@ namespace ReliefProMain.ViewModel.Reports
             var plantReprotHead = new PlantReprotHead();
             plantReprotHead.SummationFun = selectedCalcFun;
             plantReprotHead.PlantFlare = string.Empty;
+            plantReprotHead.DischargeTo = SelectedDischargeTo;
             if (listEffect.Count > 0)
             {
                 if (listEffect[0].Power >= listEffect[0].Water && listEffect[0].Power >= listEffect[0].Air)

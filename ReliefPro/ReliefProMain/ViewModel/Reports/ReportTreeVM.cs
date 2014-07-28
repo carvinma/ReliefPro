@@ -13,15 +13,15 @@ using System.IO;
 
 namespace ReliefProMain.ViewModel.Reports
 {
-    public class ReportTreeVM: ViewModelBase
+    public class ReportTreeVM : ViewModelBase
     {
-        public string CurrentPlantPath;        
-        public ReportTreeVM(string plantName,string dirPlant)
+        public string CurrentPlantPath;
+        public ReportTreeVM(string plantName, string dirPlant)
         {
             PlantCollection = new ObservableCollection<PlantVM>();
             CurrentPlantPath = dirPlant;
-            PlantVM plantvm = new PlantVM(plantName,dirPlant);
-            
+            PlantVM plantvm = new PlantVM(plantName, dirPlant);
+
             PlantCollection.Add(plantvm);
         }
 
@@ -62,7 +62,7 @@ namespace ReliefProMain.ViewModel.Reports
                 {
                     List<string> ReportPath = new List<string>();
                     ReportPath.Add(dbPlantFile);
-                    string dirUnit = CurrentPlantPath + @"\" + uvm.UnitName;                    
+                    string dirUnit = CurrentPlantPath + @"\" + uvm.UnitName;
                     foreach (PSVM p in uvm.PSCollection)
                     {
                         if (p.IsChecked)
@@ -78,6 +78,7 @@ namespace ReliefProMain.ViewModel.Reports
                 PlantSummaryView view = new PlantSummaryView();
                 PlantSummaryVM vm = new PlantSummaryVM(UnitPath);
                 view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                view.WindowState = WindowState.Maximized;
                 view.DataContext = vm;
                 view.ShowDialog();
             }
@@ -102,7 +103,7 @@ namespace ReliefProMain.ViewModel.Reports
             {
                 List<string> ReportPath = new List<string>();
                 ReportPath.Add(dbPlantFile);
-                string unitPath = CurrentPlantPath + @"\" + uvm.UnitName;                                
+                string unitPath = CurrentPlantPath + @"\" + uvm.UnitName;
                 foreach (PSVM p in uvm.PSCollection)
                 {
                     if (p.IsChecked)
@@ -132,7 +133,7 @@ namespace ReliefProMain.ViewModel.Reports
                 }
             }
             return curUnitVM;
-           
+
         }
         private List<UnitVM> GetCheckedUnits()
         {
