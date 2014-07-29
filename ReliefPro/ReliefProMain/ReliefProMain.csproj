@@ -152,6 +152,9 @@
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="CustomControl\CustomComboBox.cs" />
     <Compile Include="CustomControl\GVColumnHeader.cs" />
+    <Compile Include="CustomControl\ReportViewer.xaml.cs">
+      <DependentUpon>ReportViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\UCTextBoxLbl.xaml.cs">
       <DependentUpon>UCTextBoxLbl.xaml</DependentUpon>
     </Compile>
@@ -183,6 +186,7 @@
     <Compile Include="Model\Reports\PlantReprotHead.cs" />
     <Compile Include="Model\Reports\PlantSummaryModel.cs" />
     <Compile Include="Model\Reports\PUsummaryModel.cs" />
+    <Compile Include="Model\Reports\RptDataSouce.cs" />
     <Compile Include="Model\ScenarioModel.cs" />
     <Compile Include="Model\SinkModel.cs" />
     <Compile Include="Model\TowerFireColumnModel.cs" />
@@ -462,6 +466,10 @@
     <Compile Include="View\Towers\TowerScenarioHXView.xaml.cs">
       <DependentUpon>TowerScenarioHXView.xaml</DependentUpon>
     </Compile>
+    <Page Include="CustomControl\ReportViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CustomControl\UCTextBoxLbl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

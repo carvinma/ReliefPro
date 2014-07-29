@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms.Integration;
+using System.Windows.Media;
 using Microsoft.Reporting.WinForms;
 using ReliefProLL;
 using ReliefProMain.Model.Reports;
@@ -51,15 +54,32 @@ namespace ReliefProMain.ViewModel.Reports
             set;
         }
         private ReportBLL report;
-        public StackPanel StackpanelReport
+
+        private string reportName;
+        public string ReportName
         {
-            get;
-            set;
+            get { return reportName; }
+            set
+            {
+                reportName = value;
+                this.OnPropertyChanged("ReportName");
+            }
         }
+
+        private bool reportFresh;
+        public bool ReportFresh
+        {
+            get { return reportFresh; }
+            set
+            {
+                reportFresh = value;
+                this.OnPropertyChanged("ReportFresh");
+            }
+        }
+
 
         public PlantSummaryVM(List<Tuple<int, List<string>>> UnitPath)
         {
-            StackpanelReport = new StackPanel();
             ProcessUnitPath = UnitPath;
             listPlantReportDS = new List<PlantSummaryGridDS>();
             report = new ReportBLL();
@@ -96,23 +116,16 @@ namespace ReliefProMain.ViewModel.Reports
         }
         private void CreateReport()
         {
-            WindowsFormsHost host = new WindowsFormsHost();
-            host.Width = 1340;
-            host.Height = 500;
-            ReportViewer reportViewer = new ReportViewer();
-            reportViewer.ProcessingMode = Microsoft.Reporting.WinForms.ProcessingMode.Local;
-            reportViewer.LocalReport.ReportEmbeddedResource = "ReliefProMain.View.Reports.PlantSummaryRpt.rdlc";
+            reportName = "PlantSummaryRpt.rdlc";
+
             List<EffectFactorModel> listEffect = new List<EffectFactorModel>();
             List<PlantReprotHead> reportHeadDS = new List<PlantReprotHead>();
+            RptDataSouce.ReportDS.Clear();
+            RptDataSouce.ReportDS.Add(new ReportDataSource("PlantDS", CreateReportDataSource(out listEffect, out reportHeadDS)));
+            RptDataSouce.ReportDS.Add(new ReportDataSource("PlantEffectFactorDS", listEffect));
+            RptDataSouce.ReportDS.Add(new ReportDataSource("PlantHeadDS", reportHeadDS));
 
-            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantDS", CreateReportDataSource(out listEffect, out reportHeadDS)));
-            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantEffectFactorDS", listEffect));
-            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PlantHeadDS", reportHeadDS));
-
-            reportViewer.RefreshReport();
-            host.Child = reportViewer;
-            StackpanelReport.Children.Clear();
-            StackpanelReport.Children.Add(host);
+            ReportFresh = !ReportFresh;
         }
         private List<PUsummaryReportSource> CreateReportDataSource(out List<EffectFactorModel> listEffect, out List<PlantReprotHead> reportHeadDS)
         {

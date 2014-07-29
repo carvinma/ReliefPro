@@ -1,6 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.Reports.PUsummaryView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:Rpt="clr-namespace:ReliefProMain.CustomControl"
         xmlns:wf="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms" 
         xmlns:my="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration" OverridesDefaultStyle="False"
         Title="{DynamicResource PUsummaryView Title}" Height="700" Width="1360">
@@ -51,9 +52,7 @@
                   SelectedValue="{Binding SelectedDischargeTo,Mode=TwoWay}"
 				  Margin="762,8,0,2"  Width="138" HorizontalAlignment="Left" Grid.Row="1" />
         <GroupBox Grid.Row="3" >
-            <ContentControl Content="{Binding StackpanelDraw}"
-                                HorizontalAlignment="Stretch" VerticalContentAlignment="Top" 
-                              />
+            <Rpt:ReportViewer ReportName="{Binding ReportName,Mode=TwoWay}" bRefresh="{Binding ReportFresh,Mode=TwoWay}" />
         </GroupBox>
         <DataGrid HorizontalAlignment="Stretch" Opacity="0.7" Foreground="#FF2922B2" Background="#FFF5F2F2" 
                   VerticalAlignment="Stretch" HorizontalContentAlignment="Center" 

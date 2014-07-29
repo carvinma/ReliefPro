@@ -1,8 +1,9 @@
 ﻿<Window x:Class="ReliefProMain.View.Reports.PlantSummaryView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-         xmlns:wf="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms" 
+        xmlns:wf="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms" 
         xmlns:my="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration" OverridesDefaultStyle="False"
+        xmlns:Rpt="clr-namespace:ReliefProMain.CustomControl"
         Title="{DynamicResource PlantSummaryView Title}" Height="700" Width="800">
     <Window.Resources>
         <Style TargetType="{x:Type RowDefinition}">
@@ -28,6 +29,7 @@
         </Style>
     </Window.Resources>
     <Grid  x:Name="grd">
+
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="*"/>
@@ -38,12 +40,12 @@
         <Label Content="{DynamicResource Design Total Plant Flare Load Summation}" Grid.Row="0" Grid.Column="0"/>
         <ComboBox ItemsSource="{Binding listPlantCalc, Mode=OneWay}" 
 						SelectedItem="{Binding SelectedCalcFun,Mode=TwoWay}" 
-                   Grid.Row="0" Grid.Column="0" Height="26" Width="120" Margin="290,2,382,2" />
+                   Grid.Row="0" Grid.Column="0" Height="26" Width="140" Margin="290,2,362,2" />
         <ComboBox ItemsSource="{Binding listDischargeTo, Mode=OneWay}" DisplayMemberPath="FlareName"  
                   SelectedValuePath="FlareName"
 						SelectedValue="{Binding SelectedDischargeTo,Mode=TwoWay}" 
-                   Grid.Row="0" Grid.Column="0" Height="26" Width="120" Margin="456,2,216,2" />
-        <ContentControl Content="{Binding StackpanelReport}" Grid.Row="1" Grid.Column="0"/>
+                   Grid.Row="0" Grid.Column="0" Height="26" Width="150" Margin="456,2,190,2" />
+        <Rpt:ReportViewer ReportName="{Binding ReportName,Mode=TwoWay}" bRefresh="{Binding ReportFresh,Mode=TwoWay}" Grid.Row="1" />
     </Grid>
 
 </Window>

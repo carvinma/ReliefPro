@@ -61,7 +61,27 @@ namespace ReliefProMain.ViewModel.Reports
             set;
         }
 
+        private string reportName;
+        public string ReportName
+        {
+            get { return reportName; }
+            set
+            {
+                reportName = value;
+                this.OnPropertyChanged("ReportName");
+            }
+        }
 
+        private bool reportFresh;
+        public bool ReportFresh
+        {
+            get { return reportFresh; }
+            set
+            {
+                reportFresh = value;
+                this.OnPropertyChanged("ReportFresh");
+            }
+        }
         public PUsummaryVM(int UnitID, List<string> ReportPath)
         {
             StackpanelDraw = new StackPanel();
@@ -104,18 +124,25 @@ namespace ReliefProMain.ViewModel.Reports
 
         private void CreateReport()
         {
-            WindowsFormsHost host = new WindowsFormsHost();
-            host.Width = 1340;
-            host.Height = 500;
-            ReportViewer reportViewer = new ReportViewer();
-            reportViewer.ProcessingMode = Microsoft.Reporting.WinForms.ProcessingMode.Local;
-            //string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "View\\Reports\\PUsummaryRpt.rdlc";
-            reportViewer.LocalReport.ReportEmbeddedResource = "ReliefProMain.View.Reports.PUsummaryRpt.rdlc";
-            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PUDataSet", CreateReportDataSource()));
-            reportViewer.RefreshReport();
-            host.Child = reportViewer;
-            StackpanelDraw.Children.Clear();
-            StackpanelDraw.Children.Add(host);
+            reportName = "PUsummaryRpt.rdlc";
+
+            List<EffectFactorModel> listEffect = new List<EffectFactorModel>();
+            List<PlantReprotHead> reportHeadDS = new List<PlantReprotHead>();
+            RptDataSouce.ReportDS.Clear();
+            RptDataSouce.ReportDS.Add(new ReportDataSource("PUDataSet", CreateReportDataSource()));
+            ReportFresh = !ReportFresh;
+            //WindowsFormsHost host = new WindowsFormsHost();
+            //host.Width = 1340;
+            //host.Height = 500;
+            //ReportViewer reportViewer = new ReportViewer();
+            //reportViewer.ProcessingMode = Microsoft.Reporting.WinForms.ProcessingMode.Local;
+            ////string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "View\\Reports\\PUsummaryRpt.rdlc";
+            //reportViewer.LocalReport.ReportEmbeddedResource = "ReliefProMain.View.Reports.PUsummaryRpt.rdlc";
+            //reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PUDataSet", CreateReportDataSource()));
+            //reportViewer.RefreshReport();
+            //host.Child = reportViewer;
+            //StackpanelDraw.Children.Clear();
+            //StackpanelDraw.Children.Add(host);
         }
         private List<PUsummaryReportSource> CreateReportDataSource()
         {
@@ -167,7 +194,7 @@ namespace ReliefProMain.ViewModel.Reports
             }).Take(model.listGrid.Count - 2).ToList();
             return listRS;
         }
-       
+
         private void BtnReprotClick(object obj)
         {
             if (obj != null)

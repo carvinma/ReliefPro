@@ -113,7 +113,7 @@ namespace ReliefProMain.ViewModel.Reports
                 }
                 PUsummaryView view = new PUsummaryView();
                 PUsummaryVM vm = new PUsummaryVM(uvm.ID, ReportPath);
-                view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                view.WindowState = WindowState.Maximized;
                 view.DataContext = vm;
                 view.ShowDialog();
             }
