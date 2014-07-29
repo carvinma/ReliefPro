@@ -17,18 +17,18 @@
             <RowDefinition Height="140*"/>
             <RowDefinition Height="49*"/>
         </Grid.RowDefinitions>
-        <Label Content="{DynamicResource Hx Name}"  Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Height="26" Width="80"/>
-        <Label Content="{DynamicResource HX Type}" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="74"/>
+        <Label Content="{DynamicResource HxName}"  Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Height="26" Width="80"/>
+        <Label Content="{DynamicResource HXType}" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Top" Height="26" Width="74"/>
         <TextBox IsEnabled="False" Grid.Column="2" HorizontalAlignment="Stretch" Height="23" Margin="0,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding HXName,Mode=TwoWay}" VerticalAlignment="Top" />
         <ComboBox  ItemsSource="{Binding HXTypes}" SelectedItem ="{Binding HXType,Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Stretch" Margin="0,0,0,0" Grid.Row="2" VerticalAlignment="Top" Height="22" />
-        <Button Content="{DynamicResource Import From Database}" Command="{Binding ImportCommand}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="143" Height="22"/>
+        <Button Content="{DynamicResource ImportFromDatabase}" Command="{Binding ImportCommand}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="143" Height="22"/>
         <TabControl Grid.ColumnSpan="3" Grid.Column="1" HorizontalAlignment="Stretch"  Margin="0,0,0,0" Grid.Row="3" VerticalAlignment="Stretch" >
             <TabItem Header="{DynamicResource Feed}">
                 <Grid Background="#FFE5E5E5" Margin="0,0,0,0">
                     <ListView ItemsSource="{Binding Feeds,Mode=TwoWay}"  HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch"  >
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="{DynamicResource Stream Name}" DisplayMemberBinding="{Binding StreamName}" />
+                                <GridViewColumn Header="{DynamicResource StreamName}" DisplayMemberBinding="{Binding StreamName}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -39,7 +39,7 @@
                     <ListView ItemsSource="{Binding Products}"  HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch"  >
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="{DynamicResource Stream Name}" DisplayMemberBinding="{Binding StreamName}" />
+                                <GridViewColumn Header="{DynamicResource StreamName}" DisplayMemberBinding="{Binding StreamName}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
