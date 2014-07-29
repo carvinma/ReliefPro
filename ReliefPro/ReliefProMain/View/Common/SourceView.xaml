@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"     
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-        Title="{DynamicResource SourceViewTitle}" Height="250" Width="500"  Name="myWindow">
+        Title="{DynamicResource SourceViewTitle}" Height="250" Width="400"  Name="myWindow">
     
     <Grid>
         <Grid.RowDefinitions>
