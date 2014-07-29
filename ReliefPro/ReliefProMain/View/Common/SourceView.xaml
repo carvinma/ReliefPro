@@ -35,8 +35,8 @@
         <CustomControl:UnitConvertTextBox Text="{Binding Path=MaxPossiblePressure}"  UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}"   Grid.Column="2"  Grid.Row="4"/>
         <Label x:Name="lblPressure" Content="{Binding  PressureUnit,Mode=TwoWay}"    Grid.Column="3" Grid.Row="4"/>
 
-        <CheckBox Content="{DynamicResource Steam}" IsChecked="{Binding IsSteam}" Grid.Row="1"  Grid.Column="3"/>
-        <CheckBox Content="" IsChecked="{Binding IsHeatSource}" VerticalAlignment="Center" HorizontalAlignment="Right"  Grid.Row="5" Grid.Column="1" />
+        <CheckBox Content="{DynamicResource Steam}" IsChecked="{Binding IsSteam}" HorizontalAlignment="Left" Grid.Row="1"  Grid.Column="3"/>
+        <CheckBox Content="" IsChecked="{Binding IsHeatSource}"  Grid.Row="5" Grid.Column="1" />
         <Button Content="{DynamicResource HeatSource}" HorizontalAlignment="Left" IsEnabled="{Binding IsHeatSource}" Command="{Binding ShowHeatSourceListCommand}"  Grid.Column="2" Grid.Row="5"/>
 
         <Border BorderBrush="black"  BorderThickness="0,0,0,1"   Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="5">
