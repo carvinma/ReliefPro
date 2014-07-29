@@ -408,13 +408,13 @@ namespace ReliefProLL
             listProperty.ForEach(p =>
             {
                 PropertyInfo pInfoScenario = scenario.GetType().GetProperty(p);
-                string result = GetSumResult(ScenarioType, p);
+                var result = GetSumResult(ScenarioType, p);
                 pInfoScenario.SetValue(scenario, result, null);
             });
 
             pInfo.SetValue(SumDs, scenario, null);
         }
-        private string GetSumResult(string ScenarioType, string ScenarioProperty)
+        private double? GetSumResult(string ScenarioType, string ScenarioProperty)
         {
             object obj;
             double? a, b;
@@ -426,10 +426,10 @@ namespace ReliefProLL
                 if (obj == null) return null;
                 else return double.Parse(obj.ToString());
             });
-            a = a ?? 0;
+            // a = a ?? 0;
             if (ScenarioProperty.Equals("ReliefLoad"))
             {
-                return a == 0 ? "" : a.ToString();
+                return a;
             }
             else
             {
@@ -444,13 +444,13 @@ namespace ReliefProLL
                 });
                 if (ScenarioProperty.Equals("ReliefMW"))
                 {
-                    string w = GetSumResult(ScenarioType, "ReliefLoad");
-                    if (string.IsNullOrEmpty(w) || wmw == 0) return "";
-                    else return (double.Parse(w) / wmw).ToString();
+                    var w = GetSumResult(ScenarioType, "ReliefLoad");
+                    if (w == null || wmw == 0) return null;
+                    else return w / wmw;
                 }
                 else
                 {
-                    if (wmw == null || wmw == 0) return "";
+                    if (wmw == null || wmw == 0) return null;
                     var twmw = listGrid.Sum(p =>
                     {
                         Scenario scenario = (Scenario)p.GetType().GetProperty(ScenarioType).GetValue(p, null);
@@ -461,7 +461,7 @@ namespace ReliefProLL
                         if (objw == null || objmw == null || objmw.ToString() == "0" || thisvalue == null) return null;
                         else return (double.Parse(objw.ToString()) / double.Parse(objmw.ToString()) / wmw) * double.Parse(thisvalue.ToString());
                     });
-                    return twmw == null ? "" : twmw.ToString();
+                    return twmw;
                 }
             }
 
