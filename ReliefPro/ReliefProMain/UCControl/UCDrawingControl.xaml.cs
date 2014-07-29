@@ -382,7 +382,7 @@ namespace ReliefProMain.View
             if (vm.Condensers.Count > 0)
             {
                 condenser = visioControl.Window.Application.ActivePage.Drop(condenserMaster, pinX + 1, pinY + height / 2 + 0.2);
-                condenserVessel = visioControl.Window.Application.ActivePage.Drop(condenserVesselMaster, pinX + 1.5, pinY + height / 2 + 0.1);
+                condenserVessel = visioControl.Window.Application.ActivePage.Drop(condenserVesselMaster, pinX + 1.5, pinY + height / 2 - 0.2);
                 condenserVessel.get_Cells("Height").ResultIU = 0.2;
                 condenser.get_Cells("Height").ResultIU = 0.2;
                 condenser.get_Cells("Width").ResultIU = 0.2;
@@ -473,7 +473,7 @@ namespace ReliefProMain.View
                             ConnectShapes(condenserVessel, 3, connector, 1);
                             connector.Text = cs.StreamName;
 
-                            Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, tpinX + 2, tpinY - 0.2);
+                            Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, tpinX + 2, tpinY - 0.4);
                             endShp.get_Cells("Height").ResultIU = 0.1;
                             endShp.get_Cells("Width").ResultIU = 0.2;
                             endShp.Text = connector.Text + "_Sink";
