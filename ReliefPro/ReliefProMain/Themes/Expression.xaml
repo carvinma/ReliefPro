@@ -59,18 +59,18 @@
         <Setter Property="VerticalAlignment" Value="Top"/>
     </Style>
     <Style TargetType="{x:Type TextBox}">
-        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="Height" Value="23"/>
         <Setter Property="Width" Value="120"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
     </Style>
     <Style TargetType="{x:Type CustomControl:UnitConvertTextBox}">
-        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Height" Value="23"/>
         <Setter Property="Width" Value="120"/>
-        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="TextWrapping" Value="NoWrap"/>
     </Style>
     <Style x:Key="LabelLeftStyle">
         <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
@@ -83,7 +83,7 @@
         <Setter Property="Height" Value="22"/>
     </Style>
     <Style TargetType="{x:Type ComboBox}">
-        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="Width" Value="120"/>
     </Style>
