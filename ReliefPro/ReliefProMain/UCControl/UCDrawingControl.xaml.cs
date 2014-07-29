@@ -324,7 +324,7 @@ namespace ReliefProMain.View
         private void DrawTower(Visio.Shape shape, TowerVM vm)
         {
 
-            shape.get_Cells("Height").ResultIU = 2;
+            shape.get_Cells("Height").ResultIU = 3;
 
             double width = shape.get_Cells("Width").ResultIU;
             double height = shape.get_Cells("Height").ResultIU;
@@ -359,7 +359,7 @@ namespace ReliefProMain.View
                 ConnectShapes(shape, start, connector, 0);
                 connector.Text = cs.StreamName;
 
-                Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY + (start - center) * multiple * height);
+                Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 1.2, pinY + (start - center) * multiple * height);
                 startShp.get_Cells("Height").ResultIU = 0.1;
                 startShp.get_Cells("Width").ResultIU = 0.2;
                 startShp.Text = connector.Text + "_Source";
@@ -410,8 +410,8 @@ namespace ReliefProMain.View
             for (int i = 1; i <= vm.HxCondensers.Count; i++)
             {
                 condenser = visioControl.Window.Application.ActivePage.Drop(condenserMaster, pinX, pinY + height / 2 - i * 0.4);
-                condenserVessel = visioControl.Window.Application.ActivePage.Drop(condenserVesselMaster, pinX + 1.5, pinY + height / 2 + 0.1);
-                condenserVessel.get_Cells("Height").ResultIU = 0.2;
+                //condenserVessel = visioControl.Window.Application.ActivePage.Drop(condenserVesselMaster, pinX + 1.5, pinY + height / 2 + 0.1);
+                //condenserVessel.get_Cells("Height").ResultIU = 0.2;
                 condenser.get_Cells("Height").ResultIU = 0.2;
                 condenser.get_Cells("Width").ResultIU = 0.2;
                 condenser.Text = vm.HxCondensers[i - 1].HeaterName;
@@ -440,6 +440,8 @@ namespace ReliefProMain.View
                 reboiler.Cells["EventDblClick"].Formula = "=0";
             }
 
+            double endShpWidth = 0.15;
+            double endShpHeight = 0.1;
 
             start = 3;
             center = 5;
@@ -459,8 +461,8 @@ namespace ReliefProMain.View
                         ConnectShapes(shape, 1, connector, 1);
                         connector.Text = cs.StreamName;
                         Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 2, pinY - 2 - height / 2);
-                        endShp.get_Cells("Height").ResultIU = 0.1;
-                        endShp.get_Cells("Width").ResultIU = 0.2;
+                        endShp.get_Cells("Height").ResultIU = endShpHeight;
+                        endShp.get_Cells("Width").ResultIU = endShpWidth;
                         endShp.Text = connector.Text + "_Sink";
                         ConnectShapes(endShp, 7, connector, 0);
                         endShp.Cells["EventDblClick"].Formula = "=0";
@@ -473,9 +475,9 @@ namespace ReliefProMain.View
                             ConnectShapes(condenserVessel, 3, connector, 1);
                             connector.Text = cs.StreamName;
 
-                            Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, tpinX + 2, tpinY - 0.4);
-                            endShp.get_Cells("Height").ResultIU = 0.1;
-                            endShp.get_Cells("Width").ResultIU = 0.2;
+                            Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, tpinX + 1.5, tpinY - 0.35);
+                            endShp.get_Cells("Height").ResultIU = endShpHeight;
+                            endShp.get_Cells("Width").ResultIU = endShpWidth;
                             endShp.Text = connector.Text + "_Sink";
                             endShp.Cells["EventDblClick"].Formula = "=0";
                             ConnectShapes(endShp, 7, connector, 0);
@@ -487,9 +489,9 @@ namespace ReliefProMain.View
                             ConnectShapes(condenserVessel, 6, connector, 1);
                             connector.Text = cs.StreamName;
 
-                            Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, tpinX + 2, tpinY + 0.4);
-                            endShp.get_Cells("Height").ResultIU = 0.1;
-                            endShp.get_Cells("Width").ResultIU = 0.2;
+                            Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, tpinX + 2.1, tpinY - 0.35);
+                            endShp.get_Cells("Height").ResultIU = endShpHeight;
+                            endShp.get_Cells("Width").ResultIU = endShpWidth;
                             endShp.Text = connector.Text + "_Sink";
                             endShp.Cells["EventDblClick"].Formula = "=0";
                             ConnectShapes(endShp, 7, connector, 0);
@@ -500,11 +502,9 @@ namespace ReliefProMain.View
                             Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
                             ConnectShapes(condenserVessel, 7, connector, 1);
                             connector.Text = cs.StreamName;
-
-
-                            Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, tpinX + 2, tpinY - 0.1);
-                            endShp.get_Cells("Height").ResultIU = 0.1;
-                            endShp.get_Cells("Width").ResultIU = 0.2;
+                            Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, tpinX + 1.8, tpinY - 0.35);
+                            endShp.get_Cells("Height").ResultIU = endShpHeight;
+                            endShp.get_Cells("Width").ResultIU = endShpWidth;
                             endShp.Text = connector.Text + "_Sink";
                             endShp.Cells["EventDblClick"].Formula = "=0";
                             ConnectShapes(endShp, 7, connector, 0);
@@ -520,9 +520,9 @@ namespace ReliefProMain.View
                         Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
                         ConnectShapes(shape, 9, connector, 1);
                         connector.Text = cs.StreamName;
-                        Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 2, pinY + 0.5 - height / 2);
-                        endShp.get_Cells("Height").ResultIU = 0.1;
-                        endShp.get_Cells("Width").ResultIU = 0.2;
+                        Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 2, pinY  - height / 2- 0.5);
+                        endShp.get_Cells("Height").ResultIU = endShpHeight;
+                        endShp.get_Cells("Width").ResultIU = endShpWidth;
                         endShp.Text = connector.Text + "_Sink";
                         endShp.Cells["EventDblClick"].Formula = "=0";
                         ConnectShapes(endShp, 7, connector, 0);
@@ -533,8 +533,8 @@ namespace ReliefProMain.View
                         ConnectShapes(reboiler, 1, connector, 1);
                         connector.Text = cs.StreamName;
                         Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 2, pinY - 0.5 - height / 2);
-                        endShp.get_Cells("Height").ResultIU = 0.1;
-                        endShp.get_Cells("Width").ResultIU = 0.2;
+                        endShp.get_Cells("Height").ResultIU = endShpHeight;
+                        endShp.get_Cells("Width").ResultIU = endShpWidth;
                         endShp.Text = connector.Text + "_Sink";
                         endShp.Cells["EventDblClick"].Formula = "=0";
                         ConnectShapes(endShp, 7, connector, 0);
@@ -546,9 +546,9 @@ namespace ReliefProMain.View
                     ConnectShapes(shape, start, connector, 1);
                     connector.Text = cs.StreamName;
 
-                    Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 2, pinY + (center - start) * multiple * height);
-                    endShp.get_Cells("Height").ResultIU = 0.1;
-                    endShp.get_Cells("Width").ResultIU = 0.2;
+                    Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX +1.2, pinY + (center - start-0.5) * multiple * height);
+                    endShp.get_Cells("Height").ResultIU = endShpHeight;
+                    endShp.get_Cells("Width").ResultIU = endShpWidth;
                     endShp.Text = connector.Text + "_Sink";
                     endShp.Cells["EventDblClick"].Formula = "=0";
                     ConnectShapes(endShp, 7, connector, 0);
