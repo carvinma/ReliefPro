@@ -86,6 +86,7 @@
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="Width" Value="120"/>
+        <Setter Property="Height" Value="22"/>
     </Style>
     <Style TargetType="{x:Type StatusBar}">       
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
