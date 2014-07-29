@@ -5,10 +5,37 @@ using System.Text;
 
 namespace ReliefProMain.Model.Reports
 {
-    public class PlantReprotHead
+    public class PlantReprotHead : ModelBase
     {
-        public string SummationFun { get; set; }
-        public string PlantFlare { get; set; }
-        public string DischargeTo { get; set; }
+        private string summationFun;
+        public string SummationFun
+        {
+            get { return summationFun; }
+            set
+            {
+                summationFun = value;
+                NotifyPropertyChanged("SummationFun");
+            }
+        }
+        private string plantFlare;
+        public string PlantFlare
+        {
+            get { return plantFlare; }
+            set
+            {
+                plantFlare = value;
+                NotifyPropertyChanged("PlantFlare");
+            }
+        }
+        private string dischargeTo;
+        public string DischargeTo
+        {
+            get { return dischargeTo; }
+            set
+            {
+                dischargeTo = value;
+                NotifyPropertyChanged("DischargeTo");
+            }
+        }
     }
 }
