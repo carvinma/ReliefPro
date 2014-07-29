@@ -4,7 +4,7 @@
          xmlns:Rpt="clr-namespace:ReliefProMain.CustomControl"
         xmlns:wf="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms" 
         xmlns:my="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration" OverridesDefaultStyle="False"
-        Title="{DynamicResource PUsummaryView Title}" Height="700" Width="1360">
+        Title="{DynamicResource PUsummaryViewTitle}" Height="700" Width="1360">
     <Window.Resources>
         <Style TargetType="{x:Type RowDefinition}">
             <Setter Property="Height" Value="30"/>
@@ -40,13 +40,13 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="{DynamicResource Plant Name}"  Grid.Row="0"/>
-        <Label Content="{DynamicResource Process Unit Name}"  Grid.Row="1"/>
+        <Label Content="{DynamicResource PlantName}"  Grid.Row="0"/>
+        <Label Content="{DynamicResource ProcessUnitName}"  Grid.Row="1"/>
         <Label Content="{DynamicResource Description}" Margin="400,0,0,0" Grid.Row="0"/>
         <TextBox Margin="150,0,0,0"  Text="{Binding model.PlantName,Mode=TwoWay}" Width="180 "  Grid.Column="0"  Grid.Row="0"/>
         <TextBox Margin="150,0,0,0" Text="{Binding model.ProcessUnitName,Mode=TwoWay}" Width="180" Grid.Row="1"/>
         <TextBox Margin="480,0,0,0" Text="{Binding model.Description,Mode=TwoWay}" Width="250" Height="50" Grid.Row="0" Grid.RowSpan="2"/>
-        <Button Content="{DynamicResource Export Excel}" Command="{Binding ExportExcelCMD}" Margin="762,8,0,2" Width="138" HorizontalAlignment="Left"/>
+        <Button Content="{DynamicResource ExportExcel}" Command="{Binding ExportExcelCMD}" Margin="762,8,0,2" Width="138" HorizontalAlignment="Left"/>
         <ComboBox ItemsSource="{Binding listDischargeTo, Mode=OneWay}" DisplayMemberPath="FlareName"  
                   SelectedValuePath="FlareName"
                   SelectedValue="{Binding SelectedDischargeTo,Mode=TwoWay}"
