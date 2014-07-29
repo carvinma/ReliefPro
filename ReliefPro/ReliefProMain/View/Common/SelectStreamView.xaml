@@ -6,11 +6,13 @@
     
         <Grid DockPanel.Dock="Top">
         <Grid.RowDefinitions>
-            <RowDefinition Height="45*"/>
-            <RowDefinition Height="45*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="40*"/>
-            <RowDefinition Height="18*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="2"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15*" />
@@ -19,13 +21,13 @@
             <ColumnDefinition Width="133*" />
             <ColumnDefinition Width="15*" />
         </Grid.ColumnDefinitions>
-        <ComboBox x:Name="cbxFilePath" ItemsSource="{Binding SourceFiles}" SelectedItem="{Binding SelectedFile}" HorizontalAlignment="Left"  VerticalAlignment="Center" Grid.Column="2" Grid.ColumnSpan="2" Width="262"  Height="22"/>
-        <ComboBox x:Name="cbxStream" ItemsSource="{Binding EqNames}" SelectedItem="{Binding SelectedEq}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.ColumnSpan="2"  Width="262" Grid.Row="1" Height="22"/>
-        <Label Content="{DynamicResource FilePath}" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Column="1" Height="26" />
-        <Label Content="{DynamicResource Stream}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" />
-        <Border BorderBrush="black"    VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1"   Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5">
+        <ComboBox x:Name="cbxFilePath" ItemsSource="{Binding SourceFiles}" SelectedItem="{Binding SelectedFile}"  Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Width="262" />
+        <ComboBox x:Name="cbxStream" ItemsSource="{Binding EqNames}" SelectedItem="{Binding SelectedEq}"  Grid.Column="2" Grid.ColumnSpan="2"  Width="262" Grid.Row="2" />
+        <Label Content="{DynamicResource FilePath}"  Grid.Row="1"  Grid.Column="1" />
+        <Label Content="{DynamicResource Stream}"   Grid.Row="2" Grid.Column="1" />
+        <Border BorderBrush="black"  Height="1" BorderThickness="0,0,0,1"   Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5">
         </Border>
-        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+        <Grid HorizontalAlignment="Stretch" Height="30"  Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -33,12 +35,12 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Content="{DynamicResource OK}" Command="{Binding OKCommand}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="25" Grid.Column="1" />
-            <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="25"  Grid.Column="3" />
+            <Button Content="{DynamicResource OK}" Command="{Binding OKCommand}" CommandParameter="{Binding ElementName=myWindow}"  Grid.Column="1" />
+            <Button Content="{DynamicResource Cancel}" IsCancel="True"   Grid.Column="3" />
 
         </Grid>
 
-       <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+       <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
             <Label></Label>
         </StatusBar>
     </Grid>
