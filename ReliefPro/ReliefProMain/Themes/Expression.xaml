@@ -94,8 +94,8 @@
     </Style>
 
     <Style TargetType="{x:Type CheckBox}">
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
     <Style x:Key="Hborder" TargetType="{x:Type Border}">
