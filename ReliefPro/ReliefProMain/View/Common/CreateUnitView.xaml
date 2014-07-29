@@ -4,17 +4,17 @@
         Title="{DynamicResource CreateUnitViewTitle}" Height="150" Width="350" Name="myWindow">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="22*"/>
+            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="131*"/>
             <ColumnDefinition Width="131*"/>
-            <ColumnDefinition Width="22*"/>
+            <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10"/>
             <RowDefinition Height="45*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="45*"/>
-            <RowDefinition Height="18*"/>
+            <RowDefinition Height="2"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         
         <GroupBox HorizontalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2"  Grid.Column="1"  Width="316" >
@@ -30,8 +30,8 @@
                     
                     <RowDefinition Height="5*"/>
                 </Grid.RowDefinitions>
-                <Label  Content="{DynamicResource Unit_Name}"  HorizontalAlignment="Right"  Grid.Column="1" Grid.Row="0" Height="28" />
-                <TextBox Grid.Column="2"  Grid.Row="0" TextWrapping="NoWrap" Text="{Binding UnitName}" Height="28" Width="100" Grid.ColumnSpan="1" />
+                <Label  Content="{DynamicResource Unit_Name}"    Grid.Column="1" Grid.Row="0"  />
+                <TextBox Grid.Column="2"  Grid.Row="0"  Text="{Binding UnitName}"  />
                 
             </Grid>
         </GroupBox>
