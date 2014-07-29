@@ -334,8 +334,8 @@ namespace ReliefProMain.ViewModel
                         else if (ScenarioName.Contains("Fire"))
                         {
                             HXFireView v = new HXFireView();
-                            //HXFireVM vm = new HXFireVM(ScenarioID, PrzFile, PrzVersion, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
-                            //v.DataContext = vm;
+                            DrumFireVM vm = new DrumFireVM(ScenarioID, PrzFile, PrzVersion, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem,2);
+                            v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {
                                 //SelectedScenario.ReliefLoad = vm.model.Reliefload;
@@ -350,7 +350,7 @@ namespace ReliefProMain.ViewModel
                         if (ScenarioName.Contains("Fire"))
                         {
                             AirCooledHXFireView v = new AirCooledHXFireView();
-                            AirCooledHXFireSizeVM vm = new AirCooledHXFireSizeVM(ScenarioID,PrzFile,PrzVersion, SessionProtectedSystem, SessionPlant,DirPlant,DirProtectedSystem);
+                            DrumFireVM vm = new DrumFireVM(ScenarioID, PrzFile, PrzVersion, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 3);
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {
