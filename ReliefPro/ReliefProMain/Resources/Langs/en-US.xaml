@@ -282,11 +282,11 @@
     <s:String x:Key="LatentHeatforSupercriticalFluid">Latent Heat for Supercritical Fluid</s:String>
     <s:String x:Key="DrumSurgeTimeThreshold">Drum Surge Time Threshold</s:String>
 
-    <!--AirCooledHXFireView.xaml-->
-    <s:String x:Key="AirCooledHXFireViewTitle">AirCoolerFireView</s:String>
+    <!--AirCooledHXFireSizeView.xaml-->
+    <s:String x:Key="AirCooledHXFireSizeViewTitle">AirCoolerFireView</s:String>
     <s:String x:Key="wettedbareareaoftubebundle">wetted bare area of tube bundle</s:String>
 
-    <!--CreateUnitView.xaml-->
+    <!--HeatExchangerView.xaml-->
     <s:String x:Key="HeatExchangerViewTitle">HX Info</s:String>
     <s:String x:Key="HxName">Hx Name</s:String>
     <s:String x:Key="HXType">HX Type</s:String>
@@ -300,8 +300,8 @@
     <s:String x:Key="Normalcoldsideoutlettemperature">Normal cold side outlet temperature</s:String>
     <s:String x:Key="Latentheatofcoldsideatboilingpoint">Latent heat of cold side at boiling point</s:String>
 
-    <!--HXFireView.xaml-->
-    <s:String x:Key="HXFireViewTitle">HX Fire</s:String>
+    <!--HXFireSizeView.xaml-->
+    <s:String x:Key="HXFireSizeViewTitle">HX Fire</s:String>
 
     <!--TubeRuptureView.xaml-->
     <s:String x:Key="TubeRuptureViewTitle">TubeRuptureView</s:String>
