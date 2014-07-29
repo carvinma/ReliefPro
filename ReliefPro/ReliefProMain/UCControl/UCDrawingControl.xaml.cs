@@ -363,6 +363,7 @@ namespace ReliefProMain.View
                 startShp.get_Cells("Height").ResultIU = 0.1;
                 startShp.get_Cells("Width").ResultIU = 0.2;
                 startShp.Text = connector.Text + "_Source";
+                
                 ConnectShapes(startShp, 2, connector, 1);
                 start--;
                 if (start < 11)
