@@ -4,17 +4,19 @@
         Title="{DynamicResource HeatSourceListViewTitle}" Height="302.299" Width="597.701" Name="myWindow">
     <Grid >
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="50*"/>
-            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
             <RowDefinition Height="207*"/>
-            <RowDefinition Height="34*"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="2"/>
-            <RowDefinition Height="29*"/>
-            <RowDefinition Height="16"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        <ListView Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=HeatSources,Mode=TwoWay}" SelectedItem="{Binding SelectedHeatSource,Mode=TwoWay}" Margin="0,0,0,0" Grid.ColumnSpan="2" >
+        <ListView Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=HeatSources,Mode=TwoWay}" SelectedItem="{Binding SelectedHeatSource,Mode=TwoWay}"   >
             <ListView.View>
                 <GridView >
                     <GridViewColumn Header="{DynamicResource HeatSourceListViewType}" Width="200">
@@ -48,11 +50,11 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="{DynamicResource HeatSourceListViewAdd}" Command="{Binding AddCommand}" HorizontalAlignment="Right"  VerticalAlignment="Center" Width="75" Height="22" Grid.Row="1"/>
+        <Button Content="{DynamicResource HeatSourceListViewAdd}" Command="{Binding AddCommand}" HorizontalAlignment="Right"  Grid.Row="2" Grid.Column="1"/>
 
-        <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1" VerticalAlignment="top" Height="1"  Grid.Row="2" Grid.ColumnSpan="2" ></Border>
+        <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1"  Height="1"  Grid.Row="3" Grid.ColumnSpan="3" ></Border>
 
-        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
+        <Grid HorizontalAlignment="Stretch" Height="30"  Grid.Row="4"  Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -66,7 +68,7 @@
         </Grid>
 
         
-        <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+        <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
             <Label></Label>
         </StatusBar>
     </Grid>
