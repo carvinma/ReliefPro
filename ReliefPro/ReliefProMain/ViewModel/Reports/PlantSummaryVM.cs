@@ -112,7 +112,10 @@ namespace ReliefProMain.ViewModel.Reports
             listPUReportDS = reportBLL.GetPuReprotDS(listPSV);
             PlantSummaryGridDS psDS = reportBLL.GetPlantReprotDS(listPUReportDS, 0);
             if (psDS != null)
+            {
+                listPlantReportDS.Clear();
                 listPlantReportDS.Add(psDS);
+            }
         }
         private void CreateReport()
         {
