@@ -13,6 +13,7 @@ using ReliefProMain.Model.Reports;
 using ReliefProModel;
 using ReliefProModel.GlobalDefault;
 using ReliefProModel.Reports;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel.Reports
 {
@@ -203,38 +204,41 @@ namespace ReliefProMain.ViewModel.Reports
             T = RptDS.PowerT;
             MW = RptDS.PowerMWorSpGr;
             K = RptDS.PowerCpCv;
+            if (T != null)
+            {
+                T = UnitConvert.Convert(UOMEnum.Pressure, "kPag", T.Value);
+                EffectFactorModel effectPressure = new EffectFactorModel();
+                EffectFactorModel effectMach = new EffectFactorModel();
 
-            EffectFactorModel effectPressure = new EffectFactorModel();
-            EffectFactorModel effectMach = new EffectFactorModel();
-
-            if (MW != null && MW != 0)
-            {
-                effectPressure.Power = (W * W * T) / MW;
-                if (K != null && K != 0)
-                    effectMach.Power = (W * W * T) / (MW * K);
+                if (MW != null && MW != 0)
+                {
+                    effectPressure.Power = (W * W * T) / MW;
+                    if (K != null && K != 0)
+                        effectMach.Power = (W * W * T) / (MW * K);
+                }
+                W = RptDS.WaterReliefRate;
+                T = RptDS.WaterT;
+                MW = RptDS.WaterMWorSpGr;
+                K = RptDS.WaterCpCv;
+                if (MW != null && MW != 0)
+                {
+                    effectPressure.Water = (W * W * T) / MW;
+                    if (K != null && K != 0)
+                        effectMach.Water = (W * W * T) / (MW * K);
+                }
+                W = RptDS.AirReliefRate;
+                T = RptDS.AirT;
+                MW = RptDS.AirMWorSpGr;
+                K = RptDS.AirCpCv;
+                if (MW != null && MW != 0)
+                {
+                    effectPressure.Air = (W * W * T) / MW;
+                    if (K != null && K != 0)
+                        effectMach.Air = (W * W * T) / (MW * K);
+                }
+                lsitCalc.Add(effectPressure);
+                lsitCalc.Add(effectMach);
             }
-            W = RptDS.WaterReliefRate;
-            T = RptDS.WaterT;
-            MW = RptDS.WaterMWorSpGr;
-            K = RptDS.WaterCpCv;
-            if (MW != null && MW != 0)
-            {
-                effectPressure.Water = (W * W * T) / MW;
-                if (K != null && K != 0)
-                    effectMach.Water = (W * W * T) / (MW * K);
-            }
-            W = RptDS.AirReliefRate;
-            T = RptDS.AirT;
-            MW = RptDS.AirMWorSpGr;
-            K = RptDS.AirCpCv;
-            if (MW != null && MW != 0)
-            {
-                effectPressure.Air = (W * W * T) / MW;
-                if (K != null && K != 0)
-                    effectMach.Air = (W * W * T) / (MW * K);
-            }
-            lsitCalc.Add(effectPressure);
-            lsitCalc.Add(effectMach);
             return lsitCalc;
         }
 
