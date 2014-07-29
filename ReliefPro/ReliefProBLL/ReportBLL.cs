@@ -93,6 +93,9 @@ namespace ReliefProLL
             PlantSummaryGridDS plant = new PlantSummaryGridDS();
             if (ProcessUnitReprotDS.Count > 0)
             {
+                plant.PowerDS = new Scenario();
+                plant.WaterDS = new Scenario();
+                plant.AirDS = new Scenario();
                 plant.ProcessUnit = ProcessUnitReprotDS.FirstOrDefault().ProcessUnit;
                 plant.ControllingDS = ProcessUnitReprotDS.OrderByDescending(p => p.SingleDS.ReliefLoad).FirstOrDefault().SingleDS;
 
@@ -239,12 +242,12 @@ namespace ReliefProLL
         #region  ControllingSingleScenarioDS
         private void InitControllingSingleScenarioDS(ref PUsummaryGridDS gridDs)
         {
-            double maxPowerDS = gridDs.PowerDS.ReliefLoad.Value;
-            double maxWaterDS = gridDs.WaterDS.ReliefLoad.Value;
-            double maxAirDS = gridDs.AirDS.ReliefLoad.Value;
-            double maxSteamDS = gridDs.SteamDS.ReliefLoad.Value;
-            double maxFireDS = gridDs.FireDS.ReliefLoad.Value;
-            List<double> MaxList = new List<double> { maxPowerDS, maxWaterDS, maxAirDS, maxSteamDS, maxFireDS };
+            double? maxPowerDS = gridDs.PowerDS.ReliefLoad;
+            double? maxWaterDS = gridDs.WaterDS.ReliefLoad;
+            double? maxAirDS = gridDs.AirDS.ReliefLoad;
+            double? maxSteamDS = gridDs.SteamDS.ReliefLoad;
+            double? maxFireDS = gridDs.FireDS.ReliefLoad;
+            List<double?> MaxList = new List<double?> { maxPowerDS, maxWaterDS, maxAirDS, maxSteamDS, maxFireDS };
             var v = MaxList.Select((m, index) => new { index, m }).OrderByDescending(n => n.m).Take(1);
             int Index = 0;
             foreach (var t in v)
