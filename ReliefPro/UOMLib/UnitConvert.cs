@@ -98,6 +98,30 @@ namespace UOMLib
                 throw new Exception("The UnitType Not Exists!");
             return Convert(OriginUnit, TargetUnit, value);
         }
+        public static double? Convert(string OriginUnit, string TargetUnit, double? value)
+        {
+            if (value == null) return null;
+            if (string.IsNullOrEmpty(OriginUnit) || string.IsNullOrEmpty(TargetUnit))
+                return value;
+            if (OriginUnit.ToLower() == TargetUnit.ToLower())
+                return value;
+            var originUnitModel = lkpSystemUnit[OriginUnit.ToLower()];
+            var targetUnitModel = lkpSystemUnit[TargetUnit.ToLower()];
+            if (null == originUnitModel)
+                throw new Exception("the Origin Unit Not Exists!");
+            if (null == targetUnitModel)
+                throw new Exception("the Target Unit Not Exists!");
+            if (originUnitModel.First().UnitType != targetUnitModel.First().UnitType)
+                throw new Exception("the Origin Unit Translate to Target Unit is error!");
+
+            double innerValue = (value.Value + originUnitModel.First().Constant) * originUnitModel.First().ScaleFactor;
+            if (targetUnitModel.First().ScaleFactor != 0)
+            {
+                double resultValue = innerValue / targetUnitModel.First().ScaleFactor - targetUnitModel.First().Constant;
+                return resultValue;
+            }
+            return value;
+        }
         public static double Convert(string OriginUnit, string TargetUnit, double value)
         {
             //if (value == 0) return 0;
