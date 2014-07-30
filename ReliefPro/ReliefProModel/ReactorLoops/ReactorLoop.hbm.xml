@@ -4,15 +4,13 @@
 <id name="ID" column="ID" type="Int32" unsaved-value="0">
 <generator class="identity" />
 </id>
-  <property name="ScenarioID" column="ScenarioID" type="Int32"/>
   <property name="EffluentStream" column="EffluentStream" type="String"/>
   <property name="ColdReactorFeedStream" column="ColdReactorFeedStream" type="String"/>
   <property name="HotHighPressureSeparator" column="HotHighPressureSeparator" type="String"/>
   <property name="ColdHighPressureSeparator" column="ColdHighPressureSeparator" type="String"/>
   <property name="HXNetworkColdStream" column="HXNetworkColdStream" type="String"/>
   <property name="InjectionWaterStream" column="InjectionWaterStream" type="String"/>
-
-  <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"/>
+  
   <property name="EffluentStream_Color" column="EffluentStream_Color" type="String" length="255"/>
   <property name="ColdReactorFeedStream_Color" column="ColdReactorFeedStream_Color" type="String" length="255"/>
   <property name="HotHighPressureSeparator_Color" column="HotHighPressureSeparator_Color" type="String" length="255"/>
