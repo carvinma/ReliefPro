@@ -652,7 +652,37 @@ namespace ReliefProMain.ViewModel.Drums
             double L = 1;
             double T = 1;
             double M = 1;
+            string targetUnit = "barg";
+            double designPressure = UnitConvert.Convert(model.DesignPressureUnit, targetUnit, model.DesignPressure.Value);
 
+            if (designPressure < 0)
+            {
+                MessageBox.Show("Design Pressure could not be negative");
+                return;
+            }
+            if (designPressure > 1.034 && selectedHeatInputModel == "API 2000")
+            {
+                MessageBox.Show("Becasue Design Pressure is greater,Heat Input Model must be API 521");
+                SelectedHeatInputModel = "API 521";
+            }
+            if (SelectedHeatInputModel == "API 521")
+            {
+                //计算Qfire
+                double C1 = 0;
+                if (model.EquipmentExist)
+                {
+                    C1 = 43200;
+                }
+                else
+                {
+                    C1 = 70900;
+                }
+                Q = Algorithm.GetQ(C1, 1, area);
+            }
+            else
+            {
+                Q = Algorithm.CalcStorageTankLoad(area, designPressure, F, L, T, M); //这是按照2000 来计算的
+            }
 
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionProtectedSystem);
@@ -666,37 +696,7 @@ namespace ReliefProMain.ViewModel.Drums
                     MessageBox.Show("cracking Heat not be empty or 小于0", "Message Box");
                     return;
                 }
-                string targetUnit = "barg";
-                double designPressure = UnitConvert.Convert(model.DesignPressureUnit, targetUnit, model.DesignPressure.Value);
-
-                if (designPressure < 0)
-                {
-                    MessageBox.Show("Design Pressure could not be negative");
-                    return;
-                }
-                if (designPressure > 1.034 && selectedHeatInputModel == "API 2000")
-                {
-                    MessageBox.Show("Becasue Design Pressure is greater,Heat Input Model must be API 521");
-                    SelectedHeatInputModel = "API 521";
-                }
-                if (SelectedHeatInputModel == "API 521")
-                {
-                    //计算Qfire
-                    double C1 = 0;
-                    if (model.EquipmentExist)
-                    {
-                        C1 = 43200;
-                    }
-                    else
-                    {
-                        C1 = 70900;
-                    }
-                    Q = Algorithm.GetQ(C1, 1, area);
-                }
-                else
-                {
-                    Q = Algorithm.CalcStorageTankLoad(area, designPressure, F, L, T, M); //这是按照2000 来计算的
-                }
+                
                 L = model.CrackingHeat.Value;
                 model.ReliefLoad = Q / L;
                 model.ReliefMW = 114;
@@ -705,7 +705,7 @@ namespace ReliefProMain.ViewModel.Drums
             }
             else
             {
-                if (model.LatentHeat == 0)
+                if (model.LatentHeat == null)
                 {
                     CustomStream stream = new CustomStream();
                     if (maxTStream.VaporFraction == 1)
@@ -723,13 +723,13 @@ namespace ReliefProMain.ViewModel.Drums
                         string gd = Guid.NewGuid().ToString();
                         string vapor = "S_" + gd.Substring(0, 5).ToUpper();
                         string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
-                        string rate = "0.05";
+                        string second = "0.05";
                         int ImportResult = 0;
                         int RunResult = 0;
                         PROIIFileOperator.DecompressProIIFile(PrzFile, tempdir);
                         string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-                        IFlashCalculateW fcalc = ProIIFactory.CreateFlashCalculateW(PrzVersion);
-                        string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 4, "", stream, vapor, liquid, rate, dirLatent, ref ImportResult, ref RunResult);
+                        IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
+                        string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, second, stream, vapor, liquid,  dirLatent, ref ImportResult, ref RunResult);
                         if (ImportResult == 1 || ImportResult == 2)
                         {
                             if (RunResult == 1 || RunResult == 2)
@@ -742,6 +742,7 @@ namespace ReliefProMain.ViewModel.Drums
                                 CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
                                 CustomStream liquidFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
                                 double latent = vaporFire.SpEnthalpy.Value - liquidFire.SpEnthalpy.Value;
+                                model.LatentHeat = latent;
                                 model.ReliefLoad = Q / latent;
                                 model.ReliefMW = vaporFire.BulkMwOfPhase;
                                 model.ReliefPressure = reliefFirePressure;
@@ -847,7 +848,6 @@ namespace ReliefProMain.ViewModel.Drums
             string gd = Guid.NewGuid().ToString();
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
-            string rate = "1";
             int ImportResult = 0;
             int RunResult = 0;
             PROIIFileOperator.DecompressProIIFile(PrzFile, tempdir);
@@ -890,13 +890,12 @@ namespace ReliefProMain.ViewModel.Drums
             string gd = Guid.NewGuid().ToString();
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
-            string rate = "1";
             int ImportResult = 0;
             int RunResult = 0;
             PROIIFileOperator.DecompressProIIFile(PrzFile, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-            IFlashCalculateW fcalc = ProIIFactory.CreateFlashCalculateW(PrzVersion);
-            string tray1_f = fcalc.Calculate(content, 1, "0", 4, "", stream, vapor, liquid, rate, dirLatent, ref ImportResult, ref RunResult);
+            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
+            string tray1_f = fcalc.Calculate(content, 1, "0", 4, "", stream, vapor, liquid,  dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
