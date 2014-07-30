@@ -2789,7 +2789,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="W"&amp;ChrW(178)&amp;"*T"</Value>
+                                  <Value>="W"&amp;ChrW(178)&amp;" * T"</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <TextDecoration>Underline</TextDecoration>
@@ -3141,7 +3141,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>="W"&amp;ChrW(178)&amp;"*T"</Value>
+                                  <Value>="W"&amp;ChrW(178)&amp;" * T"</Value>
                                   <Style>
                                     <FontSize>8pt</FontSize>
                                     <TextDecoration>Underline</TextDecoration>
