@@ -37,7 +37,7 @@ namespace ReliefProLL
         List<PUsummaryGridDS> listGrid;
         private int UnitID;
         private string ProcessUnitName;
-        List<double> tmpResult = new List<double>();
+        List<double?> tmpResult = new List<double?>();
         public ReportBLL()
         { }
         public ReportBLL(int UnitID, List<string> ProcessUnitReportPath)
@@ -120,35 +120,38 @@ namespace ReliefProLL
             }
             return null;
         }
-        private double GetPlantSumResult<T>(List<T> ProcessUnitReprotDS, int CalcType, string ScenarioType, string ScenarioProperty)
+        private double? GetPlantSumResult<T>(List<T> ProcessUnitReprotDS, int CalcType, string ScenarioType, string ScenarioProperty)
         {
             if (CalcType == 2)
             {
                 SumOfFirst2Max(ProcessUnitReprotDS, ScenarioType, ScenarioProperty);
             }
-            double maxValue = ProcessUnitReprotDS.Max(p =>
+            double? maxValue = ProcessUnitReprotDS.Max(p =>
             {
                 Scenario scenario = (Scenario)p.GetType().GetProperty(ScenarioType).GetValue(p, null);
-                if (scenario == null) return 0;
+                if (scenario == null) return null;
                 var obj = scenario.GetType().GetProperty(ScenarioProperty).GetValue(scenario, null);
-                if (obj == null) return 0;
+                if (obj == null) return null;
                 return double.Parse(obj.ToString());
             });
-            ProcessUnitReprotDS.ForEach(p =>
-             {
-                 Scenario scenario = (Scenario)p.GetType().GetProperty(ScenarioType).GetValue(p, null);
-                 if (scenario == null) return;
-                 var obj = scenario.GetType().GetProperty(ScenarioProperty).GetValue(scenario, null);
-                 if (obj == null) return;
-                 double value = double.Parse(obj.ToString());
-                 switch (CalcType)
+            if (maxValue != null)
+            {
+                ProcessUnitReprotDS.ForEach(p =>
                  {
-                     case 0: DirectSummation(value); break;
-                     case 1: Calc100_30_30(value, maxValue); break;
-                     case 3: Calc100_50_50(value, maxValue); break;
-                     default: break;
-                 }
-             });
+                     Scenario scenario = (Scenario)p.GetType().GetProperty(ScenarioType).GetValue(p, null);
+                     if (scenario == null) return;
+                     var obj = scenario.GetType().GetProperty(ScenarioProperty).GetValue(scenario, null);
+                     if (obj == null) return;
+                     double value = double.Parse(obj.ToString());
+                     switch (CalcType)
+                     {
+                         case 0: DirectSummation(value); break;
+                         case 1: Calc100_30_30(value, maxValue.Value); break;
+                         case 3: Calc100_50_50(value, maxValue.Value); break;
+                         default: break;
+                     }
+                 });
+            }
             return CalcPlantSumResult();
         }
         private double? GetDouble(string value)
@@ -158,9 +161,10 @@ namespace ReliefProLL
                 return reslut;
             return null;
         }
-        private double CalcPlantSumResult()
+        private double? CalcPlantSumResult()
         {
-            double Result = tmpResult.Sum();
+            if (tmpResult.Count == 0) return null;
+            double? Result = tmpResult.Sum();
             tmpResult.Clear();
             return Result;
         }
