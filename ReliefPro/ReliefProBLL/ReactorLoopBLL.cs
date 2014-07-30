@@ -59,9 +59,9 @@ namespace ReliefProLL
             db.Update(sModel, SessionPS);
         }
 
-        public ReactorLoop GetReactorLoopModel(int ScenarioID)
+        public ReactorLoop GetReactorLoopModel()
         {
-            var model = reactorLoopDAL.GetModelByScenarioID(SessionPS, ScenarioID);
+            var model = reactorLoopDAL.GetModel(SessionPS);
             if (model == null)
                 model = new ReactorLoop();
             return model;
