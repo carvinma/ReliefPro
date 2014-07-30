@@ -53,7 +53,7 @@ namespace ReliefProMain.ViewModel.HXs
 
             model = new HXFireSizeModel(fireModel);
             model.dbmodel.ScenarioID = ScenarioID;
-            SelectedExposedToFire = fireModel.ExposedToFire; 
+            SelectedExposedToFire = fireModel.ExposedToFire;
             if (!string.IsNullOrEmpty(fireModel.Type))
             { SelectedType = fireModel.Type; }
 
@@ -66,9 +66,9 @@ namespace ReliefProMain.ViewModel.HXs
         {
             model.dbmodel.ExposedToFire = this.selectedExposedToFire; ;
             model.dbmodel.Type = this.selectedType;
-            model.dbmodel.OD = UnitConvert.Convert(model.ODUnit, UOMLib.UOMEnum.Length.ToString(), model.OD.Value);
-            model.dbmodel.Length = UnitConvert.Convert(model.LengthUnit, UOMLib.UOMEnum.Length.ToString(), model.Length.Value);
-            model.dbmodel.Elevation = UnitConvert.Convert(model.ElevationUnit, UOMLib.UOMEnum.Length.ToString(), model.Elevation.Value);
+            model.dbmodel.OD = UnitConvert.Convert(model.ODUnit, UOMLib.UOMEnum.Length.ToString(), model.OD);
+            model.dbmodel.Length = UnitConvert.Convert(model.LengthUnit, UOMLib.UOMEnum.Length.ToString(), model.Length);
+            model.dbmodel.Elevation = UnitConvert.Convert(model.ElevationUnit, UOMLib.UOMEnum.Length.ToString(), model.Elevation);
             model.dbmodel.PipingContingency = model.PipingContingency;
         }
 

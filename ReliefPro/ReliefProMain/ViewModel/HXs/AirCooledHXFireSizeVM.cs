@@ -32,15 +32,15 @@ namespace ReliefProMain.ViewModel.HXs
         private HXBLL hxBLL;
         private CustomStreamDAL customStreamDAL = new CustomStreamDAL();
 
-        public AirCooledHXFireSizeVM(int ID,  ISession SessionPS, ISession SessionPF)
+        public AirCooledHXFireSizeVM(int ID, ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
-           
+
             OKCMD = new DelegateCommand<object>(Save);
             CalcCMD = new DelegateCommand<object>(CalcResult);
 
-           
+
             UOMLib.UOMEnum uomEnum = new UOMLib.UOMEnum(SessionPF);
             model.WettedBundleUnit = uomEnum.UserArea;
             model.ReliefLoadUnit = uomEnum.UserMassRate;
@@ -75,9 +75,9 @@ namespace ReliefProMain.ViewModel.HXs
         }
         private void WriteConvertModel()
         {
-            model.dbmodel.WettedBundle = UnitConvert.Convert(model.WettedBundleUnit, UOMLib.UOMEnum.Area.ToString(), model.WettedBundle.Value);
+            model.dbmodel.WettedBundle = UnitConvert.Convert(model.WettedBundleUnit, UOMLib.UOMEnum.Area.ToString(), model.WettedBundle);
             model.dbmodel.PipingContingency = model.PipingContingency;
-            
+
         }
         private void CalcResult(object obj)
         {
@@ -98,7 +98,7 @@ namespace ReliefProMain.ViewModel.HXs
             if (feed.VaporFraction == 1 && product.VaporFraction == 1)
             {
                 MessageBox.Show("No calc", "Message Box");
-                return ;
+                return;
             }
             else
             {
@@ -106,7 +106,7 @@ namespace ReliefProMain.ViewModel.HXs
                 if (product.Temperature.Value > feed.Temperature.Value)
                     maxTStream = product;
 
-                CustomStream stream=new CustomStream();
+                CustomStream stream = new CustomStream();
                 if (maxTStream.VaporFraction == 1)
                     stream = getFlashCalcLiquidStreamVF1(maxTStream);
                 else
@@ -184,7 +184,7 @@ namespace ReliefProMain.ViewModel.HXs
                 }
             }
         }
-        
+
         private CustomStream getFlashCalcLiquidStreamVF0(CustomStream stream)
         {
             string tempdir = DirProtectedSystem + @"\temp\";

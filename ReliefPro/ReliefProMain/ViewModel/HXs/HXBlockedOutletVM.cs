@@ -61,15 +61,15 @@ namespace ReliefProMain.ViewModel.HXs
         private void WriteConvertModel()
         {
             model.dbmodel.ColdStream = model.ColdStream;
-            model.dbmodel.NormalDuty = UnitConvert.Convert(model.NormalDutyUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.NormalDuty.Value);
-            model.dbmodel.NormalHotTemperature = UnitConvert.Convert(model.NormalHotTemperatureUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.NormalHotTemperature.Value);
-            model.dbmodel.NormalColdInletTemperature = UnitConvert.Convert(model.NormalColdInletTemperatureUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.NormalColdInletTemperature.Value);
-            model.dbmodel.NormalColdOutletTemperature = UnitConvert.Convert(model.NormalColdOutletTemperatureUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.NormalColdOutletTemperature.Value);
-            model.dbmodel.LatentPoint = UnitConvert.Convert(model.LatentPointUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.LatentPoint.Value);
+            model.dbmodel.NormalDuty = UnitConvert.Convert(model.NormalDutyUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.NormalDuty);
+            model.dbmodel.NormalHotTemperature = UnitConvert.Convert(model.NormalHotTemperatureUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.NormalHotTemperature);
+            model.dbmodel.NormalColdInletTemperature = UnitConvert.Convert(model.NormalColdInletTemperatureUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.NormalColdInletTemperature);
+            model.dbmodel.NormalColdOutletTemperature = UnitConvert.Convert(model.NormalColdOutletTemperatureUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.NormalColdOutletTemperature);
+            model.dbmodel.LatentPoint = UnitConvert.Convert(model.LatentPointUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.LatentPoint);
             model.dbmodel.ReliefMW = model.ReliefMW;
             model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad.Value);
-            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature.Value);
-            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure.Value);
+            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
+            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
         }
         private void CalcResult(object obj)
         {
@@ -108,15 +108,15 @@ namespace ReliefProMain.ViewModel.HXs
                     reader.InitProIIReader(tray1_f);
                     ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
                     ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
-                    ProIIEqData flash=reader.GetEqInfo("Flash","F_1");
+                    ProIIEqData flash = reader.GetEqInfo("Flash", "F_1");
                     reader.ReleaseProIIReader();
                     CustomStream liquidcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
                     CustomStream vaporcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
-                    double latent = vaporcs.SpEnthalpy.Value- liquidcs.SpEnthalpy.Value;
+                    double latent = vaporcs.SpEnthalpy.Value - liquidcs.SpEnthalpy.Value;
                     double tcoldbprelief = double.Parse(flash.TempCalc);
-                    double tnormalHotInlet=normalHotInlet.Temperature.Value;
-                    
-                    model.ReliefLoad = Q / latent * tnormalHotInlet - tcoldbprelief / (tnormalHotInlet-tAvg);
+                    double tnormalHotInlet = normalHotInlet.Temperature.Value;
+
+                    model.ReliefLoad = Q / latent * tnormalHotInlet - tcoldbprelief / (tnormalHotInlet - tAvg);
                     model.ReliefMW = vaporcs.BulkMwOfPhase.Value;
                     model.ReliefPressure = reliefFirePressure;
                     model.ReliefTemperature = vaporcs.Temperature.Value;
@@ -131,7 +131,7 @@ namespace ReliefProMain.ViewModel.HXs
             else
             {
                 MessageBox.Show("inp file is error", "Message Box");
-                
+
             }
 
         }
