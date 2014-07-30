@@ -236,6 +236,9 @@ namespace ReliefProMain.ViewModel.Reports
                     if (K != null && K != 0)
                         effectMach.Air = (W * W * T) / (MW * K);
                 }
+                effectPressure.Power = effectPressure.Power ?? 0;
+                effectPressure.Water = effectPressure.Water ?? 0;
+                effectPressure.Air = effectPressure.Air ?? 0;
                 lsitCalc.Add(effectPressure);
                 lsitCalc.Add(effectMach);
             }
