@@ -41,7 +41,7 @@ namespace ReliefProMain.ViewModel.Compressors
                 BlockedModel.OutletPressure = outletList[0].Pressure.Value;
             }
             BlockedModel = blockBLL.ReadConvertCentrifugalModel(BlockedModel);
-            
+
             model = new CentrifugalBlockedOutletModel(BlockedModel);
             model.dbmodel.ScenarioID = ScenarioID;
 
@@ -54,9 +54,9 @@ namespace ReliefProMain.ViewModel.Compressors
         {
             model.dbmodel.Scale = model.Scale;
             model.dbmodel.ReliefMW = model.ReliefMW;
-            model.dbmodel.Reliefload = UnitConvert.Convert(model.ReliefloadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.Reliefload.Value);
-            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTempUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature.Value);
-            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure.Value);
+            model.dbmodel.Reliefload = UnitConvert.Convert(model.ReliefloadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.Reliefload);
+            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTempUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
+            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
             model.dbmodel.InletLoad = model.InletLoad;
             model.dbmodel.OutletPressure = model.OutletPressure;
             model.dbmodel.SurgeLoad = model.SurgeLoad;
@@ -76,8 +76,8 @@ namespace ReliefProMain.ViewModel.Compressors
             double bNormal = 0; //y=-0.25x+b
 
             double Ratio = 1.05; //   max speed/normal speed
-            double QMax = Ratio*QNormal;
-            double PressureMax = Math.Pow(Ratio, 2) * PressureNormal ;
+            double QMax = Ratio * QNormal;
+            double PressureMax = Math.Pow(Ratio, 2) * PressureNormal;
             //double QSurgeMax = 1;
             //double PSurgeMax = 1;
             double bMax = 0;
@@ -94,19 +94,19 @@ namespace ReliefProMain.ViewModel.Compressors
                 return;
             }
 
-            bNormal = PressureNormal + 0.25*K2 * QNormal;
+            bNormal = PressureNormal + 0.25 * K2 * QNormal;
             bMax = PressureMax + 0.25 * K2 * QMax;
             PSurgeNormal = -0.25 * K2 * QSurgeNormal + bNormal;
 
             double rate = PSurgeNormal / QSurgeNormal;
             double Fsa = bMax / (rate + 0.25 * K2);
             double Psa = -0.25 * K2 * Fsa + bMax;
-            
+
             //控制线 y=rate（x-1.1)
             double Fs = (bMax + 1.1 * rate) / (rate + 0.25 * K2);
             double Ps = -0.25 * K2 * Fs + bMax;
 
-            double v=0;
+            double v = 0;
             if (PDesign < Psa)
                 model.Reliefload = 0;
             else if (PDesign < Ps)
@@ -116,9 +116,9 @@ namespace ReliefProMain.ViewModel.Compressors
 
             if (v < 0)
                 v = 0;
-            
+
             //读取压缩机出口物料的密度
-             CustomStreamDAL customStreamDAL = new CustomStreamDAL();
+            CustomStreamDAL customStreamDAL = new CustomStreamDAL();
             IList<CustomStream> csList = customStreamDAL.GetAllList(SessionPS, true);
             if (csList.Count > 0)
             {
