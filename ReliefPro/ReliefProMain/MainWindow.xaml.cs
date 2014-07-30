@@ -800,10 +800,10 @@ namespace ReliefProMain
             v.Owner = this;
             if (v.ShowDialog() == true)
             {
-                TreeViewItem itemProtectSystem = GetTreeViewItem(vm.ProtectedSystemName, vm.dirProtectedSystem, 3, "images/plant.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
+                TreeViewItem itemProtectSystem = GetTreeViewItem(vm.ProtectedSystemName, vm.dirProtectedSystem, 3, "images/ps.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
                 tvi.Items.Add(itemProtectSystem);
 
-                TreeViewItem itemProtectSystemfile = GetTreeViewItem(vm.ProtectedSystemName, vm.visioProtectedSystem, 4, "images/project.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
+                TreeViewItem itemProtectSystemfile = GetTreeViewItem(vm.ProtectedSystemName, vm.visioProtectedSystem, 4, "images/file.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
                 itemProtectSystem.Items.Add(itemProtectSystemfile);
 
                 tvi.ExpandSubtree();

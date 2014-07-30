@@ -262,6 +262,7 @@
     <Compile Include="ViewModel\Trees\UnitVM.cs" />
     <Compile Include="ViewModel\Trees\PlantVM.cs" />
     <Compile Include="ViewModel\Trees\PSVM.cs" />
+    <Compile Include="ViewModel\SelectPathVM.cs" />
     <Compile Include="View\Common\FireView.xaml.cs">
       <DependentUpon>FireView.xaml</DependentUpon>
     </Compile>
@@ -273,6 +274,9 @@
     </Compile>
     <Compile Include="View\Common\SelectStreamView.xaml.cs">
       <DependentUpon>SelectStreamView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Common\SelectPathView.xaml.cs">
+      <DependentUpon>SelectPathView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Compressors\CompressorView.xaml.cs">
       <DependentUpon>CompressorView.xaml</DependentUpon>
@@ -529,6 +533,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Common\SelectStreamView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Common\SelectPathView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

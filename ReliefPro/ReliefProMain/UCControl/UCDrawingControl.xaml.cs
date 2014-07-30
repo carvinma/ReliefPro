@@ -39,6 +39,7 @@ using ReliefProMain.View.Compressors;
 using ReliefProDAL.ReactorLoops;
 using ReliefProMain.View.ReactorLoops;
 using ReliefProMain.ViewModel.ReactorLoops;
+using ReliefProModel.ReactorLoops;
 
 namespace ReliefProMain.View
 {
@@ -298,20 +299,20 @@ namespace ReliefProMain.View
                 {
                     try
                     {
-                        //ReactorLoopView v = new ReactorLoopView();
-                        //ReactorLoopVM vm = new ReactorLoopVM(name, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
-                        //v.DataContext = vm;
-                        //v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                        //Window parentWindow = Window.GetWindow(this);
-                        //v.Owner = parentWindow;
-                        //if (v.ShowDialog() == true)
-                        //{
-                        //    PrzFile = DirPlant + @"\" + vm.przFile;
-                        //    PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
-                        //    EqName = vm.CompressorName;
-                        //    EqType = "Compressor";
-                        //    DrawCompressor(shp, vm);
-                        //}
+                        ReactorLoopView v = new ReactorLoopView();
+                        ReactorLoopVM vm = new ReactorLoopVM(PrzFile,PrzVersion, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
+                        v.DataContext = vm;
+                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                        Window parentWindow = Window.GetWindow(this);
+                        v.Owner = parentWindow;
+                        if (v.ShowDialog() == true)
+                        {
+                            PrzFile = DirPlant + @"\" + vm.PrzFile;
+                            PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                            EqName = "";
+                            EqType = "Reaction";
+                            DrawReactor(shp, vm);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -714,6 +715,10 @@ namespace ReliefProMain.View
 
         }
 
+        private void DrawReactor(Visio.Shape shape, ReactorLoopVM vm)
+        {
+            shape.get_Cells("Height").ResultIU = 2;         
+        }
 
         private void DrawTank(Visio.Shape shape, StorageTankVM vm)
         {
@@ -923,6 +928,17 @@ namespace ReliefProMain.View
                                 }
                                 break;
                             case 6:
+                                ReactorLoopDAL reactorLoopDAL = new ReactorLoopDAL();
+                                ReactorLoop reactor = reactorLoopDAL.GetModel(SessionProtectedSystem);
+                                if (reactor != null)
+                                {
+                                    EqType = "ReactorLoop";
+                                    EqName = "";
+                                    PrzFile = DirPlant + @"\" + reactor.PSFile;
+                                    PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                                }
+                                break;
+                            default:
                                 break;
                         }
                     }

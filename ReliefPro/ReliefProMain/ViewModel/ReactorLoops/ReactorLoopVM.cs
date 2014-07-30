@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
 using System.Linq;
+using System.Windows;
 using Microsoft.Practices.Prism.Commands;
 using NHibernate;
 using ReliefProLL;
@@ -11,6 +12,7 @@ using ReliefProMain.Model.ReactorLoops;
 using ReliefProModel.ReactorLoops;
 using ReliefProDAL;
 using ReliefProModel;
+using ReliefProMain.View;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -18,7 +20,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
     {
         public ICommand OKCMD { get; set; }
         public ICommand SimulationCMD { get; set; }
-
+        public ICommand ImportCMD { get; set; }
         public ICommand ProcessHXAddCMD { get; set; }
         public ICommand ProcessHXDelCMD { get; set; }
 
@@ -43,7 +45,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         {
             OKCMD = new DelegateCommand<object>(Save);
             SimulationCMD = new DelegateCommand<object>(Simulation);
-
+            ImportCMD = new DelegateCommand<object>(Import);
             ProcessHXAddCMD = new DelegateCommand<object>(ProcessHXAdd);
             ProcessHXDelCMD = new DelegateCommand<object>(ProcessHXDel);
 
@@ -55,29 +57,34 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
         private void InitPage()
         {
-            model.EffluentStreamSource = GetProIIStreamNames();
-            model.ColdHighPressureSeparatorSource = new List<string> { };
-            model.HotHighPressureSeparatorSource = new List<string> { };
-            model.ColdReactorFeedStreamSource = GetProIIStreamNames();
-            model.HXNetworkColdStreamSource = GetProIIStreamNames();
-            model.InjectionWaterStreamSource = GetProIIStreamNames();
-
-            model.ObcProcessHXSource = new ObservableCollection<ReactorLoopDetail> { 
-                new ReactorLoopDetail { ID=0, ReactorType=0, ReactorLoopID=reactorLoopID,DetailInfo="" },
-            };
-            model.ObcProcessHXSource = GetProIIHXs(0);
-            model.ObcUtilityHXSource = GetProIIHXs(1);
-            model.ObcMixerSplitterSource = GetProIIMixers();
-            model.ObcUtilityHXSource = new ObservableCollection<ReactorLoopDetail> { 
-                 new ReactorLoopDetail { ID=0, ReactorType=1, ReactorLoopID=reactorLoopID,DetailInfo="" },
-            };
-            model.ObcMixerSplitterSource = new ObservableCollection<ReactorLoopDetail> { 
-                 new ReactorLoopDetail { ID=0, ReactorType=2, ReactorLoopID=reactorLoopID,DetailInfo="" },
-            };
+            if (!string.IsNullOrEmpty(PrzFile))
+            {
+                ObservableCollection<string> list = GetProIIStreamNames();
+                
+                model.ColdHighPressureSeparatorSource = new ObservableCollection<string> { };
+                model.HotHighPressureSeparatorSource = new ObservableCollection<string> { };
+                model.EffluentStreamSource = list;
+                model.ColdReactorFeedStreamSource = list;
+                model.HXNetworkColdStreamSource = list;
+                model.InjectionWaterStreamSource = list;
+                model.ObcProcessHXSource = GetProIIHXs(0);
+                model.ObcUtilityHXSource = GetProIIHXs(1);
+                model.ObcMixerSplitterSource = GetProIIMixers();
+                //model.ObcProcessHXSource = new ObservableCollection<ReactorLoopDetail> { 
+               // new ReactorLoopDetail { ID=0, ReactorType=0, ReactorLoopID=reactorLoopID,DetailInfo="" },
+            //};
+                
+                //model.ObcUtilityHXSource = new ObservableCollection<ReactorLoopDetail> { 
+                 //new ReactorLoopDetail { ID=0, ReactorType=1, ReactorLoopID=reactorLoopID,DetailInfo="" },
+            //};
+                //model.ObcMixerSplitterSource = new ObservableCollection<ReactorLoopDetail> { 
+                // new ReactorLoopDetail { ID=0, ReactorType=2, ReactorLoopID=reactorLoopID,DetailInfo="" },
+            //};
+            }
         }
-        private List<string> GetProIIStreamNames()
+        private ObservableCollection<string> GetProIIStreamNames()
         {
-            List<string> rlt=new List<string>();
+            ObservableCollection<string> rlt = new ObservableCollection<string>();
             ProIIStreamDataDAL dal = new ProIIStreamDataDAL();
             IList<ProIIStreamData> list = dal.GetAllList(SessionPF,PrzFile);
             foreach(ProIIStreamData s in list)
@@ -114,16 +121,20 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             return rlt;
         }
 
-        public ReactorLoopVM(int ScenarioID,string przFile,string przVersion, ISession SessionPS, ISession SessionPF)
+        public ReactorLoopVM(string przFile,string przVersion, ISession SessionPF,ISession SessionPS, string dirPlant,string dirProtectedSystem)
         {
             model = new ReactorLoopModel();
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
+            DirPlant = dirPlant;
+            DirProtectedSystem = dirProtectedSystem;
+            PrzFile = przFile;
+            PrzVersion = przVersion;
             InitCMD();
             InitPage();
 
             reactorBLL = new ReactorLoopBLL(SessionPS, SessionPF);
-            var RLModel = reactorBLL.GetReactorLoopModel(ScenarioID);
+            var RLModel = reactorBLL.GetReactorLoopModel();
 
             model.dbModel = RLModel;
             if (RLModel.ID > 0)
@@ -135,6 +146,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
             else
             {
+                
             }
         }
         private void ProcessHXAdd(object obj)
@@ -172,6 +184,18 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             model.ObcMixerSplitterSource.Add(model.SelectedHXModel);
             var find = model.ObcMixerSplitter.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 0);
             model.ObcMixerSplitter.Remove(find);
+        }
+        private void Import(object obj)
+        {
+            SelectPathView view = new SelectPathView();
+            SelectPathVM vm = new SelectPathVM(DirPlant);
+            view.DataContext = vm;
+            view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            if (view.ShowDialog() == true)
+            {
+                PrzFile = vm.SelectedFile+".prz";
+                InitPage();
+            }
         }
         private void Simulation(object obj)
         {
