@@ -22,8 +22,8 @@ namespace ReliefProMain.ViewModel
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
-        private string DirPlant { set; get; }
-        private string DirProtectedSystem { set; get; }
+        public string DirPlant { set; get; }
+        public string DirProtectedSystem { set; get; }
         public string przFile { set; get; }
         private ProIIEqData ProIICompressor;
 

@@ -74,6 +74,20 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
         private void CalcResult(object obj)
         {
+            switch (reactorType)
+            {
+                case 0:
+                    CalcBlocket();
+                    break;
+                
+
+            }
+
+        }
+        private void CalcBlocket()
+        {
+            model.ReliefLoad = model.TotalPurgeRate - model.MaxGasRate;
+
         }
         private void Save(object obj)
         {

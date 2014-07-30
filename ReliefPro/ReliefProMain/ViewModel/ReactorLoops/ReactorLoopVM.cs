@@ -9,6 +9,8 @@ using NHibernate;
 using ReliefProLL;
 using ReliefProMain.Model.ReactorLoops;
 using ReliefProModel.ReactorLoops;
+using ReliefProDAL;
+using ReliefProModel;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -28,6 +30,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
         private ISession SessionPS;
         private ISession SessionPF;
+        public string DirPlant { set; get; }
+        public string DirProtectedSystem { set; get; }
+        public string PrzFile { set; get; }
+        public string PrzVersion { set; get; }
 
         private int reactorLoopID;
         public ReactorLoopModel model { get; set; }
@@ -49,16 +55,19 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
         private void InitPage()
         {
-            model.EffluentStreamSource = new List<string> { };
+            model.EffluentStreamSource = GetProIIStreamNames();
             model.ColdHighPressureSeparatorSource = new List<string> { };
             model.HotHighPressureSeparatorSource = new List<string> { };
-            model.ColdReactorFeedStreamSource = new List<string> { };
-            model.HXNetworkColdStreamSource = new List<string> { };
-            model.InjectionWaterStreamSource = new List<string> { };
+            model.ColdReactorFeedStreamSource = GetProIIStreamNames();
+            model.HXNetworkColdStreamSource = GetProIIStreamNames();
+            model.InjectionWaterStreamSource = GetProIIStreamNames();
 
             model.ObcProcessHXSource = new ObservableCollection<ReactorLoopDetail> { 
                 new ReactorLoopDetail { ID=0, ReactorType=0, ReactorLoopID=reactorLoopID,DetailInfo="" },
             };
+            model.ObcProcessHXSource = GetProIIHXs(0);
+            model.ObcUtilityHXSource = GetProIIHXs(1);
+            model.ObcMixerSplitterSource = GetProIIMixers();
             model.ObcUtilityHXSource = new ObservableCollection<ReactorLoopDetail> { 
                  new ReactorLoopDetail { ID=0, ReactorType=1, ReactorLoopID=reactorLoopID,DetailInfo="" },
             };
@@ -66,8 +75,46 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                  new ReactorLoopDetail { ID=0, ReactorType=2, ReactorLoopID=reactorLoopID,DetailInfo="" },
             };
         }
+        private List<string> GetProIIStreamNames()
+        {
+            List<string> rlt=new List<string>();
+            ProIIStreamDataDAL dal = new ProIIStreamDataDAL();
+            IList<ProIIStreamData> list = dal.GetAllList(SessionPF,PrzFile);
+            foreach(ProIIStreamData s in list)
+            {
+                rlt.Add(s.StreamName);
+            }
+            return rlt;
+        }
+        private ObservableCollection<ReactorLoopDetail> GetProIIHXs(int reactorType)
+        {
+            ObservableCollection<ReactorLoopDetail> rlt = new ObservableCollection<ReactorLoopDetail>();
+            ProIIEqDataDAL dal = new ProIIEqDataDAL();
+            IList<ProIIEqData> list = dal.GetAllList(SessionPF,PrzFile,"Hx");
+            foreach (ProIIEqData eq in list)
+            {
+                ReactorLoopDetail d = new ReactorLoopDetail();
+                d.DetailInfo = eq.EqName;
+                d.ReactorType = reactorType;
+                rlt.Add(d);
+            }
+            return rlt;
+        }
+        private ObservableCollection<ReactorLoopDetail> GetProIIMixers()
+        {
+            ObservableCollection<ReactorLoopDetail> rlt = new ObservableCollection<ReactorLoopDetail>();
+            ProIIEqDataDAL dal = new ProIIEqDataDAL();
+            IList<ProIIEqData> list = dal.GetAllList(SessionPF, PrzFile, "Mixer");
+            foreach (ProIIEqData eq in list)
+            {
+                ReactorLoopDetail d = new ReactorLoopDetail();
+                d.DetailInfo = eq.EqName;
+                rlt.Add(d);
+            }
+            return rlt;
+        }
 
-        public ReactorLoopVM(int ScenarioID, ISession SessionPS, ISession SessionPF)
+        public ReactorLoopVM(int ScenarioID,string przFile,string przVersion, ISession SessionPS, ISession SessionPF)
         {
             model = new ReactorLoopModel();
             this.SessionPS = SessionPS;
@@ -85,6 +132,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcProcessHX = reactorBLL.GetProcessHX(reactorLoopID);
                 model.ObcUtilityHX = reactorBLL.GetUtilityHX(reactorLoopID);
                 model.ObcMixerSplitter = reactorBLL.GetMixerSplitter(reactorLoopID);
+            }
+            else
+            {
             }
         }
         private void ProcessHXAdd(object obj)
