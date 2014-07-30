@@ -48,9 +48,9 @@ namespace ReliefProMain.ViewModel
         private void WriteConvertModel()
         {
             if (model.conditSetModel.LatentHeatSettings != null)
-                model.conditSetModel.LatentHeatSettings = UnitConvert.Convert(model.LatentHeatSettingsUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.conditSetModel.LatentHeatSettings.Value);
+                model.conditSetModel.LatentHeatSettings = UnitConvert.Convert(model.LatentHeatSettingsUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.conditSetModel.LatentHeatSettings);
             if (model.conditSetModel.DrumSurgeTimeSettings != null)
-                model.conditSetModel.DrumSurgeTimeSettings = UnitConvert.Convert(model.DrumSurgeTimeSettingsUnit, UOMLib.UOMEnum.Time.ToString(), model.conditSetModel.DrumSurgeTimeSettings.Value);
+                model.conditSetModel.DrumSurgeTimeSettings = UnitConvert.Convert(model.DrumSurgeTimeSettingsUnit, UOMLib.UOMEnum.Time.ToString(), model.conditSetModel.DrumSurgeTimeSettings);
         }
         private void DelRow(object obj)
         {
