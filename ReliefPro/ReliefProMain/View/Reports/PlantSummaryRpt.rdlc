@@ -6,7 +6,7 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>6.48167cm</Width>
+              <Width>7.9737cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>2.1825cm</Width>
@@ -2747,7 +2747,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.70583cm</Height>
+              <Height>0.80583cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -2768,6 +2768,7 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox5</rd:DefaultName>
+                          <Top>0.15875cm</Top>
                           <Left>0.635cm</Left>
                           <Height>0.6cm</Height>
                           <Width>4.56375cm</Width>
@@ -2781,81 +2782,67 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <Textbox Name="Textbox12">
+                        <Textbox Name="Textbox17">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>2</Value>
+                                  <Value>="W"&amp;ChrW(178)&amp;"*T"</Value>
                                   <Style>
-                                    <FontSize>5pt</FontSize>
-                                    <Format>E2</Format>
+                                    <FontSize>8pt</FontSize>
+                                    <TextDecoration>Underline</TextDecoration>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox12</rd:DefaultName>
-                          <Left>5.46334cm</Left>
-                          <Height>0.30896cm</Height>
-                          <Width>0.30396cm</Width>
+                          <rd:DefaultName>Textbox17</rd:DefaultName>
+                          <Left>5.1476cm</Left>
+                          <Height>0.44125cm</Height>
+                          <Width>1.48485cm</Width>
                           <ZIndex>1</ZIndex>
                           <Style>
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <VerticalAlign>Top</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <Textbox Name="Textbox15">
+                        <Textbox Name="Textbox20">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>W　*T</Value>
+                                  <Value>MW</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
-                                    <TextDecoration>Underline</TextDecoration>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value> MW</Value>
-                                  <Style>
-                                    <FontSize>7pt</FontSize>
-                                    <TextDecoration>None</TextDecoration>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox15</rd:DefaultName>
-                          <Left>5.2cm</Left>
-                          <Height>0.7cm</Height>
-                          <Width>0.99188cm</Width>
+                          <rd:DefaultName>Textbox20</rd:DefaultName>
+                          <Top>0.47653cm</Top>
+                          <Left>5.1476cm</Left>
+                          <Height>0.3cm</Height>
+                          <Width>1.48485cm</Width>
                           <ZIndex>2</ZIndex>
                           <Style>
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </ReportItems>
@@ -3112,7 +3099,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.77646cm</Height>
+              <Height>0.82938cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -3133,6 +3120,7 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox5</rd:DefaultName>
+                          <Top>0.09525cm</Top>
                           <Left>0.635cm</Left>
                           <Height>0.6cm</Height>
                           <Width>4.56375cm</Width>
@@ -3146,82 +3134,67 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <Textbox Name="Textbox31">
+                        <Textbox Name="Textbox23">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>2</Value>
+                                  <Value>="W"&amp;ChrW(178)&amp;"*T"</Value>
                                   <Style>
-                                    <FontSize>5pt</FontSize>
-                                    <Format>E2</Format>
+                                    <FontSize>8pt</FontSize>
+                                    <TextDecoration>Underline</TextDecoration>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox12</rd:DefaultName>
-                          <Left>5.53265cm</Left>
-                          <Height>0.30896cm</Height>
-                          <Width>0.30396cm</Width>
+                          <rd:DefaultName>Textbox17</rd:DefaultName>
+                          <Left>5.1476cm</Left>
+                          <Height>0.44125cm</Height>
+                          <Width>1.48485cm</Width>
                           <ZIndex>1</ZIndex>
                           <Style>
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <VerticalAlign>Top</VerticalAlign>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <Textbox Name="Textbox35">
+                        <Textbox Name="Textbox24">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>W　*T</Value>
+                                  <Value>MW*K</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
-                                    <TextDecoration>Underline</TextDecoration>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value> MW*K</Value>
-                                  <Style>
-                                    <FontSize>7pt</FontSize>
-                                    <TextDecoration>None</TextDecoration>
-                                  </Style>
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox15</rd:DefaultName>
-                          <Top>0.03083cm</Top>
-                          <Left>5.24285cm</Left>
-                          <Height>0.7cm</Height>
-                          <Width>0.99188cm</Width>
+                          <rd:DefaultName>Textbox20</rd:DefaultName>
+                          <Top>0.47653cm</Top>
+                          <Left>5.1476cm</Left>
+                          <Height>0.3cm</Height>
+                          <Width>1.48485cm</Width>
                           <ZIndex>2</ZIndex>
                           <Style>
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </ReportItems>
@@ -3528,8 +3501,8 @@
         </TablixRowHierarchy>
         <DataSetName>PlantDS</DataSetName>
         <Top>1.45203cm</Top>
-        <Height>3.88229cm</Height>
-        <Width>38.50417cm</Width>
+        <Height>4.03521cm</Height>
+        <Width>39.9962cm</Width>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -3797,10 +3770,10 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>2.10078in</Height>
+    <Height>2.29575in</Height>
     <Style />
   </Body>
-  <Width>15.15912in</Width>
+  <Width>15.74654in</Width>
   <Page>
     <PageHeight>29.7cm</PageHeight>
     <PageWidth>21cm</PageWidth>
