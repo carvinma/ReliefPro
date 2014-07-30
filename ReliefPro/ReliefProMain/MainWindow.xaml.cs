@@ -420,9 +420,9 @@ namespace ReliefProMain
             //view.ShowDialog();
 
             ReportTreeView view = new ReportTreeView();
-            ReportTreeVM vm = new ReportTreeVM(currentPlantName,currentPlantWorkFolder);
+            ReportTreeVM vm = new ReportTreeVM(currentPlantName, currentPlantWorkFolder);
             view.DataContext = vm;
-            
+
             view.ShowDialog();
         }
         private void SavePlant()
@@ -645,8 +645,9 @@ namespace ReliefProMain
                             {
                                 b = true;
                                 d.IsActive = true;
-                                break;
                             }
+                            else
+                                d.IsActive = false;
                         }
                         if (!b)
                         {
