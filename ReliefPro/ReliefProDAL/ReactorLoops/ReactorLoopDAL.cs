@@ -11,9 +11,9 @@ namespace ReliefProDAL.ReactorLoops
 {
     public class ReactorLoopDAL : IBaseDAL<ReactorLoop>
     {
-        public ReactorLoop GetModelByScenarioID(ISession session, int ScenarioID)
+        public ReactorLoop GetModel(ISession session)
         {
-            var list = session.CreateCriteria<ReactorLoop>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<ReactorLoop>();
+            var list = session.CreateCriteria<ReactorLoop>().List<ReactorLoop>();
             if (list.Count() > 0)
             {
                 return list[0];
