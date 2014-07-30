@@ -34,7 +34,7 @@ namespace ReliefProMain.ViewModel.Drums
         private string DirProtectedSystem { set; get; }
         private string PrzFile;
         private string PrzVersion;
-        double reliefLoad = 0, reliefMW = 0, reliefT = 0, reliefPressure=0;
+        double reliefLoad = 0, reliefMW = 0, reliefT = 0, reliefPressure = 0;
         public Tuple<double, double, double, double> CalcTuple { get; set; }
         public DrumBlockedOutletVM(int ScenarioID, string przFile, string version, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
@@ -63,15 +63,15 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void WriteConvertModel()
         {
-            model.dbmodel.MaxPressure = UnitConvert.Convert(model.PressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.MaxPressure.Value);
-            model.dbmodel.MaxStreamRate = UnitConvert.Convert(model.StreamRateUnit, UOMLib.UOMEnum.MassRate.ToString(), model.MaxStreamRate.Value);
-            model.dbmodel.NormalFlashDuty = UnitConvert.Convert(model.FlashingDutyUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.NormalFlashDuty.Value);
-            model.dbmodel.FDReliefCondition = UnitConvert.Convert(model.ReliefConditionUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.FDReliefCondition.Value);
+            model.dbmodel.MaxPressure = UnitConvert.Convert(model.PressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.MaxPressure);
+            model.dbmodel.MaxStreamRate = UnitConvert.Convert(model.StreamRateUnit, UOMLib.UOMEnum.MassRate.ToString(), model.MaxStreamRate);
+            model.dbmodel.NormalFlashDuty = UnitConvert.Convert(model.FlashingDutyUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.NormalFlashDuty);
+            model.dbmodel.FDReliefCondition = UnitConvert.Convert(model.ReliefConditionUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.FDReliefCondition);
             model.dbmodel.ReboilerPinch = model.ReboilerPinch;
             model.dbmodel.Feed = model.Feed;
         }
         private void CalcResult(object obj)
-        {            
+        {
             reliefPressure = drum.ScenarioReliefPressure(SessionPS);
             string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
             string liquid = "L_" + Guid.NewGuid().ToString().Substring(0, 6);
@@ -82,8 +82,8 @@ namespace ReliefProMain.ViewModel.Drums
             }
             string duty = "0";
             double feedupPress = model.MaxPressure.Value;
-            double setPress=drum.PSet(SessionPS);
-            if (feedupPress >setPress )
+            double setPress = drum.PSet(SessionPS);
+            if (feedupPress > setPress)
             {
                 string content = PROIIFileOperator.getUsableContent(drum.Feeds[0].StreamName, DirPlant);
                 if (model.DrumType == "Flashing Drum")
@@ -124,8 +124,8 @@ namespace ReliefProMain.ViewModel.Drums
             {
                 reliefLoad = 0;
             }
-           
-            
+
+
         }
 
         private void Save(object obj)
