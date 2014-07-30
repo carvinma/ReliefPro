@@ -45,10 +45,10 @@ namespace ReliefProMain.ViewModel.Drums
         {
             //model.dbmodel.GasVaporMW = uc.Convert(model.WettedAreaUnit, UOMLib.UOMEnum.Area.ToString(), model.GasVaporMW);
             model.dbmodel.GasVaporMW = model.VaporMW;
-            model.dbmodel.ExposedVesse = UnitConvert.Convert(model.VesselUnit, UOMLib.UOMEnum.Area.ToString(), model.Vessel.Value);
-            model.dbmodel.NormaTemperature = UnitConvert.Convert(model.TemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.Temperature.Value);
-            model.dbmodel.NormalPressure = UnitConvert.Convert(model.PressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.Pressure.Value);
-            model.dbmodel.PSVPressure = UnitConvert.Convert(model.PSVPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.PSVPressure.Value);
+            model.dbmodel.ExposedVesse = UnitConvert.Convert(model.VesselUnit, UOMLib.UOMEnum.Area.ToString(), model.Vessel);
+            model.dbmodel.NormaTemperature = UnitConvert.Convert(model.TemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.Temperature);
+            model.dbmodel.NormalPressure = UnitConvert.Convert(model.PressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.Pressure);
+            model.dbmodel.PSVPressure = UnitConvert.Convert(model.PSVPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.PSVPressure);
             model.dbmodel.TW = model.TW;
             //model.dbmodel.TW = uc.Convert(model.t, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
         }
