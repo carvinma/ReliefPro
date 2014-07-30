@@ -14,6 +14,8 @@ namespace ReliefProModel.ReactorLoops
         public virtual string ColdHighPressureSeparator { get; set; }
         public virtual string HXNetworkColdStream { get; set; }
         public virtual string InjectionWaterStream { get; set; }
+        public virtual string PSFile { get; set; }
+        public virtual string PSVersion { get; set; }
 
         public virtual string EffluentStream_Color { get; set; }
         public virtual string ColdReactorFeedStream_Color { get; set; }
