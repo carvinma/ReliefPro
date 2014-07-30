@@ -45,8 +45,8 @@ namespace ReliefProMain.ViewModel.HXs
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
             OKCMD = new DelegateCommand<object>(Save);
-            lstExposedToFires = new List<string> { };
-            lstTypes = new List<string> { };
+            lstExposedToFires = GetExposedToFires();
+            lstTypes = GetTypes();
             hxBLL = new HXBLL(SessionPS, SessionPF);
             var fireModel = hxBLL.GetHXFireSizeModel(ScenarioID);
             fireModel = hxBLL.ReadConvertHXFireSizeModel(fireModel);
@@ -84,6 +84,23 @@ namespace ReliefProMain.ViewModel.HXs
                     wd.DialogResult = true;
                 }
             }
+        }
+
+
+        public List<string> GetExposedToFires()
+        {
+            List<string> list = new List<string>();
+            list.Add("Shell");
+            list.Add("Tube");
+            return list;
+        }
+        public List<string> GetTypes()
+        {
+            List<string> list = new List<string>();
+            list.Add("Fixed");
+            list.Add("U-Tube");
+            list.Add("Floating head");
+            return list;
         }
     }
 }
