@@ -127,19 +127,19 @@ namespace ReliefProMain.ViewModel.Drums
             model.DesignPressureUnit = uomEnum.UserPressure;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
             model.NoneAllGas = !model.AllGas;
-            
+
             reliefPressure = ScenarioReliefPressure(SessionPS);
         }
         private void WriteConvertModel()
         {
-            model.dbmodel.WettedArea = UnitConvert.Convert(model.WettedAreaUnit, UOMLib.UOMEnum.Area.ToString(), model.WettedArea.Value);
-            model.dbmodel.LatentHeat = UnitConvert.Convert(model.LatentHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.LatentHeat.Value);
-            model.dbmodel.CrackingHeat = UnitConvert.Convert(model.CrackingHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.CrackingHeat.Value);
-            model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad.Value);
-            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure.Value);
-            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature.Value);
-            model.dbmodel.DesignPressure = UnitConvert.Convert(model.DesignPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.DesignPressure.Value);
-            
+            model.dbmodel.WettedArea = UnitConvert.Convert(model.WettedAreaUnit, UOMLib.UOMEnum.Area.ToString(), model.WettedArea);
+            model.dbmodel.LatentHeat = UnitConvert.Convert(model.LatentHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.LatentHeat);
+            model.dbmodel.CrackingHeat = UnitConvert.Convert(model.CrackingHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.CrackingHeat);
+            model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad);
+            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
+            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
+            model.dbmodel.DesignPressure = UnitConvert.Convert(model.DesignPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.DesignPressure);
+
             model.dbmodel.ReliefMW = model.ReliefMW;
             model.dbmodel.ReliefCpCv = model.ReliefCpCv;
             model.dbmodel.ReliefZ = model.ReliefZ;
@@ -147,7 +147,7 @@ namespace ReliefProMain.ViewModel.Drums
             model.dbmodel.AllGas = model.AllGas;
             model.dbmodel.EquipmentExist = model.EquipmentExist;
             model.dbmodel.HeatInputModel = selectedHeatInputModel;
-            
+
         }
         private void OpenDrumSize(object obj)
         {
@@ -155,7 +155,7 @@ namespace ReliefProMain.ViewModel.Drums
             {
                 DrumSizeView win = new DrumSizeView();
                 win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                DrumSizeVM vm = new DrumSizeVM(model.dbmodel.ID,SessionProtectedSystem, SessionPlant);
+                DrumSizeVM vm = new DrumSizeVM(model.dbmodel.ID, SessionProtectedSystem, SessionPlant);
                 if (tmpVM != null) vm = tmpVM;
                 win.DataContext = vm;
                 if (win.ShowDialog() == true)
@@ -214,7 +214,7 @@ namespace ReliefProMain.ViewModel.Drums
 
                     }
                     if (hxFireSize != null)
-                        Area = Algorithm.GetHXArea(hxFireSize.ExposedToFire,hxFireSize.Type,hxFireSize.Length.Value,hxFireSize.OD.Value);
+                        Area = Algorithm.GetHXArea(hxFireSize.ExposedToFire, hxFireSize.Type, hxFireSize.Length.Value, hxFireSize.OD.Value);
                     model.WettedArea = Area;
                 }
             }
@@ -339,10 +339,10 @@ namespace ReliefProMain.ViewModel.Drums
                 double pn = UnitConvert.Convert("MPag", "psia", fireFluidModel.NormalPressure.Value);
                 double p1 = UnitConvert.Convert("MPag", "psia", fireFluidModel.PSVPressure.Value * 1.21);
                 double t1 = 0;
-                double w= Algorithm.GetFullVaporW(mw, p1, area, tw, pn, tn, ref t1);
+                double w = Algorithm.GetFullVaporW(mw, p1, area, tw, pn, tn, ref t1);
                 if (t1 >= tw)
                 {
-                    MessageBox.Show("T1 could not be greater than TW","Message Box");
+                    MessageBox.Show("T1 could not be greater than TW", "Message Box");
                     return;
                 }
                 double reliefLoad = UnitConvert.Convert("Kg/hr", "lb/hr", w);
@@ -353,7 +353,7 @@ namespace ReliefProMain.ViewModel.Drums
             }
             else
             {
-                
+
                 if (model.LatentHeat == 0)
                 {
                     //取出liquid stream
@@ -442,19 +442,19 @@ namespace ReliefProMain.ViewModel.Drums
                 MessageBox.Show("Design Pressure could not be negative");
                 return;
             }
-            if (designPressure>1.034 && selectedHeatInputModel=="API 2000")
+            if (designPressure > 1.034 && selectedHeatInputModel == "API 2000")
             {
                 MessageBox.Show("Becasue Design Pressure is greater,Heat Input Model must be API 521");
-                SelectedHeatInputModel = "API 521";                
+                SelectedHeatInputModel = "API 521";
             }
-            
-            double area=model.WettedArea.Value;
-            double F=1;
-            double L=1;
-            double T=1;
-            double M=1;
-            
-            
+
+            double area = model.WettedArea.Value;
+            double F = 1;
+            double L = 1;
+            double T = 1;
+            double M = 1;
+
+
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionProtectedSystem);
             double pressure = psv.Pressure.Value;
@@ -490,7 +490,7 @@ namespace ReliefProMain.ViewModel.Drums
                 model.ReliefLoad = Q / L;
                 model.ReliefMW = 114;
                 model.ReliefTemperature = 400;
-                
+
             }
             else
             {
@@ -541,7 +541,7 @@ namespace ReliefProMain.ViewModel.Drums
                             }
 
                             model.ReliefLoad = Q / latent;
-                            model.ReliefMW =vaporFire.BulkMwOfPhase.Value;
+                            model.ReliefMW = vaporFire.BulkMwOfPhase.Value;
                             model.ReliefPressure = reliefFirePressure;
                             model.ReliefTemperature = vaporFire.Temperature.Value;
                             if (vaporFire.BulkCPCVRatio != null)
@@ -600,7 +600,7 @@ namespace ReliefProMain.ViewModel.Drums
 
                     model.ReliefLoad = Q / latent;
                     FlashCalcResultDAL flashCalcResultDAL = new FlashCalcResultDAL();
-                    FlashCalcResult flashCalcResult = flashCalcResultDAL.GetModel(SessionProtectedSystem,ScenarioID);
+                    FlashCalcResult flashCalcResult = flashCalcResultDAL.GetModel(SessionProtectedSystem, ScenarioID);
                     if (flashCalcResult != null)
                     {
                         model.ReliefPressure = flashCalcResult.ReliefPressure;
@@ -609,14 +609,14 @@ namespace ReliefProMain.ViewModel.Drums
                         model.ReliefCpCv = flashCalcResult.ReliefCpCv;
                         model.ReliefZ = flashCalcResult.ReliefZ;
                     }
-                   
+
                 }
-                
+
             }
-            
-        
-        
-        
+
+
+
+
         }
 
         private void CalcHX()
@@ -832,7 +832,7 @@ namespace ReliefProMain.ViewModel.Drums
             var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
             if (psvModel != null)
             {
-                if (psvModel.Pressure!=null)
+                if (psvModel.Pressure != null)
                     return psvModel.Pressure.Value * psvModel.ReliefPressureFactor.Value;
             }
             return 0;
