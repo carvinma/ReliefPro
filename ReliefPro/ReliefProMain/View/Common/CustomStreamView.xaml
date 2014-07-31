@@ -45,7 +45,7 @@
 
                 <Label Content="{DynamicResource Presressure_Mpag}"   Grid.Row="4"  Grid.Column="1" Margin="0,0,0,1"/>
                 <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}"   Text="{Binding CurrentModel.Temperature,Mode=TwoWay}" VerticalAlignment="Top"  Grid.Row="4" Grid.Column="2" />
-                <Label Content="{DynamicResource Workflow_Kg_hr)}"   Grid.Row="5"  Grid.Column="1"/>
+                <Label Content="{DynamicResource Workflow_Kg_hr}"   Grid.Row="5"  Grid.Column="1"/>
                 <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblWeightFlow,Path=Content,Mode=TwoWay}"   Text="{Binding CurrentModel.WeightFlow,Mode=TwoWay}"   Grid.Row="5" Grid.Column="2" />
 
                 <Label Content="{DynamicResource SpH_KJ_Kg}"   Grid.Row="6"  Grid.Column="1"/>
