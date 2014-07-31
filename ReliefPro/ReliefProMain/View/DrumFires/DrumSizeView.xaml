@@ -2,57 +2,61 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-        Title="{DynamicResource DrumSizeViewTitle}" Height="420" Width="570">
+        Title="{DynamicResource DrumSizeViewTitle}" Height="398" Width="570">
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*"></RowDefinition>
-            <RowDefinition Height="33*"></RowDefinition>
-            <RowDefinition Height="22*"></RowDefinition>
-            <RowDefinition Height="33*"></RowDefinition>
-            <RowDefinition Height="32*"></RowDefinition>
-            <RowDefinition Height="33*"></RowDefinition>
-            <RowDefinition Height="32*"></RowDefinition>
-            <RowDefinition Height="33*"></RowDefinition>
-            <RowDefinition Height="32*"></RowDefinition>
-            <RowDefinition Height="33*"></RowDefinition>
-            <RowDefinition Height="32*"></RowDefinition>
-            <RowDefinition Height="55*"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="290"></ColumnDefinition>
+            <ColumnDefinition Width="80"></ColumnDefinition>
+            <ColumnDefinition Width="200"></ColumnDefinition>
             <ColumnDefinition Width="125"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="50"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Content="{DynamicResource Orientation}"  Grid.Row="1" HorizontalAlignment="Right"/>
-        <Label Content="{DynamicResource Elevation}" Grid.Row="3" HorizontalAlignment="Right"/>
-        <Label Content="{DynamicResource Diameter}"  Grid.Row="4" HorizontalAlignment="Right"/>
-        <Label Content="{DynamicResource Length}" Grid.Row="5" HorizontalAlignment="Right"/>
-        <Label Content="{DynamicResource NormalLiquidLevel}" Grid.Row="6" HorizontalAlignment="Right"/>
-        <Label Content="{DynamicResource Headnumber}" Grid.Row="7" HorizontalAlignment="Right"/>
-        <Label Content="{DynamicResource HeadType}" Grid.Row="8" HorizontalAlignment="Right"/>
-        <Label Content="{DynamicResource BootDiameter}" Grid.Row="9" HorizontalAlignment="Right"/>
-        <Label Content="{DynamicResource BootHeight}" Grid.Row="10" HorizontalAlignment="Right"/>
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Elevation,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblElevation,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="3"/>
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Diameter,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblDiameter,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="4"/>
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Length,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLength,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="5"/>
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.NormalLiquidLevel,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblNormalLiquidLevel,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="6"/>
-        <TextBox Text="{Binding Path=model.Headnumber,Mode=TwoWay}" Grid.Column="1"  Grid.Row="7"/>
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.BootDiameter,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblBootDiameter,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="9"/>
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.BootHeight,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblBootHeight,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="10"/>
-        <Label x:Name="lblElevation" Content="{Binding model.ElevationUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Left"/>
-        <Label x:Name="lblDiameter" Content="{Binding model.DiameterUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Left"/>
-        <Label x:Name="lblLength" Content="{Binding model.LengthUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="5" HorizontalAlignment="Left"/>
-        <Label x:Name="lblNormalLiquidLevel" Content="{Binding model.NormalLiquidLevelUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="6" HorizontalAlignment="Left"/>
-        <Label x:Name="lblBootDiameter" Content="{Binding model.BootDiameterUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="9" HorizontalAlignment="Left"/>
-        <Label x:Name="lblBootHeight" Content="{Binding model.BootHeightUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="10" HorizontalAlignment="Left"/>
+        <Label Content="{DynamicResource Orientation}"  Grid.Row="1" Grid.Column="1"/>
+        <Label Content="{DynamicResource Elevation}" Grid.Row="3" Grid.Column="1"/>
+        <Label Content="{DynamicResource Diameter}"  Grid.Row="4" Grid.Column="1"/>
+        <Label Content="{DynamicResource Length}" Grid.Row="5" Grid.Column="1"/>
+        <Label Content="{DynamicResource NormalLiquidLevel}" Grid.Row="6" Grid.Column="1"/>
+        <Label Content="{DynamicResource Headnumber}" Grid.Row="7" Grid.Column="1"/>
+        <Label Content="{DynamicResource HeadType}" Grid.Row="8" Grid.Column="1"/>
+        <Label Content="{DynamicResource BootDiameter}" Grid.Row="9" Grid.Column="1"/>
+        <Label Content="{DynamicResource BootHeight}" Grid.Row="10" Grid.Column="1"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Elevation,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblElevation,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="3"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Diameter,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblDiameter,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="4"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Length,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLength,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="5"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.NormalLiquidLevel,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblNormalLiquidLevel,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="6"/>
+        <TextBox Text="{Binding Path=model.Headnumber,Mode=TwoWay}" Grid.Column="2"  Grid.Row="7"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.BootDiameter,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblBootDiameter,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="9"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.BootHeight,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblBootHeight,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="10"/>
+        <Label x:Name="lblElevation" Content="{Binding model.ElevationUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="3" HorizontalAlignment="Left"/>
+        <Label x:Name="lblDiameter" Content="{Binding model.DiameterUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="4" HorizontalAlignment="Left"/>
+        <Label x:Name="lblLength" Content="{Binding model.LengthUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="5" HorizontalAlignment="Left"/>
+        <Label x:Name="lblNormalLiquidLevel" Content="{Binding model.NormalLiquidLevelUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="6" HorizontalAlignment="Left"/>
+        <Label x:Name="lblBootDiameter" Content="{Binding model.BootDiameterUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="9" HorizontalAlignment="Left"/>
+        <Label x:Name="lblBootHeight" Content="{Binding model.BootHeightUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="10" HorizontalAlignment="Left"/>
         
         <ComboBox  ItemsSource="{Binding lstOrientation, Mode=OneWay}" 
-						SelectedItem="{Binding SelectedOrientation,Mode=TwoWay}" Grid.Column="1" Height="25" Grid.Row="1" Width="120"/>
+						SelectedItem="{Binding SelectedOrientation,Mode=TwoWay}" Grid.Column="2" Height="25" Grid.Row="1" Width="120"/>
         <ComboBox ItemsSource="{Binding lstHeadType, Mode=OneWay}" 
-						SelectedItem="{Binding SelectedHeadType,Mode=TwoWay}" Grid.Column="1" Grid.Row="8" Height="25" Width="120"/>
+						SelectedItem="{Binding SelectedHeadType,Mode=TwoWay}" Grid.Column="2" Grid.Row="8" Height="25" Width="120"/>
 
-        <Grid HorizontalAlignment="Stretch" Height="52"  Grid.Row="15" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+        <Grid HorizontalAlignment="Stretch" Height="35"  Grid.Row="11" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -62,16 +66,14 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="5"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
             <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1" VerticalAlignment="Center" Height="1" Grid.Row="0" Grid.ColumnSpan="4" ></Border>
-            <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=DrumSizeWin}" Grid.Column="1" Grid.Row="1"  Width="75"  Height="25"/>
-            <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="2"  Grid.Row="1" Width="75" Height="25"/>
-            <StatusBar  HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Bottom" Grid.ColumnSpan="4" >
-                <Label></Label>
-            </StatusBar>
+            <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=DrumSizeWin}" Grid.Column="1" Grid.Row="1"/>
+            <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="2"  Grid.Row="1"/> 
         </Grid>
+        <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="12" VerticalAlignment="Bottom" Grid.ColumnSpan="5" >
+            <Label></Label>
+        </StatusBar>
 
-       
     </Grid>
 </Window>
