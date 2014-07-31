@@ -61,8 +61,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 ObservableCollection<string> list = GetProIIStreamNames();
                 
-                model.ColdHighPressureSeparatorSource = new ObservableCollection<string> { };
-                model.HotHighPressureSeparatorSource = new ObservableCollection<string> { };
+                model.ColdHighPressureSeparatorSource = GetProIIFlashs();
+                model.HotHighPressureSeparatorSource = GetProIIFlashs();
                 model.EffluentStreamSource = list;
                 model.ColdReactorFeedStreamSource = list;
                 model.HXNetworkColdStreamSource = list;
@@ -93,6 +93,17 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
             return rlt;
         }
+        private ObservableCollection<string> GetProIIFlashs()
+        {
+            ObservableCollection<string> rlt = new ObservableCollection<string>();
+            ProIIEqDataDAL dal = new ProIIEqDataDAL();
+            IList<ProIIEqData> list = dal.GetAllList(SessionPF, PrzFile, "Flash");
+            foreach (ProIIEqData eq in list)
+            {              
+                rlt.Add(eq.EqName);
+            }
+            return rlt;
+        }
         private ObservableCollection<ReactorLoopDetail> GetProIIHXs(int reactorType)
         {
             ObservableCollection<ReactorLoopDetail> rlt = new ObservableCollection<ReactorLoopDetail>();
@@ -116,6 +127,15 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 ReactorLoopDetail d = new ReactorLoopDetail();
                 d.DetailInfo = eq.EqName;
+                d.ReactorType = 2;
+                rlt.Add(d);
+            }
+            IList<ProIIEqData> list2 = dal.GetAllList(SessionPF, PrzFile, "Spliter");
+            foreach (ProIIEqData eq in list2)
+            {
+                ReactorLoopDetail d = new ReactorLoopDetail();
+                d.DetailInfo = eq.EqName;
+                d.ReactorType = 2;
                 rlt.Add(d);
             }
             return rlt;
