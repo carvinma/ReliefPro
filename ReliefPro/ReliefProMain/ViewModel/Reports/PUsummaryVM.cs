@@ -101,6 +101,7 @@ namespace ReliefProMain.ViewModel.Reports
             if (PU == null) { PU = new PUsummary(); PU.UnitID = UnitID; }
             CreateControl(reportBLL.GetDisChargeTo());
 
+            reportBLL.ClearSession();
             model = new PUsummaryModel(PU);
             model.listGrid = new List<PUsummaryGridDS>();
             InitModel("ALL");
