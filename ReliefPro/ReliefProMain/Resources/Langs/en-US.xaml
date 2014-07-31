@@ -30,7 +30,7 @@
     <s:String x:Key="VabFrac">VapFrac</s:String>
     <s:String x:Key="Temperature">Temperature</s:String>
     <s:String x:Key="Presressure_Mpag">Pressure(Mpag)</s:String>
-    <s:String x:Key="Workflow_Kg_hr)">FlowRate(Kg/hr)</s:String>
+    <s:String x:Key="Workflow_Kg_hr">FlowRate(Kg/hr)</s:String>
     <s:String x:Key="SpH_KJ_Kg">Sp H(KJ/Kg)</s:String>
 
     <!--FireView.xaml-->
@@ -139,7 +139,7 @@
     <!--DEPRColumnDetailsView.xaml-->
     <s:String x:Key="DEPRColumnDetailsViewTitle">DEPRColumnDetails</s:String>
     <s:String x:Key="Numberofsegment">Number of Segment</s:String> 
-    <s:String x:Key="segment">Segment</s:String> ?
+    <s:String x:Key="segment">Segment</s:String>
     <s:String x:Key="Internal">Internal</s:String>
     <s:String x:Key="ofactualtrays_orvoidfrac"># of Actual Trays/or Void Frac.</s:String>
     <s:String x:Key="totalheight_m">Total Height,m</s:String>
@@ -180,7 +180,7 @@
     <!--DrumDepressureView.xaml-->
     <s:String x:Key="DrumDepressureViewTitle">DEPR</s:String>
     <s:String x:Key="InitialPressure">Initial Pressure</s:String>
-    <s:String x:Key="VaporDensit">Vapor Density</s:String> ?
+    <s:String x:Key="VaporDensit">Vapor Density</s:String>
     <s:String x:Key="TotalVaporVolume">Total Vapor Volume</s:String>
     <s:String x:Key="Vesseldesignpressure">Vessel Design Pressure</s:String>
     <s:String x:Key="DepressuringRequirements">Depressuring Requirements</s:String>
