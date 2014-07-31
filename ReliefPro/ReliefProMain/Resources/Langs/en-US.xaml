@@ -24,13 +24,13 @@
     
     <!--CustomStreamView.xaml-->
     <s:String x:Key="CustomStreamViewTitle">1(Stream)</s:String>
-    <s:String x:Key="1_Stream">1(Stream)</s:String>
+    <s:String x:Key="1Stream">1(Stream)</s:String>
     <s:String x:Key="StreamName">Stream Name</s:String>
     <s:String x:Key="Description">Description</s:String>
     <s:String x:Key="VabFrac">VapFrac</s:String>
     <s:String x:Key="Temperature">Temperature</s:String>
     <s:String x:Key="Presressure_Mpag">Pressure(Mpag)</s:String>
-    <s:String x:Key="Workflow_Kg_hr">FlowRate(Kg/hr)</s:String>
+    <s:String x:Key="WorkflowKghr">FlowRate(Kg/hr)</s:String>
     <s:String x:Key="SpH_KJ_Kg">Sp H(KJ/Kg)</s:String>
 
     <!--FireView.xaml-->
