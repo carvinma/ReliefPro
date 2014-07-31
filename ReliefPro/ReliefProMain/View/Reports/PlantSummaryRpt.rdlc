@@ -57,7 +57,7 @@
               <Width>1.57396cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.5cm</Width>
+              <Width>4.98709cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -1887,7 +1887,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!PowerReliefRate.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1938,7 +1940,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!PowerVolumeRate.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1989,7 +1993,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!PowerMWorSpGr.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2040,7 +2046,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!PowerT.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2091,7 +2099,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!WaterReliefRate.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2142,7 +2152,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!WaterVolumeRate.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2193,7 +2205,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!WaterMWorSpGr.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2244,7 +2258,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!WaterT.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2295,7 +2311,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!AirReliefRate.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2346,7 +2364,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!AirVolumeRate.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2397,7 +2417,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!AirMWorSpGr.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2448,7 +2470,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!AirT.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2499,7 +2523,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!ScenarioReliefRate.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2550,7 +2576,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!ScenarioVolumeRate.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2601,7 +2629,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!ScenarioMWorSpGr.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2652,7 +2682,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!ScenarioT.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2703,7 +2735,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!ScenarioName.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2885,7 +2919,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=First(Fields!Power.Value, "PlantEffectFactorDS")</Value>
-                              <Style />
+                              <Style>
+                                <Format>N2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2925,6 +2961,7 @@
                       </Style>
                     </Textbox>
                     <ColSpan>4</ColSpan>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -2940,7 +2977,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=First(Fields!Water.Value, "PlantEffectFactorDS")</Value>
-                              <Style />
+                              <Style>
+                                <Format>N2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -2980,6 +3019,7 @@
                       </Style>
                     </Textbox>
                     <ColSpan>4</ColSpan>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -2995,7 +3035,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=First(Fields!Air.Value, "PlantEffectFactorDS")</Value>
-                              <Style />
+                              <Style>
+                                <Format>N2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -3035,6 +3077,7 @@
                       </Style>
                     </Textbox>
                     <ColSpan>4</ColSpan>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -3237,7 +3280,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Last(Fields!Power.Value, "PlantEffectFactorDS")</Value>
-                              <Style />
+                              <Style>
+                                <Format>N2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -3277,6 +3322,7 @@
                       </Style>
                     </Textbox>
                     <ColSpan>4</ColSpan>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -3292,7 +3338,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Last(Fields!Water.Value, "PlantEffectFactorDS")</Value>
-                              <Style />
+                              <Style>
+                                <Format>N2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -3332,6 +3380,7 @@
                       </Style>
                     </Textbox>
                     <ColSpan>4</ColSpan>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -3347,7 +3396,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Last(Fields!Air.Value, "PlantEffectFactorDS")</Value>
-                              <Style />
+                              <Style>
+                                <Format>N2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -3387,6 +3438,7 @@
                       </Style>
                     </Textbox>
                     <ColSpan>4</ColSpan>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -3502,7 +3554,7 @@
         <DataSetName>PlantDS</DataSetName>
         <Top>1.45203cm</Top>
         <Height>4.03521cm</Height>
-        <Width>39.9962cm</Width>
+        <Width>42.48329cm</Width>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -3773,7 +3825,7 @@
     <Height>2.29575in</Height>
     <Style />
   </Body>
-  <Width>15.74654in</Width>
+  <Width>16.72571in</Width>
   <Page>
     <PageHeight>29.7cm</PageHeight>
     <PageWidth>21cm</PageWidth>
