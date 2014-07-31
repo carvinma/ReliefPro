@@ -16,7 +16,7 @@
         </Grid.ColumnDefinitions>
             <Canvas Name="CanChart" Grid.ColumnSpan="2">
             <Grid Name="GridChart" >
-                <dc:Chart Name="mcChart" Width="700"  Height="400"  Background="LightSteelBlue"  Margin="0,0,10,0">
+                <dc:Chart Name="mcChart" Width="700" Title="RateCurve" Height="400"  Background="LightSteelBlue"  Margin="0,0,10,0">
                     <dc:Chart.Series>
                         <dc:LineSeries Title="Rate"  IndependentValueBinding="{Binding Path=Key}" 
  DependentValueBinding="{Binding Path=Value}"/>
