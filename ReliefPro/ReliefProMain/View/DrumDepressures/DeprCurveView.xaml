@@ -5,18 +5,19 @@
         Title="{DynamicResource DeprCurveViewTitle}" Height="500" Width="710" Loaded="Window_Loaded">
   <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="410*"/>
-            <RowDefinition Height="50*"/>
-            <RowDefinition Height="16*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="405*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="500*"/>
-            <ColumnDefinition Width="190*"/>
-            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="682*"/>
+            <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
-            <Canvas Name="CanChart" Grid.ColumnSpan="2">
-            <Grid Name="GridChart" >
-                <dc:Chart Name="mcChart" Width="700"  Height="400"  Background="LightSteelBlue"  Margin="0,0,10,0">
+            <Canvas Name="CanChart" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" >
+            <Grid Name="GridChart" Width="682" Height="405">
+                <dc:Chart Name="mcChart" Background="LightSteelBlue">
                     <dc:Chart.Series>
                         <dc:LineSeries Title="{DynamicResource Depr}"  IndependentValueBinding="{Binding Path=Key}" 
  DependentValueBinding="{Binding Path=Value}"/>
@@ -24,8 +25,8 @@
                 </dc:Chart>
             </Grid>
         </Canvas>
-        <Button Content="{DynamicResource OK}"  HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Width="75"/>
-        <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="4" >
+        <Button Content="{DynamicResource OK}"  Grid.Column="1" Grid.Row="2" />
+        <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="3" >
             <Label></Label>
         </StatusBar>
     </Grid>
