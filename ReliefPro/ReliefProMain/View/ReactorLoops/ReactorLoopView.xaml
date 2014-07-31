@@ -116,7 +116,7 @@
         </GroupBox>
         <GroupBox Header="{DynamicResource UtilityHX}" HorizontalAlignment="Left"  Grid.Row="12"  Height="140" Grid.RowSpan="5" Width="300" Grid.Column="3">
             <Grid>
-                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=ObcUtilityHXSource,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}"  Grid.Row="1" >
+                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=model.ObcUtilityHXSource,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}"  Grid.Row="1" >
                     <ListView.View>
                         <GridView >
                             <GridViewColumn Header="{DynamicResource HXName}" Width="150px" >
@@ -155,7 +155,7 @@
         </GroupBox>
         <GroupBox Header="{DynamicResource Mixer_Splitter}" HorizontalAlignment="Left"  Grid.Row="17"  Height="120" Grid.RowSpan="5" Width="300" Grid.Column="3">
             <Grid>
-                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding ObcMixerSplitterSource, Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel, Mode=OneWayToSource}"  >
+                <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding model.ObcMixerSplitterSource, Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel, Mode=OneWayToSource}"  >
                     <ListView.View>
                         <GridView >
                             <GridViewColumn Header="{DynamicResource SplitterName}" Width="150px" >

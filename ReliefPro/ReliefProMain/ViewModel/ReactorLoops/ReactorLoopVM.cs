@@ -70,16 +70,12 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcProcessHXSource = GetProIIHXs(0);
                 model.ObcUtilityHXSource = GetProIIHXs(1);
                 model.ObcMixerSplitterSource = GetProIIMixers();
-                //model.ObcProcessHXSource = new ObservableCollection<ReactorLoopDetail> { 
-               // new ReactorLoopDetail { ID=0, ReactorType=0, ReactorLoopID=reactorLoopID,DetailInfo="" },
-            //};
-                
-                //model.ObcUtilityHXSource = new ObservableCollection<ReactorLoopDetail> { 
-                 //new ReactorLoopDetail { ID=0, ReactorType=1, ReactorLoopID=reactorLoopID,DetailInfo="" },
-            //};
-                //model.ObcMixerSplitterSource = new ObservableCollection<ReactorLoopDetail> { 
-                // new ReactorLoopDetail { ID=0, ReactorType=2, ReactorLoopID=reactorLoopID,DetailInfo="" },
-            //};
+
+                model.ObcProcessHX = new ObservableCollection<ReactorLoopDetail>();
+                model.ObcUtilityHX = new ObservableCollection<ReactorLoopDetail>();
+                model.ObcMixerSplitter = new ObservableCollection<ReactorLoopDetail>();
+
+            
             }
         }
         private ObservableCollection<string> GetProIIStreamNames()

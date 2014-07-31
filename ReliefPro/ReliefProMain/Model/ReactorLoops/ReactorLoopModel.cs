@@ -157,12 +157,70 @@ namespace ReliefProMain.Model.ReactorLoops
             }
         }
 
-        public ObservableCollection<ReactorLoopDetail> ObcProcessHX { get; set; }
-        public ObservableCollection<ReactorLoopDetail> ObcUtilityHX { get; set; }
-        public ObservableCollection<ReactorLoopDetail> ObcMixerSplitter { get; set; }
+        private ObservableCollection<ReactorLoopDetail> obcProcessHX;
+        public ObservableCollection<ReactorLoopDetail> ObcProcessHX
+        {
+            get { return obcProcessHX; }
+            set
+            {
+                obcProcessHX = value;
+                this.NotifyPropertyChanged("ObcProcessHX");
+            }
+        }
 
-        public ObservableCollection<ReactorLoopDetail> ObcProcessHXSource { get; set; }
-        public ObservableCollection<ReactorLoopDetail> ObcUtilityHXSource { get; set; }
-        public ObservableCollection<ReactorLoopDetail> ObcMixerSplitterSource { get; set; }
+        private ObservableCollection<ReactorLoopDetail> obcUtilityHX;
+        public ObservableCollection<ReactorLoopDetail> ObcUtilityHX
+        {
+            get { return obcUtilityHX; }
+            set
+            {
+                obcUtilityHX = value;
+                this.NotifyPropertyChanged("ObcUtilityHX");
+            }
+        }
+
+        private ObservableCollection<ReactorLoopDetail> obcMixerSplitter;
+        public ObservableCollection<ReactorLoopDetail> ObcMixerSplitter
+        {
+            get { return obcMixerSplitter; }
+            set
+            {
+                obcMixerSplitter = value;
+                this.NotifyPropertyChanged("ObcMixerSplitter");
+            }
+        }
+
+        private ObservableCollection<ReactorLoopDetail> obcProcessHXSource;
+        public ObservableCollection<ReactorLoopDetail> ObcProcessHXSource
+        {
+            get { return obcProcessHXSource; }
+            set
+            {
+                obcProcessHXSource = value;
+                this.NotifyPropertyChanged("ObcProcessHXSource");
+            }
+        }
+        
+        private ObservableCollection<ReactorLoopDetail> obcUtilityHXSource;
+        public ObservableCollection<ReactorLoopDetail> ObcUtilityHXSource
+        {
+            get { return obcUtilityHXSource; }
+            set
+            {
+                obcUtilityHXSource = value;
+                this.NotifyPropertyChanged("ObcUtilityHXSource");
+            }
+        }
+
+        private ObservableCollection<ReactorLoopDetail> obcMixerSplitterSource;
+        public ObservableCollection<ReactorLoopDetail> ObcMixerSplitterSource
+        {
+            get { return obcMixerSplitterSource; }
+            set
+            {
+                obcMixerSplitterSource = value;
+                this.NotifyPropertyChanged("ObcMixerSplitterSource");
+            }
+        }
     }
 }

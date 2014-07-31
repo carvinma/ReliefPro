@@ -281,7 +281,7 @@ namespace ProII92
                     }
                 }
             }
-            else if (otype == "Hx" || otype == "Simple Hx")
+            else if (otype == "Hx" )
             {
                 foreach (string s in arrHxAttributes)
                 {
