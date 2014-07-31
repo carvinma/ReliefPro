@@ -123,15 +123,7 @@
 
 
         <avalonDock:DockingManager VerticalAlignment="Stretch" Grid.Row="2" x:Name="dockManager" AllowMixedOrientation="True" DocumentClosing="dockManager_DocumentClosing">
-            <avalonDock:DockingManager.DocumentHeaderTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="{Binding IconSource}" Margin="0,0,4,0"/>
-                        <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
-                    </StackPanel>
-                </DataTemplate>
-            </avalonDock:DockingManager.DocumentHeaderTemplate>
-            <avalonDock:LayoutRoot PropertyChanged="OnLayoutRootPropertyChanged">
+            <avalonDock:LayoutRoot>
                 <avalonDock:LayoutPanel>
                     <avalonDock:LayoutAnchorablePaneGroup DockWidth="250" >
                         <avalonDock:LayoutAnchorablePane>
@@ -179,15 +171,10 @@
                         </avalonDock:LayoutAnchorablePane>
                     </avalonDock:LayoutAnchorablePaneGroup>
                     
-                    <avalonDock:LayoutDocumentPaneGroup>
                         <avalonDock:LayoutDocumentPane >
-
                         </avalonDock:LayoutDocumentPane>
-                    </avalonDock:LayoutDocumentPaneGroup>
                     
                 </avalonDock:LayoutPanel>
-
-
             </avalonDock:LayoutRoot>
         </avalonDock:DockingManager>
     </Grid>
