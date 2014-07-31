@@ -23,6 +23,7 @@ namespace ReliefProLL
         private GlobalDefaultDAL globalDefaultDAL = new GlobalDefaultDAL();
         private PSVDAL psvDAL = new PSVDAL();
         private ISession ProcessUnitSession;
+        private volatile List<ISession> lstSession;
         private ScenarioDAL scenarioDAL = new ScenarioDAL();
         public ConcurrentBag<PSV> PSVBag;
         public ConcurrentBag<Scenario> ScenarioBag;
@@ -39,9 +40,12 @@ namespace ReliefProLL
         private string ProcessUnitName;
         List<double?> tmpResult = new List<double?>();
         public ReportBLL()
-        { }
+        {
+            lstSession = new List<ISession>();
+        }
         public ReportBLL(int UnitID, List<string> ProcessUnitReportPath)
         {
+            lstSession = new List<ISession>();
             this.UnitID = UnitID;
             PSVBag = new ConcurrentBag<PSV>();
             ScenarioBag = new ConcurrentBag<Scenario>();
@@ -335,18 +339,26 @@ namespace ReliefProLL
         {
             ProcessUnitReportPath.AsParallel().ForAll(p =>
             {
-                NHibernateHelper helperProtectedSystem = new NHibernateHelper(p);
-                var tmpSession = helperProtectedSystem.GetCurrentSession();
-                if (p.Contains("plant.mdb"))
+                var findSession = lstSession.Find(s => s.Connection.ConnectionString == p);
+                if (findSession == null)
                 {
-                    ProcessUnitSession = tmpSession;
-                    GetProcessUnitName(tmpSession);
+                    NHibernateHelper helperProtectedSystem = new NHibernateHelper(p);
+                    findSession = helperProtectedSystem.GetCurrentSession();
+                    lstSession.Add(findSession);
+
+                    if (p.Contains("plant.mdb"))
+                    {
+                        //ReportPlanSession.PlantSession = tmpSession;
+                        ProcessUnitSession = findSession;
+                        GetProcessUnitName(findSession);
+                    }
+                    else
+                    {
+                        GetPSVInfo(findSession);
+                        GetScenarioInfo(findSession);
+                    }
                 }
-                else
-                {
-                    GetPSVInfo(tmpSession);
-                    GetScenarioInfo(tmpSession);
-                }
+
 
             });
             //Parallel.ForEach(ReportPath, (p, loopState) =>
@@ -361,6 +373,15 @@ namespace ReliefProLL
             //countdown.Signal();
             //countdown.Wait();
             InitInfo();
+        }
+
+        public void ClearSession()
+        {
+            foreach (ISession session in lstSession)
+            {
+                session.Close();
+                session.Dispose();
+            }
         }
         #endregion
 

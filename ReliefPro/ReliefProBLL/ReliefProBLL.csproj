@@ -88,6 +88,7 @@
     <Compile Include="ReactorLoopBLL.cs" />
     <Compile Include="ReadFromPro.cs" />
     <Compile Include="ReportBLL.cs" />
+    <Compile Include="ReportPlanSession.cs" />
     <Compile Include="SystemUnitInfo.cs" />
     <Compile Include="UnitTypeInfo.cs" />
     <Compile Include="DrumSizeBLL.cs" />
