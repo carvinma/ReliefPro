@@ -3405,7 +3405,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!SetPressure.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -3507,7 +3509,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!ScenarioReliefRate.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -3609,7 +3613,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!ScenarioMWorSpGr.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -3660,7 +3666,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!ScenarioT.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -3711,7 +3719,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!ScenarioZ.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -3813,7 +3823,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!PowerReliefRate.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -3915,7 +3927,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!PowerMWorSpGr.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -3966,7 +3980,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!PowerT.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -4017,7 +4033,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!PowerZ.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -4068,7 +4086,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!WaterReliefRate.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -4170,7 +4190,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!WaterMWorSpGr.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -4221,7 +4243,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!WaterT.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -4272,7 +4296,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!WaterZ.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -4323,7 +4349,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!AirReliefRate.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -4425,7 +4453,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!AirMWorSpGr.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -4476,7 +4506,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!AirT.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -4527,7 +4559,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!AirZ.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -4578,7 +4612,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!SteamReliefRate.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -4680,7 +4716,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!SteamMWorSpGr.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -4731,7 +4769,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!SteamT.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -4782,7 +4822,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!SteamZ.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -4833,7 +4875,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!FireReliefRate.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -4935,7 +4979,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!FireMWorSpGr.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -4986,7 +5032,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!FireT.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -5037,7 +5085,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!FireZ.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -5149,7 +5199,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Max(Fields!ScenarioReliefRate.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -7097,7 +7149,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Sum(Fields!PowerReliefRate.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -7204,7 +7258,9 @@ iif(IsNothing(Fields!PowerReliefRate.Value)
 or IsNothing(Fields!PowerMWorSpGr.Value) 
 Or Fields!PowerMWorSpGr.Value=0,Nothing,
 Fields!PowerReliefRate.Value/Fields!PowerMWorSpGr.Value)))</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -7264,7 +7320,9 @@ Fields!PowerReliefRate.Value/Fields!PowerMWorSpGr.Value/
 		 or Fields!PowerMWorSpGr.Value=0,Nothing,
 		 Fields!PowerReliefRate.Value/Fields!PowerMWorSpGr.Value))
 		 )*Fields!PowerT.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -7324,7 +7382,9 @@ Fields!PowerReliefRate.Value/Fields!PowerMWorSpGr.Value/
 		 or Fields!PowerMWorSpGr.Value=0,Nothing,
 		 Fields!PowerReliefRate.Value/Fields!PowerMWorSpGr.Value))
 		 )*Fields!PowerZ.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -7375,7 +7435,9 @@ Fields!PowerReliefRate.Value/Fields!PowerMWorSpGr.Value/
                           <TextRuns>
                             <TextRun>
                               <Value>=Sum(Fields!WaterReliefRate.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -7482,7 +7544,9 @@ iif(IsNothing(Fields!WaterReliefRate.Value)
 or IsNothing(Fields!WaterMWorSpGr.Value) 
 Or Fields!WaterMWorSpGr.Value=0,Nothing,
 Fields!WaterReliefRate.Value/Fields!WaterMWorSpGr.Value)))</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -7542,7 +7606,9 @@ Fields!WaterReliefRate.Value/Fields!WaterMWorSpGr.Value/
 		 or Fields!WaterMWorSpGr.Value=0,Nothing,
 		 Fields!WaterReliefRate.Value/Fields!WaterMWorSpGr.Value))
 		 )*Fields!WaterT.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -7602,7 +7668,9 @@ Fields!WaterReliefRate.Value/Fields!WaterMWorSpGr.Value/
 		 or Fields!WaterMWorSpGr.Value=0,Nothing,
 		 Fields!WaterReliefRate.Value/Fields!WaterMWorSpGr.Value))
 		 )*Fields!WaterZ.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -7653,7 +7721,9 @@ Fields!WaterReliefRate.Value/Fields!WaterMWorSpGr.Value/
                           <TextRuns>
                             <TextRun>
                               <Value>=Sum(Fields!AirReliefRate.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -7760,7 +7830,9 @@ iif(IsNothing(Fields!AirReliefRate.Value)
 or IsNothing(Fields!AirMWorSpGr.Value) 
 Or Fields!AirMWorSpGr.Value=0,Nothing,
 Fields!AirReliefRate.Value/Fields!AirMWorSpGr.Value)))</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -7820,7 +7892,9 @@ Fields!AirReliefRate.Value/Fields!AirMWorSpGr.Value/
 		 or Fields!AirMWorSpGr.Value=0,Nothing,
 		 Fields!AirReliefRate.Value/Fields!AirMWorSpGr.Value))
 		 )*Fields!AirT.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -7880,7 +7954,9 @@ Fields!AirReliefRate.Value/Fields!AirMWorSpGr.Value/
 		 or Fields!AirMWorSpGr.Value=0,Nothing,
 		 Fields!AirReliefRate.Value/Fields!AirMWorSpGr.Value))
 		 )*Fields!AirZ.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -7931,7 +8007,9 @@ Fields!AirReliefRate.Value/Fields!AirMWorSpGr.Value/
                           <TextRuns>
                             <TextRun>
                               <Value>=Sum(Fields!SteamReliefRate.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -8038,7 +8116,9 @@ iif(IsNothing(Fields!SteamReliefRate.Value)
 or IsNothing(Fields!SteamMWorSpGr.Value) 
 Or Fields!SteamMWorSpGr.Value=0,Nothing,
 Fields!SteamReliefRate.Value/Fields!SteamMWorSpGr.Value)))</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -8098,7 +8178,9 @@ Fields!SteamReliefRate.Value/Fields!SteamMWorSpGr.Value/
 		 or Fields!SteamMWorSpGr.Value=0,Nothing,
 		 Fields!SteamReliefRate.Value/Fields!SteamMWorSpGr.Value))
 		 )*Fields!SteamT.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -8158,7 +8240,9 @@ Fields!SteamReliefRate.Value/Fields!SteamMWorSpGr.Value/
 		 or Fields!SteamMWorSpGr.Value=0,Nothing,
 		 Fields!SteamReliefRate.Value/Fields!SteamMWorSpGr.Value))
 		 )*Fields!SteamZ.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -8209,7 +8293,9 @@ Fields!SteamReliefRate.Value/Fields!SteamMWorSpGr.Value/
                           <TextRuns>
                             <TextRun>
                               <Value>=Sum(Fields!FireReliefRate.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -8316,7 +8402,9 @@ iif(IsNothing(Fields!FireReliefRate.Value)
 or IsNothing(Fields!FireMWorSpGr.Value) 
 Or Fields!FireMWorSpGr.Value=0,Nothing,
 Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value)))</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -8376,7 +8464,9 @@ Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
 		 or Fields!FireMWorSpGr.Value=0,Nothing,
 		 Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value))
 		 )*Fields!FireT.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -8436,7 +8526,9 @@ Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
 		 or Fields!FireMWorSpGr.Value=0,Nothing,
 		 Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value))
 		 )*Fields!FireZ.Value)</Value>
-                              <Style />
+                              <Style>
+                                <Format>F2</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
