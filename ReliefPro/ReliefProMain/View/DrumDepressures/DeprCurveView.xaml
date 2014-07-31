@@ -22,6 +22,10 @@
                         <dc:LineSeries Title="{DynamicResource Depr}"  IndependentValueBinding="{Binding Path=Key}" 
  DependentValueBinding="{Binding Path=Value}"/>
                     </dc:Chart.Series>
+                    <dc:Chart.Axes>
+                        <dc:LinearAxis Orientation="X" Title="Time(min)"  Minimum="0" />
+                        <dc:LinearAxis Title="Pressure(Mpag)" Orientation="Y" Minimum="0"/>
+                    </dc:Chart.Axes>
                 </dc:Chart>
             </Grid>
         </Canvas>

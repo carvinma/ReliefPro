@@ -25,7 +25,8 @@ namespace ReliefProMain.View.DrumDepressures
             InitializeComponent();
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
-        {           
+        {
+            ((LineSeries)this.mcChart.Series[0]).DependentRangeAxis = new LinearAxis() { Orientation = AxisOrientation.Y, Minimum = 0 };
             ((LineSeries)this.mcChart.Series[0]).ItemsSource = ChartSource;
         }
     }
