@@ -3,82 +3,70 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
         Title="{DynamicResource ReactorLoopBlockedOutletViewTitle}" Height="330" Width="500">
-    <Window.Resources>
-        <Style TargetType="RowDefinition">
-            <Setter Property="Height" Value="30"></Setter>
-        </Style>
-        <Style TargetType="Label">
-            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Margin" Value="56,5,0,0"></Setter>
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Height" Value="23"></Setter>
-            <Setter Property="Width" Value="120"></Setter>
-            <Setter Property="TextWrapping" Value="Wrap"></Setter>
-        </Style>
-        <Style TargetType="{x:Type CustomControl:UnitConvertTextBox}">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Height" Value="23"/>
-            <Setter Property="Width" Value="120"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-        </Style>
-        <Style TargetType="ComboBox">
-            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Height" Value="23"></Setter>
-            <Setter Property="Width" Value="120"></Setter>
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-        </Style>
-        <Style x:Key="LabelLeftStyle">
-            <Setter Property="Control.HorizontalAlignment" Value="Left"></Setter>
-            <Setter Property="Control.VerticalAlignment" Value="Center"></Setter>
-        </Style>
-    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="58"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition Width="80"></ColumnDefinition>
+            <ColumnDefinition Width="180"></ColumnDefinition>
             <ColumnDefinition Width="130"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="{DynamicResource Maxmakeupgasrate}"  Grid.Row="0"/>
-        <Label Content="{DynamicResource Totalreactorpurgerate}"  Grid.Row="1"/>
-        <Label Content="{DynamicResource ReliefLoad}"  Grid.Row="3"/>
-        <Label Content="{DynamicResource ReliefTemperature}"  Grid.Row="4"/>
-        <Label Content="{DynamicResource ReliefMW}"  Grid.Row="5"/>
-        <Label Visibility="Hidden" Content="{DynamicResource ReliefCp_Cv}"  Grid.Row="6"/>
-        <Label Visibility="Hidden" Content="{DynamicResource ReliefZ}"  Grid.Row="7"/>
-        <Label x:Name="lblMaxGasRate" Content="{Binding model.MaxGasRateUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2"  Grid.Row="0"/>
-        <Label x:Name="lblTotalPurgeRate" Content="{Binding model.TotalPurgeRateUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2"  Grid.Row="1"/>
-        <Label x:Name="lblReliefLoad" Content="{Binding model.ReliefLoadUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2"  Grid.Row="3"/>
-        <Label x:Name="lblReliefTemperature" Content="{Binding model.ReliefTemperatureUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="4"/>
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.MaxGasRate}" UnitOrigin="{Binding ElementName=lblMaxGasRate,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="0"/>
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.TotalPurgeRate}" UnitOrigin="{Binding ElementName=lblTotalPurgeRate,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="1"/>
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefLoad}" UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="3"/>
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefTemperature}" UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="4"/>
-        <TextBox Text="{Binding Path=model.ReliefMW}" Grid.Column="1" Grid.Row="5"/>
-        <TextBox Visibility="Hidden" Text="{Binding Path=model.ReliefCpCv}" Grid.Column="1" Grid.Row="6"/>
-        <TextBox Visibility="Hidden" Text="{Binding Path=model.ReliefZ}" Grid.Column="1" Grid.Row="7"/>
+        <Label Content="{DynamicResource Maxmakeupgasrate}"  Grid.Row="1" Grid.Column="1"/>
+        <Label Content="{DynamicResource Totalreactorpurgerate}"  Grid.Row="2" Grid.Column="1"/>
+        <Label Content="{DynamicResource ReliefLoad}"  Grid.Row="4" Grid.Column="1"/>
+        <Label Content="{DynamicResource ReliefTemperature}"  Grid.Row="5" Grid.Column="1"/>
+        <Label Content="{DynamicResource ReliefMW}"  Grid.Row="6" Grid.Column="1"/>
+        <Label Visibility="Hidden" Content="{DynamicResource ReliefCp_Cv}"  Grid.Row="7" Grid.Column="1"/>
+        <Label Visibility="Hidden" Content="{DynamicResource ReliefZ}"  Grid.Row="8" Grid.Column="1"/>
+        <Label x:Name="lblMaxGasRate" Content="{Binding model.MaxGasRateUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3"  Grid.Row="1"/>
+        <Label x:Name="lblTotalPurgeRate" Content="{Binding model.TotalPurgeRateUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3"  Grid.Row="2"/>
+        <Label x:Name="lblReliefLoad" Content="{Binding model.ReliefLoadUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3"  Grid.Row="4"/>
+        <Label x:Name="lblReliefTemperature" Content="{Binding model.ReliefTemperatureUnit}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="5"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.MaxGasRate}" UnitOrigin="{Binding ElementName=lblMaxGasRate,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="1"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.TotalPurgeRate}" UnitOrigin="{Binding ElementName=lblTotalPurgeRate,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="2"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefLoad}" UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="4"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.ReliefTemperature}" UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="5"/>
+        <TextBox Text="{Binding Path=model.ReliefMW}" Grid.Column="2" Grid.Row="6"/>
+        <TextBox Visibility="Hidden" Text="{Binding Path=model.ReliefCpCv}" Grid.Column="2" Grid.Row="7"/>
+        <TextBox Visibility="Hidden" Text="{Binding Path=model.ReliefZ}" Grid.Column="2" Grid.Row="8"/>
 
-        <Button Content="{DynamicResource Calculate}" Command="{Binding CalcCMD}" Grid.Column="0" Height="25" Grid.Row="2" Width="130" />
-        <Button Content="{DynamicResource Finish}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=ReactorBlockWin}" Grid.Column="0" Height="25" Grid.Row="8" Width="75" />
-        <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="1" Height="25" Grid.Row="8" Width="75" />
+        <Button Content="{DynamicResource Calculate}" Command="{Binding CalcCMD}" Grid.Column="1"  Grid.Row="3"  />
+
+        <Grid HorizontalAlignment="Stretch" Height="58" Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1" VerticalAlignment="top" Height="1" Grid.Row="0" Grid.ColumnSpan="5" ></Border>
+            <Button Content="{DynamicResource Finish}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=ReactorBlockWin}" Grid.Column="1" Grid.Row="1"  />
+            <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="3"  Grid.Row="1" />
+            <StatusBar HorizontalAlignment="Stretch" Height="25"  Grid.Row="2"  Grid.ColumnSpan="5">
+                <Label></Label>
+            </StatusBar>
+        </Grid>
+
+        
     </Grid>
 </Window>
