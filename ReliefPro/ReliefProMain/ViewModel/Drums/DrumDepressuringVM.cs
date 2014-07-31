@@ -129,7 +129,7 @@ namespace ReliefProMain.ViewModel.Drums
             model.dbmodel.VaporDensity = UnitConvert.Convert(model.VaporDensityUnit, UOMLib.UOMEnum.Density.ToString(), model.VaporDensity);
             model.dbmodel.TotalVaporVolume = UnitConvert.Convert(model.TotalVaporVolumeUnit, UOMLib.UOMEnum.Volume.ToString(), model.TotalVaporVolume);
             model.dbmodel.Vesseldesignpressure = UnitConvert.Convert(model.VesseldesignpressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.Vesseldesignpressure);
-            model.dbmodel.TotalWettedArea = UnitConvert.Convert(model.TotalWettedAreaUnit, UOMLib.UOMEnum.Area.ToString(), model.TotalWettedArea.Value);
+            model.dbmodel.TotalWettedArea = UnitConvert.Convert(model.TotalWettedAreaUnit, UOMLib.UOMEnum.Area.ToString(), model.TotalWettedArea);
             //model.dbmodel.ValveConstantforSonicFlow = uc.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
             model.dbmodel.InitialDepressuringRate = UnitConvert.Convert(model.InitialDepressuringRateUnit, UOMLib.UOMEnum.MassRate.ToString(), model.InitialDepressuringRate);
             model.dbmodel.Timespecify = UnitConvert.Convert(model.TimespecifyUnit, UOMLib.UOMEnum.Time.ToString(), model.Timespecify);
