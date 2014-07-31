@@ -11,13 +11,9 @@
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </DockPanel.Background>
             <ToolBarTray >
-                <ToolBar Height="30" VerticalAlignment="Top"  HorizontalAlignment="Left" Width="998" BorderBrush="SlateBlue" BorderThickness="1,1,1,1"  >
-                    <Button Name="btnProperty" ToolTip="Property" VerticalAlignment="Center"  Click="ToolbarButton_Click">
-                        <Image Source="/images/property.png"  ></Image>
-                    </Button>
-                    <Separator/>
+                <ToolBar Height="30" VerticalAlignment="Top"  HorizontalAlignment="Left" Width="998" BorderBrush="SlateBlue" BorderThickness="1,1,1,1"  >                    
                     <Button x:Name="btnPSV" ToolTip="PSV" VerticalAlignment="Center"  Click="ToolbarButton_Click">
-                        <Image Source="/images/compute.ico" x:Name="btnPSV1" ></Image>
+                        <Image Source="/images/property.png" x:Name="btnPSV1" ></Image>
                     </Button>
                     <Separator/>
                     <Button Name="btnScenario" ToolTip="Scenario" VerticalAlignment="Center"  Click="ToolbarButton_Click" >

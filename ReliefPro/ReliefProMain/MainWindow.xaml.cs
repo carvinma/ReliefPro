@@ -658,9 +658,9 @@ namespace ReliefProMain
                             doc.Content = ucDrawingControl;
                             ucDrawingControl.Tag = data;
 
-
+                            doc.IsActive = true;
                             firstDocumentPane.Children.Add(doc);
-                            visioControl = ucDrawingControl.visioControl;
+                           visioControl = ucDrawingControl.visioControl;
                         }
                     }
 

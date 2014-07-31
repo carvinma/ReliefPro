@@ -177,6 +177,7 @@
     <Compile Include="Model\HXs\AirCooledHXFireSizeModel.cs" />
     <Compile Include="Model\HXs\HXBlockedOutletModel.cs" />
     <Compile Include="Model\HXs\HXFireSizeModel.cs" />
+    <Compile Include="Model\HXs\TubeRuptureModel.cs" />
     <Compile Include="Model\ModelBase.cs" />
     <Compile Include="Model\PSVModel.cs" />
     <Compile Include="Model\ReactorLoops\GeneralFailureCommonModel.cs" />
@@ -223,6 +224,7 @@
     <Compile Include="ViewModel\HXs\HeatExchangerVM.cs" />
     <Compile Include="ViewModel\HXs\HXBlockedOutletVM.cs" />
     <Compile Include="ViewModel\HXs\HXFireSizeVM.cs" />
+    <Compile Include="ViewModel\HXs\TubeRuptureVM.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
     <Compile Include="ViewModel\Mode.cs" />
     <Compile Include="ViewModel\MultiValueConverter.cs" />
@@ -281,8 +283,11 @@
     <Compile Include="View\Compressors\CompressorView.xaml.cs">
       <DependentUpon>CompressorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DrumDepressures\DeprCurveView.xaml.cs">
-      <DependentUpon>DeprCurveView.xaml</DependentUpon>
+    <Compile Include="View\DrumDepressures\RateCurveView.xaml.cs">
+      <DependentUpon>RateCurveView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DrumDepressures\PressureCurveView.xaml.cs">
+      <DependentUpon>PressureCurveView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\GlobalDefault\GlobalDefaultView.xaml.cs">
       <DependentUpon>GlobalDefaultView.xaml</DependentUpon>
@@ -544,7 +549,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\DrumDepressures\DeprCurveView.xaml">
+    <Page Include="View\DrumDepressures\RateCurveView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DrumDepressures\PressureCurveView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

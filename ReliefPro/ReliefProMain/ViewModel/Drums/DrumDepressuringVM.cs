@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using System.Windows;
+
 using NHibernate;
 using ReliefProLL;
 using ReliefProMain.Commands;
@@ -18,6 +20,9 @@ namespace ReliefProMain.ViewModel.Drums
         public ICommand CalcCMD { get; set; }
         public ICommand DetailedCMD { get; set; }
         public ICommand DepressuringCurveCMD { get; set; }
+        
+        private KeyValuePair<int, double>[] Wt=new KeyValuePair<int,double>[16];
+        private KeyValuePair<int, double>[] Pt=new KeyValuePair<int,double>[16];
         private string selectedShotCut = "Shortcut";
         public string SelectedShotCut
         {
@@ -56,6 +61,7 @@ namespace ReliefProMain.ViewModel.Drums
             set
             {
                 selectedDeprRqe = value;
+                
                 OnPropertyChanged("SelectedDeprRqe");
             }
         }
@@ -87,7 +93,7 @@ namespace ReliefProMain.ViewModel.Drums
 
             lstShortCut = new List<string>(new[] { "Shortcut", "PROII DEPR Unit" });
             lstDeprRqe = new List<string>{
-                "21bar/min","7bar/min","50% Design pressure in 15min","7barg in 15min","Specify"};
+                "21bar/min","7bar/min","15min to 50% Design pressure","15min to 7barg","Specify"};
             lstHeatInput = new List<string>(new[] { "API 521", "API 521 Scale", "API 2000", "API 2000 Scale" });
 
             drumBLL = new DrumDepressuringBLL(SessionPS, SessionPF);
@@ -141,24 +147,76 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void Calc(object obj)
         {
+            double tConstant = 0;
+            double tRequire = 0;
+            double pRequire = 0;
+            switch (selectedDeprRqe)
+            {
+                case "21bar/min":
+                    pRequire = model.InitialPressure.Value - 2.1;
+                    tRequire = 1.0 / 60;
 
+                    break;
+                case "7bar/min":
+                    pRequire = model.InitialPressure.Value - 0.7;
+                    tRequire = 1.0 / 60;
+                    break;
+                case "15min to 50% Design pressure":
+                    pRequire = model.Vesseldesignpressure.Value / 2;
+                    tRequire = 15.0 / 60;
+                    break;
+                case "15min to 7barg":
+                    pRequire = 0.7;
+                    tRequire = 15.0 / 60;
+                    break;
+                default:
+                    break;
+            }
+            if (pRequire <= 0)
+            {
+                MessageBox.Show("P t_require can't be smaller than zero", "Message Box");
+                return;
+            }
+            tConstant = tRequire / Math.Log(model.InitialPressure.Value / pRequire);
+            double wInitDepr = model.VaporDensity.Value * model.TotalVaporVolume.Value / tConstant;
+            Wt[0] = new KeyValuePair<int, double>(0, wInitDepr);
+            Pt[0] = new KeyValuePair<int, double>(0, model.InitialPressure.Value);
+            for (int i = 1; i <= 15; i++)
+            {
+                double j = i/60.0;
+                double exp=Math.Exp(-1.0 * j / tConstant);
+                double tmpWt =wInitDepr *exp ;
+                double tmpPt =model.InitialPressure.Value * exp;
+                decimal dd=(decimal)tmpPt;
+                Wt[i] = new KeyValuePair<int, double>(i, tmpWt);
+                Pt[i] = new KeyValuePair<int, double>(i, tmpPt);                
+            }
+            model.InitialDepressuringRate = wInitDepr;
+            model.Timespecify = (int)(tConstant*60);
+            model.CalculatedDepressuringRate = wInitDepr * Math.Exp(-1);
+            model.CalculatedVesselPressure = model.InitialPressure.Value *Math.Exp(-1);
 
-
+            //下列值需要保存到
+            double reliefLoad = wInitDepr;
+            double reliefPressure = model.InitialPressure.Value;
+            double reliefMW = 0;
+            double reliefTemperature = 0;
+            
         }
         private void CalcDetailed(object obj)
         {
         }
         private void DepressuringCurve(object obj)
         {
-            DeprCurveView v = new DeprCurveView();
-            v.ChartSource = new KeyValuePair<int, double>[]{
-                 new KeyValuePair<int,double>(1,400),
-                 new KeyValuePair<int,double>(2,200),
-                 new KeyValuePair<int,double>(3,300),
-                 new KeyValuePair<int,double>(4,320),
-                 new KeyValuePair<int,double>(5,150)};
+            RateCurveView v = new RateCurveView();
+            
+            v.WtSource = Wt;
             v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-            v.ShowDialog();
+            v.Show();
+            PressureCurveView v2 = new PressureCurveView();
+            v2.PtSource = Pt;
+            v2.WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;
+            v2.Show();
 
         }
         private void Save(object obj)
