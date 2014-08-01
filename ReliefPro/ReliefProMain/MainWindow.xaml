@@ -123,6 +123,9 @@
 
 
         <avalonDock:DockingManager VerticalAlignment="Stretch" Grid.Row="2" x:Name="dockManager" AllowMixedOrientation="True" DocumentClosing="dockManager_DocumentClosing">
+            <avalonDock:DockingManager.Theme>
+                <avalonDock:AeroTheme/>
+            </avalonDock:DockingManager.Theme>
             <avalonDock:LayoutRoot>
                 <avalonDock:LayoutPanel>
                     <avalonDock:LayoutAnchorablePaneGroup DockWidth="250" >

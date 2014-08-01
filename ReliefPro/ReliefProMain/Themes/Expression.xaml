@@ -34,9 +34,7 @@
     <SolidColorBrush x:Key="GlyphBrush" Color="#FFFFFFFF" />
     <SolidColorBrush x:Key="BackBrush" Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
    
-    <Style TargetType="{x:Type Grid}">
-        <Setter Property="Background" Value="{DynamicResource BackBrush}" />
-    </Style>
+   
     <Style TargetType="{x:Type Window}">
         <Setter Property="Background" Value="{DynamicResource BackBrush}" />
        
