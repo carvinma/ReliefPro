@@ -26,7 +26,7 @@ namespace ReliefProDAL.ReactorLoops
                 .Add(Expression.Eq("ReactorType", ReactorType)).List<ReactorLoopDetail>();
             return list;
         }
-        
+
         public void Save(ISession session, ReactorLoop model, IList<ReactorLoopDetail> lstDetailModel)
         {
             using (ITransaction tx = session.BeginTransaction())
@@ -34,14 +34,14 @@ namespace ReliefProDAL.ReactorLoops
                 try
                 {
                     session.SaveOrUpdate(model);
-                    var sql = "delete from tbReactorLoopDetail Where ReactorType in (0,1,2) and ReactorLoopID=" + model.ID;
+                    var sql = "from ReliefProModel.ReactorLoops.ReactorLoopDetail o Where o.ReactorType in (0,1,2) and o.ReactorLoopID=" + model.ID;
                     session.Delete(sql);
                     foreach (var detail in lstDetailModel)
                     {
                         detail.ReactorLoopID = model.ID;
                         session.Save(detail);
                     }
-                   
+
                     session.Flush();
                     tx.Commit();
                 }
