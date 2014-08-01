@@ -60,7 +60,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             if (!string.IsNullOrEmpty(PrzFile))
             {
                 ObservableCollection<string> list = GetProIIStreamNames();
-                
+
                 model.ColdHighPressureSeparatorSource = GetProIIFlashs();
                 model.HotHighPressureSeparatorSource = GetProIIFlashs();
                 model.EffluentStreamSource = list;
@@ -75,15 +75,15 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcUtilityHX = new ObservableCollection<ReactorLoopDetail>();
                 model.ObcMixerSplitter = new ObservableCollection<ReactorLoopDetail>();
 
-            
+
             }
         }
         private ObservableCollection<string> GetProIIStreamNames()
         {
             ObservableCollection<string> rlt = new ObservableCollection<string>();
             ProIIStreamDataDAL dal = new ProIIStreamDataDAL();
-            IList<ProIIStreamData> list = dal.GetAllList(SessionPF,PrzFile);
-            foreach(ProIIStreamData s in list)
+            IList<ProIIStreamData> list = dal.GetAllList(SessionPF, PrzFile);
+            foreach (ProIIStreamData s in list)
             {
                 rlt.Add(s.StreamName);
             }
@@ -95,7 +95,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             ProIIEqDataDAL dal = new ProIIEqDataDAL();
             IList<ProIIEqData> list = dal.GetAllList(SessionPF, PrzFile, "Flash");
             foreach (ProIIEqData eq in list)
-            {              
+            {
                 rlt.Add(eq.EqName);
             }
             return rlt;
@@ -104,7 +104,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         {
             ObservableCollection<ReactorLoopDetail> rlt = new ObservableCollection<ReactorLoopDetail>();
             ProIIEqDataDAL dal = new ProIIEqDataDAL();
-            IList<ProIIEqData> list = dal.GetAllList(SessionPF,PrzFile,"Hx");
+            IList<ProIIEqData> list = dal.GetAllList(SessionPF, PrzFile, "Hx");
             foreach (ProIIEqData eq in list)
             {
                 ReactorLoopDetail d = new ReactorLoopDetail();
@@ -137,7 +137,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             return rlt;
         }
 
-        public ReactorLoopVM(string przFile,string przVersion, ISession SessionPF,ISession SessionPS, string dirPlant,string dirProtectedSystem)
+        public ReactorLoopVM(string przFile, string przVersion, ISession SessionPF, ISession SessionPS, string dirPlant, string dirProtectedSystem)
         {
             model = new ReactorLoopModel();
             this.SessionPS = SessionPS;
@@ -162,44 +162,62 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
             else
             {
-                
+
             }
         }
         private void ProcessHXAdd(object obj)
         {
-            model.ObcProcessHX.Add(model.SelectedHXModel);
-            var find = model.ObcProcessHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 0);
-            model.ObcProcessHXSource.Remove(find);
+            if (model.SelectedHXModel != null)
+            {
+                model.ObcProcessHX.Add(model.SelectedHXModel);
+                var find = model.ObcProcessHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 0);
+                model.ObcProcessHXSource.Remove(find);
+            }
         }
         private void ProcessHXDel(object obj)
         {
-            model.ObcProcessHXSource.Add(model.SelectedHXModel);
-            var find = model.ObcProcessHX.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 0);
-            model.ObcProcessHX.Remove(find);
+            if (model.SelectedHXModel != null)
+            {
+                model.ObcProcessHXSource.Add(model.SelectedHXModel);
+                var find = model.ObcProcessHX.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 0);
+                model.ObcProcessHX.Remove(find);
+            }
         }
         private void UtilityHXAdd(object obj)
         {
-            model.ObcUtilityHX.Add(model.SelectedHXModel);
-            var find = model.ObcUtilityHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 0);
-            model.ObcUtilityHXSource.Remove(find);
+            if (model.SelectedHXModel != null)
+            {
+                model.ObcUtilityHX.Add(model.SelectedHXModel);
+                var find = model.ObcUtilityHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 1);
+                model.ObcUtilityHXSource.Remove(find);
+            }
         }
         private void UtilityHXDel(object obj)
         {
-            model.ObcUtilityHXSource.Add(model.SelectedHXModel);
-            var find = model.ObcUtilityHX.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 0);
-            model.ObcUtilityHX.Remove(find);
+            if (model.SelectedHXModel != null)
+            {
+                model.ObcUtilityHXSource.Add(model.SelectedHXModel);
+                var find = model.ObcUtilityHX.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 1);
+                model.ObcUtilityHX.Remove(find);
+            }
         }
         private void MixerSplitterAdd(object obj)
         {
-            model.ObcMixerSplitter.Add(model.SelectedHXModel);
-            var find = model.ObcMixerSplitterSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 0);
-            model.ObcMixerSplitter.Remove(find);
+            if (model.SelectedHXModel != null)
+            {
+                model.ObcMixerSplitter.Add(model.SelectedHXModel);
+                var find = model.ObcMixerSplitterSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 2);
+                model.ObcMixerSplitterSource.Remove(find);
+            }
         }
         private void MixerSplitterDel(object obj)
         {
-            model.ObcMixerSplitterSource.Add(model.SelectedHXModel);
-            var find = model.ObcMixerSplitter.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 0);
-            model.ObcMixerSplitter.Remove(find);
+            if (model.SelectedHXModel != null)
+            {
+                model.ObcMixerSplitterSource.Add(model.SelectedHXModel);
+                var find = model.ObcMixerSplitter.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 2);
+                model.ObcMixerSplitter.Remove(find);
+            }
         }
         private void Import(object obj)
         {
@@ -209,7 +227,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (view.ShowDialog() == true)
             {
-                PrzFile = vm.SelectedFile+".prz";
+                PrzFile = vm.SelectedFile + ".prz";
                 InitPage();
             }
         }
