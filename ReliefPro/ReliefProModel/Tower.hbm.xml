@@ -4,7 +4,8 @@
     <id name="ID" column="ID" type="Int32" unsaved-value="0">
       <generator class="identity" />
     </id>
-    <property name="TowerName" column="TowerName" type="String" length="255" />    
+    <property name="TowerName" column="TowerName" type="String" length="255" />
+    <property name="TowerType" column="TowerType" type="String" length="255" />
     <property name="Description" column="Description" type="String" length="255" />
     <property name="StageNumber" column="Stagenumber" type="Int32"  />
     <property name="TowerName_Color" column="TowerName_Color" type="String" length="255" />

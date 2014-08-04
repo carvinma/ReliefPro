@@ -16,20 +16,20 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="23"></RowDefinition>
+            <RowDefinition Height="37"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="3"></RowDefinition>
+            <RowDefinition Height="57"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="58"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="27"></RowDefinition>
+            <RowDefinition Height="66"></RowDefinition>
+            <RowDefinition Height="0*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"></ColumnDefinition>
@@ -38,24 +38,24 @@
             <ColumnDefinition Width="180*"/>
             <ColumnDefinition Width="20"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Content="{DynamicResource EffluentStream}"  Grid.Row="1"  Grid.Column="1"/>
-        <Label Content="{DynamicResource ColdReactorFeedStream}"  Grid.Row="2"   Grid.Column="1"/>
-        <Label Content="{DynamicResource HotHighPressureSeparator}"  Grid.Row="3"   Grid.Column="1"/>
-        <Label Content="{DynamicResource ColdHighPressureSeparator}"  Grid.Row="4"   Grid.Column="1"/>
+        <Label Content="{DynamicResource EffluentStream}"  Grid.Row="1"  Grid.Column="1" Height="26" Width="98"/>
+        <Label Content="{DynamicResource ColdReactorFeedStream}"  Grid.Row="2"   Grid.Column="1" Height="26" Width="159"/>
+        <Label Content="{DynamicResource HotHighPressureSeparator}"  Grid.Row="3"   Grid.Column="1" Height="26" Width="174"/>
+        <Label Content="{DynamicResource ColdHighPressureSeparator}"  Grid.Row="4"   Grid.Column="1" Height="26" Width="179"/>
 
-        <Label Content="{DynamicResource HXnetworkcoldstream}"  Grid.Row="5"   Grid.Column="1"/>
-        <Label Content="{DynamicResource Injectionwaterstream}"  Grid.Row="6"    Grid.Column="1"/>
+        <Label Content="{DynamicResource HXnetworkcoldstream}"  Grid.Row="5"   Grid.Column="1" Height="26" Width="154"/>
+        <Label Content="{DynamicResource Injectionwaterstream}"  Grid.Row="6"    Grid.Column="1" Height="26" Width="142"/>
         
 
         <ComboBox ItemsSource="{Binding Path=model.EffluentStreamSource}" SelectedItem="{Binding model.EffluentStream,Mode=TwoWay}" Grid.Column="2"   Grid.Row="1" />
-        <ComboBox ItemsSource="{Binding Path=model.ColdReactorFeedStreamSource}" SelectedItem="{Binding model.ColdFeedStream,Mode=TwoWay}" Grid.Column="2"   Grid.Row="2"  />
+        <ComboBox ItemsSource="{Binding Path=model.ColdReactorFeedStreamSource}" SelectedItem="{Binding model.ColdReactorFeedStream,Mode=TwoWay}" Grid.Column="2"   Grid.Row="2"  />
         <ComboBox ItemsSource="{Binding Path=model.HotHighPressureSeparatorSource}" SelectedItem="{Binding model.HotHighPressureSeparator,Mode=TwoWay}" Grid.Column="2"   Grid.Row="3"  />
         <ComboBox ItemsSource="{Binding Path=model.ColdHighPressureSeparatorSource}" SelectedItem="{Binding model.ColdHighPressureSeparator,Mode=TwoWay}" Grid.Column="2"   Grid.Row="4"  />
 
         <ComboBox ItemsSource="{Binding Path=model.HXNetworkColdStreamSource}" SelectedItem="{Binding model.HXNetworkColdStream,Mode=TwoWay}" Grid.Column="2"   Grid.Row="5" />
         <ComboBox ItemsSource="{Binding Path=model.InjectionWaterStreamSource}" SelectedItem="{Binding model.InjectionWaterStream,Mode=TwoWay}" Grid.Column="2"   Grid.Row="6" />
 
-        <GroupBox Header="{DynamicResource ProcessHX}" HorizontalAlignment="Left"  Grid.Row="7"  Grid.ColumnSpan="2" Height="140" Grid.RowSpan="5" Width="300" Grid.Column="1">
+        <GroupBox Header="{DynamicResource ProcessHX}" HorizontalAlignment="Left"  Grid.Row="7"  Grid.ColumnSpan="2" Grid.RowSpan="5" Width="300" Grid.Column="1" Margin="0,4,0,5">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=model.ObcProcessHX,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}"  Grid.Row="1" >
                     <ListView.View>
@@ -74,7 +74,7 @@
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="{DynamicResource ProcessHX}" HorizontalAlignment="Left"  Grid.Row="7"  Height="140" Grid.RowSpan="5" Width="300" Grid.Column="3">
+        <GroupBox Header="{DynamicResource ProcessHX}" HorizontalAlignment="Left"  Grid.Row="7" Grid.RowSpan="5" Width="300" Grid.Column="3" Margin="0,4,0,5">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=model.ObcProcessHXSource,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}"  Grid.Row="1" >
                     <ListView.View>
@@ -94,7 +94,7 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Header="{DynamicResource UtilityHX}" HorizontalAlignment="Left"  Grid.Row="12"  Grid.ColumnSpan="2" Height="140" Grid.RowSpan="5" Width="300" Grid.Column="1">
+        <GroupBox Header="{DynamicResource UtilityHX}" HorizontalAlignment="Left"  Grid.Row="12"  Grid.ColumnSpan="2" Grid.RowSpan="5" Width="300" Grid.Column="1" Margin="0,5,0,6">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=model.ObcUtilityHX,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}"  Grid.Row="1" >
                     <ListView.View>
@@ -114,7 +114,7 @@
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="{DynamicResource UtilityHX}" HorizontalAlignment="Left"  Grid.Row="12"  Height="140" Grid.RowSpan="5" Width="300" Grid.Column="3">
+        <GroupBox Header="{DynamicResource UtilityHX}" HorizontalAlignment="Left"  Grid.Row="12" Grid.RowSpan="5" Width="300" Grid.Column="3" Margin="0,5,0,6">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=model.ObcUtilityHXSource,Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}"  Grid.Row="1" >
                     <ListView.View>
@@ -134,7 +134,7 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Header="{DynamicResource Mixer_Splitter}" HorizontalAlignment="Left"  Grid.Row="17"  Grid.ColumnSpan="2" Height="120" Grid.RowSpan="5" Width="300" Grid.Column="1">
+        <GroupBox Header="{DynamicResource Mixer_Splitter}" HorizontalAlignment="Left"  Grid.Row="18"  Grid.ColumnSpan="2" Grid.RowSpan="4" Width="300" Grid.Column="1" Margin="0,0,0,15">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding model.ObcMixerSplitter, Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel, Mode=OneWayToSource}"  >
                     <ListView.View>
@@ -153,7 +153,7 @@
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="{DynamicResource Mixer_Splitter}" HorizontalAlignment="Left"  Grid.Row="17"  Height="120" Grid.RowSpan="5" Width="300" Grid.Column="3">
+        <GroupBox Header="{DynamicResource Mixer_Splitter}" HorizontalAlignment="Left"  Grid.Row="18" Grid.RowSpan="4" Width="300" Grid.Column="3" Margin="0,0,0,15">
             <Grid>
                 <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding model.ObcMixerSplitterSource, Mode=TwoWay}" SelectedItem="{Binding Path=model.SelectedHXModel, Mode=OneWayToSource}"  >
                     <ListView.View>
@@ -172,17 +172,17 @@
             </Grid>
         </GroupBox>
 
-        <Button Command="{Binding SimulationCMD}" Content="{DynamicResource Simulation}"  Grid.Row="22"  Grid.Column="1" />
-        <Button Command="{Binding ProcessHXAddCMD}" Content="&lt;--" Grid.Column="2" HorizontalAlignment="Right"  Grid.Row="9"  />
-        <Button Command="{Binding ProcessHXDelCMD}" Content="--&gt;" Grid.Column="2" HorizontalAlignment="Right"  Grid.Row="10"  />
-        <Button Command="{Binding UtilityHXAddCMD}" Content="&lt;--" Grid.Column="2" HorizontalAlignment="Right"  Grid.Row="14" />
-        <Button Command="{Binding UtilityHXDelCMD}" Content="--&gt;" Grid.Column="2" HorizontalAlignment="Right"  Grid.Row="15"  />
-        <Button Command="{Binding MixerSplitterAddCMD}" Content="&lt;--" Grid.Column="2" HorizontalAlignment="Right"  Grid.Row="19"  />
-        <Button Command="{Binding MixerSplitterDelCMD}" Content="--&gt;" Grid.Column="2" HorizontalAlignment="Right"  Grid.Row="20" />
+        <Button Command="{Binding SimulationCMD}" Content="{DynamicResource Simulation}"  Grid.Row="22"  Grid.Column="1" Margin="56,3,56,2" />
+        <Button Command="{Binding ProcessHXAddCMD}" Content="&lt;--" Grid.Column="2" HorizontalAlignment="Right"  Grid.Row="9" Margin="0,4"  />
+        <Button Command="{Binding ProcessHXDelCMD}" Content="--&gt;" Grid.Column="2" HorizontalAlignment="Right"  Grid.Row="10" Margin="0,4"  />
+        <Button Command="{Binding UtilityHXAddCMD}" Content="&lt;--" Grid.Column="2" HorizontalAlignment="Right"  Grid.Row="14" Margin="0,4" />
+        <Button Command="{Binding UtilityHXDelCMD}" Content="--&gt;" Grid.Column="2" HorizontalAlignment="Right"  Grid.Row="15" Margin="0,4"  />
+        <Button Command="{Binding MixerSplitterAddCMD}" Content="&lt;--" Grid.Column="2" HorizontalAlignment="Right"  Grid.Row="19" Margin="0,4"  />
+        <Button Command="{Binding MixerSplitterDelCMD}" Content="--&gt;" Grid.Column="2" HorizontalAlignment="Right"  Grid.Row="20" Margin="0,4" />
 
-        <Button Content="{DynamicResource ImportFromDatabase}" Command="{Binding ImportCMD}"   Grid.Column="3"  Grid.Row="1" Width="140"   />
+        <Button Content="{DynamicResource ImportFromDatabase}" Command="{Binding ImportCMD}"   Grid.Column="3"  Grid.Row="1" Width="140" Margin="146,4"   />
 
-        <Grid HorizontalAlignment="Stretch" Height="58" Grid.Row="23" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Stretch">
+        <Grid HorizontalAlignment="Stretch" Grid.Row="23" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />

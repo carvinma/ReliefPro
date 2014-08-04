@@ -36,6 +36,31 @@ namespace ReliefProDAL
 
             return model;
         }
+
+        public ProIIEqData GetModel(ISession session, string SourceFile, string EqName)
+        {
+            ProIIEqData model = null;
+            IList<ProIIEqData> list = null;
+            try
+            {
+                list = session.CreateCriteria<ProIIEqData>().Add(Expression.Eq("EqName", EqName)).Add(Expression.Eq("SourceFile", SourceFile)).List<ProIIEqData>();
+                if (list.Count > 0)
+                {
+                    model = list[0];
+                }
+                else
+                    model = null;
+            }
+            catch (Exception ex)
+            {
+                model = null;
+                throw ex;
+
+            }
+
+            return model;
+        }
+
         public IList<ProIIEqData> GetAllList(ISession session,string SourceFile,string EqType)
         {
             IList<ProIIEqData> list = null;

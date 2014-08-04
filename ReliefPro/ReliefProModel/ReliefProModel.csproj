@@ -168,7 +168,9 @@
     <EmbeddedResource Include="AbnormalHeaterDetail.hbm.xml" />
     <EmbeddedResource Include="ReactorLoops\GeneralFailureCommonDetail.hbm.xml" />
     <EmbeddedResource Include="ReactorLoops\GeneralFailureCommon.hbm.xml" />
-    <EmbeddedResource Include="ReactorLoops\ReactorLoopDetail.hbm.xml" />
+    <EmbeddedResource Include="ReactorLoops\ReactorLoopDetail.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="ReactorLoops\ReactorLoop.hbm.xml" />
     <EmbeddedResource Include="Sink.hbm.xml" />
     <EmbeddedResource Include="ReactorLoops\ReactorLoopCommon.hbm.xml" />
