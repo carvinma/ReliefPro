@@ -14,6 +14,7 @@ using ReliefProDAL;
 using ReliefProModel;
 using ReliefProMain.View;
 using System.IO;
+using System.Windows.Controls;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -42,7 +43,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         public ReactorLoopModel model { get; set; }
         private ReactorLoopBLL reactorBLL;
 
-        
+
         public List<string> streams = new List<string>();
 
         private void InitCMD()
@@ -58,6 +59,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
             MixerSplitterAddCMD = new DelegateCommand<object>(MixerSplitterAdd);
             MixerSplitterDelCMD = new DelegateCommand<object>(MixerSplitterDel);
+
         }
         private void InitPage()
         {
@@ -189,37 +191,37 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
         private void UtilityHXAdd(object obj)
         {
-            if (model.SelectedHXModel != null)
+            if (model.SelectedUtilityHXModel != null)
             {
-                model.ObcUtilityHX.Add(model.SelectedHXModel);
-                var find = model.ObcUtilityHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 1);
+                model.ObcUtilityHX.Add(model.SelectedUtilityHXModel);
+                var find = model.ObcUtilityHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedUtilityHXModel.DetailInfo && p.ReactorType == 1);
                 model.ObcUtilityHXSource.Remove(find);
             }
         }
         private void UtilityHXDel(object obj)
         {
-            if (model.SelectedHXModel != null)
+            if (model.SelectedUtilityHXModel != null)
             {
-                model.ObcUtilityHXSource.Add(model.SelectedHXModel);
-                var find = model.ObcUtilityHX.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 1);
+                model.ObcUtilityHXSource.Add(model.SelectedUtilityHXModel);
+                var find = model.ObcUtilityHX.FirstOrDefault(p => p.DetailInfo == model.SelectedUtilityHXModel.DetailInfo && p.ReactorType == 1);
                 model.ObcUtilityHX.Remove(find);
             }
         }
         private void MixerSplitterAdd(object obj)
         {
-            if (model.SelectedHXModel != null)
+            if (model.SelectedMixerModel != null)
             {
-                model.ObcMixerSplitter.Add(model.SelectedHXModel);
-                var find = model.ObcMixerSplitterSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 2);
+                model.ObcMixerSplitter.Add(model.SelectedMixerModel);
+                var find = model.ObcMixerSplitterSource.FirstOrDefault(p => p.DetailInfo == model.SelectedMixerModel.DetailInfo && p.ReactorType == 2);
                 model.ObcMixerSplitterSource.Remove(find);
             }
         }
         private void MixerSplitterDel(object obj)
         {
-            if (model.SelectedHXModel != null)
+            if (model.SelectedMixerModel != null)
             {
-                model.ObcMixerSplitterSource.Add(model.SelectedHXModel);
-                var find = model.ObcMixerSplitter.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 2);
+                model.ObcMixerSplitterSource.Add(model.SelectedMixerModel);
+                var find = model.ObcMixerSplitter.FirstOrDefault(p => p.DetailInfo == model.SelectedMixerModel.DetailInfo && p.ReactorType == 2);
                 model.ObcMixerSplitter.Remove(find);
             }
         }
@@ -286,12 +288,12 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 streams.Add(model.EffluentStream);
             }
 
-            
-            
 
-            string inpData = CreateReactorLoopInpData(DirPlant,streamList, eqList);
 
-            
+
+            string inpData = CreateReactorLoopInpData(DirPlant, streamList, eqList);
+
+
 
         }
         private void Save(object obj)
@@ -302,27 +304,44 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 if (wd != null)
                 {
                     var allSelectedInfo = new ObservableCollection<ReactorLoopDetail>();
-                    foreach (var hx in model.ObcProcessHX)
+                    if (model.ObcProcessHX != null)
                     {
-                        hx.ID = 0;
-                        allSelectedInfo.Add(hx);
+                        foreach (var hx in model.ObcProcessHX)
+                        {
+                            hx.ID = 0;
+                            allSelectedInfo.Add(hx);
+                        }
                     }
-                    foreach (var hx in model.ObcUtilityHX)
+                    if (model.ObcUtilityHX != null)
                     {
-                        hx.ID = 0;
-                        allSelectedInfo.Add(hx);
+                        foreach (var hx in model.ObcUtilityHX)
+                        {
+                            hx.ID = 0;
+                            allSelectedInfo.Add(hx);
+                        }
                     }
-                    foreach (var hx in model.ObcMixerSplitter)
+                    if (model.ObcMixerSplitter != null)
                     {
-                        hx.ID = 0;
-                        allSelectedInfo.Add(hx);
+                        foreach (var hx in model.ObcMixerSplitter)
+                        {
+                            hx.ID = 0;
+                            allSelectedInfo.Add(hx);
+                        }
                     }
-                    reactorBLL.Save(model.dbModel, allSelectedInfo);
+                    if (allSelectedInfo.Count > 0)
+                        reactorBLL.Save(model.dbModel, allSelectedInfo);
                     wd.DialogResult = true;
                 }
             }
         }
 
+        public void MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                ((Window)sender).DragMove();
+            }
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -330,17 +349,17 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         /// <param name="streamList"></param>
         /// <param name="details"></param>
         /// <returns></returns>
-        public  string CreateReactorLoopInpData(string rootDir, List<CustomStream> streamList, List<string> eqList)
+        public string CreateReactorLoopInpData(string rootDir, List<CustomStream> streamList, List<string> eqList)
         {
-           StringBuilder sb=new StringBuilder();
-           string[] files = Directory.GetFiles(rootDir, "*.inp");
+            StringBuilder sb = new StringBuilder();
+            string[] files = Directory.GetFiles(rootDir, "*.inp");
             string sourceFile = files[0];
             string[] lines = System.IO.File.ReadAllLines(sourceFile);
             List<int> list = new List<int>();
             int i = 0;
             while (i < lines.Length)
             {
-                string line=lines[i];
+                string line = lines[i];
                 if (line.Contains("STREAM DATA"))
                 {
                     sb.Append(line).Append("\n");
@@ -361,7 +380,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 {
                     string newStreamInfo = string.Empty;
                     lines = FindStreamInfo(lines, cs, ref newStreamInfo);
-                    newStreamInfos.Add(newStreamInfo);                    
+                    newStreamInfos.Add(newStreamInfo);
                 }
             }
             while (i < lines.Length)
@@ -386,7 +405,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 string line = lines[i];
                 if (line.Contains("UNIT OPERATIONS"))
-                {                    
+                {
                     sb.Append("UNIT OPERATIONS").Append("\n");
                     foreach (string eq in eqList)
                     {
@@ -406,7 +425,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             return sb.ToString();
         }
 
-        public string[] FindStreamInfo(string[] lines, CustomStream cs,ref string newStreamInfo)
+        public string[] FindStreamInfo(string[] lines, CustomStream cs, ref string newStreamInfo)
         {
             List<string> list = new List<string>();
             string PropStream = "PROPERTY STREAM=" + cs.StreamName.ToUpper();
@@ -429,7 +448,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             while (i < lines.Length)
             {
                 string line = lines[i];
-                if (line.Contains("  PROP") || line.Substring(0,2)!="  " )
+                if (line.Contains("  PROP") || line.Substring(0, 2) != "  ")
                 {
                     break;
                 }
@@ -445,8 +464,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 i++;
             }
             newStreamInfo = getStreamData(cs);
-            string[] newLines=new string[list.Count];
-            newLines=list.ToArray();
+            string[] newLines = new string[list.Count];
+            newLines = list.ToArray();
             return newLines;
         }
 
@@ -486,7 +505,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 }
             }
             return sb.ToString();
-            
+
         }
 
         private string getStreamData(CustomStream stream)
@@ -525,10 +544,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             return data1.ToString();
         }
 
-        private int removeTagInfo(string[] lines,int start,string tag)
+        private int removeTagInfo(string[] lines, int start, string tag)
         {
             int end = start;
-            int i=start;
+            int i = start;
             bool b = false;
             while (i < lines.Length)
             {
@@ -565,7 +584,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         {
             List<CustomStream> list = new List<CustomStream>();
             ProIIEqDataDAL eqdal = new ProIIEqDataDAL();
-            ProIIStreamDataDAL streamdal=new ProIIStreamDataDAL();
+            ProIIStreamDataDAL streamdal = new ProIIStreamDataDAL();
             foreach (string eq in eqList)
             {
                 ProIIEqData eqData = eqdal.GetModel(SessionPF, PrzFile, eq);
@@ -587,8 +606,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         }
                     }
                 }
-                    string productdata = eqData.ProductData;
-                if(!string.IsNullOrEmpty(productdata))
+                string productdata = eqData.ProductData;
+                if (!string.IsNullOrEmpty(productdata))
                 {
                     string[] products = productdata.Split(',');
                     foreach (string s in products)
@@ -610,7 +629,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
 
         private List<CustomStream> GetReactorLoopStreamsFromProII(string eqName)
-        {            
+        {
             ProIIEqDataDAL eqdal = new ProIIEqDataDAL();
             ProIIStreamDataDAL streamdal = new ProIIStreamDataDAL();
             List<CustomStream> list = new List<CustomStream>();
@@ -644,7 +663,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
         private CustomStream GetReactorLoopStreamInfoFromProII(string streamName)
         {
-            CustomStream cs = null ;            
+            CustomStream cs = null;
             string s = streamName;
             if (!streams.Contains(s) && !string.IsNullOrEmpty(s))
             {
@@ -652,7 +671,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 streams.Add(s);
                 ProIIStreamData piis = streamdal.GetModel(SessionPF, s, PrzFile);
                 cs = ProIIToDefault.ConvertProIIStreamToCustomStream(piis);
-                
+
             }
             return cs;
 

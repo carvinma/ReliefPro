@@ -157,6 +157,28 @@ namespace ReliefProMain.Model.ReactorLoops
             }
         }
 
+        private ReactorLoopDetail selectedUtilityHXModel;
+        public ReactorLoopDetail SelectedUtilityHXModel
+        {
+            get { return selectedUtilityHXModel; }
+            set
+            {
+                selectedUtilityHXModel = value;
+                this.NotifyPropertyChanged("SelectedUtilityHXModel");
+            }
+        }
+
+        private ReactorLoopDetail selectedMixerModel;
+        public ReactorLoopDetail SelectedMixerModel
+        {
+            get { return selectedMixerModel; }
+            set
+            {
+                selectedMixerModel = value;
+                this.NotifyPropertyChanged("SelectedMixerModel");
+            }
+        }
+
         private ObservableCollection<ReactorLoopDetail> obcProcessHX;
         public ObservableCollection<ReactorLoopDetail> ObcProcessHX
         {
@@ -200,7 +222,7 @@ namespace ReliefProMain.Model.ReactorLoops
                 this.NotifyPropertyChanged("ObcProcessHXSource");
             }
         }
-        
+
         private ObservableCollection<ReactorLoopDetail> obcUtilityHXSource;
         public ObservableCollection<ReactorLoopDetail> ObcUtilityHXSource
         {
