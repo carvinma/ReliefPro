@@ -242,6 +242,7 @@
     <Compile Include="ViewModel\ReactorLoops\GeneralFailureCommonVM.cs" />
     <Compile Include="ViewModel\ReactorLoops\ReactorLoopCommonVM.cs" />
     <Compile Include="ViewModel\ReactorLoops\ReactorLoopVM.cs" />
+    <Compile Include="ViewModel\ReactorLoops\ReactorLoopSimulationVM.cs" />
     <Compile Include="ViewModel\Reports\PlantSummaryVM.cs" />
     <Compile Include="ViewModel\Reports\PUsummaryVM.cs" />
     <Compile Include="ViewModel\Reports\ReportTreeVM.cs" />

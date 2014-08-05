@@ -681,11 +681,78 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         //get eq duty,ltmd, 然后讲HX的值进行替换。
 
 
+        private double GetLTMD(double tin,double tout,double Tin,double Tout)
+        {
+            double a=Tin-tout;
+            double b=Tout-tin;
+            double c=Math.Log(a/b);
+            double ltmd=(a-b)/c;
+            return ltmd;
+        }
 
+        private string[] ReplaceHXInfo(string[] lines, int start,string hxName, double duty)
+        {
+            List<string> list = new List<string>();
+            int i = start;
 
+            string key = "HX   UID=" + hxName.ToUpper();
+            while (i < lines.Length)
+            {
+                string line = lines[i];
+                if (line.Contains(key))
+                {
+                    list.Add(line);
+                    i++;
+                    line = lines[i];
+                    list.Add(line);
+                    i++;
+                    line = lines[i];
+                    list.Add(line);
+                    break;
+                }
+            }
+            while (i < lines.Length)
+            {
+                string line = lines[i];
+                list.Add(line);
+                i++;
+            }
+            return list.ToArray();
+        }
 
+        private string[] ReplaceStreamInfo(string[] lines, int start, string streamName, double temp)
+        {
+            List<string> list = new List<string>();
+            int i = start;
+            string temperKey="TEMPERATURE";
+            string key = "PROPERTY STREAM=" + streamName.ToUpper();
+            while (i < lines.Length)
+            {
+                string line = lines[i];
+                if (line.Contains(key) && line.Contains(temperKey))
+                {
+                    string oldValue=string.Empty;
+                    string newValue=temperKey+temp;
 
+                    int s=line.IndexOf(temperKey);
+                    string sub=line.Substring(s);
+                    s=sub.IndexOf(",");
+                     oldValue=sub.Substring(0,s);
+                    string newLine=line.Replace(oldValue,newValue);
+                    list.Add(newLine);
+                    break;
+                }
+            }
+            while (i < lines.Length)
+            {
+                string line = lines[i];
+                list.Add(line);
+                i++;
+            }
+            return list.ToArray();
+        }
 
+            
     }
 
 }

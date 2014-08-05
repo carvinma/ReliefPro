@@ -60,7 +60,7 @@
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
             <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1" VerticalAlignment="top" Height="1" Grid.Row="0" Grid.ColumnSpan="5" ></Border>
-            <Button Content="{DynamicResource Finish}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=ReactorBlockWin}" Grid.Column="1" Grid.Row="1"  />
+            <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=ReactorBlockWin}" Grid.Column="1" Grid.Row="1"  />
             <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="3"  Grid.Row="1" />
             <StatusBar HorizontalAlignment="Stretch" Height="30"  Grid.Row="2"  Grid.ColumnSpan="5">
                 <Label Content="{DynamicResource ReactorLoopBlockedOutletViewStatusBar}"></Label>
