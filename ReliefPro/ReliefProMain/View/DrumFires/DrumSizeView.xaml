@@ -71,9 +71,8 @@
             <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=DrumSizeWin}" Grid.Column="1" Grid.Row="1"/>
             <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="2"  Grid.Row="1"/> 
         </Grid>
-        <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="12" VerticalAlignment="Bottom" Grid.ColumnSpan="5" >
-            <Label></Label>
+        <StatusBar  HorizontalAlignment="Stretch" Height="30" Grid.Row="12" VerticalAlignment="Bottom" Grid.ColumnSpan="5" >
+            <Label Content="{DynamicResource DrumSizeViewStatusBar}"></Label>
         </StatusBar>
-
     </Grid>
 </Window>
