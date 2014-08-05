@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.BasicUnitInfo"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{DynamicResource BasicUnitInfoTitle}" Height="122" Width="400" WindowStyle="ToolWindow" ShowInTaskbar="False" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Title="{DynamicResource BasicUnitInfoTitle}" Height="127" Width="400" WindowStyle="ToolWindow" ShowInTaskbar="False" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Grid> 
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>
@@ -34,8 +34,8 @@
             <Button x:Name="btnCancel" Content="{DynamicResource Cancel}" Grid.Column="2" IsCancel="True"/>
 
         </Grid>
-        <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="4" Grid.ColumnSpan="4" >
-            <Label></Label>
+        <StatusBar  HorizontalAlignment="Stretch" Height="30" Grid.Row="4" Grid.ColumnSpan="4" >
+            <Label Content="{DynamicResource BasicUnitInfoStatusBar}"></Label>
         </StatusBar>
     </Grid>
 </Window>
