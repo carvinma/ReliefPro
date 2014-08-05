@@ -18,11 +18,13 @@
     <!--CreateProtectedSystemView.xaml-->
     <s:String x:Key="CreateProtectedSystemViewTitle">New Protected System</s:String>
     <s:String x:Key="ProtectedSystemName">Protected System Name</s:String>
+    <s:String x:Key="CreateProtectedSystemViewStatusBar">Protected System</s:String>
 
     <!--CreateUnitView.xaml-->
     <s:String x:Key="CreateUnitViewTitle">Unit Name</s:String>
     <s:String x:Key="Unit_Name">Unit Name</s:String>
-    
+    <s:String x:Key="CreateUnitViewStatusBar">CreateUnitView</s:String>
+
     <!--CustomStreamView.xaml-->
     <s:String x:Key="CustomStreamViewTitle">1(Stream)</s:String>
     <s:String x:Key="1Stream">1(Stream)</s:String>
@@ -33,7 +35,7 @@
     <s:String x:Key="Presressure_Mpag">Pressure(Mpag)</s:String>
     <s:String x:Key="WorkflowKghr">FlowRate(Kg/hr)</s:String>
     <s:String x:Key="SpH_KJ_Kg">Sp H(KJ/Kg)</s:String>
-
+    <s:String x:Key="CustomStreamViewStatusBar">""</s:String>
     <!--FireView.xaml-->
     <s:String x:Key="FireViewTitle">Drum_fire</s:String>
     <s:String x:Key="CalcArea">Calc Area</s:String>
@@ -44,13 +46,14 @@
     <s:String x:Key="ReliefMW">Relief MW</s:String>
     <s:String x:Key="ReliefCp_Cv">Relief Cp/Cv</s:String>
     <s:String x:Key="ReliefZ">Relief Z</s:String>
-
+    <s:String x:Key="FireViewStatusBar">""</s:String>
     <!--HeatSourceListView.xaml-->
     <s:String x:Key="HeatSourceListViewTitle">HeatSourceListView</s:String>
     <s:String x:Key="HeatSourceListViewType">Type</s:String>
     <s:String x:Key="HeatSourceListViewName">Name</s:String>
     <s:String x:Key="HeatSourceListViewDutykg_hr">Duty, KJ/hr</s:String>
     <s:String x:Key="HeatSourceListViewAdd">Add</s:String>
+    <s:String x:Key="HeatSourceListViewStatusBar">""</s:String>
 
     <!--CreateUnitView.xaml-->
     <s:String x:Key="ImportDataViewTitle">Import Data</s:String>
@@ -59,6 +62,7 @@
     <s:String x:Key="AspenPlus">Aspen Plus</s:String>
     <s:String x:Key="Hysys">Hysys</s:String>
     <s:String x:Key="FindFile">Find File</s:String>
+    <s:String x:Key="ImportDataViewStatusBar">""</s:String>
 
     <!--InletValveOpenView.xaml-->
     <s:String x:Key="InletValveOpenViewTitle">InletValveOpen</s:String>
@@ -68,6 +72,7 @@
     <s:String x:Key="MaxOperatingPressure">Max Operating Pressure</s:String>
     <s:String x:Key="InletValveTotalCv">Inlet Valve Total Cv</s:String>
     <s:String x:Key="Calculate">Calculate</s:String>
+    <s:String x:Key="InletValveOpenViewStatusBar">Protected System</s:String>
 
     <!--PSVView.xaml-->
     <s:String x:Key="PSVViewTitle">PSV</s:String>
@@ -82,26 +87,31 @@
     <s:String x:Key="AdditionalPSVonRefluxDrum">Additional PSV on Reflux Drum</s:String>
     <s:String x:Key="Location">Location</s:String>
     <s:String x:Key="Dischargeto">Discharge to</s:String>
-    
+    <s:String x:Key="PSVViewStatusBar">Protected System</s:String>
+
 
     <!--ReNameView.xaml-->
     <s:String x:Key="ReNameViewTitle">ReName</s:String>
     <s:String x:Key="NewName">New Name</s:String>
+    <s:String x:Key="ReNameViewStatusBar">Protected System</s:String>
 
     <!--SelectEquipmentView.xaml-->
     <s:String x:Key="SelectEquipmentTitle">Select Equipment</s:String>
     <s:String x:Key="FilePath">File Path</s:String>
     <s:String x:Key="Equipment">Equipment</s:String>
+    <s:String x:Key="SelectEquipmentStatusBar">Protected System</s:String>
 
     <!--SelectStreamView.xaml-->
     <s:String x:Key="SelectStreamViewTitle">Select Stream</s:String>
     <s:String x:Key="Stream">Stream</s:String>
+    <s:String x:Key="SelectStreamViewStatusBar">Protected System</s:String>
 
     <!--SinkView.xaml-->
     <s:String x:Key="SinkViewTitle">Sink</s:String>
     <s:String x:Key="SinkName">Sink Name</s:String>
     <s:String x:Key="SinkType">Sink Type</s:String>
     <s:String x:Key="MaxPossiblePressure">Max Possible Pressure</s:String>
+    <s:String x:Key="SinkViewStatusBar">Protected System</s:String>
 
     <!--CreateUnitView.xaml-->
     <s:String x:Key="SourceViewTitle">Source</s:String>
@@ -109,6 +119,7 @@
     <s:String x:Key="SourceType">Source Type</s:String>
     <s:String x:Key="Steam">Steam</s:String>
     <s:String x:Key="HeatSource">Heat Source</s:String>
+    <s:String x:Key="SourceViewStatusBar">Protected System</s:String>
 
     <!--CentrifugalBlockedView.xaml-->
     <s:String x:Key="CentrifugalBlockedViewTitle">CompressorBlocked</s:String>
@@ -118,17 +129,20 @@
     <s:String x:Key="SurgeLoad">Surge Load</s:String>
     <s:String x:Key="Output">Output</s:String>
     <s:String x:Key="ReliefTemp">Relief Temp</s:String>
+    <s:String x:Key="CentrifugalBlockedViewStatusBar">Protected System</s:String>
 
     <!--CompressorView.xaml-->
     <s:String x:Key="CompressorViewTitle">Drum</s:String>
     <s:String x:Key="ImportFromDatabase">Import From Database</s:String>
     <s:String x:Key="Feed">Feed</s:String>
     <s:String x:Key="Product">Product</s:String>
+    <s:String x:Key="CompressorViewStatusBar">Protected System</s:String>
 
     <!--PistonCompressorBlocked.xaml-->
     <s:String x:Key="PistonCompressorBlockedTitle">CompressorBlocked</s:String>
     <s:String x:Key="Input">Input</s:String>
-    <s:String x:Key="RatedCapacity_Normalcapacity">Rated Capacity/Normal Capacity</s:String> 
+    <s:String x:Key="RatedCapacity_Normalcapacity">Rated Capacity/Normal Capacity</s:String>
+    <s:String x:Key="PistonCompressorBlockedStatusBar">Protected System</s:String>
 
     <!--CriticalFluid.xaml-->
     <s:String x:Key="CriticalFluidTitle">StorageTank</s:String>
@@ -136,6 +150,7 @@
     <s:String x:Key="MPag">MPag</s:String>
     <s:String x:Key="Critical">Critical</s:String>
     <s:String x:Key="Sub_Critical">Sub-Critical</s:String>
+    <s:String x:Key="CriticalFluidStatusBar">Protected System</s:String>
 
     <!--DEPRColumnDetailsView.xaml-->
     <s:String x:Key="DEPRColumnDetailsViewTitle">DEPRColumnDetails</s:String>
@@ -146,6 +161,7 @@
     <s:String x:Key="totalheight_m">Total Height,m</s:String>
     <s:String x:Key="Diameter_m">Diameter,m</s:String>
     <s:String x:Key="BottomNHLL_m">Bottom NHLL, m</s:String>
+    <s:String x:Key="DEPRColumnDetailsViewStatusBar">Protected System</s:String>
 
     <!--DeprCurveView.xaml-->
     <s:String x:Key="DeprCurveViewTitle">DeprCurveView</s:String>
@@ -177,6 +193,7 @@
     <s:String x:Key="TotalVolume_m3">Total Volume,m3</s:String>
     <s:String x:Key="m3">m3</s:String>
     <s:String x:Key="m2">m2</s:String>
+    <s:String x:Key="DEPRDetailViewStatusBar">Protected System</s:String>
 
     <!--DrumDepressureView.xaml-->
     <s:String x:Key="DrumDepressureViewTitle">DEPR</s:String>
@@ -197,6 +214,7 @@
     <s:String x:Key="Detailed">Detailed</s:String>
     <s:String x:Key="DepressuringCurve">Depressuring Curve</s:String>
     <s:String x:Key="CalculatedDepressuringRate">Calculated Depressuring Rate</s:String>
+    <s:String x:Key="DrumDepressureViewStatusBar">Protected System</s:String>
 
     <!--DrumFireFluidView.xaml-->
     <s:String x:Key="DrumFireFluidViewTitle">Drum_fire</s:String>
@@ -206,6 +224,7 @@
     <s:String x:Key="NormalOperatingPressure">Normal Operating Pressure</s:String>
     <s:String x:Key="PSVSetPressure">PSV Set Pressure</s:String>
     <s:String x:Key="TW">TW</s:String>
+    <s:String x:Key="DrumFireFluidViewStatusBar">Protected System</s:String>
 
     <!--CreateUnitView.xaml-->
     <s:String x:Key="DrumFireViewTitle">Drum_fire</s:String>
@@ -215,6 +234,7 @@
     <s:String x:Key="HeavyOilFluid">Heavy Oil Fluid</s:String>
     <s:String x:Key="DrumSize">Drum Size</s:String>
     <s:String x:Key="Adequatedrainageandfirefightingequipmentexist">Adequate Drainage and Firefighting equipment Exist</s:String>
+    <s:String x:Key="DrumFireViewStatusBar">Protected System</s:String>
 
     <!--DrumSizeView.xaml-->
     <s:String x:Key="DrumSizeViewTitle">Drum_fire</s:String>
@@ -226,6 +246,7 @@
     <s:String x:Key="HeadType">Head Type</s:String>
     <s:String x:Key="BootDiameter">Boot Diameter</s:String>
     <s:String x:Key="BootHeight">Boot Height</s:String>
+    <s:String x:Key="DrumSizeViewStatusBar">""</s:String>
 
     <!--DrumBlockedOutletView.xaml-->
     <s:String x:Key="DrumBlockedOutletViewTitle">Drum_BlockedOutlet</s:String>
@@ -237,14 +258,17 @@
     <s:String x:Key="Open">Open</s:String>
     <s:String x:Key="FeedBtmHX">Feed/Btm HX</s:String>
     <s:String x:Key="ReboilerPinch">Reboiler Pinch</s:String>
+    <s:String x:Key="DrumBlockedOutletViewStatusBar">""</s:String>
 
     <!--DrumView.xaml-->
     <s:String x:Key="DrumViewTitle">Drum</s:String>
     <s:String x:Key="DrumName">Drum Name</s:String>
+    <s:String x:Key="DrumViewStatusBar">""</s:String>
 
     <!--BasicUnitInfo.xaml-->
     <s:String x:Key="BasicUnitInfoTitle">Add New BasicUnit</s:String>
     <s:String x:Key="NewBasicName">New Basic Name</s:String>
+    <s:String x:Key="BasicUnitInfoStatusBar">""</s:String>
 
     <!--FormatUnitsMeasure.xaml-->
     <s:String x:Key="FormatUnitsMeasureTitle">ReliefPro - Default  Units of Measure</s:String>
@@ -273,6 +297,7 @@
     <s:String x:Key="FlowConductance">Flow Conductance</s:String>
     <s:String x:Key="SpecificEnthalpy">Specific Enthalpy</s:String>
     <s:String x:Key="Enthalpy">Enthalpy</s:String>
+    <s:String x:Key="FormatUnitsMeasureStatusBar">""</s:String>
 
     <!--GlobalDefaultView.xaml-->
     <s:String x:Key="GlobalDefaultViewTitle">GlobalDefault</s:String>
@@ -287,15 +312,18 @@
     <s:String x:Key="DefaultSettings">Default Settings</s:String>
     <s:String x:Key="LatentHeatforSupercriticalFluid">Latent Heat for Supercritical Fluid</s:String>
     <s:String x:Key="DrumSurgeTimeThreshold">Drum Surge Time Threshold</s:String>
+    <s:String x:Key="GlobalDefaultViewStatusBar">""</s:String>
 
     <!--AirCooledHXFireSizeView.xaml-->
     <s:String x:Key="AirCooledHXFireSizeViewTitle">AirCoolerFireView</s:String>
     <s:String x:Key="wettedbareareaoftubebundle">Wetted Bare Area of Tube Bundle</s:String>
+    <s:String x:Key="AirCooledHXFireSizeViewStatusBar">""</s:String>
 
     <!--HeatExchangerView.xaml-->
     <s:String x:Key="HeatExchangerViewTitle">HX Info</s:String>
     <s:String x:Key="HxName">Hx Name</s:String>
     <s:String x:Key="HXType">HX Type</s:String>
+    <s:String x:Key="HeatExchangerViewStatusBar">""</s:String>
 
     <!--HXBlockedOutletView.xaml-->
     <s:String x:Key="HXBlockedOutletViewTitle">HX</s:String>
@@ -305,12 +333,15 @@
     <s:String x:Key="Normalcoldsideinlettemperature">Normal Cold Side Inlet Temperature</s:String>
     <s:String x:Key="Normalcoldsideoutlettemperature">Normal Cold Side Outlet Temperature</s:String>
     <s:String x:Key="Latentheatofcoldsideatboilingpoint">Latent Heat of Cold Side at Boiling Point</s:String>
+    <s:String x:Key="HXBlockedOutletViewStatusBar">""</s:String>
 
     <!--HXFireSizeView.xaml-->
     <s:String x:Key="HXFireSizeViewTitle">HX Fire</s:String>
+    <s:String x:Key="HXFireSizeViewStatusBar">""</s:String>
 
     <!--TubeRuptureView.xaml-->
     <s:String x:Key="TubeRuptureViewTitle">TubeRuptureView</s:String>
+    <s:String x:Key="TubeRuptureViewStatusBar">""</s:String>
 
     <!--GeneralCoolingWaterFailureView.xaml-->
     <s:String x:Key="GeneralCoolingWaterFailureViewTitle">General Cooling Water Failure</s:String>
@@ -323,22 +354,27 @@
     <s:String x:Key="HXName">HX Name</s:String>
     <s:String x:Key="Stop">Stop</s:String>
     <s:String x:Key="DutyFactor">Duty Factor</s:String>
+    <s:String x:Key="GeneralCoolingWaterFailureViewStatusBar">""</s:String>
 
     <!--GeneralElectricPowerFailureView.xaml-->
     <s:String x:Key="GeneralElectricPowerFailureViewTitle">General Electric Power Failure</s:String>
     <s:String x:Key="HXnetworkcoldstream">HX Network Cold Stream</s:String>
+    <s:String x:Key="GeneralElectricPowerFailureViewStatusBar">""</s:String>
 
     <!--LossOfColdFeedView.xaml-->
     <s:String x:Key="LossOfColdFeedViewTitle">Loss Of Cold Feed</s:String>
+    <s:String x:Key="LossOfColdFeedViewStatusBar">""</s:String>
 
     <!--LossOfReactorQuenchView.xaml-->
     <s:String x:Key="LossOfReactorQuenchViewTitle">Loss of Reactor Quench</s:String>
     <s:String x:Key="Effluenttemperature">Effluent Temperature</s:String>
+    <s:String x:Key="LossOfReactorQuenchViewStatusBar">""</s:String>
 
     <!--ReactorLoopBlockedOutletView.xaml-->
     <s:String x:Key="ReactorLoopBlockedOutletViewTitle">Blocked Outlet</s:String>
     <s:String x:Key="Maxmakeupgasrate">Max Makeup Gas Rate</s:String>
     <s:String x:Key="Totalreactorpurgerate">Total Reactor Purge Rate</s:String>
+    <s:String x:Key="ReactorLoopBlockedOutletViewStatusBar">""</s:String>
 
     <!--ReactorLoopSimulationView.xaml-->
     <s:String x:Key="ReactorLoopSimulationViewTitle">Units In Reactor Loop2</s:String>
@@ -352,6 +388,7 @@
     <s:String x:Key="OriginalModel">Original Model</s:String>
     <s:String x:Key="Type">Type</s:String>
     <s:String x:Key="Unit">Unit</s:String>
+    <s:String x:Key="ReactorLoopSimulationViewStatusBar">""</s:String>
 
     <!--ReactorLoopView.xaml-->
     <s:String x:Key="ReactorLoopViewTitle">Reactor Loop</s:String>
@@ -363,11 +400,12 @@
     <s:String x:Key="Mixer_Splitter">Mixer/Splitter</s:String>
     <s:String x:Key="SplitterName">Splitter Name</s:String>
     <s:String x:Key="Simulation">Simulation</s:String>
+    <s:String x:Key="ReactorLoopViewStatusBar">""</s:String>
 
     <!--PlantSummaryView.xaml-->
     <s:String x:Key="PlantSummaryViewTitle">PlantSummaryView</s:String>
     <s:String x:Key="DesignTotalPlantFlareLoadSummation">Design Total Plant Flare Load Summation</s:String>
-
+    <s:String x:Key="PlantSummaryViewStatusBar">""</s:String>
     <!--PUsummaryView.xaml-->
     <s:String x:Key="PUsummaryViewTitle">PU Summary Report</s:String>
     <s:String x:Key="PlantName">Plant Name</s:String>
@@ -375,6 +413,7 @@
     <s:String x:Key="Notes">Notes</s:String>
     <s:String x:Key="#">#</s:String>
     <s:String x:Key="ExportExcel">Export Excel</s:String>
+    <s:String x:Key="PUsummaryViewStatusBar">""</s:String>
 
     <!--FeedBottomHXView.xaml-->
     <s:String x:Key="FeedBottomHXViewTitle">FeedBottomHXView</s:String>
@@ -390,6 +429,7 @@
     <s:String x:Key="Duty">Duty</s:String>
     <s:String x:Key="FeedTemperatureRelief">Feed  Temperature @Relief</s:String>
     <s:String x:Key="FeedSpEnthalpyRelief">Feed Sp Enthalpy @Relief</s:String>
+    <s:String x:Key="FeedBottomHXViewStatusBar">""</s:String>
 
     <!--ReboilerPinchView.xaml-->
     <s:String x:Key="ReboilerPinchViewTitle">ReboilerPinch</s:String>
@@ -415,6 +455,7 @@
     <s:String x:Key="PinchFactor">Pinch Factor</s:String>
     <s:String x:Key="SteamusesFlowControl">Steam Uses Flow Control?</s:String>
     <s:String x:Key="HotOilstreaminPROII">Hot Oil Stream in PRO/II?</s:String>
+    <s:String x:Key="ReboilerPinchViewStatusBar">""</s:String>
 
     <!--CustomStreamView-->   
     <s:String x:Key="DrumMainWindowTitle">Drum</s:String>
@@ -424,12 +465,14 @@
     <s:String x:Key="CompressorName">Compressor Name</s:String>
     <s:String x:Key="CompressorType">Compressor Type</s:String>
     <s:String x:Key="CompressorNameErrorMsg">Compressor Name Cannot be Empty!</s:String>
+    <s:String x:Key="DrumMainWindowStatusBar">""</s:String>
 
     <!--ScenarioHeatSourceListView.xaml-->
     <s:String x:Key="ScenarioHeatSourceListViewTitle">HeatSourceListView</s:String> 
     <s:String x:Key="NormalDutyKJhr">Normal Duty,KJ/hr</s:String>
     <s:String x:Key="IsFB">Is FB</s:String>
     <s:String x:Key="FeedBottom">Feed/Bottom</s:String>
+    <s:String x:Key="ScenarioHeatSourceListViewStatusBar">""</s:String>
 
     <!--ScenarioListView.xaml-->
     <s:String x:Key="ScenarioListViewTitle">Scenario List</s:String>
@@ -437,17 +480,21 @@
     <s:String x:Key="ReliefLoadkghr">Relief Load, Kg/hr</s:String>
     <s:String x:Key="ReliefPressureMPag">Relief Pressure,MPag</s:String>
     <s:String x:Key="ReliefTemperatureC">Relief Temperature, C</s:String>
+    <s:String x:Key="ScenarioListViewStatusBar">""</s:String>
 
     <!--StorageTankFireView.xaml-->
     <s:String x:Key="StorageTankFireViewTitle">StorageTank2</s:String>
     <s:String x:Key="DesignPressure">Design Pressure</s:String>
     <s:String x:Key="TankSize">Tank Size</s:String>
+    <s:String x:Key="StorageTankFireViewStatusBar">""</s:String>
 
     <!--StorageTankSizeView.xaml-->
     <s:String x:Key="StorageTankSizeViewTitle">StorageTank</s:String>
+    <s:String x:Key="StorageTankSizeViewStatusBar">""</s:String>
 
     <!--StorageTankView.xaml-->
     <s:String x:Key="StorageTankViewTitle">1(Stream)</s:String>
+    <s:String x:Key="StorageTankViewStatusBar">""</s:String>
 
     <!--TowerFireColumnView.xaml-->
     <s:String x:Key="TowerFireColumnViewTitle">TowerFireInfo</s:String>
@@ -455,17 +502,21 @@
     <s:String x:Key="Trays">Trays</s:String>
     <s:String x:Key="BottomNormalLiquidLevel">Bottom Normal Liquid Level</s:String>
     <s:String x:Key="PipingContingency">PipingContingency</s:String>
+    <s:String x:Key="TowerFireColumnViewStatusBar">""</s:String>
 
     <!--TowerFireDrumView.xaml-->
     <s:String x:Key="TowerFireDrumViewTitle">Drum Area Info</s:String>
+    <s:String x:Key="TowerFireDrumViewStatusBar">""</s:String>
 
     <!--TowerFireHXView.xaml-->
     <s:String x:Key="TowerFireHXViewTitle">TowerShellTubeHX</s:String>
     <s:String x:Key="ExposedtoFire">Exposed to Fire</s:String>
     <s:String x:Key="OD">OD</s:String>
+    <s:String x:Key="TowerFireHXViewStatusBar">""</s:String>
 
     <!--TowerFireOtherView.xaml-->
     <s:String x:Key="TowerFireOtherViewTitle">TowerFireCooler</s:String>
+    <s:String x:Key="TowerFireOtherViewStatusBar">""</s:String>
 
     <!--TowerFireView.xaml-->
     <s:String x:Key="TowerFireViewTitle">TowerFire</s:String>
@@ -476,9 +527,11 @@
     <s:String x:Key="Edit">Edit</s:String>
     <s:String x:Key="GroupBox">GroupBox</s:String>
     <s:String x:Key="HeatInputKJ_hr">Heat Input,KJ/hr</s:String>
+    <s:String x:Key="TowerFireViewStatusBar">""</s:String>
 
     <!--AbnormalHeatInputView.xaml-->
     <s:String x:Key="AbnormalHeatInputViewTitle">AbnormalHeatInput</s:String>
+    <s:String x:Key="AbnormalHeatInputViewStatusBar">""</s:String>
 
     <!--AccumulatorView.xaml-->
     <s:String x:Key="AccumulatorViewTitle">AccumulatorView</s:String>
@@ -487,6 +540,7 @@
     <s:String x:Key="LengthTT">Length T/T</s:String>
     <s:String x:Key="Horiz">Horiz</s:String>
     <s:String x:Key="Vert">Vert</s:String>
+    <s:String x:Key="AccumulatorViewStatusBar">""</s:String>
 
     <!--TowerHXView.xaml-->
     <s:String x:Key="TowerHXViewTitle">TowerHX</s:String>
@@ -497,17 +551,20 @@
     <s:String x:Key="DutyPercentage">Duty Percentage,%</s:String>
     <s:String x:Key="DutyKJhr">Duty,KJ/hr</s:String>
     <s:String x:Key="TotalDuty">Total Duty</s:String>
+    <s:String x:Key="TowerHXViewStatusBar">""</s:String>
 
     <!--TowerScenarioCalcView.xaml-->
     <s:String x:Key="TowerScenarioCalcViewTitle">TowerScenarioCalc</s:String>
     <s:String x:Key="Reboiler">Reboiler</s:String>
     <s:String x:Key="PumparoundHeating">Pumparound (Heating)</s:String>
     <s:String x:Key="PumparoundCooling">Pumparound (Cooling)</s:String>
+    <s:String x:Key="TowerScenarioCalcViewStatusBar">""</s:String>
 
     <!--TowerScenarioFeedView.xaml-->
     <s:String x:Key="TowerScenarioFeedViewTitle">Feed Stream</s:String>
     <s:String x:Key="FlowSource">Flow Source</s:String>
     <s:String x:Key="FlowFactor">Flow Factor</s:String>
+    <s:String x:Key="TowerScenarioFeedViewStatusBar">""</s:String>
 
     <!--TowerScenarioHXView.xaml-->
     <s:String x:Key="TowerScenarioHXViewTitle">TowerHX</s:String>
@@ -517,6 +574,7 @@
     <s:String x:Key="HeatMedium">Heat Medium</s:String>
     <s:String x:Key="IsPinch">Is Pinch</s:String>
     <s:String x:Key="Calculation">Calculation</s:String>
+    <s:String x:Key="TowerScenarioHXViewStatusBar">""</s:String>
 
     <!--TowerView.xaml-->
     <s:String x:Key="TowerViewTitle">Tower</s:String>
@@ -526,6 +584,7 @@
     <s:String x:Key="Condenser">Condenser</s:String>
     <s:String x:Key="CondenserName">Condenser Name</s:String>
     <s:String x:Key="ReboilerName">Reboiler Name</s:String>
+    <s:String x:Key="TowerViewStatusBar">""</s:String>
 
 
 
