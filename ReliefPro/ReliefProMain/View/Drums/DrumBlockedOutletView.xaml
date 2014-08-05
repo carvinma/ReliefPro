@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
         x:Class="ReliefProMain.View.Drums.DrumBlockedOutletView"
-        Title="{DynamicResource DrumBlockedOutletViewTitle}" Height="515" Width="580">
+        Title="{DynamicResource DrumBlockedOutletViewTitle}" Height="520" Width="580">
     
     <Grid>
         <Grid.RowDefinitions>
@@ -83,8 +83,8 @@
             <Button Content="{DynamicResource Cancel}"  IsCancel="True"   Grid.Row="1" Grid.Column="2" />
             
         </Grid>
-        <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="16" VerticalAlignment="Bottom" Grid.ColumnSpan="5" >
-            <Label></Label>
+        <StatusBar  HorizontalAlignment="Stretch" Height="30" Grid.Row="16" VerticalAlignment="Bottom" Grid.ColumnSpan="5" >
+            <Label Content="{DynamicResource DrumBlockedOutletViewStatusBar}"></Label>
         </StatusBar>
     </Grid>
 </Window>

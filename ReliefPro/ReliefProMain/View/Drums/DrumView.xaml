@@ -63,8 +63,8 @@
             <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1" VerticalAlignment="Center" Height="1" Grid.Row="0" Grid.ColumnSpan="4" ></Border>
             <Button Content="{DynamicResource OK}" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="1" HorizontalAlignment="Center"  Grid.Row="1"  Width="75" Height="22"/>
             <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="2" HorizontalAlignment="Center"  Grid.Row="1"  Width="75" Height="22"/>
-            <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="2" VerticalAlignment="Bottom" Grid.ColumnSpan="4" >
-                <Label></Label>
+            <StatusBar  HorizontalAlignment="Stretch" Height="30" Grid.Row="2" VerticalAlignment="Bottom" Grid.ColumnSpan="4" >
+                <Label Content="DrumViewStatusBar"></Label>
             </StatusBar>
         </Grid>
 
