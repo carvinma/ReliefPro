@@ -57,7 +57,7 @@
             <Button Content="{DynamicResource Finish}" Grid.Row="1" Grid.Column="1"/>
             <Button Content="{DynamicResource Cancel}"  Grid.Row="1" Grid.Column="3"/>
             <StatusBar HorizontalAlignment="Stretch" Height="25"  Grid.Row="2"  Grid.ColumnSpan="5">
-                <Label></Label>
+                <Label Content="{DynamicResource ReactorLoopSimulationViewStatusBar}"></Label>
             </StatusBar>
         </Grid>
         
