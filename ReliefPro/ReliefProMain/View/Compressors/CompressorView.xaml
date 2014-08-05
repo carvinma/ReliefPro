@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.Compressors.CompressorView"
          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{DynamicResource CompressorViewTitle}" Height="310" Width="600" Name="myWindow">
+        Title="{DynamicResource CompressorViewTitle}" Height="315" Width="600" Name="myWindow">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -18,7 +18,7 @@
             <RowDefinition Height="151*"/>
             <RowDefinition Height="2"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Label Content="{DynamicResource CompressorName}"  Grid.Column="1"   Grid.Row="1"   />
         <Label Content="{DynamicResource CompressorType}" Grid.Column="1" Grid.Row="2"   />
@@ -65,8 +65,8 @@
         </Grid>
 
         
-        <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="6">
-            <Label></Label>
+        <StatusBar  HorizontalAlignment="Stretch" Height="30" Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="6">
+            <Label Content="{DynamicResource CompressorViewStatusBar}"></Label>
         </StatusBar>
     </Grid>
 </Window>
