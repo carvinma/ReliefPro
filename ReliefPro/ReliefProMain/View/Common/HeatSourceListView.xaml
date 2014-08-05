@@ -69,7 +69,7 @@
 
         
         <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
-            <Label></Label>
+            <Label Content="{DynamicResource HeatSourceListViewStatusBar}"></Label>
         </StatusBar>
     </Grid>
 </Window>

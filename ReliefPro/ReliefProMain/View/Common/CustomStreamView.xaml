@@ -72,7 +72,7 @@
         </Grid>
 
         <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="3">
-            <Label></Label>
+            <Label Content="{DynamicResource CustomStreamViewStatusBar}"></Label>
         </StatusBar>
     </Grid>
         

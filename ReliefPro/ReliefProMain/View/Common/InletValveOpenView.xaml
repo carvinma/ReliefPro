@@ -82,7 +82,7 @@
 
        
         <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="11" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
-            <Label></Label>
+            <Label Content="{DynamicResource InletValveOpenViewStatusBar}"></Label>
         </StatusBar>
     </Grid>
 </Window>

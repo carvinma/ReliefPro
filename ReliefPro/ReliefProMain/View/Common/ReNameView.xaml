@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.ReNameView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{DynamicResource ReNameViewTitle}" Height="150" Width="380" Name="myWindow">
+        Title="{DynamicResource ReNameViewTitle}" Height="155" Width="380" Name="myWindow">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40*"/>
@@ -14,7 +14,7 @@
             <RowDefinition Height="55*"/>
             <RowDefinition Height="2"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Label Content="{DynamicResource NewName}" Grid.Column="1"   Grid.Row="1"  />
         
@@ -35,8 +35,8 @@
         </Grid>
 
        
-        <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
-            <Label></Label>
+        <StatusBar  HorizontalAlignment="Stretch" Height="30" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+            <Label Content="{DynamicResource ReNameViewStatusBar}"></Label>
         </StatusBar>
     </Grid>
 </Window>

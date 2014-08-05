@@ -94,7 +94,7 @@
         </Grid>
 
         <StatusBar  HorizontalAlignment="Stretch" Grid.Row="11" VerticalAlignment="Stretch" Grid.ColumnSpan="8" >
-            <Label></Label>
+            <Label Content="{DynamicResource PSVViewStatusBar}"></Label>
         </StatusBar>
         
     </Grid>

@@ -38,8 +38,8 @@
 
         <Border Grid.Column="0"  Grid.Row="4" Grid.ColumnSpan="4" Style="{DynamicResource Hborder}" ></Border>
         <StatusBar   Grid.Row="5"  Grid.ColumnSpan="4" >
-            <Grid>                
-                <TextBlock Grid.Row="0" Text="Create new protocted system"></TextBlock>
+            <Grid>
+                <TextBlock Grid.Row="0" Text="{DynamicResource CreateProtectedSystemViewStatusBar}"></TextBlock>
             </Grid>
         </StatusBar>
         

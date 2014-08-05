@@ -51,8 +51,8 @@
         </Grid>
 
         
-        <StatusBar  HorizontalAlignment="Stretch" Height="16" Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
-            <Label></Label>
+        <StatusBar  HorizontalAlignment="Stretch" Height="18" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+            <TextBlock Text="{DynamicResource CreateUnitViewStatusBar}"/>
         </StatusBar>
     </Grid>
 </Window>

@@ -40,8 +40,8 @@
 
         </Grid>
 
-       <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
-            <Label></Label>
+       <StatusBar  HorizontalAlignment="Stretch" Height="30" Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+            <Label Content="{DynamicResource SelectStreamViewStatusBar}"></Label>
         </StatusBar>
     </Grid>
        

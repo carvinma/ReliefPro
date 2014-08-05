@@ -64,7 +64,7 @@
 
         
         <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="9" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
-            <Label></Label>
+            <Label Content="{DynamicResource FireViewStatusBar}"></Label>
         </StatusBar>
     </Grid>
 </Window>

@@ -55,8 +55,8 @@
         </Grid>
 
         
-        <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="8" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
-            <Label></Label>
+        <StatusBar  HorizontalAlignment="Stretch" Height="30" Grid.Row="8" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+            <Label Content="{DynamicResource SourceViewStatusBar}"></Label>
         </StatusBar>
     </Grid>
 
