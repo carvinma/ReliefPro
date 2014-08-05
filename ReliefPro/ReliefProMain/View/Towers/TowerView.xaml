@@ -11,7 +11,7 @@
             <RowDefinition/>
             <RowDefinition Height="320*"/>
             <RowDefinition Height="38"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Label Content="{DynamicResource TowerName}" HorizontalAlignment="Left" Grid.Row="1" />
         <TextBox Name="txtName"  HorizontalAlignment="Left" Height="26" Margin="143,4,0,0" Text="{Binding TowerName}" Grid.Row="1"/>
@@ -117,8 +117,8 @@
         </Grid>
 
         
-        <StatusBar HorizontalAlignment="Stretch" Height="20"  Grid.Row="6" VerticalAlignment="Top">
-            <Label></Label>
+        <StatusBar HorizontalAlignment="Stretch" Height="30"  Grid.Row="6" VerticalAlignment="Top">
+            <Label Content="{DynamicResource TowerViewStatusBar}"></Label>
         </StatusBar>
     </Grid>
 

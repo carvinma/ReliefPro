@@ -19,7 +19,7 @@
             <RowDefinition Height="25"/>
             <RowDefinition Height="25"/>
             <RowDefinition Height="45"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Label Content="{DynamicResource AccumulatorName}"  Height="26" Grid.Row="1" Grid.Column="1" Margin="25,2,0,22" Grid.RowSpan="2" Width="124"/>
         <Label Content="{DynamicResource VesselOrientation}"  Height="26" Grid.Row="2"  Grid.Column="1" Margin="25,2,0,22" Grid.RowSpan="2" Width="118" />
@@ -49,8 +49,8 @@
             <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
         </Grid>
 
-        <StatusBar HorizontalAlignment="Stretch" Height="20" Grid.Row="7" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
-            <Label></Label>
+        <StatusBar HorizontalAlignment="Stretch" Height="30" Grid.Row="7" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+            <Label Content="{DynamicResource AccumulatorViewStatusBar}"></Label>
         </StatusBar>
     </Grid>
 </Window>

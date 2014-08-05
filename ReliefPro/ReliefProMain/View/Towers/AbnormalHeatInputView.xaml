@@ -17,8 +17,8 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
-            <RowDefinition Height="40*"/>
-            <RowDefinition Height="20*"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="30*"/>
         </Grid.RowDefinitions>
         <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Heaters, Mode=TwoWay}" SelectedItem="{Binding SelectedHeater, Mode=TwoWay}" Grid.Row="0" Grid.ColumnSpan="4" >
             <ListView.View>
@@ -82,8 +82,8 @@
             <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
         </Grid>
 
-        <StatusBar HorizontalAlignment="Stretch" Height="20"  Grid.Row="7" VerticalAlignment="Top" Grid.ColumnSpan="4">
-            <Label></Label>
+        <StatusBar HorizontalAlignment="Stretch" Height="30"  Grid.Row="7" VerticalAlignment="Top" Grid.ColumnSpan="4">
+            <Label Content="{DynamicResource AbnormalHeatInputViewStatusBar}"></Label>
         </StatusBar>
     </Grid>
 </Window>

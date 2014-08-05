@@ -11,7 +11,7 @@
             <RowDefinition Height="10"/>
             <RowDefinition Height="340*"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
         <ListView Grid.Row="1" Margin="0,5,0,0" ItemsSource="{Binding Path=Details,Mode=TwoWay}" SelectedItem="{Binding SelectedDetail,Mode=TwoWay}">
@@ -63,8 +63,8 @@
         <TextBox IsEnabled="{Binding IsSurgeTime}" Visibility="{Binding IsDisplay}" HorizontalAlignment="Left" Height="23" Margin="398,4,0,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding SurgeTime}" VerticalAlignment="Top" Width="120"/>
         <Label Visibility="{Binding IsDisplay}"  Content="{DynamicResource min}" HorizontalAlignment="Left" Margin="523,3,0,0" Grid.Row="2" VerticalAlignment="Top"/>
 
-        <StatusBar HorizontalAlignment="Stretch" Height="20"  Grid.Row="3" VerticalAlignment="Top">
-            <Label></Label>
+        <StatusBar HorizontalAlignment="Stretch" Height="30"  Grid.Row="3" VerticalAlignment="Top">
+            <Label Content="{DynamicResource TowerScenarioHXViewStatusBar}"></Label>
         </StatusBar>
     </Grid>
 </Window>

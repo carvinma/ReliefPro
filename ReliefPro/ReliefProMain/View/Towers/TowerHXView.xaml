@@ -19,7 +19,7 @@
             <RowDefinition Height="274*"/>
             <RowDefinition Height="36*"/>
             <RowDefinition Height="35*"/>
-            <RowDefinition Height="20*"/>
+            <RowDefinition Height="30*"/>
         </Grid.RowDefinitions>
         <GroupBox Header="{DynamicResource DetailData}"  Margin="0,0,0,0" Grid.Row="3"   Grid.ColumnSpan="6" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" >
             <Grid Margin="0,0,0,0">
@@ -101,8 +101,8 @@
             <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
         </Grid>
 
-        <StatusBar HorizontalAlignment="Stretch" Height="20"  Grid.Row="6" VerticalAlignment="Bottom" Grid.ColumnSpan="6">
-            <Label></Label>
+        <StatusBar HorizontalAlignment="Stretch" Height="30"  Grid.Row="6" VerticalAlignment="Bottom" Grid.ColumnSpan="6">
+            <Label Content="{DynamicResource TowerHXViewStatusBar}"></Label>
         </StatusBar>
     </Grid>
 </Window>
