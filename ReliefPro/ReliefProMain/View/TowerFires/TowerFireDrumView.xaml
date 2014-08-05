@@ -16,7 +16,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="55*"></RowDefinition>
-            <RowDefinition Height="20*"></RowDefinition>
+            <RowDefinition Height="30*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"></ColumnDefinition>
@@ -66,8 +66,8 @@
             <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
         </Grid>
 
-        <StatusBar HorizontalAlignment="Stretch" Height="20"  Grid.Row="11" VerticalAlignment="Top" Grid.ColumnSpan="4">
-            <Label></Label>
+        <StatusBar HorizontalAlignment="Stretch" Height="30"  Grid.Row="11" VerticalAlignment="Top" Grid.ColumnSpan="4">
+            <Label Content="{DynamicResource TowerFireDrumViewStatusBar}"></Label>
         </StatusBar>
     </Grid>
 </Window>

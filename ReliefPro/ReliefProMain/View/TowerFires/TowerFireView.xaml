@@ -16,7 +16,7 @@
             <RowDefinition Height="30*"/>
             <RowDefinition Height="170*"/>
             <RowDefinition Height="38*"/>
-            <RowDefinition Height="20*"/>
+            <RowDefinition Height="30*"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="35,10,0,0" Grid.Row="1" Text="{DynamicResource HeatInputModel}" Width="120"/>
         <ComboBox ItemsSource="{Binding Path=HeatInputModels,Mode=TwoWay}" SelectedItem="{Binding MainModel.HeatInputModel,Mode=TwoWay}" Grid.Column="1" HorizontalAlignment="Left" Margin="163,11,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120"/>
@@ -94,8 +94,8 @@
             <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
         </Grid>
         
-        <StatusBar HorizontalAlignment="Stretch" Height="20"  Grid.Row="6" VerticalAlignment="Bottom" Grid.Column="0" Grid.ColumnSpan="3">
-            <Label></Label>
+        <StatusBar HorizontalAlignment="Stretch" Height="30"  Grid.Row="6" VerticalAlignment="Bottom" Grid.Column="0" Grid.ColumnSpan="3">
+            <Label Content="{DynamicResource TowerFireViewStatusBar}"></Label>
         </StatusBar>
     </Grid>
 </Window>

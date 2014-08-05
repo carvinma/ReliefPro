@@ -13,7 +13,7 @@
             <RowDefinition Height="8*"/>
             <RowDefinition Height="100*"/>
             <RowDefinition Height="38*"/>
-            <RowDefinition Height="20*"/>
+            <RowDefinition Height="30*"/>
         </Grid.RowDefinitions>
         <GroupBox Grid.Column="1" Header="{DynamicResource AreaData}" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="340">
             <Grid>
@@ -52,8 +52,8 @@
             <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
 
         </Grid>
-        <StatusBar HorizontalAlignment="Stretch" Height="20"  Grid.Row="3" VerticalAlignment="Top" Width="390" Grid.ColumnSpan="4">
-            <Label></Label>
+        <StatusBar HorizontalAlignment="Stretch" Height="30"  Grid.Row="3" VerticalAlignment="Top" Width="390" Grid.ColumnSpan="4">
+            <Label Content="{DynamicResource TowerFireOtherViewStatusBar}"></Label>
         </StatusBar>
 
 
