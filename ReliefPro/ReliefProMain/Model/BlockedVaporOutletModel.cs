@@ -9,17 +9,18 @@ namespace ReliefProMain.Model
 {
     public class BlockedVaporOutletModel : ModelBase
     {
-        private BlockedVaporOutlet dbmodel;
-        private Scenario dbScenario;
-        #region Unit
-        private string inletGasUpstreamMaxPressurePressureUnit;
-        public string InletGasUpstreamMaxPressurePressureUnit
+        public BlockedVaporOutlet dbmodel { get; set; }
+        public Scenario dbScenario { get; set; }
+
+        #region BlockedVaporOutlet Unit
+        private string inletGasUpstreamMaxPressureUnit;
+        public string InletGasUpstreamMaxPressureUnit
         {
-            get { return inletGasUpstreamMaxPressurePressureUnit; }
+            get { return inletGasUpstreamMaxPressureUnit; }
             set
             {
-                inletGasUpstreamMaxPressurePressureUnit = value;
-                this.NotifyPropertyChanged("InletGasUpstreamMaxPressurePressureUnit");
+                inletGasUpstreamMaxPressureUnit = value;
+                this.NotifyPropertyChanged("InletGasUpstreamMaxPressureUnit");
             }
         }
 
@@ -172,6 +173,41 @@ namespace ReliefProMain.Model
                 normalGasProductWeightRate_Color = value;
                 dbmodel.NormalGasProductWeightRate_Color = value;
                 this.NotifyPropertyChanged("NormalGasProductWeightRate_Color");
+            }
+        }
+        #endregion
+
+        #region Scenario Unit
+        private string reliefLoadUnit;
+        public string ReliefLoadUnit
+        {
+            get { return reliefLoadUnit; }
+            set
+            {
+                reliefLoadUnit = value;
+                NotifyPropertyChanged("ReliefLoadUnit");
+            }
+        }
+
+        private string reliefPressureUnit;
+        public string ReliefPressureUnit
+        {
+            get { return reliefPressureUnit; }
+            set
+            {
+                reliefPressureUnit = value;
+                NotifyPropertyChanged("ReliefPressureUnit");
+            }
+        }
+
+        private string reliefTemperatureUnit;
+        public string ReliefTemperatureUnit
+        {
+            get { return reliefTemperatureUnit; }
+            set
+            {
+                reliefTemperatureUnit = value;
+                NotifyPropertyChanged("ReliefTemperatureUnit");
             }
         }
         #endregion
