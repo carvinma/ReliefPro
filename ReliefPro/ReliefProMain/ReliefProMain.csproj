@@ -397,8 +397,14 @@
     <Compile Include="View\Towers\AbnormalHeatInputView.xaml.cs">
       <DependentUpon>AbnormalHeatInputView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Towers\AbsorbentStopsView.xaml.cs">
+      <DependentUpon>AbsorbentStopsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Towers\AccumulatorView.xaml.cs">
       <DependentUpon>AccumulatorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Towers\BlockedVaporOutletView.xaml.cs">
+      <DependentUpon>BlockedVaporOutletView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Towers\TowerView.xaml.cs">
       <DependentUpon>TowerView.xaml</DependentUpon>
@@ -539,6 +545,10 @@
     <Page Include="Themes\WhistlerBlue.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\WindowBaseStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Common\FireView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -696,7 +706,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Towers\AbsorbentStopsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Towers\AccumulatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Towers\BlockedVaporOutletView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
