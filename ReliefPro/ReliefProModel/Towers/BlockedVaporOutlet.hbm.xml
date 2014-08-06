@@ -5,6 +5,7 @@
       <generator class="identity" />
     </id>
     <property name="OutletType" column="OutletType"  type="Int32" />
+    <property name="ScenarioID" column="ScenarioID"  type="Int32" />
     <property name="InletGasUpstreamMaxPressure" column="InletGasUpstreamMaxPressure"  type="Double" />
     <property name="InletAbsorbentUpstreamMaxPressure" column="InletAbsorbentUpstreamMaxPressure"  type="Double" />
     <property name="NormalGasFeedWeightRate" column="NormalGasFeedWeightRate"  type="Double" />
