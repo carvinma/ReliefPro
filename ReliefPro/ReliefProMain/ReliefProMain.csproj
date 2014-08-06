@@ -178,6 +178,7 @@
     <Compile Include="CustomControl\UnitConvertTextBox.cs" />
     <Compile Include="Interface\IModalDialog.cs" />
     <Compile Include="Interface\IServiceLocator.cs" />
+    <Compile Include="Model\BlockedVaporOutletModel.cs" />
     <Compile Include="Model\Compressors\CentrifugalBlockedOutletModel.cs" />
     <Compile Include="Model\Compressors\PistonBlockedOutletModel.cs" />
     <Compile Include="Model\CustomStreamModel.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="ProIIToDefault.cs" />
     <Compile Include="Service\ServiceProvider.cs" />
     <Compile Include="Service\UnityServiceLocator.cs" />
+    <Compile Include="ViewModel\BlockedVaporOutletVM.cs" />
     <Compile Include="ViewModel\Compressors\CentrifugalVM.cs" />
     <Compile Include="ViewModel\Compressors\CompressorVM.cs" />
     <Compile Include="ViewModel\Compressors\PistonVM.cs" />
