@@ -11,9 +11,9 @@ namespace ReliefProDAL.Towers
 {
     public class BlockedVaporOutletDAL : IBaseDAL<BlockedVaporOutlet>
     {
-        public IList<BlockedVaporOutlet> GetBlockedVaporOutlet(ISession session, int OutletType)
+        public IList<BlockedVaporOutlet> GetBlockedVaporOutlet(ISession session, int ScenarioID, int OutletType)
         {
-            var list = session.CreateCriteria<BlockedVaporOutlet>()
+            var list = session.CreateCriteria<BlockedVaporOutlet>().Add(Expression.Eq("ScenarioID", ScenarioID))
                 .Add(Expression.Eq("OutletType", OutletType)).List<BlockedVaporOutlet>();
             return list;
         }
