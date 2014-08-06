@@ -110,6 +110,7 @@
     <Compile Include="SystemScenarioFactor.cs" />
     <Compile Include="SystemUnit.cs" />
     <Compile Include="ProtectedSystem.cs" />
+    <Compile Include="Towers\BlockedVaporOutlet.cs" />
     <Compile Include="TreeUnit.cs" />
     <Compile Include="TowerFire.cs" />
     <Compile Include="TowerFireColumn.cs" />
@@ -158,6 +159,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Towers\BlockedVaporOutlet.hbm.xml" />
     <EmbeddedResource Include="TreePS.hbm.xml" />
     <EmbeddedResource Include="Reports\PUsummaryNote.hbm.xml" />
     <EmbeddedResource Include="Reports\PUsummary.hbm.xml" />
