@@ -11,7 +11,7 @@ namespace ReliefProModel
         public virtual int ID { get; set; }
         public virtual string TowerName { get; set; }
         public virtual string Description { get; set; }
-        public virtual string Tower_Type { get; set; } //0 蒸馏塔 1：  2：  
+        public virtual string TowerType { get; set; } //0 蒸馏塔 1：  2：  
         public virtual int StageNumber { get; set; }
         public virtual string TowerName_Color { get; set; }
         public virtual string Description_Color { get; set; }
