@@ -61,8 +61,8 @@ namespace ReliefProMain.Model
 
         public BlockedVaporOutletModel(BlockedVaporOutlet outletModel, Scenario sModel)
         {
-            dbmodel = outletModel;
-            dbScenario = sModel;
+            dbmodel = outletModel == null ? new BlockedVaporOutlet() : outletModel;
+            dbScenario = sModel == null ? new Scenario() : sModel;
 
             this.InletGasUpstreamMaxPressure = outletModel.InletGasUpstreamMaxPressure;
             this.InletAbsorbentUpstreamMaxPressure = outletModel.InletAbsorbentUpstreamMaxPressure;

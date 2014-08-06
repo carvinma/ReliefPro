@@ -31,8 +31,9 @@ namespace ReliefProMain.ViewModel
 
             BlockedModel = blockBLL.ReadConvertBlockedVaporOutletModel(BlockedModel);
             ScenarioModel = blockBLL.ReadConvertScenarioModel(ScenarioModel);
-
             model = new BlockedVaporOutletModel(BlockedModel, ScenarioModel);
+            model.dbmodel.ScenarioID = ScenarioID;
+            model.dbmodel.OutletType = OutletType;
             InitUnit();
         }
         private void InitUnit()
