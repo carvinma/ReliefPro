@@ -10,5 +10,10 @@
     <property name="InletAbsorbentUpstreamMaxPressure" column="InletAbsorbentUpstreamMaxPressure"  type="Double" />
     <property name="NormalGasFeedWeightRate" column="NormalGasFeedWeightRate"  type="Double" />
     <property name="NormalGasProductWeightRate" column="NormalGasProductWeightRate"  type="Double" />
+
+    <property name="InletGasUpstreamMaxPressure_Color" column="InletGasUpstreamMaxPressure_Color"  type="String" />
+    <property name="InletAbsorbentUpstreamMaxPressure_Color" column="InletAbsorbentUpstreamMaxPressure_Color"  type="String" />
+    <property name="NormalGasFeedWeightRate_Color" column="NormalGasFeedWeightRate_Color"  type="String" />
+    <property name="NormalGasProductWeightRate_Color" column="NormalGasProductWeightRate_Color"  type="String" />
   </class>
 </hibernate-mapping>
