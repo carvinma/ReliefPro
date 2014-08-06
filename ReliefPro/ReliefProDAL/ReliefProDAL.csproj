@@ -81,6 +81,7 @@
     <Compile Include="TowerFireColumnDetailDAL.cs" />
     <Compile Include="TowerFireCoolerDAL.cs" />
     <Compile Include="TowerFlashProductDAL.cs" />
+    <Compile Include="Towers\BlockedVaporOutletDAL.cs" />
     <Compile Include="UnitTypeDAL.cs" />
     <Compile Include="ProIIStreamDataDAL.cs" />
     <Compile Include="Drums\DrumBlockedOutletDAL.cs" />
