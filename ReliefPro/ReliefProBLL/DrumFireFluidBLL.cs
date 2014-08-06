@@ -54,11 +54,11 @@ namespace ReliefProBLL
             DrumFireFluid fireModel = new DrumFireFluid();
             fireModel = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
-            fireModel.ExposedVesse = UnitConvert.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, fireModel.ExposedVesse.Value);
-            fireModel.NormaTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.NormaTemperature.Value);
-            fireModel.NormalPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, fireModel.NormalPressure.Value);
-            fireModel.PSVPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, fireModel.PSVPressure.Value);
-            fireModel.TW = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.TW.Value);
+            fireModel.ExposedVesse = UnitConvert.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, fireModel.ExposedVesse);
+            fireModel.NormaTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.NormaTemperature);
+            fireModel.NormalPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, fireModel.NormalPressure);
+            fireModel.PSVPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, fireModel.PSVPressure);
+            fireModel.TW = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.TW);
             return fireModel;
         }
         private Tuple<double, double, double, double> GetFluidInfo()

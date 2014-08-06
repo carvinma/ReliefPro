@@ -66,12 +66,12 @@ namespace ReliefProLL
             DrumFireCalc fireModel = new DrumFireCalc();
             fireModel = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
-            fireModel.WettedArea = UnitConvert.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, fireModel.WettedArea.Value);
-            fireModel.LatentHeat = UnitConvert.Convert(UOMLib.UOMEnum.SpecificEnthalpy.ToString(), uomEnum.UserSpecificEnthalpy, fireModel.LatentHeat.Value);
-            fireModel.CrackingHeat = UnitConvert.Convert(UOMLib.UOMEnum.SpecificEnthalpy.ToString(), uomEnum.UserSpecificEnthalpy, fireModel.CrackingHeat.Value);
-            fireModel.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserWeightFlow, fireModel.ReliefLoad.Value);
-            fireModel.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, fireModel.ReliefPressure.Value);
-            fireModel.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.ReliefTemperature.Value);
+            fireModel.WettedArea = UnitConvert.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, fireModel.WettedArea);
+            fireModel.LatentHeat = UnitConvert.Convert(UOMLib.UOMEnum.SpecificEnthalpy.ToString(), uomEnum.UserSpecificEnthalpy, fireModel.LatentHeat);
+            fireModel.CrackingHeat = UnitConvert.Convert(UOMLib.UOMEnum.SpecificEnthalpy.ToString(), uomEnum.UserSpecificEnthalpy, fireModel.CrackingHeat);
+            fireModel.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserWeightFlow, fireModel.ReliefLoad);
+            fireModel.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, fireModel.ReliefPressure);
+            fireModel.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.ReliefTemperature);
             return fireModel;
         }
 

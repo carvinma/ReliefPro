@@ -7,15 +7,19 @@ using ReliefProDAL;
 using ReliefProDAL.Towers;
 using ReliefProModel;
 using ReliefProModel.Towers;
+using UOMLib;
 
 namespace ReliefProLL
 {
     public class BlockedVaporOutletBLL
     {
+        private ISession SessionPF;
         private ISession SessionPS;
         private BlockedVaporOutletDAL dbBlockedVaporOutlet = new BlockedVaporOutletDAL();
-        public BlockedVaporOutletBLL(ISession SessionPS)
+        private ScenarioDAL scenarioDAL = new ScenarioDAL();
+        public BlockedVaporOutletBLL(ISession SessionPF, ISession SessionPS)
         {
+            this.SessionPF = SessionPF;
             this.SessionPS = SessionPS;
         }
         public BlockedVaporOutlet GeModel(int ScenarioID, int OutletType)
@@ -23,6 +27,43 @@ namespace ReliefProLL
             var list = dbBlockedVaporOutlet.GetBlockedVaporOutlet(SessionPS, ScenarioID, OutletType);
             if (list.Count > 0) return list[0];
             return null;
+        }
+        public Scenario GetScenarioModel(int ScenarioID)
+        {
+            return scenarioDAL.GetModel(ScenarioID, SessionPS);
+        }
+        public BlockedVaporOutlet ReadConvertBlockedVaporOutletModel(BlockedVaporOutlet model)
+        {
+            UnitInfo unitInfo = new UnitInfo();
+            BasicUnit basicUnit = unitInfo.GetBasicUnitUOM(this.SessionPF);
+            if (basicUnit.UnitName == "StInternal")
+            {
+                return model;
+            }
+            BlockedVaporOutlet Model = new BlockedVaporOutlet();
+            Model = model;
+            UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
+            Model.InletGasUpstreamMaxPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure, uomEnum.UserPressure, Model.InletGasUpstreamMaxPressure);
+            Model.InletAbsorbentUpstreamMaxPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure, uomEnum.UserPressure, Model.InletAbsorbentUpstreamMaxPressure);
+            Model.NormalGasFeedWeightRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate, uomEnum.UserMassRate, Model.NormalGasFeedWeightRate);
+            Model.NormalGasProductWeightRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate, uomEnum.UserMassRate, Model.NormalGasProductWeightRate);
+            return Model;
+        }
+        public Scenario ReadConvertScenarioModel(Scenario model)
+        {
+            UnitInfo unitInfo = new UnitInfo();
+            BasicUnit basicUnit = unitInfo.GetBasicUnitUOM(this.SessionPF);
+            if (basicUnit.UnitName == "StInternal")
+            {
+                return model;
+            }
+            Scenario Model = new Scenario();
+            Model = model;
+            UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
+            Model.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate, uomEnum.UserMassRate, Model.ReliefLoad);
+            Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature, uomEnum.UserTemperature, Model.ReliefTemperature);
+            Model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure, uomEnum.UserPressure, Model.ReliefPressure);
+            return Model;
         }
         public void Save(BlockedVaporOutlet model, Scenario smodel)
         {

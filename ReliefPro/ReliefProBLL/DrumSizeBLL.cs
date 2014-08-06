@@ -48,13 +48,13 @@ namespace ReliefProLL
             DrumSize sizeModel = new DrumSize();
             sizeModel = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
-            sizeModel.Elevation = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, sizeModel.Elevation.Value);
-            sizeModel.Diameter = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, sizeModel.Diameter.Value);
-            sizeModel.Length = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, sizeModel.Length.Value);
-            sizeModel.NormalLiquidLevel = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, sizeModel.NormalLiquidLevel.Value);
+            sizeModel.Elevation = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, sizeModel.Elevation);
+            sizeModel.Diameter = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, sizeModel.Diameter);
+            sizeModel.Length = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, sizeModel.Length);
+            sizeModel.NormalLiquidLevel = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, sizeModel.NormalLiquidLevel);
 
-            sizeModel.BootDiameter = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, sizeModel.BootDiameter.Value);
-            sizeModel.BootHeight = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, sizeModel.BootHeight.Value);
+            sizeModel.BootDiameter = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, sizeModel.BootDiameter);
+            sizeModel.BootHeight = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, sizeModel.BootHeight);
             return sizeModel;
         }
 

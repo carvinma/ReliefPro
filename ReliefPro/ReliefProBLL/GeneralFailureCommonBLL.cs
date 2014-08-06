@@ -44,9 +44,9 @@ namespace ReliefProLL
                 return model;
             }
             UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
-            model.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate, uomEnum.UserMassRate, model.ReliefLoad.Value);
-            model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure, uomEnum.UserPressure, model.ReliefPressure.Value);
-            model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature, uomEnum.UserTemperature, model.ReliefTemperature.Value);
+            model.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate, uomEnum.UserMassRate, model.ReliefLoad);
+            model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure, uomEnum.UserPressure, model.ReliefPressure);
+            model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature, uomEnum.UserTemperature, model.ReliefTemperature);
             return model;
         }
         public IList<GeneralFailureCommonDetail> GetGeneralFailureCommonDetail(int GeneralFailureCommonID)

@@ -41,11 +41,11 @@ namespace ReliefProLL
             ReactorLoopCommon Model = new ReactorLoopCommon();
             Model = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
-            Model.EffluentTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.EffluentTemperature.Value);
-            Model.MaxGasRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.MaxGasRate.Value);
-            Model.TotalPurgeRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.TotalPurgeRate.Value);
-            Model.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.ReliefLoad.Value);
-            Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature.Value);
+            Model.EffluentTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.EffluentTemperature);
+            Model.MaxGasRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.MaxGasRate);
+            Model.TotalPurgeRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.TotalPurgeRate);
+            Model.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.ReliefLoad);
+            Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature);
             return Model;
         }
         public void SaveBlockedOutlet(ReactorLoopCommon model)
