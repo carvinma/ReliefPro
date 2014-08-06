@@ -49,7 +49,7 @@ namespace ReliefProBLL
             if (lstDrum.Count() > 0)
             {
                 Model.DrumType = lstDrum[0].DrumType;
-                Model.NormalFlashDuty =lstDrum[0].Duty;
+                Model.NormalFlashDuty = lstDrum[0].Duty;
                 Model.DrumID = lstDrum[0].ID;
             }
 
@@ -65,7 +65,7 @@ namespace ReliefProBLL
             List<Source> listSource = dbSource.GetAllList(SessionPS).ToList();
             if (listSource.Count() > 0)
             {
-                if (listSource.First().MaxPossiblePressure!=null)
+                if (listSource.First().MaxPossiblePressure != null)
                 {
                     Model.MaxPressure = listSource.First().MaxPossiblePressure.Value;
                 }
@@ -74,7 +74,7 @@ namespace ReliefProBLL
             List<CustomStream> liststream = dbsteam.GetAllList(SessionPS, false).ToList();
             if (liststream.Count() > 0)
             {
-                if (liststream.First().WeightFlow!=null)
+                if (liststream.First().WeightFlow != null)
                 {
                     Model.MaxStreamRate = liststream.First().WeightFlow.Value;
                 }
@@ -93,9 +93,9 @@ namespace ReliefProBLL
             DrumBlockedOutlet outletModel = new DrumBlockedOutlet();
             outletModel = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPlan);
-            outletModel.MaxPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, outletModel.MaxPressure.Value);
-            outletModel.MaxStreamRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserWeightFlow, outletModel.MaxStreamRate.Value);
-            outletModel.NormalFlashDuty = UnitConvert.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(), uomEnum.UserEnthalpyDuty, outletModel.NormalFlashDuty.Value);
+            outletModel.MaxPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, outletModel.MaxPressure);
+            outletModel.MaxStreamRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserWeightFlow, outletModel.MaxStreamRate);
+            outletModel.NormalFlashDuty = UnitConvert.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(), uomEnum.UserEnthalpyDuty, outletModel.NormalFlashDuty);
             return outletModel;
         }
 
@@ -106,7 +106,7 @@ namespace ReliefProBLL
             var streamModel = stream.GetAllList(SessionPS).FirstOrDefault();
             if (streamModel != null)
             {
-                if (streamModel.Pressure!=null)
+                if (streamModel.Pressure != null)
                     return streamModel.Pressure.Value;
             }
 
@@ -118,7 +118,7 @@ namespace ReliefProBLL
             var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
             if (psvModel != null)
             {
-                if (psvModel.Pressure!=null)
+                if (psvModel.Pressure != null)
                     return psvModel.Pressure.Value * psvModel.ReliefPressureFactor.Value;
             }
             return 0;
@@ -130,7 +130,7 @@ namespace ReliefProBLL
             var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
             if (psvModel != null)
             {
-                if (psvModel.Pressure!=null)
+                if (psvModel.Pressure != null)
                     return psvModel.Pressure.Value;
             }
             return 0;
