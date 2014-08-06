@@ -52,6 +52,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencie
 		Dependencies\Tower.vss = Dependencies\Tower.vss
 		Dependencies\WPFToolkit.dll = Dependencies\WPFToolkit.dll
 		Dependencies\Xceed.Wpf.AvalonDock.dll = Dependencies\Xceed.Wpf.AvalonDock.dll
+		D:\西姆赛\0801\avalondock-102592\Version2.0\Xceed.Wpf.AvalonDock.Themes.Aero\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Aero.dll = D:\西姆赛\0801\avalondock-102592\Version2.0\Xceed.Wpf.AvalonDock.Themes.Aero\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Aero.dll
 		Dependencies\Xceed.Wpf.AvalonDock.Themes.VS2010.dll = Dependencies\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
 	EndProjectSection
 EndProject
