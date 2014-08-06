@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="ReliefProModel.Towers.BlockedVaporOutlet, ReliefProModel" table="tbBlockedVaporOutlet" >
+    <id name="ID" column="ID" type="Int32" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+    <property name="OutletType" column="OutletType"  type="Int32" />
+    <property name="InletGasUpstreamMaxPressure" column="InletGasUpstreamMaxPressure"  type="Double" />
+    <property name="InletAbsorbentUpstreamMaxPressure" column="InletAbsorbentUpstreamMaxPressure"  type="Double" />
+    <property name="NormalGasFeedWeightRate" column="NormalGasFeedWeightRate"  type="Double" />
+    <property name="NormalGasProductWeightRate" column="NormalGasProductWeightRate"  type="Double" />
+  </class>
+</hibernate-mapping>
