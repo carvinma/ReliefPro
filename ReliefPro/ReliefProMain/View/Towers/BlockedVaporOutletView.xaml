@@ -18,20 +18,20 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Label Content="{DynamicResource InletGasUpstreamMaxPressure}" Grid.Row="0" Grid.Column="0"/>
-                <Label Content="{DynamicResource InletAbsorbentUpstreamMaxPressure}" Grid.Row="1" Grid.Column="0"/>
-                <Label Content="{DynamicResource NormalGasFeedWeightRate}" Grid.Row="2" Grid.Column="0"/>
-                <Label Content="{DynamicResource NormalGasProductWeightRate}" Grid.Row="3" Grid.Column="0"/>
-                     
-                <Label x:Name="lblGas" Content="{Binding model.ReliefLoadUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="0"/>
-                <Label x:Name="lbAbsorbent" Content="{Binding model.ReliefLoadUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="1"/>
-                <Label x:Name="lblFeed" Content="{Binding model.ReliefLoadUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="2"/>
-                <Label x:Name="lblProduct" Content="{Binding model.ReliefLoadUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="3"/>
+                    <Label Content="{DynamicResource InletGasUpstreamMaxPressure}" Grid.Row="0" Grid.Column="0"/>
+                    <Label Content="{DynamicResource InletAbsorbentUpstreamMaxPressure}" Grid.Row="1" Grid.Column="0"/>
+                    <Label Content="{DynamicResource NormalGasFeedWeightRate}" Grid.Row="2" Grid.Column="0"/>
+                    <Label Content="{DynamicResource NormalGasProductWeightRate}" Grid.Row="3" Grid.Column="0"/>
 
-                <CustomControl:UnitConvertTextBox HorizontalAlignment="Center" Text="{Binding Path=model.ReliefPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblGas,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="0"/>
-                <CustomControl:UnitConvertTextBox HorizontalAlignment="Center" Text="{Binding Path=model.ReliefPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lbAbsorbent,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="1"/>
-                <CustomControl:UnitConvertTextBox HorizontalAlignment="Center" Text="{Binding Path=model.ReliefPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblFeed,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="2"/>
-                <CustomControl:UnitConvertTextBox HorizontalAlignment="Center" Text="{Binding Path=model.ReliefPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblProduct,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="3"/>
+                    <Label x:Name="lblGas" Content="{Binding model.InletGasUpstreamMaxPressureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="0"/>
+                    <Label x:Name="lbAbsorbent" Content="{Binding model.InletAbsorbentUpstreamMaxPressureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="1"/>
+                    <Label x:Name="lblFeed" Content="{Binding model.NormalGasFeedWeightRateUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="2"/>
+                    <Label x:Name="lblProduct" Content="{Binding model.NormalGasProductWeightRateUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="2" Grid.Row="3"/>
+
+                    <CustomControl:UnitConvertTextBox HorizontalAlignment="Center" Text="{Binding Path=model.InletGasUpstreamMaxPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblGas,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="0"/>
+                    <CustomControl:UnitConvertTextBox HorizontalAlignment="Center" Text="{Binding Path=model.InletAbsorbentUpstreamMaxPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lbAbsorbent,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="1"/>
+                    <CustomControl:UnitConvertTextBox HorizontalAlignment="Center" Text="{Binding Path=model.NormalGasFeedWeightRate,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblFeed,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="2"/>
+                    <CustomControl:UnitConvertTextBox HorizontalAlignment="Center" Text="{Binding Path=model.NormalGasProductWeightRate,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblProduct,Path=Content,Mode=TwoWay}" Grid.Column="1"  Grid.Row="3"/>
             </Grid>
             </GroupBox>
             <GroupBox>
@@ -67,8 +67,8 @@
                 </Grid>
             </GroupBox>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="{DynamicResource OK}" />
-                <Button Content="{DynamicResource Cancel}" />
+                <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" />
+                <Button Content="{DynamicResource Cancel}" IsCancel="True" />
             </StackPanel>
             <StatusBar></StatusBar>
         </StackPanel>

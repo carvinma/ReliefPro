@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
+using Microsoft.Practices.Prism.Commands;
 using NHibernate;
 using ReliefProLL;
 using ReliefProMain.Model;
@@ -16,8 +18,11 @@ namespace ReliefProMain.ViewModel
         public BlockedVaporOutletModel model { get; set; }
         private ISession SessionPF;
 
+        public ICommand OKCMD { get; set; }
+
         public BlockedVaporOutletVM(ISession SessionPF, ISession SessinPS, int ScenarioID, int OutletType)
         {
+            OKCMD = new DelegateCommand<object>(Save);
             this.SessionPF = SessionPF;
             blockBLL = new BlockedVaporOutletBLL(SessionPF, SessinPS);
 
