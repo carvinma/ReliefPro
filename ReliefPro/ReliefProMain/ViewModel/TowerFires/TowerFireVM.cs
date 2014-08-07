@@ -30,8 +30,8 @@ namespace ReliefProMain.ViewModel.TowerFires
         private ISession SessionProtectedSystem { set; get; }
         private string DirPlant { set; get; }
         private string DirProtectedSystem { set; get; }
-        private string PrzFile;
-        private string PrzVersion;
+        public SourceFile SourceFileInfo { get; set; }
+        public string FileFullPath { get; set; }
         private string EqName;
         public ObservableCollection<string> HeatInputModels { get; set; }
         private Latent latent;
@@ -53,7 +53,7 @@ namespace ReliefProMain.ViewModel.TowerFires
         }
         UOMLib.UOMEnum uomEnum;
 
-        public TowerFireVM(int ScenarioID, string EqName, string PrzFile, string PrzVersion, ISession sessionPlant, ISession sessionProtectedSystem, string DirPlant, string DirProtectedSystem)
+        public TowerFireVM(int ScenarioID, string EqName, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string DirPlant, string DirProtectedSystem)
         {
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             InitUnit();
@@ -62,13 +62,12 @@ namespace ReliefProMain.ViewModel.TowerFires
             SessionProtectedSystem = sessionProtectedSystem;
             HeatInputModels = GetHeatInputModels();
 
-            this.PrzFile = PrzFile;
-            this.PrzVersion = PrzVersion;
+           
             this.DirPlant = DirPlant;
             this.DirProtectedSystem = DirProtectedSystem;
             this.EqName = EqName;
             this.ScenarioID = ScenarioID;
-
+             FileFullPath = DirPlant + @"\" + sourceFileInfo.FileNameNoExt + @"\" + sourceFileInfo.FileName;
             UnitConvert uc = new UnitConvert();
             TowerFireDAL db = new TowerFireDAL();
             ReliefProModel.TowerFire model = db.GetModel(SessionProtectedSystem, ScenarioID);
@@ -314,8 +313,8 @@ namespace ReliefProMain.ViewModel.TowerFires
             if (!Directory.Exists(dirLatent))
                 Directory.CreateDirectory(dirLatent);
 
-            IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
-            reader.InitProIIReader(PrzFile);
+            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+            reader.InitProIIReader(FileFullPath);
             ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 1, 2, 1);
             reader.ReleaseProIIReader();
             CustomStream stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
@@ -326,15 +325,15 @@ namespace ReliefProMain.ViewModel.TowerFires
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
             int ImportResult = 0;
             int RunResult = 0;
-            PROIIFileOperator.DecompressProIIFile(PrzFile, tempdir);
+            PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
+            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
             string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 4, "", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    reader = ProIIFactory.CreateReader(PrzVersion);
+                    reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(tray1_f);
                     ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
                     ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);

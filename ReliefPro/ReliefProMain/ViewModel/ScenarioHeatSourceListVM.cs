@@ -23,8 +23,7 @@ namespace ReliefProMain.ViewModel
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
-        private string PrzFile;
-
+        SourceFile SourceFileInfo; 
         private ScenarioHeatSourceDAL db;
         private HeatSourceDAL dbHS;
         private int ScenarioStreamID;
@@ -51,12 +50,12 @@ namespace ReliefProMain.ViewModel
 
 
 
-        public ScenarioHeatSourceListVM(int ScenarioStreamID,string PrzFile, ISession SessionPlant, ISession SessionProtectedSystem)
+        public ScenarioHeatSourceListVM(int ScenarioStreamID,SourceFile sourceFileInfo,  ISession SessionPlant, ISession SessionProtectedSystem)
         {
             this.ScenarioStreamID = ScenarioStreamID;
             this.SessionPlant = SessionPlant;
             this.SessionProtectedSystem = SessionProtectedSystem;
-            this.PrzFile = PrzFile;
+            SourceFileInfo = sourceFileInfo; 
             db = new ScenarioHeatSourceDAL();
             dbHS = new HeatSourceDAL();
             HeatSources = GetHeatSources(ScenarioStreamID);
@@ -84,7 +83,7 @@ namespace ReliefProMain.ViewModel
             ScenarioHeatSource shs=db.GetModel(ID,SessionProtectedSystem);
             int HeatSourceID = shs.HeatSourceID;            
             FeedBottomHXView v = new FeedBottomHXView();
-            FeedBottomHXVM vm = new FeedBottomHXVM(HeatSourceID, PrzFile,SessionPlant, SessionProtectedSystem);
+            FeedBottomHXVM vm = new FeedBottomHXVM(HeatSourceID,SourceFileInfo, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (v.ShowDialog() == true)

@@ -28,6 +28,8 @@ namespace ReliefProMain.ViewModel
     /// </summary>
     public class TowerScenarioCalcVM : ViewModelBase
     {
+        SourceFile SourceFileInfo; 
+
         private double? _ReliefLoad;
         public double? ReliefLoad
         {
@@ -89,20 +91,19 @@ namespace ReliefProMain.ViewModel
         public int ScenarioID { set; get; }
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
-        private string PrzFile;
         private int SteamFreezed = 0;
         private TowerScenarioHXDAL towerScenarioHXDAL;
 
         private bool IsSteamFreezed = false;
         UOMLib.UOMEnum uomEnum;
-        public TowerScenarioCalcVM(int scenarioID, string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
+        public TowerScenarioCalcVM(int scenarioID,SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             InitUnit();
-            this.PrzFile = PrzFile;
             ScenarioID = scenarioID;
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
+            SourceFileInfo = sourceFileInfo; 
             towerScenarioHXDAL = new TowerScenarioHXDAL();
             ScenarioDAL dbsc = new ScenarioDAL();
             Scenario s = dbsc.GetModel(ScenarioID, SessionProtectedSystem);
@@ -159,7 +160,7 @@ namespace ReliefProMain.ViewModel
         private void Feed(object window)
         {
             TowerScenarioFeedView v = new TowerScenarioFeedView();
-            TowerScenarioFeedVM vm = new TowerScenarioFeedVM(ScenarioID, PrzFile, SessionPlant, SessionProtectedSystem);
+            TowerScenarioFeedVM vm = new TowerScenarioFeedVM(ScenarioID,SourceFileInfo,  SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.ShowDialog();

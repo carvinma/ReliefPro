@@ -18,8 +18,7 @@ namespace ReliefProMain.ViewModel
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
-        private string PrzFile;
-        private string PrzFileName;
+        private string FileName;
         private double? _Factor;
         public double? Factor
         {
@@ -301,17 +300,6 @@ namespace ReliefProMain.ViewModel
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
         FeedBottomHX model;
         FeedBottomHXDAL feedBottomHXDAL;
         HeatSourceDAL heatSourceDAL;
@@ -325,12 +313,11 @@ namespace ReliefProMain.ViewModel
         CustomStream csBottomOut;
         UOMLib.UOMEnum uomEnum;
         int HeatSourceID;
-        public FeedBottomHXVM(int HeatSourceID, string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
+        public FeedBottomHXVM(int HeatSourceID,SourceFile sourceFileInfo , ISession sessionPlant, ISession sessionProtectedSystem)
         {
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             InitUnit();
-            this.PrzFile = PrzFile;
-            PrzFileName = System.IO.Path.GetFileName(PrzFile);
+            FileName = sourceFileInfo.FileName;
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
             heatSourceDAL = new HeatSourceDAL();
@@ -362,13 +349,13 @@ namespace ReliefProMain.ViewModel
             else
             {
                 HeatSource hs = this.heatSourceDAL.GetModel(HeatSourceID, SessionProtectedSystem);
-                ProIIEqData hx = this.proIIEqDataDAL.GetModel(SessionPlant, PrzFileName, hs.HeatSourceName, "Hx");
+                ProIIEqData hx = this.proIIEqDataDAL.GetModel(SessionPlant, FileName, hs.HeatSourceName, "Hx");
                 string[] productdata = hx.ProductData.Split(',');
                 string[] feeddata = hx.FeedData.Split(',');
-                ProIIStreamData f1 = this.proIIStreamDataDAL.GetModel(SessionPlant, feeddata[0], PrzFileName);
-                ProIIStreamData f2 = proIIStreamDataDAL.GetModel(SessionPlant, feeddata[1], PrzFileName);
-                ProIIStreamData p1 = proIIStreamDataDAL.GetModel(SessionPlant, productdata[0], PrzFileName);
-                ProIIStreamData p2 = proIIStreamDataDAL.GetModel(SessionPlant, productdata[1], PrzFileName);
+                ProIIStreamData f1 = this.proIIStreamDataDAL.GetModel(SessionPlant, feeddata[0], FileName);
+                ProIIStreamData f2 = proIIStreamDataDAL.GetModel(SessionPlant, feeddata[1], FileName);
+                ProIIStreamData p1 = proIIStreamDataDAL.GetModel(SessionPlant, productdata[0], FileName);
+                ProIIStreamData p2 = proIIStreamDataDAL.GetModel(SessionPlant, productdata[1], FileName);
                 if (double.Parse(f1.Temperature) > double.Parse(f2.Temperature))
                 {
                     csBottomIn = ProIIToDefault.ConvertProIIStreamToCustomStream(f1);

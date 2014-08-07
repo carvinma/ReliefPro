@@ -12,12 +12,14 @@ using ReliefProDAL;
 using ReliefProBLL.Common;
 using System.Collections.ObjectModel;
 using NHibernate;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel
 {
    public class SelectPathVM:ViewModelBase
     {   
-        private string DirPlant { set; get; }
+        public ISession SessionPlant;
+        public SourceFile SourceFileInfo;
         private string _SelectedFile;
         public string SelectedFile
         {
@@ -28,15 +30,17 @@ namespace ReliefProMain.ViewModel
             set
             {
                 this._SelectedFile = value;
-
+                SourceFileBLL sfbll = new SourceFileBLL(SessionPlant);
+                SourceFileInfo = sfbll.GetSourceFileInfo(_SelectedFile);
                 OnPropertyChanged("SelectedFile");
             }
         }
 
 
-        public SelectPathVM( string dirPlant)
+        public SelectPathVM( ISession sessionPlant)
         {
-            DirPlant = dirPlant;           
+            
+            SessionPlant = sessionPlant;
             SourceFiles = GetSourceFiles();
            
         }
@@ -50,19 +54,15 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("SourceFiles");
             }
         }
-       
+
         public ObservableCollection<string> GetSourceFiles()
         {
-            ObservableCollection<string> list = new ObservableCollection<string>();           
-            string[] files = Directory.GetFiles(DirPlant);
-            foreach (string f in files)
+            ObservableCollection<string> list = new ObservableCollection<string>();
+            SourceFileDAL dal = new SourceFileDAL();
+            IList<SourceFile> files = dal.GetAllList(SessionPlant);
+            foreach (SourceFile df in files)
             {
-                FileInfo fi = new FileInfo(f);
-                if (fi.Extension.ToString().ToLower() == ".prz")
-                {
-                    string filename=System.IO.Path.GetFileNameWithoutExtension(f);
-                    list.Add(filename);
-                }
+                list.Add(df.FileName);
             }
 
             return list;

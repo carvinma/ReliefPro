@@ -51,7 +51,7 @@
 
         <Border BorderBrush="black"  Height="1" BorderThickness="0,0,0,1"  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5"/>
 
-        <Grid HorizontalAlignment="Stretch" Height="30"  Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />

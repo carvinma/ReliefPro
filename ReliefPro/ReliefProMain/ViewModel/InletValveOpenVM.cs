@@ -18,6 +18,7 @@ using System.IO;
 using UOMLib;
 using System.Windows;
 
+
 namespace ReliefProMain.ViewModel
 {
     /// <summary>
@@ -38,9 +39,10 @@ namespace ReliefProMain.ViewModel
         //private CustomStream UpVesselNormalVapor;
         private CustomStream CurrentEqNormalVapor;
         private double rMass;
-        private string PrzVersion;
+        
         private string tempdir;
-        private string PrzFile;
+        public SourceFile SourceFileInfo { get; set; }
+        public string FileFullPath { get; set; }
         private string UpVesselType;
 
         public List<string> OperatingPhases { get; set; }
@@ -183,7 +185,7 @@ namespace ReliefProMain.ViewModel
         InletValveOpenDAL dbinlet;
         ScenarioDAL dbsc;
         UOMLib.UOMEnum uomEnum;
-        public InletValveOpenVM(int scenarioID, string eqName, string eqType, string przFile, string version, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
+        public InletValveOpenVM(int scenarioID, string eqName, string eqType,SourceFile sourceFileInfo , ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
 
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
@@ -192,8 +194,8 @@ namespace ReliefProMain.ViewModel
             EqName = eqName;
             EqType = eqType;
             DirPlant = dirPlant;
-            PrzFile = przFile;
-            PrzVersion = version;
+            SourceFileInfo = sourceFileInfo;
+            FileFullPath = DirPlant + @"\" + sourceFileInfo.FileNameNoExt + @"\" + sourceFileInfo.FileName;
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
             OperatingPhases = GetOperatingPhases();
@@ -221,7 +223,7 @@ namespace ReliefProMain.ViewModel
                 }
             }
 
-            SourceFile = System.IO.Path.GetFileName(przFile);
+            SourceFile = SourceFileInfo.FileName;
             Vessels = GetVessels(SessionPlant);
             tempdir = dirProtectedSystem + @"\temp\";
             dbinlet = new InletValveOpenDAL();
@@ -398,8 +400,8 @@ namespace ReliefProMain.ViewModel
             }
 
 
-            IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
-            reader.InitProIIReader(PrzFile);
+            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+            reader.InitProIIReader(FileFullPath);
             ProIIStreamData vapor = reader.CopyStream(data.EqName, int.Parse(data.NumberOfTrays), 1, 1);
             list.Add(vapor.StreamName);
             UpStreamVaporData = ProIIToDefault.ConvertProIIStreamToCustomStream(vapor);
@@ -437,7 +439,7 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private void LiquidFlashing(double Rmass, double Cv, double UPStreamPressure, double DownStreamPressure, string przFile, ref double FLReliefLoad, ref double FLReliefMW, ref double FLReliefTemperature)
+        private void LiquidFlashing(double Rmass, double Cv, double UPStreamPressure, double DownStreamPressure,  ref double FLReliefLoad, ref double FLReliefMW, ref double FLReliefTemperature)
         {
             string rMass = string.Empty;
 
@@ -449,8 +451,9 @@ namespace ReliefProMain.ViewModel
             string liquid = Guid.NewGuid().ToString().Substring(0, 6);
 
             double Wliquidvalve = Darcy(Rmass, Cv, UPStreamPressure, DownStreamPressure);
-            IFlashCalculateW flashCalc = ProIIFactory.CreateFlashCalculateW(PrzVersion);
-            string content = PROIIFileOperator.getUsableContent(UpStreamLiquidData.StreamName, DirPlant);
+            IFlashCalculateW flashCalc = ProIIFactory.CreateFlashCalculateW(SourceFileInfo.FileVersion);
+            string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
+            string content = PROIIFileOperator.getUsableContent(UpStreamLiquidData.StreamName, dir);
             int ImportResult = 0;
             int RunResult = 0;
             string f = flashCalc.Calculate(content, 1, DownStreamPressure.ToString(), 5, "0", UpStreamLiquidData, vapor, liquid, Wliquidvalve.ToString(), dirInletValveOpen, ref ImportResult, ref RunResult);
@@ -459,7 +462,7 @@ namespace ReliefProMain.ViewModel
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(f);
                     proIIStreamData = reader.GetSteamInfo(vapor);
                     reader.ReleaseProIIReader();
@@ -554,9 +557,9 @@ namespace ReliefProMain.ViewModel
             if (UpStreamLiquidData != null)
             {
                 rMass = UpStreamLiquidData.BulkDensityAct.Value;
-                if (rMass != null && rMass != 0)
+                if ( rMass != 0)
                 {
-                    LiquidFlashing(rMass, CV.Value, MaxOperatingPressure.Value, ReliefPressure.Value, PrzFile, ref flReliefLoad, ref flReliefMW, ref flReliefTemperature);
+                    LiquidFlashing(rMass, CV.Value, MaxOperatingPressure.Value, ReliefPressure.Value, ref flReliefLoad, ref flReliefMW, ref flReliefTemperature);
                 }
 
             }

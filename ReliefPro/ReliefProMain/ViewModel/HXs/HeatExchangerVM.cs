@@ -15,6 +15,7 @@ using ReliefProMain.View;
 using UOMLib;
 using ReliefProModel.HXs;
 using ReliefProDAL.HXs;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel
 {
@@ -24,7 +25,8 @@ namespace ReliefProMain.ViewModel
         private ISession SessionProtectedSystem { set; get; }
         private string DirPlant { set; get; }
         private string DirProtectedSystem { set; get; }
-        public string przFile { set; get; }
+        public SourceFile SourceFileInfo { set; get; }
+        public string FileName { set; get; }
         private ProIIEqData ProIIHX;
         private ObservableCollection<string> _HXTypes;
         public ObservableCollection<string> HXTypes
@@ -127,6 +129,8 @@ namespace ReliefProMain.ViewModel
                     HXName = CurrentHX.HXName;
                     Duty = CurrentHX.Duty;
                     HXType = CurrentHX.HXType;
+                    SourceFileBLL sfbll=new SourceFileBLL(sessionPlant);
+                    SourceFileInfo = sfbll.GetSourceFileInfo(CurrentHX.SourceFile);
                 }
             }
             else
@@ -150,7 +154,7 @@ namespace ReliefProMain.ViewModel
         private void Import(object obj)
         {
             SelectEquipmentView v = new SelectEquipmentView();
-            SelectEquipmentVM vm = new SelectEquipmentVM("Hx",  SessionPlant, DirPlant);
+            SelectEquipmentVM vm = new SelectEquipmentVM("Hx",  SessionPlant);
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.DataContext = vm;
             if (v.ShowDialog() == true)
@@ -159,8 +163,8 @@ namespace ReliefProMain.ViewModel
                 {
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
                     ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
-                    przFile = vm.SelectedFile + ".prz";
-                    ProIIHX = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Hx");
+                    FileName = vm.SelectedFile;
+                    ProIIHX = dbEq.GetModel(SessionPlant, FileName, vm.SelectedEq, "Hx");
                     HXName = ProIIHX.EqName;
                     Duty = (double.Parse(ProIIHX.DutyCalc) * 3600);
                     HXType = HXTypes[0];
@@ -174,7 +178,7 @@ namespace ReliefProMain.ViewModel
 
                     foreach (string k in dicFeeds)
                     {
-                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
+                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, FileName);
                         CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
                         cstream.IsProduct = false;
                         Feeds.Add(cstream);
@@ -182,7 +186,7 @@ namespace ReliefProMain.ViewModel
                     for (int i = 0; i < dicProducts.Count; i++)
                     {
                         string k = dicProducts[i];
-                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
+                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, FileName);
                         CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
                         cstream.IsProduct = true;
                         cstream.ProdType = dicProductTypes[i];
@@ -269,7 +273,7 @@ namespace ReliefProMain.ViewModel
                 HX.HXName = HXName;
                 HX.Duty = Duty;
                 HX.HXType = HXType;
-                HX.PrzFile = przFile;
+                HX.SourceFile = SourceFileInfo.FileName;
                
                 dbHX.Add(HX, SessionProtectedSystem);
 

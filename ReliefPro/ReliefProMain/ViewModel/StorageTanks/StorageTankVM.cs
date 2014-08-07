@@ -22,7 +22,8 @@ namespace ReliefProMain.ViewModel.StorageTanks
         public ICommand OKCMD { get; set; }
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
-
+        public SourceFile SourceFileInfo { set; get; }
+        public string FileName { set; get; }
         private string DirPlant { set; get; }
         private string DirProtectedSystem { set; get; }
         private CustomStreamModel _CurrentModel;
@@ -38,7 +39,6 @@ namespace ReliefProMain.ViewModel.StorageTanks
                 OnPropertyChanged("CurrentModel");
             }
         }
-        public string przFile { set; get; }
         private CustomStreamDAL db;
         UOMLib.UOMEnum uomEnum;
         public StorageTankVM(string name, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
@@ -80,7 +80,7 @@ namespace ReliefProMain.ViewModel.StorageTanks
         private void Import(object obj)
         {
             SelectStreamView v = new SelectStreamView();
-            SelectStreamVM vm = new SelectStreamVM(SessionPlant, DirPlant);
+            SelectStreamVM vm = new SelectStreamVM(SessionPlant);
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.DataContext = vm;
             if (v.ShowDialog() == true)
@@ -89,11 +89,11 @@ namespace ReliefProMain.ViewModel.StorageTanks
                 {
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
                     ProIIStreamDataDAL proIIStreamDataDAL = new ProIIStreamDataDAL();
-                    przFile = vm.SelectedFile + ".prz";
-                    ProIIStreamData data = proIIStreamDataDAL.GetModel(SessionPlant, vm.SelectedEq, przFile);
+                    FileName = vm.SelectedFile;
+                    ProIIStreamData data = proIIStreamDataDAL.GetModel(SessionPlant, vm.SelectedEq, FileName);
                     CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(data);
                     CurrentModel = new CustomStreamModel(cs);
-
+                    SourceFileInfo = vm.SourceFileInfo;
                 }
             }
         }
@@ -142,7 +142,7 @@ namespace ReliefProMain.ViewModel.StorageTanks
                     StorageTankDAL storageTankDAL = new StorageTankDAL();
                     StorageTank tank = new StorageTank();
                     tank.StorageTankName = CurrentModel.model.StreamName;
-                    tank.PrzFile = przFile;
+                    tank.SourceFile = FileName;
                     storageTankDAL.Add(tank, SessionProtectedSystem);
 
                     ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
@@ -156,7 +156,7 @@ namespace ReliefProMain.ViewModel.StorageTanks
                     StorageTankDAL storageTankDAL = new StorageTankDAL();
                     StorageTank tank = storageTankDAL.GetModel(SessionProtectedSystem);
                     tank.StorageTankName = CurrentModel.model.StreamName;
-                    tank.PrzFile = przFile;
+                    tank.SourceFile = FileName;
                     storageTankDAL.Update(tank, SessionProtectedSystem);
                     ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
                     ProtectedSystem ps = psDAL.GetModel(SessionProtectedSystem);

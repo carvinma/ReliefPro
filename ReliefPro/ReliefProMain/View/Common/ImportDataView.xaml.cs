@@ -28,6 +28,7 @@ namespace ReliefProMain.View
     /// </summary>
     public partial class ImportDataView : Window
     {
+        public ISession SessionPlant;
         IList<ProIIEqType> eqTypeList = null;
         IList<ProIIEqData> eqListData = new List<ProIIEqData>();
         IList<ProIIStreamData> streamListData = new List<ProIIStreamData>();
@@ -47,6 +48,7 @@ namespace ReliefProMain.View
         string selectedFile = string.Empty;
         string selectedFileName = string.Empty;       
         string curprzFile = string.Empty;
+        string FileNameNoExt = string.Empty;
         
         private void btnImport_Click(object sender, RoutedEventArgs e)
         {
@@ -74,11 +76,17 @@ namespace ReliefProMain.View
                     btnImport.BorderThickness = new Thickness(2, 2, 2, 2);
                     return;
                 }
-                curprzFile = dirInfo + @"\" + selectedFileName;
+                FileNameNoExt = System.IO.Path.GetFileNameWithoutExtension(selectedFile);
+                string dir = dirInfo + @"\" + FileNameNoExt;
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+                curprzFile = dir+ @"\" + selectedFileName;
                 System.IO.File.Copy(selectedFile, curprzFile, true);
                 if (System.IO.File.Exists(dbPlantFile) == true)
                 {
-                    version = ProIIFactory.GetProIIVerison(curprzFile, dirInfo);
+                    version = ProIIFactory.GetProIIVerison(curprzFile, dir);
                     //IProIIRunCalcSave cs = ProIIFactory.CreateRunCalcSave(version);
                     //bool b=cs.CalcSave(curprzFile);
 
@@ -145,6 +153,16 @@ namespace ReliefProMain.View
                     backgroundWorker.ReportProgress(percents);
                 }
                 reader.ReleaseProIIReader();
+
+               
+                SourceFile df = new SourceFile();
+                SourceFileDAL dal = new SourceFileDAL();
+                df.FileName = selectedFileName;
+                df.FileType = 0;
+                df.FileVersion = version;
+                df.FileNameNoExt = FileNameNoExt;
+                dal.Add(df, SessionPlant);
+
                 backgroundWorker.ReportProgress(100);
                 
             }

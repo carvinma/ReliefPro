@@ -24,7 +24,8 @@ namespace ReliefProMain.ViewModel
         private ISession SessionProtectedSystem { set; get; }
         public string DirPlant { set; get; }
         public string DirProtectedSystem { set; get; }
-        public string przFile { set; get; }
+        public SourceFile SourceFileInfo { set; get; }
+        public string FileName { set; get; }
         private ProIIEqData ProIICompressor;
 
         private ObservableCollection<string> _CompressorTypes;
@@ -126,9 +127,11 @@ namespace ReliefProMain.ViewModel
                 CurrentCompressor = dbCompressor.GetModel(SessionProtectedSystem);
                 if (CurrentCompressor != null)
                 {
-                    CompressorName = CurrentCompressor.CompressorName;
-                    //Duty = CurrentCompressor.Duty;                       
+                    CompressorName = CurrentCompressor.CompressorName;                  
                     CompressorType = CurrentCompressor.CompressorType;
+                    SourceFileDAL sfdal = new SourceFileDAL();
+                    SourceFileInfo = sfdal.GetModel(CurrentCompressor.SourceFile, SessionPlant);
+                    FileName = CurrentCompressor.SourceFile;
                 }
             }
             else
@@ -152,7 +155,7 @@ namespace ReliefProMain.ViewModel
         private void Import(object obj)
         {
             SelectEquipmentView v = new SelectEquipmentView();
-            SelectEquipmentVM vm = new SelectEquipmentVM("Compressor",  SessionPlant, DirPlant);
+            SelectEquipmentVM vm = new SelectEquipmentVM("Compressor",  SessionPlant);
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.DataContext = vm;
             if (v.ShowDialog() == true)
@@ -161,8 +164,8 @@ namespace ReliefProMain.ViewModel
                 {
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
                     ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
-                    przFile = vm.SelectedFile + ".prz";
-                    ProIICompressor = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Compressor");
+                    FileName = vm.SelectedFile;
+                    ProIICompressor = dbEq.GetModel(SessionPlant, FileName, vm.SelectedEq, "Compressor");
                     CompressorType = CompressorTypes[0];
                     CompressorName = ProIICompressor.EqName;
                     dicFeeds = new List<string>();
@@ -175,7 +178,7 @@ namespace ReliefProMain.ViewModel
 
                     foreach (string k in dicFeeds)
                     {
-                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
+                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, FileName);
                         CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
                         cstream.IsProduct = false;
                         Feeds.Add(cstream);
@@ -183,7 +186,7 @@ namespace ReliefProMain.ViewModel
                     for (int i = 0; i < dicProducts.Count; i++)
                     {
                         string k = dicProducts[i];
-                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
+                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, FileName);
                         CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
                         cstream.IsProduct = true;
                         cstream.ProdType = dicProductTypes[i];
@@ -271,7 +274,7 @@ namespace ReliefProMain.ViewModel
                 compressor.CompressorName = CompressorName;
                 //Compressor.Duty = Duty;
                 compressor.CompressorType = CompressorType;
-                compressor.PrzFile = przFile;
+                compressor.SourceFile = FileName;
                
                 dbCompressor.Add(compressor, SessionProtectedSystem);
 

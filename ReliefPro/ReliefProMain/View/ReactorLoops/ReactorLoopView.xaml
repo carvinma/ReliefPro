@@ -405,7 +405,7 @@
         </Style>
     </Window.Resources>
     <Grid>
-    <Border x:Name="DragBorder" BorderBrush="Black"  Opacity="0.9" BorderThickness="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" CornerRadius="20">
+    <Border x:Name="DragBorder" BorderBrush="Black"  Opacity="1" BorderThickness="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" CornerRadius="20">
         <Border.Background>
             <LinearGradientBrush EndPoint="0.017,0.503" StartPoint="0.987,0.482">
                 <GradientStop Color="#32DCE2"/>

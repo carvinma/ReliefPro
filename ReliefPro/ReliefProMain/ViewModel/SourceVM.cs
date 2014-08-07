@@ -21,7 +21,7 @@ namespace ReliefProMain.ViewModel
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
-        private string PrzFile;
+        private SourceFile SourceFileInfo; 
         private string pressureUnit;
         public string PressureUnit
         {
@@ -93,13 +93,13 @@ namespace ReliefProMain.ViewModel
             return list;
         }
         UOMLib.UOMEnum uomEnum;
-        public SourceVM(string name, string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
+        public SourceVM(string name, SourceFile sourceFileInfo ,  ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            this.PrzFile = PrzFile;
             SourceTypes = GetSourceTypes();
             SourceName = name;
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
+            SourceFileInfo = sourceFileInfo;
             BasicUnit BU;
             BasicUnitDAL dbBU = new BasicUnitDAL();
             IList<BasicUnit> list = dbBU.GetAllList(sessionPlant);
@@ -182,7 +182,7 @@ namespace ReliefProMain.ViewModel
         public void ShowHeatSourceList()
         {
             HeatSourceListView v = new HeatSourceListView();
-            HeatSourceListVM vm = new HeatSourceListVM(ID, PrzFile, SessionPlant, SessionProtectedSystem);
+            HeatSourceListVM vm = new HeatSourceListVM(ID, SourceFileInfo, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.ShowDialog();

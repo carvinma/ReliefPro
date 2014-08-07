@@ -56,8 +56,8 @@ namespace ReliefProMain.View
         private string DirProtectedSystem { set; get; }
         private string EqName { set; get; }
         private string EqType { set; get; }
-        private string PrzFile { set; get; }
-        private string PrzVersion { set; get; }
+        private string DataFileFullPath { set; get; }
+        private SourceFile SourceFileInfo;
 
         public AxDrawingControl visioControl = new AxDrawingControl();
 
@@ -115,8 +115,7 @@ namespace ReliefProMain.View
                         v.Owner = parentWindow;
                         if (v.ShowDialog() == true)
                         {
-                            PrzFile = DirPlant + @"\" + vm.przFile;
-                            PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                            SourceFileInfo = vm.SourceFileInfo;
                             EqName = vm.TowerName;
                             EqType = "Tower";
                             DrawTower(shp, vm);
@@ -139,8 +138,7 @@ namespace ReliefProMain.View
                         v.Owner = parentWindow;
                         if (v.ShowDialog() == true)
                         {
-                            PrzFile = DirPlant + @"\" + vm.przFile;
-                            PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                            SourceFileInfo = vm.SourceFileInfo;
                             EqName = vm.DrumName;
                             EqType = "Drum";
                             DrawDrum(shp, vm);
@@ -191,7 +189,7 @@ namespace ReliefProMain.View
                     try
                     {
                         SourceView v = new SourceView();
-                        SourceVM vm = new SourceVM(name, PrzFile, SessionPlant, SessionProtectedSystem);
+                        SourceVM vm = new SourceVM(name,SourceFileInfo, SessionPlant, SessionProtectedSystem);
                         v.DataContext = vm;
                         Window parentWindow = Window.GetWindow(this);
                         v.Owner = parentWindow;
@@ -207,7 +205,7 @@ namespace ReliefProMain.View
                     try
                     {
                         SinkView v = new SinkView();
-                        SinkVM vm = new SinkVM(name, PrzFile, SessionPlant, SessionProtectedSystem);
+                        SinkVM vm = new SinkVM(name,  SessionPlant, SessionProtectedSystem);
                         v.DataContext = vm;
                         Window parentWindow = Window.GetWindow(this);
                         v.Owner = parentWindow;
@@ -240,8 +238,7 @@ namespace ReliefProMain.View
                     v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                     if (v.ShowDialog() == true)
                     {
-                        PrzFile = DirPlant + @"\" + vm.przFile;
-                        PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                        SourceFileInfo = vm.SourceFileInfo;
                         EqName = vm.CurrentModel.StreamName;
                         EqType = "StorageTank";
                         DrawTank(shp, vm);
@@ -261,8 +258,7 @@ namespace ReliefProMain.View
                         v.Owner = parentWindow;
                         if (v.ShowDialog() == true)
                         {
-                            PrzFile = DirPlant + @"\" + vm.przFile;
-                            PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                            SourceFileInfo = vm.SourceFileInfo;
                             EqName = vm.HXName;
                             EqType = "HX";
                             DrawHX(shp, vm);
@@ -284,8 +280,7 @@ namespace ReliefProMain.View
                         v.Owner = parentWindow;
                         if (v.ShowDialog() == true)
                         {
-                            PrzFile = DirPlant + @"\" + vm.przFile;
-                            PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                            SourceFileInfo = vm.SourceFileInfo;
                             EqName = vm.CompressorName;
                             EqType = "Compressor";
                             DrawCompressor(shp, vm);
@@ -300,15 +295,14 @@ namespace ReliefProMain.View
                     try
                     {
                         ReactorLoopView v = new ReactorLoopView();
-                        ReactorLoopVM vm = new ReactorLoopVM(PrzFile,PrzVersion, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
+                        ReactorLoopVM vm = new ReactorLoopVM( SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
                         v.DataContext = vm;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         Window parentWindow = Window.GetWindow(this);
                         v.Owner = parentWindow;
                         if (v.ShowDialog() == true)
                         {
-                            PrzFile = DirPlant + @"\" + vm.PrzFile;
-                            PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                            SourceFileInfo = vm.SourceFileInfo;
                             EqName = "";
                             EqType = "Reaction";
                             DrawReactor(shp, vm);
@@ -811,7 +805,7 @@ namespace ReliefProMain.View
                     return;
                 }
                 PSVView v = new PSVView();
-                PSVVM vm = new PSVVM(EqName, EqType, PrzFile, PrzVersion, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
+                PSVVM vm = new PSVVM(EqName, EqType, SourceFileInfo, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
                 v.DataContext = vm;
                 v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 v.ShowDialog();
@@ -827,7 +821,7 @@ namespace ReliefProMain.View
                 }
 
                 ScenarioListView v = new ScenarioListView();
-                ScenarioListVM vm = new ScenarioListVM(EqName, EqType, PrzFile, PrzVersion, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
+                ScenarioListVM vm = new ScenarioListVM(EqName, EqType,SourceFileInfo, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
                 v.DataContext = vm;
                 v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 v.ShowDialog();
@@ -867,6 +861,9 @@ namespace ReliefProMain.View
                     SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
                     ProtectedSystemDAL psDAL=new ProtectedSystemDAL();
                     ProtectedSystem ps = psDAL.GetModel(SessionProtectedSystem);
+
+                    SourceFileDAL sfdal = new SourceFileDAL();
+                    
                     if (ps != null)
                     {
                         switch (ps.PSType)
@@ -877,9 +874,8 @@ namespace ReliefProMain.View
                                 if (tower != null)
                                 {
                                     EqType = "Tower";
-                                    EqName = tower.TowerName;
-                                    PrzFile = DirPlant + @"\" + tower.PrzFile;
-                                    PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                                    EqName = tower.TowerName;                                    
+                                    SourceFileInfo = sfdal.GetModel(tower.SourceFile, SessionPlant);
                                 }
                                 break;
 
@@ -890,8 +886,8 @@ namespace ReliefProMain.View
                                 {
                                     EqType = "Drum";
                                     EqName = drum.DrumName;
-                                    PrzFile = DirPlant + @"\" + drum.PrzFile;
-                                    PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                                    SourceFileInfo = sfdal.GetModel(drum.SourceFile, SessionPlant);
+
                                 }
                                 break;
                             case 3:
@@ -901,8 +897,7 @@ namespace ReliefProMain.View
                                 {
                                     EqType = "Compressor";
                                     EqName = compressor.CompressorName;
-                                    PrzFile = DirPlant + @"\" + compressor.PrzFile;
-                                    PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                                    SourceFileInfo = sfdal.GetModel(compressor.SourceFile, SessionPlant);
                                 }
                                 break;
                             case 4:
@@ -912,8 +907,7 @@ namespace ReliefProMain.View
                                 {
                                     EqType = "HX";
                                     EqName = heatExchanger.HXName;
-                                    PrzFile = DirPlant + @"\" + heatExchanger.PrzFile;
-                                    PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                                    SourceFileInfo = sfdal.GetModel(heatExchanger.SourceFile, SessionPlant);
                                 }
                                 break;
                             case 5:
@@ -923,8 +917,7 @@ namespace ReliefProMain.View
                                 {
                                     EqType = "StorageTank";
                                     EqName = tank.StorageTankName;
-                                    PrzFile = DirPlant + @"\" + tank.PrzFile;
-                                    PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                                    SourceFileInfo = sfdal.GetModel(tank.SourceFile, SessionPlant);
                                 }
                                 break;
                             case 6:
@@ -934,8 +927,7 @@ namespace ReliefProMain.View
                                 {
                                     EqType = "ReactorLoop";
                                     EqName = "";
-                                    PrzFile = DirPlant + @"\" + reactor.PSFile;
-                                    PrzVersion = ProIIFactory.GetProIIVerison(PrzFile, DirPlant);
+                                    SourceFileInfo = sfdal.GetModel(reactor.SourceFile, SessionPlant);
                                 }
                                 break;
                             default:
@@ -949,6 +941,9 @@ namespace ReliefProMain.View
             Task.WaitAll(task, t2, task2);
             this.btnPSV.IsEnabled = true;
         }
+
+
+        
 
     }
 

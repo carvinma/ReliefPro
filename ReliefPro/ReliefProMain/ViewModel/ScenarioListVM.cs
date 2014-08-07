@@ -40,8 +40,7 @@ namespace ReliefProMain.ViewModel
         private ISession SessionProtectedSystem { set; get; }
         private string DirPlant { set; get; }
         private string DirProtectedSystem { set; get; }
-        private string PrzFile;
-        private string PrzVersion;
+        public SourceFile SourceFileInfo { set; get; }
         private ObservableCollection<ScenarioModel> _Scenarios;
         public ObservableCollection<ScenarioModel> Scenarios
         {
@@ -67,17 +66,16 @@ namespace ReliefProMain.ViewModel
         public List<string> ScenarioNameList { set; get; }
         private string EqType;
         private string EqName;
-        public ScenarioListVM(string eqName, string eqType, string przFile, string version, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
+        public ScenarioListVM(string eqName, string eqType, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
             EqName = eqName;
             EqType = eqType;
-            PrzFile = przFile;
-            PrzVersion = version;
+           
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
-
+            SourceFileInfo = sourceFileInfo;
             Scenarios = GetScenarios();
             ScenarioNameList = GetScenarioNames(eqType);
 
@@ -223,7 +221,7 @@ namespace ReliefProMain.ViewModel
                     {
                         DrumBlockedOutletView v = new DrumBlockedOutletView();
                         v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                        DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, PrzFile, PrzVersion, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
+                        DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
                         v.DataContext = vm;
                         if (v.ShowDialog() == true)
                         {
@@ -241,7 +239,7 @@ namespace ReliefProMain.ViewModel
                     {
                         DrumFireView v = new DrumFireView();
                         v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                        DrumFireVM vm = new DrumFireVM(ScenarioID, PrzFile, PrzVersion, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
+                        DrumFireVM vm = new DrumFireVM(ScenarioID,SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
                         v.DataContext = vm;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         if (v.ShowDialog() == true)
@@ -321,7 +319,7 @@ namespace ReliefProMain.ViewModel
                         {
 
                             HXBlockedOutletView v = new HXBlockedOutletView();
-                            HXBlockedOutletVM vm = new HXBlockedOutletVM(ScenarioID,PrzFile,PrzVersion, SessionProtectedSystem, SessionPlant,DirPlant,DirProtectedSystem);
+                            HXBlockedOutletVM vm = new HXBlockedOutletVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {
@@ -334,7 +332,7 @@ namespace ReliefProMain.ViewModel
                         else if (ScenarioName.Contains("Fire"))
                         {
                             HXFireView v = new HXFireView();
-                            DrumFireVM vm = new DrumFireVM(ScenarioID, PrzFile, PrzVersion, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem,2);
+                            DrumFireVM vm = new DrumFireVM(ScenarioID,SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem,2);
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {
@@ -350,7 +348,7 @@ namespace ReliefProMain.ViewModel
                         if (ScenarioName.Contains("Fire"))
                         {
                             AirCooledHXFireView v = new AirCooledHXFireView();
-                            DrumFireVM vm = new DrumFireVM(ScenarioID, PrzFile, PrzVersion, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 3);
+                            DrumFireVM vm = new DrumFireVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 3);
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {
@@ -367,7 +365,7 @@ namespace ReliefProMain.ViewModel
                     if (ScenarioName.Contains("Fire"))
                     {
                         StorageTankFireView v = new StorageTankFireView();
-                        DrumFireVM vm = new DrumFireVM(ScenarioID, PrzFile, PrzVersion, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 1);
+                        DrumFireVM vm = new DrumFireVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 1);
                         v.DataContext = vm;
                         if (v.ShowDialog() == true)
                         {
@@ -462,7 +460,7 @@ namespace ReliefProMain.ViewModel
             }
 
             TowerFireView v = new TowerFireView();
-            TowerFireVM vm = new TowerFireVM(ScenarioID,EqName,PrzFile,PrzVersion, SessionPlant, SessionProtectedSystem,DirPlant,DirProtectedSystem);
+            TowerFireVM vm = new TowerFireVM(ScenarioID,EqName,SourceFileInfo, SessionPlant, SessionProtectedSystem,DirPlant,DirProtectedSystem);
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {
@@ -477,7 +475,7 @@ namespace ReliefProMain.ViewModel
         {
             CreateTowerScenarioCalcData(ScenarioID, ScenarioName, Session);
             TowerScenarioCalcView v = new TowerScenarioCalcView();
-            TowerScenarioCalcVM vm = new TowerScenarioCalcVM(ScenarioID,PrzFile, SessionPlant, SessionProtectedSystem);
+            TowerScenarioCalcVM vm = new TowerScenarioCalcVM(ScenarioID,SourceFileInfo, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (v.ShowDialog() == true)
@@ -492,7 +490,7 @@ namespace ReliefProMain.ViewModel
         private void CreateInletValveOpen(int ScenarioID)
         {
             InletValveOpenView v = new InletValveOpenView();
-            InletValveOpenVM vm = new InletValveOpenVM(ScenarioID, EqName, EqType, PrzFile, PrzVersion, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
+            InletValveOpenVM vm = new InletValveOpenVM(ScenarioID, EqName, EqType,SourceFileInfo, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (v.ShowDialog() == true)

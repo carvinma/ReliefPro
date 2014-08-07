@@ -15,6 +15,8 @@ using ReliefProModel;
 using ReliefProMain.View;
 using System.IO;
 using System.Windows.Controls;
+using ReliefProBLL;
+using ReliefProModel;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -36,13 +38,13 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private ISession SessionPF;
         public string DirPlant { set; get; }
         public string DirProtectedSystem { set; get; }
-        public string PrzFile { set; get; }
-        public string PrzVersion { set; get; }
-
+        
         private int reactorLoopID;
         public ReactorLoopModel model { get; set; }
         private ReactorLoopBLL reactorBLL;
-
+        public SourceFile SourceFileInfo { get; set; }
+        public string FileFullPath { get; set; }
+        public string FileName { set; get; }
 
         public List<string> streams = new List<string>();
 
@@ -63,32 +65,28 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
         private void InitPage()
         {
-            if (!string.IsNullOrEmpty(PrzFile))
-            {
-                ObservableCollection<string> list = GetProIIStreamNames();
 
-                model.ColdHighPressureSeparatorSource = GetProIIFlashs();
-                model.HotHighPressureSeparatorSource = GetProIIFlashs();
-                model.EffluentStreamSource = list;
-                model.ColdReactorFeedStreamSource = list;
-                model.HXNetworkColdStreamSource = list;
-                model.InjectionWaterStreamSource = list;
-                model.ObcProcessHXSource = GetProIIHXs(0);
-                model.ObcUtilityHXSource = GetProIIHXs(1);
-                model.ObcMixerSplitterSource = GetProIIMixers();
+            ObservableCollection<string> list = GetProIIStreamNames();
 
-                model.ObcProcessHX = new ObservableCollection<ReactorLoopDetail>();
-                model.ObcUtilityHX = new ObservableCollection<ReactorLoopDetail>();
-                model.ObcMixerSplitter = new ObservableCollection<ReactorLoopDetail>();
+            model.ColdHighPressureSeparatorSource = GetProIIFlashs();
+            model.HotHighPressureSeparatorSource = GetProIIFlashs();
+            model.EffluentStreamSource = list;
+            model.ColdReactorFeedStreamSource = list;
+            model.HXNetworkColdStreamSource = list;
+            model.InjectionWaterStreamSource = list;
+            model.ObcProcessHXSource = GetProIIHXs(0);
+            model.ObcUtilityHXSource = GetProIIHXs(1);
+            model.ObcMixerSplitterSource = GetProIIMixers();
 
-
-            }
+            model.ObcProcessHX = new ObservableCollection<ReactorLoopDetail>();
+            model.ObcUtilityHX = new ObservableCollection<ReactorLoopDetail>();
+            model.ObcMixerSplitter = new ObservableCollection<ReactorLoopDetail>();
         }
         private ObservableCollection<string> GetProIIStreamNames()
         {
             ObservableCollection<string> rlt = new ObservableCollection<string>();
             ProIIStreamDataDAL dal = new ProIIStreamDataDAL();
-            IList<ProIIStreamData> list = dal.GetAllList(SessionPF, PrzFile);
+            IList<ProIIStreamData> list = dal.GetAllList(SessionPF, FileName);
             foreach (ProIIStreamData s in list)
             {
                 rlt.Add(s.StreamName);
@@ -99,7 +97,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         {
             ObservableCollection<string> rlt = new ObservableCollection<string>();
             ProIIEqDataDAL dal = new ProIIEqDataDAL();
-            IList<ProIIEqData> list = dal.GetAllList(SessionPF, PrzFile, "Flash");
+            IList<ProIIEqData> list = dal.GetAllList(SessionPF, FileName, "Flash");
             foreach (ProIIEqData eq in list)
             {
                 rlt.Add(eq.EqName);
@@ -110,7 +108,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         {
             ObservableCollection<ReactorLoopDetail> rlt = new ObservableCollection<ReactorLoopDetail>();
             ProIIEqDataDAL dal = new ProIIEqDataDAL();
-            IList<ProIIEqData> list = dal.GetAllList(SessionPF, PrzFile, "Hx");
+            IList<ProIIEqData> list = dal.GetAllList(SessionPF, SourceFileInfo.FileName, "Hx");
             foreach (ProIIEqData eq in list)
             {
                 ReactorLoopDetail d = new ReactorLoopDetail();
@@ -124,7 +122,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         {
             ObservableCollection<ReactorLoopDetail> rlt = new ObservableCollection<ReactorLoopDetail>();
             ProIIEqDataDAL dal = new ProIIEqDataDAL();
-            IList<ProIIEqData> list = dal.GetAllList(SessionPF, PrzFile, "Mixer");
+            IList<ProIIEqData> list = dal.GetAllList(SessionPF, SourceFileInfo.FileName, "Mixer");
             foreach (ProIIEqData eq in list)
             {
                 ReactorLoopDetail d = new ReactorLoopDetail();
@@ -132,7 +130,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 d.ReactorType = 2;
                 rlt.Add(d);
             }
-            IList<ProIIEqData> list2 = dal.GetAllList(SessionPF, PrzFile, "Spliter");
+            IList<ProIIEqData> list2 = dal.GetAllList(SessionPF, SourceFileInfo.FileName, "Spliter");
             foreach (ProIIEqData eq in list2)
             {
                 ReactorLoopDetail d = new ReactorLoopDetail();
@@ -143,15 +141,14 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             return rlt;
         }
 
-        public ReactorLoopVM(string przFile, string przVersion, ISession SessionPF, ISession SessionPS, string dirPlant, string dirProtectedSystem)
+        public ReactorLoopVM( ISession SessionPF, ISession SessionPS, string dirPlant, string dirProtectedSystem)
         {
             model = new ReactorLoopModel();
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
-            PrzFile = przFile;
-            PrzVersion = przVersion;
+            
             InitCMD();
             InitPage();
 
@@ -165,6 +162,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcProcessHX = reactorBLL.GetProcessHX(reactorLoopID);
                 model.ObcUtilityHX = reactorBLL.GetUtilityHX(reactorLoopID);
                 model.ObcMixerSplitter = reactorBLL.GetMixerSplitter(reactorLoopID);
+                SourceFileBLL sfbll = new SourceFileBLL(SessionPF);
+                SourceFileInfo = sfbll.GetSourceFileInfo(model.dbModel.SourceFile);
+                FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
+                FileName = SourceFileInfo.FileName;
             }
             else
             {
@@ -228,23 +229,25 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private void Import(object obj)
         {
             SelectPathView view = new SelectPathView();
-            SelectPathVM vm = new SelectPathVM(DirPlant);
+            SelectPathVM vm = new SelectPathVM(SessionPF);
             view.DataContext = vm;
             view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (view.ShowDialog() == true)
             {
-                PrzFile = vm.SelectedFile + ".prz";
+                FileName = vm.SelectedFile;
+                SourceFileInfo = vm.SourceFileInfo;
                 InitPage();
             }
         }
         private void Simulation(object obj)
         {
             streams.Clear();
-            List<CustomStream> streamList = new List<CustomStream>();
+            List<CustomStream> csList = new List<CustomStream>();
             List<string> eqList = new List<string>();
+            List<string> processHxList = new List<string>();
             foreach (ReactorLoopDetail d in model.ObcProcessHX)
             {
-                eqList.Add(d.DetailInfo);
+                processHxList.Add(d.DetailInfo);
             }
             foreach (ReactorLoopDetail d in model.ObcUtilityHX)
             {
@@ -262,36 +265,36 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 eqList.Add(model.HotHighPressureSeparator);
             }
-            streamList = GetReactorLoopStreamsFromProII(eqList);
+            csList = GetReactorLoopStreamsFromProII(eqList);
             if (!string.IsNullOrEmpty(model.ColdReactorFeedStream) && !streams.Contains(model.ColdReactorFeedStream))
             {
                 CustomStream cs = GetReactorLoopStreamInfoFromProII(model.ColdReactorFeedStream);
-                streamList.Add(cs);
+                csList.Add(cs);
                 streams.Add(model.ColdReactorFeedStream);
             }
             if (!string.IsNullOrEmpty(model.HXNetworkColdStream) && !streams.Contains(model.HXNetworkColdStream))
             {
                 CustomStream cs = GetReactorLoopStreamInfoFromProII(model.HXNetworkColdStream);
-                streamList.Add(cs);
+                csList.Add(cs);
                 streams.Add(model.HXNetworkColdStream);
             }
             if (!string.IsNullOrEmpty(model.InjectionWaterStream) && !streams.Contains(model.InjectionWaterStream))
             {
                 CustomStream cs = GetReactorLoopStreamInfoFromProII(model.InjectionWaterStream);
-                streamList.Add(cs);
+                csList.Add(cs);
                 streams.Add(model.InjectionWaterStream);
             }
             if (!string.IsNullOrEmpty(model.EffluentStream) && !streams.Contains(model.EffluentStream))
             {
                 CustomStream cs = GetReactorLoopStreamInfoFromProII(model.EffluentStream);
-                streamList.Add(cs);
+                csList.Add(cs);
                 streams.Add(model.EffluentStream);
             }
 
 
 
 
-            string inpData = CreateReactorLoopInpData(DirPlant, streamList, eqList);
+            string inpData = CreateReactorLoopInpData(DirPlant, csList, eqList,processHxList);
 
 
 
@@ -349,7 +352,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         /// <param name="streamList"></param>
         /// <param name="details"></param>
         /// <returns></returns>
-        public string CreateReactorLoopInpData(string rootDir, List<CustomStream> streamList, List<string> eqList)
+        public string CreateReactorLoopInpData(string rootDir, List<CustomStream> csList, List<string> eqList, List<string> processHxList)
         {
             StringBuilder sb = new StringBuilder();
             string[] files = Directory.GetFiles(rootDir, "*.inp");
@@ -360,6 +363,20 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             while (i < lines.Length)
             {
                 string line = lines[i];
+                if (line.Contains("  SEQUENCE"))
+                {
+                    i = removeTagInfo(lines, i, "  SEQUENCE");
+                    break;
+                }
+                else
+                {
+                    sb.Append(line).Append("\n");
+                    i++;
+                }
+            }
+            while (i < lines.Length)
+            {
+                string line = lines[i];                
                 if (line.Contains("STREAM DATA"))
                 {
                     sb.Append(line).Append("\n");
@@ -373,52 +390,63 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 }
             }
 
-            List<string> newStreamInfos = new List<string>();
-            foreach (CustomStream cs in streamList)
+            string assayLVs = GetAssayLVStreamInfo(lines, i);
+            sb.Append(assayLVs);
+            
+            foreach (CustomStream cs in csList)
             {
                 if (cs != null)
                 {
-                    string newStreamInfo = string.Empty;
-                    lines = FindStreamInfo(lines, cs, ref newStreamInfo);
-                    newStreamInfos.Add(newStreamInfo);
+                   string s= getStreamData(cs);
+                   sb.Append(s);
                 }
             }
+            
             while (i < lines.Length)
             {
-                i = removeTagInfo(lines, i, "OUTPUT");
+                i = removeTagInfo(lines, i, "  OUTPUT ");
                 i = removeTagInfo(lines, i, "RXDATA");
-                i = removeTagInfo(lines, i, "RXSET");
-                i = removeTagInfo(lines, i, "REACTION");
-                i = removeTagInfo(lines, i, "HORX");
-            }
-            while (i < lines.Length)
-            {
-                string line = lines[i];
-                sb.Append(line).Append("\n");
-                i++;
-
+                i = removeTagInfo(lines, i, "  RXSET ID=");
+                i = removeTagInfo(lines, i, "    REACTION ID=");
+                int end = removeTagInfo(lines, i, "      HORX ");
+                if (end == i)
+                    break;
+                else
+                    i = end;
+                
             }
 
-
-
+            int unitStart = 0;
             while (i < lines.Length)
             {
                 string line = lines[i];
                 if (line.Contains("UNIT OPERATIONS"))
                 {
+                    unitStart = i;
                     sb.Append("UNIT OPERATIONS").Append("\n");
                     foreach (string eq in eqList)
                     {
-                        string eqinfo = FindEqInfo(lines, eq);
+                        string eqinfo = CopyEqInfo(lines, eq);
                         sb.Append(eqinfo).Append("\n");
                     }
+
                     break;
                 }
                 else
                 {
-                    sb.Append(line).Append("\n");
+                    //sb.Append(line).Append("\n");
                     i++;
                 }
+            }
+            i = unitStart;
+            while (i < lines.Length)
+            {
+                foreach (string eq in processHxList)
+                {
+                    string eqinfo = FindProcessHxInfo(lines,i, eq);
+                    sb.Append(eqinfo).Append("\n");
+                }
+                break;
             }
             sb.Append("END");
 
@@ -469,9 +497,42 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             return newLines;
         }
 
+        public string GetAssayLVStreamInfo(string[] lines,int start)
+        {
+            StringBuilder sb = new StringBuilder();
+            int i = start;
+            while (i < lines.Length-1)
+            {
+                string line = lines[i];
+                string line2 = lines[i + 1];
+                if (line.Contains(" STREAM=") && line2.Contains("ASSAY=LV"))
+                {
+                    sb.Append(line).Append("\n");
+                    sb.Append(line2).Append("\n");
+                    i = i + 2;
+                    line = lines[i];
+                    while (line.Contains("    "))
+                    {
+                        sb.Append(line).Append("\n");
+                        i++;
+                        line = lines[i];
+                    }
+                }
+                else
+                {
+                    i = i + 2;
+                    if (line.Contains("UNIT OPERATIONS") || line2.Contains("UNIT OPERATIONS"))
+                    {
+                        break;
+                    }
+                }
+               
+            }
+            return sb.ToString();
+            
+        }
 
-
-        public string FindEqInfo(string[] lines, string eqName)
+        public string CopyEqInfo(string[] lines, string eqName)
         {
             StringBuilder sb = new StringBuilder();
             string EqInfo = "UID=" + eqName.ToUpper();
@@ -502,6 +563,30 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 else
                 {
                     break;
+                }
+            }
+
+            return sb.ToString();
+
+        }
+
+        public string FindProcessHxInfo(string[] lines,int start, string eqName)
+        {
+            StringBuilder sb = new StringBuilder();
+            string EqInfo = "HX   UID=" + eqName.ToUpper();
+            int i = start;
+            while (i < lines.Length)
+            {
+                string line = lines[i];
+                if (line.Contains(EqInfo))
+                {
+                    string eqInfo = GetNewHXInfo(lines, i, eqName);
+                    sb.Append(eqInfo);
+                    break;
+                }
+                else
+                {
+                    i++;
                 }
             }
             return sb.ToString();
@@ -549,13 +634,18 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             int end = start;
             int i = start;
             bool b = false;
+            int len = tag.Length;
             while (i < lines.Length)
             {
                 string line = lines[i];
-                if (line.Contains(tag))
+                if (line.Contains(tag) && line.Substring(0,len)==tag)
                 {
                     b = true;
                     break;
+                }
+                else
+                {
+                    i++;
                 }
             }
             if (b)
@@ -587,7 +677,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             ProIIStreamDataDAL streamdal = new ProIIStreamDataDAL();
             foreach (string eq in eqList)
             {
-                ProIIEqData eqData = eqdal.GetModel(SessionPF, PrzFile, eq);
+                ProIIEqData eqData = eqdal.GetModel(SessionPF, SourceFileInfo.FileName, eq);
                 string feeddata = eqData.FeedData;
                 if (!string.IsNullOrEmpty(feeddata))
                 {
@@ -597,7 +687,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         if (!streams.Contains(s) && !string.IsNullOrEmpty(s))
                         {
                             streams.Add(s);
-                            ProIIStreamData piis = streamdal.GetModel(SessionPF, s, PrzFile);
+                            ProIIStreamData piis = streamdal.GetModel(SessionPF, s, SourceFileInfo.FileName);
                             CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(piis);
                             if (cs != null)
                             {
@@ -615,7 +705,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         if (!streams.Contains(s) && !string.IsNullOrEmpty(s))
                         {
                             streams.Add(s);
-                            ProIIStreamData piis = streamdal.GetModel(SessionPF, s, PrzFile);
+                            ProIIStreamData piis = streamdal.GetModel(SessionPF, s, SourceFileInfo.FileName);
                             CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(piis);
                             if (cs != null)
                             {
@@ -633,7 +723,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             ProIIEqDataDAL eqdal = new ProIIEqDataDAL();
             ProIIStreamDataDAL streamdal = new ProIIStreamDataDAL();
             List<CustomStream> list = new List<CustomStream>();
-            ProIIEqData eqData = eqdal.GetModel(SessionPF, PrzFile, eqName);
+            ProIIEqData eqData = eqdal.GetModel(SessionPF, SourceFileInfo.FileName, eqName);
             string feeddata = eqData.FeedData;
             string[] feeds = feeddata.Split(',');
             foreach (string s in feeds)
@@ -641,7 +731,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 if (!streams.Contains(s) && !string.IsNullOrEmpty(s))
                 {
                     streams.Add(s);
-                    ProIIStreamData piis = streamdal.GetModel(SessionPF, s, PrzFile);
+                    ProIIStreamData piis = streamdal.GetModel(SessionPF, s, SourceFileInfo.FileName);
                     CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(piis);
                     list.Add(cs);
                 }
@@ -653,7 +743,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 if (!streams.Contains(s) && !string.IsNullOrEmpty(s))
                 {
                     streams.Add(s);
-                    ProIIStreamData piis = streamdal.GetModel(SessionPF, s, PrzFile);
+                    ProIIStreamData piis = streamdal.GetModel(SessionPF, s, SourceFileInfo.FileName);
                     CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(piis);
                     list.Add(cs);
                 }
@@ -669,7 +759,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 ProIIStreamDataDAL streamdal = new ProIIStreamDataDAL();
                 streams.Add(s);
-                ProIIStreamData piis = streamdal.GetModel(SessionPF, s, PrzFile);
+                ProIIStreamData piis = streamdal.GetModel(SessionPF, s, SourceFileInfo.FileName);
                 cs = ProIIToDefault.ConvertProIIStreamToCustomStream(piis);
 
             }
@@ -681,43 +771,85 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         //get eq duty,ltmd, 然后讲HX的值进行替换。
 
 
-        private double GetLTMD(double tin,double tout,double Tin,double Tout)
+        private double GetLTMD(ISession sessionPlant,string fileName,string eqName,out double duty)
         {
-            double a=Tin-tout;
-            double b=Tout-tin;
-            double c=Math.Log(a/b);
-            double ltmd=(a-b)/c;
+            double tin=0;
+            double tout=0;
+            double Tin=0;
+            double Tout=0;
+            double ltmd = -1;
+            ProIIEqDataDAL eqDAL = new ProIIEqDataDAL();
+            ProIIStreamDataDAL streamDAL = new ProIIStreamDataDAL();
+            ProIIEqData eqData = eqDAL.GetModel(sessionPlant, fileName, eqName);
+            duty = double.Parse(eqData.DutyCalc);
+            string feeddata = eqData.FeedData;
+            string[] feeds = feeddata.Split(',');
+             string productdata = eqData.ProductData;
+            string[] products = productdata.Split(',');
+            if (feeds.Length >= 2 && products.Length > -2)
+            {
+                ProIIStreamData prostream = streamDAL.GetModel(sessionPlant, feeds[0], fileName);
+                if(!string.IsNullOrEmpty(prostream.Temperature))
+                {
+                    tin = double.Parse(prostream.Temperature);
+                    Tin = tin;
+                }
+                prostream = streamDAL.GetModel(sessionPlant, feeds[1], fileName);
+                if (!string.IsNullOrEmpty(prostream.Temperature))
+                {
+                    double t = double.Parse(prostream.Temperature);
+                    if (t > tin)
+                        Tin = t;
+                    else
+                        tin = t;
+                }
+
+                prostream = streamDAL.GetModel(sessionPlant, products[0], fileName);
+                if (!string.IsNullOrEmpty(prostream.Temperature))
+                {
+                    tout = double.Parse(prostream.Temperature);
+                    Tout = tout;
+                }
+                prostream = streamDAL.GetModel(sessionPlant, products[1], fileName);
+                if (!string.IsNullOrEmpty(prostream.Temperature))
+                {
+                    double t = double.Parse(prostream.Temperature);
+                    if (t > tout)
+                        Tout = t;
+                    else
+                        tout = t;
+                }
+                
+                double a = Tin - tout;
+                double b = Tout - tin;
+                double c = Math.Log(a / b);
+                ltmd = (a - b) / c;
+            }
             return ltmd;
         }
 
-        private string[] ReplaceHXInfo(string[] lines, int start,string hxName, double duty)
+        private string GetNewHXInfo(string[] lines, int start,string hxName)
         {
-            List<string> list = new List<string>();
+            StringBuilder sb = new StringBuilder();
             int i = start;
-
-            string key = "HX   UID=" + hxName.ToUpper();
-            while (i < lines.Length)
-            {
-                string line = lines[i];
-                if (line.Contains(key))
-                {
-                    list.Add(line);
-                    i++;
-                    line = lines[i];
-                    list.Add(line);
-                    i++;
-                    line = lines[i];
-                    list.Add(line);
-                    break;
-                }
-            }
-            while (i < lines.Length)
-            {
-                string line = lines[i];
-                list.Add(line);
-                i++;
-            }
-            return list.ToArray();
+            string line = lines[i];
+            sb.Append(line).Append("\n");
+            i++;
+            line = lines[i];
+            sb.Append(line).Append("\n");
+            i++;
+            line = lines[i];
+            sb.Append(line).Append("\n");
+            i++;
+            line = lines[i];
+            sb.Append(line);
+            double duty=0;
+            double ltmd = GetLTMD(SessionPF, FileName, hxName,out  duty);
+            double k = 1;
+            double a = duty / ltmd / k;
+            sb.Append("U=").Append(ltmd).Append(",AREA=").Append(a).Append("\n");
+            return sb.ToString();
+            
         }
 
         private string[] ReplaceStreamInfo(string[] lines, int start, string streamName, double temp)

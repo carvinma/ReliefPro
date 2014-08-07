@@ -25,12 +25,12 @@ namespace ReliefProMain.ViewModel.HXs
         private ISession SessionPF;
         private string DirPlant;
         private string DirProtectedSystem;
-        private string PrzFile;
-        private string PrzVersion;
-
+        
         public AirCooledHXFireSizeModel model { get; set; }
         private HXBLL hxBLL;
         private CustomStreamDAL customStreamDAL = new CustomStreamDAL();
+        public SourceFile SourceFileInfo { get; set; }
+        public string FileFullPath { get; set; }
 
         public AirCooledHXFireSizeVM(int ID, ISession SessionPS, ISession SessionPF)
         {
@@ -48,14 +48,14 @@ namespace ReliefProMain.ViewModel.HXs
             model.ReliefPressureUnit = uomEnum.UserPressure;
         }
 
-        public AirCooledHXFireSizeVM(int ScenarioID, string przFile, string version, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
+        public AirCooledHXFireSizeVM(int ScenarioID,SourceFile sourceFileInfo,  ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
-            PrzFile = przFile;
-            PrzVersion = version;
+            SourceFileInfo = sourceFileInfo;            
+            FileFullPath = DirPlant + @"\" + sourceFileInfo.FileNameNoExt + @"\" + sourceFileInfo.FileName;
             OKCMD = new DelegateCommand<object>(Save);
             CalcCMD = new DelegateCommand<object>(CalcResult);
 
@@ -130,15 +130,15 @@ namespace ReliefProMain.ViewModel.HXs
                     string rate = "0.05";
                     int ImportResult = 0;
                     int RunResult = 0;
-                    PROIIFileOperator.DecompressProIIFile(PrzFile, tempdir);
+                    PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
                     string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-                    IFlashCalculateW fcalc = ProIIFactory.CreateFlashCalculateW(PrzVersion);
+                    IFlashCalculateW fcalc = ProIIFactory.CreateFlashCalculateW(SourceFileInfo.FileVersion);
                     string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 4, "", stream, vapor, liquid, rate, dirLatent, ref ImportResult, ref RunResult);
                     if (ImportResult == 1 || ImportResult == 2)
                     {
                         if (RunResult == 1 || RunResult == 2)
                         {
-                            IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+                            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                             reader.InitProIIReader(tray1_f);
                             ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
                             ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
@@ -197,15 +197,15 @@ namespace ReliefProMain.ViewModel.HXs
             string rate = "1";
             int ImportResult = 0;
             int RunResult = 0;
-            PROIIFileOperator.DecompressProIIFile(PrzFile, tempdir);
+            PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
+            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
             string tray1_f = fcalc.Calculate(content, 1, "0", 5, "0", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(tray1_f);
                     ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
                     ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
@@ -240,15 +240,15 @@ namespace ReliefProMain.ViewModel.HXs
             string rate = "1";
             int ImportResult = 0;
             int RunResult = 0;
-            PROIIFileOperator.DecompressProIIFile(PrzFile, tempdir);
+            PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-            IFlashCalculateW fcalc = ProIIFactory.CreateFlashCalculateW(PrzVersion);
+            IFlashCalculateW fcalc = ProIIFactory.CreateFlashCalculateW(SourceFileInfo.FileVersion);
             string tray1_f = fcalc.Calculate(content, 1, "0", 4, "", stream, vapor, liquid, rate, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(tray1_f);
                     ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
                     ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);

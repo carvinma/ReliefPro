@@ -12,14 +12,14 @@ using ReliefProDAL;
 using ReliefProBLL.Common;
 using System.Collections.ObjectModel;
 using NHibernate;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel
 {
    public class SelectStreamVM:ViewModelBase
     {
-        private ISession SessionPlant { set; get; }       
-        private string DirPlant { set; get; }
-        
+        private ISession SessionPlant { set; get; }
+        public SourceFile SourceFileInfo { set; get; }      
         private string _SelectedFile;
         public string SelectedFile
         {
@@ -30,10 +30,9 @@ namespace ReliefProMain.ViewModel
             set
             {
                 this._SelectedFile = value;
-
+                SourceFileBLL sfbll = new SourceFileBLL(SessionPlant);
+                SourceFileInfo = sfbll.GetSourceFileInfo(_SelectedFile);
                 EqNames = GetEqNames();
-
-
                 OnPropertyChanged("SelectedFile");
             }
         }
@@ -53,10 +52,9 @@ namespace ReliefProMain.ViewModel
 
 
 
-        public SelectStreamVM( ISession sessionPlant, string dirPlant)
+        public SelectStreamVM( ISession sessionPlant)
         {
             SessionPlant = sessionPlant;
-            DirPlant = dirPlant;
             SourceFiles = GetSourceFiles();
             EqNames = GetEqNames();
         }
@@ -85,27 +83,30 @@ namespace ReliefProMain.ViewModel
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
             ProIIStreamDataDAL db = new ProIIStreamDataDAL();
-            string file = SelectedFile + ".prz";
-            IList<ProIIStreamData> data = db.GetAllList(SessionPlant, file);
-            foreach (ProIIStreamData d in data)
+            if (!string.IsNullOrEmpty(SelectedFile))
             {
-                list.Add(d.StreamName);
+                int idx = SelectedFile.LastIndexOf(".");
+                string ext = SelectedFile.Substring(idx + 1);
+                if (ext.ToLower() == "prz")
+                {
+                    IList<ProIIStreamData> data = db.GetAllList(SessionPlant, SelectedFile);
+                    foreach (ProIIStreamData d in data)
+                    {
+                        list.Add(d.StreamName);
+                    }
+                }
             }
             return list;
         }
 
         public ObservableCollection<string> GetSourceFiles()
         {
-            ObservableCollection<string> list = new ObservableCollection<string>();           
-            string[] files = Directory.GetFiles(DirPlant);
-            foreach (string f in files)
+            ObservableCollection<string> list = new ObservableCollection<string>();
+            SourceFileDAL dal = new SourceFileDAL();
+            IList<SourceFile> files = dal.GetAllList(SessionPlant);
+            foreach (SourceFile df in files)
             {
-                FileInfo fi = new FileInfo(f);
-                if (fi.Extension.ToString().ToLower() == ".prz")
-                {
-                    string filename=System.IO.Path.GetFileNameWithoutExtension(f);
-                    list.Add(filename);
-                }
+                list.Add(df.FileName);
             }
 
             return list;

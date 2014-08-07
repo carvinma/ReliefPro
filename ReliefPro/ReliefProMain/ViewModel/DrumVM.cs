@@ -15,6 +15,7 @@ using ReliefProMain.View;
 using UOMLib;
 using ReliefProModel.Drums;
 using ReliefProDAL.Drums;
+using ReliefProModel;
 
 namespace ReliefProMain.ViewModel
 {
@@ -24,8 +25,10 @@ namespace ReliefProMain.ViewModel
         private ISession SessionProtectedSystem { set; get; }
         private string DirPlant { set; get; }
         private string DirProtectedSystem { set; get; }
-        public string przFile { set; get; }
+        private SourceFile SourceFileinfo;
+        private string SourceFileName;
         private ProIIEqData ProIIDrum;
+        public SourceFile SourceFileInfo;
         private string _DrumName;
         public string DrumName
         {
@@ -129,7 +132,6 @@ namespace ReliefProMain.ViewModel
             DrumName = drumName;
             if (!string.IsNullOrEmpty(DrumName))
             {
-
                 Feeds = GetStreams(SessionProtectedSystem, false);
                 Products = GetStreams(SessionProtectedSystem, true);
 
@@ -142,6 +144,9 @@ namespace ReliefProMain.ViewModel
                     Pressure = CurrentDrum.Pressure;
                     Temperature = CurrentDrum.Temperature;
                     DrumType = CurrentDrum.DrumType;
+
+                    SourceFileDAL sfdal = new SourceFileDAL();
+                    SourceFileinfo = sfdal.GetModel(CurrentDrum.SourceFile, SessionPlant);
                 }
 
 
@@ -167,7 +172,7 @@ namespace ReliefProMain.ViewModel
         private void Import(object obj)
         {
             SelectEquipmentView v = new SelectEquipmentView();
-            SelectEquipmentVM vm = new SelectEquipmentVM("Flash",  SessionPlant, DirPlant);
+            SelectEquipmentVM vm = new SelectEquipmentVM("Flash",  SessionPlant);
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.DataContext = vm;
             if (v.ShowDialog() == true)
@@ -175,9 +180,10 @@ namespace ReliefProMain.ViewModel
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
                 {
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
+                    SourceFileInfo = vm.SourceFileInfo;
                     ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
-                    przFile = vm.SelectedFile + ".prz";
-                    ProIIDrum = dbEq.GetModel(SessionPlant, przFile, vm.SelectedEq, "Flash");
+                    SourceFileName = vm.SelectedFile;
+                    ProIIDrum = dbEq.GetModel(SessionPlant, SourceFileName, vm.SelectedEq, "Flash");
                     DrumName = ProIIDrum.EqName;
                     Duty = (double.Parse(ProIIDrum.DutyCalc) * 3600);
                     Temperature = UnitConvert.Convert("K", "C", double.Parse(ProIIDrum.TempCalc));
@@ -199,7 +205,7 @@ namespace ReliefProMain.ViewModel
 
                     foreach (string k in dicFeeds)
                     {
-                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
+                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, SourceFileName);
                         CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
                         cstream.IsProduct = false;
                         Feeds.Add(cstream);
@@ -207,7 +213,7 @@ namespace ReliefProMain.ViewModel
                     for (int i = 0; i < dicProducts.Count; i++)
                     {
                         string k = dicProducts[i];
-                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, przFile);
+                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, SourceFileName);
                         CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
                         cstream.IsProduct = true;
                         cstream.ProdType = dicProductTypes[i];
@@ -293,7 +299,7 @@ namespace ReliefProMain.ViewModel
             drum.DrumName = DrumName;
             drum.Duty = Duty;
             drum.DrumType = DrumType;
-            drum.PrzFile = przFile;
+            drum.SourceFile = SourceFileName;
             drum.Pressure = Pressure;
             drum.Temperature = Temperature;
             dbdrum.Add(drum, SessionProtectedSystem);

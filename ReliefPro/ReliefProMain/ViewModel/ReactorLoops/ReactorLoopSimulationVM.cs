@@ -226,12 +226,12 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private void Import(object obj)
         {
             SelectPathView view = new SelectPathView();
-            SelectPathVM vm = new SelectPathVM(DirPlant);
+            SelectPathVM vm = new SelectPathVM(SessionPF);
             view.DataContext = vm;
             view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (view.ShowDialog() == true)
             {
-                PrzFile = vm.SelectedFile + ".prz";
+                PrzFile = vm.SelectedFile;
                 InitPage();
             }
         }

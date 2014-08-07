@@ -452,18 +452,25 @@ namespace ReliefProMain
 
                     TreeViewItem item = GetTreeViewItem(currentPlantName, currentPlantWorkFolder, 1, "images/pt.ico", dbPlant_target, null);
                     DirectoryInfo dirPlant = new DirectoryInfo(currentPlantWorkFolder);
-
-                    foreach (DirectoryInfo device in dirPlant.GetDirectories())
+                    NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlant_target);
+                    SessionPlant = helperProtectedSystem.GetCurrentSession();
+                    TreeUnitDAL unitdal = new TreeUnitDAL();
+                    TreePSDAL psdal = new TreePSDAL();
+                    IList<TreeUnit> units = unitdal.GetAllList(SessionPlant);
+                    foreach (TreeUnit u in units)
                     {
-                        TreeViewItem itemDevice = GetTreeViewItem(device.Name, device.FullName, 2, "images/un.ico", dbPlant_target, null);
+                        string ufullpath = dirPlant + @"\" + u.UnitName;
+                        TreeViewItem itemDevice = GetTreeViewItem(u.UnitName, ufullpath, 2, "images/un.ico", dbPlant_target, null);
                         item.Items.Add(itemDevice);
-                        foreach (DirectoryInfo dirProtectedSystem in device.GetDirectories())
+                        IList<TreePS> pss=psdal.GetAllList(u.ID,SessionPlant);
+                        foreach (TreePS p in pss)
                         {
-                            string dbProtectSystem_target = dirProtectedSystem.FullName + @"\protectedsystem.mdb";
-                            TreeViewItem itemProtectSystem = GetTreeViewItem(dirProtectedSystem.Name, dirProtectedSystem.FullName, 3, "images/ps.ico", dbPlant_target, dbProtectSystem_target);
+                            string pfoderpath = ufullpath + @"\" + p.PSName;
+                            string dbProtectSystem_target = pfoderpath + @"\protectedsystem.mdb";
+                            TreeViewItem itemProtectSystem = GetTreeViewItem(p.PSName, pfoderpath, 3, "images/ps.ico", dbPlant_target, dbProtectSystem_target);
                             itemDevice.Items.Add(itemProtectSystem);
 
-                            TreeViewItem itemProtectSystemfile = GetTreeViewItem(dirProtectedSystem.Name, dirProtectedSystem.FullName + @"\design.vsd", 4, "images/file.ico", dbPlant_target, dbProtectSystem_target);
+                            TreeViewItem itemProtectSystemfile = GetTreeViewItem(p.PSName, pfoderpath + @"\design.vsd", 4, "images/file.ico", dbPlant_target, dbProtectSystem_target);
                             itemProtectSystem.Items.Add(itemProtectSystemfile);
                         }
 
@@ -543,7 +550,7 @@ namespace ReliefProMain
                     treePS.UnitID = treeUnit.ID;
                     treePSDAL.Add(treePS, SessionPlant);
 
-
+                    SavePlant();
                 }
             }
             catch (Exception ex)
@@ -738,6 +745,7 @@ namespace ReliefProMain
             ImportDataView imptdata = new ImportDataView();
             TreeViewItemData data = tvi.Tag as TreeViewItemData;
             imptdata.dirInfo = data.FullName;
+            imptdata.SessionPlant = SessionPlant;
             imptdata.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             imptdata.Owner = this;

@@ -21,7 +21,6 @@ namespace ReliefProMain.ViewModel
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
-        private string PrzFile;
         SinkDAL db;
         public List<string> SinkTypes { get; set; }
         public SinkModel MainModel { get; set; }
@@ -37,9 +36,8 @@ namespace ReliefProMain.ViewModel
             return list;
         }
         UOMLib.UOMEnum uomEnum;
-        public SinkVM(string name, string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
+        public SinkVM(string name,  ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            this.PrzFile = PrzFile;
             SinkTypes = GetSinkTypes();
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;

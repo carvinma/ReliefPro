@@ -32,16 +32,14 @@ namespace ReliefProMain.ViewModel.Drums
         private ISession SessionPF;
         private string DirPlant { set; get; }
         private string DirProtectedSystem { set; get; }
-        private string PrzFile;
-        private string PrzVersion;
+        SourceFile SourceFileInfo { set; get; }
         double reliefLoad = 0, reliefMW = 0, reliefT = 0, reliefPressure = 0;
         public Tuple<double, double, double, double> CalcTuple { get; set; }
-        public DrumBlockedOutletVM(int ScenarioID, string przFile, string version, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
+        public DrumBlockedOutletVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
-            this.PrzFile = przFile;
-            this.PrzVersion = version;
+            SourceFileInfo = sourceFileInfo;
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
             drum = new DrumBll();
@@ -85,12 +83,13 @@ namespace ReliefProMain.ViewModel.Drums
             double setPress = drum.PSet(SessionPS);
             if (feedupPress > setPress)
             {
-                string content = PROIIFileOperator.getUsableContent(drum.Feeds[0].StreamName, DirPlant);
+                string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
+                string content = PROIIFileOperator.getUsableContent(drum.Feeds[0].StreamName, dir);
                 if (model.DrumType == "Flashing Drum")
                 {
                     duty = (model.NormalFlashDuty / Math.Pow(10, 6)).ToString();
                 }
-                IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
+                IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
                 int ImportResult = 0;
                 int RunResult = 0;
                 string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, drum.Feeds[0], vapor, liquid, tempdir, ref ImportResult, ref RunResult);
@@ -98,7 +97,7 @@ namespace ReliefProMain.ViewModel.Drums
                 {
                     if (RunResult == 1 || RunResult == 2)
                     {
-                        IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+                        IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                         reader.InitProIIReader(f);
                         ProIIStreamData proIIvapor = reader.GetSteamInfo(vapor);
                         reader.ReleaseProIIReader();

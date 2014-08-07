@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="{DynamicResource TowerViewTitle}" Height="500" Width="800" Name="myWindow" WindowStyle="SingleBorderWindow" >
 
-    <Grid Margin="0,0,0,0" >
+    <Grid Margin="0,0,0,0" Background="#f0f0f0" >
         <Grid.RowDefinitions>
             <RowDefinition Height="5"/>
             <RowDefinition/>
@@ -105,15 +105,15 @@
 
         <Border BorderBrush="black" VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1" Margin="0,1,0,0" Grid.Row="5"/>
 
-        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="5" VerticalAlignment="Stretch">
+        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="5" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Content="{DynamicResource OK}" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Center" Width="75" Height="25"  Grid.Column="1"/>
-            <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center" Width="75" Height="25" Grid.Column="2"/>
+            <Button Content="{DynamicResource OK}" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Center"  Grid.Column="1"/>
+            <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center" Grid.Column="2"/>
         </Grid>
 
         

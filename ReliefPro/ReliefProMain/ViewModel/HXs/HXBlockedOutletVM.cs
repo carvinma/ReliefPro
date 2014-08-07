@@ -25,11 +25,11 @@ namespace ReliefProMain.ViewModel.HXs
         private ISession SessionPF;
         private string DirPlant;
         private string DirProtectedSystem;
-        private string PrzFile;
-        private string PrzVersion;
+        public SourceFile SourceFileInfo { get; set; }
+        public string FileFullPath { get; set; }
         public HXBlockedOutletModel model { get; set; }
         private HXBLL hxBLL;
-        public HXBlockedOutletVM(int ScenarioID, string przFile, string version, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
+        public HXBlockedOutletVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
@@ -37,6 +37,8 @@ namespace ReliefProMain.ViewModel.HXs
             DirProtectedSystem = dirProtectedSystem;
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
+            SourceFileInfo = sourceFileInfo;
+            FileFullPath = DirPlant + @"\" + sourceFileInfo.FileNameNoExt + @"\" + sourceFileInfo.FileName;
             OKCMD = new DelegateCommand<object>(Save);
             CalcCMD = new DelegateCommand<object>(CalcResult);
 
@@ -96,15 +98,15 @@ namespace ReliefProMain.ViewModel.HXs
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
             int ImportResult = 0;
             int RunResult = 0;
-            PROIIFileOperator.DecompressProIIFile(PrzFile, tempdir);
+            PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
+            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
             string tray1_f = fcalc.Calculate(content, 1, "0", 3, "0", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(tray1_f);
                     ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
                     ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);

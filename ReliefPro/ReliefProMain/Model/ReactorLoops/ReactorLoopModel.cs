@@ -127,23 +127,15 @@ namespace ReliefProMain.Model.ReactorLoops
             }
         }
 
-        public string PSFile
-        {
-            get { return dbModel.PSFile; }
-            set
-            {
-                dbModel.PSFile = value;
-                NotifyPropertyChanged("PSFile");
-            }
-        }
+        
 
-        public string PSVersion
+        public string SourceFile
         {
-            get { return dbModel.PSVersion; }
+            get { return dbModel.SourceFile; }
             set
             {
-                dbModel.PSVersion = value;
-                NotifyPropertyChanged("PSVersion");
+                dbModel.SourceFile = value;
+                NotifyPropertyChanged("SourceFile");
             }
         }
         private ReactorLoopDetail selectedHXModel;

@@ -26,8 +26,8 @@ namespace ReliefProMain.ViewModel
         private string DirProtectedSystem { set; get; }     
         public string dbProtectedSystemFile { set; get; }
         public string dbPlantFile { set; get; }
+        SourceFile SourceFileInfo; 
         public int ScenarioID { set; get; }
-        public string PrzFile { set; get; }
         private TowerScenarioStreamDAL db;
         private ObservableCollection<TowerScenarioStreamModel> _Feeds;
         public ObservableCollection<TowerScenarioStreamModel> Feeds
@@ -56,12 +56,12 @@ namespace ReliefProMain.ViewModel
             return feeds;
         }
 
-        public TowerScenarioFeedVM(int scenarioID,string PrzFile, ISession sessionPlant, ISession sessionProtectedSystem)
+        public TowerScenarioFeedVM(int scenarioID,SourceFile sourceFileInfo,  ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            this.PrzFile = PrzFile;
             db = new TowerScenarioStreamDAL();
             ScenarioID=scenarioID;
             SessionPlant = sessionPlant;
+            SourceFileInfo = sourceFileInfo; 
             SessionProtectedSystem = sessionProtectedSystem;
             Feeds = GetTowerHXScenarioFeeds();
         }
@@ -131,7 +131,7 @@ namespace ReliefProMain.ViewModel
         {
             int SourceID = int.Parse(obj.ToString());
             ScenarioHeatSourceListView v = new ScenarioHeatSourceListView();
-            ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SourceID,PrzFile, SessionPlant, SessionProtectedSystem);
+            ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SourceID,SourceFileInfo, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (v.ShowDialog() == true)

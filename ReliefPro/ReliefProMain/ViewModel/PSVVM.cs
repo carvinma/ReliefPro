@@ -28,11 +28,10 @@ namespace ReliefProMain.ViewModel
         private ISession SessionProtectedSystem { set; get; }
         private string DirPlant { set; get; }
         private string DirProtectedSystem { set; get; }
-        public string PrzFile { get; set; }
-        public string PrzVersion { get; set; }
+        public SourceFile SourceFileInfo { set; get; }
         public string EqName { get; set; }
         public string EqType { get; set; }
-
+        public string FileFullPath { get; set; }
         private string psvPressureUnit;
         public string PSVPressureUnit
         {
@@ -106,7 +105,7 @@ namespace ReliefProMain.ViewModel
 
             return list;
         }
-        public PSVVM(string eqName, string eqType, string przFile, string version, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
+        public PSVVM(string eqName, string eqType, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
             EqName = eqName;
             EqType = eqType;
@@ -114,11 +113,10 @@ namespace ReliefProMain.ViewModel
             SessionProtectedSystem = sessionProtectedSystem;
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
+            SourceFileInfo = sourceFileInfo;
             ValveTypes = GetValveTypes();
             DischargeTos = GetDischargeTos();
-            PrzFile = przFile;
-            PrzVersion = version;
-
+            
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             this.psvPressureUnit = uomEnum.UserPressure;
             this.drumPSVPressureUnit = uomEnum.UserPressure;
@@ -239,7 +237,7 @@ namespace ReliefProMain.ViewModel
         public void CreateTowerPSV()
         {
             //判断压力是否更改，relief pressure 是否更改。  （drum的是否修改，会影响到火灾的计算）
-
+            string FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
             string tempdir = DirProtectedSystem + @"\temp\";
             if (!Directory.Exists(tempdir))
                 Directory.CreateDirectory(tempdir);
@@ -254,9 +252,8 @@ namespace ReliefProMain.ViewModel
             if (!Directory.Exists(dirCopyStream))
                 Directory.CreateDirectory(dirCopyStream);
 
-            string fileName=System.IO.Path.GetFileName(PrzFile);
-            string copyFile=dirCopyStream+@"\"+fileName;
-            File.Copy(PrzFile, copyFile,true);
+            string copyFile=dirCopyStream+@"\"+SourceFileInfo.FileName;
+            File.Copy(FileFullPath, copyFile, true);
             CustomStream stream = CopyTop1Liquid(copyFile);
             double internPressure = UnitConvert.Convert("MPAG", "KPA", stream.Pressure.Value);
             if (internPressure == 0)
@@ -264,7 +261,7 @@ namespace ReliefProMain.ViewModel
                 MessageBox.Show("Please Rerun this ProII file and save it.","Message Box");
                 return;
             }
-            PROIIFileOperator.DecompressProIIFile(PrzFile, tempdir);
+            PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             
             string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
             double ReliefPressure = CurrentModel.ReliefPressureFactor.Value * CurrentModel.Pressure.Value;
@@ -305,7 +302,7 @@ namespace ReliefProMain.ViewModel
                 CustomStream p = products[i - 1];
                 if (p.TotalMolarRate != null && p.TotalMolarRate.Value>0)
                 {
-                    IFlashCalculate fc = ProIIFactory.CreateFlashCalculate(PrzVersion);
+                    IFlashCalculate fc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
                     string gd = Guid.NewGuid().ToString();
                     string vapor = "S_" + gd.Substring(0, 5).ToUpper();
                     string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
@@ -402,7 +399,7 @@ namespace ReliefProMain.ViewModel
                 if (fr.PrzFile != "")
                 {
                     CustomStream cs = null;
-                    IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(fr.PrzFile);
                     TowerFlashProduct product = new TowerFlashProduct();
                     if (prodtype == "4" || (prodtype == "2" && tray == 1) || prodtype == "3" || prodtype == "6")
@@ -460,7 +457,7 @@ namespace ReliefProMain.ViewModel
         private CustomStream CopyTop1Liquid(string copyPrzFile)
         {
             CustomStream cs = new CustomStream();
-            IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
             reader.InitProIIReader(copyPrzFile);
             ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 1, 2, 1);
             reader.ReleaseProIIReader();
@@ -489,7 +486,7 @@ namespace ReliefProMain.ViewModel
             int ImportResult = 0;
             int RunResult = 0;
             criticalPressure = 0;
-            IPHASECalculate PhaseCalc = ProIIFactory.CreatePHASECalculate(PrzVersion);
+            IPHASECalculate PhaseCalc = ProIIFactory.CreatePHASECalculate(SourceFileInfo.FileVersion);
             string PH = "PH" + Guid.NewGuid().ToString().Substring(0, 4);
             string criticalPress = string.Empty;
             string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH, dirPhase, ref ImportResult, ref RunResult);
@@ -497,7 +494,7 @@ namespace ReliefProMain.ViewModel
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(phasef);
                     criticalPress = reader.GetCriticalPressure(PH);
                     reader.ReleaseProIIReader();
@@ -527,13 +524,13 @@ namespace ReliefProMain.ViewModel
             string gd = Guid.NewGuid().ToString();
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
-            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(PrzVersion);
+            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
             string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                   IProIIReader reader = ProIIFactory.CreateReader(PrzVersion);
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(tray1_f);
                     ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
                     ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);

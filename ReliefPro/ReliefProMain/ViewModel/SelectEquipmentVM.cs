@@ -12,14 +12,15 @@ using ReliefProDAL;
 using ReliefProBLL.Common;
 using System.Collections.ObjectModel;
 using NHibernate;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel
 {
    public class SelectEquipmentVM:ViewModelBase
     {
         private ISession SessionPlant { set; get; }       
-        private string DirPlant { set; get; }
         private string EqType;
+        public SourceFile SourceFileInfo;
         private string _SelectedFile;
         public string SelectedFile
         {
@@ -30,13 +31,15 @@ namespace ReliefProMain.ViewModel
             set
             {
                 this._SelectedFile = value;
-
+                SourceFileBLL sfbll = new SourceFileBLL(SessionPlant);
+                SourceFileInfo = sfbll.GetSourceFileInfo(_SelectedFile);
                 EqNames = GetEqNames();
 
 
                 OnPropertyChanged("SelectedFile");
             }
         }
+        
         private string _SelectedEq;
         public string SelectedEq
         {
@@ -51,10 +54,9 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        public SelectEquipmentVM(string eqType, ISession sessionPlant,  string dirPlant)
+        public SelectEquipmentVM(string eqType, ISession sessionPlant)
         {
             SessionPlant = sessionPlant;
-            DirPlant = dirPlant;
             EqType = eqType;
             SourceFiles = GetSourceFiles();
             EqNames = GetEqNames();
@@ -84,36 +86,37 @@ namespace ReliefProMain.ViewModel
         public ObservableCollection<string> GetEqNames()
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
-            
-                ProIIEqDataDAL db = new ProIIEqDataDAL();
-                string file = SelectedFile + ".prz";
-                IList<ProIIEqData> data = db.GetAllList(SessionPlant, file, EqType);
-                foreach (ProIIEqData d in data)
+            ProIIEqDataDAL db = new ProIIEqDataDAL();
+            if (!string.IsNullOrEmpty(SelectedFile))
+            {
+                int idx = SelectedFile.LastIndexOf(".");
+                string ext = SelectedFile.Substring(idx + 1);
+                if (ext.ToLower() == "prz")
                 {
-                    list.Add(d.EqName);
+                    IList<ProIIEqData> data = db.GetAllList(SessionPlant, SelectedFile, EqType);
+                    foreach (ProIIEqData d in data)
+                    {
+                        list.Add(d.EqName);
+                    }
                 }
-
-            
+            }
             return list;
         }
 
+
         public ObservableCollection<string> GetSourceFiles()
         {
-            ObservableCollection<string> list = new ObservableCollection<string>();           
-            string[] files = Directory.GetFiles(DirPlant);
-            foreach (string f in files)
+            ObservableCollection<string> list = new ObservableCollection<string>();
+            SourceFileDAL dal = new SourceFileDAL();
+            IList<SourceFile> files = dal.GetAllList(SessionPlant);
+            foreach (SourceFile df in files)
             {
-                FileInfo fi = new FileInfo(f);
-                if (fi.Extension.ToString().ToLower() == ".prz")
-                {
-                    string filename=System.IO.Path.GetFileNameWithoutExtension(f);
-                    list.Add(filename);
-                }
+                list.Add(df.FileName);
             }
 
             return list;
         }
-
+       
        private ICommand _OKCommand;
         public ICommand OKCommand
         {
