@@ -140,6 +140,7 @@
     <Compile Include="Critical.cs" />
     <Compile Include="FlashCalcResult.cs" />
     <Compile Include="TreePS.cs" />
+    <Compile Include="SourceFile.cs" />
     <EmbeddedResource Include="Compressors\CentrifugalBlockedOutlet.hbm.xml" />
     <EmbeddedResource Include="Compressors\PistonBlockedOutlet.hbm.xml">
       <SubType>Designer</SubType>
@@ -159,7 +160,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+
+    <EmbeddedResource Include="SourceFile.hbm.xml" />
+
     <EmbeddedResource Include="Towers\BlockedVaporOutlet.hbm.xml" />
+
     <EmbeddedResource Include="TreePS.hbm.xml" />
     <EmbeddedResource Include="Reports\PUsummaryNote.hbm.xml" />
     <EmbeddedResource Include="Reports\PUsummary.hbm.xml" />
