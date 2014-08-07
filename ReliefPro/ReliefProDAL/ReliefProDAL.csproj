@@ -122,6 +122,7 @@
     <Compile Include="TreeUnitDAL.cs" />
     <Compile Include="TreePSDAL.cs" />
     <Compile Include="ProtectedSystemDAL.cs" />
+    <Compile Include="SourceFileDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReliefProCommon\ReliefProCommon.csproj">
