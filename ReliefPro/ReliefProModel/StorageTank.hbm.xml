@@ -5,9 +5,9 @@
       <generator class="identity" />
     </id>   
     <property name="StorageTankName" column="StorageTankName" type="String" length="255" />
-    <property name="PrzFile" column="PrzFile" type="String" length="255" />
+    <property name="SourceFile" column="SourceFile" type="String" length="255" />
 
     <property name="StorageTankName_Color" column="StorageTankName_Color" type="String" length="255" />
-    <property name="PrzFile_Color" column="PrzFile_Color" type="String" length="255" />
+    <property name="SourceFile_Color" column="SourceFile_Color" type="String" length="255" />
   </class>
 </hibernate-mapping>

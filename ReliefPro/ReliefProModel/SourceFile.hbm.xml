@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="ReliefProModel.SourceFile, ReliefProModel" table="tbSourceFile" >
+    <id name="ID" column="ID" type="Int32" unsaved-value="0">
+      <generator class="identity" />
+    </id>
+    <property name="FileName" column="FileName" type="String" length="255" />
+    <property name="FileVersion" column="FileVersion" type="String" length="255" />
+    <property name="FileNameNoExt" column="FileNameNoExt" type="String" length="255" />
+    <property name="FileType" column="FileType" type="Int32"  />
+  </class>
+</hibernate-mapping>
