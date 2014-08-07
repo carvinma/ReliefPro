@@ -10,8 +10,7 @@
   <property name="ColdHighPressureSeparator" column="ColdHighPressureSeparator" type="String"/>
   <property name="HXNetworkColdStream" column="HXNetworkColdStream" type="String"/>
   <property name="InjectionWaterStream" column="InjectionWaterStream" type="String"/>
-  <property name="PSFile" column="PSFile" type="String"/>
-  <property name="PSVersion" column="PSVersion" type="String"/>
+  <property name="SourceFile" column="SourceFile" type="String"/>
   
   <property name="EffluentStream_Color" column="EffluentStream_Color" type="String" length="255"/>
   <property name="ColdReactorFeedStream_Color" column="ColdReactorFeedStream_Color" type="String" length="255"/>
