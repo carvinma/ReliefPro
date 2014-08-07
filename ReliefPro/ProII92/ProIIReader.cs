@@ -29,6 +29,8 @@ namespace ProII92
         string[] arrFlashAttributes = { "FeedData", "ProductData", "PressCalc", "TempCalc", "DutyCalc", "Type", "ProductStoreData" };
         string[] arrHxAttributes = { "FeedData", "ProductData", "DutyCalc", "ProductStoreData" };
         string[] arrCompressorAttributes = { "FeedData", "ProductData", "ProductStoreData" };
+        string[] arrMixerAttributes = { "FeedData", "ProductData"};
+        string[] arrSplitterAttributes = { "FeedData", "ProductData"};
 
         string przFileName;
         CP2File cp2File;
@@ -321,6 +323,42 @@ namespace ProII92
                         case "ProductStoreData":
                             data.ProductStoreData = value;
                             break;
+                    }
+                }
+            }
+            else if (otype == "Mixer")
+            {
+                foreach (string s in arrMixerAttributes)
+                {
+                    object v = eq.GetAttribute(s);
+                    string value = ConvertExt.ObjectToString(v);
+                    switch (s)
+                    {
+                        case "FeedData":
+                            data.FeedData = value;
+                            break;
+                        case "ProductData":
+                            data.ProductData = value;
+                            break;
+                       
+                    }
+                }
+            }
+            else if (otype == "Splitter")
+            {
+                foreach (string s in arrSplitterAttributes)
+                {
+                    object v = eq.GetAttribute(s);
+                    string value = ConvertExt.ObjectToString(v);
+                    switch (s)
+                    {
+                        case "FeedData":
+                            data.FeedData = value;
+                            break;
+                        case "ProductData":
+                            data.ProductData = value;
+                            break;
+
                     }
                 }
             }
