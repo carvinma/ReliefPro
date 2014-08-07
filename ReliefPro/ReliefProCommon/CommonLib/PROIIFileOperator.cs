@@ -10,7 +10,7 @@ using SharpCompress.Common;
 namespace ReliefProCommon.CommonLib
 {
     public static class PROIIFileOperator
-    {
+    {        
         public static bool DecompressProIIFile(string przFile, string decompressDir)
         {
             bool result = false;
