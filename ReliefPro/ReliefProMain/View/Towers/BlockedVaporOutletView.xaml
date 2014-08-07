@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.Towers.BlockedVaporOutletView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
+        xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
         Title="{DynamicResource BlockedVaporOutletViewTitle}" Height="305" Width="550">
     <Grid Margin="20,10,20,0">
         <StackPanel VerticalAlignment="Stretch">
@@ -70,7 +70,9 @@
                 <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" />
                 <Button Content="{DynamicResource Cancel}" IsCancel="True" />
             </StackPanel>
-            <StatusBar></StatusBar>
+            <StatusBar>
+                <Label Content="{DynamicResource BlockedVaporOutletViewStatusBar}"/>
+            </StatusBar>
         </StackPanel>
        
 

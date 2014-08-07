@@ -588,11 +588,15 @@
     <s:String x:Key="TowerViewStatusBar">...</s:String>
 
     <!--BlockedVaporOutletView.xaml-->
-    <s:String x:Key="BlockedVaporOutletViewTitle">BlockedVaporOutletView</s:String>
+    <s:String x:Key="BlockedVaporOutletViewTitle">BlockedVaporOutlet</s:String>
     <s:String x:Key="InletGasUpstreamMaxPressure">Inlet gas upstream max.pressure</s:String>
     <s:String x:Key="InletAbsorbentUpstreamMaxPressure">Inlet absorbent upstream max.pressure</s:String>
     <s:String x:Key="NormalGasFeedWeightRate">Normal gas feed weight rate</s:String>
     <s:String x:Key="NormalGasProductWeightRate">Normal gas product weight rate</s:String>
     <s:String x:Key="BlockedVaporOutletViewStatusBar">...</s:String>
+
+    <!--AbsorbentStopsView.xaml-->
+    <s:String x:Key="AbsorbentStopsViewTitle">AbsorbentStops</s:String>
+    <s:String x:Key="AbsorbentStopsViewStatusBar">...</s:String>
 
 </ResourceDictionary>
