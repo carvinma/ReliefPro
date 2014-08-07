@@ -16,6 +16,6 @@ namespace ReliefProModel
         public virtual string TowerName_Color { get; set; }
         public virtual string Description_Color { get; set; }
         public virtual string StageNumber_Color { get; set; }
-        public virtual string PrzFile { get; set; }
+        public virtual string SourceFile { get; set; }
     }
 }
