@@ -12,11 +12,11 @@ namespace ReliefProModel.HXs
         public virtual string HXName { get; set; }
         public virtual string HXType { get; set; }
         public virtual double? Duty { get; set; }
-        public virtual string PrzFile { get; set; }
+        public virtual string SourceFile { get; set; }
 
         public virtual string HXName_Color { get; set; }
         public virtual string HXType_Color { get; set; }
         public virtual string Duty_Color { get; set; }
-        public virtual string PrzFile_Color { get; set; }
+        public virtual string SourceFile_Color { get; set; }
     }
 }
