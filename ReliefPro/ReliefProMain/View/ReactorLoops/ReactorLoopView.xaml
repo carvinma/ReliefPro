@@ -9,7 +9,7 @@
         xmlns:Interactions="http://schemas.microsoft.com/expression/2010/interactions"
         mc:Ignorable="d"
         Title="{DynamicResource ReactorLoopViewTitle}"   WindowStyle="None" AllowsTransparency="True" 
-        Background="Transparent" Height="708" Width="790" x:Name="myWindow">
+        Background="Transparent" Height="740" Width="790" x:Name="myWindow">
     <Window.Resources>
         <Style TargetType="Label">
             <Setter Property="Foreground" Value="White"/>
@@ -421,13 +421,13 @@
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
-                    <RowDefinition Height="5"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
-                    <RowDefinition Height="5"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
@@ -449,29 +449,35 @@
                     <ColumnDefinition Width="310"/>
                     <ColumnDefinition Width="20"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label Content="{DynamicResource EffluentStream}"  Grid.Row="2"  Grid.Column="1"/>
-                <Label Content="{DynamicResource ColdReactorFeedStream}"  Grid.Row="2"   Grid.Column="3"/>
-                <Label Content="{DynamicResource HotHighPressureSeparator}"  Grid.Row="3"   Grid.Column="1"/>
-                <Label Content="{DynamicResource ColdHighPressureSeparator}"  Grid.Row="3"   Grid.Column="3"/>
+                <Label Content="{DynamicResource EffluentStream}"  Grid.Row="3"  Grid.Column="1"/>
+                    <Label Content="{DynamicResource EffluentStream2}"  Grid.Row="4"  Grid.Column="1"/>
+                    <Label Content="{DynamicResource ColdReactorFeedStream}"  Grid.Row="3"   Grid.Column="3"/>
+                    <Label Content="{DynamicResource ColdReactorFeedStream2}"  Grid.Row="4"   Grid.Column="3"/>
+                    <Label Content="{DynamicResource HotHighPressureSeparator}"  Grid.Row="2"   Grid.Column="1"/>
+                <Label Content="{DynamicResource ColdHighPressureSeparator}"  Grid.Row="2"   Grid.Column="3"/>
 
-                <Label Content="{DynamicResource HXnetworkcoldstream}"  Grid.Row="4"   Grid.Column="1"/>
-                <Label Content="{DynamicResource Injectionwaterstream}"  Grid.Row="4"    Grid.Column="3"/>
+                <Label Content="{DynamicResource HXnetworkcoldstream}"  Grid.Row="5"   Grid.Column="1"/>
+                <Label Content="{DynamicResource Injectionwaterstream}"  Grid.Row="5"    Grid.Column="3"/>
+                    <Label Content="{DynamicResource CompressorH2Stream}"  Grid.Row="6"   Grid.Column="1"/>
 
+                    <ComboBox ItemsSource="{Binding Path=model.StreamSource}" Background="Red" SelectedItem="{Binding model.EffluentStream,Mode=TwoWay}" Grid.Column="1"   Grid.Row="3" />
+                    <ComboBox ItemsSource="{Binding Path=model.StreamSource}" Background="Red" SelectedItem="{Binding model.EffluentStream2,Mode=TwoWay}" Grid.Column="1"   Grid.Row="4" />
+                    <ComboBox ItemsSource="{Binding Path=model.StreamSource}" SelectedItem="{Binding model.ColdReactorFeedStream,Mode=TwoWay}" Grid.Column="3"   Grid.Row="3"  />
+                    <ComboBox ItemsSource="{Binding Path=model.StreamSource}" SelectedItem="{Binding model.ColdReactorFeedStream2,Mode=TwoWay}" Grid.Column="3"   Grid.Row="4"  />
+                    <ComboBox ItemsSource="{Binding Path=model.SeparatorSource}" SelectedItem="{Binding model.HotHighPressureSeparator,Mode=TwoWay}" Grid.Column="1"   Grid.Row="2"  />
+                    <ComboBox ItemsSource="{Binding Path=model.SeparatorSource}" SelectedItem="{Binding model.ColdHighPressureSeparator,Mode=TwoWay}" Grid.Column="3"   Grid.Row="2"  />
 
-                <ComboBox ItemsSource="{Binding Path=model.EffluentStreamSource}" Background="Red" SelectedItem="{Binding model.EffluentStream,Mode=TwoWay}" Grid.Column="1"   Grid.Row="2" />
-                <ComboBox ItemsSource="{Binding Path=model.ColdReactorFeedStreamSource}" SelectedItem="{Binding model.ColdFeedStream,Mode=TwoWay}" Grid.Column="3"   Grid.Row="2"  />
-                <ComboBox ItemsSource="{Binding Path=model.HotHighPressureSeparatorSource}" SelectedItem="{Binding model.HotHighPressureSeparator,Mode=TwoWay}" Grid.Column="1"   Grid.Row="3"  />
-                <ComboBox ItemsSource="{Binding Path=model.ColdHighPressureSeparatorSource}" SelectedItem="{Binding model.ColdHighPressureSeparator,Mode=TwoWay}" Grid.Column="3"   Grid.Row="3"  />
+                    <ComboBox ItemsSource="{Binding Path=model.StreamSource}" SelectedItem="{Binding model.HXNetworkColdStream,Mode=TwoWay}" Grid.Column="1"   Grid.Row="5" />
+                    <ComboBox ItemsSource="{Binding Path=model.StreamSource}" SelectedItem="{Binding model.InjectionWaterStream,Mode=TwoWay}" Grid.Column="3"   Grid.Row="5" />
+                    <ComboBox ItemsSource="{Binding Path=model.StreamSource}" SelectedItem="{Binding model.CompressorH2Stream,Mode=TwoWay}" Grid.Column="1"   Grid.Row="6" />
 
-                <ComboBox ItemsSource="{Binding Path=model.HXNetworkColdStreamSource}" SelectedItem="{Binding model.HXNetworkColdStream,Mode=TwoWay}" Grid.Column="1"   Grid.Row="4" />
-                <ComboBox ItemsSource="{Binding Path=model.InjectionWaterStreamSource}" SelectedItem="{Binding model.InjectionWaterStream,Mode=TwoWay}" Grid.Column="3"   Grid.Row="4" />
-                <GroupBox Header="{DynamicResource ProcessHX}" HorizontalAlignment="Left"  Grid.Row="6"  Height="140" Grid.RowSpan="5" Width="310" Grid.Column="1">
+                    <GroupBox Header="{DynamicResource ProcessHX}" HorizontalAlignment="Left"  Grid.Row="7"  Height="140" Grid.RowSpan="5" Width="310" Grid.Column="1">
                         <ListBox  Background="{x:Null}" BorderBrush="{x:Null}" 
                          Foreground="White"
                          ItemsSource="{Binding model.ObcProcessHX,Mode=TwoWay}"  
                          SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}"/>
                 </GroupBox>
-                <GroupBox Header="{DynamicResource ProcessHX}" HorizontalAlignment="Left"   Grid.Row="6"  Height="140" Grid.RowSpan="5" Width="310" Grid.Column="3">
+                <GroupBox Header="{DynamicResource ProcessHX}" HorizontalAlignment="Left"   Grid.Row="7"  Height="140" Grid.RowSpan="5" Width="310" Grid.Column="3">
                     <ListBox Background="{x:Null}" BorderBrush="{x:Null}" 
                          Foreground="White"
                          ItemsSource="{Binding model.ObcProcessHXSource,Mode=TwoWay}"  

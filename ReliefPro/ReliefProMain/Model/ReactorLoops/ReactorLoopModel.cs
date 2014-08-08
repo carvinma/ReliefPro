@@ -11,44 +11,25 @@ namespace ReliefProMain.Model.ReactorLoops
     {
         public ReactorLoop dbModel { get; set; }
 
-        private ObservableCollection<string> _EffluentStreamSource;
-        public ObservableCollection<string> EffluentStreamSource
+        private ObservableCollection<string> _StreamSource;
+        public ObservableCollection<string> StreamSource
         {
-            get { return _EffluentStreamSource; }
+            get { return _StreamSource; }
             set
             {
-                _EffluentStreamSource = value;
-                NotifyPropertyChanged("EffluentStreamSource");
+                _StreamSource = value;
+                NotifyPropertyChanged("StreamSource");
             }
         }
-        private ObservableCollection<string> _ColdReactorFeedStreamSource;
-        public ObservableCollection<string> ColdReactorFeedStreamSource
+        
+        private ObservableCollection<string> _SeparatorSource;
+        public ObservableCollection<string> SeparatorSource
         {
-            get { return _ColdReactorFeedStreamSource; }
+            get { return _SeparatorSource; }
             set
             {
-                _ColdReactorFeedStreamSource = value;
-                NotifyPropertyChanged("ColdReactorFeedStreamSource");
-            }
-        }
-        private ObservableCollection<string> _HotHighPressureSeparatorSource;
-        public ObservableCollection<string> HotHighPressureSeparatorSource
-        {
-            get { return _HotHighPressureSeparatorSource; }
-            set
-            {
-                _HotHighPressureSeparatorSource = value;
-                NotifyPropertyChanged("HotHighPressureSeparatorSource");
-            }
-        }
-        private ObservableCollection<string> _ColdHighPressureSeparatorSource;
-        public ObservableCollection<string> ColdHighPressureSeparatorSource
-        {
-            get { return _ColdHighPressureSeparatorSource; }
-            set
-            {
-                _ColdHighPressureSeparatorSource = value;
-                NotifyPropertyChanged("ColdHighPressureSeparatorSource");
+                _SeparatorSource = value;
+                NotifyPropertyChanged("SeparatorSource");
             }
         }
         public ObservableCollection<string> _HXNetworkColdStreamSource;
@@ -61,16 +42,7 @@ namespace ReliefProMain.Model.ReactorLoops
                 NotifyPropertyChanged("HXNetworkColdStreamSource");
             }
         }
-        public ObservableCollection<string> _InjectionWaterStreamSource;
-        public ObservableCollection<string> InjectionWaterStreamSource
-        {
-            get { return _InjectionWaterStreamSource; }
-            set
-            {
-                _InjectionWaterStreamSource = value;
-                NotifyPropertyChanged("InjectionWaterStreamSource");
-            }
-        }
+        
 
         public string EffluentStream
         {
@@ -88,6 +60,24 @@ namespace ReliefProMain.Model.ReactorLoops
             {
                 dbModel.ColdReactorFeedStream = value;
                 NotifyPropertyChanged("ColdReactorFeedStream");
+            }
+        }
+        public string EffluentStream2
+        {
+            get { return dbModel.EffluentStream2; }
+            set
+            {
+                dbModel.EffluentStream2 = value;
+                NotifyPropertyChanged("EffluentStream2");
+            }
+        }
+        public string ColdReactorFeedStream2
+        {
+            get { return dbModel.ColdReactorFeedStream2; }
+            set
+            {
+                dbModel.ColdReactorFeedStream2 = value;
+                NotifyPropertyChanged("ColdReactorFeedStream2");
             }
         }
         public string HotHighPressureSeparator

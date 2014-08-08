@@ -68,16 +68,15 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
             ObservableCollection<string> list = GetProIIStreamNames();
 
-            model.ColdHighPressureSeparatorSource = GetProIIFlashs();
-            model.HotHighPressureSeparatorSource = GetProIIFlashs();
-            model.EffluentStreamSource = list;
-            model.ColdReactorFeedStreamSource = list;
-            model.HXNetworkColdStreamSource = list;
-            model.InjectionWaterStreamSource = list;
-            model.ObcProcessHXSource = GetProIIHXs(0);
-            model.ObcUtilityHXSource = GetProIIHXs(1);
-            model.ObcMixerSplitterSource = GetProIIMixers();
-
+            model.SeparatorSource = GetProIIFlashs();
+            model.StreamSource = list;
+           
+            if (SourceFileInfo != null)
+            {
+                model.ObcProcessHXSource = GetProIIHXs(0);
+                model.ObcUtilityHXSource = GetProIIHXs(1);
+                model.ObcMixerSplitterSource = GetProIIMixers();
+            }
             model.ObcProcessHX = new ObservableCollection<ReactorLoopDetail>();
             model.ObcUtilityHX = new ObservableCollection<ReactorLoopDetail>();
             model.ObcMixerSplitter = new ObservableCollection<ReactorLoopDetail>();
@@ -266,35 +265,52 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 eqList.Add(model.HotHighPressureSeparator);
             }
             csList = GetReactorLoopStreamsFromProII(eqList);
-            if (!string.IsNullOrEmpty(model.ColdReactorFeedStream) && !streams.Contains(model.ColdReactorFeedStream))
+            List<CustomStream> csList2 = GetReactorLoopStreamsFromProII(processHxList);
+            foreach (CustomStream cs in csList2)
             {
-                CustomStream cs = GetReactorLoopStreamInfoFromProII(model.ColdReactorFeedStream);
                 csList.Add(cs);
-                streams.Add(model.ColdReactorFeedStream);
+            }
+            if (!string.IsNullOrEmpty(model.ColdReactorFeedStream) && !streams.Contains(model.ColdReactorFeedStream))
+            {               
+                if (!streams.Contains(model.ColdReactorFeedStream))
+                {
+                    streams.Add(model.ColdReactorFeedStream);
+                    CustomStream cs = GetReactorLoopStreamInfoFromProII(model.ColdReactorFeedStream);
+                    csList.Add(cs);
+                }
             }
             if (!string.IsNullOrEmpty(model.HXNetworkColdStream) && !streams.Contains(model.HXNetworkColdStream))
             {
-                CustomStream cs = GetReactorLoopStreamInfoFromProII(model.HXNetworkColdStream);
-                csList.Add(cs);
-                streams.Add(model.HXNetworkColdStream);
+                if (!streams.Contains(model.HXNetworkColdStream))
+                {
+                    CustomStream cs = GetReactorLoopStreamInfoFromProII(model.HXNetworkColdStream);
+                    csList.Add(cs);
+                    streams.Add(model.HXNetworkColdStream);
+                }
             }
             if (!string.IsNullOrEmpty(model.InjectionWaterStream) && !streams.Contains(model.InjectionWaterStream))
             {
-                CustomStream cs = GetReactorLoopStreamInfoFromProII(model.InjectionWaterStream);
-                csList.Add(cs);
-                streams.Add(model.InjectionWaterStream);
+                if (!streams.Contains(model.InjectionWaterStream))
+                {
+                    CustomStream cs = GetReactorLoopStreamInfoFromProII(model.InjectionWaterStream);
+                    csList.Add(cs);
+                    streams.Add(model.InjectionWaterStream);
+                }
             }
             if (!string.IsNullOrEmpty(model.EffluentStream) && !streams.Contains(model.EffluentStream))
             {
-                CustomStream cs = GetReactorLoopStreamInfoFromProII(model.EffluentStream);
-                csList.Add(cs);
-                streams.Add(model.EffluentStream);
+                if (!streams.Contains(model.EffluentStream))
+                {
+                    CustomStream cs = GetReactorLoopStreamInfoFromProII(model.EffluentStream);
+                    csList.Add(cs);
+                    streams.Add(model.EffluentStream);
+                }
             }
 
 
 
-
-            string inpData = CreateReactorLoopInpData(DirPlant, csList, eqList,processHxList);
+            string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
+            string inpData = CreateReactorLoopInpData(dir, csList, eqList,processHxList);
 
 
 
@@ -405,12 +421,15 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             while (i < lines.Length)
             {
                 i = removeTagInfo(lines, i, "  OUTPUT ");
-                i = removeTagInfo(lines, i, "RXDATA");
-                i = removeTagInfo(lines, i, "  RXSET ID=");
-                i = removeTagInfo(lines, i, "    REACTION ID=");
-                int end = removeTagInfo(lines, i, "      HORX ");
-                if (end == i)
+                i = removeRowTagInfo(lines, i, "RXDATA");
+                i = removeRowTagInfo(lines, i, "  RXSET ID=");
+                i = removeRowTagInfo(lines, i, "    REACTION ID=");
+                int end = removeRowTagInfo(lines, i, "      HORX ");
+                string line = lines[i];
+                if (line.Contains("UNIT OPERATIONS"))
+                {
                     break;
+                }
                 else
                     i = end;
                 
@@ -660,12 +679,35 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     }
                     else
                     {
-                        end = i;
+                        end = i+1;
                         break;
                     }
 
                 }
             }
+            return end;
+
+        }
+
+        private int removeRowTagInfo(string[] lines, int start, string tag)
+        {
+            int end = start;
+            int i = start;
+            int len = tag.Length;
+            while (i < lines.Length)
+            {
+                string line = lines[i];
+                if (line.Contains(tag) && line.Substring(0, len) == tag)
+                {
+                    end = i+1;
+                    break;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            
             return end;
 
         }
@@ -847,7 +889,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             double ltmd = GetLTMD(SessionPF, FileName, hxName,out  duty);
             double k = 1;
             double a = duty / ltmd / k;
-            sb.Append("U=").Append(ltmd).Append(",AREA=").Append(a).Append("\n");
+            sb.Append(" ,U=").Append(ltmd).Append(",AREA=").Append(a).Append("\n");
             return sb.ToString();
             
         }

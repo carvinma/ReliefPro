@@ -394,7 +394,10 @@
     <!--ReactorLoopView.xaml-->
     <s:String x:Key="ReactorLoopViewTitle">Reactor Loop</s:String>
     <s:String x:Key="EffluentStream">Effluent Stream</s:String>
+    <s:String x:Key="EffluentStream2">Effluent Stream2</s:String>
+    <s:String x:Key="CompressorH2Stream">Compressor H2 Stream</s:String> 
     <s:String x:Key="ColdReactorFeedStream">Cold Reactor Feed Stream</s:String>
+    <s:String x:Key="ColdReactorFeedStream2">Cold Reactor Feed Stream2</s:String>
     <s:String x:Key="HotHighPressureSeparator">Hot High Pressure Separator</s:String>
     <s:String x:Key="ColdHighPressureSeparator">Cold High Pressure Separator</s:String>
     <s:String x:Key="ProcessHX">Process HX</s:String>
