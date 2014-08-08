@@ -46,6 +46,7 @@
     <Compile Include="FlashCalculate.cs" />
     <Compile Include="FlashCalculateW.cs" />
     <Compile Include="PHASECalculate.cs" />
+    <Compile Include="ProIIImport.cs" />
     <Compile Include="ProIIReader.cs" />
     <Compile Include="ProIIRunCalcSave.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
