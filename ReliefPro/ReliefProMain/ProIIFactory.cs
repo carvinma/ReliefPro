@@ -89,5 +89,19 @@ namespace ReliefProMain
             return calc;
         }
 
+        public static IProIIImport CreateProIIImport(string version)
+        {
+            IProIIImport impt = null;
+            if (version == "9.1")
+            {
+                impt = new ProII92.ProIIImport();
+            }
+            else if (version == "9.2")
+            {
+                impt = new ProII92.ProIIImport();
+            }
+            return impt;
+        }
+
     }
 }

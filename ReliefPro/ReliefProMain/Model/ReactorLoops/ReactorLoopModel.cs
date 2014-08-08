@@ -116,7 +116,15 @@ namespace ReliefProMain.Model.ReactorLoops
                 NotifyPropertyChanged("InjectionWaterStream");
             }
         }
-
+        public string CompressorH2Stream
+        {
+            get { return dbModel.CompressorH2Stream; }
+            set
+            {
+                dbModel.CompressorH2Stream = value;
+                NotifyPropertyChanged("CompressorH2Stream");
+            }
+        }
         
 
         public string SourceFile
