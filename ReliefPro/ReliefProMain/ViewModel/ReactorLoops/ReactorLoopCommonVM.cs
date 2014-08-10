@@ -8,6 +8,7 @@ using NHibernate;
 using ReliefProLL;
 using ReliefProMain.Model.ReactorLoops;
 using UOMLib;
+using ReliefProModel;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -21,6 +22,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
         private ISession SessionPS;
         private ISession SessionPF;
+        private SourceFile SourceFileInfo;
+        private string DirPlant;
+        private string DirProtectedSystem;
         public ReactorLoopCommonModel model { get; set; }
         private ReactorLoopBLL reactorBLL;
         private int reactorType;
@@ -31,10 +35,13 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         /// <param name="SessionPS"></param>
         /// <param name="SessionPF"></param>
         /// <param name="ReactorType"> 0-ReactorLoopBlockedOutlet,1-LossOfReactorQuench,2-LossOfColdFeed</param>
-        public ReactorLoopCommonVM(int ScenarioID, ISession SessionPS, ISession SessionPF, int ReactorType)
+        public ReactorLoopCommonVM(int ScenarioID, SourceFile SourceFileInfo, ISession SessionPS, ISession SessionPF, string DirPlant, string DirProtectedSystem, int ReactorType)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
+            this.SourceFileInfo = SourceFileInfo;
+            this.DirPlant = DirPlant;
+            this.DirProtectedSystem = DirProtectedSystem;
             reactorType = ReactorType;
             OKCMD = new DelegateCommand<object>(Save);
             CalcCMD = new DelegateCommand<object>(CalcResult);

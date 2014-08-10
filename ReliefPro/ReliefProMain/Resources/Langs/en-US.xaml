@@ -369,6 +369,7 @@
     <!--LossOfReactorQuenchView.xaml-->
     <s:String x:Key="LossOfReactorQuenchViewTitle">Loss of Reactor Quench</s:String>
     <s:String x:Key="Effluenttemperature">Effluent Temperature</s:String>
+    <s:String x:Key="Effluenttemperature2">Effluent2 Temperature</s:String>
     <s:String x:Key="LossOfReactorQuenchViewStatusBar">...</s:String>
 
     <!--ReactorLoopBlockedOutletView.xaml-->

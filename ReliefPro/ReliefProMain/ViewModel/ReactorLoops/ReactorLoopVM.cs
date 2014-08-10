@@ -18,7 +18,7 @@ using ReliefProMain.View.ReactorLoops;
 using System.IO;
 using System.Windows.Controls;
 using ReliefProBLL;
-using ReliefProModel;
+
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -79,9 +79,12 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcUtilityHXSource = GetProIIHXs(1);
                 model.ObcMixerSplitterSource = GetProIIMixers();
             }
-            model.ObcProcessHX = new ObservableCollection<ReactorLoopDetail>();
-            model.ObcUtilityHX = new ObservableCollection<ReactorLoopDetail>();
-            model.ObcMixerSplitter = new ObservableCollection<ReactorLoopDetail>();
+            if (model.dbModel==null)
+            {
+                model.ObcProcessHX = new ObservableCollection<ReactorLoopDetail>();
+                model.ObcUtilityHX = new ObservableCollection<ReactorLoopDetail>();
+                model.ObcMixerSplitter = new ObservableCollection<ReactorLoopDetail>();
+            }
         }
         private ObservableCollection<string> GetProIIStreamNames()
         {
@@ -179,6 +182,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 SourceFileInfo = sfbll.GetSourceFileInfo(model.dbModel.SourceFile);
                 FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
                 FileName = SourceFileInfo.FileName;
+                InitPage();
             }
             else
             {
@@ -332,8 +336,14 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
 
             string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
-            string inpData = CreateReactorLoopInpData(dir, csList, eqList,processHxList);
 
+            int errorTag = 0;
+            string inpData = CreateReactorLoopInpData(dir, csList, eqList,processHxList,ref errorTag);
+            if (errorTag == -1)
+            {
+                MessageBox.Show("New inp file has error ","Message Box");
+                return;
+            }
             string newInpFile = DirProtectedSystem + @"\" + SourceFileInfo.FileNameNoExt+ @"\"+SourceFileInfo.FileNameNoExt+".inp";
             string sourcePrzFile = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
 
@@ -359,6 +369,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 System.Windows.Window wd = obj as System.Windows.Window;
                 if (wd != null)
                 {
+                    model.SourceFile = FileName;
                     var allSelectedInfo = new ObservableCollection<ReactorLoopDetail>();
                     if (model.ObcProcessHX != null)
                     {
@@ -386,6 +397,13 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     }
                     if (allSelectedInfo.Count > 0)
                         reactorBLL.Save(model.dbModel, allSelectedInfo);
+                    ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
+                    ProtectedSystem ps = new ProtectedSystem();
+                    ps.PSType = 6;
+                    psDAL.Add(ps, SessionPS);
+                    SessionPS.Flush();
+
+
                     wd.DialogResult = true;
                 }
             }
@@ -405,8 +423,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         /// <param name="streamList"></param>
         /// <param name="details"></param>
         /// <returns></returns>
-        public string CreateReactorLoopInpData(string rootDir, List<CustomStream> csList, List<string> eqList, List<string> processHxList)
+        public string CreateReactorLoopInpData(string rootDir, List<CustomStream> csList, List<string> eqList, List<string> processHxList,ref int errorTag)
         {
+
             StringBuilder sb = new StringBuilder();
             string[] files = Directory.GetFiles(rootDir, "*.inp");
             string sourceFile = files[0];
@@ -499,8 +518,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 foreach (string eq in processHxList)
                 {
-                    string eqinfo = FindProcessHxInfo(lines,i, eq);
-                    sb.Append(eqinfo).Append("\n");
+                    string eqinfo = FindProcessHxInfo(lines, i, eq, ref errorTag);
+                    sb.Append(eqinfo).Append("\n");                   
                 }
                 break;
             }
@@ -626,7 +645,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
         }
 
-        public string FindProcessHxInfo(string[] lines,int start, string eqName)
+        public string FindProcessHxInfo(string[] lines, int start, string eqName, ref int errorTag)
         {
             StringBuilder sb = new StringBuilder();
             string EqInfo = "HX   UID=" + eqName.ToUpper();
@@ -636,7 +655,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 string line = lines[i];
                 if (line.Contains(EqInfo))
                 {
-                    string eqInfo = GetNewHXInfo(lines, i, eqName);
+                    string eqInfo = GetNewHXInfo(lines, i, eqName, ref errorTag);
                     sb.Append(eqInfo);
                     break;
                 }
@@ -907,7 +926,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             return ltmd;
         }
 
-        private string GetNewHXInfo(string[] lines, int start,string hxName)
+        private string GetNewHXInfo(string[] lines, int start,string hxName,ref int errorTag)
         {
             StringBuilder sb = new StringBuilder();
             int i = start;
@@ -927,6 +946,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             double k = 300;
             double a = duty / ltmd / k;
             sb.Append(" ,U=").Append(ltmd).Append(",AREA=").Append(a).Append("\n");
+            if (ltmd < 0)
+                errorTag = -1;
             return sb.ToString();
             
         }

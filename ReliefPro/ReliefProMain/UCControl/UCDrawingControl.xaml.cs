@@ -304,7 +304,7 @@ namespace ReliefProMain.View
                         {
                             SourceFileInfo = vm.SourceFileInfo;
                             EqName = "";
-                            EqType = "Reaction";
+                            EqType = "ReactorLoop";
                             DrawReactor(shp, vm);
                         }
                     }

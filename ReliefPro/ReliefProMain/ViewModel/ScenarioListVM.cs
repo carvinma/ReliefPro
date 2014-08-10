@@ -31,6 +31,8 @@ using ReliefProModel.HXs;
 using ReliefProDAL.HXs;
 using ReliefProMain.ViewModel.HXs;
 using ReliefProMain.View.HXs;
+using ReliefProMain.ViewModel.ReactorLoops;
+using ReliefProMain.View.ReactorLoops;
 
 namespace ReliefProMain.ViewModel
 {
@@ -377,7 +379,56 @@ namespace ReliefProMain.ViewModel
                     }
                 }
 
+                else if (EqType == "ReactorLoop")
+                {
+                    if (ScenarioName.Contains("BlockedOutlet"))
+                    {
+                        ReactorLoopBlockedOutletView v = new ReactorLoopBlockedOutletView();
+                        ReactorLoopCommonVM vm = new ReactorLoopCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 0);
+                        v.DataContext = vm;
+                        if (v.ShowDialog() == true)
+                        {
+                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
+                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                            //SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                        }
+                    }                    
+                    else if (ScenarioName.Contains("Lossofreactorquench"))
+                    {
+                        LossOfReactorQuenchView v = new LossOfReactorQuenchView();
+                        ReactorLoopCommonVM vm = new ReactorLoopCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 1);
+                        v.DataContext = vm;
+                        if (v.ShowDialog() == true)
+                        {
+                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
+                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                            //SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                        }
+                    }
+                    else if (ScenarioName.Contains("LossofLiquidFeed"))
+                    {
+                        LossOfColdFeedView v = new LossOfColdFeedView();
+                        ReactorLoopCommonVM vm = new ReactorLoopCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 2);
+                        v.DataContext = vm;
+                        if (v.ShowDialog() == true)
+                        {
+                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
+                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                            //SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                        }
+                    }
+                    else if (ScenarioName.Contains("GeneralElectricPowerFailure"))
+                    {
+                        
+                    }
+                    else if (ScenarioName.Contains("GeneralCoolingWaterFailure"))
+                    {
 
+                    }
+                }
             }
         }
 
@@ -905,6 +956,16 @@ namespace ReliefProMain.ViewModel
                 list.Add("Fire");
 
 
+            }
+            else if (eqType == "ReactorLoop")
+            {
+                list.Add("Blocked Outlet");
+                list.Add("Loss of Liquid Feed");
+                list.Add("Loss of reactor quench");
+                list.Add("Recycle compressor failure");
+                list.Add("General Electric Power Failure");
+                list.Add("General Cooling Water Failure");
+                list.Add("Depressuring");
             }
             return list;
         }
