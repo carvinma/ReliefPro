@@ -12,7 +12,7 @@
     <!--AreasView.xaml-->
     <s:String x:Key="AreasViewTitle">TowerFireCooler</s:String>
     <s:String x:Key="AreaData">Area Data</s:String>
-    <s:String x:Key="WettedArea">Wetted Area</s:String>
+    <s:String x:Key="WettedArea">Wetted Area:</s:String>
     <s:String x:Key="AreasViewStatusBar">TowerFireCooler</s:String>
 
     <!--CreateProtectedSystemView.xaml-->
@@ -22,12 +22,12 @@
 
     <!--CreateUnitView.xaml-->
     <s:String x:Key="CreateUnitViewTitle">Unit Name</s:String>
-    <s:String x:Key="Unit_Name">Unit Name</s:String>
-    <s:String x:Key="CreateUnitViewStatusBar">CreateUnitView</s:String>
+    <s:String x:Key="Unit_Name">Unit Name:</s:String>
+    <s:String x:Key="CreateUnitViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--CustomStreamView.xaml-->
-    <s:String x:Key="CustomStreamViewTitle">1(Stream)</s:String>
-    <s:String x:Key="1Stream">1(Stream)</s:String>
+    <s:String x:Key="CustomStreamViewTitle">Stream Info</s:String>
+    <s:String x:Key="StreamInfo">Stream Info</s:String>
     <s:String x:Key="StreamName">Stream Name</s:String>
     <s:String x:Key="Description">Description</s:String>
     <s:String x:Key="VabFrac">VapFrac</s:String>
@@ -35,7 +35,7 @@
     <s:String x:Key="Presressure_Mpag">Pressure(Mpag)</s:String>
     <s:String x:Key="WorkflowKghr">FlowRate(Kg/hr)</s:String>
     <s:String x:Key="SpH_KJ_Kg">Sp H(KJ/Kg)</s:String>
-    <s:String x:Key="CustomStreamViewStatusBar">...</s:String>
+    <s:String x:Key="CustomStreamViewStatusBar">Exist the window after saving all data</s:String>
     <!--FireView.xaml-->
     <s:String x:Key="FireViewTitle">Drum_fire</s:String>
     <s:String x:Key="CalcArea">Calc Area</s:String>
@@ -46,14 +46,14 @@
     <s:String x:Key="ReliefMW">Relief MW</s:String>
     <s:String x:Key="ReliefCp_Cv">Relief Cp/Cv</s:String>
     <s:String x:Key="ReliefZ">Relief Z</s:String>
-    <s:String x:Key="FireViewStatusBar">...</s:String>
+    <s:String x:Key="FireViewStatusBar">Exist the window after saving all data</s:String>
     <!--HeatSourceListView.xaml-->
     <s:String x:Key="HeatSourceListViewTitle">HeatSourceListView</s:String>
     <s:String x:Key="HeatSourceListViewType">Type</s:String>
     <s:String x:Key="HeatSourceListViewName">Name</s:String>
     <s:String x:Key="HeatSourceListViewDutykg_hr">Duty, KJ/hr</s:String>
     <s:String x:Key="HeatSourceListViewAdd">Add</s:String>
-    <s:String x:Key="HeatSourceListViewStatusBar">...</s:String>
+    <s:String x:Key="HeatSourceListViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--ImportDataView.xaml-->
     <s:String x:Key="ImportDataViewTitle">Import Data</s:String>
@@ -62,7 +62,7 @@
     <s:String x:Key="AspenPlus">Aspen Plus</s:String>
     <s:String x:Key="Hysys">Hysys</s:String>
     <s:String x:Key="FindFile">Find File</s:String>
-    <s:String x:Key="ImportDataViewStatusBar">...</s:String>
+    <s:String x:Key="ImportDataViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--InletValveOpenView.xaml-->
     <s:String x:Key="InletValveOpenViewTitle">InletValveOpen</s:String>
@@ -72,7 +72,7 @@
     <s:String x:Key="MaxOperatingPressure">Max Operating Pressure</s:String>
     <s:String x:Key="InletValveTotalCv">Inlet Valve Total Cv</s:String>
     <s:String x:Key="Calculate">Calculate</s:String>
-    <s:String x:Key="InletValveOpenViewStatusBar">...</s:String>
+    <s:String x:Key="InletValveOpenViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--PSVView.xaml-->
     <s:String x:Key="PSVViewTitle">PSV</s:String>
@@ -87,31 +87,31 @@
     <s:String x:Key="AdditionalPSVonRefluxDrum">Additional PSV on Reflux Drum</s:String>
     <s:String x:Key="Location">Location</s:String>
     <s:String x:Key="Dischargeto">Discharge to</s:String>
-    <s:String x:Key="PSVViewStatusBar">...</s:String>
+    <s:String x:Key="PSVViewStatusBar">Exist the window after saving all data</s:String>
 
 
     <!--ReNameView.xaml-->
     <s:String x:Key="ReNameViewTitle">ReName</s:String>
     <s:String x:Key="NewName">New Name</s:String>
-    <s:String x:Key="ReNameViewStatusBar">...</s:String>
+    <s:String x:Key="ReNameViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--SelectEquipmentView.xaml-->
     <s:String x:Key="SelectEquipmentTitle">Select Equipment</s:String>
     <s:String x:Key="FilePath">File Path</s:String>
     <s:String x:Key="Equipment">Equipment</s:String>
-    <s:String x:Key="SelectEquipmentStatusBar">...</s:String>
+    <s:String x:Key="SelectEquipmentStatusBar">Exist the window after saving all data</s:String>
 
     <!--SelectStreamView.xaml-->
     <s:String x:Key="SelectStreamViewTitle">Select Stream</s:String>
     <s:String x:Key="Stream">Stream</s:String>
-    <s:String x:Key="SelectStreamViewStatusBar">...</s:String>
+    <s:String x:Key="SelectStreamViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--SinkView.xaml-->
     <s:String x:Key="SinkViewTitle">Sink</s:String>
     <s:String x:Key="SinkName">Sink Name</s:String>
     <s:String x:Key="SinkType">Sink Type</s:String>
     <s:String x:Key="MaxPossiblePressure">Max Possible Pressure</s:String>
-    <s:String x:Key="SinkViewStatusBar">...</s:String>
+    <s:String x:Key="SinkViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--SourceViewTitle.xaml-->
     <s:String x:Key="SourceViewTitle">Source</s:String>
@@ -119,7 +119,7 @@
     <s:String x:Key="SourceType">Source Type</s:String>
     <s:String x:Key="Steam">Steam</s:String>
     <s:String x:Key="HeatSource">Heat Source</s:String>
-    <s:String x:Key="SourceViewStatusBar">...</s:String>
+    <s:String x:Key="SourceViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--CentrifugalBlockedView.xaml-->
     <s:String x:Key="CentrifugalBlockedViewTitle">CompressorBlocked</s:String>
@@ -129,20 +129,20 @@
     <s:String x:Key="SurgeLoad">Surge Load</s:String>
     <s:String x:Key="Output">Output</s:String>
     <s:String x:Key="ReliefTemp">Relief Temp</s:String>
-    <s:String x:Key="CentrifugalBlockedViewStatusBar">...</s:String>
+    <s:String x:Key="CentrifugalBlockedViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--CompressorView.xaml-->
     <s:String x:Key="CompressorViewTitle">Drum</s:String>
     <s:String x:Key="ImportFromDatabase">Import From Database</s:String>
     <s:String x:Key="Feed">Feed</s:String>
     <s:String x:Key="Product">Product</s:String>
-    <s:String x:Key="CompressorViewStatusBar">...</s:String>
+    <s:String x:Key="CompressorViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--PistonCompressorBlocked.xaml-->
     <s:String x:Key="PistonCompressorBlockedTitle">CompressorBlocked</s:String>
     <s:String x:Key="Input">Input</s:String>
     <s:String x:Key="RatedCapacity_Normalcapacity">Rated Capacity/Normal Capacity</s:String>
-    <s:String x:Key="PistonCompressorBlockedStatusBar">...</s:String>
+    <s:String x:Key="PistonCompressorBlockedStatusBar">Exist the window after saving all data</s:String>
 
     <!--CriticalFluid.xaml-->
     <s:String x:Key="CriticalFluidTitle">StorageTank</s:String>
@@ -150,7 +150,7 @@
     <s:String x:Key="MPag">MPag</s:String>
     <s:String x:Key="Critical">Critical</s:String>
     <s:String x:Key="Sub_Critical">Sub-Critical</s:String>
-    <s:String x:Key="CriticalFluidStatusBar">...</s:String>
+    <s:String x:Key="CriticalFluidStatusBar">Exist the window after saving all data</s:String>
 
     <!--DEPRColumnDetailsView.xaml-->
     <s:String x:Key="DEPRColumnDetailsViewTitle">DEPRColumnDetails</s:String>
@@ -161,12 +161,12 @@
     <s:String x:Key="totalheight_m">Total Height,m</s:String>
     <s:String x:Key="Diameter_m">Diameter,m</s:String>
     <s:String x:Key="BottomNHLL_m">Bottom NHLL, m</s:String>
-    <s:String x:Key="DEPRColumnDetailsViewStatusBar">...</s:String>
+    <s:String x:Key="DEPRColumnDetailsViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--DeprCurveView.xaml-->
     <s:String x:Key="DeprCurveViewTitle">DeprCurveView</s:String>
     <s:String x:Key="Depr">Depr</s:String>
-    <s:String x:Key="DeprCurveViewStatusBar">...</s:String>
+    <s:String x:Key="DeprCurveViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--DEPRDetailView.xaml-->
     <s:String x:Key="DEPRDetailViewTitle">DEPR</s:String>
@@ -194,7 +194,7 @@
     <s:String x:Key="TotalVolume_m3">Total Volume,m3</s:String>
     <s:String x:Key="m3">m3</s:String>
     <s:String x:Key="m2">m2</s:String>
-    <s:String x:Key="DEPRDetailViewStatusBar">...</s:String>
+    <s:String x:Key="DEPRDetailViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--DrumDepressureView.xaml-->
     <s:String x:Key="DrumDepressureViewTitle">DEPR</s:String>
@@ -215,7 +215,7 @@
     <s:String x:Key="Detailed">Detailed</s:String>
     <s:String x:Key="DepressuringCurve">Depressuring Curve</s:String>
     <s:String x:Key="CalculatedDepressuringRate">Calculated Depressuring Rate</s:String>
-    <s:String x:Key="DrumDepressureViewStatusBar">...</s:String>
+    <s:String x:Key="DrumDepressureViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--DrumFireFluidView.xaml-->
     <s:String x:Key="DrumFireFluidViewTitle">Drum_fire</s:String>
@@ -225,7 +225,7 @@
     <s:String x:Key="NormalOperatingPressure">Normal Operating Pressure</s:String>
     <s:String x:Key="PSVSetPressure">PSV Set Pressure</s:String>
     <s:String x:Key="TW">TW</s:String>
-    <s:String x:Key="DrumFireFluidViewStatusBar">...</s:String>
+    <s:String x:Key="DrumFireFluidViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--CreateUnitView.xaml-->
     <s:String x:Key="DrumFireViewTitle">Drum_fire</s:String>
@@ -235,7 +235,7 @@
     <s:String x:Key="HeavyOilFluid">Heavy Oil Fluid</s:String>
     <s:String x:Key="DrumSize">Drum Size</s:String>
     <s:String x:Key="Adequatedrainageandfirefightingequipmentexist">Adequate Drainage and Firefighting equipment Exist</s:String>
-    <s:String x:Key="DrumFireViewStatusBar">...</s:String>
+    <s:String x:Key="DrumFireViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--DrumSizeView.xaml-->
     <s:String x:Key="DrumSizeViewTitle">Drum_fire</s:String>
@@ -247,7 +247,7 @@
     <s:String x:Key="HeadType">Head Type</s:String>
     <s:String x:Key="BootDiameter">Boot Diameter</s:String>
     <s:String x:Key="BootHeight">Boot Height</s:String>
-    <s:String x:Key="DrumSizeViewStatusBar">...</s:String>
+    <s:String x:Key="DrumSizeViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--DrumBlockedOutletView.xaml-->
     <s:String x:Key="DrumBlockedOutletViewTitle">Drum_BlockedOutlet</s:String>
@@ -259,17 +259,17 @@
     <s:String x:Key="Open">Open</s:String>
     <s:String x:Key="FeedBtmHX">Feed/Btm HX</s:String>
     <s:String x:Key="ReboilerPinch">Reboiler Pinch</s:String>
-    <s:String x:Key="DrumBlockedOutletViewStatusBar">...</s:String>
+    <s:String x:Key="DrumBlockedOutletViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--DrumView.xaml-->
     <s:String x:Key="DrumViewTitle">Drum</s:String>
     <s:String x:Key="DrumName">Drum Name</s:String>
-    <s:String x:Key="DrumViewStatusBar">...</s:String>
+    <s:String x:Key="DrumViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--BasicUnitInfo.xaml-->
     <s:String x:Key="BasicUnitInfoTitle">Add New BasicUnit</s:String>
     <s:String x:Key="NewBasicName">New Basic Name</s:String>
-    <s:String x:Key="BasicUnitInfoStatusBar">...</s:String>
+    <s:String x:Key="BasicUnitInfoStatusBar">Exist the window after saving all data</s:String>
 
     <!--FormatUnitsMeasure.xaml-->
     <s:String x:Key="FormatUnitsMeasureTitle">ReliefPro - Default  Units of Measure</s:String>
@@ -298,7 +298,7 @@
     <s:String x:Key="FlowConductance">Flow Conductance</s:String>
     <s:String x:Key="SpecificEnthalpy">Specific Enthalpy</s:String>
     <s:String x:Key="Enthalpy">Enthalpy</s:String>
-    <s:String x:Key="FormatUnitsMeasureStatusBar">...</s:String>
+    <s:String x:Key="FormatUnitsMeasureStatusBar">Exist the window after saving all data</s:String>
 
     <!--GlobalDefaultView.xaml-->
     <s:String x:Key="GlobalDefaultViewTitle">GlobalDefault</s:String>

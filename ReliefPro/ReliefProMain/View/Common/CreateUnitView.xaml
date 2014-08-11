@@ -1,36 +1,23 @@
 ﻿<Window x:Class="ReliefProMain.View.CreateUnitView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{DynamicResource CreateUnitViewTitle}" Height="150" Width="350" Name="myWindow">
+        Title="{DynamicResource CreateUnitViewTitle}" Height="244" Width="421" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="131*"/>
-            <ColumnDefinition Width="131*"/>
+            <ColumnDefinition Width="28"/>
+            <ColumnDefinition Width="69*"/>
+            <ColumnDefinition Width="308*"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="45*"/>
             <RowDefinition Height="2"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
-        
-        <GroupBox Grid.Row="1" Grid.ColumnSpan="2"  Grid.Column="1" >
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50"/>
-                    <ColumnDefinition Width="101*"/>
-                    <ColumnDefinition Width="101*"/>
-                    <ColumnDefinition Width="50*"/>
-                </Grid.ColumnDefinitions>
-                <Label  Content="{DynamicResource Unit_Name}"    Grid.Column="1" Grid.Row="0"  />
-                <TextBox Grid.Column="2"  Grid.Row="0"  Text="{Binding UnitName}"  />
-                
-            </Grid>
-        </GroupBox>
-        
+        <Label  Content="{DynamicResource Unit_Name}"    Grid.Column="1" Grid.Row="1" Height="25" Width="69"  />
+        <TextBox Grid.Column="2"  Grid.Row="1"  Text="{Binding UnitName}"  />
         <Grid  Grid.Row="3"  Grid.ColumnSpan="4" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
@@ -44,9 +31,11 @@
 
         </Grid>
 
-        
-        <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
-            <TextBlock Text="{DynamicResource CreateUnitViewStatusBar}"/>
+
+        <StatusBar  HorizontalAlignment="Stretch" Height="Auto" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+            <StatusBarItem HorizontalAlignment="Stretch">
+                <TextBlock Text="{DynamicResource CreateUnitViewStatusBar}"></TextBlock>
+            </StatusBarItem>            
         </StatusBar>
     </Grid>
 </Window>
