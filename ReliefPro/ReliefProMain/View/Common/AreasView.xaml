@@ -12,7 +12,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="90"/>
+            <RowDefinition Height="110"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
@@ -41,10 +41,10 @@
         
         <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="2" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Button  Content="{DynamicResource OK}" HorizontalAlignment="Center" Command="{Binding OKClick}" CommandParameter="{Binding ElementName=myWindow}"    Grid.Column="1" Grid.Row="0"/>
             <Button Content="{DynamicResource Cancel}" IsCancel="True"    Grid.Column="2" Grid.Row="0"/>
