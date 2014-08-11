@@ -86,6 +86,7 @@
     <s:String x:Key="CalculateCriticalPressure">Calculate Critical Pressure</s:String>
     <s:String x:Key="AdditionalPSVonRefluxDrum">Additional PSV on Reflux Drum</s:String>
     <s:String x:Key="Location">Location</s:String>
+    <s:String x:Key="LocationDescription">Location Description</s:String>
     <s:String x:Key="Dischargeto">Discharge to</s:String>
     <s:String x:Key="PSVViewStatusBar">Exist the window after saving all data</s:String>
 
@@ -239,14 +240,14 @@
 
     <!--DrumSizeView.xaml-->
     <s:String x:Key="DrumSizeViewTitle">Drum_fire</s:String>
-    <s:String x:Key="Elevation">Elevation</s:String>
-    <s:String x:Key="Diameter">Diameter</s:String>
-    <s:String x:Key="Length">Length</s:String>
-    <s:String x:Key="NormalLiquidLevel">Normal Liquid Level</s:String>
-    <s:String x:Key="Headnumber">Head Number</s:String>
-    <s:String x:Key="HeadType">Head Type</s:String>
-    <s:String x:Key="BootDiameter">Boot Diameter</s:String>
-    <s:String x:Key="BootHeight">Boot Height</s:String>
+    <s:String x:Key="Elevation">Elevation:</s:String>
+    <s:String x:Key="Diameter">Diameter:</s:String>
+    <s:String x:Key="Length">Length:</s:String>
+    <s:String x:Key="NormalLiquidLevel">Normal Liquid Level:</s:String>
+    <s:String x:Key="Headnumber">Head Number:</s:String>
+    <s:String x:Key="HeadType">Head Type:</s:String>
+    <s:String x:Key="BootDiameter">Boot Diameter:</s:String>
+    <s:String x:Key="BootHeight">Boot Height:</s:String>
     <s:String x:Key="DrumSizeViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--DrumBlockedOutletView.xaml-->
@@ -540,11 +541,11 @@
 
     <!--AccumulatorView.xaml-->
     <s:String x:Key="AccumulatorViewTitle">AccumulatorView</s:String>
-    <s:String x:Key="AccumulatorName">Accumulator Name</s:String>
-    <s:String x:Key="VesselOrientation">Vessel Orientation</s:String> 
-    <s:String x:Key="LengthTT">Length T/T</s:String>
-    <s:String x:Key="Horiz">Horiz</s:String>
-    <s:String x:Key="Vert">Vert</s:String>
+    <s:String x:Key="AccumulatorName">Accumulator Name:</s:String>
+    <s:String x:Key="VesselOrientation">Vessel Orientation:</s:String> 
+    <s:String x:Key="LengthTT">Length T/T:</s:String>
+    <s:String x:Key="Horiz">Horizon</s:String>
+    <s:String x:Key="Vert">Vertical</s:String>
     <s:String x:Key="AccumulatorViewStatusBar">...</s:String>
 
     <!--TowerHXView.xaml-->

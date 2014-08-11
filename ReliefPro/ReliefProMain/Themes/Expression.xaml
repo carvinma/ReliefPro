@@ -103,7 +103,7 @@
     <Style TargetType="{x:Type ComboBox}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="Width" Value="120"/>
+        <Setter Property="Width" Value="130"/>
         <Setter Property="Height" Value="22"/>
         <Setter Property="FontSize" Value="12px" />
         <Setter Property="FontFamily" Value="Calibri"/>
@@ -124,7 +124,12 @@
         <Setter Property="FontSize" Value="12px" />
         <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
-
+    <Style TargetType="{x:Type RadioButton }">
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="FontSize" Value="12px" />
+        <Setter Property="FontFamily" Value="Calibri"/>
+    </Style>
     <Style x:Key="Hborder" TargetType="{x:Type Border}">
         <Setter Property="Height" Value="1"/>        
         <Setter Property="VerticalAlignment" Value="Center"/>

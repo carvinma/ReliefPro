@@ -5,11 +5,11 @@
         Title="{DynamicResource AccumulatorViewTitle}" Height="265" Width="421" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     <Grid >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="70"/>
-            <ColumnDefinition Width="130*"/>
-            <ColumnDefinition Width="155*"/>
+            <ColumnDefinition Width="45"/>
+            <ColumnDefinition Width="141*"/>
+            <ColumnDefinition Width="131*"/>
             <ColumnDefinition Width="80*"/>
-            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="18*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
@@ -20,25 +20,24 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="23"/>
-            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Label Content="{DynamicResource AccumulatorName}"   Grid.Row="1" Grid.Column="1"  Grid.RowSpan="2" />
-        <Label Content="{DynamicResource VesselOrientation}"   Grid.Row="2"  Grid.Column="1"  Grid.RowSpan="2"  />
-        <Label Content="{DynamicResource Diameter}"    Grid.Row="3"  Grid.Column="1"   Grid.RowSpan="2"/>
-        <Label Content="{DynamicResource LengthTT}"  Grid.Row="4"  Grid.Column="1"  Grid.RowSpan="2"/>
-        <Label Content="{DynamicResource NormalLiquidLevel}"   Grid.Row="5" Grid.Column="1"  Grid.RowSpan="2" />
+        <Label Content="{DynamicResource AccumulatorName}"   Grid.Row="1" Grid.Column="1" Margin="8,3" />
+        <Label Content="{DynamicResource VesselOrientation}"   Grid.Row="2"  Grid.Column="1" Margin="10,3"  />
+        <Label Content="{DynamicResource Diameter}"    Grid.Row="3"  Grid.Column="1" Margin="32,3"/>
+        <Label Content="{DynamicResource LengthTT}"  Grid.Row="4"  Grid.Column="1" Margin="29,3"/>
+        <Label Content="{DynamicResource NormalLiquidLevel}"   Grid.Row="5" Grid.Column="1" Margin="7,3" />
         <TextBox  Text="{Binding CurrentAccumulator.AccumulatorName}"  Grid.Row="1" Grid.Column="2" />
-        <RadioButton Name="voH" IsChecked="{Binding Horiz}" GroupName="orientation" Content="{DynamicResource Horiz}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" />
-        <RadioButton Name="voV" IsChecked="{Binding Vertical}" GroupName="orientation" Content="{DynamicResource Vert}" HorizontalAlignment="Right"  VerticalAlignment="Top" Grid.Row="2" Grid.Column="2"/>
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblDiameter,Path=Content,Mode=TwoWay}"  Text="{Binding Diameter}"   Grid.Row="3" Grid.Column="2"  />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLength,Path=Content,Mode=TwoWay}" Text="{Binding Length}"  Grid.Row="4" Grid.Column="2" />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblNormalLiquidLevel,Path=Content,Mode=TwoWay}"  Text="{Binding NormalLiquidLevel}" Grid.Row="5" Grid.Column="2" />
+        <RadioButton Name="voH" IsChecked="{Binding Horiz}" GroupName="orientation" Content="{DynamicResource Horiz}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" Height="16" Width="62" />
+        <RadioButton Name="voV" IsChecked="{Binding Vertical}" GroupName="orientation" Content="{DynamicResource Vert}" HorizontalAlignment="Right"  VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" Height="16" Width="59"/>
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblDiameter,Path=Content,Mode=TwoWay}"  Text="{Binding Diameter}"   Grid.Row="3" Grid.Column="2" Height="24" Margin="0,3"  />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLength,Path=Content,Mode=TwoWay}" Text="{Binding Length}"  Grid.Row="4" Grid.Column="2" Height="24" Margin="0,3" />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblNormalLiquidLevel,Path=Content,Mode=TwoWay}"  Text="{Binding NormalLiquidLevel}" Grid.Row="5" Grid.Column="2" Height="24" Margin="0,3" />
 
-        <Label x:Name="lblDiameter" Grid.Column="3" Grid.Row="3" Content="{Binding DiameterUnit,Mode=TwoWay}"  />
-        <Label x:Name="lblLength" Grid.Column="3" Grid.Row="4" Content="{Binding LengthUnit,Mode=TwoWay}"  />
-        <Label x:Name="lblNormalLiquidLevel" Grid.Column="3" Grid.Row="5" Content="{Binding NormalLiquidLevelUnit,Mode=TwoWay}" />
+        <Label x:Name="lblDiameter" Grid.Column="3" Grid.Row="3" Content="{Binding DiameterUnit,Mode=TwoWay}" Margin="35,10"  />
+        <Label x:Name="lblLength" Grid.Column="3" Grid.Row="4" Content="{Binding LengthUnit,Mode=TwoWay}" Margin="35,10"  />
+        <Label x:Name="lblNormalLiquidLevel" Grid.Column="3" Grid.Row="5" Content="{Binding NormalLiquidLevelUnit,Mode=TwoWay}" Margin="35,10" />
 
-        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+        <Grid HorizontalAlignment="Stretch"  Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -46,10 +45,10 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Button  Content="{DynamicResource OK}" HorizontalAlignment="Center" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  VerticalAlignment="Center" Width="75" Height="22" Grid.Column="1" Grid.Row="0"/>
-            <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
+            <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="76" Height="22"  Grid.Column="2" Grid.Row="0" Margin="0,106,28,-88"/>
         </Grid>
 
-        <StatusBar HorizontalAlignment="Stretch" Height="23" Grid.Row="7" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+        <StatusBar HorizontalAlignment="Stretch" Height="Auto" Grid.Row="7" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
             <StatusBarItem HorizontalAlignment="Stretch">
                 <TextBlock Text="{DynamicResource AccumulatorViewStatusBar}"></TextBlock>
             </StatusBarItem>
