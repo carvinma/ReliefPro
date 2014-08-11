@@ -3,7 +3,7 @@
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-		Title="{DynamicResource FireViewTitle}" Height="275" Width="450">
+		Title="{DynamicResource FireViewTitle}" Height="275" Width="450" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
 	
 	<Grid>
 		<Grid.RowDefinitions>
@@ -16,7 +16,7 @@
 			<RowDefinition Height="30"></RowDefinition>
 			<RowDefinition Height="2"></RowDefinition>
 			<RowDefinition Height="30"></RowDefinition>
-			<RowDefinition Height="25"></RowDefinition>
+			<RowDefinition Height="23"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
@@ -63,7 +63,7 @@
         </Grid>
 
         
-        <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="9" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+        <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="9" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
             <Label Content="{DynamicResource FireViewStatusBar}"></Label>
         </StatusBar>
     </Grid>

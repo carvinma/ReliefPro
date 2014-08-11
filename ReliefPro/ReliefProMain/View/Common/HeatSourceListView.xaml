@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.HeatSourceListView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{DynamicResource HeatSourceListViewTitle}" Height="302.299" Width="597.701" Name="myWindow">
+        Title="{DynamicResource HeatSourceListViewTitle}" Height="302.299" Width="597.701" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
