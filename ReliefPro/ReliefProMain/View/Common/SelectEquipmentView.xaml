@@ -11,7 +11,7 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="40"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="47*" />
@@ -38,7 +38,7 @@
 
         </Grid>
             
-        <StatusBar  HorizontalAlignment="Stretch" Height="Auto" Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+        <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
             <StatusBarItem HorizontalAlignment="Stretch">
                 <TextBlock Text="{DynamicResource SelectEquipmentStatusBar}"></TextBlock>
             </StatusBarItem>
