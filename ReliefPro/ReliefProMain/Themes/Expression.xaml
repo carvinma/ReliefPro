@@ -41,42 +41,49 @@
         <Setter Property="FontSize" Value="12px" />
         <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
+    
     <Style TargetType="{x:Type Grid}">
         <Setter Property="Background" Value="{DynamicResource BackBrush}" />
-      
-
     </Style>
+    
     <Style x:Key="WinStyle" TargetType="{x:Type Window}">
         <Setter Property="ResizeMode" Value="NoResize" />
-
     </Style>
+    
     <Style TargetType="{x:Type TreeView}">
         <Setter Property="Background" Value="{DynamicResource BackBrush}" />
         <Setter Property="FontSize" Value="12px" />
     </Style>
+    
     <Style TargetType="{x:Type ListView}">
         <Setter Property="Background" Value="{DynamicResource BackBrush}" />
+        <Setter Property="FontSize" Value="12px" />
+        <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
+    
     <Style TargetType="{x:Type RowDefinition}">
         <Setter Property="Height" Value="30*"/>
     </Style>
+    
     <Style TargetType="{x:Type Label}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="FontSize" Value="12px" />
         <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
+    
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="Height" Value="18"/>
-        <Setter Property="Width" Value="115"/>
+        <Setter Property="Width" Value="125"/>
         <!--<Setter Property="BorderBrush" Value="#007f00"/>-->
         <Setter Property="BorderBrush" Value="blue"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
         <Setter Property="FontSize" Value="12px" />
         <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
+    
     <Style TargetType="{x:Type CustomControl:UnitConvertTextBox}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -86,6 +93,7 @@
         <Setter Property="FontSize" Value="12px" />
         <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
+    
     <Style x:Key="LabelLeftStyle">
         <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
         <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
@@ -103,7 +111,7 @@
     <Style TargetType="{x:Type ComboBox}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="Width" Value="130"/>
+        <Setter Property="Width" Value="125"/>
         <Setter Property="Height" Value="22"/>
         <Setter Property="FontSize" Value="12px" />
         <Setter Property="FontFamily" Value="Calibri"/>
