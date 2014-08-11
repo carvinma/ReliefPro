@@ -36,7 +36,7 @@
                 <Label Content="{DynamicResource StreamName}"  Grid.Row="0" Grid.Column="1"/>
                 <TextBox IsEnabled="False" Name="txtName"  Text="{Binding CurrentModel.StreamName}"   Grid.Row="0" Grid.Column="2" />
                 <Label Content="{DynamicResource Description}"   Grid.Row="1" Grid.Column="1"  />
-                <TextBox Name="txtDescription"   Text="{Binding CurrentModel.Description}" TextWrapping="Wrap"  Width="310" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"/>
+                <TextBox Name="txtDescription"   Text="{Binding CurrentModel.Description}" TextWrapping="Wrap"  Width="200" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"/>
 
                 <Label Content="{DynamicResource VabFrac}"    Grid.Row="2" Grid.Column="1"/>
                 <TextBox IsEnabled="False" Name="txtVabFrac"   Text="{Binding CurrentModel.VaporFraction}"    Grid.Row="2" Grid.Column="2"/>

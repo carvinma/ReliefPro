@@ -87,11 +87,12 @@
     <Style TargetType="{x:Type CustomControl:UnitConvertTextBox}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Height" Value="23"/>
-        <Setter Property="Width" Value="120"/>
+        <Setter Property="Height" Value="18"/>
+        <Setter Property="Width" Value="125"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
         <Setter Property="FontSize" Value="12px" />
         <Setter Property="FontFamily" Value="Calibri"/>
+        <Setter Property="BorderBrush" Value="blue"/>
     </Style>
     
     <Style x:Key="LabelLeftStyle">
@@ -112,7 +113,7 @@
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="Width" Value="125"/>
-        <Setter Property="Height" Value="22"/>
+        <Setter Property="Height" Value="18"/>
         <Setter Property="FontSize" Value="12px" />
         <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
