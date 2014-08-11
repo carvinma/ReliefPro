@@ -8,6 +8,7 @@ using NHibernate;
 using ReliefProLL;
 using ReliefProMain.Model.ReactorLoops;
 using ReliefProModel.ReactorLoops;
+using ReliefProDAL.ReactorLoops;
 using UOMLib;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
@@ -71,7 +72,28 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 IList<GeneralFailureCommonDetail> lstCommonDetail = generalBLL.GetGeneralFailureCommonDetail(commonModel.ID);
                 model.lstUtilityHX = lstCommonDetail.Select(p => new UtilityHXModel { HXName = p.HXName, Stop = p.Stop, DutyFactor = p.DutyFactor }).ToList();
             }
+            else
+            {
+                model.lstUtilityHX = GetInitUtilityHXs();
+            }
         }
+        private List<UtilityHXModel> GetInitUtilityHXs()
+        {
+            List<UtilityHXModel> list=new List<UtilityHXModel>();
+             ReactorLoopDAL dal = new ReliefProDAL.ReactorLoops.ReactorLoopDAL();
+             IList<ReactorLoopDetail> details = dal.GetReactorLoopDetail(SessionPS, 1);
+             foreach (ReactorLoopDetail d in details)
+             {
+                 UtilityHXModel m = new UtilityHXModel();
+                 m.HXName = d.DetailInfo;
+                 m.Stop = false;
+                 m.DutyFactor = 1;
+                 list.Add(m);
+             }
+             return list;
+        }
+        
+
         private void CoolingRunCaseSimulation(object obj)
         { }
         private void CoolingLaunchSimulator(object obj)
@@ -105,6 +127,17 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     wd.DialogResult = true;
                 }
             }
+        }
+
+        /// <summary>
+        /// 获取新的hx的信息。
+        /// </summary>
+        /// <param name="hxName"></param>
+        private string GetNewHXInfo(string hxName)
+        {
+            string hxInfo = string.Empty;
+
+            return hxInfo;
         }
     }
 }

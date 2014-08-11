@@ -74,8 +74,9 @@
             </ListView.View>
         </ListView>
         <Button Content="{DynamicResource Add}" Command="{Binding AddCommand}" HorizontalAlignment="Left" Margin="729,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Height="22"/>
-        <Button Content="{DynamicResource OK}" IsCancel="True" HorizontalAlignment="Left" Margin="729,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Height="22"/>
-        
+        <Button Content="{DynamicResource OK}" IsCancel="True" HorizontalAlignment="Left" Margin="383,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Height="22"/>
+        <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Left" Margin="480,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Height="22"/>
+
 
     </Grid>
 </Window>

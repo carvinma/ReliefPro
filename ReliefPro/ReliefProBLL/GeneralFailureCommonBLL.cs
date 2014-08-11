@@ -6,6 +6,7 @@ using NHibernate;
 using ReliefProDAL.ReactorLoops;
 using ReliefProModel;
 using ReliefProModel.ReactorLoops;
+using ReliefProDAL.ReactorLoops;
 using UOMLib;
 
 namespace ReliefProLL
@@ -15,6 +16,7 @@ namespace ReliefProLL
         private ISession SessionPS;
         private ISession SessionPF;
         private GeneralFailureCommonDAL generalDAL = new GeneralFailureCommonDAL();
+        
         public GeneralFailureCommonBLL(ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
@@ -34,7 +36,7 @@ namespace ReliefProLL
                 model = new GeneralFailureCommon();
             return model;
         }
-
+        
         public GeneralFailureCommon ReadConvert(GeneralFailureCommon model)
         {
             UnitInfo unitInfo = new UnitInfo();
