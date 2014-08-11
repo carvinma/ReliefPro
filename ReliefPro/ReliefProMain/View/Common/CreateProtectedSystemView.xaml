@@ -34,7 +34,7 @@
 
         </Grid>
 
-        <StatusBar   Grid.Row="5"  Grid.ColumnSpan="4" Height="Auto" Margin="0,2"  >
+        <StatusBar   Grid.Row="5"  Grid.ColumnSpan="4" Height="Auto"  >
             <StatusBarItem HorizontalAlignment="Stretch">
                 <TextBlock Text="{DynamicResource CreateProtectedSystemViewStatusBar}"></TextBlock>
             </StatusBarItem>
