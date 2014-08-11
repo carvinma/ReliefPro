@@ -7,7 +7,7 @@
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
@@ -55,7 +55,7 @@
         <Label x:Name="lblFlashingDuty" Content="{Binding model.FlashingDutyUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="4" />
         <Label x:Name="lblReliefCondition" Content="{Binding model.ReliefConditionUnit,Mode=TwoWay}"  Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="5" />
 
-        <CheckBox x:Name="chkFeed" Content="{DynamicResource FeedBtmHX}"  IsChecked="{Binding model.Feed}" HorizontalAlignment="Center"  Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="chkFeed" Content="{DynamicResource FeedBtmHX}"  IsChecked="{Binding model.Feed}" HorizontalAlignment="Center"  Grid.Row="6" Grid.Column="1" Margin="10,8,108,8"/>
         <CheckBox x:Name="chkPinch" Content="{DynamicResource ReboilerPinch}"  IsChecked="{Binding model.ReboilerPinch}" Grid.Column="2" HorizontalAlignment="Left" Grid.Row="6" />
         <Button Content="{DynamicResource RunCalculation}" Command="{Binding CalcCMD}"  Grid.Row="7" Grid.Column="1" Width="125"  Height="21" />
         <CustomControl:UnitConvertTextBox IsEnabled="False" Text="{Binding Path=model.ReliefLoad,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="9"/>
@@ -64,8 +64,8 @@
         <TextBox IsEnabled="False" Text="{Binding Path=model.ReliefMW,Mode=TwoWay}" Grid.Column="2"  Grid.Row="12"/>
         <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefCpCv,Mode=TwoWay}" Grid.Column="2"  Grid.Row="13"/>
         <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefZ,Mode=TwoWay}" Grid.Column="2"  Grid.Row="14"/>
-        <Button Content="{DynamicResource Open}"  IsEnabled="{Binding ElementName=chkFeed,Path=IsChecked}" HorizontalAlignment="Right"  Grid.Column="1"   Grid.Row="6"  />
-        <Button Content="{DynamicResource Open}"  IsEnabled="{Binding ElementName=chkPinch,Path=IsChecked}" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="107,4,79,4" Width="76" />
+        <Button Content="{DynamicResource Open}"  IsEnabled="{Binding ElementName=chkFeed,Path=IsChecked}" HorizontalAlignment="Right"  Grid.Column="1"   Grid.Row="6" Width="75" />
+        <Button Content="{DynamicResource Open}"  IsEnabled="{Binding ElementName=chkPinch,Path=IsChecked}" Grid.Row="6" Grid.Column="3" HorizontalAlignment="Center" Margin="10,0,46,8" Width="75" />
 
         <Grid HorizontalAlignment="Stretch" Height="35" Grid.Column="0" Grid.Row="15" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
             <Grid.ColumnDefinitions>
