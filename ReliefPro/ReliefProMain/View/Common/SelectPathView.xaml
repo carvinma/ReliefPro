@@ -36,7 +36,6 @@
         </Grid>
 
         <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
-            
             <StatusBarItem HorizontalAlignment="Stretch">
                 <TextBlock Text="{DynamicResource SelectEquipmentStatusBar}"></TextBlock>
             </StatusBarItem>
