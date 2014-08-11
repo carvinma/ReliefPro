@@ -5,9 +5,12 @@
         Title="{DynamicResource TowerFireViewTitle}" Height="550" Width="900" Name="myWindow">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="15*"/>
-            <ColumnDefinition Width="737*"/>
-            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="17*"/>
+            <ColumnDefinition Width="128*"/>
+            <ColumnDefinition Width="169*"/>
+            <ColumnDefinition Width="364*"/>
+            <ColumnDefinition Width="191*"/>
+            <ColumnDefinition Width="23*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="19*"/>
@@ -18,10 +21,10 @@
             <RowDefinition Height="38*"/>
             <RowDefinition Height="30*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="35,10,0,0" Grid.Row="1" Text="{DynamicResource HeatInputModel}" Width="120"/>
-        <ComboBox ItemsSource="{Binding Path=HeatInputModels,Mode=TwoWay}" SelectedItem="{Binding MainModel.HeatInputModel,Mode=TwoWay}" Grid.Column="1" HorizontalAlignment="Left" Margin="163,11,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120"/>
-        <CheckBox Content="{DynamicResource Adequatedrainageandfirefightingequipmentexist}" IsChecked="{Binding MainModel.IsExist}" Grid.Column="1" HorizontalAlignment="Left" Margin="380,17,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <ListView Grid.Column="1" HorizontalAlignment="Stretch" Height="163"  Grid.Row="2" VerticalAlignment="Top" ItemsSource="{Binding EqList,Mode=TwoWay}" >
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="1" Text="{DynamicResource HeatInputModel}"/>
+        <ComboBox ItemsSource="{Binding Path=HeatInputModels,Mode=TwoWay}" SelectedItem="{Binding MainModel.HeatInputModel,Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left"  Grid.Row="1" VerticalAlignment="Top" Width="120"/>
+        <CheckBox Content="{DynamicResource Adequatedrainageandfirefightingequipmentexist}" IsChecked="{Binding MainModel.IsExist}" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Height="15" Width="270"/>
+        <ListView Grid.Column="1" HorizontalAlignment="Stretch" Height="163"  Grid.Row="2" VerticalAlignment="Top" ItemsSource="{Binding EqList,Mode=TwoWay}" Grid.ColumnSpan="4" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{DynamicResource EqName}"  DisplayMemberBinding="{Binding Path=EqName}"></GridViewColumn>
@@ -57,7 +60,7 @@
             </ListView.View>
             
         </ListView>
-        <GroupBox Grid.Column="1" Header="{DynamicResource GroupBox}" HorizontalAlignment="Stretch"  Grid.Row="4" VerticalAlignment="Top" Height="180" >
+        <GroupBox Grid.Column="1" Header="{DynamicResource GroupBox}" HorizontalAlignment="Stretch"  Grid.Row="4" VerticalAlignment="Top" Height="180" Grid.ColumnSpan="4" >
             <Grid>
                 <TextBlock HorizontalAlignment="Left" Margin="70,20,0,0" Text="{DynamicResource ReliefLoad}" VerticalAlignment="Top"/>
                 <TextBlock HorizontalAlignment="Left" Margin="70,50,0,0" Text="{DynamicResource ReliefPressure}" VerticalAlignment="Top"/>
@@ -66,10 +69,10 @@
                 <TextBlock Visibility="Hidden" HorizontalAlignment="Left" Margin="69,140,0,0" Text="{DynamicResource ReliefCp_Cv}" VerticalAlignment="Top"/>
                 <TextBlock Visibility="Hidden" HorizontalAlignment="Left" Margin="67,170,0,0" Text="{DynamicResource ReliefZ}" VerticalAlignment="Top"/>
 
-                <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="205,20,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefLoad,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
-                <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="205,50,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefPressure,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
-                <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblTemperature,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="205,80,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefTemperature,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="205,110,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefMW,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
+                <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="205,20,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefLoad,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
+                <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="205,50,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefPressure,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
+                <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblTemperature,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="205,80,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefTemperature,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
+                <TextBox IsEnabled="False" HorizontalAlignment="Left" Height="23" Margin="205,110,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefMW,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
                 <TextBox Visibility="Hidden" HorizontalAlignment="Left" Height="23" Margin="205,140,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefCpCv,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
                 <TextBox Visibility="Hidden" HorizontalAlignment="Left" Height="23" Margin="205,170,0,0" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefZ,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
 
@@ -79,11 +82,11 @@
             </Grid>
         </GroupBox>
 
-        <Button Content="{DynamicResource Total}" Command="{Binding TotalClick }" Grid.Column="1" HorizontalAlignment="Left" Margin="15,0,0,0" Grid.Row="3" Width="75"/>
+        <Button Content="{DynamicResource Total}" Command="{Binding TotalClick }" Grid.Column="1" HorizontalAlignment="Left" Margin="15,5,0,5" Grid.Row="3" Width="75"/>
 
 
-        <Border BorderBrush="black"  VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1"  Grid.Row="5" Grid.ColumnSpan="4" Margin="0,0,0,0"/>
-        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+        <Border BorderBrush="black"  VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1"  Grid.Row="5" Grid.ColumnSpan="6" Margin="0,0,0,0"/>
+        <Grid HorizontalAlignment="Stretch"  Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="6" Margin="0,4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200*" />
                 <ColumnDefinition Width="100*" />
@@ -94,7 +97,7 @@
             <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
         </Grid>
         
-        <StatusBar HorizontalAlignment="Stretch" Height="30"  Grid.Row="6" VerticalAlignment="Bottom" Grid.Column="0" Grid.ColumnSpan="3">
+        <StatusBar HorizontalAlignment="Stretch" Height="30"  Grid.Row="6" VerticalAlignment="Bottom" Grid.Column="0" Grid.ColumnSpan="6">
             <Label Content="{DynamicResource TowerFireViewStatusBar}"></Label>
         </StatusBar>
     </Grid>
