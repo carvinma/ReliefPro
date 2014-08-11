@@ -63,12 +63,12 @@
         <Label x:Name="lblReliefPressure" Content="{Binding ReliefPressureUnit,Mode=TwoWay}"  Grid.Row="4" Grid.Column="2" Margin="5,12,0,8"/>
         <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit,Mode=TwoWay}"  Grid.Row="5" Grid.Column="2" Margin="5,12,0,8"/>
         
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="2"  Text="{Binding ReliefLoad}"   />
-        <TextBox Grid.Column="1"  Grid.Row="3" Text="{Binding ReliefMW}"  />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="4"  Text="{Binding ReliefPressure}"  />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="5"  Text="{Binding ReliefTemperature}" />
+        <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="2"  Text="{Binding ReliefLoad}"   />
+        <TextBox Grid.Column="1" IsEnabled="False"  Grid.Row="3" Text="{Binding ReliefMW}"  />
+        <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="4"  Text="{Binding ReliefPressure}"  />
+        <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="5"  Text="{Binding ReliefTemperature}" />
 
-        <Button Content="{DynamicResource Calculate}" Command="{Binding CalculateCommand}" Grid.Column="1"  Grid.Row="1" Height="22" Margin="52,4,57,4" Width="58" />
+        <Button Content="{DynamicResource Calculate}" Command="{Binding CalculateCommand}" Grid.Column="1"  Grid.Row="1" Height="22"  />
 
         <Border BorderBrush="black"  VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1"  Grid.Row="6" Grid.ColumnSpan="4" Margin="0,5,0,0"/>
         <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
