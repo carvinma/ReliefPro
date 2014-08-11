@@ -28,13 +28,13 @@
     <!--CustomStreamView.xaml-->
     <s:String x:Key="CustomStreamViewTitle">Stream Info</s:String>
     <s:String x:Key="StreamInfo">Stream Info</s:String>
-    <s:String x:Key="StreamName">Stream Name</s:String>
-    <s:String x:Key="Description">Description</s:String>
-    <s:String x:Key="VabFrac">VapFrac</s:String>
-    <s:String x:Key="Temperature">Temperature</s:String>
-    <s:String x:Key="Presressure_Mpag">Pressure(Mpag)</s:String>
-    <s:String x:Key="WorkflowKghr">FlowRate(Kg/hr)</s:String>
-    <s:String x:Key="SpH_KJ_Kg">Sp H(KJ/Kg)</s:String>
+    <s:String x:Key="StreamName">Stream Name:</s:String>
+    <s:String x:Key="Description">Description:</s:String>
+    <s:String x:Key="VabFrac">VapFrac:</s:String>
+    <s:String x:Key="Temperature">Temperature:</s:String>
+    <s:String x:Key="Presressure_Mpag">Pressure(Mpag):</s:String>
+    <s:String x:Key="WorkflowKghr">FlowRate(Kg/hr):</s:String>
+    <s:String x:Key="SpH_KJ_Kg">Sp H(KJ/Kg):</s:String>
     <s:String x:Key="CustomStreamViewStatusBar">Exist the window after saving all data</s:String>
     <!--FireView.xaml-->
     <s:String x:Key="FireViewTitle">Drum_fire</s:String>
@@ -108,27 +108,27 @@
 
     <!--SinkView.xaml-->
     <s:String x:Key="SinkViewTitle">Sink</s:String>
-    <s:String x:Key="SinkName">Sink Name</s:String>
-    <s:String x:Key="SinkType">Sink Type</s:String>
-    <s:String x:Key="MaxPossiblePressure">Max Possible Pressure</s:String>
+    <s:String x:Key="SinkName">Sink Name:</s:String>
+    <s:String x:Key="SinkType">Sink Type:</s:String>
+    <s:String x:Key="MaxPossiblePressure">Max Possible Pressure:</s:String>
     <s:String x:Key="SinkViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--SourceViewTitle.xaml-->
     <s:String x:Key="SourceViewTitle">Source</s:String>
-    <s:String x:Key="SourceName">Source Name</s:String>
-    <s:String x:Key="SourceType">Source Type</s:String>
+    <s:String x:Key="SourceName">Source Name:</s:String>
+    <s:String x:Key="SourceType">Source Type:</s:String>
     <s:String x:Key="Steam">Steam</s:String>
     <s:String x:Key="HeatSource">Heat Source</s:String>
     <s:String x:Key="SourceViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--CentrifugalBlockedView.xaml-->
     <s:String x:Key="CentrifugalBlockedViewTitle">CompressorBlocked</s:String>
-    <s:String x:Key="MaxSpeed_NormalSpeed">Max Speed/Normal Speed</s:String>
-    <s:String x:Key="InletLoad">Inlet Load</s:String>
-    <s:String x:Key="OutletPressure">Outlet Pressure</s:String>
-    <s:String x:Key="SurgeLoad">Surge Load</s:String>
+    <s:String x:Key="MaxSpeed_NormalSpeed">Max Speed/Normal Speed:</s:String>
+    <s:String x:Key="InletLoad">Inlet Load:</s:String>
+    <s:String x:Key="OutletPressure">Outlet Pressure:</s:String>
+    <s:String x:Key="SurgeLoad">Surge Load:</s:String>
     <s:String x:Key="Output">Output</s:String>
-    <s:String x:Key="ReliefTemp">Relief Temp</s:String>
+    <s:String x:Key="ReliefTemp">Relief Temperature:</s:String>
     <s:String x:Key="CentrifugalBlockedViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--CompressorView.xaml-->
@@ -141,7 +141,7 @@
     <!--PistonCompressorBlocked.xaml-->
     <s:String x:Key="PistonCompressorBlockedTitle">CompressorBlocked</s:String>
     <s:String x:Key="Input">Input</s:String>
-    <s:String x:Key="RatedCapacity_Normalcapacity">Rated Capacity/Normal Capacity</s:String>
+    <s:String x:Key="RatedCapacity_Normalcapacity:">Rated Capacity/Normal Capacity</s:String>
     <s:String x:Key="PistonCompressorBlockedStatusBar">Exist the window after saving all data</s:String>
 
     <!--CriticalFluid.xaml-->
@@ -154,7 +154,7 @@
 
     <!--DEPRColumnDetailsView.xaml-->
     <s:String x:Key="DEPRColumnDetailsViewTitle">DEPRColumnDetails</s:String>
-    <s:String x:Key="Numberofsegment">Number of Segment</s:String> 
+    <s:String x:Key="Numberofsegment">Number of Segment:</s:String> 
     <s:String x:Key="segment">Segment</s:String>
     <s:String x:Key="Internal">Internal</s:String>
     <s:String x:Key="ofactualtrays_orvoidfrac"># of Actual Trays/or Void Frac.</s:String>
