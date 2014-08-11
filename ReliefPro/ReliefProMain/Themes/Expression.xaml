@@ -32,12 +32,19 @@
     <SolidColorBrush x:Key="NormalBorderBrush" Color="#FF9B9999" />
     <SolidColorBrush x:Key="HoverBrush" Color="{StaticResource HoverColor}" />
     <SolidColorBrush x:Key="GlyphBrush" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="BackBrush" Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-   
-   
+    <!--<SolidColorBrush x:Key="BackBrush" Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>-->
+    <SolidColorBrush x:Key="BackBrush" Color="#f0f0f0"/>
+    
+
     <Style TargetType="{x:Type Window}">
         <Setter Property="Background" Value="{DynamicResource BackBrush}" />
-       
+        <Setter Property="FontSize" Value="12px" />
+        <Setter Property="FontFamily" Value="Calibri"/>
+    </Style>
+    <Style TargetType="{x:Type Grid}">
+        <Setter Property="Background" Value="{DynamicResource BackBrush}" />
+      
+
     </Style>
     <Style x:Key="WinStyle" TargetType="{x:Type Window}">
         <Setter Property="ResizeMode" Value="NoResize" />
@@ -45,6 +52,7 @@
     </Style>
     <Style TargetType="{x:Type TreeView}">
         <Setter Property="Background" Value="{DynamicResource BackBrush}" />
+        <Setter Property="FontSize" Value="12px" />
     </Style>
     <Style TargetType="{x:Type ListView}">
         <Setter Property="Background" Value="{DynamicResource BackBrush}" />
@@ -55,13 +63,19 @@
     <Style TargetType="{x:Type Label}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="FontSize" Value="12px" />
+        <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="Height" Value="23"/>
-        <Setter Property="Width" Value="120"/>
+        <Setter Property="Height" Value="18"/>
+        <Setter Property="Width" Value="115"/>
+        <!--<Setter Property="BorderBrush" Value="#007f00"/>-->
+        <Setter Property="BorderBrush" Value="blue"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="FontSize" Value="12px" />
+        <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
     <Style TargetType="{x:Type CustomControl:UnitConvertTextBox}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -69,10 +83,13 @@
         <Setter Property="Height" Value="23"/>
         <Setter Property="Width" Value="120"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="FontSize" Value="12px" />
+        <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
     <Style x:Key="LabelLeftStyle">
         <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>
         <Setter Property="FrameworkElement.VerticalAlignment" Value="Center"/>
+        
     </Style>
     <Style TargetType="{x:Type Button}">
         <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -80,21 +97,32 @@
         <Setter Property="Width" Value="100"/>
         <Setter Property="Height" Value="22"/>
         <Setter Property="Margin" Value="0,6,0,8"/>
+        <Setter Property="FontSize" Value="12px" />
+        <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
     <Style TargetType="{x:Type ComboBox}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="Width" Value="120"/>
         <Setter Property="Height" Value="22"/>
+        <Setter Property="FontSize" Value="12px" />
+        <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
     <Style TargetType="{x:Type StatusBar}">       
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="FontSize" Value="12px"/>
+        <Setter Property="FontFamily" Value="Calibri"/>
+        <Setter Property="Height" Value="16px"/>
+        <Setter Property="BorderThickness" Value="0,1,0,0"/>
+        <Setter Property="BorderBrush" Value="#a0a0a0"/>
     </Style>
 
     <Style TargetType="{x:Type CheckBox}">
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="12px" />
+        <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
 
     <Style x:Key="Hborder" TargetType="{x:Type Border}">

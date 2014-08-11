@@ -7,7 +7,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/themes/Expression.xaml"/>
-                <ResourceDictionary Source="/themes/WindowBaseStyle.xaml"/>
+                <!--<ResourceDictionary Source="/themes/WindowBaseStyle.xaml"/>-->
                 <ResourceDictionary Source="pack://siteOfOrigin:,,,/Resources/Langs/en-US.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

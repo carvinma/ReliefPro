@@ -17,8 +17,8 @@
 
     <!--CreateProtectedSystemView.xaml-->
     <s:String x:Key="CreateProtectedSystemViewTitle">New Protected System</s:String>
-    <s:String x:Key="ProtectedSystemName">Protected System Name</s:String>
-    <s:String x:Key="CreateProtectedSystemViewStatusBar">...</s:String>
+    <s:String x:Key="ProtectedSystemName">Protected System Name:</s:String>
+    <s:String x:Key="CreateProtectedSystemViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--CreateUnitView.xaml-->
     <s:String x:Key="CreateUnitViewTitle">Unit Name</s:String>
