@@ -54,7 +54,7 @@
 
         </Grid>
         <Border Grid.Column="0"  Grid.Row="4" Grid.ColumnSpan="4" Style="{DynamicResource Hborder}" ></Border>
-        <StatusBar  Grid.Row="5"  Grid.ColumnSpan="4">
+        <StatusBar  Grid.Row="5" Height="auto"  Grid.ColumnSpan="4">
             <DockPanel>
                 <TextBlock DockPanel.Dock="Bottom" Text="{DynamicResource AreasViewStatusBar}"></TextBlock>
             </DockPanel>
