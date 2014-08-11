@@ -7,7 +7,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
-            <RowDefinition Height="85" />  
+            <RowDefinition Height="30" />
+            <RowDefinition Height="40" />  
             <RowDefinition Height="140" />
             <RowDefinition Height="2" />
             <RowDefinition Height="40" />
@@ -21,25 +22,12 @@
             <ColumnDefinition Width="31*"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
-        <GroupBox Header="" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="95*"/>
-                    <ColumnDefinition Width="80*"/>
-                    <ColumnDefinition Width="31*"/>
-                </Grid.ColumnDefinitions>
-                <Label Content="{DynamicResource RatedCapacity_Normalcapacity}" Grid.Column="0"  Grid.Row="0" />
-                <TextBox Text="{Binding Path=model.RatedCapacity}" Grid.Column="1" Grid.Row="0" />
-                <Button Content="{DynamicResource Calculate}" Command="{Binding CalcCMD}" Grid.Column="0" Grid.Row="1" />
+        
+                <Label Content="{DynamicResource RatedCapacity_Normalcapacity}" Grid.Column="1"  Grid.Row="1" />
+                <TextBox Text="{Binding Path=model.RatedCapacity}" Grid.Column="2" Grid.Row="1" />
+                <Button Content="{DynamicResource Calculate}" Command="{Binding CalcCMD}" Grid.Column="1" Grid.Row="2" />
 
-            </Grid>
-        </GroupBox>
-        <GroupBox Header="{DynamicResource Output}" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3">
+        <GroupBox Header="{DynamicResource Output}" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
@@ -68,7 +56,7 @@
         </GroupBox>
 
         
-        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -81,7 +69,7 @@
 
         </Grid>
 
-        <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+        <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
             <StatusBarItem HorizontalAlignment="Stretch">
                 <TextBlock Text="{DynamicResource PistonCompressorBlockedStatusBar}"></TextBlock>
             </StatusBarItem>
