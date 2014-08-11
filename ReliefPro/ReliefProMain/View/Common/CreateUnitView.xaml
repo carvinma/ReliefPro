@@ -13,45 +13,39 @@
             <RowDefinition Height="10"/>
             <RowDefinition Height="45*"/>
             <RowDefinition Height="2"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         
-        <GroupBox HorizontalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2"  Grid.Column="1"  Width="316" >
+        <GroupBox Grid.Row="1" Grid.ColumnSpan="2"  Grid.Column="1" >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="101*"/>
-                    <ColumnDefinition Width="102*"/>
-                    <ColumnDefinition Width="51*"/>
+                    <ColumnDefinition Width="101*"/>
+                    <ColumnDefinition Width="50*"/>
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="28*"/>
-                    
-                    <RowDefinition Height="5*"/>
-                </Grid.RowDefinitions>
                 <Label  Content="{DynamicResource Unit_Name}"    Grid.Column="1" Grid.Row="0"  />
                 <TextBox Grid.Column="2"  Grid.Row="0"  Text="{Binding UnitName}"  />
                 
             </Grid>
         </GroupBox>
         
-        <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1" VerticalAlignment="top" Height="1" Grid.Row="2" Grid.ColumnSpan="4" ></Border>
-        <Grid HorizontalAlignment="Stretch"  Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="4" >
+        <Grid  Grid.Row="3"  Grid.ColumnSpan="4" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="10" />
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Button Content="{DynamicResource OK}" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="1"  Grid.Row="2" Height="22"  Width="75"/>
-            <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="3" Grid.Row="2" Height="22" Width="75" />
+            <Button Content="{DynamicResource OK}" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="1"  Grid.Row="2" />
+            <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="3" Grid.Row="2"  />
 
         </Grid>
 
         
-        <StatusBar  HorizontalAlignment="Stretch" Height="18" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+        <StatusBar  HorizontalAlignment="Stretch" Height="25" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
             <TextBlock Text="{DynamicResource CreateUnitViewStatusBar}"/>
         </StatusBar>
     </Grid>
