@@ -24,7 +24,7 @@
         </Grid.RowDefinitions>
         <Border BorderBrush="LightBlue" BorderThickness="0"  Margin="1" Grid.Row="0">
             <Border.Background>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                <SolidColorBrush Color="#a0a0a0"/>
             </Border.Background>
             <Menu >
                 <Menu.BorderBrush>
@@ -70,7 +70,7 @@
         </Border>
         <Border Grid.Row="1" BorderBrush="LightBlue" BorderThickness="0"  Margin="1">
             <Border.Background>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                <SolidColorBrush Color="#a0a0a0"/>
             </Border.Background>
             <ToolBarTray  HorizontalAlignment="Left" VerticalAlignment="Center"  >
                 <ToolBarTray.Background>

@@ -12,7 +12,7 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="14"/>
             <RowDefinition Height="36"/>
-            <RowDefinition Height="16"/>
+            <RowDefinition Height="28"/>
             <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -48,7 +48,7 @@
         </Grid>
 
         
-        <StatusBar  HorizontalAlignment="Stretch" Height="Auto" Grid.Row="8"  Grid.ColumnSpan="5" >
+        <StatusBar  HorizontalAlignment="Stretch"  Grid.Row="8"  Grid.ColumnSpan="5" Height="Auto"  >
             <StatusBarItem HorizontalAlignment="Stretch">
                 <TextBlock Text="{DynamicResource SourceViewStatusBar}"></TextBlock>
             </StatusBarItem>
