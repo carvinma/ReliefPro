@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.Compressors.CompressorView"
          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{DynamicResource CompressorViewTitle}" Height="315" Width="600" Name="myWindow">
+        Title="{DynamicResource CompressorViewTitle}" Height="325" Width="600" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -12,13 +12,13 @@
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="151*"/>
             <RowDefinition Height="2"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
         <Label Content="{DynamicResource CompressorName}"  Grid.Column="1"   Grid.Row="1"   />
         <Label Content="{DynamicResource CompressorType}" Grid.Column="1" Grid.Row="2"   />
@@ -50,9 +50,8 @@
             </TabItem>
         </TabControl>
 
-        <Border BorderBrush="black" BorderThickness="0,0,0,1"   Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="6">
-        </Border>
-        <Grid HorizontalAlignment="Stretch" Height="30"  Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="6">
+       
+        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -65,8 +64,10 @@
         </Grid>
 
         
-        <StatusBar  HorizontalAlignment="Stretch" Height="30" Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="6">
-            <Label Content="{DynamicResource CompressorViewStatusBar}"></Label>
+        <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="6">
+            <StatusBarItem>
+                <TextBlock Text="{DynamicResource CompressorViewStatusBar}"></TextBlock>
+            </StatusBarItem>
         </StatusBar>
     </Grid>
 </Window>
