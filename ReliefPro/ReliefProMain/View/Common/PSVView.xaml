@@ -28,7 +28,7 @@
             <RowDefinition Height="*"/>
 
         </Grid.RowDefinitions>
-        <Label Content="{DynamicResource PSVViewTitle}"  Grid.Row="1" Grid.Column="1" />
+        <Label Content="{DynamicResource PSVName}"  Grid.Row="1" Grid.Column="1" />
         <Label Content="{DynamicResource ValveNumber}"   Grid.Row="2" Grid.Column="1"/>
         <Label Content="{DynamicResource Description}"  Grid.Row="1" Grid.Column="5"  />
         <Label Content="{DynamicResource ValveType}"   Grid.Row="2" Grid.Column="5" />
