@@ -27,11 +27,11 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="23"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"></ColumnDefinition>
-            <ColumnDefinition Width="140"></ColumnDefinition>
+            <ColumnDefinition Width="145"></ColumnDefinition>
             <ColumnDefinition Width="125"></ColumnDefinition>
             <ColumnDefinition Width="130"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -66,7 +66,7 @@
         </DataGrid>
         <DataGrid Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="3" Grid.RowSpan="3">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Name}"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource InnerName}"/>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Orientation}"/>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Diameter_m}"/>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Height_m}"/>
@@ -80,7 +80,7 @@
         </DataGrid>
         <DataGrid Grid.Column="2" Grid.Row="9" Grid.RowSpan="2" Grid.ColumnSpan="3">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Name}"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource InnerName}"/>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Volume_m3}"/>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource LiquidholdupPercentage}"/>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource LiquidHoldupm3}"/>
@@ -90,7 +90,7 @@
         </DataGrid>
         <DataGrid Grid.Column="2" Grid.Row="12" Grid.ColumnSpan="3" Grid.RowSpan="2">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Name}"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource InnerName}"/>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Internal}"/>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Details}"/>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource TotalVolume_m3}"/>
@@ -104,8 +104,10 @@
         <Label Content="{DynamicResource m3}" Grid.Column="3"   Grid.Row="19" />
         <Label Content="{DynamicResource m2}" Grid.Column="3"   Grid.Row="20" />
 
-        <StatusBar  HorizontalAlignment="Stretch" Grid.Row="22" VerticalAlignment="Stretch" Grid.ColumnSpan="6" >
-            <Label Content="{DynamicResource DEPRColumnDetailsViewStatusBar}"></Label>
+        <StatusBar  HorizontalAlignment="Stretch" Height="auto" Grid.Row="22" VerticalAlignment="Stretch" Grid.ColumnSpan="6" >
+            <StatusBarItem>
+                <TextBlock Text="{DynamicResource DEPRColumnDetailsViewStatusBar}"></TextBlock>
+            </StatusBarItem>
         </StatusBar>
     </Grid>
 </Window>

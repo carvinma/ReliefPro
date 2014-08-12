@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:chartlegend="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         xmlns:dc="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
-        Title="{DynamicResource DeprCurveViewTitle}" Height="455" Width="717.463" Loaded="Window_Loaded">
+        Title="{DynamicResource DeprCurveViewTitle}" Height="455" Width="717.463" Loaded="Window_Loaded" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
   <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="419*"/>
             <RowDefinition Height="247*"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="500*"/>
@@ -36,8 +36,10 @@
                
             </Grid>
         </Canvas>
-        <StatusBar  HorizontalAlignment="Stretch" Height="30" Grid.Row="2" VerticalAlignment="Stretch" Grid.ColumnSpan="3" Margin="0,4,0,3" >
-            <Label Content="{DynamicResource DeprCurveViewStatusBar}"></Label>
+        <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="2" VerticalAlignment="Stretch" Grid.ColumnSpan="3" Margin="0,4,0,3" >
+            <StatusBarItem>
+                <TextBlock Text="{DynamicResource DeprCurveViewStatusBar}"></TextBlock>
+            </StatusBarItem>
         </StatusBar>
     </Grid>
 </Window>
