@@ -3,15 +3,15 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"  
-        Title="{DynamicResource GlobalDefaultViewTitle}" Height="500" Width="500">
+        Title="{DynamicResource GlobalDefaultViewTitle}" Height="512" Width="500" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  > 
     
     <Grid>
         <StackPanel HorizontalAlignment="Stretch">
-            <GroupBox Header="{DynamicResource FlareSystem}" Height="210" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" >
+            <GroupBox Header="{DynamicResource FlareSystem}" Height="220" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" >
             <Grid >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="40"/>
                     </Grid.RowDefinitions>
                     <ListView Name="lv" SelectionMode="Single" ItemsSource="{Binding Path=model.lstFlareSystem,Mode=TwoWay}">
                     <ListView.View>
@@ -41,8 +41,8 @@
                             </GridViewColumn>
                         </GridView>
                     </ListView.View>
-                </ListView>
-                    <Button Grid.Row="1" Content="{DynamicResource Add}" Command="{Binding Path=AddCMD}"   Width="60" ></Button>
+                    </ListView>
+                    <Button Grid.Row="1" Content="{DynamicResource Add}" Command="{Binding Path=AddCMD}" HorizontalAlignment="Right" Margin="0,5,114,3"  ></Button>
                 </Grid>
         </GroupBox>
             <GroupBox Header="{DynamicResource GeneralConditions}" Height="120">
@@ -53,7 +53,7 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="400"/>
+                        <ColumnDefinition Width="330"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Label Content="{DynamicResource GeneralInstrumentAirFailureisacrediblescenario}"  Grid.Row="0"/>
@@ -67,20 +67,20 @@
             <GroupBox Header="{DynamicResource DefaultSettings}" Height="80">
                 <Grid >
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="300"/>
-                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="220"/>
+                        <ColumnDefinition Width="130"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="{DynamicResource LatentHeatforSupercriticalFluid}"   Grid.Row="0"/>
                     <Label Content="{DynamicResource DrumSurgeTimeThreshold}"   Grid.Row="1"/>
                     <Label x:Name="lblLatentHeatSettings" Content="{Binding model.LatentHeatSettingsUnit,Mode=TwoWay}"  Grid.Row="0" Grid.Column="2"/>
                     <Label x:Name="lblDrumSurgeTimeSettings" Content="{Binding model.DrumSurgeTimeSettingsUnit,Mode=TwoWay}"   Grid.Row="1"  Grid.Column="2"/>
-                    <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLatentHeatSettings,Path=Content,Mode=TwoWay}" Text="{Binding model.LatentHeatSettings,Mode=TwoWay}" Width="90" Grid.Row="0" Grid.Column="1" />
-                    <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblDrumSurgeTimeSettings,Path=Content,Mode=TwoWay}" Text="{Binding model.DrumSurgeTimeSettings,Mode=TwoWay}" Width="90" Grid.Row="1" Grid.Column="1" />
+                    <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLatentHeatSettings,Path=Content,Mode=TwoWay}" Text="{Binding model.LatentHeatSettings,Mode=TwoWay}" Grid.Row="0" Grid.Column="1" />
+                    <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblDrumSurgeTimeSettings,Path=Content,Mode=TwoWay}" Text="{Binding model.DrumSurgeTimeSettings,Mode=TwoWay}" Grid.Row="1" Grid.Column="1" />
                 </Grid>
             </GroupBox>
           <StackPanel Orientation="Horizontal"  HorizontalAlignment="Stretch">
@@ -94,15 +94,16 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2"/>
-                        <RowDefinition Height="35"/>
-                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="23"/>
                     </Grid.RowDefinitions>
-                    <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,1" VerticalAlignment="top" Height="1" Grid.Row="0" Grid.ColumnSpan="5" ></Border>
-
+                    
                     <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=GlobalDefaultWindow}" Grid.Column="1" Grid.Row="1"/>
                     <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="3" Grid.Row="1" />
-                    <StatusBar HorizontalAlignment="Stretch" Height="30"  Grid.Row="2" VerticalAlignment="Bottom"  Grid.ColumnSpan="5">
-                        <Label Content="{DynamicResource  GlobalDefaultViewStatusBar}"></Label>
+                    <StatusBar HorizontalAlignment="Stretch" Height="23"  Grid.Row="2" Grid.ColumnSpan="5">
+                        <StatusBarItem>
+                            <TextBlock Text="{DynamicResource GlobalDefaultViewStatusBar}"></TextBlock>
+                        </StatusBarItem>
                     </StatusBar>
                 </Grid>
                 
