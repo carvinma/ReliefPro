@@ -5,22 +5,25 @@
         Title="{DynamicResource AbnormalHeatInputViewTitle}" Height="504.478" Width="698.507" Name="myWindow">
     <Grid Margin="0,15,0,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150*"/>
-            <ColumnDefinition Width="167*"/>
-            <ColumnDefinition Width="72*"/>
-            <ColumnDefinition Width="289*"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="18"/>
             <RowDefinition Height="229*"/>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition Height="30*"/>
-            <RowDefinition Height="30*"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
-        <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Heaters, Mode=TwoWay}" SelectedItem="{Binding SelectedHeater, Mode=TwoWay}" Grid.Row="0" Grid.ColumnSpan="4" >
+        <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Heaters, Mode=TwoWay}" SelectedItem="{Binding SelectedHeater, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" >
             <ListView.View>
                 <GridView >
                     <GridViewColumn Header="{DynamicResource Type}" Width="200">
@@ -30,7 +33,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Name}" Width="150px" >
+                    <GridViewColumn Header="{DynamicResource InnerName}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox IsEnabled="False" Text="{Binding Path=HeaterName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
@@ -55,35 +58,36 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label Content="{DynamicResource ReliefLoad}"  Grid.Row="2" />
-        <Label Content="{DynamicResource ReliefMW}"  Grid.Row="3"  />
-        <Label Content="{DynamicResource ReliefPressure}"  Grid.Row="4" />
-        <Label Content="{DynamicResource ReliefTemperature}"  Grid.Row="5" />
-        <Label x:Name="lblReliefLoad" Content="{Binding ReliefLoadUnit,Mode=TwoWay}"  Grid.Row="2" Grid.Column="2" Margin="5,12,0,8" />
-        <Label x:Name="lblReliefPressure" Content="{Binding ReliefPressureUnit,Mode=TwoWay}"  Grid.Row="4" Grid.Column="2" Margin="5,12,0,8"/>
-        <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit,Mode=TwoWay}"  Grid.Row="5" Grid.Column="2" Margin="5,12,0,8"/>
+        <Label Content="{DynamicResource ReliefLoad}" Grid.Column="1" Grid.Row="3" />
+        <Label Content="{DynamicResource ReliefMW}" Grid.Column="1" Grid.Row="4"  />
+        <Label Content="{DynamicResource ReliefPressure}" Grid.Column="1" Grid.Row="5" />
+        <Label Content="{DynamicResource ReliefTemperature}" Grid.Column="1" Grid.Row="6" />
+        <Label x:Name="lblReliefLoad" Content="{Binding ReliefLoadUnit,Mode=TwoWay}"  Grid.Row="2" Grid.Column="3" Margin="5,12,0,8" />
+        <Label x:Name="lblReliefPressure" Content="{Binding ReliefPressureUnit,Mode=TwoWay}"  Grid.Row="5" Grid.Column="3"/>
+        <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit,Mode=TwoWay}"  Grid.Row="6" Grid.Column="3" />
         
-        <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="2"  Text="{Binding ReliefLoad}"   />
-        <TextBox Grid.Column="1" IsEnabled="False"  Grid.Row="3" Text="{Binding ReliefMW}"  />
-        <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="4"  Text="{Binding ReliefPressure}"  />
-        <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}"  Grid.Column="1"  Grid.Row="5"  Text="{Binding ReliefTemperature}" />
+        <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="3"  Text="{Binding ReliefLoad}"   />
+        <TextBox Grid.Column="2" IsEnabled="False"  Grid.Row="4" Text="{Binding ReliefMW}"  />
+        <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="5"  Text="{Binding ReliefPressure}"  />
+        <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="6"  Text="{Binding ReliefTemperature}" />
 
-        <Button Content="{DynamicResource Calculate}" Command="{Binding CalculateCommand}" Grid.Column="1"  Grid.Row="1" Height="22"  />
+        <Button Content="{DynamicResource Calculate}" Command="{Binding CalculateCommand}" Grid.Column="2"  Grid.Row="2"  />
 
-        <Border BorderBrush="black"  VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1"  Grid.Row="6" Grid.ColumnSpan="4" Margin="0,5,0,0"/>
-        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+        <Grid Height="40"  Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="6">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Button  Content="{DynamicResource OK}" HorizontalAlignment="Center" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  VerticalAlignment="Center" Width="75" Height="22" Grid.Column="1" Grid.Row="0"/>
-            <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
+            <Button  Content="{DynamicResource OK}" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  Grid.Column="1" Grid.Row="0"/>
+            <Button Content="{DynamicResource Cancel}" IsCancel="True"  Grid.Column="2" Grid.Row="0"/>
         </Grid>
-
-        <StatusBar HorizontalAlignment="Stretch" Height="30"  Grid.Row="7" VerticalAlignment="Top" Grid.ColumnSpan="4">
-            <Label Content="{DynamicResource AbnormalHeatInputViewStatusBar}"></Label>
+        
+        <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="8"  Grid.ColumnSpan="6" >
+            <StatusBarItem>
+                <TextBlock Text="{DynamicResource AbnormalHeatInputViewStatusBar}"></TextBlock>
+            </StatusBarItem>
         </StatusBar>
     </Grid>
 </Window>
