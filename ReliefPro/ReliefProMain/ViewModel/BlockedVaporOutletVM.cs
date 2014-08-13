@@ -20,14 +20,16 @@ namespace ReliefProMain.ViewModel
         public BlockedVaporOutletModel model { get; set; }
         private ISession SessionPF;
         private ISession SessionPS;
+        public int OutletType;
         public ICommand OKCMD { get; set; }
         public ICommand CalculateCommand { get; set; }
+        
         public BlockedVaporOutletVM(ISession SessionPF, ISession SessinPS, int ScenarioID, int OutletType)
         {
             OKCMD = new DelegateCommand<object>(Save);
             CalculateCommand = new DelegateCommand<object>(Calculate);
             this.SessionPF = SessionPF;
-            this.SessionPS = SessionPS;
+            this.SessionPS = SessinPS;
             blockBLL = new BlockedVaporOutletBLL(SessionPF, SessinPS);
 
             var BlockedModel = blockBLL.GeModel(ScenarioID, OutletType);
@@ -68,8 +70,36 @@ namespace ReliefProMain.ViewModel
             PSVDAL psvdal = new PSVDAL();
             PSV psv = psvdal.GetModel(SessionPS);
             double pSet = (psv.Pressure??0) * (psv.ReliefPressureFactor ?? 0);
-            if (model.InletGasUpstreamMaxPressure > pSet)
-                model.ReliefLoad = 0;
+            if (model.dbmodel.OutletType == 0)
+            {
+                if (model.InletGasUpstreamMaxPressure > pSet)
+                {
+                    if (model.InletAbsorbentUpstreamMaxPressure > pSet)
+                    {
+                        model.ReliefLoad = model.NormalGasProductWeightRate;
+                    }
+                    else
+                    {
+                        model.ReliefLoad = model.NormalGasFeedWeightRate;
+                    }
+                }
+                else
+                {
+                    model.ReliefLoad = 0;
+                }
+            }
+            else
+            {
+                if (model.InletGasUpstreamMaxPressure > pSet)
+                {                   
+                   model.ReliefLoad = (model.NormalGasProductWeightRate??0)-(model.NormalGasProductWeightRate??0);                   
+                }
+                else
+                {
+                    model.ReliefLoad = 0;
+                }
+            }
+            
             
         }
         private void Save(object obj)
