@@ -5,14 +5,14 @@
         Title="{DynamicResource TowerFireHXViewTitle}" Height="292.415" Width="450" Name="myWindow">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="35*"/>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="160*"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="80*"/>
-            <ColumnDefinition Width="39*"/>
+            <ColumnDefinition Width="35"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="15"/>
+            <RowDefinition Height="18"/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
@@ -23,7 +23,7 @@
             <RowDefinition Height="30*"/>
         </Grid.RowDefinitions>
         <Label Grid.Column="1" Grid.Row="1"  Content="{DynamicResource ExposedtoFire}" />
-        <Label Grid.Column="1"  Grid.Row="2" Content="{DynamicResource Type}" />
+        <Label Grid.Column="1"  Grid.Row="2" Content="{DynamicResource DecType}" />
         <Label Grid.Column="1"  Grid.Row="3" Content="{DynamicResource OD}" />
         <Label Grid.Column="1"  Grid.Row="4" Content="{DynamicResource Length}" />
         <Label Grid.Column="1"  Grid.Row="6" Content="{DynamicResource PipingContingency}" />
@@ -41,16 +41,15 @@
         <ComboBox ItemsSource="{Binding ExposedToFires}" SelectedItem="{Binding model.ExposedToFire}" Grid.Column="2"   Grid.Row="1"  Width="120" Height="22"/>
         <ComboBox ItemsSource="{Binding Types}" SelectedItem="{Binding model.Type}" Grid.Column="2"   Grid.Row="2"   Width="120" Height="22"/>
 
-        <Border BorderBrush="black"  VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1"  Grid.Row="7" Grid.ColumnSpan="5" Margin="0,2,0,0"/>
         <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="7" VerticalAlignment="Stretch" Grid.ColumnSpan="5" Margin="0,5,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Button  Content="{DynamicResource OK}" HorizontalAlignment="Center" Command="{Binding OKClick}" CommandParameter="{Binding ElementName=myWindow}"  VerticalAlignment="Center" Width="75" Height="22" Grid.Column="1" Grid.Row="0"/>
-            <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
+            <Button  Content="{DynamicResource OK}"  Command="{Binding OKClick}" CommandParameter="{Binding ElementName=myWindow}"  Grid.Column="1" Grid.Row="0"/>
+            <Button Content="{DynamicResource Cancel}" IsCancel="True"   Grid.Column="2" Grid.Row="0"/>
         </Grid>
 
         <StatusBar HorizontalAlignment="Stretch" Height="30"  Grid.Row="8" VerticalAlignment="Top" Grid.ColumnSpan="5">
