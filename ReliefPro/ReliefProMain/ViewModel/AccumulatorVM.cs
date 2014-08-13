@@ -12,6 +12,7 @@ using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using UOMLib;
 using NHibernate;
+using System.Windows;
 
 namespace ReliefProMain.ViewModel
 {
@@ -192,6 +193,16 @@ namespace ReliefProMain.ViewModel
 
         private void Save(object window)
         {
+            if (Length == null || Length <= 0)
+            {
+                Length_Color = "red";
+                MessageBox.Show("Length is not empty and must be bigger than zero!");
+                return;
+            }
+            else
+            {
+                Length_Color = "blue";
+            }
             WriteConvert();
             CurrentAccumulator.AccumulatorName = CurrentAccumulator.AccumulatorName.Trim();
             if (CurrentAccumulator.AccumulatorName == "")
