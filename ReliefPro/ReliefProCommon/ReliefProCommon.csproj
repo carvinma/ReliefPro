@@ -119,6 +119,7 @@
     <Compile Include="CommonLib\TreeViewItemData.cs" />
     <Compile Include="CommonLib\UserSession.cs" />
     <Compile Include="Enum\ChangeLogType.cs" />
+    <Compile Include="Enum\ColorBorder.cs" />
     <Compile Include="Enum\ContractScoreType.cs" />
     <Compile Include="Enum\ContractSourceType.cs" />
     <Compile Include="Enum\UserType.cs" />
