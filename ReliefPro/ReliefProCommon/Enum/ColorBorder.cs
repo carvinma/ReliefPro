@@ -7,8 +7,8 @@ namespace ReliefProCommon.Enum
 {
     public enum ColorBorder
     {
-        Red = "red",
-        Blue = "blue",
-        Green = "green"
+        red,
+        blue,
+        green
     }
 }

@@ -79,6 +79,7 @@
       <HintPath>..\Dependencies\SharpCompress.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -118,6 +119,7 @@
     <Compile Include="CommonLib\StringUtil.cs" />
     <Compile Include="CommonLib\TreeViewItemData.cs" />
     <Compile Include="CommonLib\UserSession.cs" />
+    <Compile Include="DataErrorInfoBase.cs" />
     <Compile Include="Enum\ChangeLogType.cs" />
     <Compile Include="Enum\ColorBorder.cs" />
     <Compile Include="Enum\ContractScoreType.cs" />
