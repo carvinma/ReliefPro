@@ -9,6 +9,8 @@ using ReliefProLL;
 using ReliefProMain.Model;
 using ReliefProModel.Towers;
 using UOMLib;
+using ReliefProDAL;
+using ReliefProModel;
 
 namespace ReliefProMain.ViewModel
 {
@@ -17,7 +19,7 @@ namespace ReliefProMain.ViewModel
         private BlockedVaporOutletBLL blockBLL;
         public BlockedVaporOutletModel model { get; set; }
         private ISession SessionPF;
-
+        private ISession SessionPS;
         public ICommand OKCMD { get; set; }
         public ICommand CalculateCommand { get; set; }
         public BlockedVaporOutletVM(ISession SessionPF, ISession SessinPS, int ScenarioID, int OutletType)
@@ -25,6 +27,7 @@ namespace ReliefProMain.ViewModel
             OKCMD = new DelegateCommand<object>(Save);
             CalculateCommand = new DelegateCommand<object>(Calculate);
             this.SessionPF = SessionPF;
+            this.SessionPS = SessionPS;
             blockBLL = new BlockedVaporOutletBLL(SessionPF, SessinPS);
 
             var BlockedModel = blockBLL.GeModel(ScenarioID, OutletType);
@@ -62,7 +65,12 @@ namespace ReliefProMain.ViewModel
         }
         private void Calculate(object obj)
         {
-
+            PSVDAL psvdal = new PSVDAL();
+            PSV psv = psvdal.GetModel(SessionPS);
+            double pSet = (psv.Pressure??0) * (psv.ReliefPressureFactor ?? 0);
+            if (model.InletGasUpstreamMaxPressure > pSet)
+                model.ReliefLoad = 0;
+            
         }
         private void Save(object obj)
         {
