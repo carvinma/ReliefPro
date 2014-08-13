@@ -10,7 +10,7 @@
             <DockPanel.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </DockPanel.Background>
-            <ToolBarTray >
+            <ToolBarTray HorizontalAlignment="Stretch">
                 <ToolBar Height="30" VerticalAlignment="Top"  HorizontalAlignment="Left" Width="998" BorderBrush="SlateBlue" BorderThickness="1,1,1,1"  >                    
                     <Button x:Name="btnPSV" ToolTip="PSV" VerticalAlignment="Center"  Click="ToolbarButton_Click">
                         <Image Source="/images/property.png" x:Name="btnPSV1" ></Image>

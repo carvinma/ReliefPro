@@ -3,116 +3,92 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"        
         xmlns:winformsIntegration="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
-        Title="MainWindow" Height="800" Width="1200" Name="MainWindowApp" Loaded="MainWindowApp_Loaded" Closing="MainWindowApp_Closing" Icon="Images/app.ico" >
+        Title="MainWindow"  Height="800" Width="1200" Name="MainWindowApp" Loaded="MainWindowApp_Loaded" Closing="MainWindowApp_Closing" Icon="Images/app.ico" >
    
     <Window.Resources>
         <ResourceDictionary>
-            <ContextMenu x:Name="RightContextMenu" x:Key="RightContextMenu">
-                <MenuItem Header="ReName" Click="ReName"  Name="ritem0"/>
-                <MenuItem Header="New Unit" Click="CreateUnit"  Name="ritem1"/>                
-                <MenuItem Header="Import Data" Click="ImportDataFromOther"  Name="ritem2"  />
-                <MenuItem Header="New Protected System" Click="CreateProtectedSystem"  Name="ritem3"  />
+            <ContextMenu x:Name="RightContextMenu" x:Key="RightContextMenu" Background="#cbdbea">
+                <MenuItem Header="ReName" Click="ReName"  Name="ritem0" Background="#cbdbea"/>
+                <MenuItem Header="New Unit" Click="CreateUnit"  Name="ritem1" Background="#cbdbea"/>
+                <MenuItem Header="Import Data" Click="ImportDataFromOther"  Name="ritem2"  Background="#cbdbea"/>
+                <MenuItem Header="New Protected System" Click="CreateProtectedSystem"  Name="ritem3"  Background="#cbdbea"/>
             </ContextMenu>
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid x:Name="layoutRoot">
+    <Grid x:Name="layoutRoot" Background="#cbdbea">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="800*"/>
         </Grid.RowDefinitions>
-        <Border BorderBrush="LightBlue" BorderThickness="0"  Margin="1" Grid.Row="0">
+        <Border  BorderThickness="0"   Grid.Row="0">
             <Border.Background>
-                <SolidColorBrush Color="#a0a0a0"/>
+                <SolidColorBrush Color="#cbdbea"/>
             </Border.Background>
-            <Menu >
-                <Menu.BorderBrush>
-                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-                </Menu.BorderBrush>
-                <Menu.Background>
-                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-                </Menu.Background>
-                <MenuItem Header="File">
+            <Menu Padding="0" Background="#cbdbea" >
+
+                <MenuItem Header="File" Background="#cbdbea" >
                     <MenuItem Click="MenuItem_Click" Header="New Plant" />
-                    <Separator/>
+                    <Separator />
                     <MenuItem Click="MenuItem_Click" Header="Open Plant" />
                     <Separator/>
                     <MenuItem Click="MenuItem_Click" Header="Save Plant" />
                     <MenuItem Click="MenuItem_Click" Header="Save As" />
                     <Separator/>
-                    <MenuItem Click="MenuItem_Click" Header="Close Plant" />
+                    <MenuItem Click="MenuItem_Click" Header="Close Plant"/>
                     <Separator/>
-                    <MenuItem Click="MenuItem_Click" Header="Exit" />
+                    <MenuItem Click="MenuItem_Click" Header="Exit"/>
                 </MenuItem>
-                <MenuItem Header="Tools">
-                    <MenuItem Header="Units Of Measure" Click="OnloadUnitOfMeasure"/>
-                    <MenuItem Header="Save">
-                        <MenuItem Header="Layout_1" Click="OnSaveLayout"/>
-                        <MenuItem Header="Layout_2" Click="OnSaveLayout"/>
-                        <MenuItem Header="Layout_3" Click="OnSaveLayout"/>
-                        <MenuItem Header="Layout_4" Click="OnSaveLayout"/>
-                    </MenuItem>
-                    <MenuItem Header="Load">
-                        <MenuItem Header="Layout_1" Click="OnLoadLayout"/>
-                        <MenuItem Header="Layout_2" Click="OnLoadLayout"/>
-                        <MenuItem Header="Layout_3" Click="OnLoadLayout"/>
-                        <MenuItem Header="Layout_4" Click="OnLoadLayout"/>
-                    </MenuItem>
-                    <MenuItem Header="Unload Manager" Click="OnUnloadManager"/>
-                    <MenuItem Header="Load Manager" Click="OnLoadManager"/>
+                <MenuItem Header="Tools" Background="#cbdbea" >
+                    <MenuItem Header="Units Of Measure" Click="OnloadUnitOfMeasure" />
+                    <MenuItem Header="Save" Background="#cbdbea">
+                        <MenuItem Header="Layout_1" Click="OnSaveLayout" />                      
+                    </MenuItem>                                    
                 </MenuItem>
-                <MenuItem Header="Help">
-                    <MenuItem Header="Help" />
-                    <MenuItem Header="About ReliefPro" />
+                <MenuItem Header="Help" Background="#cbdbea">
+                    <MenuItem Header="Help" Background="#cbdbea"/>
+                    <MenuItem Header="About ReliefPro" Background="#cbdbea"/>
                 </MenuItem>
             </Menu>
         </Border>
-        <Border Grid.Row="1" BorderBrush="LightBlue" BorderThickness="0"  Margin="1">
+        <Border Grid.Row="1" BorderThickness="1"  >
             <Border.Background>
-                <SolidColorBrush Color="#a0a0a0"/>
+                <SolidColorBrush Color="#ffffff"/>
             </Border.Background>
-            <ToolBarTray  HorizontalAlignment="Left" VerticalAlignment="Center"  >
+            <ToolBarTray  HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="35"  >
                 <ToolBarTray.Background>
-                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                    <SolidColorBrush Color="#cbdbea"/>
                 </ToolBarTray.Background>
-                <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top"  Height="30" >
+                <ToolBar DockPanel.Dock="Top" VerticalAlignment="Top"  Height="35" >
                     <ToolBar.Background>
-                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                        <SolidColorBrush Color="#cbdbea"/>
                     </ToolBar.Background>
                     <Button Name="btnNewPlant" ToolTip="New Plant" VerticalAlignment="Center" Click="Button_Click" >
-                        <Image Source="images/newplant.ico" ></Image>
+                        <Image Source="images/newplant.ico"  Height="24" Width="24"></Image>
                     </Button>
                     <Button Name="btnOpenPlant" ToolTip="Open Plant" VerticalAlignment="Center" Click="Button_Click">
-                        <Image Source="images/openplant.ico" ></Image>
+                        <Image Source="images/openplant.ico"  Height="24" Width="24"></Image>
                     </Button>
                     <Button Name="btnClosePlant" ToolTip="Close Plant" VerticalAlignment="Center"  Click="Button_Click">
-                        <Image Source="images/closeplant.ico"  ></Image>
+                        <Image Source="images/closeplant.ico"   Height="24" Width="24"></Image>
                     </Button>
                     <Separator/>
                     <Button Name="btnSaveProject" ToolTip="Save Plant" VerticalAlignment="Center"  Click="Button_Click">
-                        <Image Source="images/save.png"  ></Image>
+                        <Image Source="images/save.ico"   Height="24" Width="24"></Image>
                     </Button>
 
-                    <Separator/>
-                    <Button Name="FlashCalu" ToolTip="Flash Calculation" VerticalAlignment="Center" >
-                        <Image Source="images/calculator.ico" ></Image>
-                    </Button>
-
-                    <Separator/>
+                   
                     <Button Name="btnUOM" ToolTip="UOM" VerticalAlignment="Center"  >
-                        <Image Source="/images/uom.png"  ></Image>
+                        <Image Source="/images/uom.ico" Height="24" Width="24"  ></Image>
                     </Button>
-                    <Separator/>
-                    <Button Name="btnImportSimulation" ToolTip="Import Simulation" VerticalAlignment="Center"  >
-                        <Image Source="/images/uom.png"  ></Image>
-                    </Button>
+                                    
                     <Separator/>
                     <Button Name="btnGlobalDefault" ToolTip="Global Default" VerticalAlignment="Center"  Click="Button_Click">
-                        <Image Source="/images/GlobalDefault.ico"  ></Image>
+                        <Image Source="/images/GlobalDefault.ico"   Height="24" Width="24"></Image>
                     </Button>
                     <Button Name="btnReport" ToolTip="Report" VerticalAlignment="Center"  Click="Button_Click">
-                        <Image Source="/images/Report.ico"  ></Image>
+                        <Image Source="/images/Report.ico"   Height="24" Width="24"></Image>
                     </Button>
 
 
@@ -122,16 +98,14 @@
 
 
 
-        <avalonDock:DockingManager VerticalAlignment="Stretch" Grid.Row="2" x:Name="dockManager" AllowMixedOrientation="True" DocumentClosing="dockManager_DocumentClosing">
-            <avalonDock:DockingManager.Theme>
-                <avalonDock:AeroTheme/>
-            </avalonDock:DockingManager.Theme>
+        <avalonDock:DockingManager Background="#ecf1f6" VerticalAlignment="Stretch" Grid.Row="2" x:Name="dockManager" AllowMixedOrientation="True" DocumentClosing="dockManager_DocumentClosing">
+            
             <avalonDock:LayoutRoot>
-                <avalonDock:LayoutPanel>
+                <avalonDock:LayoutPanel >
                     <avalonDock:LayoutAnchorablePaneGroup DockWidth="250" >
-                        <avalonDock:LayoutAnchorablePane>
-                            <avalonDock:LayoutAnchorable  x:Name="Navigation"  ContentId="Navigation" Title="Plant Explorer" ToolTip="Plant Explorer" CanHide="False" CanClose="False" >
-                                <TreeView VerticalAlignment="Stretch" Name="NavigationTreeView"   MouseDoubleClick="NavigationTreeView_MouseDoubleClick" ContextMenu="{StaticResource RightContextMenu}" PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
+                        <avalonDock:LayoutAnchorablePane >
+                            <avalonDock:LayoutAnchorable   x:Name="Navigation"  ContentId="Navigation" Title="Plant Explorer" ToolTip="Plant Explorer" CanHide="False" CanClose="False" >
+                                <TreeView Background="#ecf1f6" VerticalAlignment="Stretch" Name="NavigationTreeView"   MouseDoubleClick="NavigationTreeView_MouseDoubleClick" ContextMenu="{StaticResource RightContextMenu}" PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
                                     <TreeView.ItemTemplate>
                                         <HierarchicalDataTemplate>
                                             <StackPanel Orientation="Horizontal" >
@@ -142,9 +116,9 @@
                                     </TreeView.ItemTemplate>
                                 </TreeView>
                             </avalonDock:LayoutAnchorable>
-                            <avalonDock:LayoutAnchorable ContentId="toolWindow" Title="Tools" Hiding="OnToolWindow1Hiding"  >
+                            <avalonDock:LayoutAnchorable ContentId="toolWindow" Title="Tool Box" Hiding="OnToolWindow1Hiding"  >
                                 <Border BorderBrush="LightBlue" BorderThickness="1"  Margin="1">
-                                    <DockPanel>
+                                    <DockPanel Background="#ecf1f6">
                                         <ListView Name="lvTower"  AllowDrop="True"    VerticalAlignment="Stretch"    BorderThickness="0"  >
                                             <ListView.ItemsPanel>
                                                 <ItemsPanelTemplate>

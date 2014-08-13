@@ -524,6 +524,8 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Resource Include="Images\report.ico" />
+    <Resource Include="Images\uom.ico" />
     <Content Include="Resources\Langs\en-US.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -899,8 +901,7 @@
     <Resource Include="Images\PSVDatasheet.ico" />
     <Resource Include="Images\PSVManager.ico" />
     <Resource Include="Images\PSVSizing.ico" />
-    <Resource Include="Images\ReactorLoop.ico" />
-    <Resource Include="Images\Report.ico" />
+    <Resource Include="Images\reactorLoop.ico" />
     <Resource Include="Images\Scenario.ico" />
     <Resource Include="Images\ShowHide.ico" />
     <Resource Include="Images\StorageTank.ico" />
