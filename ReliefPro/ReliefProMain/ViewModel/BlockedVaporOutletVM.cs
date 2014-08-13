@@ -19,10 +19,11 @@ namespace ReliefProMain.ViewModel
         private ISession SessionPF;
 
         public ICommand OKCMD { get; set; }
-
+        public ICommand CalculateCommand { get; set; }
         public BlockedVaporOutletVM(ISession SessionPF, ISession SessinPS, int ScenarioID, int OutletType)
         {
             OKCMD = new DelegateCommand<object>(Save);
+            CalculateCommand = new DelegateCommand<object>(Calculate);
             this.SessionPF = SessionPF;
             blockBLL = new BlockedVaporOutletBLL(SessionPF, SessinPS);
 
@@ -58,6 +59,10 @@ namespace ReliefProMain.ViewModel
             model.dbScenario.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate, model.ReliefLoad);
             model.dbScenario.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure, model.ReliefPressure);
             model.dbScenario.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature, model.ReliefTemperature);
+        }
+        private void Calculate(object obj)
+        {
+
         }
         private void Save(object obj)
         {
