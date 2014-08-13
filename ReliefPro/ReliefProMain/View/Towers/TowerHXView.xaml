@@ -13,7 +13,7 @@
             <ColumnDefinition Width="286*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="18"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="274*"/>
@@ -30,7 +30,7 @@
                     <ListView.View>
                         <GridView >
                             <GridViewColumn Width="0"  Header="#"   DisplayMemberBinding="{Binding Path=SeqNumber,Mode=TwoWay}"></GridViewColumn>
-                            <GridViewColumn Header="{DynamicResource Name}" Width="100">
+                            <GridViewColumn Header="{DynamicResource InnerName}" Width="100">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox Text="{Binding Path=DetailName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="120"></TextBox>
