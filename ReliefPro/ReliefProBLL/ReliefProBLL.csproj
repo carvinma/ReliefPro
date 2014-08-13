@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockedVaporOutletBLL.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="CompressorBlockedBLL.cs" />
     <Compile Include="DrumBll.cs" />
     <Compile Include="DrumFireBLL.cs" />
