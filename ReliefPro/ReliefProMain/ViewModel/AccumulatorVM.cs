@@ -13,6 +13,7 @@ using ReliefProMain.Service;
 using UOMLib;
 using NHibernate;
 using System.Windows;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.ViewModel
 {
@@ -59,7 +60,7 @@ namespace ReliefProMain.ViewModel
             set
             {
                 this._Diameter = value;
-                if (Horiz  && _NormalLiquidLevel != null && _Diameter != null)
+                if (Horiz && _NormalLiquidLevel != null && _Diameter != null)
                 {
                     NormalLiquidLevel = _Diameter.Value / 2;
                 }
@@ -79,7 +80,7 @@ namespace ReliefProMain.ViewModel
                 this._Length = value;
                 if (Vertical && _NormalLiquidLevel != null && _Length != null)
                 {
-                    NormalLiquidLevel = _Length.Value/ 2;                    
+                    NormalLiquidLevel = _Length.Value / 2;
                 }
                 OnPropertyChanged("Length");
             }
@@ -98,7 +99,21 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private string _Diameter_Color;
+        private string accumulatorName_Color = ColorBorder.blue.ToString();
+        public string AccumulatorName_Color
+        {
+            get
+            {
+                return this.accumulatorName_Color;
+            }
+            set
+            {
+                this.accumulatorName_Color = value;
+
+                OnPropertyChanged("AccumulatorName_Color");
+            }
+        }
+        private string _Diameter_Color = ColorBorder.blue.ToString();
         public string Diameter_Color
         {
             get
@@ -113,7 +128,7 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private string _Length_Color;
+        private string _Length_Color = ColorBorder.blue.ToString();
         public string Length_Color
         {
             get
@@ -127,7 +142,7 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("Length_Color");
             }
         }
-        private string _NormalLiquidLevel_Color;
+        private string _NormalLiquidLevel_Color = ColorBorder.blue.ToString();
         public string NormalLiquidLevel_Color
         {
             get
@@ -235,11 +250,11 @@ namespace ReliefProMain.ViewModel
 
         private void ReadConvert()
         {
-            if (_Diameter!=null)
+            if (_Diameter != null)
                 _Diameter = UnitConvert.Convert(UOMEnum.Length, _DiameterUnit, _Diameter.Value);
-            if (_Length!=null)
+            if (_Length != null)
                 _Length = UnitConvert.Convert(UOMEnum.Length, _LengthUnit, _Length.Value);
-            if (_NormalLiquidLevel!=null)
+            if (_NormalLiquidLevel != null)
                 _NormalLiquidLevel = UnitConvert.Convert(UOMEnum.Length, _NormalLiquidLevelUnit, _NormalLiquidLevel.Value);
         }
         private void WriteConvert()
