@@ -2,53 +2,72 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-        Title="{DynamicResource StorageTankViewTitle}" Height="300" Width="565.672" Name="myWindow">
+        Title="{DynamicResource StorageTankViewTitle}" Height="328" Width="565" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
 
     <Grid Name="grid1">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="25*"/>
-            <ColumnDefinition Width="27*"/>
-            <ColumnDefinition Width="9*"/>
-            <ColumnDefinition Width="32*"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="50"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*"/>
-            <RowDefinition Height="38*"/>
-            <RowDefinition Height="34*"/>
-            <RowDefinition Height="35*"/>
-            <RowDefinition Height="26*"/>
-            <RowDefinition Height="27*"/>
-            <RowDefinition Height="30*"/>
-            <RowDefinition Height="31*"/>
-            <RowDefinition Height="39*"/>
+            <RowDefinition Height="18"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="23"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Label Content="{DynamicResource StreamName}" HorizontalAlignment="Left" Margin="38,10,0,0" VerticalAlignment="Top" Width="98" Height="26" Grid.Row="1"/>
-        <TextBox Name="txtName" HorizontalAlignment="Left" Height="23" Margin="5,10,0,0" TextWrapping="Wrap" Text="{Binding CurrentModel.StreamName}" VerticalAlignment="Top" Width="150"  Grid.Row="1" Grid.Column="1"/>
-        <Label Content="{DynamicResource Description}" HorizontalAlignment="Left" Margin="50,12,0,0" VerticalAlignment="Top" Width="78" Height="26" Grid.Row="2" Grid.RowSpan="2"/>
-        <TextBox Name="txtDescription" HorizontalAlignment="Left" Height="23" Margin="5,10,0,0" TextWrapping="Wrap" Text="{Binding CurrentModel.Description}" VerticalAlignment="Top" Width="360" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"/>
+        <Label Content="{DynamicResource StreamName}" Grid.Column="1" Grid.Row="1"/>
+        <TextBox Name="txtName"  TextWrapping="Wrap" Text="{Binding CurrentModel.StreamName}"   Grid.Row="1"  Grid.Column="2"/>
+        <Label Content="{DynamicResource Description}"  Grid.Column="1"  Grid.Row="2"/>
+        <TextBox Name="txtDescription"  TextWrapping="Wrap" Text="{Binding CurrentModel.Description}"  Width="200" Grid.Row="2"  Grid.Column="2" Grid.ColumnSpan="2"/>
 
 
 
-        <Label Content="{DynamicResource VabFrac}" HorizontalAlignment="Left" Margin="60,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.803,-0.095" Height="26" Width="59" Grid.Row="3" Grid.RowSpan="2"/>
-        <TextBox Name="txtVabFrac" IsEnabled="False"  HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding CurrentModel.VaporFraction}" VerticalAlignment="Top" Width="145"  Grid.Row="3" Grid.Column="1"/>
-        <Label Content="{DynamicResource Temperature}"  HorizontalAlignment="Left" Margin="41,0,0,0" VerticalAlignment="Top" Grid.Row="4" Height="26" Width="87" />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblTemperature,Path=Content,Mode=TwoWay}" IsEnabled="False" HorizontalAlignment="Left" Height="23" Margin="10,0,0,0" TextWrapping="Wrap" Text="{Binding CurrentModel.Temperature,Mode=TwoWay}" VerticalAlignment="Top" Width="120"  Grid.Row="4" Grid.Column="1"/>
-        <Label Content="{DynamicResource Presressure_Mpag}" HorizontalAlignment="Left" Margin="31,0,0,0" VerticalAlignment="Top" Grid.Row="5" Height="26" Width="120" Grid.ColumnSpan="2"/>
-        <Label Content="{DynamicResource Workflow_Kg_hr)}" HorizontalAlignment="Left" Margin="31,10,0,0" VerticalAlignment="Top" Grid.Row="6" Height="26" Width="109" Grid.RowSpan="2"/>
-        <Label Content="{DynamicResource SpH_KJ_Kg}" HorizontalAlignment="Left" Margin="38,11,0,0" VerticalAlignment="Top" Grid.Row="7" Height="26" Width="81" RenderTransformOrigin="-0.816,0.087" Grid.RowSpan="2"/>
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}"   IsEnabled="False" HorizontalAlignment="Left" Height="23" Margin="10,3,0,0" TextWrapping="Wrap" Text="{Binding CurrentModel.Pressure,Mode=TwoWay}" VerticalAlignment="Top" Width="120" Grid.Row="5" Grid.Column="1" />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblWeightFlow,Path=Content,Mode=TwoWay}"   IsEnabled="False" HorizontalAlignment="Left" Height="23" Margin="10,4,0,0" TextWrapping="Wrap" Text="{Binding CurrentModel.WeightFlow,Mode=TwoWay}" VerticalAlignment="Top" Width="120" Grid.Row="6" Grid.Column="1" />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblSpEnthalpy,Path=Content,Mode=TwoWay}"   IsEnabled="False" HorizontalAlignment="Left" Height="23" Margin="10,0,0,0" TextWrapping="Wrap" Text="{Binding CurrentModel.SpEnthalpy,Mode=TwoWay}" VerticalAlignment="Top" Width="120" Grid.Row="7" Grid.Column="1" />
+        <Label Content="{DynamicResource VabFrac}"  Grid.Row="3" Grid.Column="1"/>
+        <TextBox Name="txtVabFrac" IsEnabled="False"  TextWrapping="Wrap" Text="{Binding CurrentModel.VaporFraction}"  Grid.Row="3"  Grid.Column="2"/>
+        <Label Content="{DynamicResource Temperature}" Grid.Column="1"  Grid.Row="4"   />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblTemperature,Path=Content,Mode=TwoWay}" IsEnabled="False" TextWrapping="Wrap" Text="{Binding CurrentModel.Temperature,Mode=TwoWay}"  Grid.Row="4"  Grid.Column="2"/>
+        <Label Content="{DynamicResource Presressure_Mpag}"  Grid.Column="1"  Grid.Row="5"   />
+        <Label Content="{DynamicResource WorkflowKghr}"   Grid.Row="6"  Grid.Column="1" />
+        <Label Content="{DynamicResource SpH_KJ_Kg}"   Grid.Row="7" Grid.Column="1"/>
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}"   IsEnabled="False" TextWrapping="Wrap" Text="{Binding CurrentModel.Pressure,Mode=TwoWay}"   Grid.Row="5"  Grid.Column="2" />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblWeightFlow,Path=Content,Mode=TwoWay}"   IsEnabled="False"  TextWrapping="Wrap" Text="{Binding CurrentModel.WeightFlow,Mode=TwoWay}"   Grid.Row="6"  Grid.Column="2" />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblSpEnthalpy,Path=Content,Mode=TwoWay}"   IsEnabled="False"    TextWrapping="Wrap" Text="{Binding CurrentModel.SpEnthalpy,Mode=TwoWay}"  Grid.Row="7"  Grid.Column="2" />
 
 
-        <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=myWindow}" HorizontalAlignment="Left" Margin="10,7,0,0" Grid.Row="8" VerticalAlignment="Top" Width="75" Grid.Column="3" Height="22"/>
-        <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Left" Margin="90,7,0,0" Grid.Row="8" VerticalAlignment="Top" Width="75" Grid.Column="3" Height="22"/>
-        <Label x:Name="lblSpEnthalpy" Content="{Binding CurrentModel.SpEnthalpyUnit,Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Margin="9,8,0,0" Grid.Row="7" VerticalAlignment="Top" Height="26" Width="43" Grid.RowSpan="2"/>
-        <Label x:Name="lblWeightFlow" Content="{Binding CurrentModel.WeightFlowUnit,Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="6" VerticalAlignment="Top" Height="26" Width="42" Grid.RowSpan="2"/>
-        <Label x:Name="lblPressure" Content="{Binding CurrentModel.PressureUnit,Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="5" VerticalAlignment="Top" Height="26" Width="43" Grid.RowSpan="2"/>
-        <Label x:Name="lblTemperature" Content="{Binding CurrentModel.TemperatureUnit,Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="4" VerticalAlignment="Top" Height="26" Width="18" Grid.RowSpan="2"/>
-        <Button Content="{DynamicResource ImportFromDatabase}"  Command="{Binding ImportCommand}" Grid.Column="3" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="145" Height="22"/>
+        
+        <Label x:Name="lblSpEnthalpy" Content="{Binding CurrentModel.SpEnthalpyUnit,Mode=TwoWay}" Grid.Column="3"   Grid.Row="7"  />
+        <Label x:Name="lblWeightFlow" Content="{Binding CurrentModel.WeightFlowUnit,Mode=TwoWay}" Grid.Column="3"  Grid.Row="6" />
+        <Label x:Name="lblPressure" Content="{Binding CurrentModel.PressureUnit,Mode=TwoWay}" Grid.Column="3"  Grid.Row="5"  />
+        <Label x:Name="lblTemperature" Content="{Binding CurrentModel.TemperatureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="4"   />
+        <Button Content="{DynamicResource ImportFromDatabase}"  Command="{Binding ImportCommand}" Grid.Column="3" VerticalAlignment="Top"  Grid.Row="1"  Width="145" />
 
+        
+        <Grid Height="40"  Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=myWindow}"   Grid.Column="1" />
+            <Button Content="{DynamicResource Cancel}" IsCancel="True"  Grid.Row="8"   Grid.Column="2" />
+        </Grid>
+
+        <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="9"  Grid.ColumnSpan="5" >
+            <StatusBarItem>
+                <TextBlock Text="{DynamicResource StorageTankViewStatusBar}"></TextBlock>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 
 </Window>
