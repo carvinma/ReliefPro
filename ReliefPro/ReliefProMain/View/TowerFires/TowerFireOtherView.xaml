@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.TowerFires.TowerFireOtherView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{DynamicResource TowerFireOtherViewTitle}" Height="194.253" Width="390" Name="myWindow">
+        Title="{DynamicResource TowerFireOtherViewTitle}" Height="244" Width="421" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15*"/>
@@ -10,60 +10,61 @@
             <ColumnDefinition Width="15*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="8*"/>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="100*"/>
-            <RowDefinition Height="38*"/>
-            <RowDefinition Height="30*"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
-        <GroupBox Grid.Column="1" Header="{DynamicResource AreaData}" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="340">
+        <GroupBox Grid.Column="1" Header="{DynamicResource AreaData}" Grid.Row="1" Grid.ColumnSpan="2">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="10*"/>
-                    <ColumnDefinition Width="160*"/>
-                    <ColumnDefinition Width="125*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="140"/>
+                    <ColumnDefinition Width="140"/>
                     <ColumnDefinition Width="58*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="10"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
-                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1"  Content="{DynamicResource WettedArea}" />
-                <Label Grid.Column="1" HorizontalAlignment="Left" Grid.Row="2"  Content="{DynamicResource PipingContingency}" />
+                <Label Grid.Column="1"  Grid.Row="1"  Content="{DynamicResource WettedArea}" />
+                <Label Grid.Column="1"  Grid.Row="2"  Content="{DynamicResource PipingContingency}" />
 
-                <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" Text="{Binding Path=model.WettedArea,Mode=TwoWay}"/>
-                <TextBox Grid.Column="2" HorizontalAlignment="Left" Grid.Row="2" Text="{Binding Path=model.PipingContingency,Mode=TwoWay}" />
+                <TextBox Grid.Column="2"  Grid.Row="1" Text="{Binding Path=model.WettedArea,Mode=TwoWay}"/>
+                <TextBox Grid.Column="2"  Grid.Row="2" Text="{Binding Path=model.PipingContingency,Mode=TwoWay}" />
 
-                <Label Content="m2" Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="1"/>
-                <Label Content="%" Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.Row="2"/>
+                <Label Content="m2" Grid.Column="3"  Grid.Row="1"/>
+                <Label Content="%" Grid.Column="3"  Grid.Row="2"/>
             </Grid>
         </GroupBox>
 
-        <Border BorderBrush="black"  VerticalAlignment="top" Height="1" BorderThickness="0,0,0,1"  Grid.Row="2" Grid.ColumnSpan="4" Margin="0,0,0,0"/>
-        <Grid HorizontalAlignment="Stretch" Height="32"  Grid.Row="2" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="2" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Button  Content="{DynamicResource OK}" HorizontalAlignment="Center" Command="{Binding OKClick}" CommandParameter="{Binding ElementName=myWindow}"  VerticalAlignment="Center" Width="75" Height="22" Grid.Column="1" Grid.Row="0"/>
-            <Button Content="{DynamicResource Cancel}" IsCancel="True" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="75" Height="22"  Grid.Column="2" Grid.Row="0"/>
+            <Button  Content="{DynamicResource OK}"  Command="{Binding OKClick}" CommandParameter="{Binding ElementName=myWindow}"  Grid.Column="1" Grid.Row="0"/>
+            <Button Content="{DynamicResource Cancel}" IsCancel="True"   Grid.Column="2" Grid.Row="0"/>
 
         </Grid>
-        <StatusBar HorizontalAlignment="Stretch" Height="30"  Grid.Row="3" VerticalAlignment="Top" Width="390" Grid.ColumnSpan="4">
-            <Label Content="{DynamicResource TowerFireOtherViewStatusBar}"></Label>
+        <StatusBar HorizontalAlignment="Stretch" Height="23"  Grid.Row="3" Grid.ColumnSpan="4">
+            <StatusBarItem>
+                <TextBlock Text="{DynamicResource TowerFireOtherViewStatusBar}"></TextBlock>
+            </StatusBarItem>
         </StatusBar>
 
 
-        <!--<TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="25,11,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=model.WettedArea,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
-        <Label Grid.Column="1" HorizontalAlignment="Left" Margin="37,11,0,0" Grid.Row="1"  Content="Wetted Area" VerticalAlignment="Top"/>
-        <Label Grid.Column="1" HorizontalAlignment="Left" Margin="35,12,0,0" Grid.Row="2"  Content="Piping Contingency" VerticalAlignment="Top"/>
-        <TextBox Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="29,15,0,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding Path=model.PipingContingency,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
+        <!--<TextBox Grid.Column="2"  Height="23" Margin="25,11,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=model.WettedArea,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
+        <Label Grid.Column="1"  Margin="37,11,0,0" Grid.Row="1"  Content="Wetted Area" VerticalAlignment="Top"/>
+        <Label Grid.Column="1"  Margin="35,12,0,0" Grid.Row="2"  Content="Piping Contingency" VerticalAlignment="Top"/>
+        <TextBox Grid.Column="2"  Height="23" Margin="29,15,0,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding Path=model.PipingContingency,Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
         
-        <Label Content="m2" Grid.Column="2" HorizontalAlignment="Left" Margin="150,11,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <Label Content="%" Grid.Column="2" HorizontalAlignment="Left" Margin="154,15,0,0" Grid.Row="2" VerticalAlignment="Top"/>-->
+        <Label Content="m2" Grid.Column="2"  Margin="150,11,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label Content="%" Grid.Column="2"  Margin="154,15,0,0" Grid.Row="2" VerticalAlignment="Top"/>-->
 
 
         <!--<Grid Grid.ColumnSpan="4" HorizontalAlignment="Stretch"  Grid.Row="3" VerticalAlignment="Stretch">
