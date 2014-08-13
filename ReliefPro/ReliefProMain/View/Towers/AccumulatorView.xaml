@@ -21,11 +21,11 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
-        <Label Content="{DynamicResource AccumulatorName}"   Grid.Row="1" Grid.Column="1" Margin="8,3" />
-        <Label Content="{DynamicResource VesselOrientation}"   Grid.Row="2"  Grid.Column="1" Margin="10,3"  />
-        <Label Content="{DynamicResource Diameter}"    Grid.Row="3"  Grid.Column="1" Margin="32,3"/>
-        <Label Content="{DynamicResource LengthTT}"  Grid.Row="4"  Grid.Column="1" Margin="29,3"/>
-        <Label Content="{DynamicResource NormalLiquidLevel}"   Grid.Row="5" Grid.Column="1" Margin="7,3" />
+        <Label Content="{DynamicResource AccumulatorName}"   Grid.Row="1" Grid.Column="1"/>
+        <Label Content="{DynamicResource VesselOrientation}"   Grid.Row="2"  Grid.Column="1"/>
+        <Label Content="{DynamicResource Diameter}"    Grid.Row="3"  Grid.Column="1" />
+        <Label Content="{DynamicResource LengthTT}"  Grid.Row="4"  Grid.Column="1"/>
+        <Label Content="{DynamicResource NormalLiquidLevel}"   Grid.Row="5" Grid.Column="1"/>
         <TextBox  Text="{Binding CurrentAccumulator.AccumulatorName}"  Grid.Row="1" Grid.Column="2" />
         <RadioButton Name="voH" IsChecked="{Binding Horiz}" GroupName="orientation" Content="{DynamicResource Horiz}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="2" Grid.Column="2"  />
         <RadioButton Name="voV" IsChecked="{Binding Vertical}" GroupName="orientation" Content="{DynamicResource Vert}" HorizontalAlignment="Right"  VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" />
