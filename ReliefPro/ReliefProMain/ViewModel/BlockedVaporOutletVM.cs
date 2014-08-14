@@ -67,6 +67,7 @@ namespace ReliefProMain.ViewModel
         }
         private void Calculate(object obj)
         {
+            if (!CheckData()) return; 
             PSVDAL psvdal = new PSVDAL();
             PSV psv = psvdal.GetModel(SessionPS);
             double pSet = (psv.Pressure??0) * (psv.ReliefPressureFactor ?? 0);
@@ -104,6 +105,7 @@ namespace ReliefProMain.ViewModel
         }
         private void Save(object obj)
         {
+            if (!CheckData()) return; 
             WriteConvertModel();
             blockBLL.Save(model.dbmodel, model.dbScenario);
             if (obj != null)
