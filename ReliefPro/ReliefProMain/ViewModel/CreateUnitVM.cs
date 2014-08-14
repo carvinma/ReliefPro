@@ -20,6 +20,7 @@ namespace ReliefProMain.ViewModel
 
 
         private string _UnitName;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         public string UnitName
         {
             get
@@ -30,6 +31,20 @@ namespace ReliefProMain.ViewModel
             {
                 this._UnitName = value;
 
+                OnPropertyChanged("UnitName");
+            }
+        }
+
+        private string _UnitName_Color;
+        public string UnitName_Color
+        {
+            get
+            {
+                return this._UnitName_Color;
+            }
+            set
+            {
+                this._UnitName_Color = value;
                 OnPropertyChanged("UnitName");
             }
         }
@@ -55,6 +70,7 @@ namespace ReliefProMain.ViewModel
         
         private void Save(object window)
         {
+            if (!CheckData()) return;
             string dirUnit = dirPlant + @"\" + UnitName;
             Directory.CreateDirectory(dirUnit);
             string protectedsystem1 = dirUnit + @"\ProtectedSystem1";
