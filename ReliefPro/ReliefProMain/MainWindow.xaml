@@ -102,7 +102,7 @@
             
             <avalonDock:LayoutRoot>
                 <avalonDock:LayoutPanel >
-                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="250" >
+                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="200" >
                         <avalonDock:LayoutAnchorablePane >
                             <avalonDock:LayoutAnchorable   x:Name="Navigation"  ContentId="Navigation" Title="Plant Explorer" ToolTip="Plant Explorer" CanHide="False" CanClose="False" >
                                 <TreeView Background="#ecf1f6" VerticalAlignment="Stretch" Name="NavigationTreeView"   MouseDoubleClick="NavigationTreeView_MouseDoubleClick" ContextMenu="{StaticResource RightContextMenu}" PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
