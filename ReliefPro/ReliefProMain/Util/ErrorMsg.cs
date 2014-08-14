@@ -23,7 +23,7 @@ namespace ReliefProMain.Util
 
         public override string FormatErrorMessage(string name)
         {
-            return LanguageHelper.GetValueByKey(this.ErrorMessage);
+            return name + "" + LanguageHelper.GetValueByKey(this.ErrorMessage);
         }
     }
     public class RangeAttribute : System.ComponentModel.DataAnnotations.RangeAttribute
@@ -56,7 +56,7 @@ namespace ReliefProMain.Util
         { }
         public override string FormatErrorMessage(string name)
         {
-            return LanguageHelper.GetValueByKey(this.ErrorMessage);
+            return name + "" + LanguageHelper.GetValueByKey(this.ErrorMessage);
         }
     }
 }
