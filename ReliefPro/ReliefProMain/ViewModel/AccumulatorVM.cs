@@ -70,8 +70,8 @@ namespace ReliefProMain.ViewModel
         }
 
         private double? _Length;
-        [ReliefProMain.Util.Required(ErrorMessage = "AccumulatorViewLengthWarning")]
-        [ReliefProMain.Util.RegularExpression(ViewModelBase.ValidataNum, ErrorMessage = "AccumulatorViewLengthWarning")]
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ViewModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? Length
         {
             get
