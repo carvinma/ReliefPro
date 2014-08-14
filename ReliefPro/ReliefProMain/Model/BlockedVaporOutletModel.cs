@@ -78,6 +78,8 @@ namespace ReliefProMain.Model
         #region Value
 
         private double? inletGasUpstreamMaxPressure;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? InletGasUpstreamMaxPressure
         {
             get { return inletGasUpstreamMaxPressure; }
@@ -90,6 +92,8 @@ namespace ReliefProMain.Model
         }
 
         private double? inletAbsorbentUpstreamMaxPressure;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? InletAbsorbentUpstreamMaxPressure
         {
             get { return inletAbsorbentUpstreamMaxPressure; }
@@ -102,6 +106,8 @@ namespace ReliefProMain.Model
         }
 
         private double? normalGasFeedWeightRate;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? NormalGasFeedWeightRate
         {
             get { return normalGasFeedWeightRate; }

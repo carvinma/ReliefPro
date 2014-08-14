@@ -61,6 +61,8 @@ namespace ReliefProMain.Model.HXs
         }
 
         private double? wettedBundle;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? WettedBundle
         {
             get { return wettedBundle; }
@@ -71,6 +73,8 @@ namespace ReliefProMain.Model.HXs
             }
         }
         private double? pipingContingency;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? PipingContingency
         {
             get { return pipingContingency; }
