@@ -65,6 +65,8 @@ namespace ReliefProMain.Model
         public DrumBlockedOutlet dbmodel { get; set; }
 
         private double? maxPressure;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? MaxPressure
         {
             get { return maxPressure; }
@@ -77,6 +79,8 @@ namespace ReliefProMain.Model
         }
 
         private double? maxStreamRate;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? MaxStreamRate
         {
             get { return maxStreamRate; }
@@ -99,6 +103,8 @@ namespace ReliefProMain.Model
             }
         }
         private double? normalFlashDuty;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? NormalFlashDuty
         {
             get { return normalFlashDuty; }
@@ -110,6 +116,8 @@ namespace ReliefProMain.Model
             }
         }
         private double? fdReliefCondition;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? FDReliefCondition
         {
             get { return fdReliefCondition; }

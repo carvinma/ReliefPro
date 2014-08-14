@@ -74,6 +74,8 @@ namespace ReliefProMain.Model
         }
 
         private double? vaporMW;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? VaporMW
         {
             get { return vaporMW; }
@@ -84,6 +86,8 @@ namespace ReliefProMain.Model
             }
         }
         private double? vessel;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? Vessel
         {
             get { return vessel; }
@@ -95,6 +99,8 @@ namespace ReliefProMain.Model
         }
 
         private double? temperature;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? Temperature
         {
             get { return temperature; }
@@ -106,6 +112,8 @@ namespace ReliefProMain.Model
         }
 
         private double? pressure;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? Pressure
         {
             get { return pressure; }
@@ -117,6 +125,8 @@ namespace ReliefProMain.Model
         }
 
         private double? pSVPressure;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? PSVPressure
         {
             get { return pSVPressure; }
@@ -128,6 +138,8 @@ namespace ReliefProMain.Model
         }
 
         private double? tw;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? TW
         {
             get { return tw; }
