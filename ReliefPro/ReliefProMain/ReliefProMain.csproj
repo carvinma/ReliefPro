@@ -114,6 +114,7 @@
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="ReachFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -220,6 +221,8 @@
     <Compile Include="ProIIToDefault.cs" />
     <Compile Include="Service\ServiceProvider.cs" />
     <Compile Include="Service\UnityServiceLocator.cs" />
+    <Compile Include="Util\ErrorMsg.cs" />
+    <Compile Include="Util\LanguageHelper.cs" />
     <Compile Include="ViewModel\BlockedVaporOutletVM.cs" />
     <Compile Include="ViewModel\Compressors\CentrifugalVM.cs" />
     <Compile Include="ViewModel\Compressors\CompressorVM.cs" />
