@@ -19,6 +19,11 @@ namespace ReliefProMain.ViewModel.TowerFires
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         public TowerFireCooler model { get; set; }
+
+
+
+
+
         public double Area { get; set; }
         UOMLib.UOMEnum uomEnum;
         public AreaVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
@@ -59,6 +64,7 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private void Update(object window)
         {
+            if (!CheckData()) return;
             model.WettedArea = model.WettedArea;
             if (model.WettedArea==null)
             {

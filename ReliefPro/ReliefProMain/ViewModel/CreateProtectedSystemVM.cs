@@ -20,6 +20,7 @@ namespace ReliefProMain.ViewModel
 
 
         private string _ProtectedSystemName;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         public string ProtectedSystemName
         {
             get
@@ -29,8 +30,21 @@ namespace ReliefProMain.ViewModel
             set
             {
                 this._ProtectedSystemName = value;
-
                 OnPropertyChanged("ProtectedSystemName");
+            }
+        }
+
+        private string _ProtectedSystemName_Color;
+        public string ProtectedSystemName_Color
+        {
+            get
+            {
+                return this._ProtectedSystemName_Color;
+            }
+            set
+            {
+                this._ProtectedSystemName_Color = value;
+                OnPropertyChanged("ProtectedSystemName_Color");
             }
         }
 
@@ -55,6 +69,7 @@ namespace ReliefProMain.ViewModel
 
         private void Save(object window)
         {
+            if (!CheckData()) return;
             dirProtectedSystem = dirUnit + @"\" + ProtectedSystemName;
             Directory.CreateDirectory(dirProtectedSystem);
             string protectedsystem1 = dirProtectedSystem;
