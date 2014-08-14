@@ -876,16 +876,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Template\protectedsystem - 副本.vsd">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Template\protectedsystem.mdb1">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Template\protectedsystem.vsd">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Template\protectsystem.vsd2">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Template\Tower.vss">
@@ -921,16 +912,7 @@
     <Resource Include="Images\pt.ico" />
     <Resource Include="Images\save.ico" />
     <Resource Include="Images\un.ico" />
-    <Content Include="Template\common.mdb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Template\plant - 副本.mdb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Template\plant.mdb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Template\plant2.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Template\protectedsystem.mdb">

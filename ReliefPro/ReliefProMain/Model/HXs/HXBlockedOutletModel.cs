@@ -124,6 +124,8 @@ namespace ReliefProMain.Model.HXs
         }
 
         private double? normalDuty;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? NormalDuty
         {
             get { return normalDuty; }
@@ -135,6 +137,8 @@ namespace ReliefProMain.Model.HXs
         }
 
         private double? normalHotTemperature;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? NormalHotTemperature
         {
             get { return normalHotTemperature; }
@@ -146,6 +150,8 @@ namespace ReliefProMain.Model.HXs
         }
 
         private double? normalColdInletTemperature;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? NormalColdInletTemperature
         {
             get { return normalColdInletTemperature; }
@@ -157,6 +163,8 @@ namespace ReliefProMain.Model.HXs
         }
 
         private double? normalColdOutletTemperature;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? NormalColdOutletTemperature
         {
             get { return normalColdOutletTemperature; }
