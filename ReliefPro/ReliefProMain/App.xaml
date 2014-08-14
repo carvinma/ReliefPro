@@ -9,6 +9,7 @@
                 <ResourceDictionary Source="/themes/Expression.xaml"/>
                 <!--<ResourceDictionary Source="/themes/WindowBaseStyle.xaml"/>-->
                 <ResourceDictionary Source="pack://siteOfOrigin:,,,/Resources/Langs/en-US.xaml"/>
+                <ResourceDictionary Source="/BusyIndicatorCtrl;Component/BusyIndicator.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

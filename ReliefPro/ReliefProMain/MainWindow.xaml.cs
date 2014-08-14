@@ -42,6 +42,8 @@ using ReliefProMain.ViewModel;
 using ReliefProMain.View.Reports;
 using ReliefProMain.ViewModel.Reports;
 using NHibernate;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace ReliefProMain
 {
@@ -462,7 +464,7 @@ namespace ReliefProMain
                         string ufullpath = dirPlant + @"\" + u.UnitName;
                         TreeViewItem itemDevice = GetTreeViewItem(u.UnitName, ufullpath, 2, "images/un.ico", dbPlant_target, null);
                         item.Items.Add(itemDevice);
-                        IList<TreePS> pss=psdal.GetAllList(u.ID,SessionPlant);
+                        IList<TreePS> pss = psdal.GetAllList(u.ID, SessionPlant);
                         foreach (TreePS p in pss)
                         {
                             string pfoderpath = ufullpath + @"\" + p.PSName;
@@ -631,7 +633,7 @@ namespace ReliefProMain
                 Directory.CreateDirectory(tempReliefProWorkDir);
             initTower();
         }
-
+        private static ManualResetEvent BusinessDone = new ManualResetEvent(false);
         private void NavigationTreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
@@ -658,16 +660,38 @@ namespace ReliefProMain
                         }
                         if (!b)
                         {
-                            LayoutDocument doc = new LayoutDocument();
-                            doc.Title = data.Text;
-                            doc.Description = data.FullName;
-                            UCDrawingControl ucDrawingControl = new UCDrawingControl();
-                            doc.Content = ucDrawingControl;
-                            ucDrawingControl.Tag = data;
 
-                            doc.IsActive = true;
-                            firstDocumentPane.Children.Add(doc);
-                           visioControl = ucDrawingControl.visioControl;
+                            Task.Factory.StartNew(() =>
+                            {
+                                this.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    this.busyCtrl.IsBusy = true;
+                                    this.busyCtrl.Text = "Loading Content...";
+                                }));
+
+                            }).ContinueWith((t) =>
+                            {
+                                this.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    LayoutDocument doc = new LayoutDocument();
+                                    doc.Title = data.Text;
+                                    doc.Description = data.FullName;
+                                    doc.IsActive = true;
+                                    UCDrawingControl ucDrawingControl = new UCDrawingControl();
+                                    doc.Content = ucDrawingControl;
+                                    ucDrawingControl.Tag = data;
+                                    firstDocumentPane.Children.Add(doc);
+                                    visioControl = ucDrawingControl.visioControl;
+
+                                }));
+                            }).ContinueWith((t) =>
+                            {
+                                this.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    this.busyCtrl.IsBusy = false;
+                                }));
+                            });
+                            // BusinessDone.WaitOne();
                         }
                     }
 

@@ -34,7 +34,7 @@ namespace ReliefProMain
             v.DataContext = vm;
             v.WindowState = WindowState.Maximized;
 
-           // PlantSummaryView v = new PlantSummaryView();
+            // PlantSummaryView v = new PlantSummaryView();
             v.Show();
 
         }

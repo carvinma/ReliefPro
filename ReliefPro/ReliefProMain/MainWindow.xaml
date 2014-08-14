@@ -4,7 +4,7 @@
         xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"        
         xmlns:winformsIntegration="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
         Title="MainWindow"  Height="800" Width="1200" Name="MainWindowApp" Loaded="MainWindowApp_Loaded"
-        xmlns:Load="clr-namespace:BusyIndicatorCtrl;assembly=BusyIndicatorCtrl"
+        xmlns:s="clr-namespace:BusyIndicatorCtrl;assembly=BusyIndicatorCtrl"
         Closing="MainWindowApp_Closing" Icon="Images/app.ico" >
    
     <Window.Resources>
@@ -17,13 +17,15 @@
             </ContextMenu>
         </ResourceDictionary>
     </Window.Resources>
-
-    <Grid x:Name="layoutRoot" Background="#cbdbea">
+    <Grid>
+        <s:BusyIndicator x:Name="busyCtrl"/>
+    <Grid x:Name="layoutRoot" Background="#cbdbea" Grid.Row="1">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="800*"/>
         </Grid.RowDefinitions>
+       
         <Border  BorderThickness="0"   Grid.Row="0">
             <Border.Background>
                 <SolidColorBrush Color="#cbdbea"/>
@@ -158,6 +160,8 @@
                 </avalonDock:LayoutPanel>
             </avalonDock:LayoutRoot>
         </avalonDock:DockingManager>
+      
+    </Grid>
     </Grid>
 </Window>
 
