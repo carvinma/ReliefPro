@@ -467,7 +467,7 @@
     <s:String x:Key="UseNormalDuty">Use Normal Duty</s:String>
     <s:String x:Key="Discard">Discard</s:String>
     <s:String x:Key="Dutyreliefcondition">Duty @ Relief Condition:</s:String>
-    <s:String x:Key="PinchFactor">Pinch Factor:</s:String>
+    <s:String x:Key="PinchFactor">Pinch Factor</s:String>
     <s:String x:Key="SteamusesFlowControl">Steam Uses Flow Control?</s:String>
     <s:String x:Key="HotOilstreaminPROII">Hot Oil Stream in PRO/II?</s:String>
     <s:String x:Key="ReboilerPinchViewStatusBar">...</s:String>
@@ -580,28 +580,28 @@
 
     <!--TowerScenarioFeedView.xaml-->
     <s:String x:Key="TowerScenarioFeedViewTitle">Feed Stream</s:String>
-    <s:String x:Key="FlowSource">Flow Source:</s:String>
-    <s:String x:Key="FlowFactor">Flow Factor:</s:String>
+    <s:String x:Key="FlowSource">Flow Source</s:String>
+    <s:String x:Key="FlowFactor">Flow Factor</s:String>
     <s:String x:Key="TowerScenarioFeedViewStatusBar">...</s:String>
 
     <!--TowerScenarioHXView.xaml-->
     <s:String x:Key="TowerScenarioHXViewTitle">TowerHX</s:String>
-    <s:String x:Key="Flooding">Flooding:</s:String>
-    <s:String x:Key="RefluxDrumSurgeTime">Reflux Drum Surge Time:</s:String>
-    <s:String x:Key="min">min:</s:String>
-    <s:String x:Key="HeatMedium">Heat Medium:</s:String>
-    <s:String x:Key="IsPinch">Is Pinch:</s:String>
-    <s:String x:Key="Calculation">Calculation:</s:String>
+    <s:String x:Key="Flooding">Flooding</s:String>
+    <s:String x:Key="RefluxDrumSurgeTime">Reflux Drum Surge Time</s:String>
+    <s:String x:Key="min">min</s:String>
+    <s:String x:Key="HeatMedium">Heat Medium</s:String>
+    <s:String x:Key="IsPinch">Is Pinch</s:String>
+    <s:String x:Key="Calculation">Calculation</s:String>
     <s:String x:Key="TowerScenarioHXViewStatusBar">...</s:String>
 
     <!--TowerView.xaml-->
     <s:String x:Key="TowerViewTitle">Tower</s:String>
     <s:String x:Key="TowerName">Tower Name:</s:String>
     <s:String x:Key="StageNumber">Stage Number:</s:String>
-    <s:String x:Key="Stage">Stage:</s:String>
-    <s:String x:Key="Condenser">Condenser:</s:String>
-    <s:String x:Key="CondenserName">Condenser Name:</s:String>
-    <s:String x:Key="ReboilerName">Reboiler Name:</s:String>
+    <s:String x:Key="Stage">Stage</s:String>
+    <s:String x:Key="Condenser">Condenser</s:String>
+    <s:String x:Key="CondenserName">Condenser Name</s:String>
+    <s:String x:Key="ReboilerName">Reboiler Name</s:String>
     <s:String x:Key="TowerViewStatusBar">...</s:String>
 
     <!--BlockedVaporOutletView.xaml-->
