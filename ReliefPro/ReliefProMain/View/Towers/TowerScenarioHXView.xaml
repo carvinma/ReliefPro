@@ -1,23 +1,30 @@
 ﻿<Window x:Class="ReliefProMain.View.TowerScenarioHXView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{DynamicResource TowerScenarioHXViewTitle}" Height="400" Width="900" Loaded="Window_Loaded_1">
+        Title="{DynamicResource TowerScenarioHXViewTitle}" Height="400" Width="900" Loaded="Window_Loaded_1" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="190"/>
+            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="18"/>
             <RowDefinition Height="340*"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
 
-        <ListView Grid.Row="1" Margin="0,5,0,0" ItemsSource="{Binding Path=Details,Mode=TwoWay}" SelectedItem="{Binding SelectedDetail,Mode=TwoWay}">
+        <ListView Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="6" ItemsSource="{Binding Path=Details,Mode=TwoWay}" SelectedItem="{Binding SelectedDetail,Mode=TwoWay}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="{DynamicResource Name}" Width="200px"  DisplayMemberBinding="{Binding Path=DetailName}"></GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource InnerName}" Width="200px"  DisplayMemberBinding="{Binding Path=DetailName}"></GridViewColumn>
                     <GridViewColumn Header="{DynamicResource HeatMedium}" Width="200px"  DisplayMemberBinding="{Binding Path=Medium}"></GridViewColumn>
                     <GridViewColumn Header="{DynamicResource DutyFactor}" Width="100px"  DisplayMemberBinding="{Binding Path=DutyCalcFactor}"></GridViewColumn>
 
@@ -55,16 +62,19 @@
             </ListView.View>
         </ListView>
 
-        <Button Content="{DynamicResource OK}" IsCancel="True" HorizontalAlignment="Right" Margin="0,5,20,0" Grid.Row="2" VerticalAlignment="Top" Width="75" Height="22"/>
-        <Button IsEnabled="{Binding IsSurgeTime}"  Visibility="{Binding IsDisplay}" Content="{DynamicResource RefluxDrumSurgeTime}"  Command="{Binding CalculateSurgeTimeClick}"  HorizontalAlignment="Left" Margin="212,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="170"/>
-        <TextBlock HorizontalAlignment="Left"  Margin="193,8,0,0" Grid.Row="2" TextWrapping="Wrap"  VerticalAlignment="Top"/>
-        <CheckBox IsChecked="{Binding IsFlooding}"  Content="{DynamicResource Flooding}" Visibility="{Binding IsDisplay}" HorizontalAlignment="Left" Margin="40,5,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-        <CheckBox IsChecked="{Binding IsSurgeTime}" Visibility="{Binding IsDisplay}" Content="" HorizontalAlignment="Left" Margin="188,10,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-        <TextBox IsEnabled="{Binding IsSurgeTime}" Visibility="{Binding IsDisplay}" HorizontalAlignment="Left" Height="23" Margin="398,4,0,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding SurgeTime}" VerticalAlignment="Top" Width="120"/>
-        <Label Visibility="{Binding IsDisplay}"  Content="{DynamicResource min}" HorizontalAlignment="Left" Margin="523,3,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Button Content="{DynamicResource OK}" IsCancel="True" Grid.Row="2" Grid.Column="6"/>
+        <Button IsEnabled="{Binding IsSurgeTime}"  Visibility="{Binding IsDisplay}" Content="{DynamicResource RefluxDrumSurgeTime}"  Command="{Binding CalculateSurgeTimeClick}" Grid.Row="2" Grid.Column="3" Width="170"/>
+        <TextBlock  Grid.Row="2" TextWrapping="Wrap" />
+        <CheckBox IsChecked="{Binding IsFlooding}"  Content="{DynamicResource Flooding}" Visibility="{Binding IsDisplay}"  Grid.Row="2" Grid.Column="1"/>
+        <CheckBox IsChecked="{Binding IsSurgeTime}" Visibility="{Binding IsDisplay}" Content="" Grid.Row="2" Grid.Column="2"/>
+        <TextBox IsEnabled="{Binding IsSurgeTime}" Visibility="{Binding IsDisplay}" Grid.Row="2" TextWrapping="Wrap" Text="{Binding SurgeTime}" VerticalAlignment="Center"  Grid.Column="4"/>
+        <Label Visibility="{Binding IsDisplay}"  Content="{DynamicResource min}" VerticalAlignment="Center"  Grid.Row="2"  Grid.Column="5"/>
 
-        <StatusBar HorizontalAlignment="Stretch" Height="30"  Grid.Row="3" VerticalAlignment="Top">
-            <Label Content="{DynamicResource TowerScenarioHXViewStatusBar}"></Label>
+        
+        <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="3"  Grid.ColumnSpan="8" >
+            <StatusBarItem>
+                <TextBlock Text="{DynamicResource TowerScenarioHXViewStatusBar}"></TextBlock>
+            </StatusBarItem>
         </StatusBar>
     </Grid>
 </Window>
