@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
-using P2Wrap92;
+using P2Wrap91;
 using ReliefProCommon.CommonLib;
 using ProII;
 using ReliefProModel;
@@ -29,6 +29,8 @@ namespace ProII91
         string[] arrFlashAttributes = { "FeedData", "ProductData", "PressCalc", "TempCalc", "DutyCalc", "Type", "ProductStoreData" };
         string[] arrHxAttributes = { "FeedData", "ProductData", "DutyCalc", "ProductStoreData" };
         string[] arrCompressorAttributes = { "FeedData", "ProductData", "ProductStoreData" };
+        string[] arrMixerAttributes = { "FeedData", "ProductData" };
+        string[] arrSplitterAttributes = { "FeedData", "ProductData" };
 
         string przFileName;
         CP2File cp2File;
@@ -149,6 +151,8 @@ namespace ProII91
         /// <param name="trayFlow">1:net 2:total</param>
         public ProIIStreamData CopyStream(string columnName, int tray, int phase, int trayFlow)
         {
+            string pressure1 = "0";
+
             ProIIStreamData proIIStream = new ProIIStreamData();
             string streamName = "temp" + Guid.NewGuid().ToString().Substring(0, 5).ToUpper();
             CP2Object tempStream = (CP2Object)cp2File.CreateObject("Stream", streamName);
@@ -156,7 +160,18 @@ namespace ProII91
             cp2File.CalculateStreamProps();
             proIIStream = GetSteamInfo(streamName);
             proIIStream.Tray = tray.ToString();
-            proIIStream.ProdType=phase.ToString();
+            proIIStream.ProdType = phase.ToString();
+            if (proIIStream.Pressure == "0")
+            {
+                CP2Object objColumn = (CP2Object)cp2File.ActivateObject("Column", columnName);
+                object v = objColumn.GetAttribute("TrayPressures");
+                if (v is Array)
+                {
+                    object[] values = (object[])v;
+                    pressure1 = values[1].ToString();
+                }
+                proIIStream.Pressure = pressure1;
+            }
             cp2File.DeleteObject("Stream", streamName);
             return proIIStream;
         }
@@ -175,7 +190,7 @@ namespace ProII91
                     object v = eq.GetAttribute(s);
                     string value = ConvertExt.ObjectToString(v);
                     switch (s)
-                    {                       
+                    {
                         case "PressureDrop":
                             data.PressureDrop = value;
                             break;
@@ -268,7 +283,7 @@ namespace ProII91
                     }
                 }
             }
-            else if (otype == "Hx" || otype == "Simple Hx")
+            else if (otype == "Hx")
             {
                 foreach (string s in arrHxAttributes)
                 {
@@ -291,7 +306,7 @@ namespace ProII91
                     }
                 }
             }
-            else if (otype == "Compressor" )
+            else if (otype == "Compressor")
             {
                 foreach (string s in arrCompressorAttributes)
                 {
@@ -311,6 +326,42 @@ namespace ProII91
                     }
                 }
             }
+            else if (otype == "Mixer")
+            {
+                foreach (string s in arrMixerAttributes)
+                {
+                    object v = eq.GetAttribute(s);
+                    string value = ConvertExt.ObjectToString(v);
+                    switch (s)
+                    {
+                        case "FeedData":
+                            data.FeedData = value;
+                            break;
+                        case "ProductData":
+                            data.ProductData = value;
+                            break;
+
+                    }
+                }
+            }
+            else if (otype == "Splitter")
+            {
+                foreach (string s in arrSplitterAttributes)
+                {
+                    object v = eq.GetAttribute(s);
+                    string value = ConvertExt.ObjectToString(v);
+                    switch (s)
+                    {
+                        case "FeedData":
+                            data.FeedData = value;
+                            break;
+                        case "ProductData":
+                            data.ProductData = value;
+                            break;
+
+                    }
+                }
+            }
             return data;
         }
 
@@ -327,7 +378,7 @@ namespace ProII91
             data.Componentid = ComponentIds;
             data.PrintNumber = PrintNumbers;
             CP2Object objStream = (CP2Object)cp2File.ActivateObject("Stream", name);
-           
+
             foreach (string s in arrStreamAttributes)
             {
                 object v = objStream.GetAttribute(s);
@@ -406,7 +457,7 @@ namespace ProII91
             return data;
         }
 
-        public Dictionary<string,ProIIStreamData> GetTowerStreamInfoExtra( string otype, string eqname)
+        public Dictionary<string, ProIIStreamData> GetTowerStreamInfoExtra(string otype, string eqname)
         {
             Dictionary<string, ProIIStreamData> dic = new Dictionary<string, ProIIStreamData>();
             CP2Object eq = (CP2Object)cp2File.ActivateObject(otype, eqname);
@@ -421,7 +472,7 @@ namespace ProII91
             object ptray = eq.GetAttribute("ProdTrays");
             string prodtray = ConvertExt.ObjectToString(ptray);
             string[] prodtrays = prodtray.Split(',');
-            int count=productdatas.Length;
+            int count = productdatas.Length;
             for (int i = 0; i < count; i++)
             {
                 ProIIStreamData data = new ProIIStreamData();

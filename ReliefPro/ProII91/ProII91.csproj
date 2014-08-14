@@ -69,14 +69,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="P2Wrap92">
-      <Guid>{F5DD3402-CDFE-465D-AB00-36C8799B58B8}</Guid>
+    <COMReference Include="P2Wrap91">
+      <Guid>{41231161-F083-4EAF-9972-4A33DC35B213}</Guid>
       <VersionMajor>1</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
