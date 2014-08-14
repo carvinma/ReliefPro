@@ -74,6 +74,7 @@ namespace ReliefProMain.ViewModel.HXs
 
         private void Save(object obj)
         {
+            if (!model.CheckData()) return;
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;

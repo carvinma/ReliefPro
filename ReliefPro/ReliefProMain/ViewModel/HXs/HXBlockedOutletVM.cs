@@ -75,7 +75,7 @@ namespace ReliefProMain.ViewModel.HXs
         }
         private void CalcResult(object obj)
         {
-            if (!CheckData()) return;
+            if (!model.CheckData()) return; 
             double Q = 0;
 
             CustomStream normalHotInlet = new CustomStream();
@@ -140,7 +140,7 @@ namespace ReliefProMain.ViewModel.HXs
         }
         private void Save(object obj)
         {
-            if (!CheckData()) return;
+            if (!model.CheckData()) return; 
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;
