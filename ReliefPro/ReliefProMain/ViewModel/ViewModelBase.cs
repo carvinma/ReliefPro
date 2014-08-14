@@ -49,7 +49,7 @@ namespace ReliefProMain.ViewModel
                     var pInfo = this.GetType().GetProperty(kvp.Key + "_Color");
                     pInfo.SetValue(this, ColorBorder.red.ToString(), null);
                 }
-                MessageBox.Show(sb.ToString());
+                MessageBox.Show(sb.ToString(),"Message Box");
                 return false;
             }
             return true;
