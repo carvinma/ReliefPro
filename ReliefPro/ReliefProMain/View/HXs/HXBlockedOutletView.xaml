@@ -71,7 +71,7 @@
 
             </Grid>
         </GroupBox>
-
+        
         <GroupBox Header="{DynamicResource Output}" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3">
             <Grid>
                 <Grid.ColumnDefinitions>
