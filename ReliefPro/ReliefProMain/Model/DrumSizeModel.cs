@@ -99,6 +99,8 @@ namespace ReliefProMain.Model
             this.bootHeight_Color = sizemodel.BootHeight_Color;
         }
         private double? elevation;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? Elevation
         {
             get { return elevation; }
@@ -110,6 +112,8 @@ namespace ReliefProMain.Model
         }
 
         public double? diameter;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? Diameter
         {
             get { return diameter; }
@@ -120,6 +124,8 @@ namespace ReliefProMain.Model
             }
         }
         private double? length;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? Length
         {
             get { return length; }
@@ -131,6 +137,8 @@ namespace ReliefProMain.Model
         }
 
         public double? normalLiquidLevel;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? NormalLiquidLevel
         {
             get { return normalLiquidLevel; }
@@ -141,6 +149,8 @@ namespace ReliefProMain.Model
             }
         }
         private double? bootDiameter;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? BootDiameter
         {
             get { return bootDiameter; }
@@ -152,6 +162,8 @@ namespace ReliefProMain.Model
         }
 
         public double? bootHeight;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? BootHeight
         {
             get { return bootHeight; }
