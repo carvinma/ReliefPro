@@ -52,6 +52,9 @@ namespace ReliefProMain.ViewModel
         }
 
         private double? _Diameter;
+
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ViewModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? Diameter
         {
             get
@@ -88,7 +91,10 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("Length");
             }
         }
+
         private double? _NormalLiquidLevel;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ViewModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? NormalLiquidLevel
         {
             get
