@@ -77,7 +77,7 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void Save(object obj)
         {
-            if (!CheckData()) return;
+            if (!model.CheckData()) return;
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;
