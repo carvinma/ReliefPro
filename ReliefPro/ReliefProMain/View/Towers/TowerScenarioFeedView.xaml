@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.TowerScenarioFeedView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{DynamicResource TowerScenarioFeedViewTitle}" Height="320" Width="755"  Name="myWindow">
+        Title="{DynamicResource TowerScenarioFeedViewTitle}" Height="320" Width="755"  Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="18"/>
