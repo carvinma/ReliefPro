@@ -99,18 +99,20 @@
 
 
         <avalonDock:DockingManager Background="#ecf1f6" VerticalAlignment="Stretch" Grid.Row="2" x:Name="dockManager" AllowMixedOrientation="True" DocumentClosing="dockManager_DocumentClosing">
-            
+            <avalonDock:DockingManager.Theme>
+                <avalonDock:AeroTheme/>
+            </avalonDock:DockingManager.Theme>
             <avalonDock:LayoutRoot>
                 <avalonDock:LayoutPanel >
-                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="200" >
+                    <avalonDock:LayoutAnchorablePaneGroup DockWidth="220" >
                         <avalonDock:LayoutAnchorablePane >
                             <avalonDock:LayoutAnchorable   x:Name="Navigation"  ContentId="Navigation" Title="Plant Explorer" ToolTip="Plant Explorer" CanHide="False" CanClose="False" >
                                 <TreeView Background="#ecf1f6" VerticalAlignment="Stretch" Name="NavigationTreeView"   MouseDoubleClick="NavigationTreeView_MouseDoubleClick" ContextMenu="{StaticResource RightContextMenu}" PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
                                     <TreeView.ItemTemplate>
                                         <HierarchicalDataTemplate>
-                                            <StackPanel Orientation="Horizontal" >
+                                            <StackPanel Orientation="Horizontal"  Background="#ecf1f6">
                                                 <Image Margin="0,0,10,0"   />
-                                                <TextBlock />
+                                                <TextBlock Background="#ecf1f6"  />
                                             </StackPanel>
                                         </HierarchicalDataTemplate>
                                     </TreeView.ItemTemplate>
@@ -119,11 +121,11 @@
                             <avalonDock:LayoutAnchorable ContentId="toolWindow" Title="Tool Box" Hiding="OnToolWindow1Hiding"  >
                                 <Border BorderBrush="LightBlue" BorderThickness="1"  Margin="1">
                                     <DockPanel Background="#ecf1f6">
-                                        <ListView Name="lvTower"  AllowDrop="True"    VerticalAlignment="Stretch"    BorderThickness="0"  >
+                                        <ListView Name="lvTower"  AllowDrop="True" Background="#ecf1f6"   VerticalAlignment="Stretch"    BorderThickness="0"  >
                                             <ListView.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    
-                                                    <StackPanel  Orientation="Vertical" HorizontalAlignment="Center"  ></StackPanel>
+
+                                                    <StackPanel  Orientation="Vertical" Background="#ecf1f6" HorizontalAlignment="Center"  ></StackPanel>
                                                     
                                                 </ItemsPanelTemplate>
                                             </ListView.ItemsPanel>
@@ -135,9 +137,9 @@
                                                             <RowDefinition Height="Auto" />
                                                             <RowDefinition Height="30" />
                                                         </Grid.RowDefinitions>
-                                                        
-                                                        <Image Grid.Row="0" HorizontalAlignment="Stretch" Width="48px" Height="48px" Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>
-                                                        <TextBlock Width="100px" Grid.Row="1" Foreground="Black" TextAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding Name}" />
+
+                                                        <Image Grid.Row="0" HorizontalAlignment="Stretch" Width="48px" Height="48px"  Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>
+                                                        <TextBlock Background="#ecf1f6" Width="100px" Grid.Row="1" Foreground="Black" TextAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding Name}" />
                                                     </Grid>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>

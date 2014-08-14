@@ -153,6 +153,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
     </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Expression">
+      <HintPath>..\Dependencies\Xceed.Wpf.AvalonDock.Themes.Expression.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010">
       <HintPath>..\Dependencies\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
     </Reference>
