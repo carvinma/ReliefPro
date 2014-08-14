@@ -968,6 +968,10 @@
     <Resource Include="license.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BusyIndicatorCtrl\BusyIndicatorCtrl.csproj">
+      <Project>{aa5978ae-f64d-4288-9e5c-896c959bf3b0}</Project>
+      <Name>BusyIndicatorCtrl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ExportLib\ExportLib.csproj">
       <Project>{bf7b294a-541b-4de7-be79-1e5c7455b940}</Project>
       <Name>ExportLib</Name>
