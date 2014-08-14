@@ -855,7 +855,7 @@ namespace ReliefProMain.View
             });
 
 
-            var task2 = Task.Factory.StartNew(() =>
+            var task2 = t2.ContinueWith((i) =>
                 {
                     NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystemFile);
                     SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
