@@ -14,6 +14,7 @@ using UOMLib;
 using NHibernate;
 using System.Windows;
 using ReliefProCommon.Enum;
+using System.ComponentModel.DataAnnotations;
 
 namespace ReliefProMain.ViewModel
 {
@@ -69,6 +70,8 @@ namespace ReliefProMain.ViewModel
         }
 
         private double? _Length;
+        [ReliefProMain.Util.Required(ErrorMessage = "AccumulatorViewLengthWarning")]
+        [ReliefProMain.Util.RegularExpression(ViewModelBase.ValidataNum, ErrorMessage = "AccumulatorViewLengthWarning")]
         public double? Length
         {
             get
@@ -208,16 +211,7 @@ namespace ReliefProMain.ViewModel
 
         private void Save(object window)
         {
-            if (Length == null || Length <= 0)
-            {
-                Length_Color = "red";
-                MessageBox.Show("Length is not empty and must be bigger than zero!");
-                return;
-            }
-            else
-            {
-                Length_Color = "blue";
-            }
+            if (!this.CheckData()) return;
             WriteConvert();
             CurrentAccumulator.AccumulatorName = CurrentAccumulator.AccumulatorName.Trim();
             if (CurrentAccumulator.AccumulatorName == "")

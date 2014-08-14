@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using ReliefProCommon;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.ViewModel
 {
@@ -13,19 +15,43 @@ namespace ReliefProMain.ViewModel
     //    public ViewModelBase() { }
     //}
 
-    public abstract class ViewModelBase : INotifyPropertyChanged
+    public abstract class ViewModelBase : DataErrorInfoBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged(string propertyName)
+        //protected void OnPropertyChanged(string propertyName)
+        //{
+        //    PropertyChangedEventHandler handler = PropertyChanged;
+
+        //    if (handler != null)
+        //    {
+        //        handler(this, new PropertyChangedEventArgs(propertyName));
+        //    }
+        //}
+        public const string ValidataNum = @"^(?!0(\.0+)?$)([1-9][0-9]*|0)(\.[0-9]+)?$";
+        public bool CheckData()
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
+            foreach (var pInfo in this.GetType().GetProperties())
             {
-                handler(this, new PropertyChangedEventArgs(propertyName));
+                if (pInfo.Name.Contains("_Color"))
+                {
+                    pInfo.SetValue(this, ColorBorder.blue.ToString(), null);
+                }
             }
+            if (!this.Validate())
+            {
+                string sb = string.Empty;
+                foreach (KeyValuePair<string, string> kvp in this.DataErrors)
+                {
+                    if (!sb.Contains(kvp.Value))
+                        sb = sb + kvp.Value + "\r\n";
+                    var pInfo = this.GetType().GetProperty(kvp.Key + "_Color");
+                    pInfo.SetValue(this, ColorBorder.red.ToString(), null);
+                }
+                MessageBox.Show(sb.ToString());
+                return false;
+            }
+            return true;
         }
-
     }
 }
