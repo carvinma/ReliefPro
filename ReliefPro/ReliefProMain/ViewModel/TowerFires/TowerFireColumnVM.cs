@@ -85,7 +85,7 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private void Update(object window)
         {
-
+            if (!model.CheckData()) return;
             TowerFireColumnDAL db = new TowerFireColumnDAL();
             TowerFireColumn m = db.GetModel(model.Instance.ID, SessionProtectedSystem);
             m.BNLL = model.Instance.BNLL;
