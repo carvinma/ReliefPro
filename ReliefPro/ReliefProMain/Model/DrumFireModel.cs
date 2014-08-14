@@ -126,6 +126,8 @@ namespace ReliefProMain.Model
         }
 
         private double? crackingHeat;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? CrackingHeat
         {
             get { return crackingHeat; }
@@ -203,6 +205,8 @@ namespace ReliefProMain.Model
         }
 
         private double? designPressure;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? DesignPressure
         {
             get { return designPressure; }

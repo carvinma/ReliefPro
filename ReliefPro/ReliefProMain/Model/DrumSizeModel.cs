@@ -149,8 +149,6 @@ namespace ReliefProMain.Model
             }
         }
         private double? bootDiameter;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? BootDiameter
         {
             get { return bootDiameter; }
@@ -162,8 +160,6 @@ namespace ReliefProMain.Model
         }
 
         public double? bootHeight;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? BootHeight
         {
             get { return bootHeight; }

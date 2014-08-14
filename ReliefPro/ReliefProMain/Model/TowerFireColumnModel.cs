@@ -27,6 +27,9 @@ namespace ReliefProMain.Model
             }
         }
 
+
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public int NumberOfSegment
         {
             get
@@ -51,6 +54,55 @@ namespace ReliefProMain.Model
 
             }
         }
+
+        private double? _Elevation;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        public double? Elevation
+        {
+            get
+            {
+                return this._Elevation;
+            }
+            set
+            {
+                this._Elevation = value;
+                NotifyPropertyChanged("Elevation");
+            }
+        }
+
+        private double? _BNLL;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        public double? BNLL
+        {
+            get
+            {
+                return this._BNLL;
+            }
+            set
+            {
+                this._BNLL = value;
+                NotifyPropertyChanged("BNLL");
+            }
+        }
+
+        private double? _PipingContingency;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        public double? PipingContingency
+        {
+            get
+            {
+                return this._PipingContingency;
+            }
+            set
+            {
+                this._PipingContingency = value;
+                NotifyPropertyChanged("PipingContingency");
+            }
+        }
+
         private TowerFireColumn _Instance;
         public TowerFireColumn Instance
         {
@@ -62,6 +114,66 @@ namespace ReliefProMain.Model
             {
                 this._Instance = value;
                 NotifyPropertyChanged("Instance");
+            }
+        }
+
+        private string numberOfSegment_Color;
+        public string NumberOfSegment_Color
+        {
+            get
+            {
+                return this.numberOfSegment_Color;
+            }
+            set
+            {
+                this.numberOfSegment_Color = value;
+                NotifyPropertyChanged("NumberOfSegment_Color");
+
+            }
+        }
+
+        private string elevation_Color;
+        public string Elevation_Color
+        {
+            get
+            {
+                return this.elevation_Color;
+            }
+            set
+            {
+                this.elevation_Color = value;
+                NotifyPropertyChanged("Elevation_Color");
+
+            }
+        }
+
+        private string bNLL_Color;
+        public string BNLL_Color
+        {
+            get
+            {
+                return this.bNLL_Color;
+            }
+            set
+            {
+                this.bNLL_Color = value;
+                NotifyPropertyChanged("BNLL_Color");
+
+            }
+        }
+
+        private string pipingContingency_Color;
+        public string PipingContingency_Color
+        {
+            get
+            {
+                return this.pipingContingency_Color;
+            }
+            set
+            {
+                this.pipingContingency_Color = value;
+                NotifyPropertyChanged("PipingContingency_Color");
+
             }
         }
     }

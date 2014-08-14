@@ -120,6 +120,8 @@ namespace ReliefProMain.Model
         }
 
         private double? normalGasProductWeightRate;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double? NormalGasProductWeightRate
         {
             get { return normalGasProductWeightRate; }

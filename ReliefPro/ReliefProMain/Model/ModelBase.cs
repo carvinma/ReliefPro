@@ -1,4 +1,5 @@
-﻿using ReliefProCommon.Enum;
+﻿using ReliefProCommon;
+using ReliefProCommon.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,17 +10,17 @@ using System.Windows;
 
 namespace ReliefProMain.Model
 {
-    public abstract class ModelBase : INotifyPropertyChanged
+    public abstract class ModelBase : DataErrorInfoBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
 
-        public void NotifyPropertyChanged(string propertyName)
-        {
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+        //public void NotifyPropertyChanged(string propertyName)
+        //{
+        //    if (this.PropertyChanged != null)
+        //    {
+        //        this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        //    }
+        //}
         public const string GreaterThanZero = @"^(?!0(\.0+)?$)([1-9][0-9]*|0)(\.[0-9]+)?$";
         public const string IsNum = @"^[+-]?/d*[.]?/d*$";
         public bool CheckData()
@@ -47,11 +48,6 @@ namespace ReliefProMain.Model
             return true;
         }
 
-        private bool Validate()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<KeyValuePair<string, string>> DataErrors { get; set; }
+        
     }
 }
