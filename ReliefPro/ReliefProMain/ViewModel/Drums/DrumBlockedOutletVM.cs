@@ -70,6 +70,7 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void CalcResult(object obj)
         {
+            if (!CheckData()) return;
             reliefPressure = drum.ScenarioReliefPressure(SessionPS);
             string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
             string liquid = "L_" + Guid.NewGuid().ToString().Substring(0, 6);
@@ -129,6 +130,7 @@ namespace ReliefProMain.ViewModel.Drums
 
         private void Save(object obj)
         {
+            if (!CheckData()) return;
             WriteConvertModel();
             CalcTuple = new Tuple<double, double, double, double>(reliefLoad, reliefMW, reliefT, reliefPressure);
             drum.SaveDrumBlockedOutlet(model.dbmodel, SessionPS, reliefLoad, reliefMW, reliefT);

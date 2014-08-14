@@ -12,7 +12,7 @@ using UOMLib;
 
 namespace ReliefProMain.ViewModel.Drums
 {
-    public class DrumFireFluidVM
+    public class DrumFireFluidVM : ViewModelBase
     {
         public ICommand OKCMD { get; set; }
         public DrumFireFluidModel model { get; set; }
@@ -54,9 +54,7 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void Save(object obj)
         {
-
-
-
+            if (!CheckData()) return;
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;
