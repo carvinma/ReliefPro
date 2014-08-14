@@ -302,6 +302,8 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void CalcDrum()
         {
+
+            if (!model.CheckData()) return;
             double Qfire = 0;
             double Area = model.WettedArea.Value;
             //求出面积---你查看下把durmsize的 数据传进来。
@@ -436,6 +438,7 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void CalcTank()
         {
+            if (!model.CheckData()) return;
             string targetUnit = "barg";
             double designPressure = UnitConvert.Convert(model.DesignPressureUnit, targetUnit, model.DesignPressure.Value);
 
@@ -625,6 +628,7 @@ namespace ReliefProMain.ViewModel.Drums
 
         private void CalcHX()
         {
+            if (!model.CheckData()) return;
             CustomStreamDAL customStreamDAL = new CustomStreamDAL();
             CustomStream feed = new CustomStream();
             IList<CustomStream> feeds = customStreamDAL.GetAllList(SessionProtectedSystem, false);
@@ -807,6 +811,7 @@ namespace ReliefProMain.ViewModel.Drums
         
         private void Calc(object obj)
         {
+            if (!model.CheckData()) return;
             switch (FireType)
             {
                 case 0: CalcDrum(); break;
@@ -819,6 +824,7 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void Save(object obj)
         {
+            if (!model.CheckData()) return;
             WriteConvertModel();
             fireBLL.SaveData(model.dbmodel, fireFluidModel, sizeModel, SessionProtectedSystem);
             if (obj != null)
