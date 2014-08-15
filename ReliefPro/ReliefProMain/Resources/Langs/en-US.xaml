@@ -429,7 +429,7 @@
     <s:String x:Key="ProcessUnitName">Process Unit Name:</s:String>
     <s:String x:Key="Notes">Notes:</s:String>
     <s:String x:Key="#">#:</s:String>
-    <s:String x:Key="ExportExcel">Export Excel:</s:String>
+    <s:String x:Key="ExportExcel">Export Excel</s:String>
     <s:String x:Key="PUsummaryViewStatusBar">...</s:String>
 
     <!--FeedBottomHXView.xaml-->
