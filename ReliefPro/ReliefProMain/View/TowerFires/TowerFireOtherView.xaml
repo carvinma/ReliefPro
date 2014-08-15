@@ -4,10 +4,10 @@
         Title="{DynamicResource TowerFireOtherViewTitle}" Height="244" Width="421" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="15"/>
             <ColumnDefinition Width="157*"/>
             <ColumnDefinition Width="210*"/>
-            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="15"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
