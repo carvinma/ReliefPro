@@ -619,4 +619,11 @@
     <s:String x:Key="AbsorbentStopsViewTitle">AbsorbentStops</s:String>
     <s:String x:Key="AbsorbentStopsViewStatusBar">...</s:String>
 
+    <!--ReportTreeView.xaml-->
+    <s:String x:Key="ReportTreeViewTitle">ReportTreeView</s:String>
+    <s:String x:Key="PlantSummary">Plant Summary</s:String>
+    <s:String x:Key="ProcessUnitLoadSummary">Process Unit Load Summary</s:String>
+    <s:String x:Key="ReliefDeviceDatasheet">Relief Device Datasheet</s:String>
+    <s:String x:Key="ReportTreeViewStatusBar">Select</s:String>
+    
 </ResourceDictionary>
