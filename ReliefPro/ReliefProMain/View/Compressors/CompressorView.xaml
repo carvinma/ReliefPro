@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
         <Label Content="{DynamicResource CompressorName}"  Grid.Column="1"   Grid.Row="1"   />
         <Label Content="{DynamicResource CompressorType}" Grid.Column="1" Grid.Row="2"   />
-        <TextBox IsEnabled="False" Grid.Column="2"   Grid.Row="1"  Text="{Binding CompressorName}"   />
+        <TextBox IsReadOnly="True" Grid.Column="2"   Grid.Row="1"  Text="{Binding CompressorName}"   />
         <ComboBox  ItemsSource="{Binding CompressorTypes}" SelectedItem ="{Binding CompressorType,Mode=TwoWay}" Grid.Column="2"   Grid.Row="2"  />
         <Button Content="{DynamicResource ImportFromDatabase}" Command="{Binding ImportCommand}" Grid.Column="3" HorizontalAlignment="Left"  Grid.ColumnSpan="2"  Grid.Row="1"  Width="143"/>
         <TabControl Grid.ColumnSpan="4" Grid.Column="1" HorizontalAlignment="Stretch"   Grid.Row="3" VerticalAlignment="Stretch" >
