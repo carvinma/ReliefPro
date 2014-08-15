@@ -8,7 +8,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30" />
             <ColumnDefinition Width="178*" />
-            <ColumnDefinition Width="155*" />
+            <ColumnDefinition Width="130" />
             <ColumnDefinition Width="142*" />
             <ColumnDefinition Width="29" />
         </Grid.ColumnDefinitions>
@@ -17,21 +17,21 @@
             <RowDefinition Height="120"/>
             <RowDefinition Height="1" />
             <RowDefinition Height="30"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
         <GroupBox Header="{DynamicResource UpStreamVessel}"  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1"/>
-                    <ColumnDefinition Width="145*"/>
-                    <ColumnDefinition Width="130*"/>
+                    <ColumnDefinition Width="153*"/>
+                    <ColumnDefinition Width="130"/>
                     <ColumnDefinition Width="120*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -65,7 +65,7 @@
         <CustomControl:UnitConvertTextBox IsReadOnly="True" UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}"  Grid.Column="2" Grid.Row="7"  Text="{Binding ReliefPressure}"   />
         <TextBox IsReadOnly="True"  Grid.Row="8"  Text="{Binding ReliefMW}" Grid.Column="2"   />
 
-        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="10" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+        <Grid HorizontalAlignment="Stretch" Height="30"  Grid.Row="10" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />

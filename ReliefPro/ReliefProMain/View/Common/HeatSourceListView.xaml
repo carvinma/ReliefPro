@@ -11,9 +11,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="18"/>
             <RowDefinition Height="207*"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="2"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
         <ListView Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=HeatSources,Mode=TwoWay}" SelectedItem="{Binding SelectedHeatSource,Mode=TwoWay}"   >
@@ -52,7 +52,7 @@
         </ListView>
         <Button Content="{DynamicResource HeatSourceListViewAdd}" Command="{Binding AddCommand}" HorizontalAlignment="Right"  Grid.Row="2" Grid.Column="1"/>
         
-        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="4"  Grid.ColumnSpan="3">
+        <Grid HorizontalAlignment="Stretch"  Grid.Row="4"  Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
