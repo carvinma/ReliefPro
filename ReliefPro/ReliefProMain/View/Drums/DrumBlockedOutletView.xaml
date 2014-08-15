@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
         x:Class="ReliefProMain.View.Drums.DrumBlockedOutletView"
-        Title="{DynamicResource DrumBlockedOutletViewTitle}" Height="550" Width="580" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+        Title="{DynamicResource DrumBlockedOutletViewTitle}" Height="470" Width="580" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     
     <Grid>
         <Grid.RowDefinitions>
@@ -13,8 +13,6 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
@@ -22,7 +20,7 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="23"/>
             <RowDefinition Height="0*"/>
         </Grid.RowDefinitions>
@@ -57,7 +55,7 @@
 
         <CheckBox x:Name="chkFeed" Content="{DynamicResource FeedBtmHX}"  IsChecked="{Binding model.Feed}" HorizontalAlignment="Left"  Grid.Row="6" Grid.Column="1"  />
         <CheckBox x:Name="chkPinch" Content="{DynamicResource ReboilerPinch}"  IsChecked="{Binding model.ReboilerPinch}" Grid.Column="2" HorizontalAlignment="Center" Grid.Row="6"  />
-        <Button Content="{DynamicResource RunCalculation}" Command="{Binding CalcCMD}"  Grid.Row="7" Grid.Column="1" Width="124"  Height="20" Margin="38,7,38,11" />
+        <Button Content="{DynamicResource RunCalculation}" Command="{Binding CalcCMD}"  Grid.Row="7" Grid.Column="1" Width="143" />
         <CustomControl:UnitConvertTextBox IsReadOnly="True" Text="{Binding Path=model.ReliefLoad,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="9"/>
         <CustomControl:UnitConvertTextBox IsReadOnly="True" Text="{Binding Path=model.ReliefPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPresses,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="10"/>
         <CustomControl:UnitConvertTextBox IsReadOnly="True" Text="{Binding Path=model.ReliefTemperature,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblTemper,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="11"/>
@@ -67,7 +65,7 @@
         <Button Content="{DynamicResource Open}"  IsEnabled="{Binding ElementName=chkFeed,Path=IsChecked}" HorizontalAlignment="Right"  Grid.Column="1"   Grid.Row="6" />
         <Button Content="{DynamicResource Open}"  IsEnabled="{Binding ElementName=chkPinch,Path=IsChecked}" Grid.Row="6" Grid.Column="3" HorizontalAlignment="Left"  />
 
-        <Grid HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="15" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+        <Grid HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="13" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -79,7 +77,7 @@
             <Button Content="{DynamicResource Cancel}"  IsCancel="True"   Grid.Row="1" Grid.Column="2" />
             
         </Grid>
-        <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="15" VerticalAlignment="Bottom" Grid.ColumnSpan="5" Grid.RowSpan="2" >
+        <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="13" VerticalAlignment="Bottom" Grid.ColumnSpan="5" Grid.RowSpan="2" >
             <StatusBarItem>
                 <TextBlock Text="{DynamicResource DrumBlockedOutletViewStatusBar}"></TextBlock>
             </StatusBarItem>

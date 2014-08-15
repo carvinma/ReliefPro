@@ -12,10 +12,10 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="18"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="144*"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
         <Label Content="{DynamicResource DrumName}"  Grid.Column="1"  Grid.Row="1"  />
@@ -48,7 +48,7 @@
             </TabItem>
         </TabControl>
 
-        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+        <Grid HorizontalAlignment="Stretch"  Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
