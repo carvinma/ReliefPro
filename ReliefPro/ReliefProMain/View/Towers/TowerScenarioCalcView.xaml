@@ -2,41 +2,43 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-        Title="{DynamicResource TowerScenarioCalcViewTitle}" Height="450" Width="391" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+        Title="{DynamicResource TowerScenarioCalcViewTitle}" Height="390" Width="390" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="200*"/>
+            <RowDefinition Height="18"/>
+            <RowDefinition Height="160"/>
             <RowDefinition Height="120"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="23"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
          
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="70"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Button Content="{DynamicResource Feed}"  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"  Width="75" Height="39" Command="{Binding FeedCommand}"/>
-            <Button Content="{DynamicResource Reboiler}"   Grid.Column="0" Grid.Row="1"  Width="75" Height="50" Command="{Binding ReboilerCommand}"/>
-            <Button  Width="90" Height="50" Command="{Binding PumparoundHeatingCommand}" Grid.Row="1" Grid.Column="1" >
+            <Button Content="{DynamicResource Feed}"  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"  Command="{Binding FeedCommand}"/>
+            <Button Content="{DynamicResource Reboiler}"   Grid.Column="0" Grid.Row="1"  Command="{Binding ReboilerCommand}"/>
+            <Button Width="150" Command="{Binding PumparoundHeatingCommand}" Grid.Row="1" Grid.Column="1" >
                 <TextBlock TextWrapping="Wrap" Text="{DynamicResource PumparoundHeating}"></TextBlock>
             </Button>
-            <Button Content="Condenser" Grid.Column="0" Grid.Row="2"  Width="75" Height="53" Command="{Binding CondenserCommand}"/>
-            <Button Grid.Column="1" Grid.Row="2"  Width="90" Height="53" Command="{Binding PumparoundCoolingCommand}" >
+            <Button Content="Condenser" Grid.Column="0" Grid.Row="2"  Command="{Binding CondenserCommand}"/>
+            <Button Grid.Column="1" Grid.Row="2"  Width="150"  Command="{Binding PumparoundCoolingCommand}" >
                 <TextBlock Text="{DynamicResource PumparoundCooling}" TextWrapping="Wrap"></TextBlock>
             </Button>
-            <Button Content="{DynamicResource Calculate}"   Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"  Width="75" Command="{Binding CalcCommand}"/>
+            <Button Content="{DynamicResource Calculate}"   Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding CalcCommand}"/>
 
 
         </Grid>
         
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
@@ -65,7 +67,7 @@
             <TextBlock   Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" Text="{DynamicResource ReliefMW}" />
 
         </Grid>
-        <Grid Height="40"  Grid.Row="2" Grid.Column="0">
+        <Grid Height="40"  Grid.Row="3" Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="2*"/>
@@ -76,7 +78,7 @@
             <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="2" />
         </Grid>
        
-        <StatusBar Height="23" HorizontalAlignment="Stretch"  Grid.Row="3" >
+        <StatusBar Height="23" HorizontalAlignment="Stretch"  Grid.Row="4" >
             <StatusBarItem>
                 <TextBlock Text="{DynamicResource TowerScenarioCalcViewStatusBar}"></TextBlock>
             </StatusBarItem>
