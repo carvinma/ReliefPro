@@ -660,14 +660,16 @@ namespace ReliefProMain
                         }
                         if (!b)
                         {
-
+                            //this.busyCtrl.IsBusy = true;
+                            //this.busyCtrl.Text = "Loading Content...";
                             Task.Factory.StartNew(() =>
                             {
                                 this.Dispatcher.Invoke(new Action(() =>
                                 {
                                     this.busyCtrl.IsBusy = true;
-                                    this.busyCtrl.Text = "Loading Content...";
+                                    //this.busyCtrl.Text = "Loading Content...";
                                 }));
+
 
                             }).ContinueWith((t) =>
                             {
@@ -686,6 +688,7 @@ namespace ReliefProMain
                                 }));
                             }).ContinueWith((t) =>
                             {
+
                                 this.Dispatcher.Invoke(new Action(() =>
                                 {
                                     this.busyCtrl.IsBusy = false;
