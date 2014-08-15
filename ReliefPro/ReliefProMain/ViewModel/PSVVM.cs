@@ -219,7 +219,12 @@ namespace ReliefProMain.ViewModel
                 }
                 else
                 {
-                    //需要删除
+                    //需要重新复制一份ProtectedSystem.mdb，相当于重新分析。
+                    string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
+                    string dbProtectedSystem_target = DirProtectedSystem + @"\protectedsystem.mdb";
+                    System.IO.File.Copy(dbProtectedSystem, dbProtectedSystem_target, true);
+                    NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystem_target);
+                    SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
                     CreateTowerPSV();
                 }
             }
@@ -231,7 +236,7 @@ namespace ReliefProMain.ViewModel
             System.Windows.Window wd = window as System.Windows.Window;
             if (wd != null)
             {
-                wd.Close();
+                wd.DialogResult = true;
             }
         }
         public void CreateTowerPSV()
@@ -453,6 +458,7 @@ namespace ReliefProMain.ViewModel
 
 
         }
+
 
         private CustomStream CopyTop1Liquid(string copyPrzFile)
         {

@@ -33,6 +33,7 @@ using ReliefProMain.ViewModel.HXs;
 using ReliefProMain.View.HXs;
 using ReliefProMain.ViewModel.ReactorLoops;
 using ReliefProMain.View.ReactorLoops;
+using ReliefProMain.View.Towers;
 
 namespace ReliefProMain.ViewModel
 {
@@ -42,6 +43,7 @@ namespace ReliefProMain.ViewModel
         private ISession SessionProtectedSystem { set; get; }
         private string DirPlant { set; get; }
         private string DirProtectedSystem { set; get; }
+        private string towerType;
         public SourceFile SourceFileInfo { set; get; }
         private ObservableCollection<ScenarioModel> _Scenarios;
         public ObservableCollection<ScenarioModel> Scenarios
@@ -80,6 +82,13 @@ namespace ReliefProMain.ViewModel
             SourceFileInfo = sourceFileInfo;
             Scenarios = GetScenarios();
             ScenarioNameList = GetScenarioNames(eqType);
+
+            if (eqType == "Tower")
+            {
+                TowerDAL towerDAL = new TowerDAL();
+                Tower tower = towerDAL.GetModel(SessionProtectedSystem);
+                towerType = tower.TowerType;
+            }
 
             cud += new ChangeUnitDelegate(ExcuteThumbMoved);
 
@@ -212,6 +221,14 @@ namespace ReliefProMain.ViewModel
                     {
                         CreateAbnormalHeatInput(ScenarioID, ScenarioName, SessionProtectedSystem);
                     }
+                    else if (ScenarioName.Contains("Blocked vapor outlet"))
+                    {
+                        CreateBlockedVaporOutlet(ScenarioID, 0);
+                    }
+                    else if (ScenarioName.Contains("Absorbent Stops"))
+                    {
+                        CreateBlockedVaporOutlet(ScenarioID, 1);
+                    }
                     else
                     {
                         CreateTowerCommon(ScenarioID, ScenarioName, SessionProtectedSystem);
@@ -235,7 +252,7 @@ namespace ReliefProMain.ViewModel
                                 SelectedScenario.ReliefMW = vm.CalcTuple.Item2;
                             }
                         }
-                        //CreateDrumOutlet(ScenarioID, Session);
+                        
                     }
                     else if (ScenarioName.Contains("Fire"))
                     {
@@ -266,7 +283,7 @@ namespace ReliefProMain.ViewModel
                         v.DataContext = vm;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         v.ShowDialog();
-                        //CreateDrumDepressuring(ScenarioID, ScenarioName, Session);
+                       
                     }
 
                 }
@@ -431,7 +448,19 @@ namespace ReliefProMain.ViewModel
                 }
             }
         }
-
+        private void CreateBlockedVaporOutlet(int ScenarioID,int OutletType)
+        {
+            BlockedVaporOutletView view = new BlockedVaporOutletView();
+            BlockedVaporOutletVM vm = new BlockedVaporOutletVM(SessionPlant, SessionProtectedSystem, ScenarioID, OutletType);
+            view.DataContext = vm;
+            if (view.ShowDialog() == true)
+            {
+                SelectedScenario.ReliefLoad = vm.model.dbScenario.ReliefLoad;
+                SelectedScenario.ReliefMW = vm.model.dbScenario.ReliefMW;
+                SelectedScenario.ReliefPressure = vm.model.dbScenario.ReliefPressure;
+                SelectedScenario.ReliefTemperature = vm.model.dbScenario.ReliefTemperature;
+            }
+        }
 
 
         private void CreateTowerFire(int ScenarioID, NHibernate.ISession Session)
@@ -912,19 +941,39 @@ namespace ReliefProMain.ViewModel
             List<string> list = new List<string>();
             if (eqType == "Tower")
             {
-                list.Add("Blocked Outlet");
-                list.Add("Reflux Failure");
-                list.Add("General Electric Power Failure");
-                list.Add("Partial Electric Power Failure");
-                list.Add("Cooling Water Failure");
-                list.Add("Refrigerant Failure");
-                list.Add("PumpAround Failure");
-                list.Add("Abnormal Heat Input");
-                list.Add("Cold Feed Stops");
-                list.Add("Inlet Valve Fails Open");
-                list.Add("Fire");
-                list.Add("Steam Failure");
-                list.Add("Automatic Controls Failure");
+                if (towerType == "Distillation")
+                {
+                    list.Add("Blocked Outlet");
+                    list.Add("Reflux Failure");
+                    list.Add("General Electric Power Failure");
+                    list.Add("Partial Electric Power Failure");
+                    list.Add("Cooling Water Failure");
+                    list.Add("Refrigerant Failure");
+                    list.Add("PumpAround Failure");
+                    list.Add("Abnormal Heat Input");
+                    list.Add("Cold Feed Stops");
+                    list.Add("Inlet Valve Fails Open");
+                    list.Add("Fire");
+                    list.Add("Steam Failure");
+                    list.Add("Automatic Controls Failure");
+                }
+                else if (towerType == "Absorber")
+                {
+                    list.Add("Blocked vapor outlet");
+                    list.Add("Absorbent Stops");
+                    list.Add("Fire");
+                }
+                else
+                {
+                    list.Add("Blocked Outlet");
+                    list.Add("Reflux Failure");
+                    list.Add("General Electric Power Failure");
+                    list.Add("Partial Electric Power Failure");
+                    list.Add("Cooling Water Failure");
+                    list.Add("Refrigerant Failure");
+                    list.Add("Inlet Valve Fails Open");
+                    list.Add("Fire");
+                }
             }
             else if (eqType == "Drum")
             {

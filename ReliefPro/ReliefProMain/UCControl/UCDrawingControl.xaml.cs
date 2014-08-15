@@ -116,6 +116,7 @@ namespace ReliefProMain.View
                         if (v.ShowDialog() == true)
                         {
                             SourceFileInfo = vm.SourceFileInfo;
+                            SessionProtectedSystem = vm.SessionProtectedSystem;
                             EqName = vm.TowerName;
                             EqType = "Tower";
                             DrawTower(shp, vm);

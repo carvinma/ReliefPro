@@ -23,10 +23,10 @@ namespace ReliefProMain.ViewModel
 {
    public class TowerVM:ViewModelBase
     {
-        private ISession SessionPlant { set; get; }
-        private ISession SessionProtectedSystem { set; get; }
-        private string DirPlant { set; get; }
-        private string DirProtectedSystem { set; get; }        
+       public ISession SessionPlant { set; get; }
+        public ISession SessionProtectedSystem { set; get; }
+        public string DirPlant { set; get; }
+        public string DirProtectedSystem { set; get; }        
         public SourceFile SourceFileInfo { set; get; }
         public string SourceFileName { set; get; }
         private string _TowerName;
@@ -40,6 +40,19 @@ namespace ReliefProMain.ViewModel
             {
                 this._TowerName = value;
                 OnPropertyChanged("TowerName");
+            }
+        }
+        private string _TowerType;
+        public string TowerType
+        {
+            get
+            {
+                return this._TowerType;
+            }
+            set
+            {
+                this._TowerType = value;
+                OnPropertyChanged("TowerType");
             }
         }
         private string _Desciption;
@@ -68,6 +81,19 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("StageNumber");
             }
         }
+        private ObservableCollection<string> _TowerTypes;
+        public ObservableCollection<string> TowerTypes
+        {
+            get
+            {
+                return this._TowerTypes;
+            }
+            set
+            {
+                this._TowerTypes = value;
+                OnPropertyChanged("TowerTypes");
+            }
+        }
         TowerDAL dbtower;
         Tower tower;
         int op = 1;
@@ -79,6 +105,7 @@ namespace ReliefProMain.ViewModel
             DirProtectedSystem = dirProtectedSystem;
             SideColumns = new List<SideColumn>();
             TowerName = towerName;
+            TowerTypes = GetTowerTypes();
             if (!string.IsNullOrEmpty(TowerName))
             {
                 dbtower= new TowerDAL();
@@ -86,6 +113,7 @@ namespace ReliefProMain.ViewModel
                 TowerName = tower.TowerName;
                 Desciption = tower.Description;
                 StageNumber = tower.StageNumber;
+                TowerType = tower.TowerType;
                 Feeds = GetStreams(SessionProtectedSystem, false);
                 Products = GetStreams(SessionProtectedSystem, true);
                 Condensers = GetHeaters(SessionProtectedSystem, 1);
@@ -746,6 +774,19 @@ namespace ReliefProMain.ViewModel
                     wd.DialogResult = false;
                 }
             }
+        }
+
+       /// <summary>
+       /// 获得塔类型列表
+       /// </summary>
+       /// <returns></returns>
+        private ObservableCollection<string> GetTowerTypes()
+        {
+            ObservableCollection<string> list = new ObservableCollection<string>();
+            list.Add("Distillation");
+            list.Add("Absorber");
+            list.Add("Absorbent Regenerator");
+            return list;
         }
     }
 

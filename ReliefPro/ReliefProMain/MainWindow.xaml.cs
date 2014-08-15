@@ -392,7 +392,7 @@ namespace ReliefProMain
         private void initTower()
         {
             ObservableCollection<ListViewItemData> collections = new ObservableCollection<ListViewItemData>();
-            collections.Add(new ListViewItemData { Name = "Distillation", Pic = "/images/tower.ico" });
+            collections.Add(new ListViewItemData { Name = "Tower", Pic = "/images/tower.ico" });
             collections.Add(new ListViewItemData { Name = "Drum", Pic = "/images/drum.ico" });
             collections.Add(new ListViewItemData { Name = "Compressor", Pic = "/images/compressor.ico" });
             collections.Add(new ListViewItemData { Name = "Heat Exchanger", Pic = "/images/HeatExchanger.ico" });
@@ -870,29 +870,43 @@ namespace ReliefProMain
             TreeViewItem tvi = (TreeViewItem)NavigationTreeView.SelectedItem;
             TreeViewItemData data = tvi.Tag as TreeViewItemData;
             ReNameView v = new ReNameView();
-            ReNameVM vm = new ReNameVM(data.Text, data.FullName, data.Type);
-            v.DataContext = vm;
-            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-            v.Owner = this;
+            StackPanel SP = (StackPanel)tvi.Header;
+
+            foreach (UIElement uie in SP.Children)
+            {
+                if (uie.GetType().ToString() == "TextBlock")
+                {
+                    TextBlock lbl = (TextBlock)uie;
+                    lbl.Text = "TEST";
+                }
+            }
+            
+            //ReNameVM vm = new ReNameVM(data.Text, data.FullName, data.Type);
+            //v.DataContext = vm;
+            //v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            //v.Owner = this;
             if (v.ShowDialog() == true)
             {
-                data.Text = vm.NewName;
-                data.FullName = vm.NewDir;
+                //data.Text = vm.NewName;
+                //data.FullName = vm.NewDir;
 
 
-                StackPanel SP = (StackPanel)tvi.Header;
-                foreach (UIElement uie in SP.Children)
-                {
-                    if (uie.GetType().ToString() == "TextBlock")
-                    {
-                        TextBlock lbl = (TextBlock)uie;
-                        lbl.Text = data.Text;
-                    }
-                }
-                tvi.Header = SP;
+                //StackPanel SP = (StackPanel)tvi.Header;
+                //foreach (UIElement uie in SP.Children)
+                //{
+                //    if (uie.GetType().ToString() == "TextBlock")
+                //    {
+                //        TextBlock lbl = (TextBlock)uie;
+                //        lbl.Text = data.Text;
+                //    }
+                //}
+                //tvi.Header = SP;
 
             }
+
+
 
         }
 
