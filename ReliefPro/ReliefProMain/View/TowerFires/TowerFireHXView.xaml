@@ -32,7 +32,7 @@
 
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblOD,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="3" Text="{Binding Path=model.OD}" />
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLength,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="4" Text="{Binding model.Length}" />
-        <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblElevation,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="5" Text="{Binding model.Elevation}" />
+        <CustomControl:UnitConvertTextBox IsReadOnly="True" UnitOrigin="{Binding ElementName=lblElevation,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="5" Text="{Binding model.Elevation}" />
         <TextBox Grid.Column="2" Grid.Row="6" Text="{Binding Path=model.PipingContingency}" />
 
         <Label x:Name="lblOD" Grid.Column="3" HorizontalAlignment="Left"  Margin="5,0,0,0" Grid.Row="3" Content="{Binding ODUnit,Mode=TwoWay}"/>
