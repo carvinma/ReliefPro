@@ -2,13 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-        Title="{DynamicResource FeedBottomHXViewTitle}" Height="510" Width="650" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+        Title="{DynamicResource FeedBottomHXViewTitle}" Height="486" Width="650" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="230"/>
-            <ColumnDefinition Width="135"/>
+            <ColumnDefinition Width="130"/>
             <ColumnDefinition Width="140"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -24,10 +24,10 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="40"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="23"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
@@ -72,7 +72,7 @@
         
         <Button Content="{DynamicResource Calculate}" Command="{Binding CalculateCommand}" Grid.Column="1" Grid.Row="11" Width="100"/>
 
-        <Grid HorizontalAlignment="Stretch" Height="40" Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Stretch">
+        <Grid HorizontalAlignment="Stretch" Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />

@@ -2,22 +2,22 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-        Title="{DynamicResource ReboilerPinchViewTitle}" Height="692" Width="800" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+        Title="{DynamicResource ReboilerPinchViewTitle}" Height="662" Width="800" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="18"></RowDefinition>
            <RowDefinition Height="30"></RowDefinition>
-           <RowDefinition Height="40"></RowDefinition>
+           <RowDefinition Height="30"></RowDefinition>
            <RowDefinition Height="390"></RowDefinition>
-           <RowDefinition Height="40"></RowDefinition>
+           <RowDefinition Height="30"></RowDefinition>
            <RowDefinition Height="85"></RowDefinition>
-           <RowDefinition Height="40"></RowDefinition>
+           <RowDefinition Height="30"></RowDefinition>
            <RowDefinition Height="23"></RowDefinition>
            <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="60"></ColumnDefinition>
+            <ColumnDefinition Width="65"></ColumnDefinition>
             <ColumnDefinition Width="75"></ColumnDefinition>
             <ColumnDefinition Width="135"></ColumnDefinition>
             <ColumnDefinition Width="160"></ColumnDefinition>
@@ -27,12 +27,12 @@
         </Grid.ColumnDefinitions>
         <Label Content="{DynamicResource HeatSource}" Grid.Column="1" Grid.Row="1"/>
 
-        <Label Content="Supply Header Pressure" Grid.Column="4" Grid.Row="1" HorizontalAlignment="Center"/>
+        <Label Content="{DynamicResource SupplyHeaderPressure}" Grid.Column="4" Grid.Row="1" />
         <Label x:Name="lblHeaderPressure" Content="{Binding HeaderPressureUnit}" Grid.Column="6"  Grid.Row="1" />
 
 
         <CustomControl:UnitConvertTextBox Grid.Column="5" UnitOrigin="{Binding ElementName=lblHeaderPressure,Path=Content,Mode=TwoWay}" Grid.Row="1"/>
-        <TextBox Grid.Column="5" Grid.Row="2" Text="S105"/>
+        <TextBox Grid.Column="5" Grid.Row="2" VerticalAlignment="Center" Text="S105"/>
 
         <Button Content="{DynamicResource PinchCalculation}" Command="{Binding PinchCalcCommand}" Grid.Column="3" Grid.Row="4" />
         <Button Content="{DynamicResource UsePinchDuty}" Command="{Binding SavePinchCommand}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="2" Grid.Row="6"/>
@@ -41,14 +41,14 @@
         <Button Content="{DynamicResource Discard}" IsCancel="True" Grid.Column="4" Grid.Row="6"/>
         <TextBox IsReadOnly="True" Text="{Binding SourceType}" Grid.Column="2" Grid.Row="1"/>
         
-        <CheckBox Content="{DynamicResource SteamusesFlowControl}" Grid.Column="3"  Grid.Row="1" />
+        <CheckBox Content="{DynamicResource SteamusesFlowControl}"  Grid.Column="3"  Grid.Row="1" Margin="0,5,10,10" />
         <CheckBox Content="{DynamicResource HotOilstreaminPROII}" Grid.Column="3"  Grid.Row="2" />
 
         <GroupBox Header="{DynamicResource Input}" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="5" >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="320"/>
-                    <ColumnDefinition Width="140"/>
+                    <ColumnDefinition Width="130"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -111,7 +111,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="320"/>
-                    <ColumnDefinition Width="140"/>
+                    <ColumnDefinition Width="130"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>

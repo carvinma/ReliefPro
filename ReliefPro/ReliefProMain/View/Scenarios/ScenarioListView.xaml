@@ -4,12 +4,12 @@
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         Title="{DynamicResource ScenarioListViewTitle}" Height="500" Width="911" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
-    <Grid Margin="0,0,0,0">
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="18"/>
             <RowDefinition Height="353*"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -80,9 +80,9 @@
             </ListView.View>
         </ListView>
         
-        <Button Content="{DynamicResource Add}" Command="{Binding AddCommand}"  Grid.Row="2" Grid.Column="1" Margin="691,10,94,8"/>
+        <Button Content="{DynamicResource Add}" Command="{Binding AddCommand}"  Grid.Row="2" Grid.Column="1" Margin="691,0,94,0"/>
 
-        <Grid Height="40"  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
+        <Grid  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="2*"/>

@@ -6,7 +6,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="18"/>
             <RowDefinition Height="58*"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -63,7 +63,7 @@
             </ListView.View>
         </ListView>
         
-        <Button Content="{DynamicResource OK}" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  Grid.Row="2" Grid.Column="1" Margin="632,10,75,8"/>
+        <Button Content="{DynamicResource OK}" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  Grid.Row="2" Grid.Column="1" Margin="632,0,75,0"/>
 
         <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="3"  Grid.ColumnSpan="3" >
             <StatusBarItem>
