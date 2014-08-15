@@ -17,27 +17,33 @@
                     <ListView Name="lv" SelectionMode="Single" ItemsSource="{Binding Path=model.lstFlareSystem,Mode=TwoWay}" Grid.Row="1">
                     <ListView.View>
                         <GridView >
-                                <GridViewColumn Header="{DynamicResource FlareName}" Width="200">
+                                <GridViewColumn Header="{DynamicResource FlareName}" Width="200" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                            <TextBox Text="{Binding Path=FlareName,Mode=TwoWay}" BorderBrush="Transparent"
+                                            <Grid Height="21">
+                                                <TextBox Text="{Binding Path=FlareName,Mode=TwoWay}" BorderBrush="Transparent"
                                          BorderThickness="0" Width="197"  ></TextBox>
-                                    </DataTemplate>
+                                            </Grid>
+                                        </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                                 <GridViewColumn Header="{DynamicResource DesignBackPressureMPag}"  x:Name="ProcessSideFlowSource" Width="200px"  >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                            <TextBox Text="{Binding Path=DesignBackPressure,Mode=TwoWay}"  BorderBrush="Transparent"
+                                            <Grid Height="21">
+                                                <TextBox Text="{Binding Path=DesignBackPressure,Mode=TwoWay}"  BorderBrush="Transparent"
                                          BorderThickness="0" Width="197"/>
+                                            </Grid>
                                         </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="" Width="70">
+                                <GridViewColumn Header="" Width="70">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                            <Button Content="{DynamicResource Delete}" HorizontalAlignment="Center" Width="50" IsEnabled="{Binding Path=isDel}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.DelCMD}" CommandParameter="{Binding RowGuid}" ></Button>
-                                    </DataTemplate>
+                                            <Grid Height="21">
+                                                <Button Content="{DynamicResource Delete}" Margin="0" Height="20" FontSize="11" HorizontalAlignment="Center"  Width="50" IsEnabled="{Binding Path=isDel}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.DelCMD}" CommandParameter="{Binding RowGuid}" ></Button>
+                                            </Grid>
+                                        </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                         </GridView>
