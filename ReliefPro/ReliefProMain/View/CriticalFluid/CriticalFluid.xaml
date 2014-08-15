@@ -9,13 +9,13 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
-            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="25"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50"></ColumnDefinition>
             <ColumnDefinition Width="60*"></ColumnDefinition>
-            <ColumnDefinition Width="53*"/>
+            <ColumnDefinition Width="130"/>
             <ColumnDefinition Width="57*"></ColumnDefinition>
             <ColumnDefinition Width="50"></ColumnDefinition>
         </Grid.ColumnDefinitions>
@@ -25,10 +25,10 @@
         <Label x:Name="lblPressure" Content="{DynamicResource MPag}"  Grid.Column="3"  Grid.Row="1" />
 
         <RadioButton Content="{DynamicResource Critical}" Grid.Column="2"   Grid.Row="2"  />
-        <RadioButton Content="{DynamicResource Sub_Critical}" Grid.Column="3"   Grid.Row="2"  />
+        <RadioButton Content="{DynamicResource Sub_Critical}" Grid.Column="2"  HorizontalAlignment="Right" Grid.Row="2"  />
 
        
-        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+        <Grid HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
