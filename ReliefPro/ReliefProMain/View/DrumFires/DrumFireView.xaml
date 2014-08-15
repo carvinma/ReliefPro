@@ -3,11 +3,11 @@
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-		Title="{DynamicResource DrumFireViewTitle}" Height="586" Width="570" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+		Title="{DynamicResource DrumFireViewTitle}" Height="588" Width="570" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
 	
 	<Grid>
 		<Grid.RowDefinitions>
-            <RowDefinition Height="15*"></RowDefinition>
+            <RowDefinition Height="18"></RowDefinition>
 			<RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
 			<RowDefinition Height="30"></RowDefinition>
@@ -25,9 +25,9 @@
 			<RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="23"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
 
-			
-		</Grid.RowDefinitions>
+        </Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
             <ColumnDefinition Width="70"></ColumnDefinition>
 			<ColumnDefinition Width="170"></ColumnDefinition>
