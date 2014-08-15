@@ -7,7 +7,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="180"/>
-            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="130"/>
             <ColumnDefinition Width="91*"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
@@ -16,7 +16,7 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="23"></RowDefinition>
         </Grid.RowDefinitions>
         <Label Content="{DynamicResource wettedbareareaoftubebundle}" Grid.Column="1" Grid.Row="1" />
@@ -26,7 +26,7 @@
         <Label x:Name="lblWettedBundle" Content="{Binding model.WettedBundleUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="1"/>
         <Label Content="%" Grid.Column="3" Grid.Row="2" />
 
-        <Grid Height="40"  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5">
+        <Grid  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="2*"/>
