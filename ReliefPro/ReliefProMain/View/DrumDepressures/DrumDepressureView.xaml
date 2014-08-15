@@ -119,7 +119,7 @@
                 <ComboBox ItemsSource="{Binding lstDeprRqe}" SelectedItem="{Binding SelectedDeprRqe}" Grid.Column="1" Grid.Row="4"/>
                 <CustomControl:UnitConvertTextBox Text="{Binding Path=model.TotalWettedArea,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblTotalWettedArea,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="5" IsEnabled="{Binding isEnableFireHeatInput}"/>
                 <ComboBox ItemsSource="{Binding lstHeatInput}" SelectedItem="{Binding SelectedHeatInput}" Grid.Column="1" Grid.Row="6" IsEnabled="{Binding isEnableFireHeatInput}"/>
-                <TextBox Text="500"   Grid.Column="1" Grid.Row="7"  IsEnabled="False"/>
+                <TextBox Text="500"   Grid.Column="1" Grid.Row="7"  IsReadOnly="True"/>
 
                 <Button Command="{Binding CalcCMD}" Content="{DynamicResource RunCalculation}" Grid.Column="0" Grid.Row="8" Width="120" />
                 <Button Command="{Binding DepressuringCurveCMD}" Content="{DynamicResource DepressuringCurve}" Grid.Column="1" Grid.Row="8" Width="120" />
