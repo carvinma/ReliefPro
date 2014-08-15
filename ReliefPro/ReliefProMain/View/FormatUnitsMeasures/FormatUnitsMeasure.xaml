@@ -2,7 +2,7 @@
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" x:Class="ReliefProMain.View.FormatUnitsMeasure"
-		Title="{DynamicResource FormatUnitsMeasureTitle}" Height="600" Width="658" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+		Title="{DynamicResource FormatUnitsMeasureTitle}" Height="570" Width="658" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
 	
 	<Grid>
 		<DockPanel>
@@ -10,14 +10,14 @@
             <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Width="658" Orientation="Horizontal">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="45"/>
                         <RowDefinition Height="1*"/>
-                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="30"/>
                         <RowDefinition Height="23"/>
                     </Grid.RowDefinitions>
                     
                     <Button Content="{DynamicResource SetThisBasicToDefalut}"  Command="{Binding BasicUnitDefaultCommand}" DockPanel.Dock="Top" HorizontalAlignment="Center" Grid.Row="0" Width="155" />
-                    <Grid HorizontalAlignment="Stretch" Height="40" Width="658"  Grid.Row="2" VerticalAlignment="Stretch" >
+                    <Grid HorizontalAlignment="Stretch" Height="30" Width="658"  Grid.Row="2" VerticalAlignment="Stretch" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
@@ -39,7 +39,7 @@
             <GroupBox Header="{DynamicResource UOM}">
                 <Grid HorizontalAlignment="Left"  VerticalAlignment="Top" Width="630">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
