@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.Reports.ReportTreeView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ReportTreeView" Height="500" Width="498.989">
+        Title="{DynamicResource ReportTreeViewTitle}" Height="500" Width="498.989">
     <Window.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="PSTemplate">
@@ -53,25 +53,20 @@
                           ItemsSource="{Binding PlantCollection}"
                           ItemTemplate="{DynamicResource PlantTemplate}" Margin="0,0,0,144" Grid.Row="1"  />
         <Grid HorizontalAlignment="Stretch"  Grid.Row="2" VerticalAlignment="Stretch"   >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0*"/>
-                <RowDefinition Height="12*"/>
-                <RowDefinition Height="5*"/>
-            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="19*"/>
-                <ColumnDefinition Width="114*"/>
-                <ColumnDefinition Width="138*"/>
-                <ColumnDefinition Width="126*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="158*"/>
+                <ColumnDefinition Width="116*"/>
                 <ColumnDefinition Width="18*"/>
             </Grid.ColumnDefinitions>
-            <Button Content="Plant Summary" Command="{Binding PlantSummaryCommand}" Grid.RowSpan="3" Margin="14,2,19,1" Width="100" Grid.ColumnSpan="2" />
-            <Button Content="Process Unit Load Summary" Command="{Binding UnitSummaryCommand}" Grid.Column="2" Grid.RowSpan="3" Margin="0,2,135,1" Width="177" Grid.ColumnSpan="2" />
-            <Button Content="Relief Device Datasheet" Command="{Binding PlantSummaryCommand}" Grid.Column="3" Grid.RowSpan="3" Margin="21,2,1,1" Width="104" />
+            <Button Content="{DynamicResource PlantSummary}" Command="{Binding PlantSummaryCommand}" Grid.RowSpan="3" Margin="14,2,19,1" Width="100" Grid.ColumnSpan="2" />
+            <Button Content="{DynamicResource ProcessUnitLoadSummary}" Command="{Binding UnitSummaryCommand}" Grid.Column="2" Grid.RowSpan="3" Margin="0,2,135,1" Width="177" Grid.ColumnSpan="2" />
+            <Button Content="{DynamicResource ReliefDeviceDatasheet}" Command="{Binding PlantSummaryCommand}" Grid.Column="3" Grid.RowSpan="3" Margin="21,2,1,1" Width="104" />
         </Grid>
-        <StatusBar HorizontalAlignment="Stretch"   Grid.Row="4" VerticalAlignment="Stretch">
+        <StatusBar HorizontalAlignment="Stretch" Height="23"  Grid.Row="4" VerticalAlignment="Stretch">
             <DockPanel>
-                <TextBlock DockPanel.Dock="Bottom" Text="Select "></TextBlock>
+                <TextBlock DockPanel.Dock="Bottom" Text="{DynamicResource ReportTreeViewStatusBar}"></TextBlock>
             </DockPanel>
         </StatusBar>
 
