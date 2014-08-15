@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
         <Label Content="{DynamicResource HxName}"  Grid.Column="1"   Grid.Row="1" />
         <Label Content="{DynamicResource HXType}" Grid.Column="1"   Grid.Row="2"/>
-        <TextBox IsEnabled="False" Grid.Column="2"    Grid.Row="1" TextWrapping="Wrap" Text="{Binding HXName,Mode=TwoWay}"  />
+        <TextBox IsReadOnly="True" Grid.Column="2"    Grid.Row="1" TextWrapping="Wrap" Text="{Binding HXName,Mode=TwoWay}"  />
         <ComboBox  ItemsSource="{Binding HXTypes}" SelectedItem ="{Binding HXType,Mode=TwoWay}" Grid.Column="2"   Grid.Row="2"   />
         <Button Content="{DynamicResource ImportFromDatabase}" Command="{Binding ImportCommand}" HorizontalAlignment="Left" Grid.Column="3"   Grid.Row="1"  Width="143" />
         <TabControl Grid.ColumnSpan="3" Grid.Column="1"    Grid.Row="3"  >
