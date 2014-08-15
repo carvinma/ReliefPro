@@ -2,23 +2,23 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
          xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-        Title="{DynamicResource PistonCompressorBlockedTitle}" Height="325" Width="500"  Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+        Title="{DynamicResource PistonCompressorBlockedTitle}" Height="300" Width="500"  Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="18" />
             <RowDefinition Height="30" />
-            <RowDefinition Height="40" />  
+            <RowDefinition Height="30" />  
             <RowDefinition Height="140" />
             <RowDefinition Height="2" />
-            <RowDefinition Height="40" />
+            <RowDefinition Height="30" />
             <RowDefinition Height="23" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"></ColumnDefinition>
-            <ColumnDefinition Width="95*"></ColumnDefinition>
-            <ColumnDefinition Width="80*"></ColumnDefinition>
+            <ColumnDefinition Width="30"></ColumnDefinition>
+            <ColumnDefinition Width="180"></ColumnDefinition>
+            <ColumnDefinition Width="130"></ColumnDefinition>
             <ColumnDefinition Width="31*"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
@@ -37,8 +37,8 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="95*"/>
-                    <ColumnDefinition Width="80*"/>
+                    <ColumnDefinition Width="175"/>
+                    <ColumnDefinition Width="130"/>
                     <ColumnDefinition Width="31*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="{DynamicResource ReliefLoad}" Grid.Column="0" Grid.Row="0"   />
@@ -56,7 +56,7 @@
         </GroupBox>
 
         
-        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+        <Grid HorizontalAlignment="Stretch"  Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />

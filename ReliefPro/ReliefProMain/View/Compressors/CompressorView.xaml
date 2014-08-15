@@ -13,18 +13,18 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="18"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="151*"/>
-            <RowDefinition Height="2"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
         <Label Content="{DynamicResource CompressorName}"  Grid.Column="1"   Grid.Row="1"   />
         <Label Content="{DynamicResource CompressorType}" Grid.Column="1" Grid.Row="2"   />
         <TextBox IsReadOnly="True" Grid.Column="2"   Grid.Row="1"  Text="{Binding CompressorName}"   />
         <ComboBox  ItemsSource="{Binding CompressorTypes}" SelectedItem ="{Binding CompressorType,Mode=TwoWay}" Grid.Column="2"   Grid.Row="2"  />
-        <Button Content="{DynamicResource ImportFromDatabase}" Command="{Binding ImportCommand}" Grid.Column="3" HorizontalAlignment="Left"  Grid.ColumnSpan="2"  Grid.Row="1"  Width="143"/>
+        <Button Content="{DynamicResource ImportFromDatabase}" Command="{Binding ImportCommand}" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.ColumnSpan="2"  Grid.Row="1"  Width="143"/>
         <TabControl Grid.ColumnSpan="4" Grid.Column="1" HorizontalAlignment="Stretch"   Grid.Row="3" VerticalAlignment="Stretch" >
             <TabItem Header="{DynamicResource Feed}">
                 <Grid Background="#FFE5E5E5" >
@@ -51,7 +51,7 @@
         </TabControl>
 
        
-        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="6">
+        <Grid HorizontalAlignment="Stretch"  Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
