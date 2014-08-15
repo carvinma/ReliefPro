@@ -46,7 +46,7 @@
                 <TextBlock ><Run Text="{DynamicResource FindFile}"/></TextBlock>
             </StackPanel>
         </Button>
-        <TextBox Name="txtSourceFile" HorizontalAlignment="Left" Height="50"  IsEnabled="False" Text="" TextWrapping="Wrap"  AcceptsReturn="True" VerticalScrollBarVisibility="Visible"  VerticalAlignment="Center" Width="362" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,6,0,5"/>
+        <TextBox Name="txtSourceFile" HorizontalAlignment="Left" Height="50"  IsEnabled="False" Text="" TextWrapping="Wrap"  AcceptsReturn="True" VerticalScrollBarVisibility="Visible"  VerticalAlignment="Center" Width="362" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" />
         <ProgressBar Name="progressBar" HorizontalAlignment="Left" VerticalAlignment="Center" Width="340" Height="28" Visibility="Hidden" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" />
 
        
