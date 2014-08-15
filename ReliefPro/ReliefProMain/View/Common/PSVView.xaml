@@ -7,7 +7,7 @@
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="116*"/>
+            <ColumnDefinition Width="165*"/>
             <ColumnDefinition Width="139*"/>
             <ColumnDefinition Width="46*"/>
             <ColumnDefinition Width="61*"/>
@@ -35,7 +35,6 @@
         <Label Content="{DynamicResource SetPressure}"  Grid.Row="3" Grid.Column="1" />
         <Label Content="{DynamicResource LocationDescription}"  Grid.Row="5"  Grid.Column="5" />
         <Label Content="{DynamicResource Prelief}"  Grid.Row="4" Grid.Column="1" />
-        <Label Content="{DynamicResource Pset}"  Grid.Row="4" Grid.Column="3" />
         <Label Content="{DynamicResource CriticalPressure}"  Grid.Column="5" Grid.Row="4"/>
 
         <TextBox Name="txtName"  Text="{Binding CurrentModel.PSVName}" Grid.Row="1" Grid.Column="2" />
