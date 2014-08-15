@@ -6,7 +6,7 @@
 	
 	<Grid>
 		<DockPanel>
-            <Menu Height="40" VerticalAlignment="Top" DockPanel.Dock="Top"/>
+            <Menu Height="40"  VerticalAlignment="Top" DockPanel.Dock="Top"/>
             <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Width="658" Orientation="Horizontal">
                 <Grid>
                     <Grid.RowDefinitions>
