@@ -282,7 +282,8 @@ namespace ReliefProMain.ViewModel
                 ProtectedSystem ps = new ProtectedSystem();
                 ps.PSType = 3;
                 psDAL.Add(ps, SessionProtectedSystem);
-
+                SourceFileDAL sfdal = new SourceFileDAL();
+                SourceFileInfo = sfdal.GetModel(compressor.SourceFile, SessionPlant);
                 SessionProtectedSystem.Flush();
             
 

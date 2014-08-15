@@ -401,6 +401,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     ProtectedSystem ps = new ProtectedSystem();
                     ps.PSType = 6;
                     psDAL.Add(ps, SessionPS);
+                    SourceFileDAL sfdal = new SourceFileDAL();
+                    SourceFileInfo = sfdal.GetModel(model.SourceFile, SessionPF);
                     SessionPS.Flush();
 
 

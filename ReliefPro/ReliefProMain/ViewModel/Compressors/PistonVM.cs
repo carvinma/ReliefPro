@@ -9,7 +9,6 @@ using ReliefProMain.Commands;
 using ReliefProMain.Model.Compressors;
 using UOMLib;
 using ReliefProModel.Compressors;
-using ReliefProMain.Model.Compressors;
 using ReliefProDAL;
 using ReliefProModel;
 
@@ -73,6 +72,7 @@ namespace ReliefProMain.ViewModel.Compressors
                 {
                     WriteConvertModel();
                     blockBLL.SavePiston(model.dbmodel);
+
                     wd.DialogResult = true;
                 }
             }

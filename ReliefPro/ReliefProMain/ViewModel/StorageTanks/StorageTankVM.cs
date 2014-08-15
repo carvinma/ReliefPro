@@ -163,6 +163,9 @@ namespace ReliefProMain.ViewModel.StorageTanks
                     ps.PSType=5;
                     psDAL.Update(ps, SessionProtectedSystem);
                     SessionProtectedSystem.Flush();
+
+                    SourceFileDAL sfdal = new SourceFileDAL();
+                    SourceFileInfo = sfdal.GetModel(tank.SourceFile, SessionPlant);
                 }
 
 

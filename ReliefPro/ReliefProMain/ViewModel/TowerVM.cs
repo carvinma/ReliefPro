@@ -752,6 +752,8 @@ namespace ReliefProMain.ViewModel
                     ps.PSType = 1;
                     psDAL.Add(ps, SessionProtectedSystem);
 
+                    SourceFileDAL sfdal=new SourceFileDAL();
+                    SourceFileInfo = sfdal.GetModel(tower.SourceFile, SessionPlant);
                     SessionProtectedSystem.Flush();
                 }
                 catch (Exception ex)

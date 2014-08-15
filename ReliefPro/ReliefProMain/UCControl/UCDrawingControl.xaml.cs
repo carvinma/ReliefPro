@@ -113,7 +113,8 @@ namespace ReliefProMain.View
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         Window parentWindow = Window.GetWindow(this);
                         v.Owner = parentWindow;
-                        if (v.ShowDialog() == true)
+                        bool? dlgresult=v.ShowDialog();
+                        if (dlgresult == true)
                         {
                             SourceFileInfo = vm.SourceFileInfo;
                             SessionProtectedSystem = vm.SessionProtectedSystem;

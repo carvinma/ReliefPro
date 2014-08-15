@@ -15,7 +15,7 @@ using ReliefProMain.View;
 using UOMLib;
 using ReliefProModel.Drums;
 using ReliefProDAL.Drums;
-using ReliefProModel;
+
 
 namespace ReliefProMain.ViewModel
 {
@@ -309,6 +309,8 @@ namespace ReliefProMain.ViewModel
             ps.PSType = 2;
             psDAL.Add(ps, SessionProtectedSystem);
 
+            SourceFileDAL sfdal = new SourceFileDAL();
+            SourceFileInfo = sfdal.GetModel(drum.SourceFile, SessionPlant);
 
             SessionProtectedSystem.Flush();
 
