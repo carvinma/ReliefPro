@@ -81,9 +81,8 @@
                     <Button Name="btnSaveProject" ToolTip="Save Plant" VerticalAlignment="Center"  Click="Button_Click">
                         <Image Source="images/save.ico"   Height="24" Width="24"></Image>
                     </Button>
-
-                   
-                    <Button Name="btnUOM" ToolTip="UOM" VerticalAlignment="Center"  >
+                    
+                        <Button Name="btnUOM" ToolTip="UOM" VerticalAlignment="Center" Click="Button_Click" >
                         <Image Source="/images/uom.ico" Height="24" Width="24"  ></Image>
                     </Button>
                                     

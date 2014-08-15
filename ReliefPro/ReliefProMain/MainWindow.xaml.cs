@@ -427,6 +427,11 @@ namespace ReliefProMain
 
             view.ShowDialog();
         }
+        private void OpenUOM()
+        {
+            FormatUnitsMeasure view = new FormatUnitsMeasure();
+            view.ShowDialog();
+        }
         private void SavePlant()
         {
             ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
@@ -914,6 +919,9 @@ namespace ReliefProMain
                         break;
                     case "Report":
                         OpenReport();
+                        break;
+                    case "UOM":
+                        OpenUOM();
                         break;
 
                 }
