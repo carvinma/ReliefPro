@@ -33,11 +33,11 @@
     <s:String x:Key="StreamInfo">Stream Info</s:String>
     <s:String x:Key="StreamName">Stream Name</s:String>
     <s:String x:Key="Description">Description:</s:String>
-    <s:String x:Key="VabFrac">VapFrac:</s:String>
+    <s:String x:Key="VabFrac">Vapor Fraction:</s:String>
     <s:String x:Key="Temperature">Temperature:</s:String>
-    <s:String x:Key="Presressure_Mpag">Pressure(Mpag):</s:String>
-    <s:String x:Key="WorkflowKghr">FlowRate(Kg/hr):</s:String>
-    <s:String x:Key="SpH_KJ_Kg">Sp H(KJ/Kg):</s:String>
+    <s:String x:Key="Presressure_Mpag">Pressure:</s:String>
+    <s:String x:Key="WorkflowKghr">FlowRate:</s:String>
+    <s:String x:Key="SpH_KJ_Kg">Sp H:</s:String>
     <s:String x:Key="CustomStreamViewStatusBar">Exist the window after saving all data</s:String>
     <!--FireView.xaml-->
     <s:String x:Key="FireViewTitle">Drum_fire</s:String>
@@ -84,7 +84,7 @@
     <s:String x:Key="ValveNumber">Valve Number:</s:String>
     <s:String x:Key="ValveType">Valve Type:</s:String>
     <s:String x:Key="SetPressure">Set Pressure:</s:String>
-    <s:String x:Key="Prelief">P relief:</s:String>
+    <s:String x:Key="Prelief">Relief Pressure/Set Pressure:</s:String>
     <s:String x:Key="Pset">Pset</s:String>
     <s:String x:Key="CriticalPressure">Critical Pressure:</s:String>
     <s:String x:Key="CalculateCriticalPressure">Calculate Critical Pressure:</s:String>
