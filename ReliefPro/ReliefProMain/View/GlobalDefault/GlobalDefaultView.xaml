@@ -10,10 +10,11 @@
             <GroupBox Header="{DynamicResource FlareSystem}" Height="220" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" >
             <Grid >
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
-                    </Grid.RowDefinitions>
-                    <ListView Name="lv" SelectionMode="Single" ItemsSource="{Binding Path=model.lstFlareSystem,Mode=TwoWay}">
+                </Grid.RowDefinitions>
+                    <ListView Name="lv" SelectionMode="Single" ItemsSource="{Binding Path=model.lstFlareSystem,Mode=TwoWay}" Grid.Row="1">
                     <ListView.View>
                         <GridView >
                                 <GridViewColumn Header="{DynamicResource FlareName}" Width="200">
@@ -42,7 +43,7 @@
                         </GridView>
                     </ListView.View>
                     </ListView>
-                    <Button Grid.Row="1" Content="{DynamicResource Add}" Command="{Binding Path=AddCMD}" HorizontalAlignment="Right" Margin="0,5,114,3"  ></Button>
+                    <Button Grid.Row="2" Content="{DynamicResource Add}" Command="{Binding Path=AddCMD}" HorizontalAlignment="Right" Margin="0,5,114,3"  ></Button>
                 </Grid>
         </GroupBox>
             <GroupBox Header="{DynamicResource GeneralConditions}" Height="120">
@@ -93,14 +94,13 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="2"/>
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="23"/>
                     </Grid.RowDefinitions>
                     
-                    <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=GlobalDefaultWindow}" Grid.Column="1" Grid.Row="1"/>
-                    <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="3" Grid.Row="1" />
-                    <StatusBar HorizontalAlignment="Stretch" Height="23"  Grid.Row="2" Grid.ColumnSpan="5">
+                    <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=GlobalDefaultWindow}" Grid.Column="1" Grid.Row="0"/>
+                    <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="3" Grid.Row="0" />
+                    <StatusBar HorizontalAlignment="Stretch" Height="23"  Grid.Row="1" Grid.ColumnSpan="5">
                         <StatusBarItem>
                             <TextBlock Text="{DynamicResource GlobalDefaultViewStatusBar}"></TextBlock>
                         </StatusBarItem>
