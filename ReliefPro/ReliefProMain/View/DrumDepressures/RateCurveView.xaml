@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:chartlegend="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         xmlns:dc="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
-        Title="{DynamicResource DeprCurveViewTitle}" Height="455" Width="717.463" Loaded="Window_Loaded" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+        Title="{DynamicResource DeprCurveViewTitle}" Height="455" Width="717" Loaded="Window_Loaded" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
   <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="419*"/>
