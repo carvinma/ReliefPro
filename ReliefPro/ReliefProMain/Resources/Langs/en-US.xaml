@@ -625,5 +625,12 @@
     <s:String x:Key="ProcessUnitLoadSummary">Process Unit Load Summary</s:String>
     <s:String x:Key="ReliefDeviceDatasheet">Relief Device Datasheet</s:String>
     <s:String x:Key="ReportTreeViewStatusBar">Select</s:String>
+
+    <!--UnitConvertCommonView.xaml-->
+    <s:String x:Key="UnitConvertCommonViewTitle">Convert Units</s:String>
+    <s:String x:Key="ChangeTo">Change To:</s:String>
+    <s:String x:Key="Longdescriptions">Long descriptions</s:String>
+    <s:String x:Key="UnitConvertCommonViewStatusBar">...</s:String>
     
+
 </ResourceDictionary>
