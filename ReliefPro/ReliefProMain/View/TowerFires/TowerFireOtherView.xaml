@@ -12,7 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="100*"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
         <GroupBox Grid.Column="1" Header="{DynamicResource AreaData}" Grid.Row="1" Grid.ColumnSpan="2">
@@ -40,7 +40,7 @@
             </Grid>
         </GroupBox>
 
-        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="2" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
+        <Grid HorizontalAlignment="Stretch"  Grid.Row="2" VerticalAlignment="Stretch" Grid.ColumnSpan="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="2*"/>
