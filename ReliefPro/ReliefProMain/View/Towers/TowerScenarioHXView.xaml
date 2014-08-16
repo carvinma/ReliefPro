@@ -9,7 +9,7 @@
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="190"/>
-            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="130"/>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="100*"/>
             <ColumnDefinition Width="10"/>
@@ -17,7 +17,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="18"/>
             <RowDefinition Height="340*"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
 

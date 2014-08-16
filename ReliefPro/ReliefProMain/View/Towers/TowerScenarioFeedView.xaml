@@ -6,7 +6,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="18"/>
             <RowDefinition Height="113*"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -48,7 +48,7 @@
             </ListView.View>
         </ListView>
 
-        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="2" VerticalAlignment="Stretch" Grid.ColumnSpan="3">
+        <Grid HorizontalAlignment="Stretch"  Grid.Row="2" VerticalAlignment="Stretch" Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />

@@ -7,7 +7,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="45"/>
             <ColumnDefinition Width="141*"/>
-            <ColumnDefinition Width="131*"/>
+            <ColumnDefinition Width="130"/>
             <ColumnDefinition Width="80*"/>
             <ColumnDefinition Width="18*"/>
         </Grid.ColumnDefinitions>
@@ -18,7 +18,7 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="23"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
@@ -34,9 +34,9 @@
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLength,Path=Content,Mode=TwoWay}" Text="{Binding Length}" BorderBrush="{Binding Length_Color}"  Grid.Row="4" Grid.Column="2"  />
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblNormalLiquidLevel,Path=Content,Mode=TwoWay}"  Text="{Binding NormalLiquidLevel}" BorderBrush="{Binding NormalLiquidLevel_Color}" Grid.Row="5" Grid.Column="2"  />
 
-        <Label x:Name="lblDiameter" Grid.Column="3" Grid.Row="3" Content="{Binding DiameterUnit,Mode=TwoWay}" Margin="35,10"  />
-        <Label x:Name="lblLength" Grid.Column="3" Grid.Row="4" Content="{Binding LengthUnit,Mode=TwoWay}" Margin="35,10"  />
-        <Label x:Name="lblNormalLiquidLevel" Grid.Column="3" Grid.Row="5" Content="{Binding NormalLiquidLevelUnit,Mode=TwoWay}" Margin="35,10" />
+        <Label x:Name="lblDiameter" Grid.Column="3" Grid.Row="3" Content="{Binding DiameterUnit,Mode=TwoWay}"   />
+        <Label x:Name="lblLength" Grid.Column="3" Grid.Row="4" Content="{Binding LengthUnit,Mode=TwoWay}"  />
+        <Label x:Name="lblNormalLiquidLevel" Grid.Column="3" Grid.Row="5" Content="{Binding NormalLiquidLevelUnit,Mode=TwoWay}"  />
 
         <Grid HorizontalAlignment="Stretch"  Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
             <Grid.ColumnDefinitions>

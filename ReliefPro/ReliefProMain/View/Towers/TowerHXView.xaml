@@ -7,7 +7,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="97*"/>
             <ColumnDefinition Width="70*"/>
-            <ColumnDefinition Width="132*"/>
+            <ColumnDefinition Width="130"/>
             <ColumnDefinition Width="113*"/>
             <ColumnDefinition Width="265*"/>
             <ColumnDefinition Width="286*"/>
@@ -17,8 +17,8 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="274*"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
         <GroupBox Header="{DynamicResource DetailData}"  Grid.Row="3"   Grid.ColumnSpan="6" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch" >
@@ -88,7 +88,7 @@
         <Label x:Name="lblDuty" Grid.Column="3"  Grid.Row="2" Content="{Binding DutyUnit,Mode=TwoWay}" />
         <Button Name="btnAdd" Content="{DynamicResource Add}" Grid.Column="5"  Grid.Row="4"  Command="{Binding AddCommand}" />
 
-        <Grid HorizontalAlignment="Stretch" Height="40"  Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="6">
+        <Grid HorizontalAlignment="Stretch" Grid.Row="5" VerticalAlignment="Stretch" Grid.ColumnSpan="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="200" />
