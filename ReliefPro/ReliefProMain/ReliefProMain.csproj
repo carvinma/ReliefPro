@@ -167,7 +167,6 @@
     </ApplicationDefinition>
     <Compile Include="Algorithm.cs" />
     <Compile Include="AutoFacManger.cs" />
-    <Compile Include="ComboxData.cs" />
     <Compile Include="Commands\CommandReference.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="CustomControl\CustomComboBox.cs" />
