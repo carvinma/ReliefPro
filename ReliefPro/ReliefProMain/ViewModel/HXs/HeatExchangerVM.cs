@@ -44,10 +44,6 @@ namespace ReliefProMain.ViewModel
         private string _HXName;
         public string HXName
         {
-            get
-            {
-                return this._HXName;
-            }
             set
             {
                 this._HXName = value;

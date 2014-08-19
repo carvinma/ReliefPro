@@ -19,6 +19,7 @@ using ProII;
 using ReliefProCommon.CommonLib;
 using ReliefProDAL.GlobalDefault;
 using ReliefProModel.GlobalDefault;
+using System.Threading;
 
 namespace ReliefProMain.ViewModel
 {
@@ -81,6 +82,16 @@ namespace ReliefProMain.ViewModel
 
         public List<string> DischargeTos { get; set; }
 
+        private bool isBusy = false;
+        public bool IsBusy
+        {
+            get { return isBusy; }
+            set
+            {
+                isBusy = value;
+                OnPropertyChanged("IsBusy");
+            }
+        }
         public PSV psv;
         PSVDAL dbpsv = new PSVDAL();
         UOMLib.UOMEnum uomEnum;
@@ -116,7 +127,7 @@ namespace ReliefProMain.ViewModel
             SourceFileInfo = sourceFileInfo;
             ValveTypes = GetValveTypes();
             DischargeTos = GetDischargeTos();
-            
+
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             this.psvPressureUnit = uomEnum.UserPressure;
             this.drumPSVPressureUnit = uomEnum.UserPressure;
@@ -142,7 +153,7 @@ namespace ReliefProMain.ViewModel
             model.ValveNumber = m.ValveNumber;
             model.ValveType = m.ValveType;
             model.DrumPSVName = m.DrumPSVName;
-            if (m.DrumPressure!=null)
+            if (m.DrumPressure != null)
             {
                 model.DrumPressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, m.DrumPressure.Value);
             }
@@ -159,7 +170,7 @@ namespace ReliefProMain.ViewModel
             model.ValveNumber = m.ValveNumber;
             model.ValveType = m.ValveType;
             model.DrumPSVName = m.DrumPSVName;
-            if (m.DrumPressure!=null)
+            if (m.DrumPressure != null)
             {
                 model.DrumPressure = UnitConvert.Convert(DrumPressureUnit, UOMEnum.Pressure, m.DrumPressure.Value);
             }
@@ -190,54 +201,73 @@ namespace ReliefProMain.ViewModel
                 MessageBox.Show("PSV Name can't be empty.", "Message Box");
                 return;
             }
-            if (CurrentModel.Pressure==null)
+            if (CurrentModel.Pressure == null)
             {
                 MessageBox.Show("PSV Pressure can't be empty.", "Message Box");
                 return;
             }
-            if (CurrentModel.ReliefPressureFactor==null)
+            if (CurrentModel.ReliefPressureFactor == null)
             {
                 MessageBox.Show("Relief Pressure Factor can't be empty.", "Message Box");
                 return;
             }
             try
             {
-                if (CurrentModel.ID == 0)
+
+                Task.Factory.StartNew(() =>
                 {
-                    if (EqType == "Tower")
+
+                });
+
+                this.IsBusy = true;
+                var t1 = Task.Factory.StartNew(() =>
+                {
+                    Thread.Sleep(3000);
+
+                    if (CurrentModel.ID == 0)
                     {
+                        if (EqType == "Tower")
+                        {
+                            CreateTowerPSV();
+                        }
+                        ConvertModel(CurrentModel, ref psv);
+                        dbpsv.Add(psv, SessionProtectedSystem);
+                    }
+                    else if (psv.ReliefPressureFactor == CurrentModel.ReliefPressureFactor && psv.Pressure == CurrentModel.Pressure)
+                    {
+                        ConvertModel(CurrentModel, ref psv);
+                        dbpsv.Update(psv, SessionProtectedSystem);
+                        SessionProtectedSystem.Flush();
+                    }
+                    else
+                    {
+                        //需要重新复制一份ProtectedSystem.mdb，相当于重新分析。
+                        string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
+                        string dbProtectedSystem_target = DirProtectedSystem + @"\protectedsystem.mdb";
+                        System.IO.File.Copy(dbProtectedSystem, dbProtectedSystem_target, true);
+                        NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystem_target);
+                        SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
                         CreateTowerPSV();
                     }
-                    ConvertModel(CurrentModel, ref psv);
-                    dbpsv.Add(psv, SessionProtectedSystem);
-                }
-                else if (psv.ReliefPressureFactor == CurrentModel.ReliefPressureFactor && psv.Pressure == CurrentModel.Pressure)
+                    Thread.Sleep(3000);
+                }).ContinueWith((t) => { });
+
+                Task.WaitAll(t1);
+                this.IsBusy = false;
+
+                System.Windows.Window wd = window as System.Windows.Window;
+                if (wd != null)
                 {
-                    ConvertModel(CurrentModel, ref psv);
-                    dbpsv.Update(psv, SessionProtectedSystem);
-                    SessionProtectedSystem.Flush();
+                    wd.DialogResult = true;
                 }
-                else
-                {
-                    //需要重新复制一份ProtectedSystem.mdb，相当于重新分析。
-                    string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
-                    string dbProtectedSystem_target = DirProtectedSystem + @"\protectedsystem.mdb";
-                    System.IO.File.Copy(dbProtectedSystem, dbProtectedSystem_target, true);
-                    NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystem_target);
-                    SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
-                    CreateTowerPSV();
-                }
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
 
-            System.Windows.Window wd = window as System.Windows.Window;
-            if (wd != null)
-            {
-                wd.DialogResult = true;
-            }
+
         }
         public void CreateTowerPSV()
         {
@@ -257,24 +287,24 @@ namespace ReliefProMain.ViewModel
             if (!Directory.Exists(dirCopyStream))
                 Directory.CreateDirectory(dirCopyStream);
 
-            string copyFile=dirCopyStream+@"\"+SourceFileInfo.FileName;
+            string copyFile = dirCopyStream + @"\" + SourceFileInfo.FileName;
             File.Copy(FileFullPath, copyFile, true);
             CustomStream stream = CopyTop1Liquid(copyFile);
             double internPressure = UnitConvert.Convert("MPAG", "KPA", stream.Pressure.Value);
             if (internPressure == 0)
             {
-                MessageBox.Show("Please Rerun this ProII file and save it.","Message Box");
+                MessageBox.Show("Please Rerun this ProII file and save it.", "Message Box");
                 return;
             }
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
-            
+
             string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
             double ReliefPressure = CurrentModel.ReliefPressureFactor.Value * CurrentModel.Pressure.Value;
-            
+
             double criticalPressure = 0;
             bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase, ref criticalPressure);
-            if(b==false)
-                return ;
+            if (b == false)
+                return;
             double latentEnthalpy = 0;
             double ReliefTemperature = 0;
             LatentProduct latentVapor = new LatentProduct();
@@ -298,14 +328,14 @@ namespace ReliefProMain.ViewModel
             products = dbstream.GetAllList(SessionProtectedSystem, true);
             double overHeadPressure = GetTowerOverHeadPressure(products);
 
-            int ImportResult=0;
+            int ImportResult = 0;
             int RunResult = 0;
             List<FlashResult> listFlashResult = new List<FlashResult>();
             int count = products.Count;
             for (int i = 1; i <= count; i++)
             {
                 CustomStream p = products[i - 1];
-                if (p.TotalMolarRate != null && p.TotalMolarRate.Value>0)
+                if (p.TotalMolarRate != null && p.TotalMolarRate.Value > 0)
                 {
                     IFlashCalculate fc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
                     string gd = Guid.NewGuid().ToString();
@@ -323,7 +353,7 @@ namespace ReliefProMain.ViewModel
                     if (!Directory.Exists(dirflash))
                         Directory.CreateDirectory(dirflash);
                     double prodpressure = 0;
-                    if (p.Pressure!=null)
+                    if (p.Pressure != null)
                     {
                         prodpressure = p.Pressure.Value;
                     }
@@ -359,8 +389,8 @@ namespace ReliefProMain.ViewModel
                         else
                         {
                             MessageBoxResult r = MessageBox.Show("Prz file is error", "Message Box", MessageBoxButton.OKCancel);
-                            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("Explorer.exe",f);
-                            
+                            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("Explorer.exe", f);
+
                             if (r == MessageBoxResult.Yes)
                             {
                                 FlashResult fr = new FlashResult();
@@ -438,7 +468,7 @@ namespace ReliefProMain.ViewModel
 
 
             Critical c = new Critical();
-            c.CriticalPressure = criticalPressure ;
+            c.CriticalPressure = criticalPressure;
             CriticalDAL dbcritical = new CriticalDAL();
             dbcritical.Add(c, SessionProtectedSystem);
 
@@ -505,7 +535,7 @@ namespace ReliefProMain.ViewModel
                     criticalPress = reader.GetCriticalPressure(PH);
                     reader.ReleaseProIIReader();
                     criticalPress = UnitConvert.Convert("KPA", "MPAG", double.Parse(criticalPress)).ToString();
-                    criticalPressure= double.Parse(criticalPress);
+                    criticalPressure = double.Parse(criticalPress);
                     return true;
                 }
                 else
@@ -519,10 +549,10 @@ namespace ReliefProMain.ViewModel
                 MessageBox.Show("inp file is error", "Message Box");
                 return false;
             }
-            
+
         }
 
-        private bool CalcLatent(string content, double ReliefPressure, CustomStream stream, string dirLatent, ref LatentProduct latentVapor, ref LatentProduct latentLiquid )
+        private bool CalcLatent(string content, double ReliefPressure, CustomStream stream, string dirLatent, ref LatentProduct latentVapor, ref LatentProduct latentLiquid)
         {
             LatentProductDAL dblp = new LatentProductDAL();
             int ImportResult = 0;
@@ -545,7 +575,7 @@ namespace ReliefProMain.ViewModel
                     latentVapor.ProdType = "1";
                     latentLiquid = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIILiquid);
                     latentVapor.ProdType = "2";
-                    
+
                     dblp.Add(latentVapor, SessionProtectedSystem);
                     dblp.Add(latentLiquid, SessionProtectedSystem);
                     return true;
@@ -565,4 +595,3 @@ namespace ReliefProMain.ViewModel
         }
     }
 }
-        
