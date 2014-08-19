@@ -14,7 +14,7 @@ using UOMLib;
 
 namespace ReliefProBLL
 {
-    public class DrumBll
+    public class DrumBLL
     {
         public IList<CustomStream> Feeds;
         private DrumBlockedOutletDAL dbBlockedOutlet = new DrumBlockedOutletDAL();
