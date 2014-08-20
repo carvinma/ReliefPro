@@ -46,5 +46,22 @@ namespace ReliefProDAL.Compressors
             }
             return m;
         }
+        public void Save(ISession session, Compressor model)
+        {
+            using (ITransaction tx = session.BeginTransaction())
+            {
+                try
+                {
+                    session.SaveOrUpdate(model);
+                    session.Flush();
+                    tx.Commit();
+                }
+                catch (HibernateException ex)
+                {
+                    tx.Rollback();
+                    throw;
+                }
+            }
+        }
     }
 }
