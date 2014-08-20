@@ -43,7 +43,7 @@
         <TextBox Name="txtName"  Text="{Binding CurrentModel.PSVName}" Grid.Row="1" Grid.Column="2" />
         <TextBox Name="txtValveNumber"  Text="{Binding CurrentModel.ValveNumber}"   Grid.Row="2" Grid.Column="2" />
         <ComboBox Name="cbxValueType"  ItemsSource="{Binding ValveTypes}" SelectedItem="{Binding CurrentModel.ValveType}"   Grid.Row="2" Grid.Column="6" />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}"  Text="{Binding CurrentModel.Pressure}" Grid.Row="3" Grid.Column="2"   />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}"  Text="{Binding CurrentModel.Pressure,StringFormat='{}{0:N2}'}" Grid.Row="3" Grid.Column="2"   />
         <TextBox Name="txtLocationDescription"  Text="{Binding CurrentModel.LocationDescription}"   Grid.Row="5" Grid.Column="6"  />
         <TextBox Name="txtPrelief"  Text="{Binding CurrentModel.ReliefPressureFactor}"   Grid.Row="4" Grid.Column="2"  />
         <TextBox Name="txtCritical"  Grid.Column="6" Grid.Row="4"   />
