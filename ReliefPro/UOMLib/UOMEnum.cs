@@ -30,7 +30,7 @@ namespace UOMLib
         public const string HeatTransCoeffcient = "w/m-C";
 
         public readonly string UserTemperature;
-        public readonly string UserWeightFlow;
+        //public readonly string UserWeightFlow;
         public readonly string UserPressure;
         public readonly string UserEnthalpyDuty;
         public readonly string UserMassRate;
