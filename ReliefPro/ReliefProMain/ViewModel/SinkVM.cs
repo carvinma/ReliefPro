@@ -13,7 +13,7 @@ using ReliefProMain.Service;
 using UOMLib;
 using NHibernate;
 using ReliefProMain.View;
-using ReliefProMain.Model;
+using ReliefProMain.Models;
 
 namespace ReliefProMain.ViewModel
 {

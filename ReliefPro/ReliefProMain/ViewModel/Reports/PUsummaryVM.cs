@@ -12,7 +12,7 @@ using Microsoft.Reporting.WinForms;
 using ReliefProBLL;
 using ReliefProLL;
 using ReliefProMain.Commands;
-using ReliefProMain.Model.Reports;
+using ReliefProMain.Models.Reports;
 using ReliefProModel;
 using ReliefProModel.GlobalDefault;
 using ReliefProModel.Reports;

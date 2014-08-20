@@ -7,7 +7,7 @@ using System.Windows.Input;
 using NHibernate;
 using ReliefProBLL;
 using ReliefProMain.Commands;
-using ReliefProMain.Model;
+using ReliefProMain.Models;
 using UOMLib;
 
 namespace ReliefProMain.ViewModel.Drums

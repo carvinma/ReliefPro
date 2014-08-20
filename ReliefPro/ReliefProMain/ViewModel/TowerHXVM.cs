@@ -12,7 +12,7 @@ using System.Collections.ObjectModel;
 using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using ReliefProMain.View;
-using ReliefProMain.Model;
+using ReliefProMain.Models;
 using NHibernate;
 using UOMLib;
 

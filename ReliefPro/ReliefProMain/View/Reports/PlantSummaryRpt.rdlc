@@ -4069,9 +4069,9 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ReliefProMain.Model.Reports</rd:DataSetName>
+        <rd:DataSetName>ReliefProMain.Models.Reports</rd:DataSetName>
         <rd:TableName>EffectFactorModel</rd:TableName>
-        <rd:ObjectDataSourceType>ReliefProMain.Model.Reports.EffectFactorModel, ReliefProMain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ReliefProMain.Models.Reports.EffectFactorModel, ReliefProMain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
     <DataSet Name="PlantHeadDS">
@@ -4094,9 +4094,9 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>ReliefProMain.Model.Reports</rd:DataSetName>
+        <rd:DataSetName>ReliefProMain.Models.Reports</rd:DataSetName>
         <rd:TableName>PlantReprotHead</rd:TableName>
-        <rd:ObjectDataSourceType>ReliefProMain.Model.Reports.PlantReprotHead, ReliefProMain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:ObjectDataSourceType>ReliefProMain.Models.Reports.PlantReprotHead, ReliefProMain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

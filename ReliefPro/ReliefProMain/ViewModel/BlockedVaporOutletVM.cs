@@ -6,7 +6,7 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using NHibernate;
 using ReliefProLL;
-using ReliefProMain.Model;
+using ReliefProMain.Models;
 using ReliefProModel.Towers;
 using UOMLib;
 using ReliefProDAL;

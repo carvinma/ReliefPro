@@ -14,7 +14,7 @@ using ReliefProCommon.CommonLib;
 using System.Windows.Input;
 using ReliefProMain.Commands;
 using ProII;
-using ReliefProMain.Model;
+using ReliefProMain.Models;
 using UOMLib;
 using System.Diagnostics;
 using NHibernate;
@@ -23,7 +23,7 @@ namespace ReliefProMain.ViewModel.Drums
 {
     public class DrumBlockedOutletVM : ViewModelBase
     {
-        private DrumBll drum;
+        private DrumBLL drum;
         public DrumBlockedOutletModel model { get; set; }
         public ICommand CalcCMD { get; set; }
         public ICommand OKCMD { get; set; }
@@ -42,7 +42,7 @@ namespace ReliefProMain.ViewModel.Drums
             SourceFileInfo = sourceFileInfo;
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
-            drum = new DrumBll();
+            drum = new DrumBLL();
 
 
             var outletModel = drum.GetBlockedOutletModel(SessionPS);

@@ -13,6 +13,7 @@ using ReliefProBLL.Common;
 using System.Collections.ObjectModel;
 using NHibernate;
 using ReliefProBLL;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.ViewModel
 {
@@ -21,7 +22,9 @@ namespace ReliefProMain.ViewModel
         private ISession SessionPlant { set; get; }       
         private string EqType;
         public SourceFile SourceFileInfo;
+
         private string _SelectedFile;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         public string SelectedFile
         {
             get
@@ -31,16 +34,33 @@ namespace ReliefProMain.ViewModel
             set
             {
                 this._SelectedFile = value;
+                if (string.IsNullOrEmpty(_SelectedFile))
+                {
+                    SelectedFile_Color = ColorBorder.red.ToString();
+                }
                 SourceFileBLL sfbll = new SourceFileBLL(SessionPlant);
                 SourceFileInfo = sfbll.GetSourceFileInfo(_SelectedFile);
                 EqNames = GetEqNames();
-
-
                 OnPropertyChanged("SelectedFile");
+            }
+        }
+
+        private string _SelectedFile_Color;
+        public string SelectedFile_Color
+        {
+            get
+            {
+                return this._SelectedFile_Color;
+            }
+            set
+            {
+                this._SelectedFile_Color = value;
+                OnPropertyChanged("SelectedFile_Color");
             }
         }
         
         private string _SelectedEq;
+        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         public string SelectedEq
         {
             get
@@ -50,12 +70,31 @@ namespace ReliefProMain.ViewModel
             set
             {
                 this._SelectedEq = value;
+                if (string.IsNullOrEmpty(_SelectedEq))
+                {
+                    SelectedEq_Color = ColorBorder.red.ToString();
+                }
                 OnPropertyChanged("SelectedEq");
+            }
+        }
+        private string _SelectedEq_Color;
+        public string SelectedEq_Color
+        {
+            get
+            {
+                return this._SelectedEq_Color;
+            }
+            set
+            {
+                this._SelectedEq_Color = value;
+                OnPropertyChanged("SelectedEq_Color");
             }
         }
 
         public SelectEquipmentVM(string eqType, ISession sessionPlant)
         {
+            SelectedFile_Color = ColorBorder.green.ToString();
+            SelectedEq_Color = ColorBorder.green.ToString();
             SessionPlant = sessionPlant;
             EqType = eqType;
             SourceFiles = GetSourceFiles();
@@ -133,10 +172,7 @@ namespace ReliefProMain.ViewModel
 
         public void OK(object obj)
         {
-            if(string.IsNullOrEmpty(SelectedEq))
-            {
-                return;
-            }
+            if (!CheckData()) return;
             System.Windows.Window wd = obj as System.Windows.Window;
 
             if (wd != null)

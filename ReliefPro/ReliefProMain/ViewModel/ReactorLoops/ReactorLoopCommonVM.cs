@@ -6,7 +6,7 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using NHibernate;
 using ReliefProLL;
-using ReliefProMain.Model.ReactorLoops;
+using ReliefProMain.Models.ReactorLoops;
 using UOMLib;
 using ReliefProModel;
 

@@ -9,7 +9,7 @@ using System.Windows.Forms.Integration;
 using System.Windows.Media;
 using Microsoft.Reporting.WinForms;
 using ReliefProLL;
-using ReliefProMain.Model.Reports;
+using ReliefProMain.Models.Reports;
 using ReliefProModel;
 using ReliefProModel.GlobalDefault;
 using ReliefProModel.Reports;

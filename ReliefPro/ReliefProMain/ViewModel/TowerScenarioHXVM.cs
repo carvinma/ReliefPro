@@ -14,7 +14,7 @@ using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using ReliefProMain.View;
 using NHibernate;
-using ReliefProMain.Model;
+using ReliefProMain.Models;
 
 namespace ReliefProMain.ViewModel
 {

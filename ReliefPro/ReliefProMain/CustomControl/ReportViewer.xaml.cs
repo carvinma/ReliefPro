@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Reporting.WinForms;
-using ReliefProMain.Model.Reports;
+using ReliefProMain.Models.Reports;
 using ReliefProModel.Reports;
 
 namespace ReliefProMain.CustomControl

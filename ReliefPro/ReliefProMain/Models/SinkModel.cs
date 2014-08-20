@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ReliefProModel;
 
-namespace ReliefProMain.Model
+namespace ReliefProMain.Models
 {
     public class SinkModel : ModelBase
     {

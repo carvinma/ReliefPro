@@ -6,7 +6,7 @@ using System.Windows.Input;
 using NHibernate;
 using ReliefProLL;
 using ReliefProMain.Commands;
-using ReliefProMain.Model.Compressors;
+using ReliefProMain.Models.Compressors;
 using UOMLib;
 using ReliefProModel.Compressors;
 using ReliefProDAL;

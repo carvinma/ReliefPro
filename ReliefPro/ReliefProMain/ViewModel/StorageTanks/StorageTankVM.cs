@@ -13,7 +13,7 @@ using ReliefProMain.Service;
 using UOMLib;
 using NHibernate;
 using ReliefProMain.View;
-using ReliefProMain.Model;
+using ReliefProMain.Models;
 
 namespace ReliefProMain.ViewModel.StorageTanks
 {
@@ -104,7 +104,7 @@ namespace ReliefProMain.ViewModel.StorageTanks
             {
                 CurrentModel.TemperatureUnit = uomEnum.UserTemperature;
                 CurrentModel.PressureUnit = uomEnum.UserPressure;
-                CurrentModel.WeightFlowUnit = uomEnum.UserWeightFlow;
+                CurrentModel.WeightFlowUnit = uomEnum.UserMassRate;
                 CurrentModel.SpEnthalpyUnit = uomEnum.UserSpecificEnthalpy;
             }
         }

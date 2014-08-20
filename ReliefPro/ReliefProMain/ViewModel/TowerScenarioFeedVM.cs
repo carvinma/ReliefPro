@@ -13,7 +13,7 @@ using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using ReliefProMain.View;
 using NHibernate;
-using ReliefProMain.Model;
+using ReliefProMain.Models;
 using System.Windows;
 
 namespace ReliefProMain.ViewModel

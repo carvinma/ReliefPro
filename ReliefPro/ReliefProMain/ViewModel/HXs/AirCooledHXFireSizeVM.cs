@@ -8,7 +8,7 @@ using System.IO;
 using Microsoft.Practices.Prism.Commands;
 using NHibernate;
 using ReliefProBLL;
-using ReliefProMain.Model.HXs;
+using ReliefProMain.Models.HXs;
 using ReliefProModel;
 using ReliefProDAL;
 using UOMLib;

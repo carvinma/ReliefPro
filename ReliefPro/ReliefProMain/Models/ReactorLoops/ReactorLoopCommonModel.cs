@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ReliefProModel.ReactorLoops;
 
-namespace ReliefProMain.Model.ReactorLoops
+namespace ReliefProMain.Models.ReactorLoops
 {
     public class ReactorLoopCommonModel : ModelBase
     {

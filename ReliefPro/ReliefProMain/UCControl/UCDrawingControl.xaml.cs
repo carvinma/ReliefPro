@@ -150,7 +150,7 @@ namespace ReliefProMain.View
                     {
                     }
                 }
-                else if (shp.NameU.Contains("connector"))
+                else if (shp.NameU.Contains("connector") && !string.IsNullOrEmpty(name))
                 {
                     CustomStreamView v = new CustomStreamView();
                     CustomStreamVM vm = new CustomStreamVM(name, SessionPlant, SessionProtectedSystem);
@@ -283,7 +283,7 @@ namespace ReliefProMain.View
                         if (v.ShowDialog() == true)
                         {
                             SourceFileInfo = vm.SourceFileInfo;
-                            EqName = vm.CompressorName;
+                            EqName = vm.model.CompressorName;
                             EqType = "Compressor";
                             DrawCompressor(shp, vm);
                         }
@@ -673,7 +673,7 @@ namespace ReliefProMain.View
             double pinX = shape.get_Cells("PinX").ResultIU;
             double pinY = shape.get_Cells("PinY").ResultIU;
 
-            shape.Text = vm.CompressorName;
+            shape.Text = vm.model.CompressorName;
             deleteShapesExcept(shape);
 
             Visio.Document currentStencil_1 = visioControl.Document.Application.Documents.OpenEx("PEHEAT_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
@@ -692,7 +692,7 @@ namespace ReliefProMain.View
             double multiple = 0.125;
             //double leftmultiple = 1.5;
             int center = 5;
-            foreach (CustomStream cs in vm.Feeds)
+            foreach (CustomStream cs in vm.model.Feeds)
             {
                 Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
                 ConnectShapes(shape, start, connector, 0);

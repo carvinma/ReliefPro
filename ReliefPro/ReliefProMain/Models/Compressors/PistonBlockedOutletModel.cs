@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ReliefProModel.Compressors;
 
-namespace ReliefProMain.Model.Compressors
+namespace ReliefProMain.Models.Compressors
 {
     public class PistonBlockedOutletModel : ModelBase
     {

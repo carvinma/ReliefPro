@@ -6,7 +6,7 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using NHibernate;
 using ReliefProBLL;
-using ReliefProMain.Model.HXs;
+using ReliefProMain.Models.HXs;
 using UOMLib;
 
 namespace ReliefProMain.ViewModel.HXs

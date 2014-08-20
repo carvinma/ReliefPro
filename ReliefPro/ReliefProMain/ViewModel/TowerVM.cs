@@ -94,11 +94,30 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("TowerTypes");
             }
         }
+
+        private string _ColorImport;
+        public string ColorImport
+        {
+            get
+            {
+                return this._ColorImport;
+            }
+            set
+            {
+                this._ColorImport = value;
+                OnPropertyChanged("ColorImport");
+            }
+        }
+
+
+
+
         TowerDAL dbtower;
         Tower tower;
         int op = 1;
         public TowerVM(string towerName, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
+            ColorImport = "Gray";
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
             DirPlant = dirPlant;
@@ -245,61 +264,60 @@ namespace ReliefProMain.ViewModel
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
                 {
                     //根据设该设备名称来获取对应的物流线信息和其他信息。                    
-                        ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
-                        SourceFileName = vm.SelectedFile;
+                    ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
+                    SourceFileName = vm.SelectedFile;
+                    CurrentTower = dbEq.GetModel(SessionPlant, SourceFileName, vm.SelectedEq, "Column");
 
+                    TowerName = CurrentTower.EqName;
+                    StageNumber = int.Parse(CurrentTower.NumberOfTrays);
 
-                        CurrentTower = dbEq.GetModel(SessionPlant, SourceFileName, vm.SelectedEq, "Column");
+                    SideColumnList = dbEq.GetAllList(SessionPlant, SourceFileName, "SideColumn");
+                    foreach (ProIIEqData d in SideColumnList)
+                    {
+                        SideColumn sc = new SideColumn();
+                        sc.EqName = d.EqName;
+                        SideColumns.Add(sc);
+                    }
+                    Feeds = new ObservableCollection<CustomStream>();
+                    Products = new ObservableCollection<CustomStream>();
+                    Reboilers = new ObservableCollection<TowerHX>();
+                    HxReboilers = new ObservableCollection<TowerHX>();
+                    Condensers = new ObservableCollection<TowerHX>();
+                    HxCondensers = new ObservableCollection<TowerHX>();
+                    GetHeaters(CurrentTower);
+                    GetMaincolumnRealFeedProduct(ref dicFeeds, ref dicProducts);
+                    ProIIStreamDataDAL dbStreamData = new ProIIStreamDataDAL();
+                    foreach (KeyValuePair<string, string> k in dicFeeds)
+                    {
+                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k.Key, SourceFileName);
+                        CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
+                        cstream.Tray = int.Parse(k.Value);
+                        cstream.IsProduct = false;
 
-                        TowerName = CurrentTower.EqName;
-                        StageNumber = int.Parse(CurrentTower.NumberOfTrays);
-
-                        SideColumnList = dbEq.GetAllList(SessionPlant, SourceFileName, "SideColumn");
-                        foreach (ProIIEqData d in SideColumnList)
+                        Feeds.Add(cstream);
+                    }
+                    foreach (KeyValuePair<string, string> k in dicProducts)
+                    {
+                        ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k.Key, SourceFileName);
+                        if (d.TotalMolarRate != "0")
                         {
-                            SideColumn sc = new SideColumn();
-                            sc.EqName = d.EqName;
-                            SideColumns.Add(sc);
-                        }
-                        Feeds = new ObservableCollection<CustomStream>();
-                        Products = new ObservableCollection<CustomStream>();
-                        Reboilers = new ObservableCollection<TowerHX>();
-                        HxReboilers = new ObservableCollection<TowerHX>();
-                        Condensers = new ObservableCollection<TowerHX>();
-                        HxCondensers = new ObservableCollection<TowerHX>();
-                        GetHeaters(CurrentTower);
-                        GetMaincolumnRealFeedProduct(ref dicFeeds, ref dicProducts);
-                        ProIIStreamDataDAL dbStreamData=new ProIIStreamDataDAL();
-                        foreach (KeyValuePair<string,string> k in dicFeeds)
-                        {
-                            ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k.Key, SourceFileName);
-                            CustomStream cstream =ProIIToDefault.ConvertProIIStreamToCustomStream(d);
+                            CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
                             cstream.Tray = int.Parse(k.Value);
-                            cstream.IsProduct = false;
-                            
-                            Feeds.Add(cstream);
-                        }
-                        foreach (KeyValuePair<string, string> k in dicProducts)
-                        {
-                            ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k.Key, SourceFileName);
-                            if (d.TotalMolarRate != "0")
+                            cstream.IsProduct = true;
+                            if (dicProdTypes.Keys.Contains(k.Key))
                             {
-                                CustomStream cstream = ProIIToDefault.ConvertProIIStreamToCustomStream(d);
-                                cstream.Tray = int.Parse(k.Value);
-                                cstream.IsProduct = true;
-                                if (dicProdTypes.Keys.Contains(k.Key))
-                                {
-                                    cstream.ProdType = dicProdTypes[k.Key];
-                                }
-
-                                Products.Add(cstream);
+                                cstream.ProdType = dicProdTypes[k.Key];
                             }
-                        }
 
-                    
+                            Products.Add(cstream);
+                        }
+                    }
+
+
 
 
                 }
+
             }           
         }
 
@@ -574,7 +592,8 @@ namespace ReliefProMain.ViewModel
         {
             if (string.IsNullOrEmpty(TowerName))
             {
-                MessageBox.Show("TowerName cann't be blank", "Message Box");                
+                MessageBox.Show("You must Import Data first.", "Message Box");
+                ColorImport = "red";
                 return;
             }
             if (Feeds.Count == 0)

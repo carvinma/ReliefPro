@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ReliefProMain.Model
+namespace ReliefProMain.Models
 {
     public abstract class ModelBase : DataErrorInfoBase
     {

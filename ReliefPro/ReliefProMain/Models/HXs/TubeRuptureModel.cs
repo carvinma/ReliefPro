@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ReliefProModel.HXs;
 
-namespace ReliefProMain.Model.HXs
+namespace ReliefProMain.Models.HXs
 {
     public class TubeRuptureModel : ModelBase
     {

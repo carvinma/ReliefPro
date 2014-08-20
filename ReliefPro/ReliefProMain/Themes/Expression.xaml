@@ -78,7 +78,7 @@
         <Setter Property="Height" Value="18"/>
         <Setter Property="Width" Value="125"/>
         <!--<Setter Property="BorderBrush" Value="#007f00"/>-->
-        <Setter Property="BorderBrush" Value="blue"/>
+        
         <Setter Property="TextWrapping" Value="NoWrap"/>
         <Setter Property="FontSize" Value="12px" />
         <Setter Property="FontFamily" Value="Calibri"/>

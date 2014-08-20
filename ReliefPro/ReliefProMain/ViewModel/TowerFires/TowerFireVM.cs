@@ -13,7 +13,7 @@ using ReliefProBLL.Common;
 using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using ReliefProMain.View.TowerFires;
-using ReliefProMain.Model;
+using ReliefProMain.Models;
 using UOMLib;
 using ReliefProMain.ViewModel;
 using NHibernate;

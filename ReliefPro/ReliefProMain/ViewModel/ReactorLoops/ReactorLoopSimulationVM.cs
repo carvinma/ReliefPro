@@ -8,7 +8,7 @@ using System.Windows;
 using Microsoft.Practices.Prism.Commands;
 using NHibernate;
 using ReliefProLL;
-using ReliefProMain.Model.ReactorLoops;
+using ReliefProMain.Models.ReactorLoops;
 using ReliefProModel.ReactorLoops;
 using ReliefProDAL;
 using ReliefProModel;

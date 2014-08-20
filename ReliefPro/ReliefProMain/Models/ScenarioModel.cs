@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReliefProMain.Model
+namespace ReliefProMain.Models
 {
     public class ScenarioModel : ModelBase
     {

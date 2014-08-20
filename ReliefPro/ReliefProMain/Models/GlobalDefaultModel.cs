@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using ReliefProModel.GlobalDefault;
 
-namespace ReliefProMain.Model
+namespace ReliefProMain.Models
 {
     public class GlobalDefaultModel : ModelBase
     {

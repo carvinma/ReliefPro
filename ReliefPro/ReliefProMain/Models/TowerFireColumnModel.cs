@@ -9,7 +9,7 @@ using NHibernate;
 using ReliefProBLL.Common;
 using ReliefProDAL;
 
-namespace ReliefProMain.Model
+namespace ReliefProMain.Models
 {
     public class TowerFireColumnModel : ModelBase
     {

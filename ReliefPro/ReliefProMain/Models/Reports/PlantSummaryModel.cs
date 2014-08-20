@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ReliefProModel.Reports;
 
-namespace ReliefProMain.Model.Reports
+namespace ReliefProMain.Models.Reports
 {
     public class PlantSummaryModel : ModelBase
     {

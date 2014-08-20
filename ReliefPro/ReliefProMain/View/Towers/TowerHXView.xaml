@@ -83,8 +83,8 @@
         </GroupBox>
         <Label  Content="{DynamicResource TotalDuty}" Grid.Row="2" Grid.Column="1"/>
         <Label Content="{DynamicResource Name}"  Grid.Row="1" Grid.Column="1"/>
-        <CustomControl:UnitConvertTextBox  UnitOrigin="{Binding ElementName=lblDuty,Path=Content,Mode=TwoWay}" TextWrapping="Wrap" Text="{Binding Path=model.HeaterDuty}"  Grid.Column="2" Grid.Row="2"/>
-        <TextBox Name="txtName"  Grid.Column="2" TextWrapping="NoWrap" Text="{Binding Path=model.HeaterName}"  Grid.Row="1"/>
+        <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblDuty,Path=Content,Mode=TwoWay}" TextWrapping="Wrap" Text="{Binding Path=model.HeaterDuty}"  Grid.Column="2" Grid.Row="2"/>
+        <TextBox IsEnabled="False" Name="txtName"  Grid.Column="2" TextWrapping="NoWrap" Text="{Binding Path=model.HeaterName}"  Grid.Row="1"/>
         <Label x:Name="lblDuty" Grid.Column="3"  Grid.Row="2" Content="{Binding DutyUnit,Mode=TwoWay}" />
         <Button Name="btnAdd" Content="{DynamicResource Add}" Grid.Column="5"  Grid.Row="4"  Command="{Binding AddCommand}" />
 

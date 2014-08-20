@@ -22,13 +22,13 @@
         </Grid.RowDefinitions>
         <Label Content="{DynamicResource CompressorName}"  Grid.Column="1"   Grid.Row="1"   />
         <Label Content="{DynamicResource CompressorType}" Grid.Column="1" Grid.Row="2"   />
-        <TextBox IsReadOnly="True" Grid.Column="2"   Grid.Row="1"  Text="{Binding CompressorName}"   />
-        <ComboBox  ItemsSource="{Binding CompressorTypes}" SelectedItem ="{Binding CompressorType,Mode=TwoWay}" Grid.Column="2"   Grid.Row="2"  />
+        <TextBox IsReadOnly="True" Grid.Column="2"   Grid.Row="1"  Text="{Binding model.CompressorName}"   />
+        <ComboBox  ItemsSource="{Binding CompressorTypes}" SelectedItem ="{Binding model.CompressorType,Mode=TwoWay}" Grid.Column="2"   Grid.Row="2"  />
         <Button Content="{DynamicResource ImportFromDatabase}" Command="{Binding ImportCommand}" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.ColumnSpan="2"  Grid.Row="1"  Width="143"/>
         <TabControl Grid.ColumnSpan="4" Grid.Column="1" HorizontalAlignment="Stretch"   Grid.Row="3" VerticalAlignment="Stretch" >
             <TabItem Header="{DynamicResource Feed}">
                 <Grid Background="#FFE5E5E5" >
-                    <ListView ItemsSource="{Binding Feeds}"  HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  >
+                    <ListView ItemsSource="{Binding model.Feeds}"  HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  >
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="{DynamicResource StreamName}" DisplayMemberBinding="{Binding StreamName}" />
@@ -39,7 +39,7 @@
             </TabItem>
             <TabItem Header="{DynamicResource Product}">
                 <Grid Background="#FFE5E5E5" >
-                    <ListView ItemsSource="{Binding Products}"  HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  >
+                    <ListView ItemsSource="{Binding model.Products}"  HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"  >
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="{DynamicResource StreamName}" DisplayMemberBinding="{Binding StreamName}" />

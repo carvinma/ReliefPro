@@ -5,7 +5,7 @@ using System.Text;
 using ReliefProModel;
 using ReliefProModel.Towers;
 
-namespace ReliefProMain.Model
+namespace ReliefProMain.Models
 {
     public class BlockedVaporOutletModel : ModelBase
     {

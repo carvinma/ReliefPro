@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ReliefProMain.Model.Reports
+namespace ReliefProMain.Models.Reports
 {
     public class EffectFactorModel
     {

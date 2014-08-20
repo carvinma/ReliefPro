@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ReliefProModel.Drums;
 
-namespace ReliefProMain.Model
+namespace ReliefProMain.Models
 {
     public class DrumBlockedOutletModel : ModelBase
     {

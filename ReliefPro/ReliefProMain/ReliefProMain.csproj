@@ -186,6 +186,7 @@
     <Compile Include="Models\AbnormalHeaterDetailModel.cs" />
     <Compile Include="Models\BlockedVaporOutletModel.cs" />
     <Compile Include="Models\Compressors\CentrifugalBlockedOutletModel.cs" />
+    <Compile Include="Models\Compressors\CompressorModel.cs" />
     <Compile Include="Models\Compressors\PistonBlockedOutletModel.cs" />
     <Compile Include="Models\CustomStreamModel.cs" />
     <Compile Include="Models\DrumBlockedOutletModel.cs" />
@@ -197,6 +198,7 @@
     <Compile Include="Models\GlobalDefaultModel.cs" />
     <Compile Include="Models\HeatSourceModel.cs" />
     <Compile Include="Models\HXs\AirCooledHXFireSizeModel.cs" />
+    <Compile Include="Models\HXs\HeatExchangerModel.cs" />
     <Compile Include="Models\HXs\HXBlockedOutletModel.cs" />
     <Compile Include="Models\HXs\HXFireSizeModel.cs" />
     <Compile Include="Models\HXs\TubeRuptureModel.cs" />
@@ -217,6 +219,7 @@
     <Compile Include="Models\TowerFireModel.cs" />
     <Compile Include="Models\TowerHXDetailModel.cs" />
     <Compile Include="Models\TowerHXModel.cs" />
+    <Compile Include="Models\TowerModel.cs" />
     <Compile Include="Models\TowerScenarioHXModel.cs" />
     <Compile Include="Models\TowerScenarioStreamModel.cs" />
     <Compile Include="ProIIFactory.cs" />

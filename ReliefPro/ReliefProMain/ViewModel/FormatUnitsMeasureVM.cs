@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using ReliefProBLL;
-using ReliefProMain.Model;
+using ReliefProMain.Models;
 using ReliefProModel;
 using ReliefProMain.View;
 using UOMLib;

@@ -12,7 +12,7 @@ using ReliefProDAL;
 using ReliefProBLL.Common;
 using ReliefProMain.Interface;
 using ReliefProMain.Service;
-using ReliefProMain.Model;
+using ReliefProMain.Models;
 using UOMLib;
 using NHibernate;
 using ProII;

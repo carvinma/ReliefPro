@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Reporting.WinForms;
 
-namespace ReliefProMain.Model.Reports
+namespace ReliefProMain.Models.Reports
 {
     public class RptDataSouce
     {

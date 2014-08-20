@@ -10,7 +10,7 @@ using ReliefProBLL.Common;
 using ReliefProDAL;
 
 
-namespace ReliefProMain.Model
+namespace ReliefProMain.Models
 {     
     public class TowerHXModel : ModelBase
     {

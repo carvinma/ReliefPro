@@ -5,7 +5,7 @@ using System.Text;
 using ReliefProModel;
 using ReliefProModel.Reports;
 
-namespace ReliefProMain.Model.Reports
+namespace ReliefProMain.Models.Reports
 {
     public class PUsummaryModel : ModelBase
     {
