@@ -83,17 +83,20 @@
     <Compile Include="ExportExcel.cs" />
     <Compile Include="GeneralFailureCommonBLL.cs" />
     <Compile Include="GlobalDefaultBLL.cs" />
+    <Compile Include="HeatExchangerBLL.cs" />
     <Compile Include="HXBLL.cs" />
     <Compile Include="ImportData.cs" />
     <Compile Include="NHibernateHelper.cs" />
     <Compile Include="Plant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PSVBLL.cs" />
     <Compile Include="ReactorLoopBLL.cs" />
     <Compile Include="ReadFromPro.cs" />
     <Compile Include="ReportBLL.cs" />
     <Compile Include="ReportPlanSession.cs" />
     <Compile Include="SourceFileBLL.cs" />
     <Compile Include="SystemUnitInfo.cs" />
+    <Compile Include="TowerBLL.cs" />
     <Compile Include="UnitTypeInfo.cs" />
     <Compile Include="DrumSizeBLL.cs" />
   </ItemGroup>
