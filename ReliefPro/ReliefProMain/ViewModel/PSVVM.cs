@@ -241,13 +241,22 @@ namespace ReliefProMain.ViewModel
                     }
                     else
                     {
-                        //需要重新复制一份ProtectedSystem.mdb，相当于重新分析。
-                        string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
-                        string dbProtectedSystem_target = DirProtectedSystem + @"\protectedsystem.mdb";
-                        System.IO.File.Copy(dbProtectedSystem, dbProtectedSystem_target, true);
-                        NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystem_target);
-                        SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
-                        CreateTowerPSV();
+                        //需要重新复制一份ProtectedSystem.mdb，相当于重新分析。----error
+                        //string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
+                        //string dbProtectedSystem_target = DirProtectedSystem + @"\protectedsystem.mdb";
+                        //System.IO.File.Copy(dbProtectedSystem, dbProtectedSystem_target, true);
+                        //NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystem_target);
+                        //SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
+
+                        //应该是删除所有的和定压相关的表的数据
+
+                        ClearData();
+                        if (EqType == "Tower")
+                        {
+                            CreateTowerPSV();
+                        }
+                        ConvertModel(CurrentModel, ref psv);
+                        dbpsv.Add(psv, SessionProtectedSystem);
                     }
                     Thread.Sleep(3000);
                 }).ContinueWith((t) => { });
@@ -593,5 +602,20 @@ namespace ReliefProMain.ViewModel
                 return false;
             }
         }
+
+
+        private void ClearData()
+        {
+            LatentDAL ldal = new LatentDAL();          
+            ldal.RemoveALL( SessionProtectedSystem);
+
+            LatentProductDAL lpdal = new LatentProductDAL();
+            lpdal.RemoveALL(SessionProtectedSystem);
+
+            PSVDAL psvdal = new PSVDAL();
+            psvdal.RemoveALL(SessionProtectedSystem);
+
+        }
+
     }
 }

@@ -6,19 +6,23 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using ReliefProMain.Commands;
 using System.IO;
+using NHibernate;
+using ReliefProDAL;
+using ReliefProModel;
+using System.Windows;
+
 namespace ReliefProMain.ViewModel
 {
     public class CreateProtectedSystemVM : ViewModelBase
     {
-       
-       
+        public ISession SessionPlant { set; get; }
         public string dirUnit { get; set; }
 
         public string dirProtectedSystem{ get; set; }
         public string visioProtectedSystem { get; set; }
         public string dbProtectedSystemFile { get; set; }
 
-
+        private int UnitID;
         private string _ProtectedSystemName;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         public string ProtectedSystemName
@@ -29,7 +33,7 @@ namespace ReliefProMain.ViewModel
             }
             set
             {
-                this._ProtectedSystemName = value;
+                this._ProtectedSystemName = value.Trim();
                 OnPropertyChanged("ProtectedSystemName");
             }
         }
@@ -48,8 +52,10 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        public CreateProtectedSystemVM(string dir)
+        public CreateProtectedSystemVM(ISession SessionPlant,int UnitID, string dir)
         {
+            this.SessionPlant = SessionPlant;
+            this.UnitID = UnitID;
             dirUnit = dir;
         }
 
@@ -70,6 +76,20 @@ namespace ReliefProMain.ViewModel
         private void Save(object window)
         {
             if (!CheckData()) return;
+
+            TreePSDAL tpsdal = new TreePSDAL();
+            TreePS tps = tpsdal.GetModel(SessionPlant, UnitID, ProtectedSystemName);
+            if (tps != null)
+            {
+                MessageBox.Show("this Protected System is exist!", "Message Box");
+                return;
+            }
+            TreePSDAL treePSDAL = new TreePSDAL();
+            TreePS treePS = new TreePS();
+            treePS.PSName = ProtectedSystemName;
+            treePS.UnitID = UnitID;
+            treePSDAL.Add(treePS, SessionPlant);
+
             dirProtectedSystem = dirUnit + @"\" + ProtectedSystemName;
             Directory.CreateDirectory(dirProtectedSystem);
             string protectedsystem1 = dirProtectedSystem;

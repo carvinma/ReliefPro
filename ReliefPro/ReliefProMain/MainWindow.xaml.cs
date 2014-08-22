@@ -76,6 +76,8 @@ namespace ReliefProMain
         AxDrawingControl visioControl = new AxDrawingControl();
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
+        public List<TreeViewItemData> treeList;
+
 
         public MainWindow()
         {
@@ -619,16 +621,7 @@ namespace ReliefProMain
 
         private void MainWindowApp_Loaded(object sender, RoutedEventArgs e)
         {
-            //string proiiexe = string.Empty;
-            //string proiiini = string.Empty;
-            //string name = ("9.1").ToLower();
-            //bool b = IsRegeditExit(name, ref proiiexe, ref proiiini);
-            //if (b)
-            //{
-            //    System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo(proiiexe);
-            //    psi.Arguments = @"/I='" + proiiini+"'";
-            //    Process.Start(psi);
-            //}
+            treeList = new List<TreeViewItemData>();
             version = ConfigurationManager.AppSettings["version"];
             defaultReliefProDir = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\" + version + @"\";
             if (!Directory.Exists(defaultReliefProDir))
@@ -791,8 +784,11 @@ namespace ReliefProMain
                 return;
             TreeViewItem tvi = (TreeViewItem)NavigationTreeView.SelectedItem;
             TreeViewItemData data = tvi.Tag as TreeViewItemData;
+            NHibernateHelper helperProtectedSystem = new NHibernateHelper(data.dbPlantFile);
+            SessionPlant = helperProtectedSystem.GetCurrentSession();
+
             CreateUnitView v = new CreateUnitView();
-            CreateUnitVM vm = new CreateUnitVM(data.FullName);
+            CreateUnitVM vm = new CreateUnitVM(SessionPlant,data.FullName);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
@@ -800,29 +796,18 @@ namespace ReliefProMain
             if (v.ShowDialog() == true)
             {
 
-                TreeViewItem itemUnit = GetTreeViewItem(vm.UnitName, vm.dirUnit, 2, "images/plant.ico", data.dbPlantFile, null);
+                TreeViewItem itemUnit = GetTreeViewItem(vm.UnitName, vm.dirUnit, 2, "images/pt.ico", data.dbPlantFile, null);
                 tvi.Items.Add(itemUnit);
 
-                TreeViewItem itemProtectSystem = GetTreeViewItem("ProtectedSystem1", vm.dirProtectedSystem, 3, "images/plant.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
+                TreeViewItem itemProtectSystem = GetTreeViewItem("ProtectedSystem1", vm.dirProtectedSystem, 3, "images/ps.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
                 itemUnit.Items.Add(itemProtectSystem);
 
-                TreeViewItem itemProtectSystemfile = GetTreeViewItem("ProtectedSystem1", vm.visioProtectedSystem, 4, "images/project.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
+                TreeViewItem itemProtectSystemfile = GetTreeViewItem("ProtectedSystem1", vm.visioProtectedSystem, 4, "images/ps.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
                 itemProtectSystem.Items.Add(itemProtectSystemfile);
 
-                tvi.ExpandSubtree();
+                itemUnit.ExpandSubtree();
 
-                NHibernateHelper helperProtectedSystem = new NHibernateHelper(data.dbPlantFile);
-                SessionPlant = helperProtectedSystem.GetCurrentSession();
-                TreeUnitDAL treeUnitDAL = new TreeUnitDAL();
-                TreeUnit treeUnit = new TreeUnit();
-                treeUnit.UnitName = vm.UnitName;
-                treeUnitDAL.Add(treeUnit, SessionPlant);
-
-                TreePSDAL treePSDAL = new TreePSDAL();
-                TreePS treePS = new TreePS();
-                treePS.PSName = "ProtectedSystem1";
-                treePS.UnitID = treeUnit.ID;
-                treePSDAL.Add(treePS, SessionPlant);
+                
             }
 
         }
@@ -833,8 +818,14 @@ namespace ReliefProMain
                 return;
             TreeViewItem tvi = (TreeViewItem)NavigationTreeView.SelectedItem;
             TreeViewItemData data = tvi.Tag as TreeViewItemData;
+            NHibernateHelper helperProtectedSystem = new NHibernateHelper(data.dbPlantFile);
+            SessionPlant = helperProtectedSystem.GetCurrentSession();
+            TreeUnitDAL treeUnitDAL = new TreeUnitDAL();
+            TreeUnit treeUnit = treeUnitDAL.GetModel(SessionPlant, data.Text);
+
             CreateProtectedSystemView v = new CreateProtectedSystemView();
-            CreateProtectedSystemVM vm = new CreateProtectedSystemVM(data.FullName);
+
+            CreateProtectedSystemVM vm = new CreateProtectedSystemVM(SessionPlant, treeUnit.ID,data.FullName);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
@@ -847,24 +838,16 @@ namespace ReliefProMain
                 TreeViewItem itemProtectSystemfile = GetTreeViewItem(vm.ProtectedSystemName, vm.visioProtectedSystem, 4, "images/file.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
                 itemProtectSystem.Items.Add(itemProtectSystemfile);
 
-                tvi.ExpandSubtree();
+                itemProtectSystem.ExpandSubtree();
             }
 
-            NHibernateHelper helperProtectedSystem = new NHibernateHelper(data.dbPlantFile);
-            SessionPlant = helperProtectedSystem.GetCurrentSession();
-            TreeUnitDAL treeUnitDAL = new TreeUnitDAL();
-            TreeUnit treeUnit = treeUnitDAL.GetModel(SessionPlant, data.Text);
-
-            TreePSDAL treePSDAL = new TreePSDAL();
-            TreePS treePS = new TreePS();
-            treePS.PSName = "ProtectedSystem1";
-            treePS.UnitID = treeUnit.ID;
-            treePSDAL.Add(treePS, SessionPlant);
+            
 
         }
 
         public void ReName(object sender, RoutedEventArgs e)
         {
+
             if (NavigationTreeView.SelectedItem == null)
                 return;
             TreeViewItem tvi = (TreeViewItem)NavigationTreeView.SelectedItem;
@@ -881,12 +864,12 @@ namespace ReliefProMain
                     lbl.Text = "TEST";
                 }
             }
-            
+            NavigationTreeView.SetValue(;
+
+
             //ReNameVM vm = new ReNameVM(data.Text, data.FullName, data.Type);
             //v.DataContext = vm;
-            //v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
-            //v.Owner = this;
+           // v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (v.ShowDialog() == true)
             {
                 //data.Text = vm.NewName;
@@ -954,11 +937,7 @@ namespace ReliefProMain
 
 
     }
-    public class ListViewItemData
-    {
-        public string Name { get; set; }
-        public string Pic { get; set; }
-    }
+    
 
 
 }

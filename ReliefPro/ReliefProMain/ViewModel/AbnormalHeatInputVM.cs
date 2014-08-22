@@ -22,8 +22,8 @@ namespace ReliefProMain.ViewModel
 {
     public class AbnormalHeatInputVM : ViewModelBase
     {
-        private ISession SessionPlant { set; get; }
-        private ISession SessionProtectedSystem { set; get; }
+        public ISession SessionPlant { set; get; }
+        public ISession SessionProtectedSystem { set; get; }
         private int ScenarioID;
 
         private AbnormalHeaterDetailDAL abnormalHeaterDetailDAL;

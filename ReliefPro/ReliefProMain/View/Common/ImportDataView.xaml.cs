@@ -29,6 +29,7 @@ namespace ReliefProMain.View
     public partial class ImportDataView : Window
     {
         public ISession SessionPlant;
+        SourceFileDAL dal;
         IList<ProIIEqType> eqTypeList = null;
         IList<ProIIEqData> eqListData = new List<ProIIEqData>();
         IList<ProIIStreamData> streamListData = new List<ProIIStreamData>();
@@ -49,7 +50,7 @@ namespace ReliefProMain.View
         string selectedFileName = string.Empty;       
         string curprzFile = string.Empty;
         string FileNameNoExt = string.Empty;
-        
+        bool isCanImport = false;
         private void btnImport_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlgOpenDiagram = new Microsoft.Win32.OpenFileDialog();
@@ -61,6 +62,15 @@ namespace ReliefProMain.View
                     this.txtSourceFile.Text = dlgOpenDiagram.FileName;
                     selectedFile = dlgOpenDiagram.FileName;
                     selectedFileName = dlgOpenDiagram.SafeFileName;
+                    SourceFile sf = dal.GetModel(selectedFileName, SessionPlant);
+                    if (sf == null)
+                    {
+                        isCanImport = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("this file was imported !","Message Box");
+                    }
                 }
             }
             
@@ -68,6 +78,11 @@ namespace ReliefProMain.View
 
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
+            if (!isCanImport)
+            {
+                MessageBox.Show("Please select right file !", "Message Box");
+                return;
+            }
             try
             {
                 if (this.txtSourceFile.Text == string.Empty)
@@ -121,6 +136,7 @@ namespace ReliefProMain.View
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
             dbPlantFile = dirInfo + @"\plant.mdb";
+            
         }
         
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -157,7 +173,7 @@ namespace ReliefProMain.View
                
                 SourceFile df = new SourceFile();
                 SourceFileDAL dal = new SourceFileDAL();
-                df.FileName = selectedFileName;
+                df.FileName = selectedFileName.ToLower();
                 df.FileType = 0;
                 df.FileVersion = version;
                 df.FileNameNoExt = FileNameNoExt;

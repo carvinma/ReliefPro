@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using ReliefProMain.Commands;
 using System.IO;
+using NHibernate;
+using ReliefProDAL;
+using ReliefProModel;
+using System.Windows;
+
 namespace ReliefProMain.ViewModel
 {
     public class CreateUnitVM : ViewModelBase
     {
-       
+        public ISession SessionPlant { set; get; }
         public string dirPlant { get; set; }
         public string dirUnit { get; set; }
 
@@ -49,8 +54,9 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        public CreateUnitVM(string dir )
+        public CreateUnitVM(ISession SessionPlant,string dir )
         {
+            this.SessionPlant = SessionPlant;
             dirPlant = dir;
         }
 
@@ -71,6 +77,27 @@ namespace ReliefProMain.ViewModel
         private void Save(object window)
         {
             if (!CheckData()) return;
+
+
+            TreeUnitDAL tudal = new TreeUnitDAL();
+            TreeUnit tu = tudal.GetModel(SessionPlant, UnitName);
+            if (tu != null)
+            {
+                MessageBox.Show("this Unit is exist!", "Message Box");
+                return;
+            }
+
+            TreeUnitDAL treeUnitDAL = new TreeUnitDAL();
+            TreeUnit treeUnit = new TreeUnit();
+            treeUnit.UnitName = UnitName;
+            treeUnitDAL.Add(treeUnit, SessionPlant);
+
+            TreePSDAL treePSDAL = new TreePSDAL();
+            TreePS treePS = new TreePS();
+            treePS.PSName = "ProtectedSystem1";
+            treePS.UnitID = treeUnit.ID;
+            treePSDAL.Add(treePS, SessionPlant);
+
             string dirUnit = dirPlant + @"\" + UnitName;
             Directory.CreateDirectory(dirUnit);
             string protectedsystem1 = dirUnit + @"\ProtectedSystem1";
