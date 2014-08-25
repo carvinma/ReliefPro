@@ -46,5 +46,21 @@ namespace ReliefProDAL
             
             return model;
         }
+        public void RemoveALL(ISession session)
+        {
+            IList<PSV> list = null;
+            try
+            {
+                list = session.CreateCriteria<PSV>().List<PSV>();
+                foreach (PSV m in list)
+                {
+                    session.Delete(m);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

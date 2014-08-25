@@ -23,13 +23,13 @@ namespace ReliefProDAL
             }
             return list;
         }
-        public TreePS GetModel(ISession session)
+        public TreePS GetModel(ISession session, int UnitID,string PSName)
         {
             TreePS model = null;
             IList<TreePS> list = null;
             try
             {
-                list = session.CreateCriteria<TreePS>().List<TreePS>();
+                list = session.CreateCriteria<TreePS>().Add(Expression.Eq("UnitID", UnitID)).Add(Expression.Eq("PSName", PSName)).List<TreePS>();
                 if (list.Count > 0)
                 {
                     model = list[0];

@@ -34,5 +34,23 @@ namespace ReliefProDAL
             
             return model;
         }
+
+        public void RemoveALL(ISession session)
+        {
+            IList<Latent> list = null;
+            try
+            {
+                list = session.CreateCriteria<Latent>().List<Latent>();
+                foreach (Latent m in list)
+                {
+                    session.Delete(m);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
