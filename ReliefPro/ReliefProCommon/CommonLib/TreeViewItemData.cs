@@ -14,5 +14,18 @@ namespace ReliefProCommon.CommonLib
         public int Type { get; set; }
         public string dbPlantFile{ get; set; }
         public string dbProtectedSystemFile { get; set; }
+
+        List<TreeViewItemData> _children = new List<TreeViewItemData>();
+        public IList<TreeViewItemData> Children
+        {
+            get { return _children; }
+        }
+    }
+
+    //用于Icon的list item数据类
+    public class ListViewItemData
+    {
+        public string Name { get; set; }
+        public string Pic { get; set; }
     }
 }
