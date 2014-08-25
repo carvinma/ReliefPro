@@ -117,9 +117,8 @@ namespace ReliefProBLL
             PSVDAL psv = new PSVDAL();
             var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
             if (psvModel != null)
-            {
-                if (psvModel.Pressure != null)
-                    return psvModel.Pressure.Value * psvModel.ReliefPressureFactor.Value;
+            {                
+                return psvModel.Pressure * psvModel.ReliefPressureFactor;
             }
             return 0;
         }
@@ -131,7 +130,7 @@ namespace ReliefProBLL
             if (psvModel != null)
             {
                 if (psvModel.Pressure != null)
-                    return psvModel.Pressure.Value;
+                    return psvModel.Pressure;
             }
             return 0;
         }

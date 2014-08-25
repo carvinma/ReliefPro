@@ -81,7 +81,7 @@ namespace ReliefProBLL
             var lstPsv = dbpsv.GetAllList(SessionPS);
             if (lstPsv.Count > 0)
             {
-                psv = lstPsv[0].Pressure.Value;
+                psv = lstPsv[0].Pressure;
             }
             return Tuple.Create(s, drumt, drump, psv);
         }
