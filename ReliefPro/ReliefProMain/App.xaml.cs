@@ -28,14 +28,16 @@ namespace ReliefProMain
         {
             //TowerScenarioView mainF = new TowerScenarioView();
             //Task.Factory.StartNew(() => { InitData(); });
+
             InitData();
             MainWindow v = new MainWindow();
             MainWindowVM vm = new MainWindowVM();
             v.DataContext = vm;
             v.WindowState = WindowState.Maximized;
-
-            // PlantSummaryView v = new PlantSummaryView();
             v.Show();
+            
+            //Window1 v = new Window1();
+            //v.Show();
 
         }
         private void APP_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

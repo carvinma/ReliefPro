@@ -20,6 +20,7 @@ using ReliefProCommon.CommonLib;
 using ReliefProDAL.GlobalDefault;
 using ReliefProModel.GlobalDefault;
 using System.Threading;
+using System.Collections.ObjectModel;
 
 namespace ReliefProMain.ViewModel
 {
@@ -76,12 +77,21 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("CriticalPressure");
             }
         }
-
-        public List<string> ValveTypes { get; set; }
+        private string _ReflexDrumVisible;
+        public string ReflexDrumVisible
+        {
+            get { return _ReflexDrumVisible; }
+            set
+            {
+                _ReflexDrumVisible = value;
+                OnPropertyChanged("ReflexDrumVisible");
+            }
+        }
+        public ObservableCollection<string> ValveTypes { get; set; }
         public PSVModel CurrentModel { get; set; }
 
-        public List<string> DischargeTos { get; set; }
-
+        public ObservableCollection<string> DischargeTos { get; set; }
+        public ObservableCollection<string> Locations { get; set; }
         private bool isBusy = false;
         public bool IsBusy
         {
@@ -95,18 +105,18 @@ namespace ReliefProMain.ViewModel
         public PSV psv;
         PSVDAL dbpsv = new PSVDAL();
         UOMLib.UOMEnum uomEnum;
-        public List<string> GetValveTypes()
+        public ObservableCollection<string> GetValveTypes()
         {
-            List<string> list = new List<string>();
+            ObservableCollection<string> list = new ObservableCollection<string>();
             list.Add("Modulation");
             list.Add("Pop Action");
             list.Add("Rupture Disk");
             list.Add("Temperature Actuated");
             return list;
         }
-        public List<string> GetDischargeTos()
+        public ObservableCollection<string> GetDischargeTos()
         {
-            List<string> list = new List<string>();
+            ObservableCollection<string> list = new ObservableCollection<string>();
             GlobalDefaultDAL gdDAL = new GlobalDefaultDAL();
             IList<FlareSystem> fs = gdDAL.GetFlareSystem(SessionPlant);
             foreach (FlareSystem m in fs)
@@ -116,6 +126,20 @@ namespace ReliefProMain.ViewModel
 
             return list;
         }
+        public ObservableCollection<string> GetLocations()
+        {
+            ObservableCollection<string> list = new ObservableCollection<string>();
+            ProIIEqDataDAL gdDAL = new ProIIEqDataDAL();
+            IList<ProIIEqData> fs = gdDAL.GetAllList(SessionPlant);
+            foreach (ProIIEqData m in fs)
+            {
+                list.Add(m.EqName);
+            }
+            return list;
+        }
+
+
+
         public PSVVM(string eqName, string eqType, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
             EqName = eqName;
@@ -127,10 +151,18 @@ namespace ReliefProMain.ViewModel
             SourceFileInfo = sourceFileInfo;
             ValveTypes = GetValveTypes();
             DischargeTos = GetDischargeTos();
-
+            Locations = GetLocations();
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             this.psvPressureUnit = uomEnum.UserPressure;
             this.drumPSVPressureUnit = uomEnum.UserPressure;
+            if (eqType == "Tower")
+            {
+                ReflexDrumVisible = "Visible";
+            }
+            else
+            {
+                ReflexDrumVisible = "Hidden";
+            }
 
             psv = dbpsv.GetModel(sessionProtectedSystem);
             if (psv != null)
@@ -141,6 +173,16 @@ namespace ReliefProMain.ViewModel
             {
                 psv = new PSV();
                 CurrentModel = new PSVModel();
+                CurrentModel.ValveType = ValveTypes[0];
+                if (DischargeTos.Count > 0)
+                {
+                    CurrentModel.DischargeTo = DischargeTos[0];
+                }
+                if (eqType != "StorageTank")
+                {
+                    CurrentModel.Location = eqName;
+                }
+                
             }
         }
         private PSVModel ConvertModel(PSV m)
@@ -148,14 +190,15 @@ namespace ReliefProMain.ViewModel
             PSVModel model = new PSVModel();
             model.ID = psv.ID;
             model.PSVName = m.PSVName;
-            model.Pressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, m.Pressure.Value);
+            model.Pressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, m.Pressure);
             model.ReliefPressureFactor = m.ReliefPressureFactor;
             model.ValveNumber = m.ValveNumber;
             model.ValveType = m.ValveType;
             model.DrumPSVName = m.DrumPSVName;
+            model.Location = m.Location;
             if (m.DrumPressure != null)
             {
-                model.DrumPressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, m.DrumPressure.Value);
+                model.DrumPressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, m.DrumPressure);
             }
             model.Description = m.Description;
             model.LocationDescription = m.LocationDescription;
@@ -165,14 +208,15 @@ namespace ReliefProMain.ViewModel
         private void ConvertModel(PSVModel m, ref PSV model)
         {
             model.PSVName = m.PSVName;
-            model.Pressure = UnitConvert.Convert(psvPressureUnit, UOMEnum.Pressure, m.Pressure.Value);
+            model.Pressure = UnitConvert.Convert(psvPressureUnit, UOMEnum.Pressure, m.Pressure);
             model.ReliefPressureFactor = m.ReliefPressureFactor;
             model.ValveNumber = m.ValveNumber;
             model.ValveType = m.ValveType;
             model.DrumPSVName = m.DrumPSVName;
+            model.Location = m.Location;
             if (m.DrumPressure != null)
             {
-                model.DrumPressure = UnitConvert.Convert(DrumPressureUnit, UOMEnum.Pressure, m.DrumPressure.Value);
+                model.DrumPressure = UnitConvert.Convert(DrumPressureUnit, UOMEnum.Pressure, m.DrumPressure);
             }
             model.Description = m.Description;
             model.LocationDescription = m.LocationDescription;
@@ -201,14 +245,34 @@ namespace ReliefProMain.ViewModel
                 MessageBox.Show("PSV Name can't be empty.", "Message Box");
                 return;
             }
-            if (CurrentModel.Pressure == null)
+            if (CurrentModel.Pressure <= 0)
             {
                 MessageBox.Show("PSV Pressure can't be empty.", "Message Box");
                 return;
             }
-            if (CurrentModel.ReliefPressureFactor == null)
+            if (CurrentModel.ReliefPressureFactor <= 0)
             {
                 MessageBox.Show("Relief Pressure Factor can't be empty.", "Message Box");
+                return;
+            }
+            if (string.IsNullOrEmpty(CurrentModel.Location))
+            {
+                MessageBox.Show("Location must be selected.", "Message Box");
+                return;
+            }
+            if (string.IsNullOrEmpty(CurrentModel.DischargeTo))
+            {
+                MessageBox.Show("Discharge To can't be empty.", "Message Box");
+                return;
+            }
+            if (string.IsNullOrEmpty(CurrentModel.ValveType))
+            {
+                MessageBox.Show("Valve Type can't be empty.", "Message Box");
+                return;
+            }
+            if (CurrentModel.ValveNumber<=0)
+            {
+                MessageBox.Show("Valve Number can't be zero.", "Message Box");
                 return;
             }
             try
@@ -308,7 +372,7 @@ namespace ReliefProMain.ViewModel
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
 
             string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
-            double ReliefPressure = CurrentModel.ReliefPressureFactor.Value * CurrentModel.Pressure.Value;
+            double ReliefPressure = CurrentModel.ReliefPressureFactor * CurrentModel.Pressure;
 
             double criticalPressure = 0;
             bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase, ref criticalPressure);
@@ -487,7 +551,7 @@ namespace ReliefProMain.ViewModel
             latent.LatentEnthalpy = latentEnthalpy;
             latent.ReliefTemperature = ReliefTemperature;
             latent.ReliefOHWeightFlow = latentVapor.BulkMwOfPhase;
-            latent.ReliefPressure = CurrentModel.Pressure.Value * CurrentModel.ReliefPressureFactor.Value;
+            latent.ReliefPressure = CurrentModel.Pressure * CurrentModel.ReliefPressureFactor;
             dblatent.Add(latent, SessionProtectedSystem);
 
             foreach (TowerFlashProduct p in listFlashProduct)
@@ -616,6 +680,8 @@ namespace ReliefProMain.ViewModel
             psvdal.RemoveALL(SessionProtectedSystem);
 
         }
+
+        
 
     }
 }

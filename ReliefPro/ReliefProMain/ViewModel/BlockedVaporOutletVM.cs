@@ -70,7 +70,7 @@ namespace ReliefProMain.ViewModel
             if (!model.CheckData()) return; 
             PSVDAL psvdal = new PSVDAL();
             PSV psv = psvdal.GetModel(SessionPS);
-            double pSet = (psv.Pressure??0) * (psv.ReliefPressureFactor ?? 0);
+            double pSet = psv.Pressure * psv.ReliefPressureFactor;
             if (model.dbmodel.OutletType == 0)
             {
                 if (model.InletGasUpstreamMaxPressure > pSet)

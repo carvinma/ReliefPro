@@ -4,18 +4,18 @@
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"            
         Title="{DynamicResource PSVViewTitle}" 
         xmlns:Loading="clr-namespace:BusyIndicatorCtrl;assembly=BusyIndicatorCtrl"
-        Height="366" Width="756" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+        Height="366" Width="656" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
 
     <Grid >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="165*"/>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="125*"/>
+            <ColumnDefinition Width="127*"/>
+            <ColumnDefinition Width="39*"/>
+            <ColumnDefinition Width="43*"/>
+            <ColumnDefinition Width="121*"/>
             <ColumnDefinition Width="139*"/>
-            <ColumnDefinition Width="46*"/>
-            <ColumnDefinition Width="61*"/>
-            <ColumnDefinition Width="146*"/>
-            <ColumnDefinition Width="251*"/>
-            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="26*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="18"/>
@@ -31,30 +31,30 @@
 
         </Grid.RowDefinitions>
         <Loading:BusyIndicator x:Name="busyCtrl" IsBusy="{Binding IsBusy}" />
-        <Label Content="{DynamicResource PSVName}"  Grid.Row="1" Grid.Column="1" />
-        <Label Content="{DynamicResource ValveNumber}"   Grid.Row="2" Grid.Column="1"/>
-        <Label Content="{DynamicResource Description}"  Grid.Row="1" Grid.Column="5"  />
-        <Label Content="{DynamicResource ValveType}"   Grid.Row="2" Grid.Column="5" />
-        <Label Content="{DynamicResource SetPressure}"  Grid.Row="3" Grid.Column="1" />
-        <Label Content="{DynamicResource LocationDescription}"  Grid.Row="5"  Grid.Column="5" />
-        <Label Content="{DynamicResource Prelief}"  Grid.Row="4" Grid.Column="1" />
-        <Label Content="{DynamicResource CriticalPressure}"  Grid.Column="5" Grid.Row="4"/>
+        <Label Content="{DynamicResource PSVName}"  Grid.Row="1" Grid.Column="1" Height="25" Width="63" />
+        <Label Content="{DynamicResource ValveNumber}"   Grid.Row="3" Grid.Column="5" Height="25" Width="82"/>
+        <Label Content="{DynamicResource Description}"  Grid.Row="1" Grid.Column="5" Height="25" Width="69"  />
+        <Label Content="{DynamicResource ValveType}"   Grid.Row="2" Grid.Column="5" Height="25" Width="65" />
+        <Label Content="{DynamicResource SetPressure}"  Grid.Row="3" Grid.Column="1" Height="25" Width="73" />
+        <Label Content="{DynamicResource LocationDescription}"  Grid.Row="5"  Grid.Column="5" Height="25" Width="110" />
+        <Label Content="{DynamicResource Prelief}"  Grid.Row="4" Grid.Column="1" Height="25" Width="125" />
+        <Label Content="{DynamicResource CriticalPressure}" Grid.Row="5" Grid.Column="1" Height="25" Width="91" />
 
         <TextBox Name="txtName"  Text="{Binding CurrentModel.PSVName}" Grid.Row="1" Grid.Column="2" />
-        <TextBox Name="txtValveNumber"  Text="{Binding CurrentModel.ValveNumber}"   Grid.Row="2" Grid.Column="2" />
+        <TextBox Name="txtValveNumber"  Text="{Binding CurrentModel.ValveNumber}"   Grid.Row="3" Grid.Column="6" />
         <ComboBox Name="cbxValueType"  ItemsSource="{Binding ValveTypes}" SelectedItem="{Binding CurrentModel.ValveType}"   Grid.Row="2" Grid.Column="6" />
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}"  Text="{Binding CurrentModel.Pressure,StringFormat='{}{0:N2}'}" Grid.Row="3" Grid.Column="2"   />
         <TextBox Name="txtLocationDescription"  Text="{Binding CurrentModel.LocationDescription}"   Grid.Row="5" Grid.Column="6"  />
         <TextBox Name="txtPrelief"  Text="{Binding CurrentModel.ReliefPressureFactor}"   Grid.Row="4" Grid.Column="2"  />
-        <TextBox Name="txtCritical"  Grid.Column="6" Grid.Row="4"   />
+        <TextBox IsReadOnly="True" Name="txtCritical"  Grid.Column="2" Grid.Row="5"   />
         <TextBox Text="{Binding CurrentModel.Description}"  Grid.Column="6" Grid.Row="1" />
-        <Label Content="{DynamicResource Location}"  Grid.Row="5"  Grid.Column="1"     />
-        <ComboBox x:Name="cbxValueType_Copy"  ItemsSource="{Binding ValveTypes}" SelectedItem="{Binding CurrentModel.ValveType}"   Grid.Row="5" Grid.Column="2" />
-        <Label Content="{DynamicResource Dischargeto}"  Grid.Row="3"  Grid.Column="5"   />
-        <ComboBox   ItemsSource="{Binding DischargeTos}" SelectedItem="{Binding CurrentModel.DischargeTo}"   Grid.Row="3" Grid.Column="6"  />
-        <Label x:Name="lblPressure"  Content="{Binding PSVPressureUnit,Mode=TwoWay}" Grid.Row="3" Grid.Column="3" />
+        <Label Content="{DynamicResource Location}"  Grid.Row="4"  Grid.Column="5" Height="25" Width="55"     />
+        <ComboBox x:Name="location"  ItemsSource="{Binding Locations}" SelectedItem="{Binding CurrentModel.Location}"   Grid.Row="4" Grid.Column="6" />
+        <Label Content="{DynamicResource Dischargeto}"  Grid.Row="2"  Grid.Column="1" Height="25" Width="74"   />
+        <ComboBox   ItemsSource="{Binding DischargeTos}" SelectedItem="{Binding CurrentModel.DischargeTo}"   Grid.Row="2" Grid.Column="2"  />
+        <Label x:Name="lblPressure"  Content="{Binding PSVPressureUnit,Mode=TwoWay}" Grid.Row="3" Grid.Column="3" Height="10" Width="10" />
 
-        <GroupBox Name="g1" Grid.Column="1" Header="{DynamicResource AdditionalPSVonRefluxDrum}"  Grid.Row="6"  Grid.ColumnSpan="6">
+        <GroupBox Visibility="{Binding ReflexDrumVisible}" Name="g1" Grid.Column="1" Header="{DynamicResource AdditionalPSVonRefluxDrum}"  Grid.Row="6"  Grid.ColumnSpan="6">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="110*" />

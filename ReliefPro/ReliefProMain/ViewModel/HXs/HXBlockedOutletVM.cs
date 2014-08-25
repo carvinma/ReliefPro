@@ -85,9 +85,9 @@ namespace ReliefProMain.ViewModel.HXs
 
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionPS);
-            double pressure = psv.Pressure.Value;
+            double pressure = psv.Pressure;
 
-            double reliefFirePressure = pressure * psv.ReliefPressureFactor.Value;
+            double reliefFirePressure = pressure * psv.ReliefPressureFactor;
 
             CustomStream stream = normalColdInlet;
             string tempdir = DirProtectedSystem + @"\temp\";

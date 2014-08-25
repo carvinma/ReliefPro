@@ -41,8 +41,8 @@ namespace ReliefProMain.ViewModel
 
         public CompressorVM(string CompressorName, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
-            csbll = new CustomStreamBLL(sessionProtectedSystem, sessionPlant);
-            compressorbll = new CompressorBLL(sessionProtectedSystem, sessionPlant);
+            csbll = new CustomStreamBLL( sessionPlant,sessionProtectedSystem);
+            compressorbll = new CompressorBLL(sessionPlant, sessionProtectedSystem);
             sourcebll = new SourceFileBLL(sessionPlant);
 
             SessionPlant = sessionPlant;
@@ -64,7 +64,10 @@ namespace ReliefProMain.ViewModel
             }
             else
             {
-
+                ObservableCollection<CustomStream> Feeds = new ObservableCollection<CustomStream>();
+                ObservableCollection<CustomStream> Products = new ObservableCollection<CustomStream>();
+                Compressor compressor = new Compressor();
+                model = new CompressorModel(compressor, Feeds, Products);
             }
         }
         private ICommand _ImportCommand;
@@ -93,7 +96,7 @@ namespace ReliefProMain.ViewModel
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
                     ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
                     FileName = vm.SelectedFile;
-                    ProIICompressor = dbEq.GetModel(SessionPlant, FileName, vm.SelectedEq, "Compressor");
+                    ProIICompressor = dbEq.GetModel(SessionPlant, FileName, vm.SelectedEq, "Compressor");                   
                     model.CompressorType = model.CompressorTypes[0];
                     model.CompressorName = ProIICompressor.EqName;
                     dicFeeds = new List<string>();

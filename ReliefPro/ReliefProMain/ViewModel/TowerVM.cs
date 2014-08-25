@@ -125,11 +125,13 @@ namespace ReliefProMain.ViewModel
             SideColumns = new List<SideColumn>();
             TowerName = towerName;
             TowerTypes = GetTowerTypes();
+            TowerType = TowerTypes[0];
             if (!string.IsNullOrEmpty(TowerName))
             {
                 dbtower= new TowerDAL();
                 tower = dbtower.GetModel(SessionProtectedSystem);
                 TowerName = tower.TowerName;
+                TowerType = tower.TowerType;
                 Desciption = tower.Description;
                 StageNumber = tower.StageNumber;
                 TowerType = tower.TowerType;
@@ -231,8 +233,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private List<SideColumn> SideColumns;
-        private IList<ProIIEqData> SideColumnList;
+        private List<SideColumn> SideColumns=new List<SideColumn>();
+        private List<ProIIEqData> SideColumnList=new List<ProIIEqData>();
         Dictionary<string, string> sideColumnTray = new Dictionary<string, string>();
         Dictionary<string, string> sideColumnProdType = new Dictionary<string, string>();
         private ProIIEqData CurrentTower;
@@ -263,6 +265,13 @@ namespace ReliefProMain.ViewModel
                 op = 0;
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
                 {
+                    SideColumnList.Clear();
+                    SideColumns.Clear();
+                    sideColumnProdType.Clear();
+                    sideColumnTray.Clear();
+                    dicFeeds.Clear();
+                    dicProdTypes.Clear();
+                    dicProducts.Clear();
                     //根据设该设备名称来获取对应的物流线信息和其他信息。                    
                     ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
                     SourceFileName = vm.SelectedFile;
@@ -270,14 +279,20 @@ namespace ReliefProMain.ViewModel
 
                     TowerName = CurrentTower.EqName;
                     StageNumber = int.Parse(CurrentTower.NumberOfTrays);
-
-                    SideColumnList = dbEq.GetAllList(SessionPlant, SourceFileName, "SideColumn");
-                    foreach (ProIIEqData d in SideColumnList)
+                    string[] products = CurrentTower.ProductData.Split(',');
+                    IList<ProIIEqData> allSideColumnList = dbEq.GetAllList(SessionPlant, SourceFileName, "SideColumn");
+                    foreach(ProIIEqData d in allSideColumnList)
                     {
-                        SideColumn sc = new SideColumn();
-                        sc.EqName = d.EqName;
-                        SideColumns.Add(sc);
+                        if (isRelatedSideColumn(d, products))
+                        {
+                            SideColumn sc = new SideColumn();
+                            sc.EqName = d.EqName;
+                            SideColumns.Add(sc);
+
+                            SideColumnList.Add(d);
+                        }
                     }
+                  
                     Feeds = new ObservableCollection<CustomStream>();
                     Products = new ObservableCollection<CustomStream>();
                     Reboilers = new ObservableCollection<TowerHX>();
@@ -737,7 +752,7 @@ namespace ReliefProMain.ViewModel
                         sr.MaxPossiblePressure = cs.Pressure;
                         sr.StreamName = cs.StreamName;
                         sr.SourceName = cs.StreamName + "_Source";
-                        sr.SourceType = "Compressor(Motor)";
+                        sr.SourceType = "Pump(Motor)";
                         sr.StreamName = cs.StreamName;
                         sr.IsSteam = IsSteam(cs);
                         sr.IsHeatSource = false;
@@ -753,7 +768,7 @@ namespace ReliefProMain.ViewModel
                         sink.MaxPossiblePressure = cs.Pressure;
                         sink.StreamName = cs.StreamName;
                         sink.SinkName = cs.StreamName + "_Sink";
-                        sink.SinkType = "Compressor(Motor)";
+                        sink.SinkType = "Pump(Motor)";
 
                         dbsink.Add(sink, SessionProtectedSystem);
                         dbCS.Add(cs, SessionProtectedSystem);
@@ -808,6 +823,24 @@ namespace ReliefProMain.ViewModel
             list.Add("Absorber");
             list.Add("Absorbent Regenerator");
             return list;
+        }
+
+        private bool isRelatedSideColumn(ProIIEqData eq,string[] products)
+        {
+            bool b = false;
+            string[] streams=eq.FeedData.Split(',');
+            foreach (string s in streams)
+            {
+                if(!string.IsNullOrEmpty(s))
+                {
+                    if (products.Contains(s))
+                    {
+                        b = true;
+                        break;
+                    }
+                }
+            }
+            return b;
         }
     }
 

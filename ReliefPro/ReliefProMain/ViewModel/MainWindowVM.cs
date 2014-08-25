@@ -39,159 +39,199 @@ using Vo = Microsoft.Office.Interop.VisOcx;
 using Visio = Microsoft.Office.Interop.Visio;
 using ReliefProMain.View;
 using ReliefProMain.ViewModel;
-
-
+using ReliefProMain.Models;
+using NHibernate;
+using ReliefProMain.Commands;
 namespace ReliefProMain.ViewModel
 {
-    public class MainWindowVM:ViewModelBase
+    public class MainWindowVM : ViewModelBase
     {
         //版本信息
         string version;
         string defaultReliefProDir;
         string tempReliefProWorkDir;
-        string currentPlantWorkFolder;
         string currentPlantFile;
         string currentPlantName;
+        string currentPlantWorkFolder;
         AxDrawingControl visioControl = new AxDrawingControl();
-        public void OnloadUnitOfMeasure(object sender, RoutedEventArgs e)
+        private ObservableCollection<TVPlantViewModel> _Plants;
+        public ObservableCollection<TVPlantViewModel> Plants
         {
-            FormatUnitsMeasure fum = new FormatUnitsMeasure();
-            if (fum.ShowDialog() == true)
+            get { return _Plants; }
+            set
             {
-
+                _Plants = value;
+                OnPropertyChanged("Plants");
             }
         }
+        public ICommand NewPlantCommand { get; set; }
+        public ICommand OpenPlantCommand { get; set; }
+        
+        public ICommand ClosePlantCommand { get; set; }
 
+      
 
-        public void MenuItem_Click(object sender, RoutedEventArgs e)
+        public MainWindowVM()
+        {
+            NewPlantCommand = new DelegateCommand<object>(CreatePlant);
+            
+            OpenPlantCommand = new DelegateCommand<object>(OpenPlant);
+            ClosePlantCommand = new DelegateCommand<object>(ClosePlant);
+
+            _Plants = new ObservableCollection<TVPlantViewModel>();
+           
+            version = ConfigurationManager.AppSettings["version"];
+            defaultReliefProDir = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\" + version + @"\";
+            if (!Directory.Exists(defaultReliefProDir))
+                Directory.CreateDirectory(defaultReliefProDir);
+            tempReliefProWorkDir = System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\" + version + @"\";
+            if (!Directory.Exists(tempReliefProWorkDir))
+                Directory.CreateDirectory(tempReliefProWorkDir);
+            
+        }
+
+        private void CreatePlant(object obj)
         {
             try
             {
-                MenuItem item = (MenuItem)e.OriginalSource;
-                switch (item.Header.ToString())
+                System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+                saveFileDialog1.Filter = "ref files (*.ref)|*.ref";
+                saveFileDialog1.FilterIndex = 2;
+                saveFileDialog1.RestoreDirectory = true;
+                saveFileDialog1.Title = "New Plant";
+                saveFileDialog1.InitialDirectory = defaultReliefProDir;
+                if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    case "Open Plant":
-                        OpenPlant();
-                        break;
-                    case "Exit":
-                        //this.Close();
-                        break;
-                    case "New Plant":
-                        CreatePlant();
-                        break;
-                    case "Save Plant":
-                        SavePlant();
-                        break;
+                    currentPlantFile = saveFileDialog1.FileName;
+                    currentPlantName = System.IO.Path.GetFileNameWithoutExtension(currentPlantFile);
+                    currentPlantWorkFolder = tempReliefProWorkDir + @"\" + currentPlantName;
+                    if (Directory.Exists(currentPlantWorkFolder))
+                    {
+                        Directory.Delete(currentPlantWorkFolder, true);
+                    }
+                    Directory.CreateDirectory(currentPlantWorkFolder);
+                    string dbPlant = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\plant.mdb";
+                    string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
+                    System.IO.File.Copy(dbPlant, dbPlant_target, true);
 
+                    string unit1 = currentPlantWorkFolder + @"\Unit1";
+                    Directory.CreateDirectory(unit1);
+                    string protectedsystem1 = unit1 + @"\ProtectedSystem1";
+                    Directory.CreateDirectory(protectedsystem1);
+                    string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
+                    string dbProtectedSystem_target = protectedsystem1 + @"\protectedsystem.mdb";
+                    System.IO.File.Copy(dbProtectedSystem, dbProtectedSystem_target, true);
+                    string visioProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.vsd";
+                    string visioProtectedSystem_target = protectedsystem1 + @"\design.vsd";
+                    System.IO.File.Copy(visioProtectedSystem, visioProtectedSystem_target, true);
+
+
+                    ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
+                    NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlant_target);
+                    ISession SessionPlant = helperProtectedSystem.GetCurrentSession();
+                    TreeUnitDAL treeUnitDAL = new TreeUnitDAL();
+                    TreeUnit treeUnit = new TreeUnit();
+                    treeUnit.UnitName = "Unit1";
+                    treeUnitDAL.Add(treeUnit, SessionPlant);
+
+                    TreePSDAL treePSDAL = new TreePSDAL();
+                    TreePS treePS = new TreePS();
+                    treePS.PSName = "ProtectedSystem1";
+                    treePS.UnitID = treeUnit.ID;
+                    treePSDAL.Add(treePS, SessionPlant);
+
+                    TVPlant p = new TVPlant();
+                    p.FullPath = currentPlantWorkFolder;
+                    p.FullRefPath = currentPlantFile;
+                    p.Name = currentPlantName;
+                    TVPlantViewModel m1 = new TVPlantViewModel(p);
+                    Plants.Add(m1);
+                    SavePlant();
                 }
-
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Action");
+                MessageBox.Show(ex.ToString());
             }
+
         }
 
-        public void lvGeneral_MouseMove(object sender, MouseEventArgs e)
+        
+        private void OpenPlant(object obj)
         {
-            Image lvi = (Image)sender;
-            if (e.LeftButton == MouseButtonState.Pressed)
+            try
             {
-                Visio.Page currentPage = visioControl.Document.Pages[1];
-
-                if (lvi.Source.ToString().Contains("tower"))
+                Microsoft.Win32.OpenFileDialog dlgOpenDiagram = new Microsoft.Win32.OpenFileDialog();
+                dlgOpenDiagram.Filter = "Relief(*.ref) |*.ref";
+                if (dlgOpenDiagram.ShowDialog() == true)
                 {
-                    Visio.Document myCurrentStencil = visioControl.Document.Application.Documents.OpenEx(System.Environment.CurrentDirectory + @"/Template/Tower.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
-                    Visio.Master visioRectMaster = myCurrentStencil.Masters.get_ItemU(@"Dis");
-                    DragDropEffects dde1 = DragDrop.DoDragDrop(lvi, visioRectMaster, DragDropEffects.All);
-                    myCurrentStencil.Close();
-                    //openProperty();
-                    foreach (Visio.Shape shape in visioControl.Window.Selection)
+                    currentPlantFile = dlgOpenDiagram.FileName;
+                    currentPlantName = System.IO.Path.GetFileNameWithoutExtension(currentPlantFile);
+                    currentPlantWorkFolder = tempReliefProWorkDir  + @"\" + currentPlantName;
+                    if (IsSamePlantOpen(currentPlantName))
                     {
-                        shape.Cells["EventDblClick"].Formula = "=0";
+                        MessageBox.Show("Same Plant is Opened!","Message Box");
+                        return;
                     }
-                    visioControl.Window.DeselectAll();
-                }
-                if (lvi.Source.ToString().Contains("drum"))
-                {
-                    Visio.Document currentStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
-                    Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Column");
-                    DragDropEffects dde1 = DragDrop.DoDragDrop(lvi, visioRectMaster, DragDropEffects.All);
-                    foreach (Visio.Shape shape in visioControl.Window.Selection)
+                    if (Directory.Exists(currentPlantWorkFolder))
                     {
-                        shape.Cells["EventDblClick"].Formula = "=0";
+                        Directory.Delete(currentPlantWorkFolder, true);
                     }
-                    visioControl.Window.DeselectAll();
-                }
 
+                    ReliefProCommon.CommonLib.CSharpZip.ExtractZipFile(currentPlantFile, "1", currentPlantWorkFolder);
+                    string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
+                    NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlant_target);
+                    ISession SessionPlant = helperProtectedSystem.GetCurrentSession();
+                    TVPlant p = new TVPlant();
+                    p.FullPath = currentPlantWorkFolder;
+                    p.FullRefPath = currentPlantFile;
+                    p.Name = currentPlantName;                  
+                    TVPlantViewModel m1 = new TVPlantViewModel(p);
+                    Plants.Add(m1);
+                }
+            }
+            catch (Exception ex)
+            {
             }
         }
 
-
-
-
-        private void initTower()
+        private bool IsSamePlantOpen(string PlantName)
         {
-            ObservableCollection<ListViewItemData> collections = new ObservableCollection<ListViewItemData>();
-            collections.Add(new ListViewItemData { Name = "Distillation", Pic = "/images/tower.ico" });
-            collections.Add(new ListViewItemData { Name = "Drum", Pic = "/images/drum.ico" });
-            //this.lvTower.ItemsSource = collections;
+            bool b = false;
+            foreach (TVPlantViewModel p in Plants)
+            {
+                if (p.Name.ToLower() == PlantName.ToLower().Trim())
+                {
+                    b = true;
+                    break;
+                }
+            }
+            return b;
         }
-
-
 
         private void SavePlant()
         {
             ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
         }
 
-        private void OpenPlant()
-        {
-           
-        }
-
-        private void CreatePlant()
-        {
-            
-
-        }
-
-        
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Button item = (Button)sender;
-                switch (item.ToolTip.ToString())
-                {
-                    case "Open Plant":
-                        OpenPlant();
-                        break;
-                    case "New Plant":
-                        CreatePlant();
-                        break;
-                    case "Save Plant":
-                        SavePlant();
-                        break;
-
-                }
-
+        private void ClosePlant(object obj)
+        {           
+            if (Plants.Count == 0)
+            {                
+                return;
             }
-            catch (Exception ex)
+            MessageBoxResult result = MessageBox.Show("Are your sure clear all plants?", "Message Box", MessageBoxButton.OKCancel);
+            if (result==MessageBoxResult.OK)
             {
-                MessageBox.Show(ex.ToString(), "Action");
+                Plants.Clear();
             }
         }
 
-      
-
 
     }
-    public class ListViewItemData
-    {
-        public string Name { get; set; }
-        public string Pic { get; set; }
-    }
+
+    
 
 
+   
 }

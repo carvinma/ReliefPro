@@ -72,14 +72,14 @@ namespace ReliefProMain.View
             try
             {
                 System.Windows.Forms.Integration.WindowsFormsHost host = sender as System.Windows.Forms.Integration.WindowsFormsHost;
-                TreeViewItemData data = this.Tag as TreeViewItemData;
+                TVFileViewModel data = this.Tag as TVFileViewModel;
                 AxDrawingControl dc = host.Child as AxDrawingControl;
                 visioControl = dc;
                 visioControl.Window.Zoom = 1;
                 visioControl.Window.ShowGrid = 0;
                 visioControl.Window.ShowRulers = 0;
                 visioControl.Window.ShowConnectPoints = -1;
-                visioControl.Src = data.FullName;
+                visioControl.Src = data.tvFile.FullPath;
                 visioControl.Window.ShowPageTabs = false;
             }
             catch (Exception ex)
@@ -801,9 +801,11 @@ namespace ReliefProMain.View
             Button btn = sender as Button;
             if (btn.ToolTip.ToString() == "PSV")
             {
-                if (SessionProtectedSystem == null)
+                ProtectedSystemDAL psdal = new ProtectedSystemDAL();
+                ProtectedSystem ps = psdal.GetModel(SessionProtectedSystem);
+                if (ps == null)
                 {
-                    MessageBox.Show("数据还未导入");
+                    MessageBox.Show("Current Equipment Data is not imported!","Message Box");
                     return;
                 }
                 PSVView v = new PSVView();
@@ -818,7 +820,7 @@ namespace ReliefProMain.View
                 PSV psv = dbpsv.GetModel(SessionProtectedSystem);
                 if (psv == null)
                 {
-                    MessageBox.Show("Psv 还未计算");
+                    MessageBox.Show("PSV have not been calculated!", "Message Box");
                     return;
                 }
 
@@ -834,9 +836,9 @@ namespace ReliefProMain.View
         private void UserControl_Loaded_1(object sender, RoutedEventArgs e)
         {
             this.btnPSV.IsEnabled = false;
-            TreeViewItemData data = this.Tag as TreeViewItemData;
-            dbPlantFile = data.dbPlantFile;
-            dbProtectedSystemFile = data.dbProtectedSystemFile;
+            TVFileViewModel data = this.Tag as TVFileViewModel;
+            dbPlantFile = data.tvFile.dbPlantFile;
+            dbProtectedSystemFile = data.tvFile.dbProtectedSystemFile;
             DirPlant = System.IO.Path.GetDirectoryName(dbPlantFile);
             DirProtectedSystem = System.IO.Path.GetDirectoryName(dbProtectedSystemFile);
 
@@ -889,7 +891,6 @@ namespace ReliefProMain.View
                                     EqType = "Drum";
                                     EqName = drum.DrumName;
                                     SourceFileInfo = sfdal.GetModel(drum.SourceFile, SessionPlant);
-
                                 }
                                 break;
                             case 3:

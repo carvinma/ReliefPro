@@ -462,7 +462,7 @@ namespace ReliefProMain.ViewModel.Drums
 
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionProtectedSystem);
-            double pressure = psv.Pressure.Value;
+            double pressure = psv.Pressure;
 
             double reliefFirePressure = pressure * 1.21;
             if (model.HeavyOilFluid)
@@ -694,7 +694,7 @@ namespace ReliefProMain.ViewModel.Drums
 
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionProtectedSystem);
-            double pressure = psv.Pressure.Value;
+            double pressure = psv.Pressure;
 
             double reliefFirePressure = pressure * 1.21;
             if (model.HeavyOilFluid)
@@ -841,9 +841,8 @@ namespace ReliefProMain.ViewModel.Drums
             PSVDAL psv = new PSVDAL();
             var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
             if (psvModel != null)
-            {
-                if (psvModel.Pressure != null)
-                    return psvModel.Pressure.Value * psvModel.ReliefPressureFactor.Value;
+            {        
+                    return psvModel.Pressure * psvModel.ReliefPressureFactor;
             }
             return 0;
         }

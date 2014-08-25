@@ -85,8 +85,8 @@ namespace ReliefProMain.Models
                 NotifyPropertyChanged("DischargeTo");
             }
         }
-        private double? _Pressure;
-        public double? Pressure
+        private double _Pressure;
+        public double Pressure
         {
             get
             {
@@ -111,8 +111,8 @@ namespace ReliefProMain.Models
                 NotifyPropertyChanged("PressureUnit");
             }
         }
-        private double? _ReliefPressureFactor;
-        public double? ReliefPressureFactor
+        private double _ReliefPressureFactor;
+        public double ReliefPressureFactor
         {
             get
             {
@@ -137,8 +137,8 @@ namespace ReliefProMain.Models
                 NotifyPropertyChanged("DrumPSVName");
             }
         }
-        private double? _DrumPressure;
-        public double? DrumPressure
+        private double _DrumPressure;
+        public double DrumPressure
         {
             get
             {
@@ -182,6 +182,16 @@ namespace ReliefProMain.Models
             {
                 locationDescription = value;
                 NotifyPropertyChanged("LocationDescription");
+            }
+        }
+        private string location;
+        public string Location
+        {
+            get { return location; }
+            set
+            {
+                location = value;
+                NotifyPropertyChanged("Location");
             }
         }
     }

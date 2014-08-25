@@ -41,6 +41,7 @@ using ReliefProMain.View;
 using ReliefProMain.ViewModel;
 using ReliefProMain.View.Reports;
 using ReliefProMain.ViewModel.Reports;
+using ReliefProMain.Models;
 using NHibernate;
 using System.Threading.Tasks;
 using System.Threading;
@@ -66,17 +67,17 @@ namespace ReliefProMain
         public readonly IntPtr HFILE_ERROR = new IntPtr(-1);
 
         //版本信息
-        string version;
-        string defaultReliefProDir;
-        string tempReliefProWorkDir;
-        string currentPlantWorkFolder;
-        string currentPlantFile;
-        string currentPlantName;
+        //string version;
+        //string defaultReliefProDir;
+        //string tempReliefProWorkDir;
+        //string currentPlantWorkFolder;
+        //string currentPlantFile;
+        //string currentPlantName;
         //string currentProtectedSystemFile;
         AxDrawingControl visioControl = new AxDrawingControl();
-        private ISession SessionPlant { set; get; }
-        private ISession SessionProtectedSystem { set; get; }
-        public List<TreeViewItemData> treeList;
+        //public ISession SessionPlant { set; get; }
+        //public ISession SessionProtectedSystem { set; get; }
+        //public List<TreeViewItemData> treeList;
 
 
         public MainWindow()
@@ -198,9 +199,19 @@ namespace ReliefProMain
 
         }
 
-        private void OnShowToolWindow1(object sender, RoutedEventArgs e)
+        private void OnShowPlantExplorer(object sender, RoutedEventArgs e)
         {
-            var toolWindow1 = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "toolWindow1");
+            var toolWindow1 = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "Navigation");
+            if (toolWindow1.IsHidden)
+                toolWindow1.Show();
+            else if (toolWindow1.IsVisible)
+                toolWindow1.IsActive = true;
+            else
+                toolWindow1.AddToLayout(dockManager, AnchorableShowStrategy.Bottom | AnchorableShowStrategy.Most);
+        }
+        private void OnShowICON(object sender, RoutedEventArgs e)
+        {
+            var toolWindow1 = dockManager.Layout.Descendents().OfType<LayoutAnchorable>().Single(a => a.ContentId == "toolWindow");
             if (toolWindow1.IsHidden)
                 toolWindow1.Show();
             else if (toolWindow1.IsVisible)
@@ -278,20 +289,13 @@ namespace ReliefProMain
             {
                 MenuItem item = (MenuItem)e.OriginalSource;
                 switch (item.Header.ToString())
-                {
-                    case "Open Plant":
-                        OpenPlant();
-                        break;
+                {                   
                     case "Exit":
                         this.Close();
                         break;
-                    case "New Plant":
-                        CreatePlant();
-                        break;
                     case "Save Plant":
                         SavePlant();
-                        break;
-
+                        break;    
                 }
 
             }
@@ -422,6 +426,23 @@ namespace ReliefProMain
             //view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             //view.DataContext = vm;
             //view.ShowDialog();
+            string currentPlantName = string.Empty;
+            string currentPlantWorkFolder = string.Empty;
+            ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
+            if (list.Count == 0)
+            {
+                MessageBox.Show("Please open one Plant", "Message Box");
+                return;
+            }
+            TVPlantViewModel p = GetCurrentPlant();
+            if (p == null)
+            {
+                MessageBox.Show("Please select one Plant", "Message Box");
+                return;
+            }
+            currentPlantName = p.Name;
+            currentPlantWorkFolder = p.tvPlant.FullPath;
+            
 
             ReportTreeView view = new ReportTreeView();
             ReportTreeVM vm = new ReportTreeVM(currentPlantName, currentPlantWorkFolder);
@@ -434,201 +455,21 @@ namespace ReliefProMain
             FormatUnitsMeasure view = new FormatUnitsMeasure();
             view.ShowDialog();
         }
+
+
         private void SavePlant()
         {
-            ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
-        }
-
-        private void OpenPlant()
-        {
-            try
+            ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
+            foreach (TVPlantViewModel p in list)
             {
-                Microsoft.Win32.OpenFileDialog dlgOpenDiagram = new Microsoft.Win32.OpenFileDialog();
-                dlgOpenDiagram.Filter = "Relief(*.ref) |*.ref";
-                if (dlgOpenDiagram.ShowDialog() == true)
-                {
-                    currentPlantFile = dlgOpenDiagram.FileName;
-                    currentPlantName = System.IO.Path.GetFileNameWithoutExtension(currentPlantFile);
-                    currentPlantWorkFolder = tempReliefProWorkDir + currentPlantName;
-
-                    if (Directory.Exists(currentPlantWorkFolder))
-                    {
-                        Directory.Delete(currentPlantWorkFolder, true);
-                    }
-
-                    ReliefProCommon.CommonLib.CSharpZip.ExtractZipFile(currentPlantFile, "1", currentPlantWorkFolder);
-                    string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
-
-                    TreeViewItem item = GetTreeViewItem(currentPlantName, currentPlantWorkFolder, 1, "images/pt.ico", dbPlant_target, null);
-                    DirectoryInfo dirPlant = new DirectoryInfo(currentPlantWorkFolder);
-                    NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlant_target);
-                    SessionPlant = helperProtectedSystem.GetCurrentSession();
-                    TreeUnitDAL unitdal = new TreeUnitDAL();
-                    TreePSDAL psdal = new TreePSDAL();
-                    IList<TreeUnit> units = unitdal.GetAllList(SessionPlant);
-                    foreach (TreeUnit u in units)
-                    {
-                        string ufullpath = dirPlant + @"\" + u.UnitName;
-                        TreeViewItem itemDevice = GetTreeViewItem(u.UnitName, ufullpath, 2, "images/un.ico", dbPlant_target, null);
-                        item.Items.Add(itemDevice);
-                        IList<TreePS> pss = psdal.GetAllList(u.ID, SessionPlant);
-                        foreach (TreePS p in pss)
-                        {
-                            string pfoderpath = ufullpath + @"\" + p.PSName;
-                            string dbProtectSystem_target = pfoderpath + @"\protectedsystem.mdb";
-                            TreeViewItem itemProtectSystem = GetTreeViewItem(p.PSName, pfoderpath, 3, "images/ps.ico", dbPlant_target, dbProtectSystem_target);
-                            itemDevice.Items.Add(itemProtectSystem);
-
-                            TreeViewItem itemProtectSystemfile = GetTreeViewItem(p.PSName, pfoderpath + @"\design.vsd", 4, "images/file.ico", dbPlant_target, dbProtectSystem_target);
-                            itemProtectSystem.Items.Add(itemProtectSystemfile);
-                        }
-
-                    }
-
-                    NavigationTreeView.Items.Add(item);
-                    item.ExpandSubtree();
-                }
+                string currentPlantWorkFolder = p.tvPlant.FullPath;
+                string currentPlantFile = p.tvPlant.FullRefPath;
+                ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
             }
-            catch (Exception ex)
-            {
-            }
-        }
-
-        private void CreatePlant()
-        {
-            try
-            {
-                System.Windows.Forms.SaveFileDialog saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-                saveFileDialog1.Filter = "ref files (*.ref)|*.ref";
-                saveFileDialog1.FilterIndex = 2;
-                saveFileDialog1.RestoreDirectory = true;
-                saveFileDialog1.Title = "New Plant";
-                saveFileDialog1.InitialDirectory = defaultReliefProDir;
-                if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    currentPlantFile = saveFileDialog1.FileName;
-                    currentPlantName = System.IO.Path.GetFileNameWithoutExtension(currentPlantFile);
-                    currentPlantWorkFolder = tempReliefProWorkDir + currentPlantName;
-                    if (Directory.Exists(currentPlantWorkFolder))
-                    {
-                        Directory.Delete(currentPlantWorkFolder, true);
-                    }
-                    Directory.CreateDirectory(currentPlantWorkFolder);
-                    string dbPlant = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\plant.mdb";
-                    string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
-                    System.IO.File.Copy(dbPlant, dbPlant_target, true);
-
-                    string unit1 = currentPlantWorkFolder + @"\Unit1";
-                    Directory.CreateDirectory(unit1);
-                    string protectedsystem1 = unit1 + @"\ProtectedSystem1";
-                    Directory.CreateDirectory(protectedsystem1);
-                    string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
-                    string dbProtectedSystem_target = protectedsystem1 + @"\protectedsystem.mdb";
-                    System.IO.File.Copy(dbProtectedSystem, dbProtectedSystem_target, true);
-                    string visioProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.vsd";
-                    string visioProtectedSystem_target = protectedsystem1 + @"\design.vsd";
-                    System.IO.File.Copy(visioProtectedSystem, visioProtectedSystem_target, true);
-
-
-                    ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
-
-                    TreeViewItem item = GetTreeViewItem(currentPlantName, currentPlantWorkFolder, 1, "images/pt.ico", dbPlant_target, null);
-
-                    TreeViewItem itemUnit = GetTreeViewItem("Unit1", unit1, 2, "images/un.ico", dbPlant_target, null);
-                    item.Items.Add(itemUnit);
-
-                    TreeViewItem itemProtectSystem = GetTreeViewItem("ProtectedSystem1", protectedsystem1, 3, "images/ps.ico", dbPlant_target, dbProtectedSystem_target);
-                    itemUnit.Items.Add(itemProtectSystem);
-
-                    TreeViewItem itemProtectSystemfile = GetTreeViewItem("ProtectedSystem1", visioProtectedSystem_target, 4, "images/file.ico", dbPlant_target, dbProtectedSystem_target);
-                    itemProtectSystem.Items.Add(itemProtectSystemfile);
-
-                    NavigationTreeView.Items.Add(item);
-                    item.ExpandSubtree();
-
-                    NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlant_target);
-                    SessionPlant = helperProtectedSystem.GetCurrentSession();
-                    TreeUnitDAL treeUnitDAL = new TreeUnitDAL();
-                    TreeUnit treeUnit = new TreeUnit();
-                    treeUnit.UnitName = "Unit1";
-                    treeUnitDAL.Add(treeUnit, SessionPlant);
-
-                    TreePSDAL treePSDAL = new TreePSDAL();
-                    TreePS treePS = new TreePS();
-                    treePS.PSName = "ProtectedSystem1";
-                    treePS.UnitID = treeUnit.ID;
-                    treePSDAL.Add(treePS, SessionPlant);
-
-                    SavePlant();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-
-        }
-
-        private TreeViewItem GetTreeViewItem(string text, string fullname, int type, string imagepath, string dbPlantFile, string dbProtectedSystemFile)
-        {
-
-            TreeViewItemData data = new TreeViewItemData();
-            data.Text = text;
-            data.Type = type;
-            data.FullName = fullname;
-            data.Pic = imagepath;
-            data.dbPlantFile = dbPlantFile;
-            data.dbProtectedSystemFile = dbProtectedSystemFile;
-            TreeViewItem newTreeViewItem = new TreeViewItem();
-            // create stack panel
-            StackPanel stack = new StackPanel();
-            stack.Orientation = Orientation.Horizontal;
-            stack.Height = 20;
-            // create Image
-            Image image = new Image();
-            image.Source = new BitmapImage(new Uri(imagepath, UriKind.Relative));
-            image.Width = 16;
-            image.Height = 16;
-            // Label
-            TextBlock lbl = new TextBlock();
-            lbl.Text = text;
-            // Add into stack
-            stack.Children.Add(image);
-            stack.Children.Add(lbl);
-            // assign stack to header
-            newTreeViewItem.Header = stack;
-            newTreeViewItem.Tag = data;
-            return newTreeViewItem;
-        }
-
-        //HKEY_LOCAL_MACHINE\SOFTWARE\SIMSCI\PRO/II\9.1       
-        private bool IsRegeditExit(string key, ref string proiiexe, ref string proiiini)
-        {
-            bool _exit = false;
-            RegistryKey hkml = Registry.LocalMachine;
-            RegistryKey software = hkml.OpenSubKey("SOFTWARE", true);
-            RegistryKey simsci = software.OpenSubKey("SIMSCI", true);
-            RegistryKey proii = simsci.OpenSubKey("PRO/II", true);
-            RegistryKey info = proii.OpenSubKey(key, true);
-            if (info != null)
-            {
-                proiiexe = info.GetValue("SecDir").ToString() + @"\Proii.exe";
-                proiiini = info.GetValue("SecIni").ToString();
-                _exit = true;
-            }
-            return _exit;
         }
 
         private void MainWindowApp_Loaded(object sender, RoutedEventArgs e)
-        {
-            treeList = new List<TreeViewItemData>();
-            version = ConfigurationManager.AppSettings["version"];
-            defaultReliefProDir = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\" + version + @"\";
-            if (!Directory.Exists(defaultReliefProDir))
-                Directory.CreateDirectory(defaultReliefProDir);
-            tempReliefProWorkDir = System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\" + version + @"\";
-            if (!Directory.Exists(tempReliefProWorkDir))
-                Directory.CreateDirectory(tempReliefProWorkDir);
+        {                       
             initTower();
         }
         private static ManualResetEvent BusinessDone = new ManualResetEvent(false);
@@ -638,63 +479,62 @@ namespace ReliefProMain
             {
                 if (NavigationTreeView.SelectedItem == null)
                     return;
-                TreeViewItem tvi = (TreeViewItem)NavigationTreeView.SelectedItem;
+                TVFileViewModel tvi = (TVFileViewModel)NavigationTreeView.SelectedItem;
                 var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
                 if (firstDocumentPane != null)
                 {
-                    TreeViewItemData data = tvi.Tag as TreeViewItemData;
-                    if (data.Type == 4)
+
+                    bool b = false;
+                    foreach (LayoutDocument d in firstDocumentPane.Children)
                     {
-                        bool b = false;
-                        foreach (LayoutDocument d in firstDocumentPane.Children)
+                        if (d.Description == tvi.tvFile.FullPath)
                         {
-                            if (d.Description == data.FullName)
-                            {
-                                b = true;
-                                d.IsActive = true;
-                            }
-                            else
-                                d.IsActive = false;
+                            b = true;
+                            d.IsActive = true;
                         }
-                        if (!b)
-                        {
-                            //this.busyCtrl.IsBusy = true;
-                            //this.busyCtrl.Text = "Loading Content...";
-                            Task.Factory.StartNew(() =>
-                            {
-                                this.Dispatcher.Invoke(new Action(() =>
-                                {
-                                    this.busyCtrl.IsBusy = true;
-                                    //this.busyCtrl.Text = "Loading Content...";
-                                }));
-
-
-                            }).ContinueWith((t) =>
-                            {
-                                this.Dispatcher.Invoke(new Action(() =>
-                                {
-                                    LayoutDocument doc = new LayoutDocument();
-                                    doc.Title = data.Text;
-                                    doc.Description = data.FullName;
-                                    doc.IsActive = true;
-                                    UCDrawingControl ucDrawingControl = new UCDrawingControl();
-                                    doc.Content = ucDrawingControl;
-                                    ucDrawingControl.Tag = data;
-                                    firstDocumentPane.Children.Add(doc);
-                                    visioControl = ucDrawingControl.visioControl;
-
-                                }));
-                            }).ContinueWith((t) =>
-                            {
-
-                                this.Dispatcher.Invoke(new Action(() =>
-                                {
-                                    this.busyCtrl.IsBusy = false;
-                                }));
-                            });
-                            // BusinessDone.WaitOne();
-                        }
+                        else
+                            d.IsActive = false;
                     }
+                    if (!b)
+                    {
+                        //this.busyCtrl.IsBusy = true;
+                        //this.busyCtrl.Text = "Loading Content...";
+                        Task.Factory.StartNew(() =>
+                        {
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                this.busyCtrl.IsBusy = true;
+                                //this.busyCtrl.Text = "Loading Content...";
+                            }));
+
+
+                        }).ContinueWith((t) =>
+                        {
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                LayoutDocument doc = new LayoutDocument();
+                                doc.Title = tvi.Name;
+                                doc.Description = tvi.tvFile.FullPath;
+                                doc.IsActive = true;
+                                UCDrawingControl ucDrawingControl = new UCDrawingControl();
+                                doc.Content = ucDrawingControl;
+                                ucDrawingControl.Tag = tvi;
+                                
+                                firstDocumentPane.Children.Add(doc);
+                                visioControl = ucDrawingControl.visioControl;
+
+                            }));
+                        }).ContinueWith((t) =>
+                        {
+
+                            this.Dispatcher.Invoke(new Action(() =>
+                            {
+                                this.busyCtrl.IsBusy = false;
+                            }));
+                        });
+                        // BusinessDone.WaitOne();
+                    }
+
 
                 }
             }
@@ -705,28 +545,35 @@ namespace ReliefProMain
 
         private void NavigationTreeView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var treeViewItem = VisualUpwardSearch<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem;
+            var treeViewItem = VisualUpwardSearch<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem ;
+
             if (treeViewItem != null)
             {
-                treeViewItem.Focus();
+                //treeViewItem.Focus();
                 e.Handled = true;
-                TreeViewItemData data = new TreeViewItemData();
-                if (treeViewItem.Tag != null)
-                {
-                    data = treeViewItem.Tag as TreeViewItemData;
-                }
+
+
                 ContextMenu rmenu = (ContextMenu)this.Resources["RightContextMenu"];
-                if (data.Type == 1)
+
+
+                if (treeViewItem.Header.GetType() == typeof(TVPlantViewModel))
                 {
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 1; i < 3; i++)
                     {
                         MenuItem item = (MenuItem)rmenu.Items[i];
                         item.IsEnabled = true;
                     }
                     MenuItem item2 = (MenuItem)rmenu.Items[3];
                     item2.IsEnabled = false;
+                    MenuItem item1 = (MenuItem)rmenu.Items[0];
+                    item1.IsEnabled = false;
+
+                    MenuItem item4 = (MenuItem)rmenu.Items[4];
+                    item4.IsEnabled = true;
                 }
-                if (data.Type == 2)
+
+
+                else if (treeViewItem.Header.GetType() == typeof(TVUnitViewModel))
                 {
                     for (int i = 0; i < 4; i++)
                     {
@@ -737,8 +584,10 @@ namespace ReliefProMain
                     item2.IsEnabled = true;
                     MenuItem item1 = (MenuItem)rmenu.Items[0];
                     item1.IsEnabled = true;
+                    MenuItem item4 = (MenuItem)rmenu.Items[4];
+                    item4.IsEnabled = true;
                 }
-                if (data.Type == 4 || data.Type == 3)
+                else if (treeViewItem.Header.GetType() == typeof(TVPSViewModel))
                 {
                     for (int i = 0; i < 4; i++)
                     {
@@ -747,6 +596,18 @@ namespace ReliefProMain
                     }
                     MenuItem item1 = (MenuItem)rmenu.Items[0];
                     item1.IsEnabled = true;
+
+                    MenuItem item4 = (MenuItem)rmenu.Items[4];
+                    item4.IsEnabled = true;
+                }
+                else
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        MenuItem item = (MenuItem)rmenu.Items[i];
+                        item.IsEnabled = false;
+                    }
+                    
                 }
 
 
@@ -766,11 +627,11 @@ namespace ReliefProMain
         {
             if (NavigationTreeView.SelectedItem == null)
                 return;
-            TreeViewItem tvi = (TreeViewItem)NavigationTreeView.SelectedItem;
+            TVPlantViewModel tvi = (TVPlantViewModel)NavigationTreeView.SelectedItem;
             ImportDataView imptdata = new ImportDataView();
-            TreeViewItemData data = tvi.Tag as TreeViewItemData;
-            imptdata.dirInfo = data.FullName;
-            imptdata.SessionPlant = SessionPlant;
+            
+            imptdata.dirInfo = tvi.tvPlant.FullPath;
+            imptdata.SessionPlant = tvi.SessionPlant;
             imptdata.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             imptdata.Owner = this;
@@ -781,33 +642,23 @@ namespace ReliefProMain
         public void CreateUnit(object sender, RoutedEventArgs e)
         {
             if (NavigationTreeView.SelectedItem == null)
-                return;
-            TreeViewItem tvi = (TreeViewItem)NavigationTreeView.SelectedItem;
-            TreeViewItemData data = tvi.Tag as TreeViewItemData;
-            NHibernateHelper helperProtectedSystem = new NHibernateHelper(data.dbPlantFile);
-            SessionPlant = helperProtectedSystem.GetCurrentSession();
-
-            CreateUnitView v = new CreateUnitView();
-            CreateUnitVM vm = new CreateUnitVM(SessionPlant,data.FullName);
-            v.DataContext = vm;
-            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
-            v.Owner = this;
-            if (v.ShowDialog() == true)
+                return;            
+            if (NavigationTreeView.SelectedItem.GetType() == typeof(TVPlantViewModel))
             {
+                TVPlantViewModel p = NavigationTreeView.SelectedItem as TVPlantViewModel;
+                CreateUnitView v = new CreateUnitView();
+                CreateUnitVM vm = new CreateUnitVM(p.SessionPlant, p.tvPlant.FullPath);
+                v.DataContext = vm;
+                v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-                TreeViewItem itemUnit = GetTreeViewItem(vm.UnitName, vm.dirUnit, 2, "images/pt.ico", data.dbPlantFile, null);
-                tvi.Items.Add(itemUnit);
-
-                TreeViewItem itemProtectSystem = GetTreeViewItem("ProtectedSystem1", vm.dirProtectedSystem, 3, "images/ps.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
-                itemUnit.Items.Add(itemProtectSystem);
-
-                TreeViewItem itemProtectSystemfile = GetTreeViewItem("ProtectedSystem1", vm.visioProtectedSystem, 4, "images/ps.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
-                itemProtectSystem.Items.Add(itemProtectSystemfile);
-
-                itemUnit.ExpandSubtree();
-
-                
+                v.Owner = this;
+                if (v.ShowDialog() == true)
+                {
+                    TVUnit tvUnit=vm.tvUnit;
+                    tvUnit.dbPlantFile=p.tvPlant.dbPlantFile;
+                    TVUnitViewModel unit = new TVUnitViewModel(tvUnit, p);
+                    p.Children.Add(unit);
+                }
             }
 
         }
@@ -816,29 +667,22 @@ namespace ReliefProMain
         {
             if (NavigationTreeView.SelectedItem == null)
                 return;
-            TreeViewItem tvi = (TreeViewItem)NavigationTreeView.SelectedItem;
-            TreeViewItemData data = tvi.Tag as TreeViewItemData;
-            NHibernateHelper helperProtectedSystem = new NHibernateHelper(data.dbPlantFile);
-            SessionPlant = helperProtectedSystem.GetCurrentSession();
-            TreeUnitDAL treeUnitDAL = new TreeUnitDAL();
-            TreeUnit treeUnit = treeUnitDAL.GetModel(SessionPlant, data.Text);
-
-            CreateProtectedSystemView v = new CreateProtectedSystemView();
-
-            CreateProtectedSystemVM vm = new CreateProtectedSystemVM(SessionPlant, treeUnit.ID,data.FullName);
-            v.DataContext = vm;
-            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
-            v.Owner = this;
-            if (v.ShowDialog() == true)
+            if (NavigationTreeView.SelectedItem.GetType() == typeof(TVUnitViewModel))
             {
-                TreeViewItem itemProtectSystem = GetTreeViewItem(vm.ProtectedSystemName, vm.dirProtectedSystem, 3, "images/ps.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
-                tvi.Items.Add(itemProtectSystem);
+                TVUnitViewModel p = NavigationTreeView.SelectedItem as TVUnitViewModel;
+                CreateProtectedSystemView v = new CreateProtectedSystemView();
+                CreateProtectedSystemVM vm = new CreateProtectedSystemVM(p.SessionPlant, p.tvUnit.ID, p.tvUnit.FullPath);
+                v.DataContext = vm;
+                v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-                TreeViewItem itemProtectSystemfile = GetTreeViewItem(vm.ProtectedSystemName, vm.visioProtectedSystem, 4, "images/file.ico", data.dbPlantFile, vm.dbProtectedSystemFile);
-                itemProtectSystem.Items.Add(itemProtectSystemfile);
-
-                itemProtectSystem.ExpandSubtree();
+                v.Owner = this;
+                if (v.ShowDialog() == true)
+                {
+                    TVPS tvPS = vm.tvPS;
+                    tvPS.dbPlantFile = p.tvUnit.dbPlantFile;
+                    TVPSViewModel ps = new TVPSViewModel(tvPS, p);
+                    p.Children.Add(ps);
+                }
             }
 
             
@@ -847,53 +691,135 @@ namespace ReliefProMain
 
         public void ReName(object sender, RoutedEventArgs e)
         {
-
             if (NavigationTreeView.SelectedItem == null)
                 return;
-            TreeViewItem tvi = (TreeViewItem)NavigationTreeView.SelectedItem;
-            TreeViewItemData data = tvi.Tag as TreeViewItemData;
-            ReNameView v = new ReNameView();
-
-            StackPanel SP = (StackPanel)tvi.Header;
-
-            foreach (UIElement uie in SP.Children)
+            var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+            if (firstDocumentPane != null)
             {
-                if (uie.GetType().ToString() == "TextBlock")
+                if (firstDocumentPane.Children.Count > 0)
                 {
-                    TextBlock lbl = (TextBlock)uie;
-                    lbl.Text = "TEST";
+                    MessageBox.Show("Please Close all documents","Message Box");
+                    return;
+                }
+
+                
+                
+            }
+            
+            ReNameView v = new ReNameView();
+            ReNameVM vm = null;
+            if(NavigationTreeView.SelectedItem.GetType()==typeof(TVUnitViewModel))
+            {
+                TVUnitViewModel u = NavigationTreeView.SelectedItem as TVUnitViewModel;
+                vm = new ReNameVM(u.Name, u.tvUnit.FullPath, 1);
+                v.DataContext = vm;
+                v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                if (v.ShowDialog() == true)
+                {
+                    u.Name = vm.Name;
+                    TreeUnitDAL treeUnitDal = new TreeUnitDAL();
+                    TreeUnit treeU = treeUnitDal.GetModel(u.SessionPlant, vm.OldName);
+                    treeU.UnitName = u.Name;
+                    treeUnitDal.Update(treeU, u.SessionPlant);
+                    u.SessionPlant.Flush();
                 }
             }
-            NavigationTreeView.SetValue(;
-
-
-            //ReNameVM vm = new ReNameVM(data.Text, data.FullName, data.Type);
-            //v.DataContext = vm;
-           // v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            if (v.ShowDialog() == true)
+            else if (NavigationTreeView.SelectedItem.GetType() == typeof(TVPSViewModel))
             {
-                //data.Text = vm.NewName;
-                //data.FullName = vm.NewDir;
+                TVPSViewModel ps = NavigationTreeView.SelectedItem as TVPSViewModel;
+                vm = new ReNameVM(ps.Name, ps.tvPS.FullPath, 2);
+                v.DataContext = vm;
+                v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
+                DirectoryInfo unitDI = Directory.GetParent(ps.tvPS.FullPath);
+                TreeUnitDAL treeUnitDal = new TreeUnitDAL();
+                TreeUnit treeU = treeUnitDal.GetModel(ps.SessionPlant,unitDI.Name);
 
-                //StackPanel SP = (StackPanel)tvi.Header;
-                //foreach (UIElement uie in SP.Children)
-                //{
-                //    if (uie.GetType().ToString() == "TextBlock")
-                //    {
-                //        TextBlock lbl = (TextBlock)uie;
-                //        lbl.Text = data.Text;
-                //    }
-                //}
-                //tvi.Header = SP;
-
+                if (v.ShowDialog() == true)
+                {
+                    ps.Name = vm.Name;
+                    TreePSDAL treePSDal = new TreePSDAL();
+                    TreePS treep = treePSDal.GetModel(ps.SessionPlant,treeU.ID,vm.OldName);
+                    treep.PSName = ps.Name;
+                    treePSDal.Update(treep, ps.SessionPlant);
+                    ps.SessionPlant.Flush();
+                }
             }
+            
+
+            
+            
 
 
 
         }
 
+        public void RemoveNode(object sender, RoutedEventArgs e)
+        {
+            if (NavigationTreeView.SelectedItem == null)
+                return;
+            var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+            if (firstDocumentPane != null)
+            {
+                if (firstDocumentPane.Children.Count > 0)
+                {
+                    MessageBox.Show("Please Close all documents", "Message Box");
+                    return;
+                }
+            }
 
+            ReNameView v = new ReNameView();
+            ReNameVM vm = null;
+            if (NavigationTreeView.SelectedItem.GetType() == typeof(TVUnitViewModel))
+            {
+                TVUnitViewModel u = NavigationTreeView.SelectedItem as TVUnitViewModel;
+                MessageBoxResult result = MessageBox.Show("Are your sure remove this Unit and its Protected System?", "Message Box", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    TVPlantViewModel p = u.Parent as TVPlantViewModel;
+                    p.Children.Remove(u);   //从集合中删除
+
+                    TreeUnitDAL treeUnitDal = new TreeUnitDAL();
+                    TreeUnit treeU = treeUnitDal.GetModel(u.tvUnit.ID, u.SessionPlant);
+                    foreach (TreeViewItemViewModel m in u.Children)
+                    {
+                        TVPSViewModel ps = m as TVPSViewModel;
+                        TreePSDAL treePSDal = new TreePSDAL();
+                        TreePS treep = treePSDal.GetModel(u.SessionPlant, treeU.ID, ps.Name);
+                        treePSDal.Delete(treep, ps.SessionPlant);        //db删除unit下的ps                
+                    }
+                    treeUnitDal.Delete(treeU, u.SessionPlant); //db删除unit
+                    Directory.Delete(u.tvUnit.FullPath, true);//删除unit对应的文件夹
+
+                }
+            }
+            else if (NavigationTreeView.SelectedItem.GetType() == typeof(TVPSViewModel))
+            {
+                TVPSViewModel ps = NavigationTreeView.SelectedItem as TVPSViewModel;
+                DirectoryInfo unitDI = Directory.GetParent(ps.tvPS.FullPath);
+                TreeUnitDAL treeUnitDal = new TreeUnitDAL();
+                TreeUnit treeU = treeUnitDal.GetModel(ps.SessionPlant, unitDI.Name);
+                MessageBoxResult result = MessageBox.Show("Are your sure remove this Protected System?", "Message Box", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    TVUnitViewModel u = ps.Parent as TVUnitViewModel;
+                    u.Children.Remove(ps);
+
+                    TreePSDAL treePSDal = new TreePSDAL();
+                    TreePS treep = treePSDal.GetModel(ps.SessionPlant, treeU.ID, ps.Name);
+                    treePSDal.Delete(treep, ps.SessionPlant);
+                    Directory.Delete(ps.tvPS.FullPath, true);         
+                }
+
+            }
+
+
+
+
+
+
+
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -901,16 +827,7 @@ namespace ReliefProMain
             {
                 Button item = (Button)sender;
                 switch (item.ToolTip.ToString())
-                {
-                    case "Open Plant":
-                        OpenPlant();
-                        break;
-                    case "New Plant":
-                        CreatePlant();
-                        break;
-                    case "Save Plant":
-                        SavePlant();
-                        break;
+                {                    
                     case "Global Default":
                         OpenGloadDefalut();
                         break;
@@ -919,6 +836,9 @@ namespace ReliefProMain
                         break;
                     case "UOM":
                         OpenUOM();
+                        break;
+                    case "Save Plant":
+                        SavePlant();
                         break;
 
                 }
@@ -935,7 +855,43 @@ namespace ReliefProMain
 
         }
 
+        private TVPlantViewModel GetCurrentPlant()
+        {
+            TVPlantViewModel p = null;
+            ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;            
+            if (list.Count == 1)
+            {
+                p = list[0];
 
+            }
+            else if (NavigationTreeView.SelectedItem == null)
+            {
+                p = null;
+            }
+            else if (NavigationTreeView.SelectedItem.GetType() == typeof(TVPlantViewModel))
+            {
+                p = NavigationTreeView.SelectedItem as TVPlantViewModel;
+            }
+            else if (NavigationTreeView.SelectedItem.GetType() == typeof(TVUnitViewModel))
+            {
+                TVUnitViewModel u = NavigationTreeView.SelectedItem as TVUnitViewModel;
+                p = u.Parent as TVPlantViewModel;
+            }
+            else if (NavigationTreeView.SelectedItem.GetType() == typeof(TVPSViewModel))
+            {
+                TVPSViewModel ps = NavigationTreeView.SelectedItem as TVPSViewModel;
+                p = ps.Parent.Parent as TVPlantViewModel;
+            }
+            else if (NavigationTreeView.SelectedItem.GetType() == typeof(TVFileViewModel))
+            {
+                TVFileViewModel f = NavigationTreeView.SelectedItem as TVFileViewModel;
+                p = f.Parent.Parent.Parent as TVPlantViewModel;
+            }
+            return p;
+        }
+
+
+       
     }
     
 

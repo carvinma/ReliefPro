@@ -51,6 +51,7 @@ namespace ReliefProMain.View
         string curprzFile = string.Empty;
         string FileNameNoExt = string.Empty;
         bool isCanImport = false;
+        bool isImportSucess = false;
         private void btnImport_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlgOpenDiagram = new Microsoft.Win32.OpenFileDialog();
@@ -136,7 +137,7 @@ namespace ReliefProMain.View
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
             dbPlantFile = dirInfo + @"\plant.mdb";
-            
+            dal = new SourceFileDAL();
         }
         
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -179,6 +180,18 @@ namespace ReliefProMain.View
                 df.FileNameNoExt = FileNameNoExt;
                 dal.Add(df, SessionPlant);
 
+                ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
+                foreach (ProIIEqData data in eqListData)
+                {
+                    dbEq.Add(data, SessionPlant);
+                }
+
+                ProIIStreamDataDAL dbStream = new ProIIStreamDataDAL();
+                foreach (ProIIStreamData data in streamListData)
+                {
+                    dbStream.Add(data, SessionPlant);
+                }
+                isImportSucess = true;
                 backgroundWorker.ReportProgress(100);
                 
             }
@@ -189,6 +202,8 @@ namespace ReliefProMain.View
                 using (StreamWriter writer = new StreamWriter("log.txt",true))
                 {
                     writer.WriteLine(ex.ToString());
+                    backgroundWorker.ReportProgress(100);
+                    isImportSucess = false;
                 }
             }
 
@@ -199,28 +214,17 @@ namespace ReliefProMain.View
         }
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            try
+            if (isImportSucess)
             {
-                using (var helper = new NHibernateHelper(dbPlantFile))
-                {
-                    ISession Session = helper.GetCurrentSession();
-                    ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
-                    foreach (ProIIEqData data in eqListData)
-                    {
-                        dbEq.Add(data, Session);
-                    }
-
-                    ProIIStreamDataDAL dbStream = new ProIIStreamDataDAL();
-                    foreach (ProIIStreamData data in streamListData)
-                    {
-                        dbStream.Add(data, Session);
-                    }
-                }
+                MessageBox.Show("Data is imported sucessfully!", "Message Box");
+                this.DialogResult = true;
             }
-            catch (Exception ex)
+            else
             {
+                MessageBox.Show("Data is imported failed!", "Message Box");
+                this.DialogResult = false;
             }
-            this.DialogResult = true;
+            
         }
 
         private void MetroWindow_Closing_1(object sender, CancelEventArgs e)

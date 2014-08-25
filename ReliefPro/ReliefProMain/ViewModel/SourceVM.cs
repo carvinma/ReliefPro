@@ -19,9 +19,9 @@ namespace ReliefProMain.ViewModel
 {
     public class SourceVM : ViewModelBase
     {
-        private ISession SessionPlant { set; get; }
-        private ISession SessionProtectedSystem { set; get; }
-        private SourceFile SourceFileInfo; 
+        public ISession SessionPlant { set; get; }
+        public ISession SessionProtectedSystem { set; get; }
+        public SourceFile SourceFileInfo; 
         private string pressureUnit;
         public string PressureUnit
         {
@@ -35,7 +35,19 @@ namespace ReliefProMain.ViewModel
         public int ID { get; set; }
         public string SourceName { get; set; }
         public string Description { get; set; }
-        public string SourceType { get; set; }
+
+        private string _SourceType;
+        public string SourceType 
+        { get
+            {
+                return this._SourceType;
+            }
+            set
+            {
+                this._SourceType = value;
+                OnPropertyChanged("SourceType");
+            }
+        }
         private double? maxPossiblePressure;
         public double? MaxPossiblePressure
         {
@@ -64,7 +76,12 @@ namespace ReliefProMain.ViewModel
             set
             {
                 this._IsSteam = value;
+                if (this._IsSteam)
+                {
+                    SourceType = "Pressurized Vessel";
+                }
                 OnPropertyChanged("IsSteam");
+
             }
         }
         public bool _IsHeatSource;
@@ -117,6 +134,7 @@ namespace ReliefProMain.ViewModel
             IsSteam = source.IsSteam;
             IsHeatSource = source.IsHeatSource;
             ID = source.ID;
+            
             //ReadConvert();
         }
 

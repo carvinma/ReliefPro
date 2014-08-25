@@ -273,7 +273,7 @@ namespace ReliefProMain.ViewModel
                 HX.HXName = HXName;
                 HX.Duty = Duty;
                 HX.HXType = HXType;
-                HX.SourceFile = SourceFileInfo.FileName;
+                HX.SourceFile = FileName;
                
                 dbHX.Add(HX, SessionProtectedSystem);
 

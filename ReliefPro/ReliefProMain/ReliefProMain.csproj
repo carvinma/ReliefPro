@@ -222,6 +222,7 @@
     <Compile Include="Models\TowerModel.cs" />
     <Compile Include="Models\TowerScenarioHXModel.cs" />
     <Compile Include="Models\TowerScenarioStreamModel.cs" />
+    <Compile Include="Models\TreeDataModel.cs" />
     <Compile Include="ProIIFactory.cs" />
     <Compile Include="ProIIToDefault.cs" />
     <Compile Include="Service\ServiceProvider.cs" />
@@ -292,6 +293,11 @@
     <Compile Include="ViewModel\Trees\PlantVM.cs" />
     <Compile Include="ViewModel\Trees\PSVM.cs" />
     <Compile Include="ViewModel\SelectPathVM.cs" />
+    <Compile Include="ViewModel\TreeViewItemViewModel.cs" />
+    <Compile Include="ViewModel\TVFileViewModel.cs" />
+    <Compile Include="ViewModel\TVPlantViewModel.cs" />
+    <Compile Include="ViewModel\TVPSViewModel.cs" />
+    <Compile Include="ViewModel\TVUnitViewModel.cs" />
     <Compile Include="View\Common\FireView.xaml.cs">
       <DependentUpon>FireView.xaml</DependentUpon>
     </Compile>
@@ -508,6 +514,9 @@
     <Compile Include="View\Towers\TowerScenarioHXView.xaml.cs">
       <DependentUpon>TowerScenarioHXView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Window1.xaml.cs">
+      <DependentUpon>Window1.xaml</DependentUpon>
+    </Compile>
     <Page Include="CustomControl\ReportViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -532,8 +541,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Window1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Resource Include="Images\report.ico" />
     <Resource Include="Images\uom.ico" />
+    <Resource Include="Images\PSVd.ico" />
+    <Resource Include="Images\Scenario.ico" />
     <Content Include="Resources\Langs\en-US.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -901,7 +916,7 @@
     <Resource Include="Images\PSVManager.ico" />
     <Resource Include="Images\PSVSizing.ico" />
     <Resource Include="Images\reactorLoop.ico" />
-    <Resource Include="Images\Scenario.ico" />
+    <Resource Include="Images\Scenario2.ico" />
     <Resource Include="Images\ShowHide.ico" />
     <Resource Include="Images\StorageTank.ico" />
     <Resource Include="Images\app.png" />
@@ -928,7 +943,6 @@
     <Resource Include="Images\back.png" />
     <Resource Include="Images\calculator.ico" />
     <Resource Include="Images\cancel.png" />
-    <Resource Include="Images\casestudy.ico" />
     <Resource Include="Images\closeplant.ico" />
     <Resource Include="Images\closeplant.png" />
     <Resource Include="Images\compute.ico" />
@@ -939,7 +953,6 @@
     <Resource Include="Images\openplant.png" />
     <Resource Include="Images\plant.ico" />
     <Resource Include="Images\project.ico" />
-    <Resource Include="Images\property.png" />
     <Resource Include="Images\property_icon.gif" />
     <Resource Include="Images\property_icon.png" />
     <Resource Include="Images\question.ico" />

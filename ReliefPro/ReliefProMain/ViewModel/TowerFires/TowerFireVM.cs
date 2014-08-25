@@ -305,7 +305,7 @@ namespace ReliefProMain.ViewModel.TowerFires
 
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionProtectedSystem);
-            double pressure = psv.Pressure.Value;
+            double pressure = psv.Pressure;
 
             double reliefFirePressure = pressure * 1.21;
             string tempdir = DirProtectedSystem + @"\temp\";

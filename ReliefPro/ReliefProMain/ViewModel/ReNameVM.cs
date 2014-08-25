@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using ReliefProMain.Commands;
 using System.IO;
+using System.Windows;
+
 namespace ReliefProMain.ViewModel
 {
     public class ReNameVM : ViewModelBase
@@ -13,7 +15,7 @@ namespace ReliefProMain.ViewModel
        
         public string OldDir { get; set; } 
         public int Type{ get; set; }
-        private string OldName { get; set; }
+        public string OldName { get; set; }
         public string NewName { get; set; }
         public string NewDir { get; set; } 
         private string _Name;
@@ -55,29 +57,33 @@ namespace ReliefProMain.ViewModel
         
         private void Save(object window)
         {
-            if (OldName != Name)
+            if (OldName.ToLower().Trim() == Name.ToLower().Trim())
+            {
+                MessageBox.Show("Please give a different name!", "Message Box");
+                return;
+            }
+            else
             {
                 string dirParent = System.IO.Path.GetDirectoryName(OldDir);
                 NewDir = dirParent + @"\" + Name;
-                bool isExist=Directory.Exists(NewDir);
+                bool isExist = Directory.Exists(NewDir);
                 if (isExist)
                 {
+                    MessageBox.Show("Please give a different name,it contains a same name!", "Message Box");
+                    return;
+                }
 
-                }
-                else
-                {                   
-                    Directory.Move(OldDir, NewDir);
-                    //Directory.Delete(OldDir, true);
-                    
+                Directory.Move(OldDir, NewDir);
+                System.Windows.Window wd = window as System.Windows.Window;
+
+                if (wd != null)
+                {
+                    wd.DialogResult = true;
                 }
             }
             
-            System.Windows.Window wd = window as System.Windows.Window;
             
-            if (wd != null)
-            {
-                wd.DialogResult = true;
-            }
+            
         }
 
     }

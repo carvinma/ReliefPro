@@ -68,7 +68,7 @@ namespace ReliefProMain.ViewModel.Compressors
         {
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionPS);
-            double PDesign = psv.ReliefPressureFactor.Value * psv.Pressure.Value;
+            double PDesign = psv.ReliefPressureFactor * psv.Pressure;
             double QNormal = model.InletLoad.Value;
             double PressureNormal = model.OutletPressure.Value;
             double QSurgeNormal = model.SurgeLoad.Value;

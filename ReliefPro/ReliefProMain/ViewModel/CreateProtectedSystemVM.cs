@@ -10,6 +10,7 @@ using NHibernate;
 using ReliefProDAL;
 using ReliefProModel;
 using System.Windows;
+using ReliefProMain.Models;
 
 namespace ReliefProMain.ViewModel
 {
@@ -21,7 +22,7 @@ namespace ReliefProMain.ViewModel
         public string dirProtectedSystem{ get; set; }
         public string visioProtectedSystem { get; set; }
         public string dbProtectedSystemFile { get; set; }
-
+        public TVPS tvPS { get; set; } 
         private int UnitID;
         private string _ProtectedSystemName;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
@@ -103,6 +104,12 @@ namespace ReliefProMain.ViewModel
             dbProtectedSystemFile = dbProtectedSystem_target;
             dirProtectedSystem = protectedsystem1;
             visioProtectedSystem = visioProtectedSystem_target;
+
+            tvPS = new TVPS();
+            tvPS.dbProtectedSystemFile = dbProtectedSystem_target;
+            tvPS.FullPath = dirProtectedSystem;
+            tvPS.Name = ProtectedSystemName;
+
 
             System.Windows.Window wd = window as System.Windows.Window;
             if (wd != null)

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"        
         xmlns:winformsIntegration="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+        xmlns:local="clr-namespace:ReliefProMain.ViewModel"
         Title="MainWindow"  Height="800" Width="1200" Name="MainWindowApp" Loaded="MainWindowApp_Loaded"
         xmlns:s="clr-namespace:BusyIndicatorCtrl;assembly=BusyIndicatorCtrl"
         Closing="MainWindowApp_Closing" Icon="Images/app.ico" >
@@ -14,6 +15,7 @@
                 <MenuItem Header="New Unit" Click="CreateUnit"  Name="ritem1" Background="#cbdbea"/>
                 <MenuItem Header="Import Data" Click="ImportDataFromOther"  Name="ritem2"  Background="#cbdbea"/>
                 <MenuItem Header="New Protected System" Click="CreateProtectedSystem"  Name="ritem3"  Background="#cbdbea"/>
+                <MenuItem Header="Remove" Click="RemoveNode"  Name="ritem4"  Background="#cbdbea"/>
             </ContextMenu>
         </ResourceDictionary>
     </Window.Resources>
@@ -33,22 +35,22 @@
                 <Menu Padding="0" Background="#cbdbea" >
 
                     <MenuItem Header="File" Background="#cbdbea" >
-                        <MenuItem Click="MenuItem_Click" Header="New Plant" />
+                        <MenuItem Command="{Binding NewPlantCommand}" Header="New Plant" />
                         <Separator />
-                        <MenuItem Click="MenuItem_Click" Header="Open Plant" />
+                        <MenuItem Command="{Binding OpenPlantCommand}" Header="Open Plant" />
                         <Separator/>
                         <MenuItem Click="MenuItem_Click" Header="Save Plant" />
                         <MenuItem Click="MenuItem_Click" Header="Save As" />
                         <Separator/>
-                        <MenuItem Click="MenuItem_Click" Header="Close Plant"/>
+                        <MenuItem Command="{Binding ClosePlantCommand}" Header="Close Plant"/>
                         <Separator/>
                         <MenuItem Click="MenuItem_Click" Header="Exit"/>
                     </MenuItem>
                     <MenuItem Header="Tools" Background="#cbdbea" >
                         <MenuItem Header="Units Of Measure" Click="OnloadUnitOfMeasure" />
-                        <MenuItem Header="Save" Background="#cbdbea">
-                            <MenuItem Header="Layout_1" Click="OnSaveLayout" />
-                        </MenuItem>
+                        <MenuItem Header="Plant Explorer"  Click="OnShowPlantExplorer" />
+                        <MenuItem Header="ICON"  Click="OnShowICON" />
+                       
                     </MenuItem>
                     <MenuItem Header="Help" Background="#cbdbea">
                         <MenuItem Header="Help" Background="#cbdbea"/>
@@ -68,31 +70,36 @@
                         <ToolBar.Background>
                             <SolidColorBrush Color="#cbdbea"/>
                         </ToolBar.Background>
-                        <Button Name="btnNewPlant" ToolTip="New Plant" VerticalAlignment="Center" Click="Button_Click" >
+                        <Button Name="btnNewPlant" ToolTip="New Plant" VerticalAlignment="Center" Command="{Binding NewPlantCommand}" >
                             <Image Source="images/newplant.ico"  Height="24" Width="24"></Image>
                         </Button>
-                        <Button Name="btnOpenPlant" ToolTip="Open Plant" VerticalAlignment="Center" Click="Button_Click">
+                        <Button Name="btnOpenPlant" ToolTip="Open Plant" VerticalAlignment="Center" Command="{Binding OpenPlantCommand}">
                             <Image Source="images/openplant.ico"  Height="24" Width="24"></Image>
                         </Button>
-                        <Button Name="btnClosePlant" ToolTip="Close Plant" VerticalAlignment="Center"  Click="Button_Click">
+                        <Button Name="btnClosePlant" ToolTip="Close Plant" VerticalAlignment="Center"  Command="{Binding ClosePlantCommand}">
                             <Image Source="images/closeplant.ico"   Height="24" Width="24"></Image>
                         </Button>
-                        <Separator/>
+                       
                         <Button Name="btnSaveProject" ToolTip="Save Plant" VerticalAlignment="Center"  Click="Button_Click">
                             <Image Source="images/save.ico"   Height="24" Width="24"></Image>
                         </Button>
-
-                        <Button Name="btnUOM" ToolTip="UOM" VerticalAlignment="Center" Click="Button_Click" >
-                            <Image Source="/images/uom.ico" Height="24" Width="24"  ></Image>
-                        </Button>
-
                         <Separator/>
-                        <Button Name="btnGlobalDefault" ToolTip="Global Default" VerticalAlignment="Center"  Click="Button_Click">
-                            <Image Source="/images/GlobalDefault.ico"   Height="24" Width="24"></Image>
+                        <Button  ToolTip="Import Simulation" VerticalAlignment="Center"  Click="Button_Click">
+                            <Image Source="images/ImportSimulation.ico"   Height="24" Width="24"></Image>
                         </Button>
                         <Button Name="btnReport" ToolTip="Report" VerticalAlignment="Center"  Click="Button_Click">
                             <Image Source="/images/Report.ico"   Height="24" Width="24"></Image>
                         </Button>
+                        <Separator/>
+                        <Button Name="btnUOM" ToolTip="UOM" VerticalAlignment="Center" Click="Button_Click" >
+                            <Image Source="/images/uom.ico" Height="24" Width="24"  ></Image>
+                        </Button>
+
+                        
+                        <Button Name="btnGlobalDefault" ToolTip="Global Default" VerticalAlignment="Center"  Click="Button_Click">
+                            <Image Source="/images/GlobalDefault.ico"   Height="24" Width="24"></Image>
+                        </Button>
+                       
 
 
                     </ToolBar>
@@ -109,16 +116,60 @@
                     <avalonDock:LayoutPanel >
                         <avalonDock:LayoutAnchorablePaneGroup DockWidth="220" >
                             <avalonDock:LayoutAnchorablePane >
-                                <avalonDock:LayoutAnchorable   x:Name="Navigation"  ContentId="Navigation" Title="Plant Explorer" ToolTip="Plant Explorer" CanHide="False" CanClose="False" >
-                                    <TreeView Background="#ecf1f6"  VerticalAlignment="Stretch" Name="NavigationTreeView"   MouseDoubleClick="NavigationTreeView_MouseDoubleClick" ContextMenu="{StaticResource RightContextMenu}" PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
-                                        <TreeView.ItemTemplate >
-                                            <HierarchicalDataTemplate>
-                                                <StackPanel Orientation="Horizontal"  Background="#ecf1f6" >
-                                                    <Image Margin="0,0,10,0"   />
-                                                    <TextBlock Background="#ecf1f6"  />
+                                <avalonDock:LayoutAnchorable   x:Name="Navigation"  ContentId="Navigation" Title="Plant Explorer" ToolTip="Plant Explorer"   Hiding="OnToolWindow1Hiding" >
+                                    <TreeView Background="#ecf1f6" ItemsSource="{Binding Plants}"  VerticalAlignment="Stretch" Name="NavigationTreeView"   MouseDoubleClick="NavigationTreeView_MouseDoubleClick" ContextMenu="{StaticResource RightContextMenu}" PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
+                                        <TreeView.ItemContainerStyle>
+                                            <!-- 
+        This Style binds a TreeViewItem to a TreeViewItemViewModel. 
+        -->
+                                            <Style TargetType="{x:Type TreeViewItem}">
+                                                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                                <Setter Property="FontWeight" Value="Normal" />
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter Property="FontWeight" Value="Bold" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TreeView.ItemContainerStyle>
+                                        <TreeView.Resources>
+                                            <HierarchicalDataTemplate 
+          DataType="{x:Type local:TVPlantViewModel}" 
+          ItemsSource="{Binding Children}"
+          >
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Width="16" Height="16" Margin="3,0" Source="Images\pt.ico" />
+                                                    <TextBlock Text="{Binding Name}" />
                                                 </StackPanel>
                                             </HierarchicalDataTemplate>
-                                        </TreeView.ItemTemplate>
+
+                                            <HierarchicalDataTemplate 
+          DataType="{x:Type local:TVUnitViewModel}" 
+          ItemsSource="{Binding Children}"
+          >
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Width="16" Height="16" Margin="3,0" Source="Images\un.ico" />
+                                                    <TextBlock Text="{Binding Name}" />
+                                                </StackPanel>
+                                            </HierarchicalDataTemplate>
+
+                                            <HierarchicalDataTemplate 
+          DataType="{x:Type local:TVPSViewModel}" 
+          ItemsSource="{Binding Children}"
+          >
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Width="16" Height="16" Margin="3,0" Source="Images\ps.ico" />
+                                                    <TextBlock Text="{Binding Name}" />
+                                                </StackPanel>
+                                            </HierarchicalDataTemplate>
+                                            <DataTemplate DataType="{x:Type local:TVFileViewModel}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Width="16" Height="16" Margin="3,0" Source="Images\file.ico" />
+                                                    <TextBlock Text="{Binding Name}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </TreeView.Resources>
                                     </TreeView>
                                 </avalonDock:LayoutAnchorable>
                                 <avalonDock:LayoutAnchorable ContentId="toolWindow" Title="ICON" Hiding="OnToolWindow1Hiding"  >
