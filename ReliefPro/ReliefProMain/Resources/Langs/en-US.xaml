@@ -137,7 +137,7 @@
     <s:String x:Key="CentrifugalBlockedViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--CompressorView.xaml-->
-    <s:String x:Key="CompressorViewTitle">Drum</s:String>
+    <s:String x:Key="CompressorViewTitle">Compressor</s:String>
     <s:String x:Key="ImportFromDatabase">Import From Database</s:String>
     <s:String x:Key="Feed">Feed</s:String>
     <s:String x:Key="Product">Product</s:String>
