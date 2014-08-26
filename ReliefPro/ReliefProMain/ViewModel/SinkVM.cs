@@ -87,13 +87,11 @@ namespace ReliefProMain.ViewModel
 
         private void ReadConvert()
         {
-            if (MainModel.MaxPossiblePressure!=null)
-                MainModel.MaxPossiblePressure = UnitConvert.Convert(UOMEnum.Pressure, MainModel.PressureUnit, MainModel.MaxPossiblePressure.Value);
+            MainModel.MaxPossiblePressure = UnitConvert.Convert(UOMEnum.Pressure, MainModel.PressureUnit, MainModel.MaxPossiblePressure);
         }
         private void WriteConvert()
         {
-            if (MainModel.MaxPossiblePressure != null)
-                MainModel.MaxPossiblePressure = UnitConvert.Convert(MainModel.PressureUnit, UOMEnum.Pressure, MainModel.MaxPossiblePressure.Value);
+            MainModel.MaxPossiblePressure = UnitConvert.Convert(MainModel.PressureUnit, UOMEnum.Pressure, MainModel.MaxPossiblePressure);
         }
         private void InitUnit()
         {
