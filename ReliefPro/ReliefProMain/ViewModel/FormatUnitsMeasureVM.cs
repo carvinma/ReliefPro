@@ -29,6 +29,7 @@ namespace ReliefProMain.ViewModel
         private IList<SystemUnit> lstSystemUnit;
         private IList<BasicUnit> lstBasicUnit;
         private IList<BasicUnitDefault> lstBasciUnitDefault;
+        private IList<BasicUnitCurrent> lstBasciUnitCurrent;
         public FormatUnitsMeasureVM()
         {
             unitInfo = new UnitInfo();
@@ -38,6 +39,7 @@ namespace ReliefProMain.ViewModel
             lstBasicUnit = unitInfo.GetBasicUnit();
 
             lstBasciUnitDefault = unitInfo.GetBasicUnitDefault();
+            lstBasciUnitCurrent = unitInfo.GetBasicUnitCurrent();
             lstUnitType = unitInfo.GetUnitType();
             lstSystemUnit = unitInfo.GetSystemUnit();
 
@@ -79,6 +81,21 @@ namespace ReliefProMain.ViewModel
                         model.BasicUnitselectLocation = model.ObBasicUnit[index];
                 }
             }
+        }
+        private int GetUnit(int unitTypeid, int basicid)
+        {
+            if (lstBasciUnitCurrent != null && lstBasciUnitCurrent.Count > 0)
+            {
+                return GetUnitCurrent(unitTypeid);
+            }
+            return GetUnitDefalut(unitTypeid, basicid);
+        }
+        private int GetUnitCurrent(int unitTypeid)
+        {
+            var basciUnitCurrent = lstBasciUnitCurrent.Where(p => p.UnitTypeID == unitTypeid).FirstOrDefault();
+            if (basciUnitCurrent != null)
+                return basciUnitCurrent.SystemUnitID;
+            return 0;
         }
         private int GetUnitDefalut(int unitTypeid, int basicid)
         {
@@ -224,7 +241,10 @@ namespace ReliefProMain.ViewModel
             model.ObcEnthalpy = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 24));
 
             model.ObcFineLength = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 23));
-            model.BasicUnitselectLocation = lstBasicUnit[lstBasicUnit.ToList().FindIndex(p => p.IsDefault == 1)];
+            if (lstBasciUnitCurrent != null && lstBasciUnitCurrent.Count > 0)
+                model.BasicUnitselectLocation = lstBasicUnit.Where(p => p.ID == lstBasciUnitCurrent.First().BasicUnitID).First();
+            else
+                model.BasicUnitselectLocation = lstBasicUnit[lstBasicUnit.ToList().FindIndex(p => p.IsDefault == 1)];
 
             //model.CompositionSelectLocation = lstSystemUnit[int.Parse(lstBasciUnitDefault.Where(s => s.BasicUnitID == model.BasicUnitselectLocation.ID && s.UnitTypeID == 11).Single().SystemUnitID)]; 
             //model.ObcComposition = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 11));
@@ -234,8 +254,19 @@ namespace ReliefProMain.ViewModel
         public void Save(object obj)
         {
             var listCopy = lstBasciUnitDefault.Where(p => p.BasicUnitID == model.BasicUnitselectLocation.ID).ToList();
-            unitInfo.Save(listCopy);
-            lstBasciUnitDefault = unitInfo.GetBasicUnitDefault();
+            //unitInfo.Save(listCopy);
+            lstBasciUnitCurrent = new List<BasicUnitCurrent>();
+            listCopy.ForEach(p =>
+            {
+                BasicUnitCurrent current = new BasicUnitCurrent();
+                current.BasicUnitID = p.BasicUnitID;
+                current.SystemUnitID = p.SystemUnitID;
+                current.UnitTypeID = p.UnitTypeID;
+                lstBasciUnitCurrent.Add(current);
+            });
+            unitInfo.SaveCurrent(lstBasciUnitCurrent);
+            // lstBasciUnitDefault = unitInfo.GetBasicUnitDefault();
+            UOMEnum.lstBasicUnitCurrent = lstBasciUnitCurrent;
 
             System.Windows.Window wd = obj as System.Windows.Window;
             if (wd != null)

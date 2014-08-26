@@ -128,7 +128,7 @@ namespace ReliefProMain.ViewModel
             SourceDAL db = new SourceDAL();
             Source source = db.GetModel(SessionProtectedSystem, SourceName);
             SourceType = source.SourceType;
-            ReadConvert();
+            ReadConvert(source);
             Description = source.Description;
             IsMaintained = source.IsMaintained;
             PressureUnit = pressureUnit;
@@ -206,10 +206,10 @@ namespace ReliefProMain.ViewModel
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.ShowDialog();
         }
-        private void ReadConvert()
+        private void ReadConvert(Source source)
         {
-            if (CurrentSource.MaxPossiblePressure != null)
-                MaxPossiblePressure = UnitConvert.Convert(UOMEnum.Pressure, pressureUnit, CurrentSource.MaxPossiblePressure.Value);
+            if (source != null)
+                MaxPossiblePressure = UnitConvert.Convert(UOMEnum.Pressure, pressureUnit, source.MaxPossiblePressure);
         }
         private void WriteConvert()
         {
