@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace ReliefProMain.CustomControl
@@ -28,11 +29,38 @@ namespace ReliefProMain.CustomControl
         public UnitConvertTextBox()
         {
         }
+        private object GetVale(object obj, List<string> propertys)
+        {
+            Type t = obj.GetType();
+            string current = propertys[0];
+            propertys.RemoveAt(0);
+            if (propertys.Count > 0)
+                return GetVale(t.GetProperty(current).GetValue(obj, null), propertys);
+            else
+                return t.GetProperty(current).GetValue(obj, null);
+        }
+        protected override void OnTextChanged(TextChangedEventArgs e)
+        {
+            //BindingExpression expresson = this.GetBindingExpression(TextBox.TextProperty);
+            //expresson.UpdateSource();
+        }
         protected override void OnMouseDoubleClick(System.Windows.Input.MouseButtonEventArgs e)
         {
             if (!string.IsNullOrEmpty(UnitOrigin))
             {
                 double UnitValue;
+                if (BindingOperations.IsDataBound(this, TextBox.TextProperty))
+                {
+                }
+
+                BindingExpression bexp = this.GetBindingExpression(TextBox.TextProperty);
+                //bexp.UpdateSource();
+                var data = bexp.DataItem;
+                Binding b = bexp.ParentBinding;
+                string[] str = b.Path.Path.Split('.');
+
+                object txtValue = GetVale(data, str.ToList());
+
                 if (double.TryParse(this.Text.Trim(), out UnitValue))
                 {
                     UnitConvertCommonView unitConvertCommonView = new UnitConvertCommonView(UnitOrigin, UnitValue);
