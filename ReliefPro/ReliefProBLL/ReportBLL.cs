@@ -124,7 +124,7 @@ namespace ReliefProLL
             }
             return null;
         }
-        private double? GetPlantSumResult<T>(List<T> ProcessUnitReprotDS, int CalcType, string ScenarioType, string ScenarioProperty)
+        private double GetPlantSumResult<T>(List<T> ProcessUnitReprotDS, int CalcType, string ScenarioType, string ScenarioProperty)
         {
             if (CalcType == 2)
             {
@@ -158,19 +158,19 @@ namespace ReliefProLL
             }
             return CalcPlantSumResult();
         }
-        private double? GetDouble(string value)
+        private double GetDouble(string value)
         {
             double reslut = 0;
             if (double.TryParse(value, out reslut))
                 return reslut;
-            return null;
+            return 0;
         }
-        private double? CalcPlantSumResult()
+        private double CalcPlantSumResult()
         {
-            if (tmpResult.Count == 0) return null;
+            if (tmpResult.Count == 0) return 0;
             double? Result = tmpResult.Sum();
             tmpResult.Clear();
-            return Result;
+            return Result.Value;
         }
 
         private void DirectSummation(double value)
@@ -291,24 +291,23 @@ namespace ReliefProLL
         }
         private void GetScenarioInfo(ISession SessionPS)
         {
-            double? pback = null;
+            double pback = 0;
             var PBack = this.GetDisChargeTo().FirstOrDefault(p => p.FlareName.ToUpper().Contains("HP"));
             if (PBack != null)
             {
                 pback = PBack.DesignBackPressure;
-                if (pback != null)
-                    pback = UnitConvert.Convert(UOMEnum.Pressure, "Kpa", pback.Value);
+                pback = UnitConvert.Convert(UOMEnum.Pressure, "Kpa", pback);
             }
             var ScenarioInfo = scenarioDAL.GetAllList(SessionPS).ToList();
             ScenarioInfo.ForEach(p =>
             {
                 p.dbPath = SessionPS.Connection.ConnectionString;
-                if (pback != null && pback != 0)
+                if ( pback != 0)
                 {
                     double W, T, MW;
-                    W = p.ReliefLoad.Value;
-                    T = p.ReliefTemperature.Value;
-                    MW = p.ReliefMW.Value;
+                    W = p.ReliefLoad;
+                    T = p.ReliefTemperature;
+                    MW = p.ReliefMW;
                     if (MW != 0)
                         p.ReliefVolumeRate = (W * 8.314 * (T + 273.15)) / (pback * MW);
                 }
@@ -402,10 +401,10 @@ namespace ReliefProLL
             MaxDs.SingleDS.Phase = string.Empty;
             MaxDs.SingleDS.ReliefLoad = listGrid.Max(p =>
             {
-                if (p.SingleDS == null) return null;
+                if (p.SingleDS == null) return 0;
                 if (p.SingleDS.ReliefLoad != null)
-                    return p.SingleDS.ReliefLoad.Value;
-                else return null;
+                    return p.SingleDS.ReliefLoad;
+                else return 0;
             });
             listGrid.Insert(listGrid.Count - 1, MaxDs);
             return listGrid;

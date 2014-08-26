@@ -68,14 +68,14 @@ namespace ReliefProBLL
             var lstStream = dbs.GetAllList(SessionPS).Where(p => p.IsProduct == true && p.ProdType == "1").ToList();
             if (lstStream.Count > 0)
             {
-                s = lstStream[0].BulkMwOfPhase.Value;
+                s = lstStream[0].BulkMwOfPhase;
             }
             DrumDAL dbd = new DrumDAL();
             var lstDrum = dbd.GetAllList(SessionPS);
             if (lstDrum.Count > 0)
             {
-                drumt = lstDrum[0].Temperature.Value;
-                drump = lstDrum[0].Pressure.Value;
+                drumt = lstDrum[0].Temperature;
+                drump = lstDrum[0].Pressure;
             }
             PSVDAL dbpsv = new PSVDAL();
             var lstPsv = dbpsv.GetAllList(SessionPS);

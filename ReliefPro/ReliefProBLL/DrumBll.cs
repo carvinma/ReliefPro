@@ -65,19 +65,13 @@ namespace ReliefProBLL
             List<Source> listSource = dbSource.GetAllList(SessionPS).ToList();
             if (listSource.Count() > 0)
             {
-                if (listSource.First().MaxPossiblePressure != null)
-                {
-                    Model.MaxPressure = listSource.First().MaxPossiblePressure.Value;
-                }
+                Model.MaxPressure = listSource.First().MaxPossiblePressure;
             }
 
             List<CustomStream> liststream = dbsteam.GetAllList(SessionPS, false).ToList();
             if (liststream.Count() > 0)
             {
-                if (liststream.First().WeightFlow != null)
-                {
-                    Model.MaxStreamRate = liststream.First().WeightFlow.Value;
-                }
+                Model.MaxStreamRate = liststream.First().WeightFlow;
             }
             return Model;
         }
@@ -102,14 +96,11 @@ namespace ReliefProBLL
         public double PfeedUpstream(ISession SessionPS)
         {
             StreamDAL stream = new StreamDAL();
-
             var streamModel = stream.GetAllList(SessionPS).FirstOrDefault();
             if (streamModel != null)
             {
-                if (streamModel.Pressure != null)
-                    return streamModel.Pressure.Value;
+                return streamModel.Pressure;
             }
-
             return 0;
         }
         public double ScenarioReliefPressure(ISession SessionPS)

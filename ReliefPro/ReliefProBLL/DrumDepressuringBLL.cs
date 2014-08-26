@@ -51,8 +51,7 @@ namespace ReliefProLL
             drumModel = model;
             UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
             drumModel.InitialPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, drumModel.InitialPressure);
-            if (drumModel.VaporDensity != null)
-                drumModel.VaporDensity = UnitConvert.Convert(UOMLib.UOMEnum.Density.ToString(), uomEnum.UserDensity, drumModel.VaporDensity);
+            drumModel.VaporDensity = UnitConvert.Convert(UOMLib.UOMEnum.Density.ToString(), uomEnum.UserDensity, drumModel.VaporDensity);
             drumModel.TotalVaporVolume = UnitConvert.Convert(UOMLib.UOMEnum.Volume.ToString(), uomEnum.UserVolume, drumModel.TotalVaporVolume);
             drumModel.Vesseldesignpressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, drumModel.Vesseldesignpressure);
             drumModel.TotalWettedArea = UnitConvert.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, drumModel.TotalWettedArea);
@@ -69,17 +68,17 @@ namespace ReliefProLL
             dbdrum.SaveDrumPressuring(SessionPS, model);
         }
 
-        private double? GetStreamVaporDensity()
+        private double GetStreamVaporDensity()
         {
             StreamDAL dbs = new StreamDAL();
             var lstStream = dbs.GetAllList(SessionPS).Where(p => p.IsProduct == true && p.ProdType == "1").ToList();
             if (lstStream.Count > 0)
             {
                 double s = 0;
-                s = lstStream[0].BulkDensityAct.Value;
+                s = lstStream[0].BulkDensityAct;
                 return s;
             }
-            return null;
+            return 0;
         }
     }
 }
