@@ -11,6 +11,7 @@ using ReliefProMain.Models;
 using ReliefProModel;
 using ReliefProMain.View;
 using UOMLib;
+using System.Windows.Forms;
 
 namespace ReliefProMain.ViewModel
 {
@@ -55,9 +56,17 @@ namespace ReliefProMain.ViewModel
 
         private void SetBasicUnitDefault(object obj)
         {
-            int id = model.BasicUnitselectLocation.ID;
-            unitInfo.BasicUnitSetDefault(id);
-            UOMEnum.BasicUnitID = id;
+            try
+            {
+                int id = model.BasicUnitselectLocation.ID;
+                unitInfo.BasicUnitSetDefault(id);
+                UOMEnum.BasicUnitID = id;
+                MessageBox.Show("Set Successful!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Set Failed!");
+            }
         }
         private void OpenAddWin(object obj)
         {

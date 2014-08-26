@@ -60,7 +60,7 @@
                         <ColumnDefinition Width="120"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Content="{DynamicResource CopyfromthisBasicandAddNewBasic}"  Command="{Binding NewBasicCommand}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Width="250"  Height="22"/>
+                    <Button Content="{DynamicResource CopyfromthisBasicandAddNewBasic}" VerticalContentAlignment="Top" HorizontalAlignment="Left"  Command="{Binding NewBasicCommand}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Width="246"/>
                     <Label Content="{DynamicResource Basic}" Grid.Row="0" Grid.Column="0" />
                     <Label Content="{DynamicResource Temperature}" Grid.Row="1" Grid.Column="0" />
                     <Label Content="{DynamicResource Pressure}" Grid.Row="2" Grid.Column="0" />
@@ -86,7 +86,7 @@
                     <Label Content="{DynamicResource FlowConductance}" Grid.Row="9" Grid.Column="2" />
                     <Label Content="{DynamicResource SpecificEnthalpy}" Grid.Row="10" Grid.Column="2" />
                     <Label Content="{DynamicResource Enthalpy}" Grid.Row="11" Grid.Column="2" />
-                    <Button Content="{DynamicResource SetThisBasicToDefalut}"  VerticalAlignment="Top" Command="{Binding BasicUnitDefaultCommand}"   Grid.Row="12" Grid.Column="2" Grid.ColumnSpan="2" Width="155" />
+                    <Button Content="{DynamicResource SetThisBasicToDefalut}"  VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding BasicUnitDefaultCommand}" Width="245"  Grid.Row="12" Grid.Column="2" Grid.ColumnSpan="2"  />
 
 
                     <CustomControl:CustomComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding model.ObBasicUnit, Mode=OneWay}" 
