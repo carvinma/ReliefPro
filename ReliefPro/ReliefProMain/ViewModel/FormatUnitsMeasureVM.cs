@@ -55,6 +55,7 @@ namespace ReliefProMain.ViewModel
         {
             int id = model.BasicUnitselectLocation.ID;
             unitInfo.BasicUnitSetDefault(id);
+            UOMEnum.BasicUnitID = id;
         }
         private void OpenAddWin(object obj)
         {
@@ -235,6 +236,7 @@ namespace ReliefProMain.ViewModel
             var listCopy = lstBasciUnitDefault.Where(p => p.BasicUnitID == model.BasicUnitselectLocation.ID).ToList();
             unitInfo.Save(listCopy);
             lstBasciUnitDefault = unitInfo.GetBasicUnitDefault();
+
             System.Windows.Window wd = obj as System.Windows.Window;
             if (wd != null)
             {

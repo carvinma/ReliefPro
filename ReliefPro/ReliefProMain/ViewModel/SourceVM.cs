@@ -21,7 +21,7 @@ namespace ReliefProMain.ViewModel
     {
         public ISession SessionPlant { set; get; }
         public ISession SessionProtectedSystem { set; get; }
-        public SourceFile SourceFileInfo; 
+        public SourceFile SourceFileInfo;
         private string pressureUnit;
         public string PressureUnit
         {
@@ -37,8 +37,9 @@ namespace ReliefProMain.ViewModel
         public string Description { get; set; }
 
         private string _SourceType;
-        public string SourceType 
-        { get
+        public string SourceType
+        {
+            get
             {
                 return this._SourceType;
             }
@@ -110,7 +111,7 @@ namespace ReliefProMain.ViewModel
             return list;
         }
         UOMLib.UOMEnum uomEnum;
-        public SourceVM(string name, SourceFile sourceFileInfo ,  ISession sessionPlant, ISession sessionProtectedSystem)
+        public SourceVM(string name, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             SourceTypes = GetSourceTypes();
             SourceName = name;
@@ -127,14 +128,14 @@ namespace ReliefProMain.ViewModel
             SourceDAL db = new SourceDAL();
             Source source = db.GetModel(SessionProtectedSystem, SourceName);
             SourceType = source.SourceType;
-            MaxPossiblePressure = source.MaxPossiblePressure;
+            ReadConvert();
             Description = source.Description;
             IsMaintained = source.IsMaintained;
             PressureUnit = pressureUnit;
             IsSteam = source.IsSteam;
             IsHeatSource = source.IsHeatSource;
             ID = source.ID;
-            
+
             //ReadConvert();
         }
 
