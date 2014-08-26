@@ -289,13 +289,13 @@ namespace ReliefProMain
             {
                 MenuItem item = (MenuItem)e.OriginalSource;
                 switch (item.Header.ToString())
-                {                   
+                {
                     case "Exit":
                         this.Close();
                         break;
                     case "Save Plant":
                         SavePlant();
-                        break;    
+                        break;
                 }
 
             }
@@ -442,7 +442,7 @@ namespace ReliefProMain
             }
             currentPlantName = p.Name;
             currentPlantWorkFolder = p.tvPlant.FullPath;
-            
+
 
             ReportTreeView view = new ReportTreeView();
             ReportTreeVM vm = new ReportTreeVM(currentPlantName, currentPlantWorkFolder);
@@ -469,7 +469,7 @@ namespace ReliefProMain
         }
 
         private void MainWindowApp_Loaded(object sender, RoutedEventArgs e)
-        {                       
+        {
             initTower();
         }
         private static ManualResetEvent BusinessDone = new ManualResetEvent(false);
@@ -519,7 +519,7 @@ namespace ReliefProMain
                                 UCDrawingControl ucDrawingControl = new UCDrawingControl();
                                 doc.Content = ucDrawingControl;
                                 ucDrawingControl.Tag = tvi;
-                                
+
                                 firstDocumentPane.Children.Add(doc);
                                 visioControl = ucDrawingControl.visioControl;
 
@@ -545,7 +545,7 @@ namespace ReliefProMain
 
         private void NavigationTreeView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var treeViewItem = VisualUpwardSearch<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem ;
+            var treeViewItem = VisualUpwardSearch<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem;
 
             if (treeViewItem != null)
             {
@@ -607,7 +607,7 @@ namespace ReliefProMain
                         MenuItem item = (MenuItem)rmenu.Items[i];
                         item.IsEnabled = false;
                     }
-                    
+
                 }
 
 
@@ -629,7 +629,7 @@ namespace ReliefProMain
                 return;
             TVPlantViewModel tvi = (TVPlantViewModel)NavigationTreeView.SelectedItem;
             ImportDataView imptdata = new ImportDataView();
-            
+
             imptdata.dirInfo = tvi.tvPlant.FullPath;
             imptdata.SessionPlant = tvi.SessionPlant;
             imptdata.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -642,7 +642,7 @@ namespace ReliefProMain
         public void CreateUnit(object sender, RoutedEventArgs e)
         {
             if (NavigationTreeView.SelectedItem == null)
-                return;            
+                return;
             if (NavigationTreeView.SelectedItem.GetType() == typeof(TVPlantViewModel))
             {
                 TVPlantViewModel p = NavigationTreeView.SelectedItem as TVPlantViewModel;
@@ -654,8 +654,8 @@ namespace ReliefProMain
                 v.Owner = this;
                 if (v.ShowDialog() == true)
                 {
-                    TVUnit tvUnit=vm.tvUnit;
-                    tvUnit.dbPlantFile=p.tvPlant.dbPlantFile;
+                    TVUnit tvUnit = vm.tvUnit;
+                    tvUnit.dbPlantFile = p.tvPlant.dbPlantFile;
                     TVUnitViewModel unit = new TVUnitViewModel(tvUnit, p);
                     p.Children.Add(unit);
                 }
@@ -685,7 +685,7 @@ namespace ReliefProMain
                 }
             }
 
-            
+
 
         }
 
@@ -698,17 +698,17 @@ namespace ReliefProMain
             {
                 if (firstDocumentPane.Children.Count > 0)
                 {
-                    MessageBox.Show("Please Close all documents","Message Box");
+                    MessageBox.Show("Please Close all documents", "Message Box");
                     return;
                 }
 
-                
-                
+
+
             }
-            
+
             ReNameView v = new ReNameView();
             ReNameVM vm = null;
-            if(NavigationTreeView.SelectedItem.GetType()==typeof(TVUnitViewModel))
+            if (NavigationTreeView.SelectedItem.GetType() == typeof(TVUnitViewModel))
             {
                 TVUnitViewModel u = NavigationTreeView.SelectedItem as TVUnitViewModel;
                 vm = new ReNameVM(u.Name, u.tvUnit.FullPath, 1);
@@ -733,22 +733,22 @@ namespace ReliefProMain
 
                 DirectoryInfo unitDI = Directory.GetParent(ps.tvPS.FullPath);
                 TreeUnitDAL treeUnitDal = new TreeUnitDAL();
-                TreeUnit treeU = treeUnitDal.GetModel(ps.SessionPlant,unitDI.Name);
+                TreeUnit treeU = treeUnitDal.GetModel(ps.SessionPlant, unitDI.Name);
 
                 if (v.ShowDialog() == true)
                 {
                     ps.Name = vm.Name;
                     TreePSDAL treePSDal = new TreePSDAL();
-                    TreePS treep = treePSDal.GetModel(ps.SessionPlant,treeU.ID,vm.OldName);
+                    TreePS treep = treePSDal.GetModel(ps.SessionPlant, treeU.ID, vm.OldName);
                     treep.PSName = ps.Name;
                     treePSDal.Update(treep, ps.SessionPlant);
                     ps.SessionPlant.Flush();
                 }
             }
-            
 
-            
-            
+
+
+
 
 
 
@@ -808,7 +808,7 @@ namespace ReliefProMain
                     TreePSDAL treePSDal = new TreePSDAL();
                     TreePS treep = treePSDal.GetModel(ps.SessionPlant, treeU.ID, ps.Name);
                     treePSDal.Delete(treep, ps.SessionPlant);
-                    Directory.Delete(ps.tvPS.FullPath, true);         
+                    Directory.Delete(ps.tvPS.FullPath, true);
                 }
 
             }
@@ -827,7 +827,7 @@ namespace ReliefProMain
             {
                 Button item = (Button)sender;
                 switch (item.ToolTip.ToString())
-                {                    
+                {
                     case "Global Default":
                         OpenGloadDefalut();
                         break;
@@ -852,13 +852,14 @@ namespace ReliefProMain
 
         private void MainWindowApp_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
+            //Application.Current.Shutdown();
+            Environment.Exit(0);
         }
 
         private TVPlantViewModel GetCurrentPlant()
         {
             TVPlantViewModel p = null;
-            ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;            
+            ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
             if (list.Count == 1)
             {
                 p = list[0];
@@ -891,9 +892,9 @@ namespace ReliefProMain
         }
 
 
-       
+
     }
-    
+
 
 
 }
