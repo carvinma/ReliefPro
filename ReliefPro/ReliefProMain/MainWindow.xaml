@@ -13,7 +13,7 @@
             <ContextMenu x:Name="RightContextMenu" x:Key="RightContextMenu" Background="#cbdbea">
                 <MenuItem Header="ReName" Click="ReName"  Name="ritem0" Background="#cbdbea"/>
                 <MenuItem Header="New Unit" Click="CreateUnit"  Name="ritem1" Background="#cbdbea"/>
-                <MenuItem Header="Import Data" Click="ImportDataFromOther"  Name="ritem2"  Background="#cbdbea"/>
+                <MenuItem Header="Import Simulation" Click="ImportDataFromOther"  Name="ritem2"  Background="#cbdbea"/>
                 <MenuItem Header="New Protected System" Click="CreateProtectedSystem"  Name="ritem3"  Background="#cbdbea"/>
                 <MenuItem Header="Remove" Click="RemoveNode"  Name="ritem4"  Background="#cbdbea"/>
             </ContextMenu>
@@ -34,7 +34,7 @@
                 </Border.Background>
                 <Menu Padding="0" Background="#cbdbea" >
 
-                    <MenuItem Header="File" Background="#cbdbea" >
+                    <MenuItem Header="File(F)" Background="#cbdbea" >
                         <MenuItem Command="{Binding NewPlantCommand}" Header="New Plant" />
                         <Separator />
                         <MenuItem Command="{Binding OpenPlantCommand}" Header="Open Plant" />
@@ -45,14 +45,18 @@
                         <MenuItem Command="{Binding ClosePlantCommand}" Header="Close Plant"/>
                         <Separator/>
                         <MenuItem Click="MenuItem_Click" Header="Exit"/>
-                    </MenuItem>
-                    <MenuItem Header="Tools" Background="#cbdbea" >
+                    </MenuItem> 
+                    <MenuItem Header="Tools(T)" Background="#cbdbea" >
                         <MenuItem Header="Units Of Measure" Click="OnloadUnitOfMeasure" />
                         <MenuItem Header="Plant Explorer"  Click="OnShowPlantExplorer" />
                         <MenuItem Header="ICON"  Click="OnShowICON" />
                        
                     </MenuItem>
-                    <MenuItem Header="Help" Background="#cbdbea">
+                    <MenuItem Header="Plant(P)" Background="#cbdbea">
+                        <MenuItem Header="Import Simulation" Click="MenuItem_Click" Background="#cbdbea"/>                       
+                    </MenuItem>
+                    
+                    <MenuItem Header="Help(H)" Background="#cbdbea">
                         <MenuItem Header="Help" Background="#cbdbea"/>
                         <MenuItem Header="About ReliefPro" Background="#cbdbea"/>
                     </MenuItem>
