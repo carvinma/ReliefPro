@@ -33,7 +33,7 @@ namespace ReliefProDAL.ReactorLoops
                 try
                 {
                     session.SaveOrUpdate(model);
-                    var sql = "from tbGeneralFailureCommonDetail Where GeneralFailureCommonID=" + model.ID;
+                    var sql = "from ReliefProModel.ReactorLoops.GeneralFailureCommonDetail Where GeneralFailureCommonID=" + model.ID;
                     session.Delete(sql);
                     foreach (var detail in lstDetailModel)
                     {
