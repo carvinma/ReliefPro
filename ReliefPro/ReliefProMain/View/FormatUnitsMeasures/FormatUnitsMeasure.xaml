@@ -2,7 +2,9 @@
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" x:Class="ReliefProMain.View.FormatUnitsMeasure"
-		Title="{DynamicResource FormatUnitsMeasureTitle}" Height="570" Width="658" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+		Title="{DynamicResource FormatUnitsMeasureTitle}" Name="myWindow" 
+        Height="570" Width="658" Icon="/ReliefProMain;component/Images/app.ico"  
+        Style="{DynamicResource WinStyle}" >
 	
 	<Grid>
 		<DockPanel>
@@ -24,7 +26,7 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Button Content="{DynamicResource OK}"  Command="{Binding SaveCommand}" DockPanel.Dock="Bottom" Grid.Column="1" />
+                        <Button Content="{DynamicResource OK}"  Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName= myWindow}" DockPanel.Dock="Bottom" Grid.Column="1" />
                         <Button x:Name="btnCancel" Content="{DynamicResource Cancel}" DockPanel.Dock="Bottom" Grid.Column="2" Click="btnCancel_Click" />
 
                     </Grid>
