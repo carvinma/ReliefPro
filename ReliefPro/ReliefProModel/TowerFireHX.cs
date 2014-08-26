@@ -12,11 +12,11 @@ namespace ReliefProModel
         public virtual string ExposedToFire { get; set; }
 
         public virtual string Type { get; set; }
-        public virtual double? OD { get; set; }
-        public virtual double? Length { get; set; }
-        public virtual double? PipingContingency { get; set; }
+        public virtual double OD { get; set; }
+        public virtual double Length { get; set; }
+        public virtual double PipingContingency { get; set; }
         public virtual int EqID { get; set; }
-        public virtual double? Elevation { get; set; }
+        public virtual double Elevation { get; set; }
 
         public virtual string ExposedToFire_Color { get; set; }
         public virtual string Type_Color { get; set; }

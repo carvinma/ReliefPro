@@ -10,10 +10,10 @@ namespace ReliefProModel
     {
         public virtual int ID { get; set; }
         public virtual int NumberOfSegment { get; set; }
-        public virtual double? Elevation { get; set; }
-        public virtual double? BNLL { get; set; }
-        public virtual double? LiquidHoldup { get; set; }
-        public virtual double? PipingContingency { get; set; }
+        public virtual double Elevation { get; set; }
+        public virtual double BNLL { get; set; }
+        public virtual double LiquidHoldup { get; set; }
+        public virtual double PipingContingency { get; set; }
         public virtual int EqID { get; set; }
 
         public virtual string NumberOfSegment_Color { get; set; }

@@ -10,16 +10,16 @@ namespace ReliefProModel
     {
         public virtual int ID { get; set; }
         public virtual string ScenarioName { get; set; }
-        public virtual double? ReliefLoad { get; set; }
-        public virtual double? ReliefTemperature { get; set; }
-        public virtual double? ReliefPressure { get; set; }
-        public virtual double? ReliefMW { get; set; }
-        public virtual double? ReliefCpCv { get; set; }
-        public virtual double? ReliefZ { get; set; }
-        public virtual double? ReliefVolumeRate { get; set; }
+        public virtual double ReliefLoad { get; set; }
+        public virtual double ReliefTemperature { get; set; }
+        public virtual double ReliefPressure { get; set; }
+        public virtual double ReliefMW { get; set; }
+        public virtual double ReliefCpCv { get; set; }
+        public virtual double ReliefZ { get; set; }
+        public virtual double ReliefVolumeRate { get; set; }
         public virtual bool Flooding { get; set; }
         public virtual bool IsSurgeCalculation { get; set; }
-        public virtual double? SurgeTime { get; set; }
+        public virtual double SurgeTime { get; set; }
         public virtual string dbPath { get; set; }
         private string phase = "V";
         public virtual string Phase { get { return phase; } set { phase = value; } }

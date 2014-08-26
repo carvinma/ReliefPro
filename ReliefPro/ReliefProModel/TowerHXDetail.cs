@@ -13,8 +13,8 @@ namespace ReliefProModel
         public virtual string ProcessSideFlowSource { get; set; }
         public virtual string Medium { get; set; }
         public virtual string MediumSideFlowSource { get; set; }
-        public virtual double? DutyPercentage { get; set; }
-        public virtual double? Duty { get; set; }
+        public virtual double DutyPercentage { get; set; }
+        public virtual double Duty { get; set; }
         public virtual int HXID { get; set; }
 
         public virtual string DetailName_Color { get; set; }

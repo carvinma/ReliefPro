@@ -12,13 +12,13 @@ namespace ReliefProModel
         public virtual string VesselName { get; set; }
         public virtual string UpStameName { get; set; }
         public virtual string OperatingPhase { get; set; }
-        public virtual double? MaxOperatingPressure { get; set; }
+        public virtual double MaxOperatingPressure { get; set; }
         public virtual string DownStreamName { get; set; }
-        public virtual double? CV { get; set; }
-        public virtual double? ReliefLoad { get; set; }
-        public virtual double? ReliefTemperature { get; set; }
-        public virtual double? ReliefPressure { get; set; }
-        public virtual double? ReliefMW { get; set; }
+        public virtual double CV { get; set; }
+        public virtual double ReliefLoad { get; set; }
+        public virtual double ReliefTemperature { get; set; }
+        public virtual double ReliefPressure { get; set; }
+        public virtual double ReliefMW { get; set; }
 
         public virtual string VesselName_Color { get; set; }
         public virtual string UpStameName_Color { get; set; }

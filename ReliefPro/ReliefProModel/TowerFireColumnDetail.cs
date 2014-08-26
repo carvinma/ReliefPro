@@ -11,8 +11,8 @@ namespace ReliefProModel
         public virtual int ID { get; set; }
         public virtual string Internal { get; set; }
         public virtual int Trays { get; set; }
-        public virtual double? Height { get; set; }
-        public virtual double? Diameter { get; set; }
+        public virtual double Height { get; set; }
+        public virtual double Diameter { get; set; }
         public virtual int ColumnID { get; set; }
         public virtual int Segment { get; set; }
 

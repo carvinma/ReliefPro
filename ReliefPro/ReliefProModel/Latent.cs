@@ -9,10 +9,10 @@ namespace ReliefProModel
     public class Latent
     {
         public virtual int ID { get; set; }
-        public virtual double? ReliefTemperature { get; set; }
-        public virtual double? LatentEnthalpy { get; set; }
-        public virtual double? ReliefOHWeightFlow { get; set; }
-        public virtual double? ReliefPressure { get; set; }
+        public virtual double ReliefTemperature { get; set; }
+        public virtual double LatentEnthalpy { get; set; }
+        public virtual double ReliefOHWeightFlow { get; set; }
+        public virtual double ReliefPressure { get; set; }
 
         public virtual string ReliefTemperature_Color { get; set; }
         public virtual string LatentEnthalpy_Color { get; set; }
