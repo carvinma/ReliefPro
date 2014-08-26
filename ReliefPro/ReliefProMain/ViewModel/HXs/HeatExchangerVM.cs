@@ -247,45 +247,52 @@ namespace ReliefProMain.ViewModel
         }
         public void Save(object obj)
         {
-            
-                CustomStreamDAL dbCS = new CustomStreamDAL();
-                SourceDAL dbsr = new SourceDAL();
-                foreach (CustomStream cs in Feeds)
-                {
-                    Source sr = new Source();
-                    sr.MaxPossiblePressure = cs.Pressure;
-                    sr.StreamName = cs.StreamName;
-                    sr.SourceType = "Compressor(Motor)";
-                    dbsr.Add(sr, SessionProtectedSystem);
+
+            CustomStreamDAL dbCS = new CustomStreamDAL();
+            SourceDAL dbsr = new SourceDAL();
+            SinkDAL sinkdal = new SinkDAL();
+            foreach (CustomStream cs in Feeds)
+            {
+                Source sr = new Source();
+                sr.MaxPossiblePressure = cs.Pressure;
+                sr.StreamName = cs.StreamName;
+                sr.SourceType = "Pump(Motor)";
+                dbsr.Add(sr, SessionProtectedSystem);
 
 
-                    dbCS.Add(cs, SessionProtectedSystem);
-                }
+                dbCS.Add(cs, SessionProtectedSystem);
+            }
 
 
-                foreach (CustomStream cs in Products)
-                {
-                    dbCS.Add(cs, SessionProtectedSystem);
-                }
+            foreach (CustomStream cs in Products)
+            {
+                Sink sink = new Sink();
+                sink.MaxPossiblePressure = cs.Pressure;
+                sink.StreamName = cs.StreamName;
+                sink.SinkName = cs.StreamName + "_Sink";
+                sink.SinkType = "Pump(Motor)";
+                sinkdal.Add(sink, SessionProtectedSystem);
+                dbCS.Add(cs, SessionProtectedSystem);
+            }
 
-                HeatExchangerDAL dbHX = new HeatExchangerDAL();
-                HeatExchanger HX = new HeatExchanger();
-                HX.HXName = HXName;
-                HX.Duty = Duty;
-                HX.HXType = HXType;
-                HX.SourceFile = FileName;
-               
-                dbHX.Add(HX, SessionProtectedSystem);
+            HeatExchangerDAL dbHX = new HeatExchangerDAL();
+            HeatExchanger HX = new HeatExchanger();
+            HX.HXName = HXName;
+            HX.Duty = Duty;
+            HX.HXType = HXType;
+            HX.SourceFile = FileName;
 
-                ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
-                ProtectedSystem ps = new ProtectedSystem();
-                ps.PSType = 4;
-                psDAL.Add(ps, SessionProtectedSystem);
+            dbHX.Add(HX, SessionProtectedSystem);
 
-                SourceFileDAL sfdal = new SourceFileDAL();
-                SourceFileInfo = sfdal.GetModel(HX.SourceFile, SessionPlant);
-                SessionProtectedSystem.Flush();
-            
+            ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
+            ProtectedSystem ps = new ProtectedSystem();
+            ps.PSType = 4;
+            psDAL.Add(ps, SessionProtectedSystem);
+
+            SourceFileDAL sfdal = new SourceFileDAL();
+            SourceFileInfo = sfdal.GetModel(HX.SourceFile, SessionPlant);
+            SessionProtectedSystem.Flush();
+
 
             System.Windows.Window wd = obj as System.Windows.Window;
 

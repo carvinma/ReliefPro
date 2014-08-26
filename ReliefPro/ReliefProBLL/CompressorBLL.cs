@@ -19,6 +19,7 @@ namespace ReliefProBLL
         CompressorDAL compressordal = new CompressorDAL();
         CustomStreamDAL csdal = new CustomStreamDAL();
         SourceDAL sourcedal = new SourceDAL();
+        SinkDAL sinkdal = new SinkDAL();
         ProtectedSystemDAL psdal = new ProtectedSystemDAL();
 
         public CompressorBLL(ISession SessionPF, ISession SessionPS)
@@ -41,13 +42,20 @@ namespace ReliefProBLL
                 Source sr = new Source();
                 sr.MaxPossiblePressure = cs.Pressure;
                 sr.StreamName = cs.StreamName;
-                sr.SourceType = "Compressor(Motor)";
+                sr.SourceType = "Pump(Motor)";
                 sourcedal.Add(sr, SessionPS);
                 csdal.Add(cs, SessionPS);
             }
 
             foreach (CustomStream cs in Products)
             {
+                Sink sink = new Sink();
+                sink.MaxPossiblePressure = cs.Pressure;
+                sink.StreamName = cs.StreamName;
+                sink.SinkName = cs.StreamName + "_Sink";
+                sink.SinkType = "Pump(Motor)";
+
+                sinkdal.Add(sink, SessionPS);
                 csdal.Add(cs, SessionPS);
             }
         }
