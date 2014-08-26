@@ -52,7 +52,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             }
         }
         UOMLib.UOMEnum uomEnum;
-
+        Tower TowerInfo;
         public TowerFireVM(int ScenarioID, string EqName, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string DirPlant, string DirProtectedSystem)
         {
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
@@ -81,8 +81,24 @@ namespace ReliefProMain.ViewModel.TowerFires
                 EqList.Add(eq);
             }
 
-            LatentDAL dblatent = new LatentDAL();
-            latent = dblatent.GetModel(SessionProtectedSystem);
+            
+
+            TowerDAL towerdal = new TowerDAL();
+            TowerInfo = towerdal.GetModel(SessionProtectedSystem);
+
+            if (TowerInfo.TowerType == "Distillation")
+            {
+                LatentDAL dblatent = new LatentDAL();
+                latent = dblatent.GetModel(SessionProtectedSystem);
+            }
+            else if (TowerInfo.TowerType == "Absorber")
+            {
+                latent = GetAbsorberFireLatent();
+            }
+            else
+            {
+
+            }
 
         }
 
@@ -147,7 +163,117 @@ namespace ReliefProMain.ViewModel.TowerFires
         }
         private void Edit(object obj)
         {
+            CalReliefLoad(obj);
+        }
 
+
+        private ICommand _TotalClick;
+        public ICommand TotalClick
+        {
+            get
+            {
+                if (_TotalClick == null)
+                {
+                    _TotalClick = new RelayCommand(Run);
+
+                }
+                return _TotalClick;
+            }
+        }
+
+        private void Run(object obj)
+        {
+            double reliefload = 0;
+            foreach (TowerFireEq eq in EqList)
+            {
+                if (eq.FireZone)
+                {
+                    if (eq.ReliefLoad != null)
+                    {
+                        reliefload = reliefload + eq.ReliefLoad;
+                    }
+                }
+            }
+            MainModel.ReliefLoad = reliefload;
+
+            if (TowerInfo.TowerType == "Distillation")
+            {
+                CalDisReliefOther();
+            }
+            else if (TowerInfo.TowerType == "Absorber")
+            {
+                //求latent 时已经计算过了
+            }
+            else
+            {
+                //求latent 时已经计算过了
+            }
+            
+
+        }
+
+        private void ReadConvert()
+        {
+            if (MainModel.ReliefLoad!=null)
+                MainModel.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, reliefloadUnit,MainModel.ReliefLoad);
+            if (MainModel.ReliefPressure!=null)
+                MainModel.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit,MainModel.ReliefPressure);
+            if (MainModel.ReliefTemperature!=null)
+                MainModel.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit,MainModel.ReliefTemperature);
+        }
+        private void WriteConvert()
+        {
+            if (MainModel.ReliefLoad!=null)
+                MainModel.ReliefLoad = UnitConvert.Convert(reliefloadUnit, UOMEnum.MassRate,MainModel.ReliefLoad);
+            if (MainModel.ReliefPressure!=null)
+                MainModel.ReliefPressure = UnitConvert.Convert(reliefPressureUnit, UOMEnum.Pressure,MainModel.ReliefPressure);
+            if (MainModel.ReliefTemperature!=null)
+                MainModel.ReliefTemperature = UnitConvert.Convert(reliefTemperatureUnit, UOMEnum.Temperature,MainModel.ReliefTemperature);
+        }
+        private void InitUnit()
+        {
+            this.reliefloadUnit = uomEnum.UserMassRate;
+            this.reliefPressureUnit = uomEnum.UserPressure;
+            this.reliefTemperatureUnit = uomEnum.UserTemperature;
+        }
+        #region 单位-字段
+        private string reliefloadUnit;
+        public string ReliefLoadUnit
+        {
+            get { return reliefloadUnit; }
+            set
+            {
+                reliefloadUnit = value;
+                this.OnPropertyChanged("ReliefLoadUnit");
+            }
+        }
+
+        private string reliefTemperatureUnit;
+        public string ReliefTemperatureUnit
+        {
+            get { return reliefTemperatureUnit; }
+            set
+            {
+                reliefTemperatureUnit = value;
+                this.OnPropertyChanged("ReliefTemperatureUnit");
+            }
+        }
+
+        private string reliefPressureUnit;
+        public string ReliefPressureUnit
+        {
+            get { return reliefPressureUnit; }
+            set
+            {
+                reliefPressureUnit = value;
+                this.OnPropertyChanged("ReliefPressureUnit");
+            }
+        }
+        #endregion
+
+
+        private void CalReliefLoad(object obj)
+        {
             double C1 = 0;
             if (MainModel.IsExist)
             {
@@ -249,60 +375,29 @@ namespace ReliefProMain.ViewModel.TowerFires
             }
             //else if (eq.Type == "Other HX")
             //{
-                //TowerFireOtherView v = new TowerFireOtherView();
-                //TowerFireOtherVM vm = new TowerFireOtherVM(eq.ID, SessionPlant, SessionProtectedSystem);
-                //v.DataContext = vm;
-                //v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                //if (v.ShowDialog() == true)
-                //{
-                //    EqList.Clear();
-                //    eq.WettedArea = vm.Area.ToString();
-                //    eq.HeatInput = Algorithm.GetQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
-                //    eq.ReliefLoad = (double.Parse(eq.HeatInput) / latentEnthalpy).ToString();
-                //    db.Update(eq, SessionProtectedSystem);
-                //    IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, MainModel.ID);
-                //    foreach (TowerFireEq q in list)
-                //    {
-                //        EqList.Add(q);
-                //    }
-                //    SessionProtectedSystem.Flush();
-                //}
-           // }
-
-
+            //TowerFireOtherView v = new TowerFireOtherView();
+            //TowerFireOtherVM vm = new TowerFireOtherVM(eq.ID, SessionPlant, SessionProtectedSystem);
+            //v.DataContext = vm;
+            //v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            //if (v.ShowDialog() == true)
+            //{
+            //    EqList.Clear();
+            //    eq.WettedArea = vm.Area.ToString();
+            //    eq.HeatInput = Algorithm.GetQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
+            //    eq.ReliefLoad = (double.Parse(eq.HeatInput) / latentEnthalpy).ToString();
+            //    db.Update(eq, SessionProtectedSystem);
+            //    IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, MainModel.ID);
+            //    foreach (TowerFireEq q in list)
+            //    {
+            //        EqList.Add(q);
+            //    }
+            //    SessionProtectedSystem.Flush();
+            //}
+            // }
         }
 
-
-        private ICommand _TotalClick;
-        public ICommand TotalClick
+        private void CalDisReliefOther()
         {
-            get
-            {
-                if (_TotalClick == null)
-                {
-                    _TotalClick = new RelayCommand(Run);
-
-                }
-                return _TotalClick;
-            }
-        }
-
-        private void Run(object obj)
-        {
-            double reliefload = 0;
-            foreach (TowerFireEq eq in EqList)
-            {
-                if (eq.FireZone)
-                {
-                    if (eq.ReliefLoad != null)
-                    {
-                        reliefload = reliefload + eq.ReliefLoad;
-                    }
-                }
-            }
-            MainModel.ReliefLoad = reliefload;
-
-
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionProtectedSystem);
             double pressure = psv.Pressure;
@@ -359,66 +454,71 @@ namespace ReliefProMain.ViewModel.TowerFires
                 MessageBox.Show("inp file is error", "Message Box");
                 return;
             }
-
         }
 
-        private void ReadConvert()
+        private Latent GetAbsorberFireLatent()
         {
-            if (MainModel.ReliefLoad!=null)
-                MainModel.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, reliefloadUnit,MainModel.ReliefLoad);
-            if (MainModel.ReliefPressure!=null)
-                MainModel.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit,MainModel.ReliefPressure);
-            if (MainModel.ReliefTemperature!=null)
-                MainModel.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit,MainModel.ReliefTemperature);
-        }
-        private void WriteConvert()
-        {
-            if (MainModel.ReliefLoad!=null)
-                MainModel.ReliefLoad = UnitConvert.Convert(reliefloadUnit, UOMEnum.MassRate,MainModel.ReliefLoad);
-            if (MainModel.ReliefPressure!=null)
-                MainModel.ReliefPressure = UnitConvert.Convert(reliefPressureUnit, UOMEnum.Pressure,MainModel.ReliefPressure);
-            if (MainModel.ReliefTemperature!=null)
-                MainModel.ReliefTemperature = UnitConvert.Convert(reliefTemperatureUnit, UOMEnum.Temperature,MainModel.ReliefTemperature);
-        }
-        private void InitUnit()
-        {
-            this.reliefloadUnit = uomEnum.UserMassRate;
-            this.reliefPressureUnit = uomEnum.UserPressure;
-            this.reliefTemperatureUnit = uomEnum.UserTemperature;
-        }
-        #region 单位-字段
-        private string reliefloadUnit;
-        public string ReliefLoadUnit
-        {
-            get { return reliefloadUnit; }
-            set
+            Latent lt = new Latent();
+            PSVDAL psvDAL = new PSVDAL();
+            PSV psv = psvDAL.GetModel(SessionProtectedSystem);
+            double pressure = psv.Pressure;
+
+            double reliefFirePressure = pressure * 1.21;
+            string tempdir = DirProtectedSystem + @"\temp\";
+            string dirLatent = tempdir + "TowerFire";
+            if (!Directory.Exists(dirLatent))
+                Directory.CreateDirectory(dirLatent);
+
+            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+            reader.InitProIIReader(FileFullPath);
+            ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, TowerInfo.StageNumber, 2, 1);
+            reader.ReleaseProIIReader();
+            CustomStream stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
+
+
+            string gd = Guid.NewGuid().ToString();
+            string vapor = "S_" + gd.Substring(0, 5).ToUpper();
+            string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
+            int ImportResult = 0;
+            int RunResult = 0;
+            PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+            string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
+            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+            string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, "0.05", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            if (ImportResult == 1 || ImportResult == 2)
             {
-                reliefloadUnit = value;
-                this.OnPropertyChanged("ReliefLoadUnit");
+                if (RunResult == 1 || RunResult == 2)
+                {
+                    reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    reader.InitProIIReader(tray1_f);
+                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                    reader.ReleaseProIIReader();
+                    CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
+                    CustomStream liquidFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
+                    //MainModel.ReliefLoad = vaporFire.WeightFlow;
+                    MainModel.ReliefMW = vaporFire.BulkMwOfPhase;
+                    MainModel.ReliefPressure = reliefFirePressure;
+                    MainModel.ReliefTemperature = vaporFire.Temperature;
+                    MainModel.ReliefCpCv = vaporFire.BulkCPCVRatio;
+                    MainModel.ReliefZ = vaporFire.VaporZFmKVal;
+                    latent.LatentEnthalpy = vaporFire.SpEnthalpy - liquidFire.SpEnthalpy;                    
+                    return latent;
+                }
+
+                else
+                {
+                    MessageBox.Show("Prz file is error", "Message Box");
+                    return null;
+                }
+            }
+            else
+            {
+                MessageBox.Show("inp file is error", "Message Box");
+                return null;
             }
         }
 
-        private string reliefTemperatureUnit;
-        public string ReliefTemperatureUnit
-        {
-            get { return reliefTemperatureUnit; }
-            set
-            {
-                reliefTemperatureUnit = value;
-                this.OnPropertyChanged("ReliefTemperatureUnit");
-            }
-        }
 
-        private string reliefPressureUnit;
-        public string ReliefPressureUnit
-        {
-            get { return reliefPressureUnit; }
-            set
-            {
-                reliefPressureUnit = value;
-                this.OnPropertyChanged("ReliefPressureUnit");
-            }
-        }
-        #endregion
     }
 }
