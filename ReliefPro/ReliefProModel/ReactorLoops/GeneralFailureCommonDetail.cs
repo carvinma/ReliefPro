@@ -11,7 +11,7 @@ namespace ReliefProModel.ReactorLoops
         public virtual int GeneralFailureCommonID { get; set; }
         public virtual string HXName { get; set; }
         public virtual bool Stop { get; set; }
-        public virtual double? DutyFactor { get; set; }
+        public virtual double DutyFactor { get; set; }
 
         public virtual string GeneralFailureCommonID_Color { get; set; }
         public virtual string HXName_Color { get; set; }
