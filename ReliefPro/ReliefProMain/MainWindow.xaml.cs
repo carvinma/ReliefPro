@@ -224,6 +224,7 @@ namespace ReliefProMain
         {
             try
             {
+                //Application.Current.FindResource
                 MessageBoxResult r = MessageBox.Show("Are you sure you want to save the document?", "Message Box", MessageBoxButton.YesNoCancel);
                 if (r == MessageBoxResult.Yes)
                 {
@@ -654,17 +655,18 @@ namespace ReliefProMain
                 else
                 {
                     tvi = (TVPlantViewModel)NavigationTreeView.SelectedItem;
-                    ImportDataView imptdata = new ImportDataView();
-
-                    imptdata.dirInfo = tvi.tvPlant.FullPath;
-                    imptdata.SessionPlant = tvi.SessionPlant;
-                    imptdata.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
-                    imptdata.Owner = this;
-                    imptdata.ShowDialog();
+                    
                 }
 
             }
+            ImportDataView imptdata = new ImportDataView();
+
+            imptdata.dirInfo = tvi.tvPlant.FullPath;
+            imptdata.SessionPlant = tvi.SessionPlant;
+            imptdata.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            imptdata.Owner = this;
+            imptdata.ShowDialog();
         }
 
 
@@ -883,8 +885,8 @@ namespace ReliefProMain
 
         private void MainWindowApp_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //Application.Current.Shutdown();
-            Environment.Exit(0);
+            Application.Current.Shutdown();
+            //Environment.Exit(0);
         }
 
         private TVPlantViewModel GetCurrentPlant()
