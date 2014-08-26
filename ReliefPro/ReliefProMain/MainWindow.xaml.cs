@@ -296,6 +296,9 @@ namespace ReliefProMain
                     case "Save Plant":
                         SavePlant();
                         break;
+                    case "Import Simulation":
+                        ImportExtraData();
+                        break;    
                 }
 
             }
@@ -625,19 +628,45 @@ namespace ReliefProMain
 
         public void ImportDataFromOther(object sender, RoutedEventArgs e)
         {
-            if (NavigationTreeView.SelectedItem == null)
-                return;
-            TVPlantViewModel tvi = (TVPlantViewModel)NavigationTreeView.SelectedItem;
-            ImportDataView imptdata = new ImportDataView();
-
-            imptdata.dirInfo = tvi.tvPlant.FullPath;
-            imptdata.SessionPlant = tvi.SessionPlant;
-            imptdata.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
-            imptdata.Owner = this;
-            imptdata.ShowDialog();
-
+            ImportExtraData();
         }
+
+        private void ImportExtraData()
+        {
+            TVPlantViewModel tvi = null;
+            ObservableCollection<TVPlantViewModel> Plants = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
+            if (Plants.Count == 0)
+            {
+                MessageBox.Show("Please create a plant or open a plant first.", "Message Box");
+                return;
+            }
+            if (Plants.Count == 1)
+            {
+                tvi = Plants[0];
+            }
+            else if (Plants.Count > 1)
+            {
+                if (NavigationTreeView.SelectedItem == null || NavigationTreeView.SelectedItem.GetType() != typeof(TVPlantViewModel))
+                {
+                    MessageBox.Show("Please select a plant first.", "Message Box");
+                    return;
+                }
+                else
+                {
+                    tvi = (TVPlantViewModel)NavigationTreeView.SelectedItem;
+                    ImportDataView imptdata = new ImportDataView();
+
+                    imptdata.dirInfo = tvi.tvPlant.FullPath;
+                    imptdata.SessionPlant = tvi.SessionPlant;
+                    imptdata.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+                    imptdata.Owner = this;
+                    imptdata.ShowDialog();
+                }
+
+            }
+        }
+
 
         public void CreateUnit(object sender, RoutedEventArgs e)
         {
@@ -840,7 +869,9 @@ namespace ReliefProMain
                     case "Save Plant":
                         SavePlant();
                         break;
-
+                    case "Import Simulation":
+                        ImportExtraData();
+                        break;
                 }
 
             }
