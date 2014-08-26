@@ -76,7 +76,7 @@ namespace ReliefProMain.Models
             }
         }
 
-        public double? MaxPossiblePressure
+        public double MaxPossiblePressure
         {
             get
             {
