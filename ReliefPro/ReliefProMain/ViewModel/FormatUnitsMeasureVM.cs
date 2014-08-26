@@ -41,12 +41,14 @@ namespace ReliefProMain.ViewModel
             lstUnitType = unitInfo.GetUnitType();
             lstSystemUnit = unitInfo.GetSystemUnit();
 
+            model.handler += new FormatUnitsMeasureModel.SelectDefaultUnitDelegate(InitCboSelected);
+            model.handlerChange += new FormatUnitsMeasureModel.ChangeDefaultUnitDelegate(InitBasicUnitDefalut);
+
             InitModelInfo(null);
             SaveCommand = new DelegateCommand<object>(Save);
             NewBasicCommand = new DelegateCommand<object>(OpenAddWin);
             BasicUnitDefaultCommand = new DelegateCommand<object>(SetBasicUnitDefault);
-            model.handler += new FormatUnitsMeasureModel.SelectDefaultUnitDelegate(InitCboSelected);
-            model.handlerChange += new FormatUnitsMeasureModel.ChangeDefaultUnitDelegate(InitBasicUnitDefalut);
+
         }
 
         private void SetBasicUnitDefault(object obj)
@@ -140,8 +142,8 @@ namespace ReliefProMain.ViewModel
                 model.VolumeRateSelectLocation = model.ObcVolumeRate.Where(p => p.ID == GetUnitDefalut(20, basicid)).FirstOrDefault();
                 model.DensitySelectLocation = model.ObcDensity.Where(p => p.ID == GetUnitDefalut(21, basicid)).FirstOrDefault();
                 model.SpecificEnthalpySelectLocation = model.ObcSpecificEnthalpy.Where(p => p.ID == GetUnitDefalut(22, basicid)).FirstOrDefault();
-                model.EnthalpySelectLocation = model.ObcEnthalpy.Where(p => p.ID == GetUnitDefalut(23, basicid)).FirstOrDefault();
-                model.FineLenthSelectLocation = model.ObcFineLength.Where(p => p.ID == GetUnitDefalut(14, basicid)).FirstOrDefault();
+                model.EnthalpySelectLocation = model.ObcEnthalpy.Where(p => p.ID == GetUnitDefalut(14, basicid)).FirstOrDefault();
+                model.FineLenthSelectLocation = model.ObcFineLength.Where(p => p.ID == GetUnitDefalut(23, basicid)).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -153,7 +155,7 @@ namespace ReliefProMain.ViewModel
         /// </summary>
         private void InitModelInfo(object obj)
         {
-            model.BasicUnitselectLocation = lstBasicUnit[lstBasicUnit.ToList().FindIndex(p => p.IsDefault == 1)];
+
             model.ObBasicUnit = new ObservableCollection<BasicUnit>(lstBasicUnit);
 
             //BasicUnitDefault systemUnit = lstBasciUnitDefault.Where(s => s.BasicUnitID == model.BasicUnitselectLocation.ID && s.UnitTypeID == 1).Single();
@@ -221,6 +223,7 @@ namespace ReliefProMain.ViewModel
             model.ObcEnthalpy = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 24));
 
             model.ObcFineLength = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 23));
+            model.BasicUnitselectLocation = lstBasicUnit[lstBasicUnit.ToList().FindIndex(p => p.IsDefault == 1)];
 
             //model.CompositionSelectLocation = lstSystemUnit[int.Parse(lstBasciUnitDefault.Where(s => s.BasicUnitID == model.BasicUnitselectLocation.ID && s.UnitTypeID == 11).Single().SystemUnitID)]; 
             //model.ObcComposition = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 11));
