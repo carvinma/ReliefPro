@@ -30,6 +30,14 @@ namespace UOMLib
             var lstBasicUnit = db.GetAllList(SessionPlan);
             return lstBasicUnit.Where(p => p.IsDefault == 1).First();
         }
+        public IList<BasicUnitCurrent> GetBasicUnitCurrent()
+        {
+            IList<BasicUnitCurrent> lstBasicUnitCurrent;
+            BasicUnitCurrentDAL db = new BasicUnitCurrentDAL();
+
+            lstBasicUnitCurrent = db.GetAllList(TempleSession.Session);
+            return lstBasicUnitCurrent;
+        }
         public IList<BasicUnitDefault> GetBasicUnitDefault()
         {
             IList<BasicUnitDefault> lstBasicUnitDefault;
@@ -43,6 +51,12 @@ namespace UOMLib
             BasicUnitDefaultDAL db = new BasicUnitDefaultDAL();
             var lstBasicUnitDefault = db.GetAllList(SessionPlan);
             return lstBasicUnitDefault;
+        }
+        public IList<BasicUnitCurrent> GetBasicUnitCurrentUserSet(ISession SessionPlan)
+        {
+            BasicUnitCurrentDAL db = new BasicUnitCurrentDAL();
+            var lstBasicUnitCurrent = db.GetAllList(SessionPlan);
+            return lstBasicUnitCurrent;
         }
         public IList<SystemUnit> GetSystemUnit()
         {
@@ -115,6 +129,32 @@ namespace UOMLib
                         foreach (var basicUnitDefault in lst)
                         {
                             Session.SaveOrUpdate(basicUnitDefault);
+                        }
+                        Session.Flush();
+                        tx.Commit();
+                    }
+                    catch (HibernateException)
+                    {
+                        tx.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+        public void SaveCurrent(IList<BasicUnitCurrent> lst)
+        {
+            using (var helper = new UOMLNHibernateHelper(dbConnectPath))
+            {
+                var Session = helper.GetCurrentSession();
+                using (ITransaction tx = Session.BeginTransaction())
+                {
+                    try
+                    {
+                        string sql = "from ReliefProModel.BasicUnitCurrent";
+                        Session.Delete(sql);
+                        foreach (var basicCurrent in lst)
+                        {
+                            Session.Save(basicCurrent);
                         }
                         Session.Flush();
                         tx.Commit();
