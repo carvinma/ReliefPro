@@ -1,6 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.SinkView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"                        
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"   
+        xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"  
         Title="{DynamicResource SinkViewTitle}" Height="244" Width="421" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
 
     <Grid>
@@ -26,11 +27,11 @@
         <Label Content="{DynamicResource Description}"    Grid.Row="2" Grid.Column="1"   />
         <TextBox Name="txtDescription"     Text="{Binding Path=MainModel.Description}"  Width="200" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"/>
         <Label Content="{DynamicResource SinkType}"     Grid.Column="1" Grid.Row="3" />
-        <ComboBox ItemsSource="{Binding Path=SinkTypes}" SelectedItem="{Binding MainModel.SinkType}"   Name="cbxType"  Grid.Column="2"  Grid.Row="3" />
+        <ComboBox ItemsSource="{Binding Path=MainModel.SinkTypes}" SelectedItem="{Binding MainModel.SinkType}"   Name="cbxType"  Grid.Column="2"  Grid.Row="3" />
 
         <Label Content="{DynamicResource MaxPossiblePressure}"    Grid.Row="4" Grid.Column="1" />
-        <TextBox Name="txtMaxPressure"    Text="{Binding Path=MainModel.MaxPossiblePressure}"  Grid.Column="2" Grid.Row="4"/>
-        <Label  Content="{Binding Path=MainModel.PressureUnit,Mode=TwoWay}"  Grid.Row="4" Grid.Column="3" />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblMaxPressure,Path=Content,Mode=TwoWay}"  Text="{Binding MainModel.MaxPossiblePressure,StringFormat='{}{0:N2}',Mode=TwoWay}" Grid.Row="4" Grid.Column="2"   />
+        <Label Name="lblMaxPressure"  Content="{Binding Path=MainModel.PressureUnit,Mode=TwoWay}"  Grid.Row="4" Grid.Column="3" />
 
        
         <Grid HorizontalAlignment="Stretch"  Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="5">

@@ -225,6 +225,7 @@
     <Compile Include="Models\TowerScenarioHXModel.cs" />
     <Compile Include="Models\TowerScenarioStreamModel.cs" />
     <Compile Include="Models\TreeDataModel.cs" />
+    <Compile Include="Models\SourceModel.cs" />
     <Compile Include="ProIIFactory.cs" />
     <Compile Include="ProIIToDefault.cs" />
     <Compile Include="Service\ServiceProvider.cs" />

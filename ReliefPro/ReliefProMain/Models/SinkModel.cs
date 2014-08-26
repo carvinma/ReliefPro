@@ -8,22 +8,23 @@ namespace ReliefProMain.Models
 {
     public class SinkModel : ModelBase
     {
-        public Sink model;
+        public Sink dbmodel;
         public SinkModel(Sink m)
         {
-            model = m;
+            dbmodel = m;
+            _SinkTypes = GetSinkTypes();
         }
         public int ID
         {
             get
             {
-                return model.ID;
+                return dbmodel.ID;
             }
             set
             {
-                if (model.ID != value)
+                if (dbmodel.ID != value)
                 {
-                    model.ID = value;
+                    dbmodel.ID = value;
                     NotifyPropertyChanged("ID");
                 }
             }
@@ -32,13 +33,13 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return model.SinkName;
+                return dbmodel.SinkName;
             }
             set
             {
-                if (model.SinkName != value)
+                if (dbmodel.SinkName != value)
                 {
-                    model.SinkName = value;
+                    dbmodel.SinkName = value;
                     NotifyPropertyChanged("SinkName");
                 }
             }
@@ -48,13 +49,13 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return model.SinkType;
+                return dbmodel.SinkType;
             }
             set
             {
-                if (model.SinkType != value)
+                if (dbmodel.SinkType != value)
                 {
-                    model.SinkType = value;
+                    dbmodel.SinkType = value;
                     NotifyPropertyChanged("SinkType");
                 }
             }
@@ -64,13 +65,13 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return model.Description;
+                return dbmodel.Description;
             }
             set
             {
-                if (model.Description != value)
+                if (dbmodel.Description != value)
                 {
-                    model.Description = value;
+                    dbmodel.Description = value;
                     NotifyPropertyChanged("Description");
                 }
             }
@@ -80,13 +81,13 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return model.MaxPossiblePressure;
+                return dbmodel.MaxPossiblePressure;
             }
             set
             {
-                if (model.MaxPossiblePressure != value)
+                if (dbmodel.MaxPossiblePressure != value)
                 {
-                    model.MaxPossiblePressure = value;
+                    dbmodel.MaxPossiblePressure = value;
                     NotifyPropertyChanged("MaxPossiblePressure");
                 }
             }
@@ -95,13 +96,13 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return model.StreamName;
+                return dbmodel.StreamName;
             }
             set
             {
-                if (model.StreamName != value)
+                if (dbmodel.StreamName != value)
                 {
-                    model.StreamName = value;
+                    dbmodel.StreamName = value;
                     NotifyPropertyChanged("StreamName");
                 }
             }
@@ -116,6 +117,28 @@ namespace ReliefProMain.Models
                 pressureUnit = value;
                 this.NotifyPropertyChanged("PressureUnit");
             }
+        }
+
+        public List<string> _SinkTypes;
+        public List<string> SinkTypes
+        {
+            get { return _SinkTypes; }
+            set
+            {
+                _SinkTypes = value;
+                this.NotifyPropertyChanged("SinkTypes");
+            }
+        }
+
+        public List<string> GetSinkTypes()
+        {
+            List<string> list = new List<string>();
+            list.Add("Compressor(Motor)");
+            list.Add("Compressor(Steam Turbine Driven)");
+            list.Add("Pump(Steam Turbine Driven)");
+            list.Add("Pump(Motor)");
+            list.Add("Pressurized Vessel");
+            return list;
         }
     }
 }

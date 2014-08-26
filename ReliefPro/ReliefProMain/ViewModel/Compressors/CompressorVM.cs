@@ -96,6 +96,7 @@ namespace ReliefProMain.ViewModel
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
                     ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
                     FileName = vm.SelectedFile;
+                    model.SourceFile = FileName;
                     ProIICompressor = dbEq.GetModel(SessionPlant, FileName, vm.SelectedEq, "Compressor");                   
                     model.CompressorType = model.CompressorTypes[0];
                     model.CompressorName = ProIICompressor.EqName;

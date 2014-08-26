@@ -151,8 +151,13 @@ namespace ReliefProMain.View
                     {
                     }
                 }
-                else if (shp.NameU.Contains("connector") && !string.IsNullOrEmpty(name))
+                else if (shp.NameU.Contains("connector"))
                 {
+                    if (string.IsNullOrEmpty(name))
+                    {
+                        MessageBox.Show("this stream is not exist!","Message Box");
+                        return;
+                    }
                     CustomStreamView v = new CustomStreamView();
                     CustomStreamVM vm = new CustomStreamVM(name, SessionPlant, SessionProtectedSystem);
                     v.DataContext = vm;
@@ -755,12 +760,12 @@ namespace ReliefProMain.View
                     CustomStream cs2 = vm.model.Feeds[1];
                     Visio.Shape connector2 = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
                     ConnectShapes(shape, 0, connector2, 0);
-                    connector.Text = cs.StreamName;
+                    connector2.Text = cs2.StreamName;
 
                     Visio.Shape startShp2 = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY+0.2);
                     startShp2.get_Cells("Height").ResultIU = 0.1;
                     startShp2.get_Cells("Width").ResultIU = 0.2;
-                    startShp2.Text = connector.Text + "_Source";
+                    startShp2.Text = connector2.Text + "_Source";
                     ConnectShapes(startShp2, 2, connector2, 1);
                     startShp2.Cells["EventDblClick"].Formula = "=0";
                 }
@@ -810,7 +815,7 @@ namespace ReliefProMain.View
             double pinY = shape.get_Cells("PinY").ResultIU;
 
             shape.Text = vm.CurrentModel.StreamName;
-            deleteShapesExcept(shape);
+            //deleteShapesExcept(shape);
         }
 
         private void ConnectShapes(Visio.Shape shape, int connectPoint, Visio.Shape connector, int direction)

@@ -14,6 +14,7 @@ using UOMLib;
 using NHibernate;
 using ReliefProMain.View;
 using System.Windows;
+using ReliefProMain.Models;
 
 namespace ReliefProMain.ViewModel
 {
@@ -22,99 +23,12 @@ namespace ReliefProMain.ViewModel
         public ISession SessionPlant { set; get; }
         public ISession SessionProtectedSystem { set; get; }
         public SourceFile SourceFileInfo;
-        private string pressureUnit;
-        public string PressureUnit
-        {
-            get { return pressureUnit; }
-            set
-            {
-                pressureUnit = value;
-                this.OnPropertyChanged("PressureUnit");
-            }
-        }
-        public int ID { get; set; }
-        public string SourceName { get; set; }
-        public string Description { get; set; }
+        public SourceModel model { get; set; }
+        public SourceDAL sourcedal = new SourceDAL();
 
-        private string _SourceType;
-        public string SourceType
-        {
-            get
-            {
-                return this._SourceType;
-            }
-            set
-            {
-                this._SourceType = value;
-                OnPropertyChanged("SourceType");
-            }
-        }
-        private double? maxPossiblePressure;
-        public double? MaxPossiblePressure
-        {
-            get { return maxPossiblePressure; }
-            set
-            {
-                maxPossiblePressure = value;
-                this.OnPropertyChanged("MaxPossiblePressure");
-            }
-        }
-        public bool IsMaintained { get; set; }
-        public string SourceName_Color { get; set; }
-        public string Description_Color { get; set; }
-        public string SourceType_Color { get; set; }
-        public string MaxPossiblePressure_Color { get; set; }
-        public string IsMaintained_Color { get; set; }
-        public string StreamName { get; set; }
-
-        public bool _IsSteam;
-        public bool IsSteam
-        {
-            get
-            {
-                return this._IsSteam;
-            }
-            set
-            {
-                this._IsSteam = value;
-                if (this._IsSteam)
-                {
-                    SourceType = "Pressurized Vessel";
-                }
-                OnPropertyChanged("IsSteam");
-
-            }
-        }
-        public bool _IsHeatSource;
-        public bool IsHeatSource
-        {
-            get
-            {
-                return this._IsHeatSource;
-            }
-            set
-            {
-                this._IsHeatSource = value;
-                OnPropertyChanged("IsHeatSource");
-            }
-        }
-        public List<string> SourceTypes { get; set; }
-        public Source CurrentSource { get; set; }
-        public List<string> GetSourceTypes()
-        {
-            List<string> list = new List<string>();
-            list.Add("Compressor(Motor)");
-            list.Add("Compressor(Steam Turbine Driven)");
-            list.Add("Pump(Steam Turbine Driven)");
-            list.Add("Pump(Motor)");
-            list.Add("Pressurized Vessel");
-            return list;
-        }
         UOMLib.UOMEnum uomEnum;
         public SourceVM(string name, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            SourceTypes = GetSourceTypes();
-            SourceName = name;
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
             SourceFileInfo = sourceFileInfo;
@@ -124,19 +38,12 @@ namespace ReliefProMain.ViewModel
             BU = list.Where(s => s.IsDefault == 1).Single();
 
             uomEnum = new UOMLib.UOMEnum(SessionPlant);
+            Source source = sourcedal.GetModel(SessionProtectedSystem, name);
+            model = new SourceModel(source);
             InitUnit();
-            SourceDAL db = new SourceDAL();
-            Source source = db.GetModel(SessionProtectedSystem, SourceName);
-            SourceType = source.SourceType;
-            ReadConvert(source);
-            Description = source.Description;
-            IsMaintained = source.IsMaintained;
-            PressureUnit = pressureUnit;
-            IsSteam = source.IsSteam;
-            IsHeatSource = source.IsHeatSource;
-            ID = source.ID;
-
-            //ReadConvert();
+            
+            ReadConvert();
+            
         }
 
         private ICommand _Update;
@@ -149,8 +56,7 @@ namespace ReliefProMain.ViewModel
 
         private void OKClick(object window)
         {
-            SourceName.Trim();
-            if (SourceName == "")
+            if (model.SourceName.Trim() == "")
             {
                 throw new ArgumentException("Please type in a name for the Source.");
             }
@@ -158,22 +64,9 @@ namespace ReliefProMain.ViewModel
 
             BasicUnitDAL dbBU = new BasicUnitDAL();
             IList<BasicUnit> list = dbBU.GetAllList(SessionPlant);
-            BU = list.Where(s => s.IsDefault == 1).Single();
-
-
-            CurrentSource = new Source();
-
-            SourceDAL db = new SourceDAL();
-            CurrentSource = db.GetModel(SessionProtectedSystem, SourceName);
-            CurrentSource.SourceName = SourceName;
-            CurrentSource.SourceType = SourceType;
-            // CurrentSource.MaxPossiblePressure = uc.BasicConvert("P", BU.UnitName, "StInternal", out pressureUnit, double.Parse(MaxPossiblePressure)).ToString();
-            CurrentSource.Description = Description;
-            CurrentSource.IsMaintained = IsMaintained;
-            CurrentSource.IsSteam = IsSteam;
-            CurrentSource.IsHeatSource = IsHeatSource;
+            BU = list.Where(s => s.IsDefault == 1).Single();           
             WriteConvert();
-            db.Update(CurrentSource, SessionProtectedSystem);
+            sourcedal.Update(model.dbmodel, SessionProtectedSystem);
             SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction
 
             System.Windows.Window wd = window as System.Windows.Window;
@@ -201,24 +94,22 @@ namespace ReliefProMain.ViewModel
         public void ShowHeatSourceList()
         {
             HeatSourceListView v = new HeatSourceListView();
-            HeatSourceListVM vm = new HeatSourceListVM(ID, SourceFileInfo, SessionPlant, SessionProtectedSystem);
+            HeatSourceListVM vm = new HeatSourceListVM(model.ID, SourceFileInfo, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.ShowDialog();
         }
-        private void ReadConvert(Source source)
+        private void ReadConvert()
         {
-            if (source != null)
-                MaxPossiblePressure = UnitConvert.Convert(UOMEnum.Pressure, pressureUnit, source.MaxPossiblePressure);
+            model.MaxPossiblePressure = UnitConvert.Convert(UOMEnum.Pressure, model.PressureUnit, model.MaxPossiblePressure);
         }
         private void WriteConvert()
         {
-            if (MaxPossiblePressure != null)
-                CurrentSource.MaxPossiblePressure = UnitConvert.Convert(pressureUnit, UOMEnum.Pressure, MaxPossiblePressure.Value);
+            model.MaxPossiblePressure = UnitConvert.Convert(model.PressureUnit, UOMEnum.Pressure, model.MaxPossiblePressure);
         }
         private void InitUnit()
         {
-            this.pressureUnit = uomEnum.UserPressure;
+            model.PressureUnit = uomEnum.UserPressure;
         }
     }
 }

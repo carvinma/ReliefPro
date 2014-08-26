@@ -92,7 +92,6 @@
         <Setter Property="TextWrapping" Value="NoWrap"/>
         <Setter Property="FontSize" Value="12px" />
         <Setter Property="FontFamily" Value="Calibri"/>
-        <Setter Property="BorderBrush" Value="blue"/>
     </Style>
     <Style x:Key="UCTextBoxReadOnly" TargetType="{x:Type CustomControl:UnitConvertTextBox}" >
         <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -101,8 +100,7 @@
         <Setter Property="Width" Value="125"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
         <Setter Property="FontSize" Value="12px" />
-        <Setter Property="FontFamily" Value="Calibri"/>
-        
+        <Setter Property="FontFamily" Value="Calibri"/>        
         <Setter Property="Background" Value="LightGray"/>
         <Setter Property="IsReadOnly" Value="True"/>
     </Style>
@@ -113,8 +111,7 @@
         <Setter Property="Width" Value="125"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
         <Setter Property="FontSize" Value="12px" />
-        <Setter Property="FontFamily" Value="Calibri"/>
-        
+        <Setter Property="FontFamily" Value="Calibri"/>        
         <Setter Property="Background" Value="LightGray"/>
         <Setter Property="IsReadOnly" Value="True"/>
     </Style>

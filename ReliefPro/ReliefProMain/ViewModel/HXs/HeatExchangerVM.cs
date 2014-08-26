@@ -257,6 +257,7 @@ namespace ReliefProMain.ViewModel
                 sr.MaxPossiblePressure = cs.Pressure;
                 sr.StreamName = cs.StreamName;
                 sr.SourceType = "Pump(Motor)";
+                sr.SourceName = cs.StreamName + "_Source";
                 dbsr.Add(sr, SessionProtectedSystem);
 
 
