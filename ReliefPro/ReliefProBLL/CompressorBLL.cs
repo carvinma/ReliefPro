@@ -37,12 +37,14 @@ namespace ReliefProBLL
         public void Save(Compressor dbmodel,ObservableCollection<CustomStream> Feeds,ObservableCollection<CustomStream> Products,ProtectedSystem ps )
         {
             compressordal.Save(SessionPS, dbmodel);
+            psdal.Add(ps, SessionPS);
             foreach (CustomStream cs in Feeds)
             {
                 Source sr = new Source();
                 sr.MaxPossiblePressure = cs.Pressure;
                 sr.StreamName = cs.StreamName;
                 sr.SourceType = "Pump(Motor)";
+                sr.SourceName = cs.StreamName + "_Source";
                 sourcedal.Add(sr, SessionPS);
                 csdal.Add(cs, SessionPS);
             }
