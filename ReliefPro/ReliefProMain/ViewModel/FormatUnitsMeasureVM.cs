@@ -218,9 +218,9 @@ namespace ReliefProMain.ViewModel
 
             model.ObcSpecificEnthalpy = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 22));
 
-            model.ObcEnthalpy = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 23));
+            model.ObcEnthalpy = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 24));
 
-            model.ObcFineLength = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 24));
+            model.ObcFineLength = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 23));
 
             //model.CompositionSelectLocation = lstSystemUnit[int.Parse(lstBasciUnitDefault.Where(s => s.BasicUnitID == model.BasicUnitselectLocation.ID && s.UnitTypeID == 11).Single().SystemUnitID)]; 
             //model.ObcComposition = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 11));
@@ -232,6 +232,11 @@ namespace ReliefProMain.ViewModel
             var listCopy = lstBasciUnitDefault.Where(p => p.BasicUnitID == model.BasicUnitselectLocation.ID).ToList();
             unitInfo.Save(listCopy);
             lstBasciUnitDefault = unitInfo.GetBasicUnitDefault();
+            System.Windows.Window wd = obj as System.Windows.Window;
+            if (wd != null)
+            {
+                wd.DialogResult = true;
+            }
         }
     }
 }
