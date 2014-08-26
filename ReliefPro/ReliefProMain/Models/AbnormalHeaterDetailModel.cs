@@ -91,7 +91,7 @@ namespace ReliefProMain.Models
             }
         }
 
-        public double? Duty
+        public double Duty
         {
             get
             {
@@ -106,7 +106,7 @@ namespace ReliefProMain.Models
                 }
             }
         }
-        public double? DutyFactor
+        public double DutyFactor
         {
             get
             {

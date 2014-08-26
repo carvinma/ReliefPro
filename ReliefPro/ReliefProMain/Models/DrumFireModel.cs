@@ -103,8 +103,8 @@ namespace ReliefProMain.Models
         }
 
 
-        private double? wettedArea;
-        public double? WettedArea
+        private double wettedArea;
+        public double WettedArea
         {
             get { return wettedArea; }
             set
@@ -114,8 +114,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? latentHeat;
-        public double? LatentHeat
+        private double latentHeat;
+        public double LatentHeat
         {
             get { return latentHeat; }
             set
@@ -125,10 +125,10 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? crackingHeat;
+        private double crackingHeat;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? CrackingHeat
+        public double CrackingHeat
         {
             get { return crackingHeat; }
             set
@@ -138,8 +138,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? reliefLoad;
-        public double? ReliefLoad
+        private double reliefLoad;
+        public double ReliefLoad
         {
             get { return reliefLoad; }
             set
@@ -149,8 +149,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? reliefPressure;
-        public double? ReliefPressure
+        private double reliefPressure;
+        public double ReliefPressure
         {
             get { return reliefPressure; }
             set
@@ -160,8 +160,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? reliefTemperature;
-        public double? ReliefTemperature
+        private double reliefTemperature;
+        public double ReliefTemperature
         {
             get { return reliefTemperature; }
             set
@@ -171,8 +171,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? reliefMW;
-        public double? ReliefMW
+        private double reliefMW;
+        public double ReliefMW
         {
             get { return reliefMW; }
             set
@@ -182,8 +182,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? reliefCpCv;
-        public double? ReliefCpCv
+        private double reliefCpCv;
+        public double ReliefCpCv
         {
             get { return reliefCpCv; }
             set
@@ -193,8 +193,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? reliefZ;
-        public double? ReliefZ
+        private double reliefZ;
+        public double ReliefZ
         {
             get { return reliefZ; }
             set
@@ -204,10 +204,10 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? designPressure;
+        private double designPressure;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? DesignPressure
+        public double DesignPressure
         {
             get { return designPressure; }
             set

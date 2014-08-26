@@ -35,10 +35,10 @@ namespace ReliefProMain.ViewModel.Compressors
                 CustomStreamDAL csDAL = new CustomStreamDAL();
                 IList<CustomStream> inletList = csDAL.GetAllList(SessionPS, false);
                 BlockedModel.Scale = 1.05;
-                BlockedModel.InletLoad = inletList[0].WeightFlow.Value / inletList[0].BulkDensityAct.Value;
+                BlockedModel.InletLoad = inletList[0].WeightFlow / inletList[0].BulkDensityAct;
 
                 IList<CustomStream> outletList = csDAL.GetAllList(SessionPS, true);
-                BlockedModel.OutletPressure = outletList[0].Pressure.Value;
+                BlockedModel.OutletPressure = outletList[0].Pressure;
             }
             BlockedModel = blockBLL.ReadConvertCentrifugalModel(BlockedModel);
 
@@ -69,9 +69,9 @@ namespace ReliefProMain.ViewModel.Compressors
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionPS);
             double PDesign = psv.ReliefPressureFactor * psv.Pressure;
-            double QNormal = model.InletLoad.Value;
-            double PressureNormal = model.OutletPressure.Value;
-            double QSurgeNormal = model.SurgeLoad.Value;
+            double QNormal = model.InletLoad;
+            double PressureNormal = model.OutletPressure;
+            double QSurgeNormal = model.SurgeLoad;
             double PSurgeNormal = 1;
             double bNormal = 0; //y=-0.25x+b
 
@@ -123,7 +123,7 @@ namespace ReliefProMain.ViewModel.Compressors
             if (csList.Count > 0)
             {
                 CustomStream cs = csList[0];
-                double density = cs.BulkDensityAct.Value;
+                double density = cs.BulkDensityAct;
                 model.Reliefload = density * v;
                 model.ReliefMW = cs.BulkMwOfPhase;
                 model.ReliefTemperature = cs.Temperature;

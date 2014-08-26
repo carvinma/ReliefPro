@@ -59,7 +59,7 @@ namespace ReliefProMain.ViewModel.Compressors
                 CustomStream cs = csList[0];
                 model.ReliefMW = cs.BulkMwOfPhase;
                 model.ReliefPressure = cs.Pressure;
-                model.Reliefload = cs.WeightFlow.Value * model.RatedCapacity.Value;
+                model.Reliefload = cs.WeightFlow * model.RatedCapacity;
                 model.ReliefTemperature = cs.Temperature;
             }
         }

@@ -184,8 +184,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? valveConstantforSonicFlow;
-        public double? ValveConstantforSonicFlow
+        private double valveConstantforSonicFlow;
+        public double ValveConstantforSonicFlow
         {
             get { return valveConstantforSonicFlow; }
             set
@@ -195,8 +195,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? initialPressure;
-        public double? InitialPressure
+        private double initialPressure;
+        public double InitialPressure
         {
             get { return initialPressure; }
             set
@@ -206,8 +206,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? vaporDensity;
-        public double? VaporDensity
+        private double vaporDensity;
+        public double VaporDensity
         {
             get { return vaporDensity; }
             set
@@ -217,8 +217,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? totalVaporVolume;
-        public double? TotalVaporVolume
+        private double totalVaporVolume;
+        public double TotalVaporVolume
         {
             get { return totalVaporVolume; }
             set
@@ -228,8 +228,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? vesseldesignpressure;
-        public double? Vesseldesignpressure
+        private double vesseldesignpressure;
+        public double Vesseldesignpressure
         {
             get { return vesseldesignpressure; }
             set
@@ -239,8 +239,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? totalWettedArea;
-        public double? TotalWettedArea
+        private double totalWettedArea;
+        public double TotalWettedArea
         {
             get { return totalWettedArea; }
             set
@@ -250,8 +250,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? initialDepressuringRate;
-        public double? InitialDepressuringRate
+        private double initialDepressuringRate;
+        public double InitialDepressuringRate
         {
             get { return initialDepressuringRate; }
             set
@@ -261,8 +261,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? timespecify;
-        public double? Timespecify
+        private double timespecify;
+        public double Timespecify
         {
             get { return timespecify; }
             set
@@ -272,8 +272,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? calculatedVesselPressure;
-        public double? CalculatedVesselPressure
+        private double calculatedVesselPressure;
+        public double CalculatedVesselPressure
         {
             get { return calculatedVesselPressure; }
             set
@@ -283,8 +283,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? calculatedDepressuringRate;
-        public double? CalculatedDepressuringRate
+        private double calculatedDepressuringRate;
+        public double CalculatedDepressuringRate
         {
             get { return calculatedDepressuringRate; }
             set
@@ -293,8 +293,8 @@ namespace ReliefProMain.Models
                 NotifyPropertyChanged("CalculatedDepressuringRate");
             }
         }
-        private double? detailP;
-        public double? DetailP
+        private double detailP;
+        public double DetailP
         {
             get { return detailP; }
             set
@@ -304,8 +304,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? detailPTime;
-        public double? DetailPTime
+        private double detailPTime;
+        public double DetailPTime
         {
             get { return detailPTime; }
             set
@@ -314,8 +314,8 @@ namespace ReliefProMain.Models
                 NotifyPropertyChanged("DetailPTime");
             }
         }
-        private double? timeStep;
-        public double? TimeStep
+        private double timeStep;
+        public double TimeStep
         {
             get { return timeStep; }
             set

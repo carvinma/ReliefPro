@@ -162,7 +162,7 @@ namespace ReliefProMain.ViewModel
             foreach (TowerScenarioHX hx in list)
             {
                 double duty = GetCondenserDetailDuty(SessionProtectedSystem, hx.DetailID);
-                ScenarioCondenserDuty = ScenarioCondenserDuty + hx.DutyCalcFactor.Value * duty;
+                ScenarioCondenserDuty = ScenarioCondenserDuty + hx.DutyCalcFactor * duty;
                 TowerScenarioHXModel shx = new TowerScenarioHXModel(hx);
                 Details.Add(shx);
                 dicHXs.Add(shx.ID, shx);
@@ -208,7 +208,7 @@ namespace ReliefProMain.ViewModel
             }
             else
             {
-                diameter = CurrentAccumulator.Diameter.Value;
+                diameter = CurrentAccumulator.Diameter;
             }
 
             if (CurrentAccumulator.NormalLiquidLevel==null)
@@ -218,7 +218,7 @@ namespace ReliefProMain.ViewModel
             }
             else
             {
-                liquidlevel = CurrentAccumulator.NormalLiquidLevel.Value;
+                liquidlevel = CurrentAccumulator.NormalLiquidLevel;
             }
 
             if (CurrentAccumulator.Length==null)
@@ -228,7 +228,7 @@ namespace ReliefProMain.ViewModel
             }
             else
             {
-                length = CurrentAccumulator.Length.Value;
+                length = CurrentAccumulator.Length;
             }
 
             accumulatorTotalVolume = 3.14159 * Math.Pow(diameter, 2) * length / 4 + 3.14159 * Math.Pow(diameter, 3) / 12;
@@ -253,7 +253,7 @@ namespace ReliefProMain.ViewModel
             Latent model=db.GetModel(Session);
             if (model != null)
             {
-                r = model.LatentEnthalpy.Value;
+                r = model.LatentEnthalpy;
             }
             return r;
         }
@@ -264,7 +264,7 @@ namespace ReliefProMain.ViewModel
             LatentProduct model = db.GetModel(Session, "2");
             if (model != null)
             {
-                r = model.BulkDensityAct.Value;
+                r = model.BulkDensityAct;
             }
             return r;
         }
@@ -275,7 +275,7 @@ namespace ReliefProMain.ViewModel
             TowerHXDetail model = db.GetModel(Session,id);
             if (model != null)
             {
-                r = model.Duty.Value;
+                r = model.Duty;
             }
             return r;
         }
@@ -289,10 +289,10 @@ namespace ReliefProMain.ViewModel
             {
                 foreach (CustomStream s in list)
                 {
-                    if (s.TotalMolarRate != null && s.TotalMolarRate!=0)
+                    if (s.TotalMolarRate!=0)
                     {
-                        double weightflow = s.WeightFlow.Value;
-                        double bulkdensityact = s.BulkDensityAct.Value;
+                        double weightflow = s.WeightFlow;
+                        double bulkdensityact = s.BulkDensityAct;
                         if (s.ProdType == "2" || s.ProdType == "6")
                         {
                             r = r + weightflow / bulkdensityact;
@@ -324,7 +324,7 @@ namespace ReliefProMain.ViewModel
                 SelectedHX.IsPinch = vm.IsPinch;
                 if (vm.Factor != null)
                 {
-                    SelectedHX.PinchFactor = vm.Factor.Value;
+                    SelectedHX.PinchFactor = vm.Factor;
                 }
             }
         }

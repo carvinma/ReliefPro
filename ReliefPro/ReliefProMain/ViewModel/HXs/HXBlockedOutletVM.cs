@@ -69,7 +69,7 @@ namespace ReliefProMain.ViewModel.HXs
             model.dbmodel.NormalColdOutletTemperature = UnitConvert.Convert(model.NormalColdOutletTemperatureUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.NormalColdOutletTemperature);
             model.dbmodel.LatentPoint = UnitConvert.Convert(model.LatentPointUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.LatentPoint);
             model.dbmodel.ReliefMW = model.ReliefMW;
-            model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad.Value);
+            model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad);
             model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
             model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
         }
@@ -81,7 +81,7 @@ namespace ReliefProMain.ViewModel.HXs
             CustomStream normalHotInlet = new CustomStream();
             CustomStream normalColdInlet = new CustomStream();
             CustomStream normalColdOutlet = new CustomStream();
-            double tAvg = 0.5 * (normalColdInlet.Temperature.Value + normalColdOutlet.Temperature.Value);
+            double tAvg = 0.5 * (normalColdInlet.Temperature + normalColdOutlet.Temperature);
 
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionPS);
@@ -115,14 +115,14 @@ namespace ReliefProMain.ViewModel.HXs
                     reader.ReleaseProIIReader();
                     CustomStream liquidcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
                     CustomStream vaporcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
-                    double latent = vaporcs.SpEnthalpy.Value - liquidcs.SpEnthalpy.Value;
+                    double latent = vaporcs.SpEnthalpy - liquidcs.SpEnthalpy;
                     double tcoldbprelief = double.Parse(flash.TempCalc);
-                    double tnormalHotInlet = normalHotInlet.Temperature.Value;
+                    double tnormalHotInlet = normalHotInlet.Temperature;
 
                     model.ReliefLoad = Q / latent * tnormalHotInlet - tcoldbprelief / (tnormalHotInlet - tAvg);
-                    model.ReliefMW = vaporcs.BulkMwOfPhase.Value;
+                    model.ReliefMW = vaporcs.BulkMwOfPhase;
                     model.ReliefPressure = reliefFirePressure;
-                    model.ReliefTemperature = vaporcs.Temperature.Value;
+                    model.ReliefTemperature = vaporcs.Temperature;
 
                 }
 

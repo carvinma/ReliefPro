@@ -79,8 +79,8 @@ namespace ReliefProMain.ViewModel.TowerFires
             m.PipingContingency = model.PipingContingency;
             db.Update(m, SessionProtectedSystem);
             SessionProtectedSystem.Flush();
-            Area = m.WettedArea.Value;
-            Area = Area + Area * model.PipingContingency.Value / 100;
+            Area = m.WettedArea;
+            Area = Area + Area * model.PipingContingency / 100;
 
 
             System.Windows.Window wd = window as System.Windows.Window;
@@ -93,13 +93,13 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private void ReadConvert()
         {
-            if (model.WettedArea!=null)
-                model.WettedArea = UnitConvert.Convert(UOMEnum.Area, wetteAreaUnit, model.WettedArea.Value);
+            //if (model.WettedArea!=null)
+                model.WettedArea = UnitConvert.Convert(UOMEnum.Area, wetteAreaUnit, model.WettedArea);
         }
         private void WriteConvert()
         {
-            if (model.WettedArea!=null)
-                model.WettedArea = UnitConvert.Convert(wetteAreaUnit, UOMEnum.Area, model.WettedArea.Value);
+            //if (model.WettedArea!=null)
+                model.WettedArea = UnitConvert.Convert(wetteAreaUnit, UOMEnum.Area, model.WettedArea);
         }
         private void InitUnit()
         {

@@ -56,8 +56,8 @@ namespace ReliefProMain.ViewModel
             }
         }
         public Drum CurrentDrum { get; set; }
-        private double? _Duty;
-        public double? Duty
+        private double _Duty;
+        public double Duty
         {
             get
             {
@@ -70,8 +70,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double? _Temperature;
-        public double? Temperature
+        private double _Temperature;
+        public double Temperature
         {
             get
             {
@@ -84,8 +84,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double? _Pressure;
-        public double? Pressure
+        private double _Pressure;
+        public double Pressure
         {
             get
             {

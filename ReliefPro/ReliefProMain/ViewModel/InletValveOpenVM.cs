@@ -86,8 +86,8 @@ namespace ReliefProMain.ViewModel
         }
 
 
-        private double? _ReliefTemperature { get; set; }
-        public double? ReliefTemperature
+        private double _ReliefTemperature { get; set; }
+        public double ReliefTemperature
         {
             get { return _ReliefTemperature; }
             set
@@ -96,8 +96,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefTemperature");
             }
         }
-        private double? _ReliefPressure { get; set; }
-        public double? ReliefPressure
+        private double _ReliefPressure { get; set; }
+        public double ReliefPressure
         {
             get { return _ReliefPressure; }
             set
@@ -106,8 +106,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefPressure");
             }
         }
-        private double? _ReliefLoad { get; set; }
-        public double? ReliefLoad
+        private double _ReliefLoad { get; set; }
+        public double ReliefLoad
         {
             get { return _ReliefLoad; }
             set
@@ -116,8 +116,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefLoad");
             }
         }
-        private double? _ReliefMW { get; set; }
-        public double? ReliefMW
+        private double _ReliefMW { get; set; }
+        public double ReliefMW
         {
             get { return _ReliefMW; }
             set
@@ -127,8 +127,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double? _MaxOperatingPressure { get; set; }
-        public double? MaxOperatingPressure
+        private double _MaxOperatingPressure { get; set; }
+        public double MaxOperatingPressure
         {
             get { return _MaxOperatingPressure; }
             set
@@ -139,8 +139,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double? _CV { get; set; }
-        public double? CV
+        private double _CV { get; set; }
+        public double CV
         {
             get { return _CV; }
             set
@@ -417,7 +417,7 @@ namespace ReliefProMain.ViewModel
 
             ProIIStreamData data = db.GetModel(SessionPlant, streamName, SourceFile);
             CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(data);
-            press = cs.Pressure.Value;
+            press = cs.Pressure;
 
             return press;
         }
@@ -482,9 +482,9 @@ namespace ReliefProMain.ViewModel
             CustomStream vaporStream = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIStreamData);
             if (vaporStream.WeightFlow!=null && CurrentEqNormalVapor != null)
             {
-                FLReliefLoad = vaporStream.WeightFlow.Value - CurrentEqNormalVapor.WeightFlow.Value;
-                FLReliefMW = vaporStream.BulkMwOfPhase.Value;
-                FLReliefTemperature = vaporStream.Temperature.Value;
+                FLReliefLoad = vaporStream.WeightFlow - CurrentEqNormalVapor.WeightFlow;
+                FLReliefMW = vaporStream.BulkMwOfPhase;
+                FLReliefTemperature = vaporStream.Temperature;
             }
             else
             {
@@ -500,17 +500,17 @@ namespace ReliefProMain.ViewModel
             string dirInletValveOpen = tempdir + "InletValveOpen";
             if (!Directory.Exists(dirInletValveOpen))
                 Directory.CreateDirectory(dirInletValveOpen);
-            double reliefLoad = Darcy(rMass, CV.Value, MaxOperatingPressure.Value, ReliefPressure.Value);
+            double reliefLoad = Darcy(rMass, CV, MaxOperatingPressure, ReliefPressure);
             if (CurrentEqNormalVapor != null)
             {
                 double wf=0;
                 if (CurrentEqNormalVapor.WeightFlow!=null)
                 {
-                    wf=CurrentEqNormalVapor.WeightFlow.Value;
+                    wf=CurrentEqNormalVapor.WeightFlow;
                 }
                 VBReliefLoad = (reliefLoad -wf );
-                VBReliefMW = this.UpStreamVaporData.BulkMwOfPhase.Value;
-                VBReliefTemperature = UpStreamVaporData.Temperature.Value;
+                VBReliefMW = this.UpStreamVaporData.BulkMwOfPhase;
+                VBReliefTemperature = UpStreamVaporData.Temperature;
             }
         }
 
@@ -556,10 +556,10 @@ namespace ReliefProMain.ViewModel
             double flReliefTemperature = 0;
             if (UpStreamLiquidData != null)
             {
-                rMass = UpStreamLiquidData.BulkDensityAct.Value;
+                rMass = UpStreamLiquidData.BulkDensityAct;
                 if ( rMass != 0)
                 {
-                    LiquidFlashing(rMass, CV.Value, MaxOperatingPressure.Value, ReliefPressure.Value, ref flReliefLoad, ref flReliefMW, ref flReliefTemperature);
+                    LiquidFlashing(rMass, CV, MaxOperatingPressure, ReliefPressure, ref flReliefLoad, ref flReliefMW, ref flReliefTemperature);
                 }
 
             }
@@ -580,7 +580,7 @@ namespace ReliefProMain.ViewModel
                     double vbReliefLoad = 0;
                     double vbReliefMW =0;
                     double vbReliefTemperature = 0;
-                    rMass = UpStreamVaporData.BulkDensityAct.Value;
+                    rMass = UpStreamVaporData.BulkDensityAct;
                     VaporBreakthrough(ref vbReliefLoad, ref vbReliefMW, ref vbReliefTemperature);
                     if (vbReliefLoad > flReliefLoad)
                     {
@@ -606,38 +606,38 @@ namespace ReliefProMain.ViewModel
         {
             if (MaxOperatingPressure!=null)
             {
-                this.MaxOperatingPressure = UnitConvert.Convert(UOMEnum.Pressure, _MaxOperatingPressureUnit, MaxOperatingPressure.Value);
+                this.MaxOperatingPressure = UnitConvert.Convert(UOMEnum.Pressure, _MaxOperatingPressureUnit, MaxOperatingPressure);
             }
             if (ReliefLoad != null)
             {
-                this.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, reliefloadUnit, ReliefLoad.Value);
+                this.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, reliefloadUnit, ReliefLoad);
             }
             if (ReliefPressure!=null)
             {
-                this.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit, ReliefPressure.Value);
+                this.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit, ReliefPressure);
             }
             if (ReliefTemperature!=null)
             {
-                this.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit, ReliefTemperature.Value);
+                this.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit, ReliefTemperature);
             }
         }
         private void WriteConvert()
         {
             if (MaxOperatingPressure!=null)
             {
-                this.MaxOperatingPressure = UnitConvert.Convert(_MaxOperatingPressureUnit, UOMEnum.Pressure, MaxOperatingPressure.Value);            
+                this.MaxOperatingPressure = UnitConvert.Convert(_MaxOperatingPressureUnit, UOMEnum.Pressure, MaxOperatingPressure);            
             }
             if (ReliefLoad!=null)
             {
-                this.ReliefLoad = UnitConvert.Convert(reliefloadUnit, UOMEnum.MassRate, ReliefLoad.Value);            
+                this.ReliefLoad = UnitConvert.Convert(reliefloadUnit, UOMEnum.MassRate, ReliefLoad);            
             }
             if (ReliefPressure!=null)
             {
-                 this.ReliefPressure = UnitConvert.Convert(reliefPressureUnit, UOMEnum.Pressure, ReliefPressure.Value);           
+                 this.ReliefPressure = UnitConvert.Convert(reliefPressureUnit, UOMEnum.Pressure, ReliefPressure);           
             }
             if (ReliefTemperature!=null)
             {
-                this.ReliefTemperature = UnitConvert.Convert(reliefTemperatureUnit, UOMEnum.Temperature, ReliefTemperature.Value);        
+                this.ReliefTemperature = UnitConvert.Convert(reliefTemperatureUnit, UOMEnum.Temperature, ReliefTemperature);        
             }
         }
         private void InitUnit()

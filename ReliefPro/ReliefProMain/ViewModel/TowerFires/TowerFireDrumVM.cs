@@ -88,15 +88,15 @@ namespace ReliefProMain.ViewModel.TowerFires
             }
 
 
-            double elevation = m.Elevation.Value;
-            double diameter = m.Diameter.Value;
-            double length = m.Length.Value;
-            double NLL = m.NormalLiquidLevel.Value;
-            double bootheight = m.BootHeight.Value;
-            double bootdiameter = m.BootDiameter.Value;
+            double elevation = m.Elevation;
+            double diameter = m.Diameter;
+            double length = m.Length;
+            double NLL = m.NormalLiquidLevel;
+            double bootheight = m.BootHeight;
+            double bootdiameter = m.BootDiameter;
 
             Area = Algorithm.GetDrumArea(m.Orientation, model.HeadType, elevation, diameter, length, NLL, bootheight, bootdiameter);
-            Area = Area + Area * model.PipingContingency.Value / 100;
+            Area = Area + Area * model.PipingContingency / 100;
 
             System.Windows.Window wd = window as System.Windows.Window;
 
@@ -124,32 +124,32 @@ namespace ReliefProMain.ViewModel.TowerFires
         private void ReadConvert()
         {
             if (model.Elevation!=null)
-                model.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, model.Elevation.Value);
+                model.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, model.Elevation);
             if (model.Diameter!=null)
-                model.Diameter = UnitConvert.Convert(UOMEnum.Length, diameterUnit, model.Diameter.Value);
+                model.Diameter = UnitConvert.Convert(UOMEnum.Length, diameterUnit, model.Diameter);
             if (model.Length!=null)
-                model.Length = UnitConvert.Convert(UOMEnum.Length, lengthUnit, model.Length.Value);
+                model.Length = UnitConvert.Convert(UOMEnum.Length, lengthUnit, model.Length);
             if (model.NormalLiquidLevel!=null)
-                model.NormalLiquidLevel = UnitConvert.Convert(UOMEnum.Length, normalLiquidLevelUnit, model.NormalLiquidLevel.Value);
+                model.NormalLiquidLevel = UnitConvert.Convert(UOMEnum.Length, normalLiquidLevelUnit, model.NormalLiquidLevel);
             if (model.BootDiameter!=null)
-                model.BootDiameter = UnitConvert.Convert(UOMEnum.Length, bootDiameterUnit, model.BootDiameter.Value);
+                model.BootDiameter = UnitConvert.Convert(UOMEnum.Length, bootDiameterUnit, model.BootDiameter);
             if (model.BootHeight!=null)
-                model.BootHeight = UnitConvert.Convert(UOMEnum.Length, bootHeightUnit, model.BootHeight.Value);
+                model.BootHeight = UnitConvert.Convert(UOMEnum.Length, bootHeightUnit, model.BootHeight);
         }
         private void WriteConvert()
         {
             if (model.Elevation!=null)
-                model.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, model.Elevation.Value);
+                model.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, model.Elevation);
             if (model.Diameter!=null)
-                model.Diameter = UnitConvert.Convert(diameterUnit, UOMEnum.Length, model.Diameter.Value);
+                model.Diameter = UnitConvert.Convert(diameterUnit, UOMEnum.Length, model.Diameter);
             if (model.Length!=null)
-                model.Length = UnitConvert.Convert(lengthUnit, UOMEnum.Length, model.Length.Value);
+                model.Length = UnitConvert.Convert(lengthUnit, UOMEnum.Length, model.Length);
             if (model.NormalLiquidLevel!=null)
-                model.NormalLiquidLevel = UnitConvert.Convert(normalLiquidLevelUnit, UOMEnum.Length, model.NormalLiquidLevel.Value);
+                model.NormalLiquidLevel = UnitConvert.Convert(normalLiquidLevelUnit, UOMEnum.Length, model.NormalLiquidLevel);
             if (model.BootDiameter!=null)
-                model.BootDiameter = UnitConvert.Convert(bootDiameterUnit, UOMEnum.Length, model.BootDiameter.Value);
+                model.BootDiameter = UnitConvert.Convert(bootDiameterUnit, UOMEnum.Length, model.BootDiameter);
             if (model.BootHeight!=null)
-                model.BootHeight = UnitConvert.Convert(bootHeightUnit, UOMEnum.Length, model.BootHeight.Value);
+                model.BootHeight = UnitConvert.Convert(bootHeightUnit, UOMEnum.Length, model.BootHeight);
         }
         private void InitUnit()
         {

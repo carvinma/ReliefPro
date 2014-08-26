@@ -80,7 +80,7 @@ namespace ReliefProMain.Models
             }
         }
 
-        public double? Duty
+        public double Duty
         {
             get
             {

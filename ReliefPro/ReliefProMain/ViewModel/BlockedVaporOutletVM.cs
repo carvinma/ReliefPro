@@ -93,7 +93,7 @@ namespace ReliefProMain.ViewModel
             {
                 if (model.InletGasUpstreamMaxPressure > pSet)
                 {                   
-                   model.ReliefLoad = (model.NormalGasProductWeightRate??0)-(model.NormalGasProductWeightRate??0);                   
+                   model.ReliefLoad = model.NormalGasProductWeightRate-model.NormalGasProductWeightRate;                   
                 }
                 else
                 {

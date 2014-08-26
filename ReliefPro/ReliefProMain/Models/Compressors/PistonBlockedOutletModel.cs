@@ -58,8 +58,8 @@ namespace ReliefProMain.Models.Compressors
             this.reliefPressure_Color = model.ReliefPressure_Color;
         }
 
-        private double? ratedCapacity;
-        public double? RatedCapacity
+        private double ratedCapacity;
+        public double RatedCapacity
         {
             get { return ratedCapacity; }
             set
@@ -69,8 +69,8 @@ namespace ReliefProMain.Models.Compressors
             }
         }
 
-        private double? reliefMW;
-        public double? ReliefMW
+        private double reliefMW;
+        public double ReliefMW
         {
             get { return reliefMW; }
             set
@@ -80,8 +80,8 @@ namespace ReliefProMain.Models.Compressors
             }
         }
 
-        private double? reliefload;
-        public double? Reliefload
+        private double reliefload;
+        public double Reliefload
         {
             get { return reliefload; }
             set
@@ -91,8 +91,8 @@ namespace ReliefProMain.Models.Compressors
             }
         }
 
-        private double? reliefTemperature;
-        public double? ReliefTemperature
+        private double reliefTemperature;
+        public double ReliefTemperature
         {
             get { return reliefTemperature; }
             set
@@ -102,8 +102,8 @@ namespace ReliefProMain.Models.Compressors
             }
         }
 
-        private double? reliefPressure;
-        public double? ReliefPressure
+        private double reliefPressure;
+        public double ReliefPressure
         {
             get { return reliefPressure; }
             set

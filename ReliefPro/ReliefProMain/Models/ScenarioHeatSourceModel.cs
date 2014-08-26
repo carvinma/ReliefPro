@@ -46,7 +46,7 @@ namespace ReliefProMain.Models
                 }
             }
         }
-        public double? DutyFactor
+        public double DutyFactor
         {
             get
             {
@@ -94,8 +94,8 @@ namespace ReliefProMain.Models
                 }
             }
         }
-        private double? _Duty;
-        public double? Duty
+        private double _Duty;
+        public double Duty
         {
             get
             {

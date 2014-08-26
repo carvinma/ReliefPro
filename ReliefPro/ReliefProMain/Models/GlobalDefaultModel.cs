@@ -47,7 +47,7 @@ namespace ReliefProMain.Models
                 NotifyPropertyChanged("SteamCondition");
             }
         }
-        public double? LatentHeatSettings
+        public double LatentHeatSettings
         {
             get
             {
@@ -59,7 +59,7 @@ namespace ReliefProMain.Models
                 NotifyPropertyChanged("LatentHeatSettings");
             }
         }
-        public double? DrumSurgeTimeSettings
+        public double DrumSurgeTimeSettings
         {
             get
             {

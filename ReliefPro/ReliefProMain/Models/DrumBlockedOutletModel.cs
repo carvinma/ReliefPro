@@ -64,10 +64,10 @@ namespace ReliefProMain.Models
         }
         public DrumBlockedOutlet dbmodel { get; set; }
 
-        private double? maxPressure;
+        private double maxPressure;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? MaxPressure
+        public double MaxPressure
         {
             get { return maxPressure; }
             set
@@ -78,10 +78,10 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? maxStreamRate;
+        private double maxStreamRate;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? MaxStreamRate
+        public double MaxStreamRate
         {
             get { return maxStreamRate; }
             set
@@ -102,10 +102,10 @@ namespace ReliefProMain.Models
                 this.NotifyPropertyChanged("DrumType");
             }
         }
-        private double? normalFlashDuty;
+        private double normalFlashDuty;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? NormalFlashDuty
+        public double NormalFlashDuty
         {
             get { return normalFlashDuty; }
             set
@@ -115,10 +115,10 @@ namespace ReliefProMain.Models
                 this.NotifyPropertyChanged("NormalFlashDuty");
             }
         }
-        private double? fdReliefCondition;
+        private double fdReliefCondition;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? FDReliefCondition
+        public double FDReliefCondition
         {
             get { return fdReliefCondition; }
             set

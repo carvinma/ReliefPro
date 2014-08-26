@@ -84,10 +84,10 @@ namespace ReliefProMain.Models.HXs
                 NotifyPropertyChanged("ExposedToFire");
             }
         }
-        private double? oD;
+        private double oD;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? OD
+        public double OD
         {
             get { return oD; }
             set
@@ -97,10 +97,10 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? length;
+        private double length;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? Length
+        public double Length
         {
             get { return length; }
             set
@@ -110,10 +110,10 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? elevation;
+        private double elevation;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? Elevation
+        public double Elevation
         {
             get { return elevation; }
             set
@@ -123,10 +123,10 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? pipingContingency;
+        private double pipingContingency;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? PipingContingency
+        public double PipingContingency
         {
             get { return pipingContingency; }
             set

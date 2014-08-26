@@ -53,8 +53,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double? _Coldtin;
-        public double? Coldtin
+        private double _Coldtin;
+        public double Coldtin
         {
             get { return _Coldtin; }
             set
@@ -63,8 +63,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("Coldtin");
             }
         }
-        private double? _Coldtout;
-        public double? Coldtout
+        private double _Coldtout;
+        public double Coldtout
         {
             get { return _Coldtout; }
             set
@@ -73,8 +73,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("Coldtout");
             }
         }
-        private double? _HeatTin;
-        public double? HeatTin
+        private double _HeatTin;
+        public double HeatTin
         {
             get { return _HeatTin; }
             set
@@ -84,8 +84,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("HeatTin");
             }
         }
-        private double? _HeatTout;
-        public double? HeatTout
+        private double _HeatTout;
+        public double HeatTout
         {
             get { return _HeatTout; }
             set
@@ -95,8 +95,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double? _ReliefHeatTin;
-        public double? ReliefHeatTin
+        private double _ReliefHeatTin;
+        public double ReliefHeatTin
         {
             get { return _ReliefHeatTin; }
             set
@@ -106,8 +106,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double? _ReliefColdtout;
-        public double? ReliefColdtout
+        private double _ReliefColdtout;
+        public double ReliefColdtout
         {
             get { return _ReliefColdtout; }
             set
@@ -117,8 +117,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double? _Area;
-        public double? Area
+        private double _Area;
+        public double Area
         {
             get { return _Area; }
             set
@@ -127,8 +127,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("Area");
             }
         }
-        private double? _UDesign;
-        public double? UDesign
+        private double _UDesign;
+        public double UDesign
         {
             get { return _UDesign; }
             set
@@ -138,8 +138,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double? _UDesignArea;
-        public double? UDesignArea
+        private double _UDesignArea;
+        public double UDesignArea
         {
             get { return _UDesignArea; }
             set
@@ -148,8 +148,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("UDesignArea");
             }
         }
-        private double? _UClean;
-        public double? UClean
+        private double _UClean;
+        public double UClean
         {
             get { return _UClean; }
             set
@@ -159,8 +159,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double? _UCD;
-        public double? UCD
+        private double _UCD;
+        public double UCD
         {
             get { return _UCD; }
             set
@@ -169,8 +169,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("UCD");
             }
         }
-        private double? _Duty;
-        public double? Duty
+        private double _Duty;
+        public double Duty
         {
             get { return _Duty; }
             set
@@ -180,8 +180,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double? _ReliefDuty;
-        public double? ReliefDuty
+        private double _ReliefDuty;
+        public double ReliefDuty
         {
             get { return _ReliefDuty; }
             set
@@ -190,8 +190,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefDuty");
             }
         }
-        private double? _Factor;
-        public double? Factor
+        private double _Factor;
+        public double Factor
         {
             get { return _Factor; }
             set
@@ -408,7 +408,7 @@ namespace ReliefProMain.ViewModel
                 TowerScenarioHX hx = towerScenarioHXDAL.GetModel(TowerScenarioHXID, SessionProtectedSystem);
                 SourceType = hx.Medium;
                 TowerHXDetail detail = towerHXDetailDAL.GetModel(hx.DetailID, SessionProtectedSystem);
-                double duty = hx.DutyCalcFactor.Value * detail.Duty.Value;
+                double duty = hx.DutyCalcFactor * detail.Duty;
                 Duty = duty;
 
                 TowerDAL dbtower = new TowerDAL();
@@ -444,8 +444,8 @@ namespace ReliefProMain.ViewModel
                 Factor = reboilerPinchModel.Factor;
                 ReliefColdtout = reboilerPinchModel.ReliefColdtout;
                 Area = reboilerPinchModel.Area;
-                UDesignArea = reboilerPinchModel.Area.Value * reboilerPinchModel.UDesign.Value;
-                UCD = UClean.Value / UDesign.Value;
+                UDesignArea = reboilerPinchModel.Area * reboilerPinchModel.UDesign;
+                UCD = UClean / UDesign;
                 ReliefHeatTin = reboilerPinchModel.ReliefHeatTin;
                 SourceType = reboilerPinchModel.SourceType;
             }
@@ -536,14 +536,14 @@ namespace ReliefProMain.ViewModel
             int iterateNumber = 50;
             double MaxErrorRate = 0.005;
 
-            double productTin = Coldtin.Value;
-            double productTout = Coldtout.Value ;
-            double reliefProductTout = ReliefColdtout.Value;
-            double reboilerTin = HeatTin.Value;
-            double reboilerTout = HeatTout.Value;
-            double coeff = UClean.Value;
-            double area = Area.Value;
-            double duty = Duty.Value;
+            double productTin = Coldtin;
+            double productTout = Coldtout ;
+            double reliefProductTout = ReliefColdtout;
+            double reboilerTin = HeatTin;
+            double reboilerTout = HeatTout;
+            double coeff = UClean;
+            double area = Area;
+            double duty = Duty;
             bool isUseSteam = false;
             double qaenGuess = 1.2;
             GetUDesign();
@@ -557,21 +557,21 @@ namespace ReliefProMain.ViewModel
         {
             if (Coldtin!=null && Coldtout!=null && HeatTin!=null && HeatTout!=null)
             {
-                double productTin = Coldtin.Value;
-                double productTout = Coldtout.Value;
-                double reboilerTin = HeatTin.Value;
-                double reboilerTout = HeatTout.Value;
+                double productTin = Coldtin;
+                double productTout = Coldtout;
+                double reboilerTin = HeatTin;
+                double reboilerTout = HeatTout;
                 double lmtd = GetLMTD(productTin, productTout, reboilerTin, reboilerTout);
                 if (Area!=null && Duty!=null)
                 {
-                    double area = Area.Value;
-                    double duty = Duty.Value;
+                    double area = Area;
+                    double duty = Duty;
                     double udesign = duty / lmtd / area / 3.6;
                     UDesign = udesign;
                     UDesignArea = udesign * area;
                     if (UClean!=null)
                     {
-                        UCD = UClean.Value / udesign;
+                        UCD = UClean / udesign;
                     }
 
                 }
@@ -734,70 +734,70 @@ namespace ReliefProMain.ViewModel
         private void ReadConvert()
         {
             if (_Coldtin!=null)
-                _Coldtin = UnitConvert.Convert(UOMEnum.Temperature, _ColdtinUnit, _Coldtin.Value);
+                _Coldtin = UnitConvert.Convert(UOMEnum.Temperature, _ColdtinUnit, _Coldtin);
             if (_Coldtout!=null)
-                _Coldtout = UnitConvert.Convert(UOMEnum.Temperature, _ColdtoutUnit, _Coldtout.Value);
+                _Coldtout = UnitConvert.Convert(UOMEnum.Temperature, _ColdtoutUnit, _Coldtout);
             if (_HeatTin!=null)
-                _HeatTin = UnitConvert.Convert(UOMEnum.Temperature, _HeatTinUnit, _HeatTin.Value);
+                _HeatTin = UnitConvert.Convert(UOMEnum.Temperature, _HeatTinUnit, _HeatTin);
 
             if (_HeatTout!=null)
-                _HeatTout = UnitConvert.Convert(UOMEnum.Temperature, _HeatToutUnit, _HeatTout.Value);
+                _HeatTout = UnitConvert.Convert(UOMEnum.Temperature, _HeatToutUnit, _HeatTout);
             if (_ReliefHeatTin!=null)
-                _ReliefHeatTin = UnitConvert.Convert(UOMEnum.Temperature, _ReliefHeatTinUnit, _ReliefHeatTin.Value);
+                _ReliefHeatTin = UnitConvert.Convert(UOMEnum.Temperature, _ReliefHeatTinUnit, _ReliefHeatTin);
             if (_ReliefColdtout!=null)
-                _ReliefColdtout = UnitConvert.Convert(UOMEnum.Temperature, _ReliefColdtoutUnit, _ReliefColdtout.Value);
+                _ReliefColdtout = UnitConvert.Convert(UOMEnum.Temperature, _ReliefColdtoutUnit, _ReliefColdtout);
 
             if (_Area!=null)
-                _Area = UnitConvert.Convert(UOMEnum.Area, _AreaUnit, _Area.Value);
+                _Area = UnitConvert.Convert(UOMEnum.Area, _AreaUnit, _Area);
             if (_UDesign!=null)
-                _UDesign = UnitConvert.Convert(UOMEnum.ThermalConductivity, _UDesignUnit, _UDesign.Value);
+                _UDesign = UnitConvert.Convert(UOMEnum.ThermalConductivity, _UDesignUnit, _UDesign);
             if (_UDesignArea!=null)
-                _UDesignArea = UnitConvert.Convert(UOMEnum.HeatTransCoeffcient, _UDesignAreaUnit, _UDesignArea.Value);
+                _UDesignArea = UnitConvert.Convert(UOMEnum.HeatTransCoeffcient, _UDesignAreaUnit, _UDesignArea);
 
             if (_UClean!=null)
-                _UClean = UnitConvert.Convert(UOMEnum.ThermalConductivity, _UCleanUnit, _UClean.Value);
+                _UClean = UnitConvert.Convert(UOMEnum.ThermalConductivity, _UCleanUnit, _UClean);
             if (_UCD!=null)
-                _UCD = UnitConvert.Convert(UOMEnum.Temperature, _UCDUnit, _UCD.Value);
+                _UCD = UnitConvert.Convert(UOMEnum.Temperature, _UCDUnit, _UCD);
             if (_Duty!=null)
-                _Duty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, _DutyUnit, _Duty.Value);
+                _Duty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, _DutyUnit, _Duty);
 
             if (_ReliefDuty != null)
-                _ReliefDuty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, _ReliefDutyUnit, _ReliefDuty.Value);
+                _ReliefDuty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, _ReliefDutyUnit, _ReliefDuty);
             //if (!string.IsNullOrEmpty(_HeaderPressure))
             //    _Coldtout = unitConvert.Convert(UOMEnum.Pressure, _HeaderPressureUnit, double.Parse(_Coldtout)).ToString();
         }
         private void WriteConvert()
         {
             if (_Coldtin!=null)
-                _Coldtin = UnitConvert.Convert(_ColdtinUnit, UOMEnum.Temperature, _Coldtin.Value);
+                _Coldtin = UnitConvert.Convert(_ColdtinUnit, UOMEnum.Temperature, _Coldtin);
             if (_Coldtout!=null)
-                _Coldtout = UnitConvert.Convert(_ColdtoutUnit, UOMEnum.Temperature, _Coldtout.Value);
+                _Coldtout = UnitConvert.Convert(_ColdtoutUnit, UOMEnum.Temperature, _Coldtout);
             if (_HeatTin!=null)
-                _HeatTin = UnitConvert.Convert(_HeatTinUnit, UOMEnum.Temperature, _HeatTin.Value);
+                _HeatTin = UnitConvert.Convert(_HeatTinUnit, UOMEnum.Temperature, _HeatTin);
 
             if (_HeatTout!=null)
-                _HeatTout = UnitConvert.Convert(_HeatToutUnit, UOMEnum.Temperature, _HeatTout.Value);
+                _HeatTout = UnitConvert.Convert(_HeatToutUnit, UOMEnum.Temperature, _HeatTout);
             if (_ReliefHeatTin!=null)
-                _ReliefHeatTin = UnitConvert.Convert(_ReliefHeatTinUnit, UOMEnum.Temperature, _ReliefHeatTin.Value);
+                _ReliefHeatTin = UnitConvert.Convert(_ReliefHeatTinUnit, UOMEnum.Temperature, _ReliefHeatTin);
             if (_ReliefColdtout!=null)
-                _ReliefColdtout = UnitConvert.Convert(_ReliefColdtoutUnit, UOMEnum.Temperature, _ReliefColdtout.Value);
+                _ReliefColdtout = UnitConvert.Convert(_ReliefColdtoutUnit, UOMEnum.Temperature, _ReliefColdtout);
 
             if (_Area!=null)
-                _Area = UnitConvert.Convert(_AreaUnit, UOMEnum.Area, _Area.Value);
+                _Area = UnitConvert.Convert(_AreaUnit, UOMEnum.Area, _Area);
             if (_UDesign!=null)
-                _UDesign = UnitConvert.Convert(_UDesignUnit, UOMEnum.ThermalConductivity, _UDesign.Value);
+                _UDesign = UnitConvert.Convert(_UDesignUnit, UOMEnum.ThermalConductivity, _UDesign);
             if (_UDesignArea!=null)
-                _UDesignArea = UnitConvert.Convert(_UDesignAreaUnit, UOMEnum.HeatTransCoeffcient, _UDesignArea.Value);
+                _UDesignArea = UnitConvert.Convert(_UDesignAreaUnit, UOMEnum.HeatTransCoeffcient, _UDesignArea);
 
             if (_UClean!=null)
-                _UClean = UnitConvert.Convert(_UCleanUnit, UOMEnum.ThermalConductivity, _UClean.Value);
+                _UClean = UnitConvert.Convert(_UCleanUnit, UOMEnum.ThermalConductivity, _UClean);
             if (_UCD!=null)
-                _UCD = UnitConvert.Convert(_UCDUnit, UOMEnum.Temperature, _UCD.Value);
+                _UCD = UnitConvert.Convert(_UCDUnit, UOMEnum.Temperature, _UCD);
             if (_Duty!=null)
-                _Duty = UnitConvert.Convert(_DutyUnit, UOMEnum.EnthalpyDuty, _Duty.Value);
+                _Duty = UnitConvert.Convert(_DutyUnit, UOMEnum.EnthalpyDuty, _Duty);
 
             if (_ReliefDuty!=null)
-                _ReliefDuty = UnitConvert.Convert(_ReliefDutyUnit, UOMEnum.EnthalpyDuty, _ReliefDuty.Value);
+                _ReliefDuty = UnitConvert.Convert(_ReliefDutyUnit, UOMEnum.EnthalpyDuty, _ReliefDuty);
             //if (!string.IsNullOrEmpty(_HeaderPressure))
             //    _Coldtout = unitConvert.Convert(_HeaderPressureUnit,UOMEnum.Pressure,  double.Parse(_Coldtout)).ToString();
         }

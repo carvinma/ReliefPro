@@ -77,10 +77,10 @@ namespace ReliefProMain.Models
         }
         #region Value
 
-        private double? inletGasUpstreamMaxPressure;
+        private double inletGasUpstreamMaxPressure;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? InletGasUpstreamMaxPressure
+        public double InletGasUpstreamMaxPressure
         {
             get { return inletGasUpstreamMaxPressure; }
             set
@@ -91,10 +91,10 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? inletAbsorbentUpstreamMaxPressure;
+        private double inletAbsorbentUpstreamMaxPressure;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? InletAbsorbentUpstreamMaxPressure
+        public double InletAbsorbentUpstreamMaxPressure
         {
             get { return inletAbsorbentUpstreamMaxPressure; }
             set
@@ -105,10 +105,10 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? normalGasFeedWeightRate;
+        private double normalGasFeedWeightRate;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? NormalGasFeedWeightRate
+        public double NormalGasFeedWeightRate
         {
             get { return normalGasFeedWeightRate; }
             set
@@ -119,10 +119,10 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? normalGasProductWeightRate;
+        private double normalGasProductWeightRate;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? NormalGasProductWeightRate
+        public double NormalGasProductWeightRate
         {
             get { return normalGasProductWeightRate; }
             set
@@ -222,8 +222,8 @@ namespace ReliefProMain.Models
 
         #region Scenario Value
 
-        private double? reliefLoad;
-        public double? ReliefLoad
+        private double reliefLoad;
+        public double ReliefLoad
         {
             get { return reliefLoad; }
             set
@@ -233,8 +233,8 @@ namespace ReliefProMain.Models
                 this.NotifyPropertyChanged("ReliefLoad");
             }
         }
-        private double? reliefTemperatur;
-        public double? ReliefTemperature
+        private double reliefTemperatur;
+        public double ReliefTemperature
         {
             get { return reliefTemperatur; }
             set
@@ -244,8 +244,8 @@ namespace ReliefProMain.Models
                 this.NotifyPropertyChanged("ReliefTemperature");
             }
         }
-        private double? reliefPressure;
-        public double? ReliefPressure
+        private double reliefPressure;
+        public double ReliefPressure
         {
             get { return reliefPressure; }
             set
@@ -255,8 +255,8 @@ namespace ReliefProMain.Models
                 this.NotifyPropertyChanged("ReliefPressure");
             }
         }
-        private double? reliefMW;
-        public double? ReliefMW
+        private double reliefMW;
+        public double ReliefMW
         {
             get { return reliefMW; }
             set
@@ -266,8 +266,8 @@ namespace ReliefProMain.Models
                 this.NotifyPropertyChanged("ReliefMW");
             }
         }
-        private double? reliefCpCv;
-        public double? ReliefCpCv
+        private double reliefCpCv;
+        public double ReliefCpCv
         {
             get { return reliefCpCv; }
             set
@@ -277,8 +277,8 @@ namespace ReliefProMain.Models
                 this.NotifyPropertyChanged("ReliefCpCv");
             }
         }
-        private double? reliefZ;
-        public double? ReliefZ
+        private double reliefZ;
+        public double ReliefZ
         {
             get { return reliefZ; }
             set

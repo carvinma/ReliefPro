@@ -162,7 +162,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             TowerFireEqDAL db = new TowerFireEqDAL();
             TowerFireEq eq = db.GetModel(id, SessionProtectedSystem);
 
-            double latentEnthalpy = latent.LatentEnthalpy.Value;
+            double latentEnthalpy = latent.LatentEnthalpy;
             if (eq.Type == "Column" || eq.Type == "Side Column")
             {
                 TowerFireColumnView v = new TowerFireColumnView();
@@ -173,8 +173,8 @@ namespace ReliefProMain.ViewModel.TowerFires
                 {
                     EqList.Clear();
                     eq.WettedArea = vm.Area;
-                    eq.HeatInput = Algorithm.GetQ(C1, eq.FFactor.Value, eq.WettedArea.Value);
-                    eq.ReliefLoad = (eq.HeatInput.Value / latentEnthalpy);
+                    eq.HeatInput = Algorithm.GetQ(C1, eq.FFactor, eq.WettedArea);
+                    eq.ReliefLoad = (eq.HeatInput / latentEnthalpy);
                     db.Update(eq, SessionProtectedSystem);
                     IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, MainModel.ID);
                     foreach (TowerFireEq q in list)
@@ -194,7 +194,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                 {
                     EqList.Clear();
                     eq.WettedArea = vm.Area;
-                    eq.HeatInput = Algorithm.GetQ(C1, eq.FFactor.Value, eq.WettedArea.Value);
+                    eq.HeatInput = Algorithm.GetQ(C1, eq.FFactor, eq.WettedArea);
                     eq.ReliefLoad = (eq.HeatInput / latentEnthalpy);
                     db.Update(eq, SessionProtectedSystem);
                     IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, MainModel.ID);
@@ -215,7 +215,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                 {
                     EqList.Clear();
                     eq.WettedArea = vm.Area;
-                    eq.HeatInput = Algorithm.GetQ(C1, eq.FFactor.Value, eq.WettedArea.Value);
+                    eq.HeatInput = Algorithm.GetQ(C1, eq.FFactor, eq.WettedArea);
                     eq.ReliefLoad = (eq.HeatInput / latentEnthalpy);
                     db.Update(eq, SessionProtectedSystem);
                     IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, MainModel.ID);
@@ -236,7 +236,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                 {
                     EqList.Clear();
                     eq.WettedArea = vm.Area;
-                    eq.HeatInput = Algorithm.GetQ(C1, eq.FFactor.Value, eq.WettedArea.Value);
+                    eq.HeatInput = Algorithm.GetQ(C1, eq.FFactor, eq.WettedArea);
                     eq.ReliefLoad = (eq.HeatInput / latentEnthalpy);
                     db.Update(eq, SessionProtectedSystem);
                     IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, MainModel.ID);
@@ -296,7 +296,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                 {
                     if (eq.ReliefLoad != null)
                     {
-                        reliefload = reliefload + eq.ReliefLoad.Value;
+                        reliefload = reliefload + eq.ReliefLoad;
                     }
                 }
             }
@@ -365,20 +365,20 @@ namespace ReliefProMain.ViewModel.TowerFires
         private void ReadConvert()
         {
             if (MainModel.ReliefLoad!=null)
-                MainModel.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, reliefloadUnit,MainModel.ReliefLoad.Value);
+                MainModel.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, reliefloadUnit,MainModel.ReliefLoad);
             if (MainModel.ReliefPressure!=null)
-                MainModel.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit,MainModel.ReliefPressure.Value);
+                MainModel.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit,MainModel.ReliefPressure);
             if (MainModel.ReliefTemperature!=null)
-                MainModel.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit,MainModel.ReliefTemperature.Value);
+                MainModel.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit,MainModel.ReliefTemperature);
         }
         private void WriteConvert()
         {
             if (MainModel.ReliefLoad!=null)
-                MainModel.ReliefLoad = UnitConvert.Convert(reliefloadUnit, UOMEnum.MassRate,MainModel.ReliefLoad.Value);
+                MainModel.ReliefLoad = UnitConvert.Convert(reliefloadUnit, UOMEnum.MassRate,MainModel.ReliefLoad);
             if (MainModel.ReliefPressure!=null)
-                MainModel.ReliefPressure = UnitConvert.Convert(reliefPressureUnit, UOMEnum.Pressure,MainModel.ReliefPressure.Value);
+                MainModel.ReliefPressure = UnitConvert.Convert(reliefPressureUnit, UOMEnum.Pressure,MainModel.ReliefPressure);
             if (MainModel.ReliefTemperature!=null)
-                MainModel.ReliefTemperature = UnitConvert.Convert(reliefTemperatureUnit, UOMEnum.Temperature,MainModel.ReliefTemperature.Value);
+                MainModel.ReliefTemperature = UnitConvert.Convert(reliefTemperatureUnit, UOMEnum.Temperature,MainModel.ReliefTemperature);
         }
         private void InitUnit()
         {

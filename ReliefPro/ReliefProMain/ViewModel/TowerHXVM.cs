@@ -211,7 +211,7 @@ namespace ReliefProMain.ViewModel
         private void ReadConvert()
         {
             if (model.HeaterDuty!=null)
-                model.HeaterDuty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, dutyUnit, model.HeaterDuty.Value);
+                model.HeaterDuty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, dutyUnit, model.HeaterDuty);
         }
         private void InitUnit()
         {

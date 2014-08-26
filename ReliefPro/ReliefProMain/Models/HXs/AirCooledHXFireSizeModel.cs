@@ -60,10 +60,10 @@ namespace ReliefProMain.Models.HXs
             this.pipingContingency = model.PipingContingency;
         }
 
-        private double? wettedBundle;
+        private double wettedBundle;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? WettedBundle
+        public double WettedBundle
         {
             get { return wettedBundle; }
             set
@@ -72,10 +72,10 @@ namespace ReliefProMain.Models.HXs
                 NotifyPropertyChanged("WettedBundle");
             }
         }
-        private double? pipingContingency;
+        private double pipingContingency;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? PipingContingency
+        public double PipingContingency
         {
             get { return pipingContingency; }
             set
@@ -85,8 +85,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-       private double? reliefMW;
-        public double? ReliefMW
+       private double reliefMW;
+        public double ReliefMW
         {
             get { return reliefMW; }
             set
@@ -96,8 +96,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? reliefLoad;
-        public double? ReliefLoad
+        private double reliefLoad;
+        public double ReliefLoad
         {
             get { return reliefLoad; }
             set
@@ -107,8 +107,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? reliefTemperature;
-        public double? ReliefTemperature
+        private double reliefTemperature;
+        public double ReliefTemperature
         {
             get { return reliefTemperature; }
             set
@@ -118,8 +118,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? reliefPressure;
-        public double? ReliefPressure
+        private double reliefPressure;
+        public double ReliefPressure
         {
             get { return reliefPressure; }
             set

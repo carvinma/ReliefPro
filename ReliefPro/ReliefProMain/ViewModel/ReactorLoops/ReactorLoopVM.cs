@@ -677,7 +677,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             data1.Append("\tPROP STRM=").Append(streamName.ToUpper()).Append(",&\n");
             data1.Append("\t PRESSURE(MPAG)=").Append(stream.Pressure).Append(",&\n");
             data1.Append("\t TEMPERATURE(C)=").Append(stream.Temperature).Append(",&\n");
-            double rate = stream.TotalMolarRate.Value;
+            double rate = stream.TotalMolarRate;
             if (rate == 0)
                 rate = 1;
             data1.Append("\t RATE(KGM/S)=").Append(rate).Append(",&\n");

@@ -67,8 +67,8 @@ namespace ReliefProMain.ViewModel.TowerFires
             m.PipingContingency = model.PipingContingency;
             db.Update(m, SessionProtectedSystem);
             SessionProtectedSystem.Flush();
-            Area = m.WettedArea.Value;
-            Area = Area + Area * model.PipingContingency.Value / 100;
+            Area = m.WettedArea;
+            Area = Area + Area * model.PipingContingency / 100;
 
             System.Windows.Window wd = window as System.Windows.Window;
 

@@ -116,8 +116,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? _DutyPercentage;
-        public double? DutyPercentage
+        private double _DutyPercentage;
+        public double DutyPercentage
         {
             get
             {
@@ -126,14 +126,14 @@ namespace ReliefProMain.Models
             set
             {
                 this._DutyPercentage = value;
-                this.Duty = (_DutyPercentage.Value * Parent.HeaterDuty.Value/100);
+                this.Duty = (_DutyPercentage * Parent.HeaterDuty/100);
                 NotifyPropertyChanged("DutyPercentage");
                 //NotifyPropertyChanged("Duty");
             }
         }
 
-        private double? _Duty;
-        public double? Duty
+        private double _Duty;
+        public double Duty
         {
             get
             {

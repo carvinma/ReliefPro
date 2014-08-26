@@ -30,8 +30,8 @@ namespace ReliefProMain.ViewModel
     {
         SourceFile SourceFileInfo; 
 
-        private double? _ReliefLoad;
-        public double? ReliefLoad
+        private double _ReliefLoad;
+        public double ReliefLoad
         {
             get
             {
@@ -45,8 +45,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double? _ReliefMW;
-        public double? ReliefMW
+        private double _ReliefMW;
+        public double ReliefMW
         {
             get
             {
@@ -59,8 +59,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefMW");
             }
         }
-        private double? _ReliefTemperature;
-        public double? ReliefTemperature
+        private double _ReliefTemperature;
+        public double ReliefTemperature
         {
             get
             {
@@ -73,8 +73,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefTemperature");
             }
         }
-        private double? _ReliefPressure;
-        public double? ReliefPressure
+        private double _ReliefPressure;
+        public double ReliefPressure
         {
             get
             {
@@ -127,7 +127,7 @@ namespace ReliefProMain.ViewModel
             {
                 if (!shx.DutyLost)
                 {
-                    sumDutyFactor = sumDutyFactor + shx.DutyCalcFactor.Value;
+                    sumDutyFactor = sumDutyFactor + shx.DutyCalcFactor;
                 }
             }
             if (sumDutyFactor == 0)
@@ -327,14 +327,14 @@ namespace ReliefProMain.ViewModel
             foreach (TowerScenarioStream s in feeds)
             {
                 CustomStream cs = dbstream.GetModel(SessionProtectedSystem, s.StreamName);
-                double wf = cs.WeightFlow.Value;
+                double wf = cs.WeightFlow;
                 Total = Total + wf;
                 if (!s.FlowStop)
                 {
-                    currentTotal = currentTotal + wf * s.FlowCalcFactor.Value;
+                    currentTotal = currentTotal + wf * s.FlowCalcFactor;
                     Source source = sourceDAL.GetModel(s.StreamName, SessionProtectedSystem);
                     if (source.IsSteam)
-                        steamTotal = steamTotal + wf * s.FlowCalcFactor.Value;
+                        steamTotal = steamTotal + wf * s.FlowCalcFactor;
                 }
             }
             diffTotal = Total - currentTotal;
@@ -357,7 +357,7 @@ namespace ReliefProMain.ViewModel
                                              where m.StreamName == p.StreamName
                                              select m).SingleOrDefault();
                     double factor = 1;
-                    double flowrate = p.WeightFlow.Value;
+                    double flowrate = p.WeightFlow;
                     double tempH = factor * flowrate;
                     if (tempH >= diffTotal)
                     {
@@ -390,7 +390,7 @@ namespace ReliefProMain.ViewModel
                                              where m.StreamName == p.StreamName
                                              select m).SingleOrDefault();
                     double factor = 1;
-                    double flowrate = p.WeightFlow.Value;
+                    double flowrate = p.WeightFlow;
                     double tempH = factor * flowrate;
                     if (tempH >= diffTotal)
                     {
@@ -423,7 +423,7 @@ namespace ReliefProMain.ViewModel
                                              where m.StreamName == p.StreamName
                                              select m).SingleOrDefault();
                     double factor = 1;
-                    double flowrate = p.WeightFlow.Value;
+                    double flowrate = p.WeightFlow;
                     double tempH = factor * flowrate;
                     if (tempH >= diffTotal)
                     {
@@ -490,19 +490,19 @@ namespace ReliefProMain.ViewModel
 
                         if (IsSteamFreezed && product.ProdType == "4")
                         {
-                            ProductTotal = ProductTotal + (s.FlowCalcFactor.Value) * cstream.SpEnthalpy.Value * product.WeightFlow.Value;
+                            ProductTotal = ProductTotal + (s.FlowCalcFactor) * cstream.SpEnthalpy * product.WeightFlow;
                         }
                         else
                         {
-                            ProductTotal = ProductTotal + (s.FlowCalcFactor.Value) * product.SpEnthalpy.Value * product.WeightFlow.Value;
+                            ProductTotal = ProductTotal + (s.FlowCalcFactor) * product.SpEnthalpy * product.WeightFlow;
                         }
                         if (cstream.ProdType == "6")
                         {
-                            waterWeightFlow = cstream.WeightFlow.Value;
+                            waterWeightFlow = cstream.WeightFlow;
                         }
                         if (cstream.ProdType == "4")
                         {
-                            overHeadWeightFlow =cstream.WeightFlow.Value;
+                            overHeadWeightFlow =cstream.WeightFlow;
                         }
                     }
                 }
@@ -514,12 +514,12 @@ namespace ReliefProMain.ViewModel
                         {
                             if (fbhx.StreamName == s.StreamName && IsFB)
                             {
-                                FeedTotal = FeedTotal + (s.FlowCalcFactor.Value * fbhx.FeedReliefSpEout.Value * cstream.WeightFlow.Value);
+                                FeedTotal = FeedTotal + (s.FlowCalcFactor * fbhx.FeedReliefSpEout * cstream.WeightFlow);
                             }
                         }
                         else
                         {
-                            FeedTotal = FeedTotal + (s.FlowCalcFactor.Value * cstream.SpEnthalpy.Value * cstream.WeightFlow.Value);
+                            FeedTotal = FeedTotal + (s.FlowCalcFactor * cstream.SpEnthalpy * cstream.WeightFlow);
                         }
                     }
                 }
@@ -537,17 +537,17 @@ namespace ReliefProMain.ViewModel
                     if (shx.IsPinch == true)
                     {
                         ReboilerPinch detail = reboilerPinchDAL.GetModel(SessionProtectedSystem, shx.ID);
-                        HeatTotal = HeatTotal + shx.PinchFactor.Value * detail.ReliefDuty.Value;
+                        HeatTotal = HeatTotal + shx.PinchFactor * detail.ReliefDuty;
                     }
                     else
                     {
                         TowerHXDetail detail = dbDetail.GetModel(SessionProtectedSystem, shx.DetailID);
-                        HeatTotal = HeatTotal + shx.DutyCalcFactor.Value * detail.Duty.Value;
+                        HeatTotal = HeatTotal + shx.DutyCalcFactor * detail.Duty;
                     }
                 }
             }
 
-            double latestH =latent.LatentEnthalpy.Value;
+            double latestH =latent.LatentEnthalpy;
             double totalH = FeedTotal - ProductTotal + HeatTotal;
             double wAccumulation = totalH / latestH + overHeadWeightFlow;
             double wRelief = wAccumulation;
@@ -556,9 +556,9 @@ namespace ReliefProMain.ViewModel
                 wRelief = 0;
             }
             reliefLoad = wAccumulation + waterWeightFlow;
-            reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / latent.ReliefOHWeightFlow.Value + waterWeightFlow / 18);
-            reliefTemperature = latent.ReliefTemperature.Value;
-            reliefPressure = latent.ReliefPressure.Value;
+            reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / latent.ReliefOHWeightFlow + waterWeightFlow / 18);
+            reliefTemperature = latent.ReliefTemperature;
+            reliefPressure = latent.ReliefPressure;
 
         }
         private void SteamFreezedMethod(ref double reliefLoad, ref double reliefMW, ref double reliefTemperature, ref double reliefPressure)
@@ -592,16 +592,16 @@ namespace ReliefProMain.ViewModel
                     {
                         if (cstream.ProdType == "6")
                         {
-                            ProductTotal = ProductTotal + (s.FlowCalcFactor.Value * cstream.SpEnthalpy.Value * product.WeightFlow.Value);
+                            ProductTotal = ProductTotal + (s.FlowCalcFactor * cstream.SpEnthalpy * product.WeightFlow);
                         }
                         else
                         {
-                            ProductTotal = ProductTotal + (s.FlowCalcFactor.Value * product.SpEnthalpy.Value * product.WeightFlow.Value);
+                            ProductTotal = ProductTotal + (s.FlowCalcFactor * product.SpEnthalpy * product.WeightFlow);
 
                         }
                         if (cstream.ProdType == "4")
                         {
-                            overHeadWeightFlow = cstream.WeightFlow.Value;
+                            overHeadWeightFlow = cstream.WeightFlow;
                         }
                     }
                 }
@@ -609,7 +609,7 @@ namespace ReliefProMain.ViewModel
                 {
                     if (!s.FlowStop)
                     {
-                        FeedTotal = FeedTotal + (s.FlowCalcFactor.Value * cstream.SpEnthalpy.Value * cstream.WeightFlow.Value);
+                        FeedTotal = FeedTotal + (s.FlowCalcFactor * cstream.SpEnthalpy * cstream.WeightFlow);
                     }
                 }
             }
@@ -626,17 +626,17 @@ namespace ReliefProMain.ViewModel
                     if (shx.IsPinch == true)
                     {
                         ReboilerPinch detail = reboilerPinchDAL.GetModel(SessionProtectedSystem, shx.ID);
-                        HeatTotal = HeatTotal + shx.PinchFactor.Value *detail.ReliefDuty.Value;
+                        HeatTotal = HeatTotal + shx.PinchFactor *detail.ReliefDuty;
                     }
                     else
                     {
                         TowerHXDetail detail = dbDetail.GetModel(SessionProtectedSystem, shx.DetailID);
-                        HeatTotal = HeatTotal + shx.DutyCalcFactor.Value * detail.Duty.Value;
+                        HeatTotal = HeatTotal + shx.DutyCalcFactor * detail.Duty;
                     }
                 }
             }
 
-            double latestH = latent.LatentEnthalpy.Value;
+            double latestH = latent.LatentEnthalpy;
             double totalH = FeedTotal - ProductTotal + HeatTotal;
             double wAccumulation = totalH / latestH + overHeadWeightFlow;
             double wRelief = wAccumulation;
@@ -645,9 +645,9 @@ namespace ReliefProMain.ViewModel
                 wRelief = 0;
             }
             reliefLoad = wAccumulation + waterWeightFlow;
-            reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / latent.ReliefOHWeightFlow.Value + waterWeightFlow / 18);
-            reliefTemperature = latent.ReliefTemperature.Value;
-            reliefPressure = latent.ReliefPressure.Value;
+            reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / latent.ReliefOHWeightFlow + waterWeightFlow / 18);
+            reliefTemperature = latent.ReliefTemperature;
+            reliefPressure = latent.ReliefPressure;
         }
 
 
@@ -688,20 +688,20 @@ namespace ReliefProMain.ViewModel
         private void ReadConvert()
         {
             if (_ReliefLoad!=null)
-                _ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, _ReliefLoadUnit, _ReliefLoad.Value);
+                _ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, _ReliefLoadUnit, _ReliefLoad);
             if (_ReliefTemperature!=null)
-                _ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, _ReliefTemperatureUnit, _ReliefTemperature.Value);
+                _ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, _ReliefTemperatureUnit, _ReliefTemperature);
             if (_ReliefPressure!=null)
-                _ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, _ReliefPressureUnit, _ReliefPressure.Value);
+                _ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, _ReliefPressureUnit, _ReliefPressure);
         }
         private void WriteConvert()
         {
             if (_ReliefLoad!=null)
-                _ReliefLoad = UnitConvert.Convert(_ReliefLoadUnit, UOMEnum.MassRate, _ReliefLoad.Value);
+                _ReliefLoad = UnitConvert.Convert(_ReliefLoadUnit, UOMEnum.MassRate, _ReliefLoad);
             if (_ReliefTemperature!=null)
-                _ReliefTemperature = UnitConvert.Convert(_ReliefTemperatureUnit, UOMEnum.Temperature, _ReliefTemperature.Value);
+                _ReliefTemperature = UnitConvert.Convert(_ReliefTemperatureUnit, UOMEnum.Temperature, _ReliefTemperature);
             if (_ReliefPressure!=null)
-                _ReliefPressure = UnitConvert.Convert(_ReliefPressureUnit, UOMEnum.Pressure, _ReliefPressure.Value);
+                _ReliefPressure = UnitConvert.Convert(_ReliefPressureUnit, UOMEnum.Pressure, _ReliefPressure);
         }
         private void InitUnit()
         {

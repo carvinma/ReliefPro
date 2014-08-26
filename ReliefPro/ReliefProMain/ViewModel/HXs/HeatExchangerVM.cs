@@ -68,8 +68,8 @@ namespace ReliefProMain.ViewModel
             }
         }
         public HeatExchanger CurrentHX { get; set; }
-        private double? _Duty;
-        public double? Duty
+        private double _Duty;
+        public double Duty
         {
             get
             {

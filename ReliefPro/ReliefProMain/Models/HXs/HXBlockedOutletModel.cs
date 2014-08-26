@@ -123,10 +123,10 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? normalDuty;
+        private double normalDuty;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? NormalDuty
+        public double NormalDuty
         {
             get { return normalDuty; }
             set
@@ -136,10 +136,10 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? normalHotTemperature;
+        private double normalHotTemperature;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? NormalHotTemperature
+        public double NormalHotTemperature
         {
             get { return normalHotTemperature; }
             set
@@ -149,10 +149,10 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? normalColdInletTemperature;
+        private double normalColdInletTemperature;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? NormalColdInletTemperature
+        public double NormalColdInletTemperature
         {
             get { return normalColdInletTemperature; }
             set
@@ -162,10 +162,10 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? normalColdOutletTemperature;
+        private double normalColdOutletTemperature;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? NormalColdOutletTemperature
+        public double NormalColdOutletTemperature
         {
             get { return normalColdOutletTemperature; }
             set
@@ -175,8 +175,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? latentPoint;
-        public double? LatentPoint
+        private double latentPoint;
+        public double LatentPoint
         {
             get { return latentPoint; }
             set
@@ -186,8 +186,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? reliefMW;
-        public double? ReliefMW
+        private double reliefMW;
+        public double ReliefMW
         {
             get { return reliefMW; }
             set
@@ -197,8 +197,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? reliefload;
-        public double? ReliefLoad
+        private double reliefload;
+        public double ReliefLoad
         {
             get { return reliefload; }
             set
@@ -208,8 +208,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? reliefTemperature;
-        public double? ReliefTemperature
+        private double reliefTemperature;
+        public double ReliefTemperature
         {
             get { return reliefTemperature; }
             set
@@ -219,8 +219,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? reliefPressure;
-        public double? ReliefPressure
+        private double reliefPressure;
+        public double ReliefPressure
         {
             get { return reliefPressure; }
             set
@@ -246,8 +246,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? normalDuty_Color;
-        public double? NormalDuty_Color
+        private double normalDuty_Color;
+        public double NormalDuty_Color
         {
             get { return normalDuty_Color; }
             set
@@ -257,8 +257,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? normalHotTemperature_Color;
-        public double? NormalHotTemperature_Color
+        private double normalHotTemperature_Color;
+        public double NormalHotTemperature_Color
         {
             get { return normalHotTemperature_Color; }
             set
@@ -268,8 +268,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? normalColdInletTemperature_Color;
-        public double? NormalColdInletTemperature_Color
+        private double normalColdInletTemperature_Color;
+        public double NormalColdInletTemperature_Color
         {
             get { return normalColdInletTemperature_Color; }
             set
@@ -279,8 +279,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? normalColdOutletTemperature_Color;
-        public double? NormalColdOutletTemperature_Color
+        private double normalColdOutletTemperature_Color;
+        public double NormalColdOutletTemperature_Color
         {
             get { return normalColdOutletTemperature_Color; }
             set
@@ -290,8 +290,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? latentPoint_Color;
-        public double? LatentPoint_Color
+        private double latentPoint_Color;
+        public double LatentPoint_Color
         {
             get { return latentPoint_Color; }
             set
@@ -301,8 +301,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? reliefMW_Color;
-        public double? ReliefMW_Color
+        private double reliefMW_Color;
+        public double ReliefMW_Color
         {
             get { return reliefMW_Color; }
             set
@@ -312,8 +312,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? reliefload_Color;
-        public double? ReliefLoad_Color
+        private double reliefload_Color;
+        public double ReliefLoad_Color
         {
             get { return reliefload_Color; }
             set
@@ -323,8 +323,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? reliefTemperature_Color;
-        public double? ReliefTemperature_Color
+        private double reliefTemperature_Color;
+        public double ReliefTemperature_Color
         {
             get { return reliefTemperature_Color; }
             set
@@ -334,8 +334,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        private double? reliefPressure_Color;
-        public double? ReliefPressure_Color
+        private double reliefPressure_Color;
+        public double ReliefPressure_Color
         {
             get { return reliefPressure_Color; }
             set

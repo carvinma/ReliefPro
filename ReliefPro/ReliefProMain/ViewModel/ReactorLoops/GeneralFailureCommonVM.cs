@@ -104,9 +104,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         { }
         private void WriteConvert()
         {
-            model.dbModel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMEnum.MassRate, model.dbModel.ReliefLoad.Value);
-            model.dbModel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMEnum.MassRate, model.dbModel.ReliefPressure.Value);
-            model.dbModel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMEnum.MassRate, model.dbModel.ReliefTemperature.Value);
+            model.dbModel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMEnum.MassRate, model.dbModel.ReliefLoad);
+            model.dbModel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMEnum.MassRate, model.dbModel.ReliefPressure);
+            model.dbModel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMEnum.MassRate, model.dbModel.ReliefTemperature);
         }
         private void Save(object obj)
         {

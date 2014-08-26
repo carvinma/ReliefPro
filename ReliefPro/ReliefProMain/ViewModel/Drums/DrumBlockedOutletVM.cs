@@ -80,7 +80,7 @@ namespace ReliefProMain.ViewModel.Drums
                 Directory.CreateDirectory(tempdir);
             }
             string duty = "0";
-            double feedupPress = model.MaxPressure.Value;
+            double feedupPress = model.MaxPressure;
             double setPress = drum.PSet(SessionPS);
             if (feedupPress > setPress)
             {
@@ -104,9 +104,9 @@ namespace ReliefProMain.ViewModel.Drums
                         reader.ReleaseProIIReader();
                         CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
 
-                        reliefMW = cs.BulkMwOfPhase.Value;
-                        reliefT = cs.Temperature.Value;
-                        reliefLoad = cs.WeightFlow.Value;
+                        reliefMW = cs.BulkMwOfPhase;
+                        reliefT = cs.Temperature;
+                        reliefLoad = cs.WeightFlow;
                     }
                     else
                     {

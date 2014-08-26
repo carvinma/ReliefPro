@@ -51,11 +51,11 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double? _Diameter;
+        private double _Diameter;
 
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ViewModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? Diameter
+        public double Diameter
         {
             get
             {
@@ -66,16 +66,16 @@ namespace ReliefProMain.ViewModel
                 this._Diameter = value;
                 if (Horiz && _NormalLiquidLevel != null && _Diameter != null)
                 {
-                    NormalLiquidLevel = _Diameter.Value / 2;
+                    NormalLiquidLevel = _Diameter / 2;
                 }
                 OnPropertyChanged("Diameter");
             }
         }
 
-        private double? _Length;
+        private double _Length;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ViewModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? Length
+        public double Length
         {
             get
             {
@@ -84,18 +84,18 @@ namespace ReliefProMain.ViewModel
             set
             {
                 this._Length = value;
-                if (Vertical && _NormalLiquidLevel != null && _Length != null)
+                if (Vertical)
                 {
-                    NormalLiquidLevel = _Length.Value / 2;
+                    NormalLiquidLevel = _Length / 2;
                 }
                 OnPropertyChanged("Length");
             }
         }
 
-        private double? _NormalLiquidLevel;
+        private double _NormalLiquidLevel;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ViewModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? NormalLiquidLevel
+        public double NormalLiquidLevel
         {
             get
             {
@@ -251,20 +251,20 @@ namespace ReliefProMain.ViewModel
         private void ReadConvert()
         {
             if (_Diameter != null)
-                _Diameter = UnitConvert.Convert(UOMEnum.Length, _DiameterUnit, _Diameter.Value);
+                _Diameter = UnitConvert.Convert(UOMEnum.Length, _DiameterUnit, _Diameter);
             if (_Length != null)
-                _Length = UnitConvert.Convert(UOMEnum.Length, _LengthUnit, _Length.Value);
+                _Length = UnitConvert.Convert(UOMEnum.Length, _LengthUnit, _Length);
             if (_NormalLiquidLevel != null)
-                _NormalLiquidLevel = UnitConvert.Convert(UOMEnum.Length, _NormalLiquidLevelUnit, _NormalLiquidLevel.Value);
+                _NormalLiquidLevel = UnitConvert.Convert(UOMEnum.Length, _NormalLiquidLevelUnit, _NormalLiquidLevel);
         }
         private void WriteConvert()
         {
             if (_Diameter != null)
-                _Diameter = UnitConvert.Convert(_DiameterUnit, UOMEnum.Length, _Diameter.Value);
+                _Diameter = UnitConvert.Convert(_DiameterUnit, UOMEnum.Length, _Diameter);
             if (_Length != null)
-                _Length = UnitConvert.Convert(_LengthUnit, UOMEnum.Length, _Length.Value);
+                _Length = UnitConvert.Convert(_LengthUnit, UOMEnum.Length, _Length);
             if (_NormalLiquidLevel != null)
-                _NormalLiquidLevel = UnitConvert.Convert(_NormalLiquidLevelUnit, UOMEnum.Length, _NormalLiquidLevel.Value);
+                _NormalLiquidLevel = UnitConvert.Convert(_NormalLiquidLevelUnit, UOMEnum.Length, _NormalLiquidLevel);
         }
         private void InitUnit()
         {

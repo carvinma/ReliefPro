@@ -19,8 +19,8 @@ namespace ReliefProMain.ViewModel
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         private string FileName;
-        private double? _Factor;
-        public double? Factor
+        private double _Factor;
+        public double Factor
         {
             get { return _Factor; }
             set
@@ -29,8 +29,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("Factor");
             }
         }
-        private double? _FeedTin;
-        public double? FeedTin
+        private double _FeedTin;
+        public double FeedTin
         {
             get { return _FeedTin; }
             set
@@ -39,8 +39,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("FeedTin");
             }
         }
-        private double? _FeedTout;
-        public double? FeedTout
+        private double _FeedTout;
+        public double FeedTout
         {
             get { return _FeedTout; }
             set
@@ -49,8 +49,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("FeedTout");
             }
         }
-        private double? _FeedMassRate;
-        public double? FeedMassRate
+        private double _FeedMassRate;
+        public double FeedMassRate
         {
             get { return _FeedMassRate; }
             set
@@ -59,8 +59,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("FeedMassRate");
             }
         }
-        private double? _FeedSpEin;
-        public double? FeedSpEin
+        private double _FeedSpEin;
+        public double FeedSpEin
         {
             get { return _FeedSpEin; }
             set
@@ -69,8 +69,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("FeedSpEin");
             }
         }
-        private double? _FeedSpEout;
-        public double? FeedSpEout
+        private double _FeedSpEout;
+        public double FeedSpEout
         {
             get { return _FeedSpEout; }
             set
@@ -80,8 +80,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double? _BottomTin;
-        public double? BottomTin
+        private double _BottomTin;
+        public double BottomTin
         {
             get { return _BottomTin; }
             set
@@ -90,8 +90,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("BottomTin");
             }
         }
-        private double? _BottomTout;
-        public double? BottomTout
+        private double _BottomTout;
+        public double BottomTout
         {
             get { return _BottomTout; }
             set
@@ -100,8 +100,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("BottomTout");
             }
         }
-        private double? _BottomMassRate;
-        public double? BottomMassRate
+        private double _BottomMassRate;
+        public double BottomMassRate
         {
             get { return _BottomMassRate; }
             set
@@ -111,8 +111,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double? _BottomReliefTin;
-        public double? BottomReliefTin
+        private double _BottomReliefTin;
+        public double BottomReliefTin
         {
             get { return _BottomReliefTin; }
             set
@@ -121,8 +121,8 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("BottomReliefTin");
             }
         }
-        private double? _Duty;
-        public double? Duty
+        private double _Duty;
+        public double Duty
         {
             get { return _Duty; }
             set
@@ -132,8 +132,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double? _FeedReliefTout;
-        public double? FeedReliefTout
+        private double _FeedReliefTout;
+        public double FeedReliefTout
         {
             get { return _FeedReliefTout; }
             set
@@ -143,8 +143,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double? _FeedReliefSpEout;
-        public double? FeedReliefSpEout
+        private double _FeedReliefSpEout;
+        public double FeedReliefSpEout
         {
             get { return _FeedReliefSpEout; }
             set
@@ -481,16 +481,16 @@ namespace ReliefProMain.ViewModel
             int iterateNumber = 50;
             double MaxErrorRate = 0.005;
 
-            double feedTin = FeedTin.Value;
-            double feedTout = FeedTout.Value;
-            double feedMassRate = FeedMassRate.Value;
-            double feedEin = FeedSpEin.Value;
-            double feedEout = FeedSpEout.Value;
-            double bottomTin = BottomTin.Value;
-            double bottomTout = BottomTout.Value;
-            double bottomMassRate =BottomMassRate.Value;
-            double bottomReliefTin =BottomReliefTin.Value;
-            double duty = Duty.Value;
+            double feedTin = FeedTin;
+            double feedTout = FeedTout;
+            double feedMassRate = FeedMassRate;
+            double feedEin = FeedSpEin;
+            double feedEout = FeedSpEout;
+            double bottomTin = BottomTin;
+            double bottomTout = BottomTout;
+            double bottomMassRate =BottomMassRate;
+            double bottomReliefTin =BottomReliefTin;
+            double duty = Duty;
             double qaenGuess = 1.25;
             FBMethod(feedTin, feedTout, feedMassRate, feedEin, feedEout, bottomTin, bottomTout, bottomMassRate, duty, bottomReliefTin, qaenGuess, MaxErrorRate, ref factor, ref isConverged, ref iterateNumber);
 
@@ -580,39 +580,39 @@ namespace ReliefProMain.ViewModel
 
         private void WriteConvert()
         {
-            FeedTin = UnitConvert.Convert(FeedTinUnit, UOMEnum.Temperature, FeedTin.Value);
-            FeedTout = UnitConvert.Convert(FeedToutUnit, UOMEnum.Temperature, FeedTout.Value);
+            FeedTin = UnitConvert.Convert(FeedTinUnit, UOMEnum.Temperature, FeedTin);
+            FeedTout = UnitConvert.Convert(FeedToutUnit, UOMEnum.Temperature, FeedTout);
 
-            FeedMassRate = UnitConvert.Convert(FeedMassRateUnit, UOMEnum.MassRate, FeedMassRate.Value);
-            FeedSpEin = UnitConvert.Convert(FeedSpEinUnit, UOMEnum.SpecificEnthalpy, FeedSpEin.Value);
-            FeedSpEout = UnitConvert.Convert(FeedSpEoutUnit, UOMEnum.SpecificEnthalpy, FeedSpEout.Value);
+            FeedMassRate = UnitConvert.Convert(FeedMassRateUnit, UOMEnum.MassRate, FeedMassRate);
+            FeedSpEin = UnitConvert.Convert(FeedSpEinUnit, UOMEnum.SpecificEnthalpy, FeedSpEin);
+            FeedSpEout = UnitConvert.Convert(FeedSpEoutUnit, UOMEnum.SpecificEnthalpy, FeedSpEout);
 
-            BottomTin = UnitConvert.Convert(BottomTinUnit, UOMEnum.Temperature, BottomTin.Value);
-            BottomTout = UnitConvert.Convert(BottomToutUnit, UOMEnum.Temperature, BottomTout.Value);
+            BottomTin = UnitConvert.Convert(BottomTinUnit, UOMEnum.Temperature, BottomTin);
+            BottomTout = UnitConvert.Convert(BottomToutUnit, UOMEnum.Temperature, BottomTout);
 
-            BottomReliefTin = UnitConvert.Convert(BottomReliefTinUnit, UOMEnum.Temperature, BottomReliefTin.Value);
-            BottomMassRate =  UnitConvert.Convert(BottomMassRateUnit, UOMEnum.MassRate, BottomMassRate.Value);
-            Duty = UnitConvert.Convert(DutyUnit, UOMEnum.EnthalpyDuty, Duty.Value);
-            FeedReliefTout = UnitConvert.Convert(FeedReliefToutUnit, UOMEnum.Temperature, FeedReliefTout.Value);
-            FeedReliefSpEout = UnitConvert.Convert(FeedReliefSpEoutUnit, UOMEnum.SpecificEnthalpy, FeedReliefSpEout.Value);
+            BottomReliefTin = UnitConvert.Convert(BottomReliefTinUnit, UOMEnum.Temperature, BottomReliefTin);
+            BottomMassRate =  UnitConvert.Convert(BottomMassRateUnit, UOMEnum.MassRate, BottomMassRate);
+            Duty = UnitConvert.Convert(DutyUnit, UOMEnum.EnthalpyDuty, Duty);
+            FeedReliefTout = UnitConvert.Convert(FeedReliefToutUnit, UOMEnum.Temperature, FeedReliefTout);
+            FeedReliefSpEout = UnitConvert.Convert(FeedReliefSpEoutUnit, UOMEnum.SpecificEnthalpy, FeedReliefSpEout);
         }
         private void ReadConvert()
         {
-            FeedTin = UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, FeedTin.Value);
-            FeedTout =UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, FeedTout.Value);
+            FeedTin = UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, FeedTin);
+            FeedTout =UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, FeedTout);
 
-            FeedMassRate = UnitConvert.Convert(UOMEnum.MassRate, uomEnum.UserMassRate, FeedMassRate.Value);
-            FeedSpEin = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, uomEnum.UserSpecificEnthalpy, FeedSpEin.Value);
-            FeedSpEout = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, uomEnum.UserSpecificEnthalpy, FeedSpEout.Value);
+            FeedMassRate = UnitConvert.Convert(UOMEnum.MassRate, uomEnum.UserMassRate, FeedMassRate);
+            FeedSpEin = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, uomEnum.UserSpecificEnthalpy, FeedSpEin);
+            FeedSpEout = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, uomEnum.UserSpecificEnthalpy, FeedSpEout);
 
-            BottomTin = UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, BottomTin.Value);
-            BottomTout = UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, BottomTout.Value);
+            BottomTin = UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, BottomTin);
+            BottomTout = UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, BottomTout);
 
-            BottomReliefTin =  UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, BottomReliefTin.Value);
-            BottomMassRate = UnitConvert.Convert(UOMEnum.MassRate, uomEnum.UserMassRate, BottomMassRate.Value);
-            Duty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, Duty.Value);
-            FeedReliefTout =  UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, FeedReliefTout.Value);
-            FeedReliefSpEout = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, uomEnum.UserSpecificEnthalpy, FeedReliefSpEout.Value);
+            BottomReliefTin =  UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, BottomReliefTin);
+            BottomMassRate = UnitConvert.Convert(UOMEnum.MassRate, uomEnum.UserMassRate, BottomMassRate);
+            Duty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, Duty);
+            FeedReliefTout =  UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, FeedReliefTout);
+            FeedReliefSpEout = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, uomEnum.UserSpecificEnthalpy, FeedReliefSpEout);
         }
         private void InitUnit()
         {

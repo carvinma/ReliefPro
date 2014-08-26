@@ -363,7 +363,7 @@ namespace ReliefProMain.ViewModel
             string copyFile = dirCopyStream + @"\" + SourceFileInfo.FileName;
             File.Copy(FileFullPath, copyFile, true);
             CustomStream stream = CopyTop1Liquid(copyFile);
-            double internPressure = UnitConvert.Convert("MPAG", "KPA", stream.Pressure.Value);
+            double internPressure = UnitConvert.Convert("MPAG", "KPA", stream.Pressure);
             if (internPressure == 0)
             {
                 MessageBox.Show("Please Rerun this ProII file and save it.", "Message Box");
@@ -388,13 +388,13 @@ namespace ReliefProMain.ViewModel
                 b = CalcLatent(content, ReliefPressure, stream, dirLatent, ref latentVapor, ref latentLiquid);
                 if (b == false)
                     return;
-                latentEnthalpy = latentVapor.SpEnthalpy.Value - latentLiquid.SpEnthalpy.Value;
-                ReliefTemperature = latentVapor.Temperature.Value;
+                latentEnthalpy = latentVapor.SpEnthalpy - latentLiquid.SpEnthalpy;
+                ReliefTemperature = latentVapor.Temperature;
             }
             else
             {
                 latentEnthalpy = 116.3152;
-                ReliefTemperature = stream.Temperature.Value;
+                ReliefTemperature = stream.Temperature;
             }
             IList<CustomStream> products = null;
             CustomStreamDAL dbstream = new CustomStreamDAL();
@@ -408,7 +408,7 @@ namespace ReliefProMain.ViewModel
             for (int i = 1; i <= count; i++)
             {
                 CustomStream p = products[i - 1];
-                if (p.TotalMolarRate != null && p.TotalMolarRate.Value > 0)
+                if (p.TotalMolarRate != null && p.TotalMolarRate > 0)
                 {
                     IFlashCalculate fc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
                     string gd = Guid.NewGuid().ToString();
@@ -417,8 +417,8 @@ namespace ReliefProMain.ViewModel
                     string prodtype = p.ProdType;
                     int tray = p.Tray;
                     string streamname = p.StreamName;
-                    double strPressure = p.Pressure.Value;
-                    double strTemperature = p.Temperature.Value;
+                    double strPressure = p.Pressure;
+                    double strTemperature = p.Temperature;
                     string f = string.Empty;
 
 
@@ -428,7 +428,7 @@ namespace ReliefProMain.ViewModel
                     double prodpressure = 0;
                     if (p.Pressure != null)
                     {
-                        prodpressure = p.Pressure.Value;
+                        prodpressure = p.Pressure;
                     }
                     string usablecontent = PROIIFileOperator.getUsableContent(p.StreamName, tempdir);
 
@@ -443,7 +443,7 @@ namespace ReliefProMain.ViewModel
                     }
                     else
                     {
-                        double press = ReliefPressure + (p.Pressure.Value - overHeadPressure);
+                        double press = ReliefPressure + (p.Pressure - overHeadPressure);
                         f = fc.Calculate(usablecontent, 1, press.ToString(), 3, "", p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
                     }
                     if (ImportResult == 1 || ImportResult == 2)
@@ -582,7 +582,7 @@ namespace ReliefProMain.ViewModel
             {
                 if (cs.ProdType == "3" || cs.ProdType == "4")
                 {
-                    overHeadPressure = cs.Pressure.Value;
+                    overHeadPressure = cs.Pressure;
                     break;
                 }
             }

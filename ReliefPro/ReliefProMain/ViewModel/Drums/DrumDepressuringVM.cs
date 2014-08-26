@@ -153,16 +153,16 @@ namespace ReliefProMain.ViewModel.Drums
             switch (selectedDeprRqe)
             {
                 case "21bar/min":
-                    pRequire = model.InitialPressure.Value - 2.1;
+                    pRequire = model.InitialPressure - 2.1;
                     tRequire = 1.0 / 60;
 
                     break;
                 case "7bar/min":
-                    pRequire = model.InitialPressure.Value - 0.7;
+                    pRequire = model.InitialPressure - 0.7;
                     tRequire = 1.0 / 60;
                     break;
                 case "15min to 50% Design pressure":
-                    pRequire = model.Vesseldesignpressure.Value / 2;
+                    pRequire = model.Vesseldesignpressure / 2;
                     tRequire = 15.0 / 60;
                     break;
                 case "15min to 7barg":
@@ -177,16 +177,16 @@ namespace ReliefProMain.ViewModel.Drums
                 MessageBox.Show("P t_require can't be smaller than zero", "Message Box");
                 return;
             }
-            tConstant = tRequire / Math.Log(model.InitialPressure.Value / pRequire);
-            double wInitDepr = model.VaporDensity.Value * model.TotalVaporVolume.Value / tConstant;
+            tConstant = tRequire / Math.Log(model.InitialPressure / pRequire);
+            double wInitDepr = model.VaporDensity * model.TotalVaporVolume / tConstant;
             Wt[0] = new KeyValuePair<int, double>(0, wInitDepr);
-            Pt[0] = new KeyValuePair<int, double>(0, model.InitialPressure.Value);
+            Pt[0] = new KeyValuePair<int, double>(0, model.InitialPressure);
             for (int i = 1; i <= 15; i++)
             {
                 double j = i/60.0;
                 double exp=Math.Exp(-1.0 * j / tConstant);
                 double tmpWt =wInitDepr *exp ;
-                double tmpPt =model.InitialPressure.Value * exp;
+                double tmpPt =model.InitialPressure * exp;
                 decimal dd=(decimal)tmpPt;
                 Wt[i] = new KeyValuePair<int, double>(i, tmpWt);
                 Pt[i] = new KeyValuePair<int, double>(i, tmpPt);                
@@ -194,11 +194,11 @@ namespace ReliefProMain.ViewModel.Drums
             model.InitialDepressuringRate = wInitDepr;
             model.Timespecify = (int)(tConstant*60);
             model.CalculatedDepressuringRate = wInitDepr * Math.Exp(-1);
-            model.CalculatedVesselPressure = model.InitialPressure.Value *Math.Exp(-1);
+            model.CalculatedVesselPressure = model.InitialPressure *Math.Exp(-1);
 
             //下列值需要保存到
             double reliefLoad = wInitDepr;
-            double reliefPressure = model.InitialPressure.Value;
+            double reliefPressure = model.InitialPressure;
             double reliefMW = 0;
             double reliefTemperature = 0;
             

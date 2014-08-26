@@ -104,7 +104,7 @@ namespace ReliefProMain.ViewModel.HXs
             else
             {
                 CustomStream maxTStream = feed;
-                if (product.Temperature.Value > feed.Temperature.Value)
+                if (product.Temperature > feed.Temperature)
                     maxTStream = product;
 
                 CustomStream stream = new CustomStream();
@@ -146,7 +146,7 @@ namespace ReliefProMain.ViewModel.HXs
                             reader.ReleaseProIIReader();
                             CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
                             CustomStream liquidFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
-                            double latent = vaporFire.SpEnthalpy.Value - liquidFire.SpEnthalpy.Value;
+                            double latent = vaporFire.SpEnthalpy - liquidFire.SpEnthalpy;
                             model.ReliefLoad = Q / latent;
                             model.ReliefMW = vaporFire.BulkMwOfPhase;
                             model.ReliefPressure = reliefFirePressure;

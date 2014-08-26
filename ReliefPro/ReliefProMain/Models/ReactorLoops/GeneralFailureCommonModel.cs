@@ -60,7 +60,7 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("CalcInjectionWaterStream");
             }
         }
-        public double? InjectionWaterStream
+        public double InjectionWaterStream
         {
             get { return dbModel.InjectionWaterStream; }
             set
@@ -79,7 +79,7 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("CalcHXNetworkColdStream");
             }
         }
-        public double? HXNetworkColdStream
+        public double HXNetworkColdStream
         {
             get { return dbModel.HXNetworkColdStream; }
             set
@@ -89,7 +89,7 @@ namespace ReliefProMain.Models.ReactorLoops
             }
         }
 
-        public double? ReliefLoad
+        public double ReliefLoad
         {
             get { return dbModel.ReliefLoad; }
             set
@@ -98,7 +98,7 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("ReliefLoad");
             }
         }
-        public double? ReliefMW
+        public double ReliefMW
         {
             get { return dbModel.ReliefMW; }
             set
@@ -107,7 +107,7 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("ReliefMW");
             }
         }
-        public double? ReliefTemperature
+        public double ReliefTemperature
         {
             get { return dbModel.ReliefTemperature; }
             set
@@ -116,7 +116,7 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("ReliefTemperature");
             }
         }
-        public double? ReliefPressure
+        public double ReliefPressure
         {
             get { return dbModel.ReliefPressure; }
             set
@@ -148,8 +148,8 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("Stop");
             }
         }
-        private double? dutyFactor;
-        public double? DutyFactor
+        private double dutyFactor;
+        public double DutyFactor
         {
             get { return dutyFactor; }
             set

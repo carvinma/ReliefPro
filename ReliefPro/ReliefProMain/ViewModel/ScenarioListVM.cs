@@ -697,7 +697,7 @@ namespace ReliefProMain.ViewModel
                         tsHX.Medium = detail.Medium;
                         tsHX.HeaterType = hx.HeaterType;
 
-                        if (ScenarioName == "BlockedOutlet" && detail.Duty.Value < 0)
+                        if (ScenarioName == "BlockedOutlet" && detail.Duty < 0)
                         {
                             tsHX.DutyLost = true;
                         }
@@ -708,7 +708,7 @@ namespace ReliefProMain.ViewModel
                         tsHX.DutyCalcFactor = factor;
                         tsHX.DetailName = detail.DetailName;
                         tsHX.Medium = detail.Medium;                        
-                        if (ScenarioName == "BlockedOutlet" && detail.Duty.Value < 0)
+                        if (ScenarioName == "BlockedOutlet" && detail.Duty < 0)
                         {
                             tsHX.DutyLost = true;
                         }
@@ -840,7 +840,7 @@ namespace ReliefProMain.ViewModel
                         tsHX.Medium = detail.Medium;
                         tsHX.HeaterType = hx.HeaterType;
 
-                        if (ScenarioName == "BlockedOutlet" && detail.Duty.Value < 0)
+                        if (ScenarioName == "BlockedOutlet" && detail.Duty < 0)
                         {
                             tsHX.DutyLost = true;
                         }
@@ -852,7 +852,7 @@ namespace ReliefProMain.ViewModel
                             AbnormalHeaterDetail d = new AbnormalHeaterDetail();
                             d = new AbnormalHeaterDetail();
                             d.AbnormalType = 2;
-                            d.Duty = hx.HeaterDuty.Value * detail.DutyPercentage.Value/100;
+                            d.Duty = hx.HeaterDuty * detail.DutyPercentage/100;
                             d.DutyFactor = 1;
                             d.HeaterID = detail.ID;
                             d.HeaterName = detail.DetailName;
@@ -867,7 +867,7 @@ namespace ReliefProMain.ViewModel
                         tsHX.DutyCalcFactor = factor;
                         tsHX.DetailName = detail.DetailName;
                         tsHX.Medium = detail.Medium;
-                        if (ScenarioName == "BlockedOutlet" && detail.Duty.Value < 0)
+                        if (ScenarioName == "BlockedOutlet" && detail.Duty < 0)
                         {
                             tsHX.DutyLost = true;
                         }
@@ -876,7 +876,7 @@ namespace ReliefProMain.ViewModel
                         if (tsHX.HeaterType == 3 || tsHX.HeaterType == 4)
                         {
                             AbnormalHeaterDetail d = abnormalHeaterDetailDAL.GetModel(Session,ScenarioID,tsHX.ID,2);
-                            d.Duty = hx.HeaterDuty.Value * tsHX.DutyCalcFactor;
+                            d.Duty = hx.HeaterDuty * tsHX.DutyCalcFactor;
                             d.HeaterName = detail.DetailName;
                             d.HeaterType = detail.Medium;
                             abnormalHeaterDetailDAL.Update(d, Session);
