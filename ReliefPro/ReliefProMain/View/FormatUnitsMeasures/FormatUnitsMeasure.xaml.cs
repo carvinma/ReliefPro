@@ -30,6 +30,7 @@ namespace ReliefProMain.View
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+            UOMLib.UOMEnum.UnitFormFlag = true;
         }
     }
 }
