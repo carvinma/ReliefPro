@@ -57,6 +57,8 @@ namespace ReliefProMain.Models.HXs
         public TubeRupture dbmodel;
         public TubeRuptureModel(TubeRupture model)
         {
+            if (model == null)
+                model = new TubeRupture();
             dbmodel = model;
 
             this.OD = model.OD;
