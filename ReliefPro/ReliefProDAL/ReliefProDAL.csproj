@@ -67,6 +67,7 @@
     <Compile Include="Drums\DrumDAL.cs" />
     <Compile Include="GlobalDefault\GlobalDefaultDAL.cs" />
     <Compile Include="HXs\HeatExchangerDAL.cs" />
+    <Compile Include="HXs\TubeRuptureDAL.cs" />
     <Compile Include="ProIIEqDataDAL.cs" />
     <Compile Include="ProIIEqTypeDAL.cs" />
     <Compile Include="ReactorLoops\GeneralFailureCommonDAL.cs" />
