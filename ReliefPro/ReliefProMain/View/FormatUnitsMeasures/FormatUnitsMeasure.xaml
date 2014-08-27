@@ -3,16 +3,36 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" x:Class="ReliefProMain.View.FormatUnitsMeasure"
 		Title="{DynamicResource FormatUnitsMeasureTitle}" Name="myWindow" 
-        Height="570" Width="658" Icon="/ReliefProMain;component/Images/app.ico"  
+        Height="520" Width="658" Icon="/ReliefProMain;component/Images/app.ico"  
         Style="{DynamicResource WinStyle}" >
 	
 	<Grid>
 		<DockPanel>
-            <Menu Height="40"  VerticalAlignment="Top" DockPanel.Dock="Top"/>
-            <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Width="658" Orientation="Horizontal">
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <GroupBox>
+                    <Grid HorizontalAlignment="Left"  VerticalAlignment="Top" Width="630">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="145"/>
+                            <ColumnDefinition Width="179"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="{DynamicResource Basic}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" />
+                        <ComboBox Grid.Row="0" VerticalAlignment="Center" Grid.Column="1" ItemsSource="{Binding model.ObBasicUnit, Mode=OneWay}" 
+                        SelectedValuePath="ID" DisplayMemberPath="UnitName"
+						SelectedItem="{Binding model.BasicUnitselectLocation,Mode=TwoWay}" />
+                        <Button Content="{DynamicResource CopyfromthisBasicandAddNewBasic}" VerticalContentAlignment="Top" HorizontalAlignment="Left"  Command="{Binding NewBasicCommand}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Width="246"/>
+
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+                    <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Width="658" Orientation="Horizontal">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="0"/>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="23"/>
@@ -40,7 +60,7 @@
             <GroupBox Header="{DynamicResource UOM}">
                 <Grid HorizontalAlignment="Left"  VerticalAlignment="Top" Width="630">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="0"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
@@ -60,8 +80,6 @@
                         <ColumnDefinition Width="120"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Content="{DynamicResource CopyfromthisBasicandAddNewBasic}" VerticalContentAlignment="Top" HorizontalAlignment="Left"  Command="{Binding NewBasicCommand}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Width="246"/>
-                    <Label Content="{DynamicResource Basic}" Grid.Row="0" Grid.Column="0" />
                     <Label Content="{DynamicResource Temperature}" Grid.Row="1" Grid.Column="0" />
                     <Label Content="{DynamicResource Pressure}" Grid.Row="2" Grid.Column="0" />
                     <Label Content="{DynamicResource Weight_wt}" Grid.Row="3" Grid.Column="0" />
@@ -89,9 +107,7 @@
                     <Button Content="{DynamicResource SetThisBasicToDefalut}"  VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding BasicUnitDefaultCommand}" Width="245"  Grid.Row="12" Grid.Column="2" Grid.ColumnSpan="2"  />
 
 
-                    <CustomControl:CustomComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding model.ObBasicUnit, Mode=OneWay}" 
-                        SelectedValuePath="ID" DisplayMemberPath="UnitName"
-						SelectedItem="{Binding model.BasicUnitselectLocation,Mode=TwoWay}" />
+                  
                     <CustomControl:CustomComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding model.ObcTemperature, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.TemperatureSelectLocation,Mode=TwoWay}"/>
 
