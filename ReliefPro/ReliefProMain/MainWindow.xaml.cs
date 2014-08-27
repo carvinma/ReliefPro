@@ -299,7 +299,7 @@ namespace ReliefProMain
                         break;
                     case "Import Simulation":
                         ImportExtraData();
-                        break;    
+                        break;
                 }
 
             }
@@ -456,7 +456,35 @@ namespace ReliefProMain
         }
         private void OpenUOM()
         {
+            TVPlantViewModel tvi = null;
+            ObservableCollection<TVPlantViewModel> Plants = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
+            if (Plants.Count == 0)
+            {
+                MessageBox.Show("Please create a plant or open a plant first.", "Message Box");
+                return;
+            }
+            if (Plants.Count == 1)
+            {
+                tvi = Plants[0];
+            }
+            else if (Plants.Count > 1)
+            {
+                if (NavigationTreeView.SelectedItem == null || NavigationTreeView.SelectedItem.GetType() != typeof(TVPlantViewModel))
+                {
+                    MessageBox.Show("Please select a plant first.", "Message Box");
+                    return;
+                }
+                else
+                {
+                    tvi = (TVPlantViewModel)NavigationTreeView.SelectedItem;
+
+                }
+
+            }
             FormatUnitsMeasure view = new FormatUnitsMeasure();
+            FormatUnitsMeasureVM vm = new FormatUnitsMeasureVM(tvi.SessionPlant);
+            view.DataContext = vm;
+            view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             view.ShowDialog();
         }
 
@@ -655,7 +683,7 @@ namespace ReliefProMain
                 else
                 {
                     tvi = (TVPlantViewModel)NavigationTreeView.SelectedItem;
-                    
+
                 }
 
             }
