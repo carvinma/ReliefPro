@@ -50,9 +50,11 @@ namespace UOMLib
         public static bool UnitFormFlag = true;//true 从Current赋值下拉框，否则是原来系统默认值
         public UOMEnum(ISession SessionPlant)
         {
-            //UnitInfo unitInfo = new UnitInfo();
+            UnitInfo unitInfo = new UnitInfo();
             //var basicUnit = unitInfo.GetBasicUnitUOM(SessionPlant);
             //lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(SessionPlant);
+            // lstBasicUnitCurrent = unitInfo.GetBasicUnitCurrentUserSet(SessionPlant);
+
             UserTemperature = GetUnit(UnitTypeEnum.Temperature, BasicUnitID);
             UserPressure = GetUnit(UnitTypeEnum.Pressure, BasicUnitID);
             UserEnthalpyDuty = GetUnit(UnitTypeEnum.EnthalpyDuty, BasicUnitID);
@@ -68,7 +70,7 @@ namespace UOMLib
         }
         private string GetUnit(UnitTypeEnum unitTypeEnum, int basicUnitID)
         {
-            if (lstBasicUnitCurrent != null && lstBasicUnitCurrent.Count > 0)
+            if (UOMEnum.UnitFormFlag && lstBasicUnitCurrent != null && lstBasicUnitCurrent.Count > 0)
             {
                 return GetCurrentUnit(unitTypeEnum);
             }
@@ -80,7 +82,9 @@ namespace UOMLib
         private string GetCurrentUnit(UnitTypeEnum unitTypeEnum)
         {
             var currentUnit = lstBasicUnitCurrent.FirstOrDefault(p => p.UnitTypeID == int.Parse(unitTypeEnum.ToString("d")));
-            return lstSystemUnit.FirstOrDefault(p => p.ID == currentUnit.SystemUnitID).Name;
+            if (currentUnit != null)
+                return lstSystemUnit.FirstOrDefault(p => p.ID == currentUnit.SystemUnitID).Name;
+            return "";
         }
         private string GetDefalutUnit(UnitTypeEnum unitTypeEnum, int basicUnitID)
         {

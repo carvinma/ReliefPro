@@ -14,7 +14,7 @@ namespace UOMLib
     {
         private readonly string dbConnectPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\plant.mdb";
 
-        public IList<BasicUnit> GetBasicUnit()
+        public IList<BasicUnit> GetBasicUnit(ISession SessionPlan)
         {
             IList<BasicUnit> lstBasicUnit;
             BasicUnitDAL db = new BasicUnitDAL();
@@ -30,42 +30,20 @@ namespace UOMLib
             var lstBasicUnit = db.GetAllList(SessionPlan);
             return lstBasicUnit.Where(p => p.IsDefault == 1).First();
         }
-        public IList<BasicUnitCurrent> GetBasicUnitCurrent()
-        {
-            IList<BasicUnitCurrent> lstBasicUnitCurrent;
-            BasicUnitCurrentDAL db = new BasicUnitCurrentDAL();
-
-            lstBasicUnitCurrent = db.GetAllList(TempleSession.Session);
-            return lstBasicUnitCurrent;
-        }
-        public IList<BasicUnitDefault> GetBasicUnitDefault()
-        {
-            IList<BasicUnitDefault> lstBasicUnitDefault;
-            BasicUnitDefaultDAL db = new BasicUnitDefaultDAL();
-
-            lstBasicUnitDefault = db.GetAllList(TempleSession.Session);
-            return lstBasicUnitDefault;
-        }
-        public IList<BasicUnitDefault> GetBasicUnitDefaultUserSet(ISession SessionPlan)
+        public IList<BasicUnitDefault> GetBasicUnitDefault(ISession SessionPlan)
         {
             BasicUnitDefaultDAL db = new BasicUnitDefaultDAL();
             var lstBasicUnitDefault = db.GetAllList(SessionPlan);
             return lstBasicUnitDefault;
         }
-        public IList<BasicUnitCurrent> GetBasicUnitCurrentUserSet(ISession SessionPlan)
+
+        public IList<BasicUnitCurrent> GetBasicUnitCurrent(ISession SessionPlan)
         {
             BasicUnitCurrentDAL db = new BasicUnitCurrentDAL();
             var lstBasicUnitCurrent = db.GetAllList(SessionPlan);
             return lstBasicUnitCurrent;
         }
-        public IList<SystemUnit> GetSystemUnit()
-        {
-            IList<SystemUnit> lstSystemUnit;
-            SystemUnitDAL db = new SystemUnitDAL();
 
-            lstSystemUnit = db.GetAllList(TempleSession.Session);
-            return lstSystemUnit;
-        }
         public IList<SystemUnit> GetSystemUnit(ISession SessionPlan)
         {
             IList<SystemUnit> lstSystemUnit;
@@ -74,96 +52,81 @@ namespace UOMLib
             lstSystemUnit = db.GetAllList(SessionPlan);
             return lstSystemUnit;
         }
-        public IList<UnitType> GetUnitType()
+        public IList<UnitType> GetUnitType(ISession SessionPlan)
         {
-            IList<UnitType> lstUnitType;
             UnitTypeDAL db = new UnitTypeDAL();
 
-            lstUnitType = db.GetAllList(TempleSession.Session);
+            var lstUnitType = db.GetAllList(SessionPlan);
             return lstUnitType;
         }
-        public int BasicUnitAdd(BasicUnit model)
+        public int BasicUnitAdd(BasicUnit model, ISession SessionPlan)
         {
             int tmpID = 0;
             BasicUnitDAL db = new BasicUnitDAL();
-            using (var helper = new UOMLNHibernateHelper(dbConnectPath))
-            {
-                object o = db.Add(model, helper.GetCurrentSession());
-                int.TryParse(o.ToString(), out tmpID);
-            }
+            object o = db.Add(model, SessionPlan);
+            int.TryParse(o.ToString(), out tmpID);
             return tmpID;
         }
-        public int BasicUnitSetDefault(int id)
+        public int BasicUnitSetDefault(int id, ISession SessionPlan)
         {
             BasicUnitDAL db = new BasicUnitDAL();
-            using (var helper = new UOMLNHibernateHelper(dbConnectPath))
+
+            string sql = "update tbBasicUnit a set IsDefault=0 where a.ID<>:ID";
+            string sql2 = "update tbBasicUnit a set IsDefault=1 where a.ID=:ID";
+            var query = SessionPlan.CreateSQLQuery(sql);
+            var query2 = SessionPlan.CreateSQLQuery(sql2);
+            query.SetInt32("ID", id);
+            query2.SetInt32("ID", id);
+            try
             {
-                var Session = helper.GetCurrentSession();
-                string sql = "update tbBasicUnit a set IsDefault=0 where a.ID<>:ID";
-                string sql2 = "update tbBasicUnit a set IsDefault=1 where a.ID=:ID";
-                var query = Session.CreateSQLQuery(sql);
-                var query2 = Session.CreateSQLQuery(sql2);
-                query.SetInt32("ID", id);
-                query2.SetInt32("ID", id);
+                var rows = query.ExecuteUpdate();
+                rows = query2.ExecuteUpdate();
+                return rows;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void Save(IList<BasicUnitDefault> lst, ISession SessionPlan)
+        {
+            using (ITransaction tx = SessionPlan.BeginTransaction())
+            {
                 try
                 {
-                    var rows = query.ExecuteUpdate();
-                    rows = query2.ExecuteUpdate();
-                    return rows;
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-            }
-        }
-        public void Save(IList<BasicUnitDefault> lst)
-        {
-            using (var helper = new UOMLNHibernateHelper(dbConnectPath))
-            {
-                var Session = helper.GetCurrentSession();
-                using (ITransaction tx = Session.BeginTransaction())
-                {
-                    try
+                    foreach (var basicUnitDefault in lst)
                     {
-                        foreach (var basicUnitDefault in lst)
-                        {
-                            Session.SaveOrUpdate(basicUnitDefault);
-                        }
-                        Session.Flush();
-                        tx.Commit();
+                        SessionPlan.SaveOrUpdate(basicUnitDefault);
                     }
-                    catch (HibernateException)
-                    {
-                        tx.Rollback();
-                        throw;
-                    }
+                    SessionPlan.Flush();
+                    tx.Commit();
+                }
+                catch (HibernateException)
+                {
+                    tx.Rollback();
+                    throw;
                 }
             }
         }
-        public void SaveCurrent(IList<BasicUnitCurrent> lst)
+        public void SaveCurrent(IList<BasicUnitCurrent> lst, ISession SessionPlan)
         {
-            using (var helper = new UOMLNHibernateHelper(dbConnectPath))
+            using (ITransaction tx = SessionPlan.BeginTransaction())
             {
-                var Session = helper.GetCurrentSession();
-                using (ITransaction tx = Session.BeginTransaction())
+                try
                 {
-                    try
+                    string sql = "from ReliefProModel.BasicUnitCurrent";
+                    SessionPlan.Delete(sql);
+                    foreach (var basicCurrent in lst)
                     {
-                        string sql = "from ReliefProModel.BasicUnitCurrent";
-                        Session.Delete(sql);
-                        foreach (var basicCurrent in lst)
-                        {
-                            Session.Save(basicCurrent);
-                        }
-                        Session.Flush();
-                        tx.Commit();
+                        SessionPlan.Save(basicCurrent);
                     }
-                    catch (HibernateException)
-                    {
-                        tx.Rollback();
-                        throw;
-                    }
+                    SessionPlan.Flush();
+                    tx.Commit();
+                }
+                catch (HibernateException)
+                {
+                    tx.Rollback();
+                    throw;
                 }
             }
         }
