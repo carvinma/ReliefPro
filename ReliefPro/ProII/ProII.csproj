@@ -46,7 +46,6 @@
     <Compile Include="IProIIReader.cs" />
     <Compile Include="IProIIRunCalcSave.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IFlashCalculateW.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="license.txt" />

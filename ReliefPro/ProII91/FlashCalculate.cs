@@ -144,5 +144,102 @@ namespace ProII91
             return data2.ToString();
         }
 
+        private string getFlashData(int iFirst, string firstValue, int iSecond, string secondValue, List<CustomStream> streams, string vapor, string liquid)
+        {
+            StringBuilder data2 = new StringBuilder("UNIT OPERATIONS\n");
+            StringBuilder sb = new StringBuilder();
+            foreach (CustomStream cs in streams)
+            {
+                sb.Append(cs.StreamName).Append(",");
+            }
+            string feeds = sb.ToString().Substring(0, sb.Length - 1);
+            Guid guid = Guid.NewGuid();
+            Guid guid2 = Guid.NewGuid();
+            string FlashName = "F_1";
+
+            data2.Append("\tFLASH UID=").Append(FlashName).Append("\n");
+            data2.Append("\t FEED ").Append(feeds.ToUpper()).Append("\n");
+            data2.Append("\t PRODUCT V=").Append(vapor).Append(",&\n");
+            data2.Append("\t L=").Append(liquid).Append("\n");
+
+            StringBuilder sbPT = new StringBuilder();
+            if (iFirst == 1)
+                sbPT.Append("PRESSURE(MPAG)=").Append(firstValue).Append("\n");
+            else
+                sbPT.Append("TEMPERATURE(C)=").Append(firstValue).Append("\n");
+            switch (iSecond)
+            {
+                case 1:
+                    data2.Append("\t ISO PRESSURE(MPAG)=").Append(secondValue).Append(",");
+                    data2.Append(sbPT.ToString());
+                    break;
+                case 2:
+                    data2.Append("\t ISO TEMPERATURE(C)=").Append(secondValue).Append(",");
+                    data2.Append(sbPT.ToString());
+                    break;
+                case 3:
+                    data2.Append("\t Bubble ");
+                    data2.Append(sbPT.ToString());
+                    data2.Append("\t DEFINE ERAT AS 1\n");
+                    break;
+                case 4:
+                    data2.Append("\t Dew ");
+                    data2.Append(sbPT.ToString());
+                    data2.Append("\t DEFINE ERAT AS 1\n");
+                    break;
+                case 5:
+                    data2.Append("\t ADIABATIC Duty(KJ/hr)=").Append(secondValue).Append(",");
+                    data2.Append(sbPT.ToString());
+                    break;
+                case 6:
+                    data2.Append("\t TPSPEC ");
+                    data2.Append(sbPT.ToString());
+                    data2.Append("\t SPEC STREAM=").Append(vapor).Append(",RATE(KGM/H),TOTAL,WET, DIVIDE, REFFEED,&\n");
+                    data2.Append("RATE(KGM/H),WET, VALUE=").Append(secondValue).Append("\n");
+                    break;
+
+                default:
+                    break;
+
+            }
+
+            data2.Append("END");
+            return data2.ToString();
+        }
+
+        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, List<CustomStream> streams, string vapor, string liquid, string dir, ref int ImportResult, ref int RunResult)
+        {
+            StringBuilder sb = new StringBuilder();
+            string[] arrfileContent = fileContent.Split(new string[] { "STREAM DATA" }, StringSplitOptions.None);
+            
+            string flashData = getFlashData(iFirst, firstValue, iSecond, secondValue, streams, vapor, liquid);
+            
+            sb.Append(arrfileContent[0]).Append("\nSTREAM DATA\n");
+            foreach(CustomStream stream in streams)
+            {
+                string streamData = getStreamData(iFirst, firstValue, iSecond, secondValue, stream);
+                sb.Append(streamData).Append("\n");;
+            }
+
+            sb.Append(arrfileContent[1]).Append(flashData);
+            string onlyFileName = dir + @"\" + Guid.NewGuid().ToString().Substring(0, 5);
+            string inpFile = onlyFileName + ".inp";
+            File.WriteAllText(inpFile, sb.ToString());
+            CP2ServerClass cp2Srv = new CP2ServerClass();
+            cp2Srv.Initialize();
+            ImportResult = cp2Srv.Import(inpFile);
+            string przFile = string.Empty;
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                przFile = onlyFileName + ".prz";
+                CP2File cp2File = (CP2File)cp2Srv.OpenDatabase(przFile);
+                RunResult = cp2Srv.RunCalcs(przFile);
+            }
+            Marshal.FinalReleaseComObject(cp2Srv);
+            GC.ReRegisterForFinalize(cp2Srv);
+
+            return przFile;
+        }
+        
     }
 }
