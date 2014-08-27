@@ -14,6 +14,9 @@ using ReliefProMain.View;
 using UOMLib;
 using NHibernate;
 using System.Windows;
+using System.IO;
+using ReliefProCommon.CommonLib;
+using ProII;
 
 namespace ReliefProMain.ViewModel
 {
@@ -28,8 +31,6 @@ namespace ReliefProMain.ViewModel
     /// </summary>
     public class TowerScenarioCalcVM : ViewModelBase
     {
-        SourceFile SourceFileInfo; 
-
         private double _ReliefLoad;
         public double ReliefLoad
         {
@@ -87,30 +88,67 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefPressure");
             }
         }
+        private double _ReliefCpCv;
+        public double ReliefCpCv
+        {
+            get
+            {
+                return this._ReliefCpCv;
+            }
+            set
+            {
+                this._ReliefCpCv = value;
 
+                OnPropertyChanged("ReliefCpCv");
+            }
+        }
+        private double _ReliefZ;
+        public double ReliefZ
+        {
+            get
+            {
+                return this._ReliefZ;
+            }
+            set
+            {
+                this._ReliefZ = value;
+
+                OnPropertyChanged("ReliefZ");
+            }
+        }
         public int ScenarioID { set; get; }
-        private ISession SessionPlant { set; get; }
-        private ISession SessionProtectedSystem { set; get; }
+        public ISession SessionPlant { set; get; }
+        public ISession SessionProtectedSystem { set; get; }
+        public string DirPlant { set; get; }
+        public string DirProtectedSystem { set; get; }
+        public SourceFile SourceFileInfo { get; set; }
         private int SteamFreezed = 0;
         private TowerScenarioHXDAL towerScenarioHXDAL;
-
+        private Scenario CurrentScenario = null;
         private bool IsSteamFreezed = false;
         UOMLib.UOMEnum uomEnum;
-        public TowerScenarioCalcVM(int scenarioID,SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem)
+        private string ScenarioName;
+        private string EqName;
+        public TowerScenarioCalcVM(string EqName,string ScenarioName,int scenarioID, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string DirPlant, string DirProtectedSystem)
         {
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             InitUnit();
             ScenarioID = scenarioID;
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
-            SourceFileInfo = sourceFileInfo; 
+            SourceFileInfo = sourceFileInfo;
+            this.ScenarioName = ScenarioName;
+            this.EqName = EqName;
+            this.DirPlant = DirPlant;
+            this.DirProtectedSystem = DirProtectedSystem;
+
             towerScenarioHXDAL = new TowerScenarioHXDAL();
             ScenarioDAL dbsc = new ScenarioDAL();
-            Scenario s = dbsc.GetModel(ScenarioID, SessionProtectedSystem);
-            ReliefLoad = s.ReliefLoad;
-            ReliefMW = s.ReliefMW;
-            ReliefPressure = s.ReliefPressure;
-            ReliefTemperature = s.ReliefTemperature;
+            CurrentScenario = dbsc.GetModel(ScenarioID, SessionProtectedSystem);
+            ReliefLoad = CurrentScenario.ReliefLoad;
+            ReliefMW = CurrentScenario.ReliefMW;
+            ReliefPressure = CurrentScenario.ReliefPressure;
+            ReliefTemperature = CurrentScenario.ReliefTemperature;
             SteamFreezed = CheckSteamFreezed();
             ReadConvert();
 
@@ -276,39 +314,16 @@ namespace ReliefProMain.ViewModel
 
         private void Calc(object window)
         {
-            double reliefLoad = 0;
-            double reliefMW = 0;
-            double reliefTemperature = 0;
-            double reliefPressure = 0;
-            if (SteamFreezed == 0)
+            TowerDAL towerdal = new TowerDAL();
+            Tower tower = towerdal.GetModel(SessionProtectedSystem);
+            if (tower.TowerType == "Distillation")
             {
-                SteamNotFreezedMethod(ref  reliefLoad, ref  reliefMW, ref  reliefTemperature, ref  reliefPressure);
+                CalcDistillation();
             }
-            else if (SteamFreezed == 1)
+            else if (tower.TowerType == "Absorbent Regenerator")
             {
-                SteamFreezedMethod(ref  reliefLoad, ref  reliefMW, ref  reliefTemperature, ref  reliefPressure);
+                CalcRegenerator();
             }
-            else
-            {
-                double reliefLoad1 = 0;
-                double reliefMW1 = 0;
-                double reliefTemperature1 = 0;
-                double reliefPressure1 = 0;
-                SteamNotFreezedMethod(ref  reliefLoad, ref  reliefMW, ref  reliefTemperature, ref  reliefPressure);
-                SteamFreezedMethod(ref  reliefLoad1, ref  reliefMW1, ref  reliefTemperature1, ref  reliefPressure1);
-                if (reliefLoad < reliefLoad1)
-                {
-                    reliefLoad = reliefLoad1;
-                    reliefMW = reliefMW1;
-                    reliefTemperature = reliefTemperature1;
-                    reliefPressure = reliefPressure1;
-                }
-
-            }
-            ReliefTemperature = reliefTemperature;
-            ReliefPressure = reliefPressure ;
-            ReliefLoad = reliefLoad;
-            ReliefMW = reliefMW;
 
         }
 
@@ -445,6 +460,164 @@ namespace ReliefProMain.ViewModel
 
 
         }
+
+        private void CalcDistillation()
+        {
+            double reliefLoad = 0;
+            double reliefMW = 0;
+            double reliefTemperature = 0;
+            double reliefPressure = 0;
+            if (SteamFreezed == 0)
+            {
+                SteamNotFreezedMethod(ref  reliefLoad, ref  reliefMW, ref  reliefTemperature, ref  reliefPressure);
+            }
+            else if (SteamFreezed == 1)
+            {
+                SteamFreezedMethod(ref  reliefLoad, ref  reliefMW, ref  reliefTemperature, ref  reliefPressure);
+            }
+            else
+            {
+                double reliefLoad1 = 0;
+                double reliefMW1 = 0;
+                double reliefTemperature1 = 0;
+                double reliefPressure1 = 0;
+                SteamNotFreezedMethod(ref  reliefLoad, ref  reliefMW, ref  reliefTemperature, ref  reliefPressure);
+                SteamFreezedMethod(ref  reliefLoad1, ref  reliefMW1, ref  reliefTemperature1, ref  reliefPressure1);
+                if (reliefLoad < reliefLoad1)
+                {
+                    reliefLoad = reliefLoad1;
+                    reliefMW = reliefMW1;
+                    reliefTemperature = reliefTemperature1;
+                    reliefPressure = reliefPressure1;
+                }
+
+            }
+            ReliefTemperature = reliefTemperature;
+            ReliefPressure = reliefPressure;
+            ReliefLoad = reliefLoad;
+            ReliefMW = reliefMW;
+        }
+
+        private void CalcRegenerator()
+        {
+            TowerScenarioHXDAL dbTSHX = new TowerScenarioHXDAL();
+            TowerHXDetailDAL dbDetail = new TowerHXDetailDAL();
+            ReboilerPinchDAL reboilerPinchDAL = new ReboilerPinchDAL();
+            IList<TowerScenarioHX> list = dbTSHX.GetAllList(SessionProtectedSystem, ScenarioID);
+            double rduty = 0;
+            bool CondenserLost = true;
+            foreach (TowerScenarioHX shx in list)
+            {
+                if (!shx.DutyLost)
+                {
+                    if (shx.IsPinch == true)
+                    {
+                        ReboilerPinch detail = reboilerPinchDAL.GetModel(SessionProtectedSystem, shx.ID);
+                        rduty = rduty + shx.PinchFactor * detail.ReliefDuty;
+                    }
+                    else
+                    {
+                        TowerHXDetail detail = dbDetail.GetModel(SessionProtectedSystem, shx.DetailID);
+                        rduty = rduty + shx.DutyCalcFactor * detail.Duty;
+                    }
+                }
+                else
+                {
+                    TowerHXDetail detail = dbDetail.GetModel(SessionProtectedSystem, shx.DetailID);
+                    if (detail.Duty < 0)
+                        CondenserLost = false;
+                }
+            }
+            if (rduty < 0)
+            {
+                ReliefMW = 0;
+                ReliefPressure = 0;
+                ReliefTemperature = 0;
+                ReliefCpCv = 0;
+                ReliefZ = 0;
+                return;
+            }
+            if (ScenarioName == "Blocked outlet" || ScenarioName == "Reflux failure")
+            {
+                if (!CondenserLost)
+                {
+                    ReliefMW = 0;
+                    ReliefPressure = 0;
+                    ReliefTemperature = 0;
+                    ReliefCpCv = 0;
+                    ReliefZ = 0;
+                    return;
+                }
+            }
+            CalRegSC(rduty);
+                    
+            
+        }
+
+        private void CalRegSC(double duty)
+        {
+            Latent lt = new Latent();
+            PSVDAL psvDAL = new PSVDAL();
+            PSV psv = psvDAL.GetModel(SessionProtectedSystem);
+            double pressure = psv.Pressure;
+            string FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
+            double reliefFirePressure = pressure * psv.ReliefPressureFactor;
+            string tempdir = DirProtectedSystem + @"\temp\";
+            string dirLatent = tempdir + ScenarioName;
+            if (!Directory.Exists(dirLatent))
+                Directory.CreateDirectory(dirLatent);
+
+            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+            reader.InitProIIReader(FileFullPath);
+            ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 1, 2, 1);
+            reader.ReleaseProIIReader();
+            CustomStream stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
+
+
+            string gd = Guid.NewGuid().ToString();
+            string vapor = "S_" + gd.Substring(0, 5).ToUpper();
+            string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
+            int ImportResult = 0;
+            int RunResult = 0;
+            PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+            string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
+            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+
+            //除以10的6次方
+            string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 5, (duty/ Math.Pow(10, 6)).ToString(), stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                if (RunResult == 1 || RunResult == 2)
+                {
+                    reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    reader.InitProIIReader(tray1_f);
+                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                    reader.ReleaseProIIReader();
+                    CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
+                    CustomStream liquidFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
+                    ReliefLoad = vaporFire.WeightFlow;
+                    ReliefMW = vaporFire.BulkMwOfPhase;
+                    ReliefPressure = reliefFirePressure;
+                    ReliefTemperature = vaporFire.Temperature;
+                    ReliefCpCv = vaporFire.BulkCPCVRatio;
+                    ReliefZ = vaporFire.VaporZFmKVal;
+                    
+                }
+
+                else
+                {
+                    MessageBox.Show("Prz file is error", "Message Box");
+                    return ;
+                }
+            }
+            else
+            {
+                MessageBox.Show("inp file is error", "Message Box");
+                return ;
+            }
+        }
+
 
 
 

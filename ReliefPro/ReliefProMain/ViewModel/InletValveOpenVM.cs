@@ -451,12 +451,12 @@ namespace ReliefProMain.ViewModel
             string liquid = Guid.NewGuid().ToString().Substring(0, 6);
 
             double Wliquidvalve = Darcy(Rmass, Cv, UPStreamPressure, DownStreamPressure);
-            IFlashCalculateW flashCalc = ProIIFactory.CreateFlashCalculateW(SourceFileInfo.FileVersion);
+            IFlashCalculate flashCalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
             string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
             string content = PROIIFileOperator.getUsableContent(UpStreamLiquidData.StreamName, dir);
             int ImportResult = 0;
             int RunResult = 0;
-            string f = flashCalc.Calculate(content, 1, DownStreamPressure.ToString(), 5, "0", UpStreamLiquidData, vapor, liquid, Wliquidvalve.ToString(), dirInletValveOpen, ref ImportResult, ref RunResult);
+            string f = flashCalc.Calculate(content, 1, DownStreamPressure.ToString(), 5, Wliquidvalve.ToString(), UpStreamLiquidData, vapor, liquid, dirInletValveOpen, ref ImportResult, ref RunResult);
             ProIIStreamData proIIStreamData;
             if (ImportResult == 1 || ImportResult == 2)
             {

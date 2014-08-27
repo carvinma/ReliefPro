@@ -155,7 +155,7 @@ namespace ReliefProMain.ViewModel
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
             this.psvPressureUnit = uomEnum.UserPressure;
             this.drumPSVPressureUnit = uomEnum.UserPressure;
-            if (eqType == "Tower")
+            if (eqType == "Tower" )
             {
                 ReflexDrumVisible = "Visible";
             }
@@ -201,6 +201,9 @@ namespace ReliefProMain.ViewModel
             model.Description = m.Description;
             model.LocationDescription = m.LocationDescription;
             model.DischargeTo = m.DischargeTo;
+
+            model.CriticalPressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, m.CriticalPressure);
+
             return model;
         }
         private void ConvertModel(PSVModel m, ref PSV model)
@@ -213,7 +216,7 @@ namespace ReliefProMain.ViewModel
             model.DrumPSVName = m.DrumPSVName;
             model.Location = m.Location;
             model.DrumPressure = UnitConvert.Convert(DrumPressureUnit, UOMEnum.Pressure, m.DrumPressure);
-            
+            model.CriticalPressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, m.CriticalPressure);
             model.Description = m.Description;
             model.LocationDescription = m.LocationDescription;
             model.DischargeTo = m.DischargeTo;
@@ -273,7 +276,7 @@ namespace ReliefProMain.ViewModel
             }
             try
             {
-
+                
                 this.IsBusy = true;
                 var t1 = Task.Factory.StartNew(() =>
                 {
@@ -283,7 +286,12 @@ namespace ReliefProMain.ViewModel
                     {
                         if (EqType == "Tower")
                         {
-                            CreateTowerPSV();
+                            TowerDAL towerdal = new TowerDAL();
+                            Tower tower = towerdal.GetModel(SessionProtectedSystem);
+                            if (tower.TowerType == "Distillation")
+                            {
+                                CreateTowerPSV();
+                            }
                         }
                         ConvertModel(CurrentModel, ref psv);
                         dbpsv.Add(psv, SessionProtectedSystem);
@@ -399,7 +407,7 @@ namespace ReliefProMain.ViewModel
             for (int i = 1; i <= count; i++)
             {
                 CustomStream p = products[i - 1];
-                if (p.TotalMolarRate != null && p.TotalMolarRate > 0)
+                if (p.TotalMolarRate > 0)
                 {
                     IFlashCalculate fc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
                     string gd = Guid.NewGuid().ToString();
@@ -417,10 +425,9 @@ namespace ReliefProMain.ViewModel
                     if (!Directory.Exists(dirflash))
                         Directory.CreateDirectory(dirflash);
                     double prodpressure = 0;
-                    if (p.Pressure != null)
-                    {
+                    
                         prodpressure = p.Pressure;
-                    }
+                    
                     string usablecontent = PROIIFileOperator.getUsableContent(p.StreamName, tempdir);
 
                     if (prodtype == "4" || (prodtype == "2" && tray == 1)) // 2个条件是等同含义，后者是有气有液
@@ -529,14 +536,6 @@ namespace ReliefProMain.ViewModel
             LatentDAL dblatent = new LatentDAL();
             //dbLatentProduct dblatentproduct = new dbLatentProduct();
             TowerFlashProductDAL dbFlashProduct = new TowerFlashProductDAL();
-
-
-            Critical c = new Critical();
-            c.CriticalPressure = criticalPressure;
-            CriticalDAL dbcritical = new CriticalDAL();
-            dbcritical.Add(c, SessionProtectedSystem);
-
-
 
             Latent latent = new Latent();
             latent.LatentEnthalpy = latentEnthalpy;

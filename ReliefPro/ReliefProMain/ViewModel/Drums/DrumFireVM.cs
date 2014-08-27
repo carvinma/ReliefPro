@@ -518,8 +518,8 @@ namespace ReliefProMain.ViewModel.Drums
                     PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
 
                     string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-                    IFlashCalculateW fcalc = ProIIFactory.CreateFlashCalculateW(SourceFileInfo.FileVersion);
-                    string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 4, "", stream, vapor, liquid, rate, dirLatent, ref ImportResult, ref RunResult);
+                    IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+                    string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 4, "", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
                     if (ImportResult == 1 || ImportResult == 2)
                     {
                         if (RunResult == 1 || RunResult == 2)

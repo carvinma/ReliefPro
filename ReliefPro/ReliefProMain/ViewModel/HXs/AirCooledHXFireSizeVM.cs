@@ -133,8 +133,8 @@ namespace ReliefProMain.ViewModel.HXs
                     int RunResult = 0;
                     PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
                     string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-                    IFlashCalculateW fcalc = ProIIFactory.CreateFlashCalculateW(SourceFileInfo.FileVersion);
-                    string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 4, "", stream, vapor, liquid, rate, dirLatent, ref ImportResult, ref RunResult);
+                    IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+                    string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, rate, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
                     if (ImportResult == 1 || ImportResult == 2)
                     {
                         if (RunResult == 1 || RunResult == 2)
@@ -239,13 +239,12 @@ namespace ReliefProMain.ViewModel.HXs
             string gd = Guid.NewGuid().ToString();
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
-            string rate = "1";
             int ImportResult = 0;
             int RunResult = 0;
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-            IFlashCalculateW fcalc = ProIIFactory.CreateFlashCalculateW(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, "0", 4, "", stream, vapor, liquid, rate, dirLatent, ref ImportResult, ref RunResult);
+            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+            string tray1_f = fcalc.Calculate(content, 1, "0", 4, "", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)

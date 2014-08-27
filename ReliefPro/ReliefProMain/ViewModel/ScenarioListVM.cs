@@ -578,7 +578,7 @@ namespace ReliefProMain.ViewModel
         {
             CreateTowerScenarioCalcData(ScenarioID, ScenarioName, Session);
             TowerScenarioCalcView v = new TowerScenarioCalcView();
-            TowerScenarioCalcVM vm = new TowerScenarioCalcVM(ScenarioID,SourceFileInfo, SessionPlant, SessionProtectedSystem);
+            TowerScenarioCalcVM vm = new TowerScenarioCalcVM(EqName, ScenarioName,ScenarioID, SourceFileInfo, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (v.ShowDialog() == true)

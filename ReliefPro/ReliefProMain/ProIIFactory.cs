@@ -62,19 +62,19 @@ namespace ReliefProMain
             }
             return calc;
         }
-        public static IFlashCalculateW CreateFlashCalculateW(string version)
-        {
-            IFlashCalculateW calc = null;            
-            if (version == "9.1")
-            {
-                calc = new ProII91.FlashCalculateW();
-            }
-            else if (version == "9.2")
-            {
-                calc = new ProII92.FlashCalculateW();
-            }
-            return calc;
-        }
+        ////public static IFlashCalculateW CreateFlashCalculateW(string version)
+        ////{
+        ////    IFlashCalculateW calc = null;            
+        ////    if (version == "9.1")
+        ////    {
+        ////        calc = new ProII91.FlashCalculateW();
+        ////    }
+        ////    else if (version == "9.2")
+        ////    {
+        ////        calc = new ProII92.FlashCalculateW();
+        ////    }
+        ////    return calc;
+        ////}
         public static IPHASECalculate CreatePHASECalculate(string version)
         {
             IPHASECalculate calc = null;

@@ -46,13 +46,14 @@
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}"  Text="{Binding CurrentModel.Pressure,StringFormat='{}{0:N2}',Mode=TwoWay}" Grid.Row="3" Grid.Column="2"   />
         <TextBox Name="txtLocationDescription"  Text="{Binding CurrentModel.LocationDescription}"   Grid.Row="5" Grid.Column="6"  />
         <TextBox Name="txtPrelief"  Text="{Binding CurrentModel.ReliefPressureFactor}"   Grid.Row="4" Grid.Column="2"  />
-        <TextBox IsReadOnly="True" Name="txtCritical"  Grid.Column="2" Grid.Row="5"   />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblCirticalPressure,Path=Content,Mode=TwoWay}"  Text="{Binding CurrentModel.CirticalPressure,StringFormat='{}{0:N2}',Mode=TwoWay}"  Grid.Column="2" Grid.Row="5" HorizontalAlignment="Stretch"  Width="Auto"   />
         <TextBox Text="{Binding CurrentModel.Description}"  Grid.Column="6" Grid.Row="1" />
         <Label Content="{DynamicResource Location}"  Grid.Row="4"  Grid.Column="5" Height="25" Width="55"     />
         <ComboBox x:Name="location"  ItemsSource="{Binding Locations}" SelectedItem="{Binding CurrentModel.Location}"   Grid.Row="4" Grid.Column="6" />
         <Label Content="{DynamicResource Dischargeto}"  Grid.Row="2"  Grid.Column="1" Height="25" Width="74"   />
         <ComboBox   ItemsSource="{Binding DischargeTos}" SelectedItem="{Binding CurrentModel.DischargeTo}"   Grid.Row="2" Grid.Column="2"  />
-        <Label x:Name="lblPressure"  Content="{Binding PSVPressureUnit,Mode=TwoWay}" Grid.Row="3" Grid.Column="3" Height="10" Width="10" />
+        <Label x:Name="lblPressure"  Content="{Binding PSVPressureUnit,Mode=TwoWay}" Grid.Row="3" Grid.Column="3"  />
+        <Label x:Name="lblCriticalPressure"  Content="{Binding CriticalPressureUnit,Mode=TwoWay}" Grid.Row="5" Grid.Column="3"  />
 
         <GroupBox Visibility="{Binding ReflexDrumVisible}" Name="g1" Grid.Column="1" Header="{DynamicResource AdditionalPSVonRefluxDrum}"  Grid.Row="6"  Grid.ColumnSpan="6">
             <Grid>

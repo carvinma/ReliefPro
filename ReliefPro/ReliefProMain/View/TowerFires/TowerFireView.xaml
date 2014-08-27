@@ -107,7 +107,7 @@
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
-            <Button  Content="{DynamicResource OK}" HorizontalAlignment="Center" Command="{Binding OKClick}" CommandParameter="{Binding ElementName=myWindow}"  Grid.Column="1" Grid.Row="0"/>
+            <Button  Content="{DynamicResource OK}" HorizontalAlignment="Center" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  Grid.Column="1" Grid.Row="0"/>
             <Button Content="{DynamicResource Cancel}" IsCancel="True"  Grid.Column="2" Grid.Row="0"/>
         </Grid>
 

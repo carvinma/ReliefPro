@@ -194,5 +194,26 @@ namespace ReliefProMain.Models
                 NotifyPropertyChanged("Location");
             }
         }
+
+        private double _CriticalPressure;
+        public double CriticalPressure
+        {
+            get { return _CriticalPressure; }
+            set
+            {
+                _CriticalPressure = value;
+                NotifyPropertyChanged("CriticalPressure");
+            }
+        }
+        private double _CriticalPressure_Color;
+        public double CriticalPressure_Color
+        {
+            get { return _CriticalPressure_Color; }
+            set
+            {
+                _CriticalPressure_Color = value;
+                NotifyPropertyChanged("CriticalPressure_Color");
+            }
+        }
     }
 }
