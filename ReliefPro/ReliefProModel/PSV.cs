@@ -22,6 +22,10 @@ namespace ReliefProModel
         public virtual string MWAP { get; set; }
         public virtual string DischargeTo { get; set; }
         public virtual string dbPath { get; set; }
+        public virtual double CriticalPressure { get; set; }
+
+        public virtual string CriticalPressure_Color { get; set; } 
+
 
         //color
         public virtual string PSVName_Color { get; set; }
