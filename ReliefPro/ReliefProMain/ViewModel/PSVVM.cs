@@ -196,10 +196,8 @@ namespace ReliefProMain.ViewModel
             model.ValveType = m.ValveType;
             model.DrumPSVName = m.DrumPSVName;
             model.Location = m.Location;
-            if (m.DrumPressure != null)
-            {
-                model.DrumPressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, m.DrumPressure);
-            }
+            model.DrumPressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, m.DrumPressure);
+            
             model.Description = m.Description;
             model.LocationDescription = m.LocationDescription;
             model.DischargeTo = m.DischargeTo;
@@ -214,10 +212,8 @@ namespace ReliefProMain.ViewModel
             model.ValveType = m.ValveType;
             model.DrumPSVName = m.DrumPSVName;
             model.Location = m.Location;
-            if (m.DrumPressure != null)
-            {
-                model.DrumPressure = UnitConvert.Convert(DrumPressureUnit, UOMEnum.Pressure, m.DrumPressure);
-            }
+            model.DrumPressure = UnitConvert.Convert(DrumPressureUnit, UOMEnum.Pressure, m.DrumPressure);
+            
             model.Description = m.Description;
             model.LocationDescription = m.LocationDescription;
             model.DischargeTo = m.DischargeTo;
@@ -278,15 +274,10 @@ namespace ReliefProMain.ViewModel
             try
             {
 
-                Task.Factory.StartNew(() =>
-                {
-
-                });
-
                 this.IsBusy = true;
                 var t1 = Task.Factory.StartNew(() =>
                 {
-                    Thread.Sleep(3000);
+                    //Thread.Sleep(3000);
 
                     if (CurrentModel.ID == 0)
                     {
@@ -322,7 +313,7 @@ namespace ReliefProMain.ViewModel
                         ConvertModel(CurrentModel, ref psv);
                         dbpsv.Add(psv, SessionProtectedSystem);
                     }
-                    Thread.Sleep(3000);
+                    //Thread.Sleep(3000);
                 }).ContinueWith((t) => { });
 
                 Task.WaitAll(t1);

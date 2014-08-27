@@ -81,7 +81,7 @@ namespace ReliefProMain.ViewModel
             SessionProtectedSystem = sessionProtectedSystem;
             SourceFileInfo = sourceFileInfo;
             Scenarios = GetScenarios();
-            ScenarioNameList = GetScenarioNames(eqType);
+            
 
             if (eqType == "Tower")
             {
@@ -89,6 +89,7 @@ namespace ReliefProMain.ViewModel
                 Tower tower = towerDAL.GetModel(SessionProtectedSystem);
                 towerType = tower.TowerType;
             }
+            ScenarioNameList = GetScenarioNames(eqType);
 
             cud += new ChangeUnitDelegate(ExcuteThumbMoved);
 
@@ -336,7 +337,6 @@ namespace ReliefProMain.ViewModel
                     {
                         if (ScenarioName.Contains("Blocked Outlet"))
                         {
-
                             HXBlockedOutletView v = new HXBlockedOutletView();
                             HXBlockedOutletVM vm = new HXBlockedOutletVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
                             v.DataContext = vm;
@@ -348,6 +348,29 @@ namespace ReliefProMain.ViewModel
                                 SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                             }
                         }
+                        if (ScenarioName.Contains("Tube Rupture"))
+                        {
+                            CustomStreamDAL csdal=new CustomStreamDAL();
+                            IList<CustomStream> list = csdal.GetAllList(SessionProtectedSystem);
+                            if (list.Count == 4)
+                            {
+                                TubeRuptureView v = new TubeRuptureView();
+                                TubeRuptureVM vm = new TubeRuptureVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
+                                v.DataContext = vm;
+                                if (v.ShowDialog() == true)
+                                {
+                                    //SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
+                                    //SelectedScenario.ReliefMW = vm.model.model.ReliefMW;
+                                    //SelectedScenario.ReliefPressure = vm.model.model.ReliefPressure;
+                                    //SelectedScenario.ReliefTemperature = vm.model.model.ReliefTemperature;
+                                }
+                            }
+                            else 
+                            {
+                                MessageBox.Show("this case can't be used. it has not 2 feed and 2 product","Message Box");
+                                return;
+                            }
+                        }
                         else if (ScenarioName.Contains("Fire"))
                         {
                             HXFireView v = new HXFireView();
@@ -355,10 +378,10 @@ namespace ReliefProMain.ViewModel
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {
-                                //SelectedScenario.ReliefLoad = vm.model.Reliefload;
-                               //SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                                //SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
-                                //SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                                SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
+                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                             }
                         }
                     }
@@ -371,10 +394,10 @@ namespace ReliefProMain.ViewModel
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {
-                                //SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
-                                //SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                                //SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
-                                //SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                                SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
+                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                             }
                         }
                     }

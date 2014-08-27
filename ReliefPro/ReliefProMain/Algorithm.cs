@@ -209,11 +209,13 @@ namespace ReliefProMain
             }
             return 0;
         }
-        public static bool CheckCritial(double P1, double P2, double K)
+        public static bool CheckCritial(double P1, double P2, double K, ref double Pcf)
         {
+            Pcf = 0;
             if (K == 1 || K == -1) return false;
-            double Pcf = P1 * Math.Pow(2 / (K + 1), K / (K - 1));
+               Pcf = P1 * Math.Pow(2 / (K + 1), K / (K - 1));
             if (P2 < Pcf) return true;
+
             return false;
         }
         public static double CalcWv(double d, double P1, double Rmassv, double K)

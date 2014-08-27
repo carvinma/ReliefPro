@@ -779,6 +779,7 @@ namespace ReliefProMain.ViewModel
                     tower.TowerName = TowerName;
                     tower.StageNumber = StageNumber;
                     tower.SourceFile = SourceFileName;
+                    tower.TowerType = TowerType;
                     dbtower.Add(tower, SessionProtectedSystem);
 
                     ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
@@ -804,6 +805,11 @@ namespace ReliefProMain.ViewModel
             }
             else
             {
+                Tower tower = dbtower.GetModel(SessionProtectedSystem);
+                
+                tower.TowerType = TowerType;
+                dbtower.Update(tower, SessionProtectedSystem);
+                SessionProtectedSystem.Flush();
                 System.Windows.Window wd = obj as System.Windows.Window;
                 if (wd != null)
                 {

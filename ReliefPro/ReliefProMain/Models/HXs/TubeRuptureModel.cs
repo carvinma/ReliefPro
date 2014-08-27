@@ -8,35 +8,43 @@ namespace ReliefProMain.Models.HXs
 {
     public class TubeRuptureModel : ModelBase
     {
-        private string oDUnit;
-        public string ODUnit
+        private string reliefloadUnit;
+        public string ReliefLoadUnit
         {
-            get { return oDUnit; }
+            get { return reliefloadUnit; }
             set
             {
-                oDUnit = value;
-                NotifyPropertyChanged("ODUnit");
+                reliefloadUnit = value;
+                this.NotifyPropertyChanged("ReliefLoadUnit");
+            }
+        }
+
+        private string reliefTemperatureUnit;
+        public string ReliefTemperatureUnit
+        {
+            get { return reliefTemperatureUnit; }
+            set
+            {
+                reliefTemperatureUnit = value;
+                this.NotifyPropertyChanged("ReliefTemperatureUnit");
+            }
+        }
+
+        private string reliefPressureUnit;
+        public string ReliefPressureUnit
+        {
+            get { return reliefPressureUnit; }
+            set
+            {
+                reliefPressureUnit = value;
+                this.NotifyPropertyChanged("ReliefPressureUnit");
             }
         }
 
        
-
-        private string elevationUnit;
-        public string ElevationUnit
-        {
-            get { return elevationUnit; }
-            set
-            {
-                elevationUnit = value;
-                this.NotifyPropertyChanged("ElevationUnit");
-            }
-        }
-
-//TubeRupture model
-
-        public HXFireSize dbmodel { get; set; }
         public TubeRuptureModel()
         {
+            
             //dbmodel = model;
             //this.exposedToFire = model.ExposedToFire;
             //this.type = model.Type;
