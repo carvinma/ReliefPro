@@ -15,6 +15,7 @@ namespace ReliefProDAL
             IList<Source> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<Source>().List<Source>();
             }
             catch (Exception ex)
@@ -23,13 +24,14 @@ namespace ReliefProDAL
             }
             return list;
         }
-        public Source GetModel(ISession session,string name)
+        public Source GetModel(ISession session, string name)
         {
             Source model = null;
             IList<Source> list = null;
             try
             {
-                list = session.CreateCriteria<Source>().Add(Expression.Eq("SourceName",name)).List<Source>();
+                session.Clear();
+                list = session.CreateCriteria<Source>().Add(Expression.Eq("SourceName", name)).List<Source>();
                 if (list.Count > 0)
                 {
                     model = list[0];
@@ -41,17 +43,18 @@ namespace ReliefProDAL
             {
                 model = null;
                 throw ex;
-                
+
             }
-            
+
             return model;
         }
-        public Source GetModel(string StreamName,ISession session)
+        public Source GetModel(string StreamName, ISession session)
         {
             Source model = null;
             IList<Source> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<Source>().Add(Expression.Eq("StreamName", StreamName)).List<Source>();
                 if (list.Count > 0)
                 {
