@@ -42,7 +42,7 @@
                         <MenuItem Click="MenuItem_Click" Header="Save Plant" />
                         <MenuItem Click="MenuItem_Click" Header="Save As" />
                         <Separator/>
-                        <MenuItem Command="{Binding ClosePlantCommand}" Header="Close Plant"/>
+                        <MenuItem Click="MenuItem_Click" Header="Close Plant"/>
                         <Separator/>
                         <MenuItem Click="MenuItem_Click" Header="Exit"/>
                     </MenuItem> 

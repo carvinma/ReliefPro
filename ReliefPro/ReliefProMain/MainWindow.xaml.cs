@@ -913,6 +913,20 @@ namespace ReliefProMain
 
         private void MainWindowApp_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+            if (firstDocumentPane != null)
+            {
+                if (firstDocumentPane.Children.Count > 0)
+                {
+                    MessageBox.Show("Please close all documents first!","Message Box");
+                    return;
+                }
+            }
+            ObservableCollection<TVPlantViewModel> Plants = (ObservableCollection<TVPlantViewModel>)NavigationTreeView.ItemsSource;
+            if (Plants.Count > 0)
+            {
+                
+            }
             Application.Current.Shutdown();
             //Environment.Exit(0);
         }
@@ -952,6 +966,28 @@ namespace ReliefProMain
             return p;
         }
 
+        private void ClosePlant(object obj)
+        {
+            ObservableCollection<TVPlantViewModel> Plants = (ObservableCollection<TVPlantViewModel>)NavigationTreeView.ItemsSource;
+            if (Plants.Count == 0)
+            {
+                return;
+            }
+            var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+            if (firstDocumentPane != null)
+            {
+                if (firstDocumentPane.Children.Count > 0)
+                {
+                    MessageBox.Show("Please close all documents first!", "Message Box");
+                    return;
+                }
+            }
+            MessageBoxResult result = MessageBox.Show("Are your sure clear all plants?", "Message Box", MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.OK)
+            {
+                Plants.Clear();
+            }
+        }
 
 
     }
