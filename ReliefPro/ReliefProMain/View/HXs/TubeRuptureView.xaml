@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-        Title="TubeRuptureView" Height="400" Width="650">
+        Title="TubeRuptureView" Height="400" Width="650" Name="myWindow">
     <!--这个什么都没有 ？-->
     <Grid>
         <Grid.ColumnDefinitions>
@@ -45,7 +45,7 @@
         <Label x:Name="lblLoad" Content="{Binding model.ReliefLoadUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="3"   />
         <Label x:Name="lblPresses" Content="{Binding model.ReliefPressureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="4"    />
         <Label x:Name="lblTemper" Content="{Binding model.ReliefTemperatureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="5"    />
-        <Label x:Name="lblOD" Content="{Binding model.ODUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="5"    />
+        <Label x:Name="lblOD" Content="{Binding model.ODUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="1"    />
 
 
         <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="6">

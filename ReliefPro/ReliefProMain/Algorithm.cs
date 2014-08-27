@@ -209,6 +209,16 @@ namespace ReliefProMain
             }
             return 0;
         }
+        public static double CalcKL(double p1, double p2, double Rmass)
+        {
+            double tmpP = p1 - p2;
+            if (tmpP > 0)
+            {
+                return 2 * 490  * Math.Sqrt(tmpP * 10 * Rmass);
+            }
+            return 0;
+        }
+
         public static bool CheckCritial(double P1, double P2, double K, ref double Pcf)
         {
             Pcf = 0;
@@ -223,6 +233,20 @@ namespace ReliefProMain
             if (K == 1 || K == -1) return 0;
             return 2 * 347 * Math.Pow(d, 2) * Math.Sqrt(Rmassv * K * (P1 / 10) * Math.Pow(2 / (K + 1), (K + 1) / (K - 1)));
         }
+        public static double CalcKv(double P1, double Rmassv, double K)
+        {
+            if (K == 1 || K == -1) return 0;
+            return 2 * 347 *  Math.Sqrt(Rmassv * K * (P1 / 10) * Math.Pow(2 / (K + 1), (K + 1) / (K - 1)));
+        }
+
+        /// <summary>
+        /// 气相亚临界流计算
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="P1"></param>
+        /// <param name="P2"></param>
+        /// <param name="Rmassv"></param>
+        /// <returns></returns>
         public static double CalcWvSecond(double d, double P1, double P2, double Rmassv)
         {
             if (P1 == 0) return 0;
@@ -230,7 +254,16 @@ namespace ReliefProMain
             double Y = 1 - 0.317 * tmpP / P1;
             return 2 * 490 * Y * Math.Pow(d, 2) * Math.Sqrt(tmpP * 10 * Rmassv);
         }
-        public static double CalcWvc(double Rv, double Kl, double Kv, double d)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Rv"></param>
+        /// <param name="Kl"></param>
+        /// <param name="Kv"></param>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public static double CalcWH(double Rv, double Kl, double Kv, double d)
         {
             double tmpResult = Rv * Kl + (1 - Rv) * Kv;
             if (tmpResult == 0) return 0;

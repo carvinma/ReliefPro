@@ -913,20 +913,23 @@ namespace ReliefProMain
 
         private void MainWindowApp_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
-            if (firstDocumentPane != null)
+            if (MessageBox.Show("Are you sure you want to save all plants?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                if (firstDocumentPane.Children.Count > 0)
+                var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+                if (firstDocumentPane != null)
                 {
-                    MessageBox.Show("Please close all documents first!","Message Box");
-                    return;
+                    if (firstDocumentPane.Children.Count > 0)
+                    {
+                        MessageBox.Show("Please close all documents first!", "Message Box");
+                        e.Cancel = true;
+                        return;
+                    }
                 }
+                SavePlant();
             }
-            ObservableCollection<TVPlantViewModel> Plants = (ObservableCollection<TVPlantViewModel>)NavigationTreeView.ItemsSource;
-            if (Plants.Count > 0)
-            {
-                
-            }
+            
+
+            
             Application.Current.Shutdown();
             //Environment.Exit(0);
         }

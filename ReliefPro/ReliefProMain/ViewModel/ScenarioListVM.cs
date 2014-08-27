@@ -292,7 +292,6 @@ namespace ReliefProMain.ViewModel
                 {
                     if (ScenarioName.Contains("Outlet"))
                     {
-                        //我今天晚点会加一个tbCompresser表， 这样就可以从该表里获取设备的类型
                         Compressor comp = new Compressor();
                         CompressorDAL compDAL = new CompressorDAL();
                         comp = compDAL.GetModel(SessionProtectedSystem);
@@ -335,7 +334,7 @@ namespace ReliefProMain.ViewModel
                     HeatExchanger hx = hxDAL.GetModel(SessionProtectedSystem);
                     if (hx.HXType == "Shell-Tube")
                     {
-                        if (ScenarioName.Contains("Blocked Outlet"))
+                        if (ScenarioName.Contains("BlockedOutlet"))
                         {
                             HXBlockedOutletView v = new HXBlockedOutletView();
                             HXBlockedOutletVM vm = new HXBlockedOutletVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
@@ -348,7 +347,7 @@ namespace ReliefProMain.ViewModel
                                 SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                             }
                         }
-                        if (ScenarioName.Contains("Tube Rupture"))
+                        if (ScenarioName.Contains("TubeRupture"))
                         {
                             CustomStreamDAL csdal=new CustomStreamDAL();
                             IList<CustomStream> list = csdal.GetAllList(SessionProtectedSystem);
@@ -359,10 +358,10 @@ namespace ReliefProMain.ViewModel
                                 v.DataContext = vm;
                                 if (v.ShowDialog() == true)
                                 {
-                                    //SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
-                                    //SelectedScenario.ReliefMW = vm.model.model.ReliefMW;
-                                    //SelectedScenario.ReliefPressure = vm.model.model.ReliefPressure;
-                                    //SelectedScenario.ReliefTemperature = vm.model.model.ReliefTemperature;
+                                    SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
+                                    SelectedScenario.ReliefMW = vm.model.ReliefMW;
+                                    SelectedScenario.ReliefPressure = vm.model.ReliefPressure;
+                                    SelectedScenario.ReliefTemperature = vm.model.ReliefTemperature;
                                 }
                             }
                             else 
