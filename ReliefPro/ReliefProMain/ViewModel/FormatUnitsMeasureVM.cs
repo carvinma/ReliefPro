@@ -31,6 +31,7 @@ namespace ReliefProMain.ViewModel
         private IList<BasicUnit> lstBasicUnit;
         private IList<BasicUnitDefault> lstBasciUnitDefault;
         private IList<BasicUnitCurrent> lstBasciUnitCurrent;
+        private IList<BasicUnitCurrent> SelectedCurrent;
         public FormatUnitsMeasureVM()
         {
             unitInfo = new UnitInfo();
@@ -38,7 +39,7 @@ namespace ReliefProMain.ViewModel
 
 
             lstBasicUnit = unitInfo.GetBasicUnit();
-
+            SelectedCurrent = new List<BasicUnitCurrent>();
             lstBasciUnitDefault = unitInfo.GetBasicUnitDefault();
             lstBasciUnitCurrent = unitInfo.GetBasicUnitCurrent();
             lstUnitType = unitInfo.GetUnitType();
@@ -93,7 +94,7 @@ namespace ReliefProMain.ViewModel
         }
         private int GetUnit(int unitTypeid, int basicid)
         {
-            if (lstBasciUnitCurrent != null && lstBasciUnitCurrent.Count > 0)
+            if (UOMEnum.UnitFormFlag && lstBasciUnitCurrent != null && lstBasciUnitCurrent.Count > 0)
             {
                 return GetUnitCurrent(unitTypeid);
             }
@@ -121,21 +122,21 @@ namespace ReliefProMain.ViewModel
             var changeSystemUnit = systemUnit as SystemUnit;
             if (changeSystemUnit != null)
             {
-                var findThisUnit = lstBasciUnitDefault.Where(p => p.BasicUnitID == model.BasicUnitselectLocation.ID && p.UnitTypeID == changeSystemUnit.UnitType).FirstOrDefault();
+                var findThisUnit = SelectedCurrent.Where(p => p.UnitTypeID == changeSystemUnit.UnitType).FirstOrDefault();
                 if (findThisUnit == null)
                 {
-                    BasicUnitDefault item = new BasicUnitDefault();
+                    BasicUnitCurrent item = new BasicUnitCurrent();
                     item.ID = 0;
-                    item.BasicUnitID = model.BasicUnitselectLocation.ID;
+                    item.BasicUnitID = model.BasicUnitselectLocation == null ? 0 : model.BasicUnitselectLocation.ID;
                     item.UnitTypeID = changeSystemUnit.UnitType;
                     item.SystemUnitID = changeSystemUnit.ID;
-                    lstBasciUnitDefault.Add(item);
+                    SelectedCurrent.Add(item);
                 }
                 else
                 {
-                    lstBasciUnitDefault.Remove(findThisUnit);
+                    SelectedCurrent.Remove(findThisUnit);
                     findThisUnit.SystemUnitID = changeSystemUnit.ID;
-                    lstBasciUnitDefault.Add(findThisUnit);
+                    SelectedCurrent.Add(findThisUnit);
                 }
             }
         }
@@ -146,31 +147,33 @@ namespace ReliefProMain.ViewModel
                 lstBasciUnitDefault = unitInfo.GetBasicUnitDefault();
                 var selectedBasicUnit = SelectDefaultUnit as BasicUnit;
                 int basicid = selectedBasicUnit.ID;
-                model.TemperatureSelectLocation = model.ObcTemperature.Where(p => p.ID == GetUnitDefalut(1, basicid)).FirstOrDefault();
-                model.PressureSelectLocation = model.ObcPressure.Where(p => p.ID == GetUnitDefalut(2, basicid)).FirstOrDefault();
-                model.WeightSelectLocation = model.ObcWeight.Where(p => p.ID == GetUnitDefalut(3, basicid)).FirstOrDefault();
-                model.MolarSelectLocation = model.ObcMolar.Where(p => p.ID == GetUnitDefalut(4, basicid)).FirstOrDefault();
-                model.StandardVolumeRateSelectLocation = model.ObcStandardVolumeRate.Where(p => p.ID == GetUnitDefalut(5, basicid)).FirstOrDefault();
-                model.ViscositySelectLocation = model.ObcViscosity.Where(p => p.ID == GetUnitDefalut(6, basicid)).FirstOrDefault();
-                model.HeatCapacitySelectLocation = model.ObcHeatCapacity.Where(p => p.ID == GetUnitDefalut(7, basicid)).FirstOrDefault();
-                model.ThermalConductivitySelectLocation = model.ObcThermalConductivity.Where(p => p.ID == GetUnitDefalut(8, basicid)).FirstOrDefault();
-                model.HeatTransCoeffcientSelectLocation = model.ObcHeatCapacity.Where(p => p.ID == GetUnitDefalut(9, basicid)).FirstOrDefault();
-                model.SurfaceTensionSelectLocation = model.ObcSurfaceTension.Where(p => p.ID == GetUnitDefalut(10, basicid)).FirstOrDefault();
+                model.TemperatureSelectLocation = model.ObcTemperature.Where(p => p.ID == GetUnit(1, basicid)).FirstOrDefault();
+                model.PressureSelectLocation = model.ObcPressure.Where(p => p.ID == GetUnit(2, basicid)).FirstOrDefault();
+                model.WeightSelectLocation = model.ObcWeight.Where(p => p.ID == GetUnit(3, basicid)).FirstOrDefault();
+                model.MolarSelectLocation = model.ObcMolar.Where(p => p.ID == GetUnit(4, basicid)).FirstOrDefault();
+                model.StandardVolumeRateSelectLocation = model.ObcStandardVolumeRate.Where(p => p.ID == GetUnit(5, basicid)).FirstOrDefault();
+                model.ViscositySelectLocation = model.ObcViscosity.Where(p => p.ID == GetUnit(6, basicid)).FirstOrDefault();
+                model.HeatCapacitySelectLocation = model.ObcHeatCapacity.Where(p => p.ID == GetUnit(7, basicid)).FirstOrDefault();
+                model.ThermalConductivitySelectLocation = model.ObcThermalConductivity.Where(p => p.ID == GetUnit(8, basicid)).FirstOrDefault();
+                model.HeatTransCoeffcientSelectLocation = model.ObcHeatCapacity.Where(p => p.ID == GetUnit(9, basicid)).FirstOrDefault();
+                model.SurfaceTensionSelectLocation = model.ObcSurfaceTension.Where(p => p.ID == GetUnit(10, basicid)).FirstOrDefault();
                 //model.CompositionSelectLocation = model.ObcComposition.Where(p => p.ID == GetUnitDefalut(11, basicid)).FirstOrDefault();
-                model.MachineSpeedSelectLocation = model.ObcMachineSpeed.Where(p => p.ID == GetUnitDefalut(12, basicid)).FirstOrDefault();
-                model.VolumeSelectLocation = model.ObcVolume.Where(p => p.ID == GetUnitDefalut(13, basicid)).FirstOrDefault();
-                model.LengthSelectLocation = model.ObcLength.Where(p => p.ID == GetUnitDefalut(14, basicid)).FirstOrDefault();
-                model.AeraSelectLocation = model.ObcAera.Where(p => p.ID == GetUnitDefalut(15, basicid)).FirstOrDefault();
-                model.EnergySelectLocation = model.ObcEnergy.Where(p => p.ID == GetUnitDefalut(16, basicid)).FirstOrDefault();
-                model.TimeSelectLocation = model.ObcTime.Where(p => p.ID == GetUnitDefalut(17, basicid)).FirstOrDefault();
-                model.FlowConductanceSelectLocation = model.ObcFlowConductance.Where(p => p.ID == GetUnitDefalut(18, basicid)).FirstOrDefault();
+                model.MachineSpeedSelectLocation = model.ObcMachineSpeed.Where(p => p.ID == GetUnit(12, basicid)).FirstOrDefault();
+                model.VolumeSelectLocation = model.ObcVolume.Where(p => p.ID == GetUnit(13, basicid)).FirstOrDefault();
+                model.LengthSelectLocation = model.ObcLength.Where(p => p.ID == GetUnit(14, basicid)).FirstOrDefault();
+                model.AeraSelectLocation = model.ObcAera.Where(p => p.ID == GetUnit(15, basicid)).FirstOrDefault();
+                model.EnergySelectLocation = model.ObcEnergy.Where(p => p.ID == GetUnit(16, basicid)).FirstOrDefault();
+                model.TimeSelectLocation = model.ObcTime.Where(p => p.ID == GetUnit(17, basicid)).FirstOrDefault();
+                model.FlowConductanceSelectLocation = model.ObcFlowConductance.Where(p => p.ID == GetUnit(18, basicid)).FirstOrDefault();
 
-                model.MassRateSelectLocation = model.ObcMassRate.Where(p => p.ID == GetUnitDefalut(19, basicid)).FirstOrDefault();
-                model.VolumeRateSelectLocation = model.ObcVolumeRate.Where(p => p.ID == GetUnitDefalut(20, basicid)).FirstOrDefault();
-                model.DensitySelectLocation = model.ObcDensity.Where(p => p.ID == GetUnitDefalut(21, basicid)).FirstOrDefault();
-                model.SpecificEnthalpySelectLocation = model.ObcSpecificEnthalpy.Where(p => p.ID == GetUnitDefalut(22, basicid)).FirstOrDefault();
-                model.EnthalpySelectLocation = model.ObcEnthalpy.Where(p => p.ID == GetUnitDefalut(14, basicid)).FirstOrDefault();
-                model.FineLenthSelectLocation = model.ObcFineLength.Where(p => p.ID == GetUnitDefalut(23, basicid)).FirstOrDefault();
+                model.MassRateSelectLocation = model.ObcMassRate.Where(p => p.ID == GetUnit(19, basicid)).FirstOrDefault();
+                model.VolumeRateSelectLocation = model.ObcVolumeRate.Where(p => p.ID == GetUnit(20, basicid)).FirstOrDefault();
+                model.DensitySelectLocation = model.ObcDensity.Where(p => p.ID == GetUnit(21, basicid)).FirstOrDefault();
+                model.SpecificEnthalpySelectLocation = model.ObcSpecificEnthalpy.Where(p => p.ID == GetUnit(22, basicid)).FirstOrDefault();
+                model.EnthalpySelectLocation = model.ObcEnthalpy.Where(p => p.ID == GetUnit(24, basicid)).FirstOrDefault();
+                model.FineLenthSelectLocation = model.ObcFineLength.Where(p => p.ID == GetUnit(23, basicid)).FirstOrDefault();
+                if (lstBasciUnitCurrent != null && lstBasciUnitCurrent.Count > 0)
+                    UOMEnum.UnitFormFlag = false;
             }
             catch (Exception ex)
             {
@@ -250,8 +253,11 @@ namespace ReliefProMain.ViewModel
             model.ObcEnthalpy = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 24));
 
             model.ObcFineLength = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 23));
-            if (lstBasciUnitCurrent != null && lstBasciUnitCurrent.Count > 0)
+            if (UOMEnum.UnitFormFlag && lstBasciUnitCurrent != null && lstBasciUnitCurrent.Count > 0)
+            {
                 model.BasicUnitselectLocation = lstBasicUnit.Where(p => p.ID == lstBasciUnitCurrent.First().BasicUnitID).First();
+                model.BasicUnitselectLocation = null;
+            }
             else
                 model.BasicUnitselectLocation = lstBasicUnit[lstBasicUnit.ToList().FindIndex(p => p.IsDefault == 1)];
 
@@ -273,10 +279,11 @@ namespace ReliefProMain.ViewModel
                 current.UnitTypeID = p.UnitTypeID;
                 lstBasciUnitCurrent.Add(current);
             });
-            unitInfo.SaveCurrent(lstBasciUnitCurrent);
-            // lstBasciUnitDefault = unitInfo.GetBasicUnitDefault();
+            unitInfo.SaveCurrent(SelectedCurrent);
+            //lstBasciUnitDefault = unitInfo.GetBasicUnitDefault();
+            UOMEnum.lstBasicUnitDefault = lstBasciUnitDefault;
             UOMEnum.lstBasicUnitCurrent = lstBasciUnitCurrent;
-
+            UOMEnum.UnitFormFlag = true;
             System.Windows.Window wd = obj as System.Windows.Window;
             if (wd != null)
             {
