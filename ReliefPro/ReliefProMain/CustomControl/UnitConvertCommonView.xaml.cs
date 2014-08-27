@@ -23,6 +23,7 @@ namespace ReliefProMain.CustomControl
     /// </summary>
     public partial class UnitConvertCommonView : Window
     {
+        private readonly string dbConnectPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\plant.mdb";
         private ILookup<int, SystemUnit> lkpSystemUnit;
         private ILookup<string, UnitType> lkpUnitType;
         private UnitInfo unitInfo;
@@ -60,7 +61,9 @@ namespace ReliefProMain.CustomControl
             try
             {
                 unitInfo = new UnitInfo();
-                var tmpSystemUnit = unitInfo.GetSystemUnit();
+                var helper = new UOMLNHibernateHelper(dbConnectPath);
+                var SessionPlant = helper.GetCurrentSession();
+                var tmpSystemUnit = unitInfo.GetSystemUnit(SessionPlant);
                 if (null != tmpSystemUnit)
                 {
                     var systemUnit = tmpSystemUnit.Where(p => p.Name.ToLower() == Unit.ToLower()).FirstOrDefault();
@@ -75,7 +78,7 @@ namespace ReliefProMain.CustomControl
                         this.lblInfo.Content = string.Format("Change {0} To {1}", Unit, TargetUnit);
                     }
                 }
-                var tmpUnitType = unitInfo.GetUnitType();
+                var tmpUnitType = unitInfo.GetUnitType(SessionPlant);
                 if (null != tmpUnitType)
                     lkpUnitType = tmpUnitType.ToLookup(p => p.ShortName.ToLower());
 
@@ -121,9 +124,6 @@ namespace ReliefProMain.CustomControl
 
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
-            //var sw = Stopwatch.StartNew();
-            // long t1 = sw.ElapsedMilliseconds;
-            //ResultValue = unitConvert.Convert(UnitType, OriginUnit, TargetUnit, Value);
             ResultValue = UnitConvert.Convert(OriginUnit, TargetUnit, Value);
             this.DialogResult = true;
         }
