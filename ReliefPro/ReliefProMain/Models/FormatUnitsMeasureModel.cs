@@ -30,7 +30,7 @@ namespace ReliefProMain.Models
             {
                 if (this._BasicUnitselectLocation == value) return;
                 this._BasicUnitselectLocation = value;
-                if (handler != null)
+                if (handler != null && value != null && value.ID > 0)
                 {
                     handler(_BasicUnitselectLocation);
                 }
@@ -564,6 +564,6 @@ namespace ReliefProMain.Models
 
 
 
-        
+
     }
 }

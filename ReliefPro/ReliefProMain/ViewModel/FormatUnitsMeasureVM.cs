@@ -256,7 +256,8 @@ namespace ReliefProMain.ViewModel
             if (UOMEnum.UnitFormFlag && lstBasciUnitCurrent != null && lstBasciUnitCurrent.Count > 0)
             {
                 model.BasicUnitselectLocation = lstBasicUnit.Where(p => p.ID == lstBasciUnitCurrent.First().BasicUnitID).First();
-                model.BasicUnitselectLocation = null;
+
+                model.BasicUnitselectLocation = new BasicUnit();
             }
             else
                 model.BasicUnitselectLocation = lstBasicUnit[lstBasicUnit.ToList().FindIndex(p => p.IsDefault == 1)];
