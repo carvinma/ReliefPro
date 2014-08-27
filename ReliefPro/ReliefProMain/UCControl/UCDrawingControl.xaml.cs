@@ -114,7 +114,7 @@ namespace ReliefProMain.View
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         Window parentWindow = Window.GetWindow(this);
                         v.Owner = parentWindow;
-                        bool? dlgresult=v.ShowDialog();
+                        bool? dlgresult = v.ShowDialog();
                         if (dlgresult == true)
                         {
                             SourceFileInfo = vm.SourceFileInfo;
@@ -155,7 +155,7 @@ namespace ReliefProMain.View
                 {
                     if (string.IsNullOrEmpty(name))
                     {
-                        MessageBox.Show("this stream is not exist!","Message Box");
+                        MessageBox.Show("this stream is not exist!", "Message Box");
                         return;
                     }
                     CustomStreamView v = new CustomStreamView();
@@ -197,7 +197,7 @@ namespace ReliefProMain.View
                     try
                     {
                         SourceView v = new SourceView();
-                        SourceVM vm = new SourceVM(name,SourceFileInfo, SessionPlant, SessionProtectedSystem);
+                        SourceVM vm = new SourceVM(name, SourceFileInfo, SessionPlant, SessionProtectedSystem);
                         v.DataContext = vm;
                         Window parentWindow = Window.GetWindow(this);
                         v.Owner = parentWindow;
@@ -213,7 +213,7 @@ namespace ReliefProMain.View
                     try
                     {
                         SinkView v = new SinkView();
-                        SinkVM vm = new SinkVM(name,  SessionPlant, SessionProtectedSystem);
+                        SinkVM vm = new SinkVM(name, SessionPlant, SessionProtectedSystem);
                         v.DataContext = vm;
                         Window parentWindow = Window.GetWindow(this);
                         v.Owner = parentWindow;
@@ -238,7 +238,7 @@ namespace ReliefProMain.View
                 else if (shp.NameU.Contains("Tank"))
                 {
                     StorageTankView v = new StorageTankView();
-                    StorageTankVM vm = new StorageTankVM(name, SessionPlant, SessionProtectedSystem,DirPlant,DirProtectedSystem);
+                    StorageTankVM vm = new StorageTankVM(name, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
                     v.DataContext = vm;
 
                     Window parentWindow = Window.GetWindow(this);
@@ -303,7 +303,7 @@ namespace ReliefProMain.View
                     try
                     {
                         ReactorLoopView v = new ReactorLoopView();
-                        ReactorLoopVM vm = new ReactorLoopVM( SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
+                        ReactorLoopVM vm = new ReactorLoopVM(SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
                         v.DataContext = vm;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         Window parentWindow = Window.GetWindow(this);
@@ -366,7 +366,7 @@ namespace ReliefProMain.View
                 startShp.get_Cells("Height").ResultIU = 0.1;
                 startShp.get_Cells("Width").ResultIU = 0.2;
                 startShp.Text = connector.Text + "_Source";
-                
+
                 ConnectShapes(startShp, 2, connector, 1);
                 start--;
                 if (start < 11)
@@ -444,7 +444,7 @@ namespace ReliefProMain.View
                 reboiler.Cells["EventDblClick"].Formula = "=0";
             }
 
-            
+
 
             start = 3;
             center = 5;
@@ -453,9 +453,9 @@ namespace ReliefProMain.View
             foreach (CustomStream cs in vm.Products)
             {
                 int tray = -1;
-                
-                tray =cs.Tray;
-                
+
+                tray = cs.Tray;
+
                 if (tray == 1)
                 {
                     if (vm.Condensers.Count == 0)
@@ -523,7 +523,7 @@ namespace ReliefProMain.View
                         Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
                         ConnectShapes(shape, 9, connector, 1);
                         connector.Text = cs.StreamName;
-                        Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 2, pinY  - height / 2- 0.5);
+                        Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 2, pinY - height / 2 - 0.5);
                         endShp.get_Cells("Height").ResultIU = endShpHeight;
                         endShp.get_Cells("Width").ResultIU = endShpWidth;
                         endShp.Text = connector.Text + "_Sink";
@@ -549,7 +549,7 @@ namespace ReliefProMain.View
                     ConnectShapes(shape, start, connector, 1);
                     connector.Text = cs.StreamName;
 
-                    Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX +1.2, pinY + (center - start-0.5) * multiple * height);
+                    Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 1.2, pinY + (center - start - 0.5) * multiple * height);
                     endShp.get_Cells("Height").ResultIU = endShpHeight;
                     endShp.get_Cells("Width").ResultIU = endShpWidth;
                     endShp.Text = connector.Text + "_Sink";
@@ -652,14 +652,14 @@ namespace ReliefProMain.View
             int center = 5;
             //2,3 入
             int feedcount = vm.Feeds.Count;
-            if(feedcount>0)
+            if (feedcount > 0)
             {
                 CustomStream cs = vm.Feeds[0];
                 Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
                 ConnectShapes(shape, 2, connector, 0);
                 connector.Text = cs.StreamName;
 
-                Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY );
+                Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY);
                 startShp.get_Cells("Height").ResultIU = 0.1;
                 startShp.get_Cells("Width").ResultIU = 0.2;
                 startShp.Text = connector.Text + "_Source";
@@ -737,19 +737,19 @@ namespace ReliefProMain.View
             Visio.Master startMaster = startStencil.Masters.get_ItemU(@"Carrying vessel");
             Visio.Master endMaster = startStencil.Masters.get_ItemU(@"Clarifier");
 
-            
+
             double multiple = 0.125;
             //double leftmultiple = 1.5;
             int center = 5;
-            int feedcount=vm.model.Feeds.Count;
-            if(feedcount>0)
+            int feedcount = vm.model.Feeds.Count;
+            if (feedcount > 0)
             {
                 CustomStream cs = vm.model.Feeds[0];
                 Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
                 ConnectShapes(shape, 2, connector, 0);
                 connector.Text = cs.StreamName;
 
-                Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY );
+                Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY);
                 startShp.get_Cells("Height").ResultIU = 0.1;
                 startShp.get_Cells("Width").ResultIU = 0.2;
                 startShp.Text = connector.Text + "_Source";
@@ -762,7 +762,7 @@ namespace ReliefProMain.View
                     ConnectShapes(shape, 0, connector2, 0);
                     connector2.Text = cs2.StreamName;
 
-                    Visio.Shape startShp2 = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY+0.2);
+                    Visio.Shape startShp2 = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY + 0.2);
                     startShp2.get_Cells("Height").ResultIU = 0.1;
                     startShp2.get_Cells("Width").ResultIU = 0.2;
                     startShp2.Text = connector2.Text + "_Source";
@@ -772,7 +772,7 @@ namespace ReliefProMain.View
             }
 
             int productcount = vm.model.Products.Count;
-            if (productcount >0)
+            if (productcount > 0)
             {
                 CustomStream cs = vm.model.Products[0];
                 Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
@@ -790,7 +790,7 @@ namespace ReliefProMain.View
                     Visio.Shape connector2 = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
                     ConnectShapes(shape, 4, connector2, 1);
                     connector2.Text = cs2.StreamName;
-                    Visio.Shape endShp2 = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX+1.8, pinY - 0.6);
+                    Visio.Shape endShp2 = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 1.8, pinY - 0.6);
                     endShp2.get_Cells("Height").ResultIU = endShpHeight;
                     endShp2.get_Cells("Width").ResultIU = endShpWidth;
                     endShp2.Text = connector2.Text + "_Sink";
@@ -803,7 +803,7 @@ namespace ReliefProMain.View
 
         private void DrawReactor(Visio.Shape shape, ReactorLoopVM vm)
         {
-            shape.get_Cells("Height").ResultIU = 2;         
+            shape.get_Cells("Height").ResultIU = 2;
         }
 
         private void DrawTank(Visio.Shape shape, StorageTankVM vm)
@@ -895,7 +895,7 @@ namespace ReliefProMain.View
                 ProtectedSystem ps = psdal.GetModel(SessionProtectedSystem);
                 if (ps == null)
                 {
-                    MessageBox.Show("Current Equipment Data is not imported!","Message Box");
+                    MessageBox.Show("Current Equipment Data is not imported!", "Message Box");
                     return;
                 }
                 PSVView v = new PSVView();
@@ -915,7 +915,7 @@ namespace ReliefProMain.View
                 }
 
                 ScenarioListView v = new ScenarioListView();
-                ScenarioListVM vm = new ScenarioListVM(EqName, EqType,SourceFileInfo, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
+                ScenarioListVM vm = new ScenarioListVM(EqName, EqType, SourceFileInfo, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
                 v.DataContext = vm;
                 v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 v.ShowDialog();
@@ -942,6 +942,7 @@ namespace ReliefProMain.View
             {
                 UnitInfo unitInfo = new UnitInfo();
                 UOMEnum.lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(i.Result);
+                UOMEnum.lstBasicUnitCurrent = unitInfo.GetBasicUnitCurrentUserSet(i.Result);
                 UOMEnum.lstSystemUnit = unitInfo.GetSystemUnit(i.Result);
 
                 var basicUnit = unitInfo.GetBasicUnitUOM(i.Result);
@@ -953,11 +954,11 @@ namespace ReliefProMain.View
                 {
                     NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystemFile);
                     SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
-                    ProtectedSystemDAL psDAL=new ProtectedSystemDAL();
+                    ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
                     ProtectedSystem ps = psDAL.GetModel(SessionProtectedSystem);
 
                     SourceFileDAL sfdal = new SourceFileDAL();
-                    
+
                     if (ps != null)
                     {
                         switch (ps.PSType)
@@ -968,7 +969,7 @@ namespace ReliefProMain.View
                                 if (tower != null)
                                 {
                                     EqType = "Tower";
-                                    EqName = tower.TowerName;                                    
+                                    EqName = tower.TowerName;
                                     SourceFileInfo = sfdal.GetModel(tower.SourceFile, SessionPlant);
                                 }
                                 break;
@@ -1027,7 +1028,7 @@ namespace ReliefProMain.View
                                 break;
                         }
                     }
-                    
+
 
                 });
 
@@ -1036,7 +1037,7 @@ namespace ReliefProMain.View
         }
 
 
-        
+
 
     }
 
