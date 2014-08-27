@@ -76,6 +76,7 @@
     <Compile Include="GlobalDefault\ConditionsSettings.cs" />
     <Compile Include="GlobalDefault\FlareSystem.cs" />
     <Compile Include="HXs\HeatExchanger.cs" />
+    <Compile Include="HXs\TubeRupture.cs" />
     <Compile Include="Reports\PlantSummaryGridDS.cs" />
     <Compile Include="Reports\PUsummary.cs" />
     <Compile Include="Reports\PUsummaryGridDS.cs" />
@@ -252,6 +253,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GlobalDefault\ConditionsSettings.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HXs\TubeRupture.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="license.txt" />
