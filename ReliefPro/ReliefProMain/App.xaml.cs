@@ -35,7 +35,7 @@ namespace ReliefProMain
             v.DataContext = vm;
             v.WindowState = WindowState.Maximized;
             v.Show();
-            
+
             //Window1 v = new Window1();
             //v.Show();
 
@@ -48,16 +48,16 @@ namespace ReliefProMain
         private void InitData()
         {
             UnitInfo unitInfo = new UnitInfo();
-            UnitConvert.tmpSystemUnit = unitInfo.GetSystemUnit();
+            UnitConvert.tmpSystemUnit = unitInfo.GetSystemUnit(TempleSession.Session);
             if (null != UnitConvert.tmpSystemUnit)
                 UnitConvert.lkpSystemUnit = UnitConvert.tmpSystemUnit.ToLookup(p => p.Name.ToLower());
 
-            UnitConvert.tmpUnitType = unitInfo.GetUnitType();
+            UnitConvert.tmpUnitType = unitInfo.GetUnitType(TempleSession.Session);
             if (null != UnitConvert.tmpUnitType)
                 UnitConvert.lkpUnitType = UnitConvert.tmpUnitType.ToLookup(p => p.ShortName.ToLower());
 
-            UnitConvert.lstBasicUnit = unitInfo.GetBasicUnit();
-            UnitConvert.lstBasicUnitDefault = unitInfo.GetBasicUnitDefault();
+            UnitConvert.lstBasicUnit = unitInfo.GetBasicUnit(TempleSession.Session);
+            UnitConvert.lstBasicUnitDefault = unitInfo.GetBasicUnitDefault(TempleSession.Session);
         }
     }
 }
