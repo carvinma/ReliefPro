@@ -941,8 +941,8 @@ namespace ReliefProMain.View
             var t2 = task.ContinueWith((i) =>
             {
                 UnitInfo unitInfo = new UnitInfo();
-                UOMEnum.lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(i.Result);
-                UOMEnum.lstBasicUnitCurrent = unitInfo.GetBasicUnitCurrentUserSet(i.Result);
+                UOMEnum.lstBasicUnitDefault = unitInfo.GetBasicUnitDefault(i.Result);
+                UOMEnum.lstBasicUnitCurrent = unitInfo.GetBasicUnitCurrent(i.Result);
                 UOMEnum.lstSystemUnit = unitInfo.GetSystemUnit(i.Result);
 
                 var basicUnit = unitInfo.GetBasicUnitUOM(i.Result);
