@@ -15,6 +15,7 @@ using System.IO;
 using ReliefProCommon.CommonLib;
 using ProII;
 using System.Windows;
+using System.Collections.ObjectModel;
 
 namespace ReliefProMain.ViewModel.HXs
 {
@@ -28,7 +29,7 @@ namespace ReliefProMain.ViewModel.HXs
         private string DirPlant { set; get; }
         private string DirProtectedSystem { set; get; }
         
-        public ScenarioModel model { set; get; }
+        public TubeRuptureModel model { set; get; }
         public TubeRuptureVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;
@@ -42,7 +43,13 @@ namespace ReliefProMain.ViewModel.HXs
 
         public void CalcResult(object obj)
         {
-            CustomStream cs = new CustomStream();//低压测
+            CustomStream cs = new CustomStream();//high压测流体
+            CustomStreamBLL csbll=new CustomStreamBLL(SessionPF,SessionPS);
+            ObservableCollection <CustomStream> feeds = csbll.GetStreams(SessionPS, false);
+            cs = feeds[0];
+            if (cs.Pressure < feeds[1].Pressure)
+                cs = feeds[1];
+
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionPS);
             double pressure = psv.Pressure;
@@ -133,7 +140,9 @@ namespace ReliefProMain.ViewModel.HXs
                     break;
                 case 2:
                     //再做一次闪蒸，求出
-                    CustomStream cs = new CustomStream();
+                    CustomStream cs = new CustomStream(); //还是第一次做的物流线
+
+
                     string FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
                     double reliefFirePressure = pcf;
                     string tempdir = DirProtectedSystem + @"\temp\";
