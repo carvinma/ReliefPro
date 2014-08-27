@@ -20,16 +20,19 @@ namespace ReliefProMain.View
     /// </summary>
     public partial class FormatUnitsMeasure : Window
     {
-        private FormatUnitsMeasureVM viewModel = new FormatUnitsMeasureVM();
         public FormatUnitsMeasure()
         {
             InitializeComponent();
-            this.DataContext = viewModel;
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+            UOMLib.UOMEnum.UnitFormFlag = true;
+        }
+
+        private void myWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
             UOMLib.UOMEnum.UnitFormFlag = true;
         }
     }

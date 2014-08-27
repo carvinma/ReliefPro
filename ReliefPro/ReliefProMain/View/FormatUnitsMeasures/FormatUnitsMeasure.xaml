@@ -4,7 +4,7 @@
 		xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" x:Class="ReliefProMain.View.FormatUnitsMeasure"
 		Title="{DynamicResource FormatUnitsMeasureTitle}" Name="myWindow" 
         Height="520" Width="658" Icon="/ReliefProMain;component/Images/app.ico"  
-        Style="{DynamicResource WinStyle}" >
+        Style="{DynamicResource WinStyle}" Closing="myWindow_Closing" >
 	
 	<Grid>
 		<DockPanel>

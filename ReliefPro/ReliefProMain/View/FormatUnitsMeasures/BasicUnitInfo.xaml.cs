@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using NHibernate;
 using ReliefProBLL;
 using UOMLib;
 
@@ -21,8 +22,10 @@ namespace ReliefProMain.View
     /// </summary>
     public partial class BasicUnitInfo : Window
     {
-        public BasicUnitInfo()
+        private ISession SessionPlant;
+        public BasicUnitInfo(ISession SessionPlant)
         {
+            this.SessionPlant = SessionPlant;
             InitializeComponent();
         }
         public string BasicNewName
@@ -35,7 +38,7 @@ namespace ReliefProMain.View
             if (!string.IsNullOrEmpty(this.BasicNewName))
             {
                 UnitInfo unitInfo = new UnitInfo();
-                int iCount = unitInfo.GetBasicUnit().Where(p => p.UnitName.ToLower() == this.BasicNewName.ToLower()).ToList().Count();
+                int iCount = unitInfo.GetBasicUnit(SessionPlant).Where(p => p.UnitName.ToLower() == this.BasicNewName.ToLower()).ToList().Count();
                 if (iCount > 0)
                 {
                     this.lblWarning.Visibility = Visibility.Visible;
