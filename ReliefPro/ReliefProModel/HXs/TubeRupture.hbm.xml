@@ -11,7 +11,6 @@
   <property name="ReliefTemperature" column="ReliefTemperature" type="Double"/>
   <property name="ReliefPressure" column="ReliefPressure" type="Double"/>
 
-  <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"/>
   <property name="OD_Color" column="OD_Color" type="String" length="255"/>
   <property name="ReliefLoad_Color" column="ReliefLoad_Color" type="String" length="255"/>
   <property name="ReliefMW_Color" column="ReliefMW_Color" type="String" length="255"/>
