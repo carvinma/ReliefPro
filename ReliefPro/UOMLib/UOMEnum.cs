@@ -47,6 +47,7 @@ namespace UOMLib
         public static IList<SystemUnit> lstSystemUnit;
         public static int BasicUnitID;
         public static int BasicUnitCuurentID;
+        public static bool UnitFormFlag = true;//true 从Current赋值下拉框，否则是原来系统默认值
         public UOMEnum(ISession SessionPlant)
         {
             //UnitInfo unitInfo = new UnitInfo();

@@ -12,6 +12,7 @@ namespace UOMLib
         private static readonly string dbConnectPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"Template\plant.mdb";
 
         public static ISession Session { get; private set; }
+        public static int UnitFormFlag = 0;
         static TempleSession()
         {
             using (var helper = new UOMLNHibernateHelper(dbConnectPath))
