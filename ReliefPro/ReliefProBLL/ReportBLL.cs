@@ -302,7 +302,7 @@ namespace ReliefProLL
             ScenarioInfo.ForEach(p =>
             {
                 p.dbPath = SessionPS.Connection.ConnectionString;
-                if ( pback != 0)
+                if (pback != 0)
                 {
                     double W, T, MW;
                     W = p.ReliefLoad;
@@ -360,17 +360,6 @@ namespace ReliefProLL
 
 
             });
-            //Parallel.ForEach(ReportPath, (p, loopState) =>
-            //{
-            //    countdown.AddCount();
-            //    NHibernateHelper helperProtectedSystem = new NHibernateHelper(p);
-            //    var tmpSession = helperProtectedSystem.GetCurrentSession();
-            //    GetPSVInfo(tmpSession);
-            //    GetScenarioInfo(tmpSession);
-            //    countdown.Signal();
-            //});
-            //countdown.Signal();
-            //countdown.Wait();
             InitInfo();
         }
 
