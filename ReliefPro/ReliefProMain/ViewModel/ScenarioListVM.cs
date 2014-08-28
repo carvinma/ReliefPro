@@ -202,11 +202,11 @@ namespace ReliefProMain.ViewModel
                                 select s).Single();
             if (!string.IsNullOrEmpty(SelectedScenario.ScenarioName))
             {
-
                 ScenarioDAL db = new ScenarioDAL();
                 Scenario sce = db.GetModel(ScenarioID, SessionProtectedSystem);
                 sce.ScenarioName = SelectedScenario.ScenarioName;
                 db.Update(sce, SessionProtectedSystem);
+                SessionProtectedSystem.Flush();
                 string ScenarioName = SelectedScenario.ScenarioName.Replace(" ", string.Empty);
                 if (EqType == "Tower")
                 {
@@ -222,11 +222,11 @@ namespace ReliefProMain.ViewModel
                     {
                         CreateAbnormalHeatInput(ScenarioID, ScenarioName, SessionProtectedSystem);
                     }
-                    else if (ScenarioName.Contains("Blocked vapor outlet"))
+                    else if (ScenarioName.Contains("Blockedvaporoutlet"))
                     {
                         CreateBlockedVaporOutlet(ScenarioID, 0);
                     }
-                    else if (ScenarioName.Contains("Absorbent Stops"))
+                    else if (ScenarioName.Contains("AbsorbentStops"))
                     {
                         CreateBlockedVaporOutlet(ScenarioID, 1);
                     }
@@ -472,15 +472,31 @@ namespace ReliefProMain.ViewModel
         }
         private void CreateBlockedVaporOutlet(int ScenarioID,int OutletType)
         {
-            BlockedVaporOutletView view = new BlockedVaporOutletView();
-            BlockedVaporOutletVM vm = new BlockedVaporOutletVM(SessionPlant, SessionProtectedSystem, ScenarioID, OutletType);
-            view.DataContext = vm;
-            if (view.ShowDialog() == true)
+            if (OutletType == 0)
             {
-                SelectedScenario.ReliefLoad = vm.model.dbScenario.ReliefLoad;
-                SelectedScenario.ReliefMW = vm.model.dbScenario.ReliefMW;
-                SelectedScenario.ReliefPressure = vm.model.dbScenario.ReliefPressure;
-                SelectedScenario.ReliefTemperature = vm.model.dbScenario.ReliefTemperature;
+                BlockedVaporOutletView view = new BlockedVaporOutletView();
+                BlockedVaporOutletVM vm = new BlockedVaporOutletVM(SessionPlant, SessionProtectedSystem, ScenarioID, OutletType);
+                view.DataContext = vm;
+                if (view.ShowDialog() == true)
+                {
+                    SelectedScenario.ReliefLoad = vm.model.dbScenario.ReliefLoad;
+                    SelectedScenario.ReliefMW = vm.model.dbScenario.ReliefMW;
+                    SelectedScenario.ReliefPressure = vm.model.dbScenario.ReliefPressure;
+                    SelectedScenario.ReliefTemperature = vm.model.dbScenario.ReliefTemperature;
+                }
+            }
+            else
+            {
+                AbsorbentStopsView view = new AbsorbentStopsView();
+                BlockedVaporOutletVM vm = new BlockedVaporOutletVM(SessionPlant, SessionProtectedSystem, ScenarioID, OutletType);
+                view.DataContext = vm;
+                if (view.ShowDialog() == true)
+                {
+                    SelectedScenario.ReliefLoad = vm.model.dbScenario.ReliefLoad;
+                    SelectedScenario.ReliefMW = vm.model.dbScenario.ReliefMW;
+                    SelectedScenario.ReliefPressure = vm.model.dbScenario.ReliefPressure;
+                    SelectedScenario.ReliefTemperature = vm.model.dbScenario.ReliefTemperature;
+                }
             }
         }
 

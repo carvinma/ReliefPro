@@ -349,62 +349,65 @@ namespace ReliefProMain.ViewModel
             string[] arrHeaterTrayLoc = heaterTrayLoc.Split(',');
             for (int i = 0; i < arrHeaterNames.Length; i++)
             {
-                double duty = double.Parse(arrHeaterDuties[i]) * 3600;  //KJ/hr
-                if (arrHeaterNames[i] == "CONDENSER")
+                if (!string.IsNullOrEmpty(arrHeaterNames[i]))
                 {
-                    TowerHX hx = new TowerHX();
-                    hx.HeaterName=arrHeaterNames[i];
-                    hx.HeaterDuty=duty;
-                    hx.HeaterType=1;
-                    Condensers.Add(hx);
-
-                }
-                else if (arrHeaterNames[i] == "REBOILER")
-                {
-
-                    TowerHX hx = new TowerHX();
-                    hx.HeaterName=arrHeaterNames[i];
-                    hx.HeaterDuty=duty;
-                    hx.HeaterType = 3;
-                    this.Reboilers.Add(hx);
-
-                }
-                else if (double.Parse(arrHeaterDuties[i]) <= 0 && arrHeaterNames[i] != "CONDENSER")
-                {
-                    if (arrHeaterTrayLoc[i] == "1")
+                    double duty = double.Parse(arrHeaterDuties[i]) * 3600;  //KJ/hr
+                    if (arrHeaterNames[i] == "CONDENSER")
                     {
                         TowerHX hx = new TowerHX();
                         hx.HeaterName = arrHeaterNames[i];
                         hx.HeaterDuty = duty;
                         hx.HeaterType = 1;
                         Condensers.Add(hx);
+
                     }
-                    else
+                    else if (arrHeaterNames[i] == "REBOILER")
                     {
-                        TowerHX hx = new TowerHX();
-                        hx.HeaterName = arrHeaterNames[i];
-                        hx.HeaterDuty = duty;
-                        hx.HeaterType = 2;
-                        HxCondensers.Add(hx);
-                    }
-                }
-                else if (double.Parse(arrHeaterDuties[i]) > 0 && arrHeaterNames[i] != "REBOILER")
-                {
-                    if (arrHeaterTrayLoc[i] == data.NumberOfTrays)
-                    {
+
                         TowerHX hx = new TowerHX();
                         hx.HeaterName = arrHeaterNames[i];
                         hx.HeaterDuty = duty;
                         hx.HeaterType = 3;
-                        Reboilers.Add(hx);
+                        this.Reboilers.Add(hx);
+
                     }
-                    else
+                    else if (double.Parse(arrHeaterDuties[i]) <= 0 && arrHeaterNames[i] != "CONDENSER")
                     {
-                        TowerHX hx = new TowerHX();
-                        hx.HeaterName = arrHeaterNames[i];
-                        hx.HeaterDuty = duty;
-                        hx.HeaterType = 4;
-                        HxReboilers.Add(hx);
+                        if (arrHeaterTrayLoc[i] == "1")
+                        {
+                            TowerHX hx = new TowerHX();
+                            hx.HeaterName = arrHeaterNames[i];
+                            hx.HeaterDuty = duty;
+                            hx.HeaterType = 1;
+                            Condensers.Add(hx);
+                        }
+                        else
+                        {
+                            TowerHX hx = new TowerHX();
+                            hx.HeaterName = arrHeaterNames[i];
+                            hx.HeaterDuty = duty;
+                            hx.HeaterType = 2;
+                            HxCondensers.Add(hx);
+                        }
+                    }
+                    else if (double.Parse(arrHeaterDuties[i]) > 0 && arrHeaterNames[i] != "REBOILER")
+                    {
+                        if (arrHeaterTrayLoc[i] == data.NumberOfTrays)
+                        {
+                            TowerHX hx = new TowerHX();
+                            hx.HeaterName = arrHeaterNames[i];
+                            hx.HeaterDuty = duty;
+                            hx.HeaterType = 3;
+                            Reboilers.Add(hx);
+                        }
+                        else
+                        {
+                            TowerHX hx = new TowerHX();
+                            hx.HeaterName = arrHeaterNames[i];
+                            hx.HeaterDuty = duty;
+                            hx.HeaterType = 4;
+                            HxReboilers.Add(hx);
+                        }
                     }
                 }
             }

@@ -64,16 +64,16 @@ namespace ReliefProMain.Models
             dbmodel = outletModel == null ? new BlockedVaporOutlet() : outletModel;
             dbScenario = sModel == null ? new Scenario() : sModel;
 
-            this.InletGasUpstreamMaxPressure = outletModel.InletGasUpstreamMaxPressure;
-            this.InletAbsorbentUpstreamMaxPressure = outletModel.InletAbsorbentUpstreamMaxPressure;
-            this.NormalGasFeedWeightRate = outletModel.NormalGasFeedWeightRate;
-            this.NormalGasProductWeightRate = outletModel.NormalGasProductWeightRate;
+            this.InletGasUpstreamMaxPressure = dbmodel.InletGasUpstreamMaxPressure;
+            this.InletAbsorbentUpstreamMaxPressure = dbmodel.InletAbsorbentUpstreamMaxPressure;
+            this.NormalGasFeedWeightRate = dbmodel.NormalGasFeedWeightRate;
+            this.NormalGasProductWeightRate = dbmodel.NormalGasProductWeightRate;
 
-            this.ReliefLoad = sModel.ReliefLoad;
-            this.ReliefPressure = sModel.ReliefPressure;
-            this.ReliefTemperature = sModel.ReliefTemperature;
-            this.ReliefCpCv = sModel.ReliefCpCv;
-            this.ReliefZ = sModel.ReliefZ;
+            this.ReliefLoad = dbScenario.ReliefLoad;
+            this.ReliefPressure = dbScenario.ReliefPressure;
+            this.ReliefTemperature = dbScenario.ReliefTemperature;
+            this.ReliefCpCv = dbScenario.ReliefCpCv;
+            this.ReliefZ = dbScenario.ReliefZ;
         }
         #region Value
 
@@ -91,9 +91,7 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double inletAbsorbentUpstreamMaxPressure;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        private double inletAbsorbentUpstreamMaxPressure;        
         public double InletAbsorbentUpstreamMaxPressure
         {
             get { return inletAbsorbentUpstreamMaxPressure; }
