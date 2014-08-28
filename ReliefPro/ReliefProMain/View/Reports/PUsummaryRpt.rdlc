@@ -7252,7 +7252,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIf(IsNothing(Sum(Fields!PowerReliefRate.Value)),Nothing,
+                              <Value>=IIf(IsNothing(Sum(Fields!PowerReliefRate.Value)) or Sum(Fields!PowerReliefRate.Value)=0,Nothing,
 Sum(Fields!PowerReliefRate.Value)/Sum(
 iif(IsNothing(Fields!PowerReliefRate.Value) 
 or IsNothing(Fields!PowerMWorSpGr.Value) 
@@ -7538,7 +7538,7 @@ Fields!PowerReliefRate.Value/Fields!PowerMWorSpGr.Value/
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIf(IsNothing(Sum(Fields!WaterReliefRate.Value)),Nothing,
+                              <Value>=IIf(IsNothing(Sum(Fields!WaterReliefRate.Value)) or Sum(Fields!WaterReliefRate.Value)=0,Nothing,
 Sum(Fields!WaterReliefRate.Value)/Sum(
 iif(IsNothing(Fields!WaterReliefRate.Value) 
 or IsNothing(Fields!WaterMWorSpGr.Value) 
@@ -7824,7 +7824,7 @@ Fields!WaterReliefRate.Value/Fields!WaterMWorSpGr.Value/
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIf(IsNothing(Sum(Fields!AirReliefRate.Value)),Nothing,
+                              <Value>=IIf(IsNothing(Sum(Fields!AirReliefRate.Value)) or Sum(Fields!AirReliefRate.Value)=0,Nothing,
 Sum(Fields!AirReliefRate.Value)/Sum(
 iif(IsNothing(Fields!AirReliefRate.Value) 
 or IsNothing(Fields!AirMWorSpGr.Value) 
@@ -8110,7 +8110,7 @@ Fields!AirReliefRate.Value/Fields!AirMWorSpGr.Value/
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIf(IsNothing(Sum(Fields!SteamReliefRate.Value)),Nothing,
+                              <Value>=IIf(IsNothing(Sum(Fields!SteamReliefRate.Value)) or Sum(Fields!SteamReliefRate.Value)=0,Nothing,
 Sum(Fields!SteamReliefRate.Value)/Sum(
 iif(IsNothing(Fields!SteamReliefRate.Value) 
 or IsNothing(Fields!SteamMWorSpGr.Value) 
@@ -8396,7 +8396,7 @@ Fields!SteamReliefRate.Value/Fields!SteamMWorSpGr.Value/
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=IIf(IsNothing(Sum(Fields!FireReliefRate.Value)),Nothing,
+                              <Value>=IIf(IsNothing(Sum(Fields!FireReliefRate.Value)) or Sum(Fields!FireReliefRate.Value)=0,Nothing,
 Sum(Fields!FireReliefRate.Value)/Sum(
 iif(IsNothing(Fields!FireReliefRate.Value) 
 or IsNothing(Fields!FireMWorSpGr.Value) 
