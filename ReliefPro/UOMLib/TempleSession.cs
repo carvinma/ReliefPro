@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NHibernate;
+using ReliefProModel.GlobalDefault;
 
 namespace UOMLib
 {
@@ -27,6 +28,11 @@ namespace UOMLib
             if (_instance == null)
                 _instance = new TempleSession();
             return _instance;
+        }
+        public static List<FlareSystem> lstFlareSys
+        {
+            get;
+            set;
         }
 
     }
