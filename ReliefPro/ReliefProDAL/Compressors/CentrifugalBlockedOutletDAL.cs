@@ -15,6 +15,7 @@ namespace ReliefProDAL.Compressors
             IList<CentrifugalBlockedOutlet> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<CentrifugalBlockedOutlet>().List<CentrifugalBlockedOutlet>();
             }
             catch (Exception ex)
@@ -25,6 +26,7 @@ namespace ReliefProDAL.Compressors
         }
         public CentrifugalBlockedOutlet GetModelByScenarioID(ISession session, int ScenarioID)
         {
+            session.Clear();
             var list = session.CreateCriteria<CentrifugalBlockedOutlet>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<CentrifugalBlockedOutlet>();
             if (list.Count() > 0)
             {

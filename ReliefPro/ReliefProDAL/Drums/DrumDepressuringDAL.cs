@@ -15,6 +15,7 @@ namespace ReliefProDAL.Drums
             IList<DrumDepressuring> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<DrumDepressuring>().List<DrumDepressuring>();
             }
             catch (Exception ex)
@@ -25,6 +26,7 @@ namespace ReliefProDAL.Drums
         }
         public DrumDepressuring GetModelByDrumID(ISession session, int drumFireCalcID)
         {
+            session.Clear();
             var list = session.CreateCriteria<DrumDepressuring>().Add(Expression.Eq("ID", drumFireCalcID)).List<DrumDepressuring>();
             if (list.Count() > 0)
             {

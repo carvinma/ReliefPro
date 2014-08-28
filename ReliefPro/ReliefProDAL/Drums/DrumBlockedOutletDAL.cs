@@ -16,6 +16,7 @@ namespace ReliefProDAL.Drums
             IList<DrumBlockedOutlet> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<DrumBlockedOutlet>().List<DrumBlockedOutlet>();
             }
             catch (Exception ex)
@@ -26,6 +27,7 @@ namespace ReliefProDAL.Drums
         }
         public DrumBlockedOutlet GetModelByDrumID(ISession session, int drumID)
         {
+            session.Clear();
             var list = session.CreateCriteria<DrumBlockedOutlet>().Add(Expression.Eq("DrumID", drumID)).List<DrumBlockedOutlet>();
             if (list.Count() > 0)
             {

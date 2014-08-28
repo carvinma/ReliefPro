@@ -39,6 +39,7 @@ namespace ReliefProDAL.Common
 
         public virtual A GetModel(Object mainId, NHibernate.ISession session)
         {
+            session.Clear();
             return session.Get<A>(mainId);
         }
 

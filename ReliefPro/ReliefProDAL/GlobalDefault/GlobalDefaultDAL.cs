@@ -38,10 +38,12 @@ namespace ReliefProDAL.GlobalDefault
 
         public IList<FlareSystem> GetFlareSystem(ISession session)
         {
+            session.Clear();
             return session.CreateCriteria<FlareSystem>().List<FlareSystem>();
         }
         public ConditionsSettings GetConditionsSettings(ISession session)
         {
+            session.Clear();
             var lstSettings = session.CreateCriteria<ConditionsSettings>().List<ConditionsSettings>();
             if (lstSettings.Count > 0)
                 return lstSettings[0];

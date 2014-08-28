@@ -16,6 +16,7 @@ namespace ReliefProDAL.Drums
             IList<DrumSize> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<DrumSize>().List<DrumSize>();
             }
             catch (Exception ex)
@@ -26,6 +27,7 @@ namespace ReliefProDAL.Drums
         }
         public DrumSize GetModelByDrumID(ISession session, int drumFireCalcID)
         {
+            session.Clear();
             var list = session.CreateCriteria<DrumSize>().Add(Expression.Eq("DrumFireCalcID", drumFireCalcID)).List<DrumSize>();
             if (list.Count() > 0)
             {

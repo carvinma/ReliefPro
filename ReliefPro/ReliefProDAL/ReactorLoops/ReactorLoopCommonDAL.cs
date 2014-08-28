@@ -16,6 +16,7 @@ namespace ReliefProDAL.ReactorLoops
             IList<ReactorLoopCommon> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<ReactorLoopCommon>().List<ReactorLoopCommon>();
             }
             catch (Exception ex)
@@ -26,6 +27,7 @@ namespace ReliefProDAL.ReactorLoops
         }
         public ReactorLoopCommon GetModelByScenarioID(ISession session, int ScenarioID, int ReactorType)
         {
+            session.Clear();
             var list = session.CreateCriteria<ReactorLoopCommon>().Add(Expression.Eq("ScenarioID", ScenarioID)).Add(Expression.Eq("ReactorType", ReactorType)).List<ReactorLoopCommon>();
             if (list.Count() > 0)
             {

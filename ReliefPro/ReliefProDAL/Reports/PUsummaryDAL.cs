@@ -14,6 +14,7 @@ namespace ReliefProDAL.Reports
     {
         public PUsummary GetModel(int UnitID, ISession session)
         {
+            session.Clear();
             var ListModel = session.CreateCriteria<PUsummary>().Add(Expression.Eq("UnitID", UnitID)).List<PUsummary>();
             if (ListModel.Count > 0)
             {

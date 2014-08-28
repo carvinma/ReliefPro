@@ -20,6 +20,7 @@ namespace ReliefProDAL.Drums
             IList<Drum> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<Drum>().List<Drum>();
             }
             catch (Exception ex)
@@ -34,6 +35,7 @@ namespace ReliefProDAL.Drums
             IList<Drum> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<Drum>().List<Drum>();
                 if (list.Count > 0)
                 {

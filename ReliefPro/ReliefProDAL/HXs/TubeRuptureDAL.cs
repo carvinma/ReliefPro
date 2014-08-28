@@ -16,6 +16,7 @@ namespace ReliefProDAL.HXs
             IList<TubeRupture> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TubeRupture>().List<TubeRupture>();
             }
             catch (Exception ex)
@@ -26,6 +27,7 @@ namespace ReliefProDAL.HXs
         }
         public TubeRupture GetModelByScenarioID(ISession session, int ScenarioID)
         {
+            session.Clear();
             var list = session.CreateCriteria<TubeRupture>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<TubeRupture>();
             if (list.Count() > 0)
             {

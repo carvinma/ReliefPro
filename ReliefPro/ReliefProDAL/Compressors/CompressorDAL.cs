@@ -20,6 +20,7 @@ namespace ReliefProDAL.Compressors
             IList<Compressor> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<Compressor>().List<Compressor>();
             }
             catch (Exception ex)
@@ -34,6 +35,7 @@ namespace ReliefProDAL.Compressors
             IList<Compressor> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<Compressor>().List<Compressor>();
                 if (list.Count > 0)
                 {

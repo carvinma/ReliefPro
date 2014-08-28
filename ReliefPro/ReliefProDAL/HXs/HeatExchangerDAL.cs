@@ -20,6 +20,7 @@ namespace ReliefProDAL.HXs
             IList<HeatExchanger> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<HeatExchanger>().List<HeatExchanger>();
             }
             catch (Exception ex)
@@ -34,6 +35,7 @@ namespace ReliefProDAL.HXs
             IList<HeatExchanger> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<HeatExchanger>().List<HeatExchanger>();
                 if (list.Count > 0)
                 {

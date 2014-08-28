@@ -16,6 +16,7 @@ namespace ReliefProDAL.HXs
             IList<HXBlockedOutlet> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<HXBlockedOutlet>().List<HXBlockedOutlet>();
             }
             catch (Exception ex)
@@ -26,6 +27,7 @@ namespace ReliefProDAL.HXs
         }
         public HXBlockedOutlet GetModelByScenarioID(ISession session, int ScenarioID)
         {
+            session.Clear();
             var list = session.CreateCriteria<HXBlockedOutlet>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<HXBlockedOutlet>();
             if (list.Count() > 0)
             {

@@ -17,6 +17,7 @@ namespace ReliefProDAL.HXs
             IList<HXFireSize> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<HXFireSize>().List<HXFireSize>();
             }
             catch (Exception ex)
@@ -27,6 +28,7 @@ namespace ReliefProDAL.HXs
         }
         public HXFireSize GetModelByScenarioID(ISession session, int ScenarioID)
         {
+            session.Clear();
             var list = session.CreateCriteria<HXFireSize>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<HXFireSize>();
             if (list.Count() > 0)
             {

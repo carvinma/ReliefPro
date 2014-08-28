@@ -15,6 +15,7 @@ namespace ReliefProDAL.Compressors
             IList<PistonBlockedOutlet> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<PistonBlockedOutlet>().List<PistonBlockedOutlet>();
             }
             catch (Exception ex)
@@ -25,6 +26,7 @@ namespace ReliefProDAL.Compressors
         }
         public PistonBlockedOutlet GetModelByScenarioID(ISession session, int ScenarioID)
         {
+            session.Clear();
             var list = session.CreateCriteria<PistonBlockedOutlet>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<PistonBlockedOutlet>();
             if (list.Count() > 0)
             {
