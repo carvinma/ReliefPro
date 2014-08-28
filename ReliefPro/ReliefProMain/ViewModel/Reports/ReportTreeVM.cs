@@ -120,19 +120,25 @@ namespace ReliefProMain.ViewModel.Reports
         }
         private UnitVM GetSingleCheckedUnit()
         {
-            UnitVM curUnitVM = null;
             foreach (PlantVM plantvm in PlantCollection)
             {
                 foreach (UnitVM uvm in plantvm.UnitCollection)
                 {
-                    if (uvm.IsChecked)
+                    foreach (PSVM ps in uvm.PSCollection)
                     {
-                        curUnitVM = uvm;
-                        break;
+                        if (ps.IsChecked)
+                        {
+                            return uvm;
+                        }
                     }
+                    //if (uvm.IsChecked)
+                    //{
+                    //    curUnitVM = uvm;
+                    //    break;
+                    //}
                 }
             }
-            return curUnitVM;
+            return null;
 
         }
         private List<UnitVM> GetCheckedUnits()
@@ -142,9 +148,20 @@ namespace ReliefProMain.ViewModel.Reports
             {
                 foreach (UnitVM uvm in plantvm.UnitCollection)
                 {
-                    if (uvm.IsChecked)
+                    if (!chkedUnit.Exists(p => p.ID == uvm.ID))
                     {
-                        chkedUnit.Add(uvm);
+                        if (uvm.IsChecked)
+                        {
+                            chkedUnit.Add(uvm);
+                            break;
+                        }
+                        foreach (PSVM ps in uvm.PSCollection)
+                        {
+                            if (ps.IsChecked)
+                            {
+                                chkedUnit.Add(uvm);
+                            }
+                        }
                     }
                 }
             }
