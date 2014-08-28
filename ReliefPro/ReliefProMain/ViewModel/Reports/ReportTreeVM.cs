@@ -10,6 +10,8 @@ using System.Windows.Input;
 using ReliefProMain.Commands;
 using ReliefProMain.View.Reports;
 using System.IO;
+using UOMLib;
+using ReliefProLL;
 
 namespace ReliefProMain.ViewModel.Reports
 {
@@ -97,6 +99,9 @@ namespace ReliefProMain.ViewModel.Reports
         }
         private void UnitSummary(object obj)
         {
+            GlobalDefaultBLL globalBLL = new GlobalDefaultBLL(TempleSession.Session, null);
+            TempleSession.lstFlareSys = globalBLL.GetFlareSystem();
+
             string dbPlantFile = CurrentPlantPath + @"\plant.mdb";
             UnitVM uvm = GetSingleCheckedUnit();
             if (uvm != null)

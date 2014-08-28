@@ -16,6 +16,7 @@ using ReliefProMain.Models.Reports;
 using ReliefProModel;
 using ReliefProModel.GlobalDefault;
 using ReliefProModel.Reports;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel.Reports
 {
@@ -89,7 +90,7 @@ namespace ReliefProMain.ViewModel.Reports
             BtnReportCMD = new DelegateCommand<object>(BtnReprotClick);
             ExportExcelCMD = new DelegateCommand<object>(BtnExportExcel);
             reportBLL = new ReportBLL(UnitID, ReportPath);
-            listDischargeTo = reportBLL.GetDisChargeTo();
+            listDischargeTo = TempleSession.lstFlareSys;
             if (listDischargeTo != null)
             {
                 FlareSystem fs = new FlareSystem();
@@ -99,7 +100,7 @@ namespace ReliefProMain.ViewModel.Reports
             }
             PUsummary PU = reportBLL.GetPUsummaryModel(UnitID);
             if (PU == null) { PU = new PUsummary(); PU.UnitID = UnitID; }
-            CreateControl(reportBLL.GetDisChargeTo());
+            CreateControl(listDischargeTo);
 
             reportBLL.ClearSession();
             model = new PUsummaryModel(PU);
@@ -132,18 +133,6 @@ namespace ReliefProMain.ViewModel.Reports
             RptDataSouce.ReportDS.Clear();
             RptDataSouce.ReportDS.Add(new ReportDataSource("PUDataSet", CreateReportDataSource()));
             ReportFresh = !ReportFresh;
-            //WindowsFormsHost host = new WindowsFormsHost();
-            //host.Width = 1340;
-            //host.Height = 500;
-            //ReportViewer reportViewer = new ReportViewer();
-            //reportViewer.ProcessingMode = Microsoft.Reporting.WinForms.ProcessingMode.Local;
-            ////string path = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "View\\Reports\\PUsummaryRpt.rdlc";
-            //reportViewer.LocalReport.ReportEmbeddedResource = "ReliefProMain.View.Reports.PUsummaryRpt.rdlc";
-            //reportViewer.LocalReport.DataSources.Add(new ReportDataSource("PUDataSet", CreateReportDataSource()));
-            //reportViewer.RefreshReport();
-            //host.Child = reportViewer;
-            //StackpanelDraw.Children.Clear();
-            //StackpanelDraw.Children.Add(host);
         }
         private List<PUsummaryReportSource> CreateReportDataSource()
         {
