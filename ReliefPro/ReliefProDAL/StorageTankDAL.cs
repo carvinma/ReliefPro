@@ -17,6 +17,7 @@ namespace ReliefProDAL
             IList<StorageTank> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<StorageTank>().List<StorageTank>();
                 if (list.Count > 0)
                 {
@@ -29,11 +30,11 @@ namespace ReliefProDAL
             {
                 model = null;
                 throw ex;
-                
+
             }
-            
+
             return model;
         }
-        
+
     }
 }

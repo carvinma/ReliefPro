@@ -15,6 +15,7 @@ namespace ReliefProDAL
             IList<PSV> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<PSV>().List<PSV>();
             }
             catch (Exception ex)
@@ -29,6 +30,7 @@ namespace ReliefProDAL
             IList<PSV> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<PSV>().List<PSV>();
                 if (list.Count > 0)
                 {
@@ -41,9 +43,9 @@ namespace ReliefProDAL
             {
                 model = null;
                 throw ex;
-                
+
             }
-            
+
             return model;
         }
         public void RemoveALL(ISession session)
@@ -51,6 +53,7 @@ namespace ReliefProDAL
             IList<PSV> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<PSV>().List<PSV>();
                 foreach (PSV m in list)
                 {

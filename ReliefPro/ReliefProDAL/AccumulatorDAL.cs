@@ -15,6 +15,7 @@ namespace ReliefProDAL
             IList<Accumulator> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<Accumulator>().List<Accumulator>();
             }
             catch (Exception ex)
@@ -29,6 +30,7 @@ namespace ReliefProDAL
             IList<Accumulator> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<Accumulator>().List<Accumulator>();
                 if (list.Count > 0)
                 {
@@ -41,9 +43,9 @@ namespace ReliefProDAL
             {
                 model = null;
                 throw ex;
-                
+
             }
-            
+
             return model;
         }
     }

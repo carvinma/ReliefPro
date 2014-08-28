@@ -18,6 +18,7 @@ namespace ReliefProDAL
             IList<LatentProduct> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<LatentProduct>().List<LatentProduct>();
             }
             catch (Exception ex)
@@ -33,6 +34,7 @@ namespace ReliefProDAL
             IList<LatentProduct> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<LatentProduct>().Add(Expression.Eq("ProdType", ProdType)).List<LatentProduct>();
                 if (list.Count > 0)
                 {
@@ -56,8 +58,9 @@ namespace ReliefProDAL
             IList<LatentProduct> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<LatentProduct>().List<LatentProduct>();
-                foreach(LatentProduct m in list)
+                foreach (LatentProduct m in list)
                 {
                     session.Delete(m);
                 }

@@ -18,6 +18,7 @@ namespace ReliefProDAL
             IList<Tower> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<Tower>().List<Tower>();
             }
             catch (Exception ex)
@@ -32,6 +33,7 @@ namespace ReliefProDAL
             IList<Tower> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<Tower>().List<Tower>();
                 if (list.Count > 0)
                 {

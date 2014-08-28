@@ -13,12 +13,13 @@ namespace ReliefProDAL
 {
     public class ProIIEqDataDAL : IBaseDAL<ProIIEqData>
     {
-        public ProIIEqData GetModel(ISession session, string SourceFile,string EqName,string EqType)
+        public ProIIEqData GetModel(ISession session, string SourceFile, string EqName, string EqType)
         {
             ProIIEqData model = null;
             IList<ProIIEqData> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<ProIIEqData>().Add(Expression.Eq("EqName", EqName)).Add(Expression.Eq("EqType", EqType)).Add(Expression.Eq("SourceFile", SourceFile)).List<ProIIEqData>();
                 if (list.Count > 0)
                 {
@@ -43,6 +44,7 @@ namespace ReliefProDAL
             IList<ProIIEqData> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<ProIIEqData>().Add(Expression.Eq("EqName", EqName)).Add(Expression.Eq("SourceFile", SourceFile)).List<ProIIEqData>();
                 if (list.Count > 0)
                 {
@@ -61,11 +63,12 @@ namespace ReliefProDAL
             return model;
         }
 
-        public IList<ProIIEqData> GetAllList(ISession session,string SourceFile,string EqType)
+        public IList<ProIIEqData> GetAllList(ISession session, string SourceFile, string EqType)
         {
             IList<ProIIEqData> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<ProIIEqData>().Add(Expression.Eq("EqType", EqType)).Add(Expression.Eq("SourceFile", SourceFile)).List<ProIIEqData>();
             }
             catch (Exception ex)
@@ -79,6 +82,7 @@ namespace ReliefProDAL
             IList<ProIIEqData> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<ProIIEqData>().List<ProIIEqData>();
             }
             catch (Exception ex)
@@ -88,6 +92,6 @@ namespace ReliefProDAL
             return list;
         }
 
-       
+
     }
 }

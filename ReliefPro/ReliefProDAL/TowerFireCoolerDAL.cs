@@ -19,6 +19,7 @@ namespace ReliefProDAL
             IList<TowerFireCooler> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerFireCooler>().Add(Expression.Eq("EqID", EqID)).List<TowerFireCooler>();
                 if (list.Count > 0)
                 {

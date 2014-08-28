@@ -18,6 +18,7 @@ namespace ReliefProDAL
             IList<TowerFlashProduct> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerFlashProduct>().List<TowerFlashProduct>();
             }
             catch (Exception ex)
@@ -26,13 +27,14 @@ namespace ReliefProDAL
             }
             return list;
         }
-       
+
         public TowerFlashProduct GetModel(ISession session, string name)
         {
             TowerFlashProduct model = null;
             IList<TowerFlashProduct> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerFlashProduct>().Add(Expression.Eq("StreamName", name)).List<TowerFlashProduct>();
                 if (list.Count > 0)
                 {

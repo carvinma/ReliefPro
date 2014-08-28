@@ -13,14 +13,15 @@ namespace ReliefProDAL
 {
     public class ProIIStreamDataDAL : IBaseDAL<ProIIStreamData>
     {
-        
 
-        public ProIIStreamData GetModel(ISession session,string streamName,string sourceFile)
+
+        public ProIIStreamData GetModel(ISession session, string streamName, string sourceFile)
         {
             ProIIStreamData model = null;
             IList<ProIIStreamData> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<ProIIStreamData>().Add(Expression.Eq("SourceFile", sourceFile)).Add(Expression.Eq("StreamName", streamName)).List<ProIIStreamData>();
                 if (list.Count > 0)
                 {
@@ -44,6 +45,7 @@ namespace ReliefProDAL
             IList<ProIIStreamData> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<ProIIStreamData>().Add(Expression.Eq("SourceFile", sourceFile)).List<ProIIStreamData>();
             }
             catch (Exception ex)
@@ -54,6 +56,6 @@ namespace ReliefProDAL
         }
 
 
-        
+
     }
 }

@@ -15,6 +15,7 @@ namespace ReliefProDAL
             IList<TreePS> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TreePS>().Add(Expression.Eq("UnitID", UnitID)).List<TreePS>();
             }
             catch (Exception ex)
@@ -23,12 +24,13 @@ namespace ReliefProDAL
             }
             return list;
         }
-        public TreePS GetModel(ISession session, int UnitID,string PSName)
+        public TreePS GetModel(ISession session, int UnitID, string PSName)
         {
             TreePS model = null;
             IList<TreePS> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TreePS>().Add(Expression.Eq("UnitID", UnitID)).Add(Expression.Eq("PSName", PSName)).List<TreePS>();
                 if (list.Count > 0)
                 {
@@ -41,9 +43,9 @@ namespace ReliefProDAL
             {
                 model = null;
                 throw ex;
-                
+
             }
-            
+
             return model;
         }
     }

@@ -10,13 +10,14 @@ namespace ReliefProDAL
 {
     public class LatentDAL : IBaseDAL<Latent>
     {
-       
+
         public Latent GetModel(ISession session)
         {
             Latent model = null;
             IList<Latent> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<Latent>().List<Latent>();
                 if (list.Count > 0)
                 {
@@ -29,9 +30,9 @@ namespace ReliefProDAL
             {
                 model = null;
                 throw ex;
-                
+
             }
-            
+
             return model;
         }
 
@@ -40,6 +41,7 @@ namespace ReliefProDAL
             IList<Latent> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<Latent>().List<Latent>();
                 foreach (Latent m in list)
                 {

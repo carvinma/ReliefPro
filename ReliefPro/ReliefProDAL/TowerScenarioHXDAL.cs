@@ -15,6 +15,7 @@ namespace ReliefProDAL
             IList<TowerScenarioHX> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerScenarioHX>().List<TowerScenarioHX>();
             }
             catch (Exception ex)
@@ -28,6 +29,7 @@ namespace ReliefProDAL
             IList<TowerScenarioHX> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerScenarioHX>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<TowerScenarioHX>();
             }
             catch (Exception ex)
@@ -36,11 +38,12 @@ namespace ReliefProDAL
             }
             return list;
         }
-        public IList<TowerScenarioHX> GetAllList(ISession session,int ScenarioID,int HeaterType )
+        public IList<TowerScenarioHX> GetAllList(ISession session, int ScenarioID, int HeaterType)
         {
             IList<TowerScenarioHX> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerScenarioHX>().Add(Expression.Eq("ScenarioID", ScenarioID)).Add(Expression.Eq("HeaterType", HeaterType)).List<TowerScenarioHX>();
             }
             catch (Exception ex)
@@ -55,6 +58,7 @@ namespace ReliefProDAL
             IList<TowerScenarioHX> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerScenarioHX>().Add(Expression.Eq("DetailID", DetailID)).Add(Expression.Eq("ScenarioID", ScenarioID)).List<TowerScenarioHX>();
                 if (list.Count > 0)
                 {
@@ -67,9 +71,9 @@ namespace ReliefProDAL
             {
                 model = null;
                 throw ex;
-                
+
             }
-            
+
             return model;
         }
     }

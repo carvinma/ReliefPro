@@ -18,6 +18,7 @@ namespace ReliefProDAL
             IList<CustomStream> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<CustomStream>().List<CustomStream>();
             }
             catch (Exception ex)
@@ -26,11 +27,12 @@ namespace ReliefProDAL
             }
             return list;
         }
-        public IList<CustomStream> GetAllList(ISession session,bool isProduct)
+        public IList<CustomStream> GetAllList(ISession session, bool isProduct)
         {
             IList<CustomStream> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<CustomStream>().Add(Expression.Eq("IsProduct", isProduct)).List<CustomStream>();
             }
             catch (Exception ex)
@@ -45,6 +47,7 @@ namespace ReliefProDAL
             IList<CustomStream> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<CustomStream>().Add(Expression.Eq("StreamName", name)).List<CustomStream>();
                 if (list.Count > 0)
                 {
@@ -63,6 +66,6 @@ namespace ReliefProDAL
             return model;
         }
 
-        
+
     }
 }

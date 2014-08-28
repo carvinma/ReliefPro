@@ -18,6 +18,7 @@ namespace ReliefProDAL
             IList<TowerFireEq> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerFireEq>().Add(Expression.Eq("FireID", FireID)).List<TowerFireEq>();
             }
             catch (Exception ex)
@@ -26,6 +27,6 @@ namespace ReliefProDAL
             }
             return list;
         }
-        
+
     }
 }

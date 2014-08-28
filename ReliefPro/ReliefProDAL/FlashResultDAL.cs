@@ -15,6 +15,7 @@ namespace ReliefProDAL
             IList<FlashResult> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<FlashResult>().List<FlashResult>();
             }
             catch (Exception ex)
@@ -23,12 +24,13 @@ namespace ReliefProDAL
             }
             return list;
         }
-        public FlashResult GetModel(ISession session,string streamName)
+        public FlashResult GetModel(ISession session, string streamName)
         {
             FlashResult model = null;
             IList<FlashResult> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<FlashResult>().Add(Expression.Eq("StreamName", streamName)).List<FlashResult>();
                 if (list.Count > 0)
                 {
@@ -41,9 +43,9 @@ namespace ReliefProDAL
             {
                 model = null;
                 throw ex;
-                
+
             }
-            
+
             return model;
         }
     }

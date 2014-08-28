@@ -15,6 +15,7 @@ namespace ReliefProDAL
             IList<Scenario> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<Scenario>().List<Scenario>();
             }
             catch (Exception ex)
@@ -23,6 +24,6 @@ namespace ReliefProDAL
             }
             return list;
         }
-        
+
     }
 }

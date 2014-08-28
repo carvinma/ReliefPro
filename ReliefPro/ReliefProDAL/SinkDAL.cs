@@ -15,6 +15,7 @@ namespace ReliefProDAL
             IList<Sink> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<Sink>().List<Sink>();
             }
             catch (Exception ex)
@@ -29,6 +30,7 @@ namespace ReliefProDAL
             IList<Sink> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<Sink>().Add(Expression.Eq("SinkName", name)).List<Sink>();
                 if (list.Count > 0)
                 {
@@ -41,9 +43,9 @@ namespace ReliefProDAL
             {
                 model = null;
                 throw ex;
-                
+
             }
-            
+
             return model;
         }
     }

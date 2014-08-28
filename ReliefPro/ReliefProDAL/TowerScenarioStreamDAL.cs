@@ -15,6 +15,7 @@ namespace ReliefProDAL
             IList<TowerScenarioStream> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerScenarioStream>().List<TowerScenarioStream>();
             }
             catch (Exception ex)
@@ -29,6 +30,7 @@ namespace ReliefProDAL
             IList<TowerScenarioStream> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerScenarioStream>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<TowerScenarioStream>();
             }
             catch (Exception ex)
@@ -38,11 +40,12 @@ namespace ReliefProDAL
             return list;
         }
 
-        public IList<TowerScenarioStream> GetAllList(ISession session, int ScenarioID,bool isProduct)
+        public IList<TowerScenarioStream> GetAllList(ISession session, int ScenarioID, bool isProduct)
         {
             IList<TowerScenarioStream> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerScenarioStream>().Add(Expression.Eq("ScenarioID", ScenarioID)).Add(Expression.Eq("IsProduct", isProduct)).List<TowerScenarioStream>();
             }
             catch (Exception ex)
@@ -59,6 +62,7 @@ namespace ReliefProDAL
             IList<TowerScenarioStream> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerScenarioStream>().Add(Expression.Eq("StreamName", StreamName)).Add(Expression.Eq("ScenarioID", ScenarioID)).List<TowerScenarioStream>();
                 if (list.Count > 0)
                 {
@@ -71,9 +75,9 @@ namespace ReliefProDAL
             {
                 model = null;
                 throw ex;
-                
+
             }
-            
+
             return model;
         }
     }

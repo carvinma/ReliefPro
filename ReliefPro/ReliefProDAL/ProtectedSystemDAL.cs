@@ -17,6 +17,7 @@ namespace ReliefProDAL
             IList<ProtectedSystem> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<ProtectedSystem>().List<ProtectedSystem>();
                 if (list.Count > 0)
                 {
@@ -29,9 +30,9 @@ namespace ReliefProDAL
             {
                 model = null;
                 throw ex;
-                
+
             }
-            
+
             return model;
         }
     }

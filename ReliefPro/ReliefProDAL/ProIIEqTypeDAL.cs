@@ -18,6 +18,7 @@ namespace ReliefProDAL
             IList<ProIIEqType> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<ProIIEqType>().List<ProIIEqType>();
             }
             catch (Exception ex)

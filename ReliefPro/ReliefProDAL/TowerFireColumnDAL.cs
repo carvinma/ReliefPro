@@ -19,6 +19,7 @@ namespace ReliefProDAL
             IList<TowerFireColumn> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerFireColumn>().Add(Expression.Eq("EqID", EqID)).List<TowerFireColumn>();
                 if (list.Count > 0)
                 {

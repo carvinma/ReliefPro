@@ -10,11 +10,12 @@ namespace ReliefProDAL
 {
     public class FeedBottomHXDAL : IBaseDAL<FeedBottomHX>
     {
-        public IList<FeedBottomHX> GetAllList(ISession session,int SourceID)
+        public IList<FeedBottomHX> GetAllList(ISession session, int SourceID)
         {
             IList<FeedBottomHX> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<FeedBottomHX>().Add(Expression.Eq("SourceID", SourceID)).List<FeedBottomHX>();
             }
             catch (Exception ex)
@@ -29,6 +30,7 @@ namespace ReliefProDAL
             IList<FeedBottomHX> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<FeedBottomHX>().Add(Expression.Eq("HeatSourceID", HeatSourceID)).List<FeedBottomHX>();
                 if (list.Count > 0)
                 {
@@ -52,6 +54,7 @@ namespace ReliefProDAL
             IList<FeedBottomHX> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<FeedBottomHX>().List<FeedBottomHX>();
                 if (list.Count > 0)
                 {

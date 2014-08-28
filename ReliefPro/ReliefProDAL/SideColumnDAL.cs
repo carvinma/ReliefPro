@@ -15,6 +15,7 @@ namespace ReliefProDAL
             IList<SideColumn> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<SideColumn>().List<SideColumn>();
             }
             catch (Exception ex)
@@ -23,6 +24,6 @@ namespace ReliefProDAL
             }
             return list;
         }
-       
+
     }
 }

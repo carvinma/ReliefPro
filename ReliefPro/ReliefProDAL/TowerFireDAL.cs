@@ -20,6 +20,7 @@ namespace ReliefProDAL
             IList<TowerFire> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerFire>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<TowerFire>();
                 if (list.Count > 0)
                 {

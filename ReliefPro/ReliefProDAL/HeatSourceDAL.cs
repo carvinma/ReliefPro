@@ -10,12 +10,13 @@ namespace ReliefProDAL
 {
     public class HeatSourceDAL : IBaseDAL<HeatSource>
     {
-       
+
         public IList<HeatSource> GetAllList(ISession session, int SourceID)
         {
             IList<HeatSource> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<HeatSource>().Add(Expression.Eq("SourceID", SourceID)).List<HeatSource>();
             }
             catch (Exception ex)
@@ -29,6 +30,7 @@ namespace ReliefProDAL
             IList<HeatSource> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<HeatSource>().List<HeatSource>();
             }
             catch (Exception ex)

@@ -15,6 +15,7 @@ namespace ReliefProDAL
             IList<FlashCalcResult> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<FlashCalcResult>().List<FlashCalcResult>();
             }
             catch (Exception ex)
@@ -29,6 +30,7 @@ namespace ReliefProDAL
             IList<FlashCalcResult> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<FlashCalcResult>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<FlashCalcResult>();
                 if (list.Count > 0)
                 {

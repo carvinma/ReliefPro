@@ -18,6 +18,7 @@ namespace ReliefProDAL
             IList<TowerFireColumnDetail> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerFireColumnDetail>().Add(Expression.Eq("ColumnID", ColumnID)).List<TowerFireColumnDetail>();
             }
             catch (Exception ex)
@@ -26,6 +27,6 @@ namespace ReliefProDAL
             }
             return list;
         }
-        
+
     }
 }

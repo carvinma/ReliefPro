@@ -13,6 +13,7 @@ namespace ReliefProDAL
             IList<BasicUnitCurrent> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<BasicUnitCurrent>().List<BasicUnitCurrent>();
             }
             catch (Exception ex)

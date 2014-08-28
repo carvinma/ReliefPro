@@ -15,6 +15,7 @@ namespace ReliefProDAL
             IList<InletValveOpen> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<InletValveOpen>().List<InletValveOpen>();
             }
             catch (Exception ex)
@@ -29,6 +30,7 @@ namespace ReliefProDAL
             IList<InletValveOpen> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<InletValveOpen>().List<InletValveOpen>();
                 if (list.Count > 0)
                 {
@@ -41,9 +43,9 @@ namespace ReliefProDAL
             {
                 model = null;
                 throw ex;
-                
+
             }
-            
+
             return model;
         }
     }

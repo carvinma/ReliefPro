@@ -15,6 +15,7 @@ namespace ReliefProDAL
             IList<TowerHXDetail> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerHXDetail>().List<TowerHXDetail>();
             }
             catch (Exception ex)
@@ -23,11 +24,12 @@ namespace ReliefProDAL
             }
             return list;
         }
-        public IList<TowerHXDetail> GetAllList(ISession session,int HXID)
+        public IList<TowerHXDetail> GetAllList(ISession session, int HXID)
         {
             IList<TowerHXDetail> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerHXDetail>().Add(Expression.Eq("HXID", HXID)).List<TowerHXDetail>();
             }
             catch (Exception ex)
@@ -42,6 +44,7 @@ namespace ReliefProDAL
             IList<TowerHXDetail> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TowerHXDetail>().Add(Expression.Eq("ID", ID)).List<TowerHXDetail>();
                 if (list.Count > 0)
                 {
@@ -54,9 +57,9 @@ namespace ReliefProDAL
             {
                 model = null;
                 throw ex;
-                
+
             }
-            
+
             return model;
         }
     }

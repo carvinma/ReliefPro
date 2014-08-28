@@ -10,13 +10,14 @@ namespace ReliefProDAL
 {
     public class ReboilerPinchDAL : IBaseDAL<ReboilerPinch>
     {
-        
+
         public ReboilerPinch GetModel(ISession session, int TowerScenarioHXID)
         {
             ReboilerPinch model = null;
             IList<ReboilerPinch> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<ReboilerPinch>().Add(Expression.Eq("TowerScenarioHXID", TowerScenarioHXID)).List<ReboilerPinch>();
                 if (list.Count > 0)
                 {
@@ -29,9 +30,9 @@ namespace ReliefProDAL
             {
                 model = null;
                 throw ex;
-                
+
             }
-            
+
             return model;
         }
     }

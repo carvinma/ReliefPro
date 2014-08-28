@@ -16,6 +16,7 @@ namespace ReliefProDAL
             IList<ScenarioHeatSource> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<ScenarioHeatSource>().Add(Expression.Eq("ScenarioStreamID", ScenarioStreamID)).List<ScenarioHeatSource>();
             }
             catch (Exception ex)
@@ -29,6 +30,7 @@ namespace ReliefProDAL
             IList<ScenarioHeatSource> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<ScenarioHeatSource>().List<ScenarioHeatSource>();
             }
             catch (Exception ex)
@@ -42,6 +44,7 @@ namespace ReliefProDAL
             IList<ScenarioHeatSource> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<ScenarioHeatSource>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<ScenarioHeatSource>();
             }
             catch (Exception ex)
@@ -57,6 +60,7 @@ namespace ReliefProDAL
             IList<ScenarioHeatSource> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<ScenarioHeatSource>().Add(Expression.Eq("HeatSourceID", HeatSourceID)).Add(Expression.Eq("ScenarioID", ScenarioID)).List<ScenarioHeatSource>();
                 if (list.Count > 0)
                 {

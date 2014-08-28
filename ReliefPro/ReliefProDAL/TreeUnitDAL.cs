@@ -10,13 +10,14 @@ namespace ReliefProDAL
 {
     public class TreeUnitDAL : IBaseDAL<TreeUnit>
     {
-        
-        public TreeUnit GetModel(ISession session,string UnitName)
+
+        public TreeUnit GetModel(ISession session, string UnitName)
         {
             TreeUnit model = null;
             IList<TreeUnit> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TreeUnit>().Add(Expression.Eq("UnitName", UnitName)).List<TreeUnit>();
                 if (list.Count > 0)
                 {
@@ -29,9 +30,9 @@ namespace ReliefProDAL
             {
                 model = null;
                 throw ex;
-                
+
             }
-            
+
             return model;
         }
 
@@ -40,6 +41,7 @@ namespace ReliefProDAL
             IList<TreeUnit> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<TreeUnit>().List<TreeUnit>();
             }
             catch (Exception ex)

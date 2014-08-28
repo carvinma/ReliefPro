@@ -17,6 +17,7 @@ namespace ReliefProDAL
             IList<SystemScenarioFactor> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<SystemScenarioFactor>().List<SystemScenarioFactor>();
             }
             catch (Exception ex)
@@ -31,6 +32,7 @@ namespace ReliefProDAL
             IList<SystemScenarioFactor> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<SystemScenarioFactor>().Add(Expression.Eq("Category", category)).Add(Expression.Eq("CategoryValue", categoryvalue)).List<SystemScenarioFactor>();
                 if (list.Count > 0)
                 {
@@ -48,6 +50,6 @@ namespace ReliefProDAL
 
             return model;
         }
-        
+
     }
 }

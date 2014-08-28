@@ -15,6 +15,7 @@ namespace ReliefProDAL
             IList<SourceFile> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<SourceFile>().List<SourceFile>();
             }
             catch (Exception ex)
@@ -29,6 +30,7 @@ namespace ReliefProDAL
             IList<SourceFile> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<SourceFile>().Add(Expression.Eq("FileName", FileName)).List<SourceFile>();
                 if (list.Count > 0)
                 {
@@ -41,9 +43,9 @@ namespace ReliefProDAL
             {
                 model = null;
                 throw ex;
-                
+
             }
-            
+
             return model;
         }
     }

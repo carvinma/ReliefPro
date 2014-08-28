@@ -16,6 +16,7 @@ namespace ReliefProDAL
             IList<AbnormalHeaterDetail> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<AbnormalHeaterDetail>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<AbnormalHeaterDetail>();
             }
             catch (Exception ex)
@@ -29,6 +30,7 @@ namespace ReliefProDAL
             IList<AbnormalHeaterDetail> list = null;
             try
             {
+                session.Clear();
                 list = session.CreateCriteria<AbnormalHeaterDetail>().Add(Expression.Eq("ScenarioID", ScenarioID)).Add(Expression.Eq("AbnormalType", AbnormalType)).List<AbnormalHeaterDetail>();
             }
             catch (Exception ex)
@@ -42,6 +44,7 @@ namespace ReliefProDAL
             AbnormalHeaterDetail model = null;
             try
             {
+                session.Clear();
                 IList<AbnormalHeaterDetail> list = session.CreateCriteria<AbnormalHeaterDetail>().Add(Expression.Eq("ScenarioID", ScenarioID)).Add(Expression.Eq("HeaterID", HeaterID)).Add(Expression.Eq("AbnormalType", AbnormalType)).List<AbnormalHeaterDetail>();
                 if (list.Count > 0)
                     model = list[0];
@@ -52,6 +55,6 @@ namespace ReliefProDAL
             }
             return model;
         }
-       
+
     }
 }
