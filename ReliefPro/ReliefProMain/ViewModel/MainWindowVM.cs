@@ -66,28 +66,28 @@ namespace ReliefProMain.ViewModel
         }
         public ICommand NewPlantCommand { get; set; }
         public ICommand OpenPlantCommand { get; set; }
-        
+
         public ICommand ClosePlantCommand { get; set; }
 
-      
+
 
         public MainWindowVM()
         {
             NewPlantCommand = new DelegateCommand<object>(CreatePlant);
-            
+
             OpenPlantCommand = new DelegateCommand<object>(OpenPlant);
             ClosePlantCommand = new DelegateCommand<object>(ClosePlant);
 
             _Plants = new ObservableCollection<TVPlantViewModel>();
-           
+
             version = ConfigurationManager.AppSettings["version"];
-            defaultReliefProDir = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\" + version + @"\";
+            defaultReliefProDir = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\" + version;
             if (!Directory.Exists(defaultReliefProDir))
                 Directory.CreateDirectory(defaultReliefProDir);
-            tempReliefProWorkDir = System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\" + version + @"\";
+            tempReliefProWorkDir = System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\" + version;
             if (!Directory.Exists(tempReliefProWorkDir))
                 Directory.CreateDirectory(tempReliefProWorkDir);
-            
+
         }
 
         private void CreatePlant(object obj)
@@ -156,7 +156,7 @@ namespace ReliefProMain.ViewModel
 
         }
 
-        
+
         private void OpenPlant(object obj)
         {
             try
@@ -167,10 +167,10 @@ namespace ReliefProMain.ViewModel
                 {
                     currentPlantFile = dlgOpenDiagram.FileName;
                     currentPlantName = System.IO.Path.GetFileNameWithoutExtension(currentPlantFile);
-                    currentPlantWorkFolder = tempReliefProWorkDir  + @"\" + currentPlantName;
+                    currentPlantWorkFolder = tempReliefProWorkDir + @"\" + currentPlantName;
                     if (IsSamePlantOpen(currentPlantName))
                     {
-                        MessageBox.Show("Same Plant is Opened!","Message Box");
+                        MessageBox.Show("Same Plant is Opened!", "Message Box");
                         return;
                     }
                     if (Directory.Exists(currentPlantWorkFolder))
@@ -185,7 +185,7 @@ namespace ReliefProMain.ViewModel
                     TVPlant p = new TVPlant();
                     p.FullPath = currentPlantWorkFolder;
                     p.FullRefPath = currentPlantFile;
-                    p.Name = currentPlantName;                  
+                    p.Name = currentPlantName;
                     TVPlantViewModel m1 = new TVPlantViewModel(p);
                     Plants.Add(m1);
                 }
@@ -215,13 +215,13 @@ namespace ReliefProMain.ViewModel
         }
 
         private void ClosePlant(object obj)
-        {           
+        {
             if (Plants.Count == 0)
-            {                
+            {
                 return;
             }
             MessageBoxResult result = MessageBox.Show("Are your sure clear all plants?", "Message Box", MessageBoxButton.OKCancel);
-            if (result==MessageBoxResult.OK)
+            if (result == MessageBoxResult.OK)
             {
                 Plants.Clear();
             }
@@ -230,8 +230,8 @@ namespace ReliefProMain.ViewModel
 
     }
 
-    
 
 
-   
+
+
 }
