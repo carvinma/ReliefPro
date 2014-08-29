@@ -29,7 +29,8 @@
                             </GridViewColumn>
                                 <GridViewColumn x:Name="ProcessSideFlowSource" Width="200px"  >
                                     <GridViewColumn.Header>
-                                        <CustomControl:GVColumnHeader x:Name="colPressure" UOrigin="{Binding Uom.UserPressure}">
+                                        <CustomControl:GVColumnHeader x:Name="colPressure" UOrigin="{Binding uomEnum.UserPressure}" ColInfo="2"
+                                                          ChangeUnitEvent="{Binding changeUnit}">
                                             <CustomControl:GVColumnHeader.Content>
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock Text="{DynamicResource DesignBackPressureMPag}"/>
@@ -42,7 +43,7 @@
                                     <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                             <Grid Height="21">
-                                                <TextBox Text="{Binding Path=DesignBackPressure,Mode=TwoWay}"  BorderBrush="Transparent"
+                                                <TextBox Text="{Binding Path=DesignBackPressure,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  BorderBrush="Transparent"
                                          BorderThickness="0" Width="197"/>
                                             </Grid>
                                         </DataTemplate>

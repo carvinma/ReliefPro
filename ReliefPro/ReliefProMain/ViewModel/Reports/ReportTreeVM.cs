@@ -99,7 +99,7 @@ namespace ReliefProMain.ViewModel.Reports
         }
         private void UnitSummary(object obj)
         {
-            GlobalDefaultBLL globalBLL = new GlobalDefaultBLL(TempleSession.Session, null);
+            GlobalDefaultBLL globalBLL = new GlobalDefaultBLL(TempleSession.Session);
             TempleSession.lstFlareSys = globalBLL.GetFlareSystem();
 
             string dbPlantFile = CurrentPlantPath + @"\plant.mdb";

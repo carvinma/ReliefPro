@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using NHibernate;
 using ReliefProLL;
+using ReliefProMain.CustomControl;
 using ReliefProMain.Models;
 using ReliefProModel.GlobalDefault;
 using UOMLib;
@@ -20,15 +21,18 @@ namespace ReliefProMain.ViewModel
         public ICommand AddCMD { get; set; }
         public GlobalDefaultModel model { get; set; }
         private GlobalDefaultBLL globalDefaultBLL;
-        public GlobalDefaultVM()
+
+        public UOMLib.UOMEnum uomEnum { get; set; }
+        private string TargetUnit;
+        public GlobalDefaultVM(ISession SessionPlant)
         {
+            uomEnum = new UOMLib.UOMEnum(SessionPlant);
             OKCMD = new DelegateCommand<object>(Save);
             DelCMD = new DelegateCommand<object>(DelRow);
             AddCMD = new DelegateCommand<object>(AddRow);
-            ISession SessionPS = TempleSession.Session;
-            ISession SessionPF = SessionPS;
+
             model = new GlobalDefaultModel();
-            globalDefaultBLL = new GlobalDefaultBLL(SessionPS, SessionPF);
+            globalDefaultBLL = new GlobalDefaultBLL(SessionPlant);
             model.lstFlareSystem = new ObservableCollection<FlareSystem>(globalDefaultBLL.GetFlareSystem());
             foreach (var flareSystem in model.lstFlareSystem)
             {
@@ -39,14 +43,20 @@ namespace ReliefProMain.ViewModel
                 model.conditSetModel = globalDefaultBLL.ReadConvertModel(model.conditSetModel);
             else
                 model.conditSetModel = new ConditionsSettings();
-            //UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
-            //model.LatentHeatSettingsUnit = uomEnum.UserSpecificEnthalpy;
-            //model.DrumSurgeTimeSettingsUnit = uomEnum.UserTime;
             model.LatentHeatSettingsUnit = UOMEnum.SpecificEnthalpy;
             model.DrumSurgeTimeSettingsUnit = UOMEnum.Time;
+            ReadConvert();
+            changeUnit += new ChangeUnitDelegate(ExcuteThumbMoved);
         }
         private void WriteConvertModel()
         {
+            if (!string.IsNullOrEmpty(TargetUnit))
+            {
+                foreach (var t in model.lstFlareSystem)
+                {
+                    t.DesignBackPressure = UnitConvert.Convert(TargetUnit, UOMEnum.EnthalpyDuty, t.DesignBackPressure);
+                }
+            }
             if (model.conditSetModel.LatentHeatSettings != null)
                 model.conditSetModel.LatentHeatSettings = UnitConvert.Convert(model.LatentHeatSettingsUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.conditSetModel.LatentHeatSettings);
             if (model.conditSetModel.DrumSurgeTimeSettings != null)
@@ -78,6 +88,28 @@ namespace ReliefProMain.ViewModel
                     WriteConvertModel();
                     globalDefaultBLL.Save(model.lstFlareSystem.ToList(), model.conditSetModel);
                     wd.DialogResult = true;
+                }
+            }
+        }
+
+        private void ReadConvert()
+        {
+            this.TargetUnit = uomEnum.UserPressure;
+            foreach (var t in model.lstFlareSystem)
+            {
+                t.DesignBackPressure = UnitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, t.DesignBackPressure);
+            }
+        }
+        public ChangeUnitDelegate changeUnit { get; set; }
+        public void ExcuteThumbMoved(object ColInfo, object OrigionUnit, object TargetUnit)
+        {
+            int k = string.Compare(OrigionUnit.ToString(), TargetUnit.ToString(), true);
+            if (k != 0 && ColInfo != null && ColInfo.ToString() == "2")
+            {
+                this.TargetUnit = TargetUnit.ToString();
+                foreach (var t in model.lstFlareSystem)
+                {
+                    t.DesignBackPressure = UnitConvert.Convert(OrigionUnit.ToString(), TargetUnit.ToString(), t.DesignBackPressure);
                 }
             }
         }

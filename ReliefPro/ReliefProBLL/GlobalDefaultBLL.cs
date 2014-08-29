@@ -13,28 +13,26 @@ namespace ReliefProLL
     public class GlobalDefaultBLL
     {
         private GlobalDefaultDAL globalDefaultDAL = new GlobalDefaultDAL();
-        private ISession SessionPS;
         private ISession SessionPF;
-        public GlobalDefaultBLL(ISession SessionPS, ISession SessionPF)
+        public GlobalDefaultBLL(ISession SessionPF)
         {
-            this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
         }
         public void DelFlareSystemByID(int id)
         {
-            globalDefaultDAL.DelFlareSystemByID(id, SessionPS);
+            globalDefaultDAL.DelFlareSystemByID(id, SessionPF);
         }
         public void Save(List<FlareSystem> lstFlarem, ConditionsSettings conditionsSettings)
         {
-            globalDefaultDAL.SaveGlobalDefault(SessionPS, lstFlarem, conditionsSettings);
+            globalDefaultDAL.SaveGlobalDefault(SessionPF, lstFlarem, conditionsSettings);
         }
         public List<FlareSystem> GetFlareSystem()
         {
-            return globalDefaultDAL.GetFlareSystem(SessionPS).ToList();
+            return globalDefaultDAL.GetFlareSystem(SessionPF).ToList();
         }
         public ConditionsSettings GetConditionsSettings()
         {
-            return globalDefaultDAL.GetConditionsSettings(SessionPS);
+            return globalDefaultDAL.GetConditionsSettings(SessionPF);
         }
         public ConditionsSettings ReadConvertModel(ConditionsSettings model)
         {

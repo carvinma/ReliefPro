@@ -414,8 +414,34 @@ namespace ReliefProMain
 
         private void OpenGloadDefalut()
         {
+            TVPlantViewModel tvi = null;
+            ObservableCollection<TVPlantViewModel> Plants = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
+            if (Plants.Count == 0)
+            {
+                MessageBox.Show("Please create a plant or open a plant first.", "Message Box");
+                return;
+            }
+            if (Plants.Count == 1)
+            {
+                tvi = Plants[0];
+            }
+            else if (Plants.Count > 1)
+            {
+                if (NavigationTreeView.SelectedItem == null || NavigationTreeView.SelectedItem.GetType() != typeof(TVPlantViewModel))
+                {
+                    MessageBox.Show("Please select a plant first.", "Message Box");
+                    return;
+                }
+                else
+                {
+                    tvi = (TVPlantViewModel)NavigationTreeView.SelectedItem;
+
+                }
+
+            }
+
             ReliefProMain.View.GlobalDefault.GlobalDefaultView view = new View.GlobalDefault.GlobalDefaultView();
-            GlobalDefaultVM vm = new GlobalDefaultVM();
+            GlobalDefaultVM vm = new GlobalDefaultVM(tvi.SessionPlant);
             view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             view.DataContext = vm;
             view.ShowDialog();
@@ -927,9 +953,9 @@ namespace ReliefProMain
                 }
                 SavePlant();
             }
-            
 
-            
+
+
             Application.Current.Shutdown();
             //Environment.Exit(0);
         }

@@ -48,7 +48,7 @@
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox  Text="{Binding Path=Duty,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                <TextBox  Text="{Binding Path=Duty,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

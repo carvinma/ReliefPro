@@ -9,7 +9,16 @@ namespace ReliefProMain.Models
 {
     public class GlobalDefaultModel : ModelBase
     {
-        public ObservableCollection<FlareSystem> lstFlareSystem { get; set; }
+        private ObservableCollection<FlareSystem> _lstFlareSystem;
+        public ObservableCollection<FlareSystem> lstFlareSystem
+        {
+            get { return _lstFlareSystem; }
+            set
+            {
+                _lstFlareSystem = value;
+                NotifyPropertyChanged("lstFlareSystem");
+            }
+        }
         public ConditionsSettings conditSetModel { get; set; }
         public bool AirCondition
         {
