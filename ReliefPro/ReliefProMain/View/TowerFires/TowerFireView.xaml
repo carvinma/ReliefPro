@@ -30,7 +30,14 @@
                 <GridView>
                     <GridViewColumn Header="{DynamicResource EqName}"  DisplayMemberBinding="{Binding Path=EqName}"></GridViewColumn>
                     <GridViewColumn Header="{DynamicResource EqType}"  DisplayMemberBinding="{Binding Path=Type}"></GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Elevation_m}" DisplayMemberBinding="{Binding Path=Elevation}"></GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Elevation}">
+                        <GridViewColumn.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{DynamicResource Elevation_m}"/>
+                                <TextBlock Text="{Binding uomEnum.UserLength}"/>
+                            </StackPanel>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
                     <GridViewColumn Header="{DynamicResource FireZone}"  >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -45,9 +52,30 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource WettedArea_m2}"  DisplayMemberBinding="{Binding Path=WettedArea}"></GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource HeatInputKJ_hr}"  DisplayMemberBinding="{Binding Path=HeatInput}"></GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource ReliefLoadkghr}"  DisplayMemberBinding="{Binding Path=ReliefLoad}"></GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=WettedArea}">
+                        <GridViewColumn.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{DynamicResource WettedArea_m2}"/>
+                                <TextBlock Text="{Binding uomEnum.UserArea}"/>
+                            </StackPanel>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=HeatInput}">
+                        <GridViewColumn.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{DynamicResource HeatInputKJ_hr}"/>
+                                <TextBlock Text="{Binding uomEnum.UserEnthalpyDuty}"/>
+                            </StackPanel>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=ReliefLoad}">
+                        <GridViewColumn.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{DynamicResource ReliefLoadkghr}"/>
+                                <TextBlock Text="{Binding uomEnum.MassRate}"/>
+                            </StackPanel>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
                     <GridViewColumn Header="{DynamicResource Edit}" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -61,7 +89,7 @@
             </ListView.View>
             
         </ListView>
-        <GroupBox Grid.Column="1" Header="{DynamicResource GroupBox}" HorizontalAlignment="Stretch"  Grid.Row="4"  Height="180" Grid.ColumnSpan="4" >
+        <GroupBox Grid.Column="1" Header="{DynamicResource Output}" HorizontalAlignment="Stretch"  Grid.Row="4"  Height="180" Grid.ColumnSpan="4" >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="125"/>
