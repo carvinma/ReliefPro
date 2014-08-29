@@ -23,9 +23,30 @@
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource segment}"/>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Internal}"/>
                 <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource ofactualtrays_orvoidfrac}"/>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource totalheight_m}"/>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Diameter_m}"/>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource BottomNHLL_m}"/>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource totalheight_m}"/>
+                            <TextBlock Text="{Binding uomEnum.UserLength}"/>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource Diameter_m}"/>
+                            <TextBlock Text="{Binding uomEnum.UserLength}"/>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource BottomNHLL_m}"/>
+                            <TextBlock Text="{Binding uomEnum.UserLength}"/>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <StatusBar Height="auto"  HorizontalAlignment="Stretch" Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="4" >
