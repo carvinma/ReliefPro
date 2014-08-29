@@ -126,8 +126,7 @@ namespace ReliefProMain.Models
         }
 
         private double crackingHeat;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        
         public double CrackingHeat
         {
             get { return crackingHeat; }

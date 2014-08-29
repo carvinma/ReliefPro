@@ -18,7 +18,7 @@ namespace ReliefProMain.ViewModel.HXs
         private ISession SessionPF;
         public HXFireSizeModel model { get; set; }
         private string selectedExposedToFire;
-        private string SelectedExposedToFire
+        public string SelectedExposedToFire
         {
             get { return selectedExposedToFire; }
             set
@@ -28,7 +28,7 @@ namespace ReliefProMain.ViewModel.HXs
             }
         }
         private string selectedType;
-        private string SelectedType
+        public string SelectedType
         {
             get { return selectedType; }
             set

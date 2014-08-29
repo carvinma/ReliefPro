@@ -672,6 +672,7 @@ namespace ReliefProMain.ViewModel.Drums
             {
                 MessageBox.Show("Becasue Design Pressure is greater,Heat Input Model must be API 521");
                 SelectedHeatInputModel = "API 521";
+                return;
             }
             if (SelectedHeatInputModel == "API 521")
             {
@@ -713,7 +714,7 @@ namespace ReliefProMain.ViewModel.Drums
             }
             else
             {
-                if (model.LatentHeat == null)
+                if (model.LatentHeat == 0)
                 {
                     CustomStream stream = new CustomStream();
                     if (maxTStream.VaporFraction == 1)

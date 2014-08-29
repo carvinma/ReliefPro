@@ -32,7 +32,7 @@ namespace ReliefProMain.ViewModel.HXs
         public string FileFullPath { get; set; }
         public HXBlockedOutletModel model { get; set; }
         private HXBLL hxBLL;
-        CustomStream normalHotInlet = new CustomStream();
+        CustomStream normalHotInlet =null;
         CustomStream normalColdInlet = new CustomStream();
         CustomStream normalColdOutlet = new CustomStream();
 
@@ -59,18 +59,25 @@ namespace ReliefProMain.ViewModel.HXs
             //判断冷测进出，
             CustomStreamBLL csbll=new CustomStreamBLL(SessionPF,SessionPS);
             ObservableCollection<CustomStream> feeds = csbll.GetStreams(SessionPS, false);
+            
             normalColdInlet = feeds[0];
-            normalHotInlet = feeds[1];
-            if (normalColdInlet.Temperature > feeds[1].Temperature)
+            if (feeds.Count > 1)
             {
-                normalColdInlet = feeds[1];
-                normalHotInlet = feeds[0];
+                normalHotInlet = feeds[1];
+                if (normalColdInlet.Temperature > feeds[1].Temperature)
+                {
+                    normalColdInlet = feeds[1];
+                    normalHotInlet = feeds[0];
+                }
             }
             ObservableCollection<CustomStream> products = csbll.GetStreams(SessionPS, true);
             normalColdOutlet = products[0];
-            if (normalColdOutlet.Temperature > products[1].Temperature)
+            if (products.Count > 1)
             {
-                normalColdOutlet = products[1];
+                if (normalColdOutlet.Temperature > products[1].Temperature)
+                {
+                    normalColdOutlet = products[1];
+                }
             }
 
 
@@ -79,8 +86,11 @@ namespace ReliefProMain.ViewModel.HXs
             model.NormalDuty = heat.Duty;
             model.NormalColdInletTemperature = normalColdInlet.Temperature;
             model.NormalColdOutletTemperature = normalColdOutlet.Temperature;
-            model.NormalHotTemperature = normalHotInlet.Temperature;
-            model.ColdStream = normalHotInlet.StreamName;
+            if (normalHotInlet != null)
+            {
+                model.NormalHotTemperature = normalHotInlet.Temperature;
+            }
+            model.ColdStream = normalColdInlet.StreamName;
 
 
             UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
@@ -109,7 +119,7 @@ namespace ReliefProMain.ViewModel.HXs
         private void CalcResult(object obj)
         {
             //if (!model.CheckData()) return; 
-            double Q = 0;
+            double Q =model.NormalDuty ;
 
             
             double tAvg = 0.5 * (normalColdInlet.Temperature + normalColdOutlet.Temperature);
@@ -147,10 +157,13 @@ namespace ReliefProMain.ViewModel.HXs
                     CustomStream liquidcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
                     CustomStream vaporcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
                     double latent = vaporcs.SpEnthalpy - liquidcs.SpEnthalpy;
-                    double tcoldbprelief = double.Parse(flash.TempCalc);
-                    double tnormalHotInlet = normalHotInlet.Temperature;
+                    //double tcoldbprelief =  double.Parse(flash.TempCalc);//转换单位
 
-                    model.ReliefLoad = Q / latent * tnormalHotInlet - tcoldbprelief / (tnormalHotInlet - tAvg);
+                    double tcoldbprelief = UnitConvert.Convert("K","C", double.Parse(flash.TempCalc));
+                    model.LatentPoint = latent;
+                    model.ReliefLoad = Q / latent * (model.NormalHotTemperature - tcoldbprelief) / (model.NormalHotTemperature - tAvg);
+                    if (model.ReliefLoad < 0 || tcoldbprelief>model.NormalHotTemperature)
+                        model.ReliefLoad = 0;
                     model.ReliefMW = vaporcs.BulkMwOfPhase;
                     model.ReliefPressure = reliefPressure;
                     model.ReliefTemperature = vaporcs.Temperature;
