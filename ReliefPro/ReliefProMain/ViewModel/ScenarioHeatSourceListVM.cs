@@ -16,14 +16,15 @@ using NHibernate;
 using ReliefProMain.ViewModel.Drums;
 using System.Windows;
 using System.IO;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel
 {
-    public class ScenarioHeatSourceListVM:ViewModelBase
+    public class ScenarioHeatSourceListVM : ViewModelBase
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
-        SourceFile SourceFileInfo; 
+        SourceFile SourceFileInfo;
         private ScenarioHeatSourceDAL db;
         private HeatSourceDAL dbHS;
         private int ScenarioStreamID;
@@ -48,14 +49,15 @@ namespace ReliefProMain.ViewModel
             }
         }
 
+        public UOMLib.UOMEnum uomEnum { get; set; }
 
-
-        public ScenarioHeatSourceListVM(int ScenarioStreamID,SourceFile sourceFileInfo,  ISession SessionPlant, ISession SessionProtectedSystem)
+        public ScenarioHeatSourceListVM(int ScenarioStreamID, SourceFile sourceFileInfo, ISession SessionPlant, ISession SessionProtectedSystem)
         {
+            uomEnum = new UOMLib.UOMEnum(SessionPlant);
             this.ScenarioStreamID = ScenarioStreamID;
             this.SessionPlant = SessionPlant;
             this.SessionProtectedSystem = SessionProtectedSystem;
-            SourceFileInfo = sourceFileInfo; 
+            SourceFileInfo = sourceFileInfo;
             db = new ScenarioHeatSourceDAL();
             dbHS = new HeatSourceDAL();
             HeatSources = GetHeatSources(ScenarioStreamID);
@@ -79,20 +81,20 @@ namespace ReliefProMain.ViewModel
 
         public void Calculate(object obj)
         {
-            int ID=int.Parse(obj.ToString());
-            ScenarioHeatSource shs=db.GetModel(ID,SessionProtectedSystem);
-            int HeatSourceID = shs.HeatSourceID;            
+            int ID = int.Parse(obj.ToString());
+            ScenarioHeatSource shs = db.GetModel(ID, SessionProtectedSystem);
+            int HeatSourceID = shs.HeatSourceID;
             FeedBottomHXView v = new FeedBottomHXView();
-            FeedBottomHXVM vm = new FeedBottomHXVM(HeatSourceID,SourceFileInfo, SessionPlant, SessionProtectedSystem);
+            FeedBottomHXVM vm = new FeedBottomHXVM(HeatSourceID, SourceFileInfo, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (v.ShowDialog() == true)
             {
-                SelectedHeatSource.IsFB = true ;
+                SelectedHeatSource.IsFB = true;
             }
         }
 
-       
+
 
 
         private ICommand _SaveCommand;
@@ -111,11 +113,11 @@ namespace ReliefProMain.ViewModel
 
         public void Save(object obj)
         {
-           // IList<ScenarioHeatSource> list = db.GetScenarioStreamList(SessionProtectedSystem, ScenarioStreamID);
-           // for (int i = 0; i < list.Count; i++)
-           // {
-           //     db.Delete(list[i], SessionProtectedSystem);
-          //  }
+            // IList<ScenarioHeatSource> list = db.GetScenarioStreamList(SessionProtectedSystem, ScenarioStreamID);
+            // for (int i = 0; i < list.Count; i++)
+            // {
+            //     db.Delete(list[i], SessionProtectedSystem);
+            //  }
 
 
             foreach (ScenarioHeatSourceModel m in HeatSources)
@@ -141,11 +143,11 @@ namespace ReliefProMain.ViewModel
                 ScenarioHeatSourceModel model = new ScenarioHeatSourceModel(eq);
                 model.HeatSourceName = hs.HeatSourceName;
                 model.HeatSourceType = hs.HeatSourceType;
-                model.Duty = hs.Duty;
+                model.Duty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, hs.Duty);
                 list.Add(model);
             }
             return list;
         }
-       
+
     }
 }
