@@ -93,6 +93,7 @@ namespace ReliefProLL
                 DrumSizeDAL dbSize = new DrumSizeDAL();
                 dbSize.SaveDrumSize(SessionPS, sizeModel);
             }
+            
             sModel.ReliefLoad = model.ReliefLoad;
             sModel.ReliefPressure = model.ReliefPressure;
             sModel.ReliefTemperature = model.ReliefTemperature;
