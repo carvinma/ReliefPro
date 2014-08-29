@@ -74,6 +74,7 @@ namespace ReliefProMain.ViewModel
         }
 
         public UOMLib.UOMEnum uomEnum { get; set; }
+        private string TargetUnit;
         public HeatSourceListVM(int SourceID, SourceFile sourceFileInfo, ISession SessionPlant, ISession SessionProtectedSystem)
         {
             uomEnum = new UOMLib.UOMEnum(SessionPlant);
@@ -173,6 +174,7 @@ namespace ReliefProMain.ViewModel
                     return;
                 }
             }
+            WriteConvert();
             IList<HeatSource> list = heatSourceDAL.GetAllList(SessionProtectedSystem, SourceID);
             for (int i = 0; i < list.Count; i++)
             {
@@ -214,8 +216,19 @@ namespace ReliefProMain.ViewModel
             return list;
         }
 
+        private void WriteConvert()
+        {
+            if (!string.IsNullOrEmpty(TargetUnit))
+            {
+                foreach (var t in HeatSources)
+                {
+                    t.Duty = UnitConvert.Convert(TargetUnit, UOMEnum.EnthalpyDuty, t.Duty);
+                }
+            }
+        }
         private void ReadConvert()
         {
+            this.TargetUnit = uomEnum.UserEnthalpyDuty;
             foreach (var t in HeatSources)
             {
                 t.Duty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, t.Duty);
@@ -227,6 +240,7 @@ namespace ReliefProMain.ViewModel
             int k = string.Compare(OrigionUnit.ToString(), TargetUnit.ToString(), true);
             if (k != 0 && ColInfo != null && ColInfo.ToString() == "2")
             {
+                this.TargetUnit = TargetUnit.ToString();
                 foreach (var t in HeatSources)
                 {
                     t.Duty = UnitConvert.Convert(OrigionUnit.ToString(), TargetUnit.ToString(), t.Duty);
