@@ -34,6 +34,7 @@ using ReliefProMain.View.HXs;
 using ReliefProMain.ViewModel.ReactorLoops;
 using ReliefProMain.View.ReactorLoops;
 using ReliefProMain.View.Towers;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel
 {
@@ -45,6 +46,19 @@ namespace ReliefProMain.ViewModel
         private string DirProtectedSystem { set; get; }
         private string towerType;
         public SourceFile SourceFileInfo { set; get; }
+        private UOMLib.UOMEnum uom;
+        public UOMLib.UOMEnum Uom
+        {
+            get
+            {
+                return uom;
+            }
+            set
+            {
+                uom = value;
+                this.OnPropertyChanged("Uom");
+            }
+        }
         private ObservableCollection<ScenarioModel> _Scenarios;
         public ObservableCollection<ScenarioModel> Scenarios
         {
@@ -74,14 +88,16 @@ namespace ReliefProMain.ViewModel
         {
             EqName = eqName;
             EqType = eqType;
-           
+
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
             SourceFileInfo = sourceFileInfo;
+
+            uom = new UOMLib.UOMEnum(sessionPlant);
             Scenarios = GetScenarios();
-            
+
 
             if (eqType == "Tower")
             {
@@ -92,6 +108,8 @@ namespace ReliefProMain.ViewModel
             ScenarioNameList = GetScenarioNames(eqType);
 
             cud += new ChangeUnitDelegate(ExcuteThumbMoved);
+
+
 
         }
 
@@ -107,9 +125,9 @@ namespace ReliefProMain.ViewModel
                 ScenarioModel m = new ScenarioModel();
                 m.ID = s.ID;
                 m.ScenarioName = s.ScenarioName;
-                m.ReliefLoad = s.ReliefLoad;
-                m.ReliefTemperature = s.ReliefTemperature;
-                m.ReliefPressure = s.ReliefPressure;
+                m.ReliefLoad = UnitConvert.Convert(UOMEnum.EnthalpyDuty, Uom.UserEnthalpyDuty, s.ReliefLoad);
+                m.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, Uom.UserTemperature, s.ReliefTemperature);
+                m.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, Uom.UserPressure, s.ReliefPressure);
                 m.ReliefMW = s.ReliefMW;
                 m.SeqNumber = i;
                 scenarios.Add(m);
@@ -253,13 +271,13 @@ namespace ReliefProMain.ViewModel
                                 SelectedScenario.ReliefMW = vm.CalcTuple.Item2;
                             }
                         }
-                        
+
                     }
                     else if (ScenarioName.Contains("Fire"))
                     {
                         DrumFireView v = new DrumFireView();
                         v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                        DrumFireVM vm = new DrumFireVM(ScenarioID,SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
+                        DrumFireVM vm = new DrumFireVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
                         v.DataContext = vm;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         if (v.ShowDialog() == true)
@@ -284,7 +302,7 @@ namespace ReliefProMain.ViewModel
                         v.DataContext = vm;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         v.ShowDialog();
-                       
+
                     }
 
                 }
@@ -349,7 +367,7 @@ namespace ReliefProMain.ViewModel
                         }
                         if (ScenarioName.Contains("TubeRupture"))
                         {
-                            CustomStreamDAL csdal=new CustomStreamDAL();
+                            CustomStreamDAL csdal = new CustomStreamDAL();
                             IList<CustomStream> list = csdal.GetAllList(SessionProtectedSystem);
                             if (list.Count == 4)
                             {
@@ -364,16 +382,16 @@ namespace ReliefProMain.ViewModel
                                     SelectedScenario.ReliefTemperature = vm.model.ReliefTemperature;
                                 }
                             }
-                            else 
+                            else
                             {
-                                MessageBox.Show("this case can't be used. it has not 2 feed and 2 product","Message Box");
+                                MessageBox.Show("this case can't be used. it has not 2 feed and 2 product", "Message Box");
                                 return;
                             }
                         }
                         else if (ScenarioName.Contains("Fire"))
                         {
                             HXFireView v = new HXFireView();
-                            DrumFireVM vm = new DrumFireVM(ScenarioID,SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem,2);
+                            DrumFireVM vm = new DrumFireVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 2);
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {
@@ -432,7 +450,7 @@ namespace ReliefProMain.ViewModel
                             //SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                             SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                         }
-                    }                    
+                    }
                     else if (ScenarioName.Contains("Lossofreactorquench"))
                     {
                         LossOfReactorQuenchView v = new LossOfReactorQuenchView();
@@ -461,7 +479,7 @@ namespace ReliefProMain.ViewModel
                     }
                     else if (ScenarioName.Contains("GeneralElectricPowerFailure"))
                     {
-                        
+
                     }
                     else if (ScenarioName.Contains("GeneralCoolingWaterFailure"))
                     {
@@ -470,7 +488,7 @@ namespace ReliefProMain.ViewModel
                 }
             }
         }
-        private void CreateBlockedVaporOutlet(int ScenarioID,int OutletType)
+        private void CreateBlockedVaporOutlet(int ScenarioID, int OutletType)
         {
             if (OutletType == 0)
             {
@@ -578,7 +596,7 @@ namespace ReliefProMain.ViewModel
             }
 
             TowerFireView v = new TowerFireView();
-            TowerFireVM vm = new TowerFireVM(ScenarioID,EqName,SourceFileInfo, SessionPlant, SessionProtectedSystem,DirPlant,DirProtectedSystem);
+            TowerFireVM vm = new TowerFireVM(ScenarioID, EqName, SourceFileInfo, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {
@@ -593,7 +611,7 @@ namespace ReliefProMain.ViewModel
         {
             CreateTowerScenarioCalcData(ScenarioID, ScenarioName, Session);
             TowerScenarioCalcView v = new TowerScenarioCalcView();
-            TowerScenarioCalcVM vm = new TowerScenarioCalcVM(EqName, ScenarioName,ScenarioID, SourceFileInfo, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
+            TowerScenarioCalcVM vm = new TowerScenarioCalcVM(EqName, ScenarioName, ScenarioID, SourceFileInfo, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (v.ShowDialog() == true)
@@ -608,7 +626,7 @@ namespace ReliefProMain.ViewModel
         private void CreateInletValveOpen(int ScenarioID)
         {
             InletValveOpenView v = new InletValveOpenView();
-            InletValveOpenVM vm = new InletValveOpenVM(ScenarioID, EqName, EqType,SourceFileInfo, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
+            InletValveOpenVM vm = new InletValveOpenVM(ScenarioID, EqName, EqType, SourceFileInfo, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (v.ShowDialog() == true)
@@ -642,7 +660,7 @@ namespace ReliefProMain.ViewModel
             SourceDAL dbSource = new SourceDAL();
             HeatSourceDAL dbhs = new HeatSourceDAL();
             ScenarioHeatSourceDAL scenarioHeatSourceDAL = new ScenarioHeatSourceDAL();
-            TowerScenarioStreamDAL towerScenarioStreamDAL = new TowerScenarioStreamDAL();            
+            TowerScenarioStreamDAL towerScenarioStreamDAL = new TowerScenarioStreamDAL();
             List<Source> listSource = dbSource.GetAllList(Session).ToList();
             foreach (Source s in listSource)
             {
@@ -675,13 +693,13 @@ namespace ReliefProMain.ViewModel
                         {
                             shs = new ScenarioHeatSource();
                             shs.HeatSourceID = hs.ID;
-                            shs.DutyFactor =1;
+                            shs.DutyFactor = 1;
                             shs.ScenarioStreamID = tss.ID;
                             shs.ScenarioID = ScenarioID;
                             scenarioHeatSourceDAL.Add(shs, SessionProtectedSystem);
                         }
                     }
-                    
+
                 }
             }
 
@@ -714,7 +732,7 @@ namespace ReliefProMain.ViewModel
             IList<TowerHX> tHXs = towerHXDAL.GetAllList(Session);
             foreach (TowerHX hx in tHXs)
             {
-                
+
                 List<TowerHXDetail> listTowerHXDetail = towerHXDetailDAL.GetAllList(Session, hx.ID).ToList();
                 foreach (TowerHXDetail detail in listTowerHXDetail)
                 {
@@ -741,17 +759,17 @@ namespace ReliefProMain.ViewModel
                         }
                         towerScenarioHXDAL.Add(tsHX, Session);
                     }
-                    else if(factor!=tsHX.DutyCalcFactor || tsHX.Medium != detail.Medium)
+                    else if (factor != tsHX.DutyCalcFactor || tsHX.Medium != detail.Medium)
                     {
                         tsHX.DutyCalcFactor = factor;
                         tsHX.DetailName = detail.DetailName;
-                        tsHX.Medium = detail.Medium;                        
+                        tsHX.Medium = detail.Medium;
                         if (ScenarioName == "BlockedOutlet" && detail.Duty < 0)
                         {
                             tsHX.DutyLost = true;
                         }
                         towerScenarioHXDAL.Update(tsHX, Session);
-                    }     
+                    }
                 }
             }
             IList<TowerScenarioHX> tsHXs = towerScenarioHXDAL.GetAllList(Session, ScenarioID);
@@ -767,10 +785,10 @@ namespace ReliefProMain.ViewModel
 
         }
 
-       
+
         private void CreateTowerAbnormalHeatInputData(int ScenarioID, string ScenarioName, NHibernate.ISession Session)
         {
-            AbnormalHeaterDetailDAL abnormalHeaterDetailDAL=new AbnormalHeaterDetailDAL();
+            AbnormalHeaterDetailDAL abnormalHeaterDetailDAL = new AbnormalHeaterDetailDAL();
             SourceDAL dbSource = new SourceDAL();
             HeatSourceDAL dbhs = new HeatSourceDAL();
             TowerScenarioStreamDAL towerScenarioStreamDAL = new TowerScenarioStreamDAL();
@@ -884,13 +902,13 @@ namespace ReliefProMain.ViewModel
                         }
                         towerScenarioHXDAL.Add(tsHX, Session);
 
-                        
-                        if (tsHX.HeaterType == 3 || tsHX.HeaterType==4)
+
+                        if (tsHX.HeaterType == 3 || tsHX.HeaterType == 4)
                         {
                             AbnormalHeaterDetail d = new AbnormalHeaterDetail();
                             d = new AbnormalHeaterDetail();
                             d.AbnormalType = 2;
-                            d.Duty = hx.HeaterDuty * detail.DutyPercentage/100;
+                            d.Duty = hx.HeaterDuty * detail.DutyPercentage / 100;
                             d.DutyFactor = 1;
                             d.HeaterID = detail.ID;
                             d.HeaterName = detail.DetailName;
@@ -913,7 +931,7 @@ namespace ReliefProMain.ViewModel
 
                         if (tsHX.HeaterType == 3 || tsHX.HeaterType == 4)
                         {
-                            AbnormalHeaterDetail d = abnormalHeaterDetailDAL.GetModel(Session,ScenarioID,tsHX.ID,2);
+                            AbnormalHeaterDetail d = abnormalHeaterDetailDAL.GetModel(Session, ScenarioID, tsHX.ID, 2);
                             d.Duty = hx.HeaterDuty * tsHX.DutyCalcFactor;
                             d.HeaterName = detail.DetailName;
                             d.HeaterType = detail.Medium;
@@ -926,7 +944,7 @@ namespace ReliefProMain.ViewModel
                 }
             }
 
-            
+
             IList<TowerScenarioHX> tsHXs = towerScenarioHXDAL.GetAllList(Session, ScenarioID);
             int count = tsHXs.Count;
             for (int i = 0; i < count; i++)
@@ -937,7 +955,7 @@ namespace ReliefProMain.ViewModel
                     towerScenarioHXDAL.Delete(tsHXs[i], Session);
                 }
             }
-            IList<AbnormalHeaterDetail> abnormalDetails = abnormalHeaterDetailDAL.GetAllList(Session, ScenarioID,2);
+            IList<AbnormalHeaterDetail> abnormalDetails = abnormalHeaterDetailDAL.GetAllList(Session, ScenarioID, 2);
             count = abnormalDetails.Count;
             for (int i = 0; i < count; i++)
             {
@@ -1039,7 +1057,7 @@ namespace ReliefProMain.ViewModel
                     list.Add("Blocked Outlet");
                     list.Add("Tube Rupture");
                 }
-                
+
                 list.Add("Fire");
 
 
@@ -1118,9 +1136,13 @@ namespace ReliefProMain.ViewModel
         }
 
         public ChangeUnitDelegate cud { get; set; }
-        public void ExcuteThumbMoved(object ColInfo,object OrigionUnit,object TargetUnit)
+        public void ExcuteThumbMoved(object ColInfo, object OrigionUnit, object TargetUnit)
         {
-            string str = ColInfo.ToString();
+            int k = string.Compare(OrigionUnit.ToString(), TargetUnit.ToString(), true);
+            if (k == 0)
+            {
+                string str = ColInfo.ToString();
+            }
         }
     }
 }
