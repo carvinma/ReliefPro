@@ -31,7 +31,13 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource NormalDutyKJhr}" Width="150px" >
+                    <GridViewColumn Width="150px" >
+                        <GridViewColumn.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{DynamicResource NormalDutyKJhr}"/>
+                                <TextBlock Text="{Binding uomEnum.UserEnthalpyDuty}"/>
+                            </StackPanel>
+                        </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox IsEnabled="False" Text="{Binding Path=Duty,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
