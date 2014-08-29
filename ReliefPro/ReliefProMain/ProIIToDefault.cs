@@ -18,7 +18,11 @@ namespace ReliefProMain
             {
                 cs.BulkCP = double.Parse(s.BulkCP);
             }
-            cs.BulkCPCVRatio = cs.BulkCPCVRatio;
+            if (!string.IsNullOrEmpty(s.BulkCPCVRatio))
+            {
+                cs.BulkCPCVRatio = double.Parse(s.BulkCPCVRatio);
+            }
+            
             if (!string.IsNullOrEmpty(s.BulkDensityAct))
             {
                 cs.BulkDensityAct = double.Parse(s.BulkDensityAct);

@@ -231,12 +231,12 @@ namespace ReliefProMain
         public static double CalcWv(double d, double P1, double Rmassv, double K)
         {
             if (K == 1 || K == -1) return 0;
-            return 2 * 347 * Math.Pow(d, 2) * Math.Sqrt(Rmassv * K * (P1 / 10) * Math.Pow(2 / (K + 1), (K + 1) / (K - 1)));
+            return 2 * 347 * Math.Pow(d, 2) * Math.Sqrt(Rmassv * K * (P1 * 10) * Math.Pow(2 / (K + 1), (K + 1) / (K - 1)));
         }
         public static double CalcKv(double P1, double Rmassv, double K)
         {
             if (K == 1 || K == -1) return 0;
-            return 2 * 347 *  Math.Sqrt(Rmassv * K * (P1 / 10) * Math.Pow(2 / (K + 1), (K + 1) / (K - 1)));
+            return 2 * 347 *  Math.Sqrt(Rmassv * K * (P1* 10) * Math.Pow(2 / (K + 1), (K + 1) / (K - 1)));
         }
 
         /// <summary>
