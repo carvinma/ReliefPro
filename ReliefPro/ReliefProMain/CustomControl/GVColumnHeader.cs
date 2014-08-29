@@ -35,7 +35,7 @@ namespace ReliefProMain.CustomControl
         public static readonly DependencyProperty ColInfoProperty =
           DependencyProperty.Register("ColInfo", typeof(string), typeof(GVColumnHeader), new PropertyMetadata());
 
-        /*
+
         protected override void OnMouseDoubleClick(System.Windows.Input.MouseButtonEventArgs e)
         {
             if (!string.IsNullOrEmpty(UOrigin))
@@ -53,7 +53,6 @@ namespace ReliefProMain.CustomControl
                 }
 
             }
-        } 
-      */
+        }
     }
 }

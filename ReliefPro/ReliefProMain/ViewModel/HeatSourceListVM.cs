@@ -16,14 +16,16 @@ using NHibernate;
 using ReliefProMain.ViewModel.Drums;
 using System.Windows;
 using System.IO;
+using ReliefProMain.CustomControl;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel
 {
-    public class HeatSourceListVM:ViewModelBase
+    public class HeatSourceListVM : ViewModelBase
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
-        private SourceFile SourceFileInfo ; 
+        private SourceFile SourceFileInfo;
         private HeatSourceDAL heatSourceDAL;
         private int SourceID;
         private Dictionary<string, ProIIEqData> dicHX;
@@ -71,14 +73,15 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-
-        public HeatSourceListVM(int SourceID,SourceFile sourceFileInfo, ISession SessionPlant, ISession SessionProtectedSystem)
+        public UOMLib.UOMEnum uomEnum { get; set; }
+        public HeatSourceListVM(int SourceID, SourceFile sourceFileInfo, ISession SessionPlant, ISession SessionProtectedSystem)
         {
+            uomEnum = new UOMLib.UOMEnum(SessionPlant);
             this.SourceID = SourceID;
             heatSourceDAL = new HeatSourceDAL();
             this.SessionPlant = SessionPlant;
             this.SessionProtectedSystem = SessionProtectedSystem;
-            SourceFileInfo = sourceFileInfo; 
+            SourceFileInfo = sourceFileInfo;
             dicHX = new Dictionary<string, ProIIEqData>();
             HeatSources = new ObservableCollection<HeatSourceModel>();
             IList<HeatSource> list = heatSourceDAL.GetAllList(SessionProtectedSystem, SourceID);
@@ -91,6 +94,8 @@ namespace ReliefProMain.ViewModel
             }
             HeatSourceNames = GetHeatSourceNames();
             HeatSourceTypes = GetHeatSourceTypes();
+            changeUnit += new ChangeUnitDelegate(ExcuteThumbMoved);
+            ReadConvert();
         }
 
         private ICommand _AddCommand;
@@ -108,12 +113,12 @@ namespace ReliefProMain.ViewModel
         }
 
         public void Add()
-        {           
+        {
             HeatSource m = new HeatSource();
             m.SourceID = SourceID;
             HeatSourceModel model = new HeatSourceModel(m);
             model.data = dicHX;
-            model.SeqNumber = HeatSources.Count;           
+            model.SeqNumber = HeatSources.Count;
             HeatSources.Add(model);
         }
 
@@ -164,7 +169,7 @@ namespace ReliefProMain.ViewModel
             {
                 if (string.IsNullOrEmpty(m.HeatSourceName))
                 {
-                    MessageBox.Show("HeatSource must be not empty.","Message Box");
+                    MessageBox.Show("HeatSource must be not empty.", "Message Box");
                     return;
                 }
             }
@@ -192,11 +197,11 @@ namespace ReliefProMain.ViewModel
             string fileName = SourceFileInfo.FileName;
             ObservableCollection<string> list = new ObservableCollection<string>();
             ProIIEqDataDAL dbproiieq = new ProIIEqDataDAL();
-            IList<ProIIEqData> eqs = dbproiieq.GetAllList(SessionPlant,fileName,"Hx");
-            foreach(ProIIEqData eq in eqs)
+            IList<ProIIEqData> eqs = dbproiieq.GetAllList(SessionPlant, fileName, "Hx");
+            foreach (ProIIEqData eq in eqs)
             {
                 list.Add(eq.EqName);
-                dicHX.Add(eq.EqName,eq);
+                dicHX.Add(eq.EqName, eq);
             }
             return list;
         }
@@ -207,6 +212,26 @@ namespace ReliefProMain.ViewModel
             list.Add("HX");
             list.Add("Feed/Bottom HX");
             return list;
+        }
+
+        private void ReadConvert()
+        {
+            foreach (var t in HeatSources)
+            {
+                t.Duty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, t.Duty);
+            }
+        }
+        public ChangeUnitDelegate changeUnit { get; set; }
+        public void ExcuteThumbMoved(object ColInfo, object OrigionUnit, object TargetUnit)
+        {
+            int k = string.Compare(OrigionUnit.ToString(), TargetUnit.ToString(), true);
+            if (k != 0 && ColInfo != null && ColInfo.ToString() == "2")
+            {
+                foreach (var t in HeatSources)
+                {
+                    t.Duty = UnitConvert.Convert(OrigionUnit.ToString(), TargetUnit.ToString(), t.Duty);
+                }
+            }
         }
     }
 }

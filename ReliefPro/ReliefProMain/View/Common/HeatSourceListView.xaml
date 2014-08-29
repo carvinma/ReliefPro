@@ -1,6 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.HeatSourceListView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
         Title="{DynamicResource HeatSourceListViewTitle}" Height="320" Width="597" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     <Grid >
         <Grid.ColumnDefinitions>
@@ -33,7 +34,18 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource HeatSourceListViewDutykg_hr}" Width="150px" >
+                    <GridViewColumn Width="150px" >
+                        <GridViewColumn.Header>
+                            <CustomControl:GVColumnHeader x:Name="colDuty" UOrigin="{Binding uomEnum.UserEnthalpyDuty}" ColInfo="2"
+                                                          ChangeUnitEvent="{Binding changeUnit}">
+                                <CustomControl:GVColumnHeader.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{DynamicResource HeatSourceListViewDutyKJ_hr}"/>
+                                        <TextBlock Text="{Binding ElementName=colDuty,Path=UOrigin}"/>
+                                    </StackPanel>
+                                </CustomControl:GVColumnHeader.Content>
+                            </CustomControl:GVColumnHeader>
+                        </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox  Text="{Binding Path=Duty,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>

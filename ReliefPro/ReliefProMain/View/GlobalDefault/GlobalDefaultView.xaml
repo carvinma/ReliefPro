@@ -27,8 +27,19 @@
                                         </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                                <GridViewColumn Header="{DynamicResource DesignBackPressureMPag}"  x:Name="ProcessSideFlowSource" Width="200px"  >
-                                <GridViewColumn.CellTemplate>
+                                <GridViewColumn x:Name="ProcessSideFlowSource" Width="200px"  >
+                                    <GridViewColumn.Header>
+                                        <CustomControl:GVColumnHeader x:Name="colPressure" UOrigin="{Binding Uom.UserPressure}">
+                                            <CustomControl:GVColumnHeader.Content>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{DynamicResource DesignBackPressureMPag}"/>
+                                                    <TextBlock Text="{Binding ElementName=colPressure,Path=UOrigin}"
+                                                               />
+                                                </StackPanel>
+                                            </CustomControl:GVColumnHeader.Content>
+                                        </CustomControl:GVColumnHeader>
+                                    </GridViewColumn.Header>
+                                    <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                             <Grid Height="21">
                                                 <TextBox Text="{Binding Path=DesignBackPressure,Mode=TwoWay}"  BorderBrush="Transparent"
