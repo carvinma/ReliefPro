@@ -60,7 +60,14 @@
                         <ListView.View>
                             <GridView >
                                 <GridViewColumn Width="200px" Header="Condenser Name" DisplayMemberBinding="{Binding HeaterName}" />
-                                <GridViewColumn Width="80px" Header="{DynamicResource DutyKJhr}" DisplayMemberBinding="{Binding HeaterDuty}" />
+                                <GridViewColumn Width="80px" DisplayMemberBinding="{Binding HeaterDuty}">
+                                    <GridViewColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{DynamicResource DutyKJhr}"/>
+                                            <TextBlock Text="{Binding uomEnum.UserEnthalpyDuty}"/>
+                                        </StackPanel>
+                                    </GridViewColumn.Header>
+                                </GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -68,7 +75,14 @@
                         <ListView.View>
                             <GridView AllowsColumnReorder="True">
                                 <GridViewColumn Width="200px" Header="{DynamicResource HXName}" DisplayMemberBinding="{Binding HeaterName}" />
-                                <GridViewColumn Width="80px" Header="{DynamicResource DutyKJhr}" DisplayMemberBinding="{Binding HeaterDuty}" />
+                                <GridViewColumn Width="80px" DisplayMemberBinding="{Binding HeaterDuty}">
+                                    <GridViewColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{DynamicResource DutyKJhr}"/>
+                                            <TextBlock Text="{Binding uomEnum.UserEnthalpyDuty}"/>
+                                        </StackPanel>
+                                    </GridViewColumn.Header>
+                                </GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -84,7 +98,14 @@
                         <ListView.View>
                             <GridView >
                                 <GridViewColumn Width="150px" Header="{DynamicResource ReboilerName}" DisplayMemberBinding="{Binding HeaterName}" />
-                                <GridViewColumn Width="80px" Header="{DynamicResource DutyKJhr}" DisplayMemberBinding="{Binding HeaterDuty}" />
+                                <GridViewColumn Width="80px" DisplayMemberBinding="{Binding HeaterDuty}">
+                                    <GridViewColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{DynamicResource DutyKJhr}"/>
+                                            <TextBlock Text="{Binding uomEnum.UserEnthalpyDuty}"/>
+                                        </StackPanel>
+                                    </GridViewColumn.Header>
+                                </GridViewColumn>
 
                             </GridView>
                         </ListView.View>
@@ -93,7 +114,14 @@
                         <ListView.View>
                             <GridView AllowsColumnReorder="True">
                                 <GridViewColumn Width="150px" Header="{DynamicResource InnerName}" DisplayMemberBinding="{Binding HeaterName}" />
-                                <GridViewColumn Width="80px" Header="{DynamicResource DutyKJhr}" DisplayMemberBinding="{Binding HeaterDuty}" />
+                                <GridViewColumn Width="80px" DisplayMemberBinding="{Binding HeaterDuty}">
+                                    <GridViewColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{DynamicResource DutyKJhr}"/>
+                                            <TextBlock Text="{Binding uomEnum.UserEnthalpyDuty}"/>
+                                        </StackPanel>
+                                    </GridViewColumn.Header>
+                                </GridViewColumn>
 
                             </GridView>
                         </ListView.View>
@@ -106,7 +134,8 @@
                         <ListView.View>
                             <GridView >
                                 <GridViewColumn Width="200px" Header="{DynamicResource StreamName}" DisplayMemberBinding="{Binding StreamName}" />
-                                <GridViewColumn Width="80px" Header="{DynamicResource Stage}" DisplayMemberBinding="{Binding Tray}" />
+                                <GridViewColumn Width="80px" Header="{DynamicResource Stage}" DisplayMemberBinding="{Binding Tray}">
+                                </GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>

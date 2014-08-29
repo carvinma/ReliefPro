@@ -68,7 +68,14 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="200px"  Header="{DynamicResource DutyKJhr}" DisplayMemberBinding="{Binding Path=Duty,Mode=TwoWay}"></GridViewColumn>
+                            <GridViewColumn Width="200px" DisplayMemberBinding="{Binding Path=Duty,Mode=TwoWay}">
+                                <GridViewColumn.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{DynamicResource DutyKJhr}"/>
+                                        <TextBlock  Text="{Binding uomEnum.UserEnthalpyDuty}"/>
+                                    </StackPanel>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
                             <GridViewColumn Header="" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
