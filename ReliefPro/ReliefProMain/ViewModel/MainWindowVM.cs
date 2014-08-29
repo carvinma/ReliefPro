@@ -42,6 +42,7 @@ using ReliefProMain.ViewModel;
 using ReliefProMain.Models;
 using NHibernate;
 using ReliefProMain.Commands;
+using UOMLib;
 namespace ReliefProMain.ViewModel
 {
     public class MainWindowVM : ViewModelBase
@@ -180,8 +181,8 @@ namespace ReliefProMain.ViewModel
 
                     ReliefProCommon.CommonLib.CSharpZip.ExtractZipFile(currentPlantFile, "1", currentPlantWorkFolder);
                     string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
-                    NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlant_target);
-                    ISession SessionPlant = helperProtectedSystem.GetCurrentSession();
+                    //NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlant_target);
+                    //ISession SessionPlant = helperProtectedSystem.GetCurrentSession();
                     TVPlant p = new TVPlant();
                     p.FullPath = currentPlantWorkFolder;
                     p.FullRefPath = currentPlantFile;
