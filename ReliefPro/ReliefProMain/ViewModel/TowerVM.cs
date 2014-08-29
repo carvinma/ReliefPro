@@ -18,15 +18,16 @@ using ReliefProBLL.Common;
 using ReliefProCommon.CommonLib;
 using NHibernate;
 using ReliefProMain.View;
+using UOMLib;
 
 namespace ReliefProMain.ViewModel
 {
-   public class TowerVM:ViewModelBase
+    public class TowerVM : ViewModelBase
     {
-       public ISession SessionPlant { set; get; }
+        public ISession SessionPlant { set; get; }
         public ISession SessionProtectedSystem { set; get; }
         public string DirPlant { set; get; }
-        public string DirProtectedSystem { set; get; }        
+        public string DirProtectedSystem { set; get; }
         public SourceFile SourceFileInfo { set; get; }
         public string SourceFileName { set; get; }
         private string _TowerName;
@@ -110,13 +111,14 @@ namespace ReliefProMain.ViewModel
         }
 
 
-
+        public UOMLib.UOMEnum uomEnum { get; set; }
 
         TowerDAL dbtower;
         Tower tower;
         int op = 1;
         public TowerVM(string towerName, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
+            uomEnum = new UOMLib.UOMEnum(SessionPlant);
             ColorImport = "Gray";
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
@@ -128,7 +130,7 @@ namespace ReliefProMain.ViewModel
             TowerType = TowerTypes[0];
             if (!string.IsNullOrEmpty(TowerName))
             {
-                dbtower= new TowerDAL();
+                dbtower = new TowerDAL();
                 tower = dbtower.GetModel(SessionProtectedSystem);
                 TowerName = tower.TowerName;
                 TowerType = tower.TowerType;
@@ -142,10 +144,10 @@ namespace ReliefProMain.ViewModel
                 Reboilers = GetHeaters(SessionProtectedSystem, 3);
                 HxReboilers = GetHeaters(SessionProtectedSystem, 4);
             }
-           
+
         }
 
-        private ObservableCollection<CustomStream> GetStreams(ISession Session,bool IsProduct)
+        private ObservableCollection<CustomStream> GetStreams(ISession Session, bool IsProduct)
         {
             ObservableCollection<CustomStream> list = new ObservableCollection<CustomStream>();
             CustomStreamDAL db = new CustomStreamDAL();
@@ -165,6 +167,7 @@ namespace ReliefProMain.ViewModel
             IList<TowerHX> lt = db.GetAllList(Session, HeaterType);
             foreach (TowerHX c in lt)
             {
+                c.HeaterDuty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, c.HeaterDuty);
                 list.Add(c);
             }
 
@@ -233,8 +236,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private List<SideColumn> SideColumns=new List<SideColumn>();
-        private List<ProIIEqData> SideColumnList=new List<ProIIEqData>();
+        private List<SideColumn> SideColumns = new List<SideColumn>();
+        private List<ProIIEqData> SideColumnList = new List<ProIIEqData>();
         Dictionary<string, string> sideColumnTray = new Dictionary<string, string>();
         Dictionary<string, string> sideColumnProdType = new Dictionary<string, string>();
         private ProIIEqData CurrentTower;
@@ -281,7 +284,7 @@ namespace ReliefProMain.ViewModel
                     StageNumber = int.Parse(CurrentTower.NumberOfTrays);
                     string[] products = CurrentTower.ProductData.Split(',');
                     IList<ProIIEqData> allSideColumnList = dbEq.GetAllList(SessionPlant, SourceFileName, "SideColumn");
-                    foreach(ProIIEqData d in allSideColumnList)
+                    foreach (ProIIEqData d in allSideColumnList)
                     {
                         if (isRelatedSideColumn(d, products))
                         {
@@ -292,7 +295,7 @@ namespace ReliefProMain.ViewModel
                             SideColumnList.Add(d);
                         }
                     }
-                  
+
                     Feeds = new ObservableCollection<CustomStream>();
                     Products = new ObservableCollection<CustomStream>();
                     Reboilers = new ObservableCollection<TowerHX>();
@@ -333,7 +336,7 @@ namespace ReliefProMain.ViewModel
 
                 }
 
-            }           
+            }
         }
 
 
@@ -413,7 +416,7 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        public void GetEqFeedProduct(ProIIEqData data, ref Dictionary<string, string> cFeeds, ref Dictionary<string, string> cProducts,ref Dictionary<string,string> cProdTypes)
+        public void GetEqFeedProduct(ProIIEqData data, ref Dictionary<string, string> cFeeds, ref Dictionary<string, string> cProducts, ref Dictionary<string, string> cProdTypes)
         {
             string feeddata = data.FeedData;
             string productdata = data.ProductData;
@@ -451,10 +454,10 @@ namespace ReliefProMain.ViewModel
                 dictFeed.Add(key, feeds);
                 dictProdcut.Add(key, products);
             }
-               
+
         }
 
-        private string[] GetSideColumnTrayAndProdType(string[] sideColumnFeeds, Dictionary<string, string> dicColumnProducts,Dictionary<string,string> dicColumnProdTypes )
+        private string[] GetSideColumnTrayAndProdType(string[] sideColumnFeeds, Dictionary<string, string> dicColumnProducts, Dictionary<string, string> dicColumnProdTypes)
         {
             string[] result = new string[2];
             foreach (string feed in sideColumnFeeds)
@@ -573,7 +576,7 @@ namespace ReliefProMain.ViewModel
 
         private bool IsSteam(CustomStream s)
         {
-            bool b=false;
+            bool b = false;
             Dictionary<string, string> dic = new Dictionary<string, string>();
             string[] Componentids = s.Componentid.Split(',');
             string[] Coms = s.TotalComposition.Split(',');
@@ -585,7 +588,7 @@ namespace ReliefProMain.ViewModel
             string H2O = "H2O";
             if (dic.Keys.Contains(H2O))
             {
-                if (dic[H2O] == "1" &&s.VaporFraction==1)
+                if (dic[H2O] == "1" && s.VaporFraction == 1)
                     b = true;
             }
             return b;
@@ -604,7 +607,7 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        
+
 
         public void Save(object obj)
         {
@@ -622,7 +625,7 @@ namespace ReliefProMain.ViewModel
             {
                 try
                 {
-                    
+
                     TowerHXDAL dbHx = new TowerHXDAL();
                     TowerHXDetailDAL dbDetail = new TowerHXDetailDAL();
                     AccumulatorDAL dbAc = new AccumulatorDAL();
@@ -790,7 +793,7 @@ namespace ReliefProMain.ViewModel
                     ps.PSType = 1;
                     psDAL.Add(ps, SessionProtectedSystem);
 
-                    SourceFileDAL sfdal=new SourceFileDAL();
+                    SourceFileDAL sfdal = new SourceFileDAL();
                     SourceFileInfo = sfdal.GetModel(tower.SourceFile, SessionPlant);
                     SessionProtectedSystem.Flush();
                 }
@@ -809,7 +812,7 @@ namespace ReliefProMain.ViewModel
             else
             {
                 Tower tower = dbtower.GetModel(SessionProtectedSystem);
-                
+
                 tower.TowerType = TowerType;
                 dbtower.Update(tower, SessionProtectedSystem);
                 SessionProtectedSystem.Flush();
@@ -821,10 +824,10 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-       /// <summary>
-       /// 获得塔类型列表
-       /// </summary>
-       /// <returns></returns>
+        /// <summary>
+        /// 获得塔类型列表
+        /// </summary>
+        /// <returns></returns>
         private ObservableCollection<string> GetTowerTypes()
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
@@ -834,13 +837,13 @@ namespace ReliefProMain.ViewModel
             return list;
         }
 
-        private bool isRelatedSideColumn(ProIIEqData eq,string[] products)
+        private bool isRelatedSideColumn(ProIIEqData eq, string[] products)
         {
             bool b = false;
-            string[] streams=eq.FeedData.Split(',');
+            string[] streams = eq.FeedData.Split(',');
             foreach (string s in streams)
             {
-                if(!string.IsNullOrEmpty(s))
+                if (!string.IsNullOrEmpty(s))
                 {
                     if (products.Contains(s))
                     {
@@ -853,5 +856,5 @@ namespace ReliefProMain.ViewModel
         }
     }
 
-  
+
 }
