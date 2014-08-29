@@ -35,7 +35,7 @@
         <ListView Grid.Column="1" HorizontalAlignment="Stretch" Height="175"  Grid.Row="2"  Grid.ColumnSpan="2" ItemsSource="{Binding model.Details}" >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="{DynamicResource segment}" Width="100"  >
+                    <GridViewColumn Header="{DynamicResource segment}" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Segment}"  />
@@ -63,14 +63,26 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Height_m}" Width="100" >
+                    <GridViewColumn Width="100" >
+                        <GridViewColumn.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{DynamicResource Height_m}"/>
+                                <TextBlock Text="{Binding uomEnum.UserLength}"/>
+                            </StackPanel>
+                        </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding Height}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource Diameter_m}" Width="100" >
+                    <GridViewColumn Width="100" >
+                        <GridViewColumn.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{DynamicResource Diameter_m}"/>
+                                <TextBlock Text="{Binding uomEnum.UserLength}"/>
+                            </StackPanel>
+                        </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding Diameter}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
