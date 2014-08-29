@@ -53,7 +53,7 @@ namespace ReliefProMain.ViewModel
                 d.MediumSideFlowSource = obj.MediumSideFlowSource;
                 d.ID = obj.ID;
                 d.HXID = obj.HXID;
-                d.Duty = obj.Duty;
+                d.Duty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, obj.Duty);
                 d.DutyPercentage = obj.DutyPercentage;
 
                 _Details.Add(d);
@@ -210,7 +210,7 @@ namespace ReliefProMain.ViewModel
 
         private void ReadConvert()
         {
-            if (model.HeaterDuty!=null)
+            if (model.HeaterDuty != null)
                 model.HeaterDuty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, dutyUnit, model.HeaterDuty);
         }
         private void InitUnit()

@@ -29,7 +29,7 @@ namespace ReliefProMain.ViewModel
         private AbnormalHeaterDetailDAL abnormalHeaterDetailDAL;
         private ScenarioDAL scenarioDAL;
         private PSVDAL psvDAL;
-        UOMLib.UOMEnum uomEnum;
+        public UOMLib.UOMEnum uomEnum { get; set; }
         private ObservableCollection<AbnormalHeaterDetailModel> _Heaters;
         public ObservableCollection<AbnormalHeaterDetailModel> Heaters
         {
@@ -126,19 +126,19 @@ namespace ReliefProMain.ViewModel
             foreach (AbnormalHeaterDetail s in list)
             {
                 AbnormalHeaterDetailModel m = new AbnormalHeaterDetailModel(s);
-                m.Duty = s.Duty;
+                m.Duty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, s.Duty);
                 m.DutyFactor = s.DutyFactor;
                 m.AbnormalType = s.AbnormalType;
                 m.HeaterID = s.HeaterID;
                 m.HeaterName = s.HeaterName;
                 m.ID = s.ID;
-                
+
                 m.ScenarioID = s.ScenarioID;
                 m.SeqNumber = i;
                 Heaters.Add(m);
                 i++;
             }
-            
+
             Scenario sc = scenarioDAL.GetModel(ScenarioID, SessionProtectedSystem);
             ReliefLoad = sc.ReliefLoad;
             ReliefMW = sc.ReliefMW;
@@ -190,7 +190,7 @@ namespace ReliefProMain.ViewModel
                     TowerFlashProduct product = dbFlashP.GetModel(SessionProtectedSystem, cstream.StreamName);
                     if (!s.FlowStop)
                     {
-                        ProductTotal = ProductTotal + (s.FlowCalcFactor* product.SpEnthalpy * product.WeightFlow);
+                        ProductTotal = ProductTotal + (s.FlowCalcFactor * product.SpEnthalpy * product.WeightFlow);
                         if (cstream.ProdType == "6")
                         {
                             waterWeightFlow = cstream.WeightFlow;
@@ -205,7 +205,7 @@ namespace ReliefProMain.ViewModel
                 {
                     if (!s.FlowStop)
                     {
-                        FeedTotal = FeedTotal + (s.FlowCalcFactor* cstream.SpEnthalpy * cstream.WeightFlow);
+                        FeedTotal = FeedTotal + (s.FlowCalcFactor * cstream.SpEnthalpy * cstream.WeightFlow);
                     }
                 }
             }
@@ -219,7 +219,7 @@ namespace ReliefProMain.ViewModel
                 if (!shx.DutyLost)
                 {
                     TowerHXDetail detail = dbDetail.GetModel(SessionProtectedSystem, shx.DetailID);
-                    HeatTotal = HeatTotal + shx.DutyCalcFactor* detail.Duty;
+                    HeatTotal = HeatTotal + shx.DutyCalcFactor * detail.Duty;
                 }
             }
             double totalAbnomalDuty = GetAbnormalTotalDuty();
@@ -232,7 +232,7 @@ namespace ReliefProMain.ViewModel
                 wRelief = 0;
             }
             double reliefLoad = wAccumulation + waterWeightFlow;
-            double reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / latent.ReliefOHWeightFlow+ waterWeightFlow / 18);
+            double reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / latent.ReliefOHWeightFlow + waterWeightFlow / 18);
             ReliefTemperature = latent.ReliefTemperature;
             ReliefPressure = latent.ReliefPressure;
             ReliefLoad = reliefLoad;
@@ -388,23 +388,23 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        
+
         private void ReadConvert()
         {
-            if (_ReliefLoad!=null)
+            if (_ReliefLoad != null)
                 _ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, _ReliefLoadUnit, _ReliefLoad);
-            if (_ReliefTemperature!=null)
+            if (_ReliefTemperature != null)
                 _ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, _ReliefTemperatureUnit, _ReliefTemperature);
-            if (_ReliefPressure!=null)
+            if (_ReliefPressure != null)
                 _ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, _ReliefPressureUnit, _ReliefPressure);
         }
         private void WriteConvert()
         {
-            if (_ReliefLoad!=null)
+            if (_ReliefLoad != null)
                 _ReliefLoad = UnitConvert.Convert(_ReliefLoadUnit, UOMEnum.MassRate, _ReliefLoad);
-            if (_ReliefTemperature!=null)
+            if (_ReliefTemperature != null)
                 _ReliefTemperature = UnitConvert.Convert(_ReliefTemperatureUnit, UOMEnum.Temperature, _ReliefTemperature);
-            if (_ReliefPressure!=null)
+            if (_ReliefPressure != null)
                 _ReliefPressure = UnitConvert.Convert(_ReliefPressureUnit, UOMEnum.Pressure, _ReliefPressure);
         }
         private void InitUnit()
