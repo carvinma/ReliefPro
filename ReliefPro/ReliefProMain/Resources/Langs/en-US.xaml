@@ -494,9 +494,9 @@
     <!--ScenarioListView.xaml-->
     <s:String x:Key="ScenarioListViewTitle">Scenario List</s:String>
     <s:String x:Key="ScenarioName">Scenario Name</s:String>
-    <s:String x:Key="ReliefLoadkghr">Relief Load, Kg/hr</s:String>
-    <s:String x:Key="ReliefPressureMPag">Relief Pressure,MPag</s:String>
-    <s:String x:Key="ReliefTemperatureC">Relief Temperature, C</s:String>
+    <s:String x:Key="ReliefLoadkghr">Relief Load,</s:String>
+    <s:String x:Key="ReliefPressureMPag">Relief Pressure,</s:String>
+    <s:String x:Key="ReliefTemperatureC">Relief Temperature, </s:String>
     <s:String x:Key="InnerReliefMW">Relief MW</s:String>
     <s:String x:Key="ScenarioListViewStatusBar">...</s:String>
 
