@@ -24,7 +24,7 @@ namespace ReliefProMain.ViewModel.TowerFires
         public TowerFireHX model { get; set; }
         public List<string> ExposedToFires { get; set; }
         public List<string> Types { get; set; }
-        UOMLib.UOMEnum uomEnum;
+        public UOMLib.UOMEnum uomEnum { get; set; }
         public TowerFireHXVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
@@ -80,7 +80,7 @@ namespace ReliefProMain.ViewModel.TowerFires
 
             double length = m.Length;
             double pipingContingency = m.PipingContingency;
-            double od = m.OD;            
+            double od = m.OD;
             Area = Algorithm.GetHXArea(m.ExposedToFire, m.Type, length, od);
             Area = Area + Area * model.PipingContingency / 100;
 
@@ -112,20 +112,20 @@ namespace ReliefProMain.ViewModel.TowerFires
         private void ReadConvert()
         {
             //if (model.OD!=null)
-                model.OD = UnitConvert.Convert(UOMEnum.Length, oDUnit, model.OD);
+            model.OD = UnitConvert.Convert(UOMEnum.Length, oDUnit, model.OD);
             //if (model.Length!=null)
-                model.Length = UnitConvert.Convert(UOMEnum.Length, lengthUnit, model.Length);
+            model.Length = UnitConvert.Convert(UOMEnum.Length, lengthUnit, model.Length);
             //if (model.Elevation!=null)
-                model.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, model.Elevation);
+            model.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, model.Elevation);
         }
         private void WriteConvert()
         {
             //if (model.OD!=null)
-                model.OD = UnitConvert.Convert(oDUnit, UOMEnum.Length, model.OD);
+            model.OD = UnitConvert.Convert(oDUnit, UOMEnum.Length, model.OD);
             //if (model.Length!=null)
-                model.Length = UnitConvert.Convert(lengthUnit, UOMEnum.Length, model.Length);
+            model.Length = UnitConvert.Convert(lengthUnit, UOMEnum.Length, model.Length);
             //if (model.Elevation!=null)
-                model.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, model.Elevation);
+            model.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, model.Elevation);
         }
         private void InitUnit()
         {
