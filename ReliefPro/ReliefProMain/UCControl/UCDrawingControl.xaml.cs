@@ -671,12 +671,12 @@ namespace ReliefProMain.View
                     CustomStream cs2 = vm.Feeds[1];
                     Visio.Shape connector2 = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
                     ConnectShapes(shape, 3, connector2, 0);
-                    connector.Text = cs.StreamName;
+                    connector2.Text = cs2.StreamName;
 
                     Visio.Shape startShp2 = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY + 0.2);
                     startShp2.get_Cells("Height").ResultIU = 0.1;
                     startShp2.get_Cells("Width").ResultIU = 0.2;
-                    startShp2.Text = connector.Text + "_Source";
+                    startShp2.Text = connector2.Text + "_Source";
                     ConnectShapes(startShp2, 2, connector2, 1);
                     startShp2.Cells["EventDblClick"].Formula = "=0";
                 }
