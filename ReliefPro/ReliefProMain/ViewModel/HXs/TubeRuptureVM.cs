@@ -37,6 +37,8 @@ namespace ReliefProMain.ViewModel.HXs
         UOMLib.UOMEnum uomEnum;
         public TubeRuptureModel model { set; get; }
         TubeRuptureDAL dal = new TubeRuptureDAL();
+
+        double k = 0;
         public TubeRuptureVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;
@@ -74,7 +76,7 @@ namespace ReliefProMain.ViewModel.HXs
 
         public void CalcResult(object obj)
         {
-            
+           
             CustomStreamBLL csbll=new CustomStreamBLL(SessionPF,SessionPS);
             ObservableCollection <CustomStream> feeds = csbll.GetStreams(SessionPS, false);
             csHigh = feeds[0];
@@ -85,8 +87,18 @@ namespace ReliefProMain.ViewModel.HXs
             PSV psv = psvDAL.GetModel(SessionPS);
             double pressure = psv.Pressure;
 
+            //valid 验证
+            if (csHigh.Pressure < psv.Pressure)
+            {
+                MessageBox.Show("High Pressure is lower than pressure of psv","Message Box");
+                return;
+            }
+
+
+
+
             string FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" +SourceFileInfo.FileName;
-            double reliefFirePressure = pressure * psv.ReliefPressureFactor;
+            reliefPressure = pressure * psv.ReliefPressureFactor;
             string tempdir = DirProtectedSystem + @"\temp\";
             string dirLatent = tempdir + "TubeRupture";
             if (!Directory.Exists(dirLatent))
@@ -99,7 +111,7 @@ namespace ReliefProMain.ViewModel.HXs
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string content = PROIIFileOperator.getUsableContent(csHigh.StreamName, tempdir);
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, "0", 3, "0", csHigh, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 5, "0", csHigh, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -112,13 +124,13 @@ namespace ReliefProMain.ViewModel.HXs
                     reader.ReleaseProIIReader();
                     csVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
                     csLiquid = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
-
-
-                    if (proIIVapor.VaporFraction == "0") //L
+                    k = csVapor.BulkCPCVRatio;
+                    double error=Math.Abs(csVapor.WeightFlow/csHigh.WeightFlow);
+                    if (error<1e-8) //L
                     {
                         Calc(0);
                     }
-                    else if (proIIVapor.VaporFraction == "1") //V
+                    else if (Math.Abs(error-1)<1e-8) //V
                     {
                         Calc(1);
                     }
@@ -150,11 +162,10 @@ namespace ReliefProMain.ViewModel.HXs
         /// <param name="calcType"></param>
         private void Calc(int calcType)
         {
-            double d = UnitConvert.Convert(uomEnum.UserLength, model.ODUnit,  model.OD);
+            double d = UnitConvert.Convert( model.ODUnit,"in",  model.OD);
             double p1=csHigh.Pressure;
             double p2=reliefPressure;
             double rmass=0;
-            double k=0;
             bool b = false;
             double pcf = 0;
             b = Algorithm.CheckCritial(p1, p2, k, ref pcf);
@@ -179,7 +190,7 @@ namespace ReliefProMain.ViewModel.HXs
                         model.ReliefLoad = Algorithm.CalcWvSecond(d, p1, rmass, k);
                     }
                     model.ReliefMW = csVapor.BulkMwOfPhase;
-                    model.ReliefPressure = csVapor.Pressure;
+                    model.ReliefPressure = reliefPressure;
                     model.ReliefTemperature = csVapor.Temperature;
                     break;
                 case 2:
@@ -187,7 +198,6 @@ namespace ReliefProMain.ViewModel.HXs
                     if (b)
                     {
                         string FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
-                        double reliefFirePressure = pcf;
                         string tempdir = DirProtectedSystem + @"\temp\";
                         string dirLatent = tempdir + "TubeRupture2";
                         if (!Directory.Exists(dirLatent))
@@ -200,7 +210,7 @@ namespace ReliefProMain.ViewModel.HXs
                         PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
                         string content = PROIIFileOperator.getUsableContent(csHigh.StreamName, tempdir);
                         IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-                        string tray1_f = fcalc.Calculate(content, 1, "0", 3, "0", csHigh, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+                        string tray1_f = fcalc.Calculate(content, 1, pcf.ToString(), 5, "0", csHigh, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
                         if (ImportResult == 1 || ImportResult == 2)
                         {
                             if (RunResult == 1 || RunResult == 2)
@@ -216,10 +226,10 @@ namespace ReliefProMain.ViewModel.HXs
 
                                 double Rv = csVapor2.WeightFlow / csHigh.WeightFlow;
                                 double KL = Algorithm.CalcKL(p1, csLiquid2.Pressure, csLiquid2.BulkDensityAct);
-                                double Kv = Algorithm.CalcKv(p1, csVapor2.Pressure, csVapor2.BulkDensityAct);
-                                model.ReliefLoad = Algorithm.CalcWH(Rv, Kv, KL, d);
+                                double Kv = Algorithm.CalcKv(p1,csVapor2.BulkDensityAct,k);
+                                model.ReliefLoad = Algorithm.CalcWH(Rv,  KL,Kv, d);
                                 model.ReliefMW = csVapor2.BulkMwOfPhase;
-                                model.ReliefPressure = csVapor2.Pressure;
+                                model.ReliefPressure = reliefPressure;
                                 model.ReliefTemperature = csVapor2.Temperature;
                             }
 
@@ -241,7 +251,7 @@ namespace ReliefProMain.ViewModel.HXs
                         double Kv = Algorithm.CalcKv(p1, csVapor.Pressure, csVapor.BulkDensityAct);
                         model.ReliefLoad = Algorithm.CalcWH(Rv, Kv, KL,d);
                         model.ReliefMW = csVapor.BulkMwOfPhase;
-                        model.ReliefPressure = csVapor.Pressure;
+                        model.ReliefPressure = reliefPressure;
                         model.ReliefTemperature = csVapor.Temperature;
                     }
                     break;

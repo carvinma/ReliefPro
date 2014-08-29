@@ -14,6 +14,9 @@ using ReliefProModel;
 using ReliefProCommon.CommonLib;
 using ProII;
 using ReliefProDAL;
+using System.Collections.ObjectModel;
+using ReliefProDAL.HXs;
+using ReliefProModel.HXs;
 
 namespace ReliefProMain.ViewModel.HXs
 {
@@ -29,6 +32,10 @@ namespace ReliefProMain.ViewModel.HXs
         public string FileFullPath { get; set; }
         public HXBlockedOutletModel model { get; set; }
         private HXBLL hxBLL;
+        CustomStream normalHotInlet = new CustomStream();
+        CustomStream normalColdInlet = new CustomStream();
+        CustomStream normalColdOutlet = new CustomStream();
+
         public HXBlockedOutletVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;
@@ -48,6 +55,32 @@ namespace ReliefProMain.ViewModel.HXs
 
             model = new HXBlockedOutletModel(blockModel);
             model.dbmodel.ScenarioID = ScenarioID;
+
+            //判断冷测进出，
+            CustomStreamBLL csbll=new CustomStreamBLL(SessionPF,SessionPS);
+            ObservableCollection<CustomStream> feeds = csbll.GetStreams(SessionPS, false);
+            normalColdInlet = feeds[0];
+            normalHotInlet = feeds[1];
+            if (normalColdInlet.Temperature > feeds[1].Temperature)
+            {
+                normalColdInlet = feeds[1];
+                normalHotInlet = feeds[0];
+            }
+            ObservableCollection<CustomStream> products = csbll.GetStreams(SessionPS, true);
+            normalColdOutlet = products[0];
+            if (normalColdOutlet.Temperature > products[1].Temperature)
+            {
+                normalColdOutlet = products[1];
+            }
+
+
+            HeatExchangerDAL heatdal = new HeatExchangerDAL();
+            HeatExchanger heat = heatdal.GetModel(SessionPS);
+            model.NormalDuty = heat.Duty;
+            model.NormalColdInletTemperature = normalColdInlet.Temperature;
+            model.NormalColdOutletTemperature = normalColdOutlet.Temperature;
+            model.NormalHotTemperature = normalHotInlet.Temperature;
+            model.ColdStream = normalHotInlet.StreamName;
 
 
             UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
@@ -75,19 +108,17 @@ namespace ReliefProMain.ViewModel.HXs
         }
         private void CalcResult(object obj)
         {
-            if (!model.CheckData()) return; 
+            //if (!model.CheckData()) return; 
             double Q = 0;
 
-            CustomStream normalHotInlet = new CustomStream();
-            CustomStream normalColdInlet = new CustomStream();
-            CustomStream normalColdOutlet = new CustomStream();
+            
             double tAvg = 0.5 * (normalColdInlet.Temperature + normalColdOutlet.Temperature);
 
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionPS);
             double pressure = psv.Pressure;
 
-            double reliefFirePressure = pressure * psv.ReliefPressureFactor;
+            double reliefPressure = pressure * psv.ReliefPressureFactor;
 
             CustomStream stream = normalColdInlet;
             string tempdir = DirProtectedSystem + @"\temp\";
@@ -102,7 +133,7 @@ namespace ReliefProMain.ViewModel.HXs
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, "0", 3, "0", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 3, "0", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -121,7 +152,7 @@ namespace ReliefProMain.ViewModel.HXs
 
                     model.ReliefLoad = Q / latent * tnormalHotInlet - tcoldbprelief / (tnormalHotInlet - tAvg);
                     model.ReliefMW = vaporcs.BulkMwOfPhase;
-                    model.ReliefPressure = reliefFirePressure;
+                    model.ReliefPressure = reliefPressure;
                     model.ReliefTemperature = vaporcs.Temperature;
 
                 }
