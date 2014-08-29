@@ -164,7 +164,7 @@
     <s:String x:Key="Internal">Internal</s:String>
     <s:String x:Key="ofactualtrays_orvoidfrac"># of Actual Trays/or Void Frac.</s:String>
     <s:String x:Key="totalheight_m">Total Height,m</s:String>
-    <s:String x:Key="Diameter_m">Diameter,m</s:String>
+    <s:String x:Key="Diameter_m">Diameter,</s:String>
     <s:String x:Key="BottomNHLL_m">Bottom NHLL, m</s:String>
     <s:String x:Key="DEPRColumnDetailsViewStatusBar">Exist the window after saving all data</s:String>
 
@@ -195,7 +195,7 @@
     <s:String x:Key="Elevation_m">Elevation,m</s:String>
     <s:String x:Key="WettedArea_m2">Wetted Area,m2</s:String>
     <s:String x:Key="Orientation">Orientation</s:String>
-    <s:String x:Key="Height_m">Height,m</s:String>
+    <s:String x:Key="Height_m">Height,</s:String>
     <s:String x:Key="Head">Head #</s:String>
     <s:String x:Key="NormalLiquidLevel_m">Normal Liquid Level,m</s:String>
     <s:String x:Key="Details">Details</s:String>
@@ -486,7 +486,7 @@
 
     <!--ScenarioHeatSourceListView.xaml-->
     <s:String x:Key="ScenarioHeatSourceListViewTitle">HeatSourceListView</s:String> 
-    <s:String x:Key="NormalDutyKJhr">Normal Duty,KJ/hr</s:String>
+    <s:String x:Key="NormalDutyKJhr">Normal Duty,</s:String>
     <s:String x:Key="IsFB">Is FB</s:String>
     <s:String x:Key="FeedBottom">Feed/Bottom</s:String>
     <s:String x:Key="ScenarioHeatSourceListViewStatusBar">...</s:String>
@@ -569,7 +569,7 @@
     <s:String x:Key="DetailData">Detail Data</s:String>
     <s:String x:Key="MediumSideFlowSource">Medium Side Flow Source</s:String>
     <s:String x:Key="DutyPercentage">Duty Percentage,%</s:String>
-    <s:String x:Key="DutyKJhr">Duty,KJ/hr</s:String>
+    <s:String x:Key="DutyKJhr">Duty,</s:String>
     <s:String x:Key="TotalDuty">Total Duty:</s:String>
     <s:String x:Key="TowerHXViewStatusBar">...</s:String>
 
