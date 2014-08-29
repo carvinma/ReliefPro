@@ -29,25 +29,28 @@ namespace UOMLib
         public const string ThermalConductivity = "w/m2-C";
         public const string HeatTransCoeffcient = "w/m-C";
 
-        public readonly string UserTemperature;
+        public string UserTemperature { get; private set; }
         //public readonly string UserWeightFlow;
-        public readonly string UserPressure;
-        public readonly string UserEnthalpyDuty;
-        public readonly string UserMassRate;
-        public readonly string UserArea;
-        public readonly string UserSpecificEnthalpy;
-        public readonly string UserDensity;
-        public readonly string UserVolume;
-        public readonly string UserTime;
-        public readonly string UserLength;
-        public readonly string UserThermalConductivity;
-        public readonly string UserHeatTransCoeffcient;
+        public string UserPressure { get; private set; }
+        public string UserEnthalpyDuty { get; private set; }
+        public string UserMassRate { get; private set; }
+        public string UserArea { get; private set; }
+        public string UserSpecificEnthalpy { get; private set; }
+        public string UserDensity { get; private set; }
+        public string UserVolume { get; private set; }
+        public string UserTime { get; private set; }
+        public string UserLength { get; private set; }
+        public string UserThermalConductivity { get; private set; }
+        public string UserHeatTransCoeffcient { get; private set; }
+
+
         public static IList<BasicUnitDefault> lstBasicUnitDefault;
         public static IList<BasicUnitCurrent> lstBasicUnitCurrent;
         public static IList<SystemUnit> lstSystemUnit;
         public static int BasicUnitID;
         public static int BasicUnitCuurentID;
         public static bool UnitFormFlag = true;//true 从Current赋值下拉框，否则是原来系统默认值
+        public string TestUnit { get; set; }
         public UOMEnum(ISession SessionPlant)
         {
             UnitInfo unitInfo = new UnitInfo();
