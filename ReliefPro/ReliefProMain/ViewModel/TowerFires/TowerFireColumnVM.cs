@@ -24,8 +24,8 @@ namespace ReliefProMain.ViewModel.TowerFires
         public TowerFireColumnModel model { get; set; }
         public double Area { get; set; }
         public ObservableCollection<string> Internals { get; set; }
-        
-        UOMLib.UOMEnum uomEnum;
+
+        public UOMLib.UOMEnum uomEnum { get; set; }
         public TowerFireColumnVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             uomEnum = new UOMLib.UOMEnum(sessionPlant);
@@ -62,10 +62,12 @@ namespace ReliefProMain.ViewModel.TowerFires
             model.Details = new ObservableCollection<TowerFireColumnDetail>();
             foreach (TowerFireColumnDetail detail in list)
             {
+                detail.Height = UnitConvert.Convert(UOMEnum.Length, uomEnum.UserLength, detail.Height);
+                detail.Diameter = UnitConvert.Convert(UOMEnum.Length, uomEnum.UserLength, detail.Diameter);
                 model.Details.Add(detail);
             }
 
-            
+
 
         }
 
@@ -102,7 +104,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             //model.Details = new ObservableCollection<TowerFireColumnDetail>();
             foreach (TowerFireColumnDetail d in list)
             {
-                dbDetail.Delete(d,SessionProtectedSystem);
+                dbDetail.Delete(d, SessionProtectedSystem);
             }
 
             foreach (TowerFireColumnDetail detail in model.Details)
@@ -111,7 +113,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                 double L3 = model.Instance.Elevation;
                 double L1 = model.Instance.BNLL;
                 double hw = detail.Height;
-                int n = detail.Trays; 
+                int n = detail.Trays;
                 double L2 = (hw + 0.05) * n;
                 double diameter = detail.Diameter;
                 Area = Area + Algorithm.GetColumnArea(detail.Internal, n, L1, L2, L3, diameter);
@@ -141,13 +143,13 @@ namespace ReliefProMain.ViewModel.TowerFires
         private void ReadConvert()
         {
 
-                model.Instance.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, model.Instance.Elevation);
-                model.Instance.BNLL = UnitConvert.Convert(UOMEnum.Length, levelUnit, model.Instance.BNLL);
+            model.Instance.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, model.Instance.Elevation);
+            model.Instance.BNLL = UnitConvert.Convert(UOMEnum.Length, levelUnit, model.Instance.BNLL);
         }
         private void WriteConvert()
         {
-                model.Instance.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, model.Instance.Elevation);
-                model.Instance.BNLL = UnitConvert.Convert(levelUnit, UOMEnum.Length, model.Instance.BNLL);
+            model.Instance.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, model.Instance.Elevation);
+            model.Instance.BNLL = UnitConvert.Convert(levelUnit, UOMEnum.Length, model.Instance.BNLL);
         }
         private void InitUnit()
         {
