@@ -163,9 +163,9 @@
     <s:String x:Key="segment">Segment</s:String>
     <s:String x:Key="Internal">Internal</s:String>
     <s:String x:Key="ofactualtrays_orvoidfrac"># of Actual Trays/or Void Frac.</s:String>
-    <s:String x:Key="totalheight_m">Total Height,m</s:String>
+    <s:String x:Key="totalheight_m">Total Height,</s:String>
     <s:String x:Key="Diameter_m">Diameter,</s:String>
-    <s:String x:Key="BottomNHLL_m">Bottom NHLL, m</s:String>
+    <s:String x:Key="BottomNHLL_m">Bottom NHLL,</s:String>
     <s:String x:Key="DEPRColumnDetailsViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--DeprCurveView.xaml-->
@@ -192,8 +192,8 @@
     <s:String x:Key="Vol_occupiedbycatInert_m3">Vol. Occupied by Cat./Inert, m3</s:String>
     <s:String x:Key="LiquidholdupPercentage">Liquid Holdup Percentage</s:String>
     <s:String x:Key="LiquidHoldupm3">Liquid Holdup, m3</s:String>
-    <s:String x:Key="Elevation_m">Elevation,m</s:String>
-    <s:String x:Key="WettedArea_m2">Wetted Area,m2</s:String>
+    <s:String x:Key="Elevation_m">Elevation,</s:String>
+    <s:String x:Key="WettedArea_m2">Wetted Area,</s:String>
     <s:String x:Key="Orientation">Orientation</s:String>
     <s:String x:Key="Height_m">Height,</s:String>
     <s:String x:Key="Head">Head #</s:String>
@@ -546,7 +546,7 @@
     <s:String x:Key="FFactor">F Factor</s:String>
     <s:String x:Key="Edit">Edit</s:String>
     <s:String x:Key="GroupBox">GroupBox</s:String>
-    <s:String x:Key="HeatInputKJ_hr">Heat Input,KJ/hr</s:String>
+    <s:String x:Key="HeatInputKJ_hr">Heat Input,</s:String>
     <s:String x:Key="TowerFireViewStatusBar">...</s:String>
 
     <!--AbnormalHeatInputView.xaml-->
