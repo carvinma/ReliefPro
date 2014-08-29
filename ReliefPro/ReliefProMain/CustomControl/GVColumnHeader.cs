@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 namespace ReliefProMain.CustomControl
 {
-    public delegate void ChangeUnitDelegate(object colInfo,object OrginUnit,object TargetUnit);
+    public delegate void ChangeUnitDelegate(object colInfo, object OrginUnit, object TargetUnit);
     public class GVColumnHeader : GridViewColumnHeader
     {
         public ChangeUnitDelegate ChangeUnitEvent
@@ -35,11 +35,12 @@ namespace ReliefProMain.CustomControl
         public static readonly DependencyProperty ColInfoProperty =
           DependencyProperty.Register("ColInfo", typeof(string), typeof(GVColumnHeader), new PropertyMetadata());
 
+        /*
         protected override void OnMouseDoubleClick(System.Windows.Input.MouseButtonEventArgs e)
         {
             if (!string.IsNullOrEmpty(UOrigin))
             {
-                string tmpUorigin=UOrigin;
+                string tmpUorigin = UOrigin;
                 UnitConvertCommonView unitConvertCommonView = new UnitConvertCommonView(UOrigin, 0);
                 unitConvertCommonView.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 if (unitConvertCommonView.ShowDialog() == true)
@@ -52,6 +53,7 @@ namespace ReliefProMain.CustomControl
                 }
 
             }
-        }
+        } 
+      */
     }
 }
