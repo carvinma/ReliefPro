@@ -46,18 +46,10 @@ namespace ReliefProMain.ViewModel
         private string DirProtectedSystem { set; get; }
         private string towerType;
         public SourceFile SourceFileInfo { set; get; }
-        private UOMLib.UOMEnum uom;
         public UOMLib.UOMEnum Uom
         {
-            get
-            {
-                return uom;
-            }
-            set
-            {
-                uom = value;
-                this.OnPropertyChanged("Uom");
-            }
+            get;
+            set;
         }
         private ObservableCollection<ScenarioModel> _Scenarios;
         public ObservableCollection<ScenarioModel> Scenarios
@@ -95,7 +87,7 @@ namespace ReliefProMain.ViewModel
             SessionProtectedSystem = sessionProtectedSystem;
             SourceFileInfo = sourceFileInfo;
 
-            uom = new UOMLib.UOMEnum(sessionPlant);
+            Uom = new UOMLib.UOMEnum(sessionPlant);
             Scenarios = GetScenarios();
 
 
