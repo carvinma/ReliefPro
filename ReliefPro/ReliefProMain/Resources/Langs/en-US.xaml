@@ -312,7 +312,7 @@
     <s:String x:Key="GlobalDefaultViewTitle">GlobalDefault</s:String>
     <s:String x:Key="FlareSystem">Flare System</s:String>
     <s:String x:Key="FlareName">Flare Name</s:String>
-    <s:String x:Key="DesignBackPressureMPag">Design Back Pressure, MPag</s:String>
+    <s:String x:Key="DesignBackPressureMPag">Design Back Pressure, </s:String>
     <s:String x:Key="Add">Add</s:String>
     <s:String x:Key="GeneralConditions">General Conditions</s:String>
     <s:String x:Key="GeneralInstrumentAirFailureisacrediblescenario">General Instrument Air Failure is a Credible Scenario</s:String>
