@@ -32,7 +32,7 @@ namespace ReliefProMain.ViewModel.Drums
             ////  model.dbmodel.DrumFireCalcID = drum.GetDrumID(dbPSFile);
             //  //model.dbmodel.ScenarioID = ScenarioID;
 
-            UOMLib.UOMEnum uomEnum = new UOMLib.UOMEnum(SessionPF);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
             model.VesselUnit = uomEnum.UserArea;
             model.PressureUnit = uomEnum.UserPressure;
             model.TemperatureUnit = uomEnum.UserTemperature;

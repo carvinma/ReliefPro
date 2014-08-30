@@ -28,7 +28,7 @@ namespace ReliefProMain.ViewModel
         private string TargetUnit;
         public GlobalDefaultVM(ISession SessionPlant)
         {
-            uomEnum = new UOMLib.UOMEnum(SessionPlant);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPlant.Connection.ConnectionString);
             OKCMD = new DelegateCommand<object>(Save);
             DelCMD = new DelegateCommand<object>(DelRow);
             AddCMD = new DelegateCommand<object>(AddRow);

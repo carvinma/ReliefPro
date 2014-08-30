@@ -313,9 +313,9 @@ namespace ReliefProMain.ViewModel
         CustomStream csBottomOut;
         UOMLib.UOMEnum uomEnum;
         int HeatSourceID;
-        public FeedBottomHXVM(int HeatSourceID,SourceFile sourceFileInfo , ISession sessionPlant, ISession sessionProtectedSystem)
+        public FeedBottomHXVM(int HeatSourceID, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            uomEnum = new UOMLib.UOMEnum(sessionPlant);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
             InitUnit();
             FileName = sourceFileInfo.FileName;
             SessionPlant = sessionPlant;
@@ -388,7 +388,7 @@ namespace ReliefProMain.ViewModel
                 TowerFlashProduct tfp = dbtfp.GetModel(sessionProtectedSystem, csBottomIn.StreamName);
                 if (tfp == null)
                 {
-                    
+
                 }
                 BottomReliefTin = tfp.Temperature;
 
@@ -488,8 +488,8 @@ namespace ReliefProMain.ViewModel
             double feedEout = FeedSpEout;
             double bottomTin = BottomTin;
             double bottomTout = BottomTout;
-            double bottomMassRate =BottomMassRate;
-            double bottomReliefTin =BottomReliefTin;
+            double bottomMassRate = BottomMassRate;
+            double bottomReliefTin = BottomReliefTin;
             double duty = Duty;
             double qaenGuess = 1.25;
             FBMethod(feedTin, feedTout, feedMassRate, feedEin, feedEout, bottomTin, bottomTout, bottomMassRate, duty, bottomReliefTin, qaenGuess, MaxErrorRate, ref factor, ref isConverged, ref iterateNumber);
@@ -591,7 +591,7 @@ namespace ReliefProMain.ViewModel
             BottomTout = UnitConvert.Convert(BottomToutUnit, UOMEnum.Temperature, BottomTout);
 
             BottomReliefTin = UnitConvert.Convert(BottomReliefTinUnit, UOMEnum.Temperature, BottomReliefTin);
-            BottomMassRate =  UnitConvert.Convert(BottomMassRateUnit, UOMEnum.MassRate, BottomMassRate);
+            BottomMassRate = UnitConvert.Convert(BottomMassRateUnit, UOMEnum.MassRate, BottomMassRate);
             Duty = UnitConvert.Convert(DutyUnit, UOMEnum.EnthalpyDuty, Duty);
             FeedReliefTout = UnitConvert.Convert(FeedReliefToutUnit, UOMEnum.Temperature, FeedReliefTout);
             FeedReliefSpEout = UnitConvert.Convert(FeedReliefSpEoutUnit, UOMEnum.SpecificEnthalpy, FeedReliefSpEout);
@@ -599,7 +599,7 @@ namespace ReliefProMain.ViewModel
         private void ReadConvert()
         {
             FeedTin = UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, FeedTin);
-            FeedTout =UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, FeedTout);
+            FeedTout = UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, FeedTout);
 
             FeedMassRate = UnitConvert.Convert(UOMEnum.MassRate, uomEnum.UserMassRate, FeedMassRate);
             FeedSpEin = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, uomEnum.UserSpecificEnthalpy, FeedSpEin);
@@ -608,10 +608,10 @@ namespace ReliefProMain.ViewModel
             BottomTin = UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, BottomTin);
             BottomTout = UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, BottomTout);
 
-            BottomReliefTin =  UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, BottomReliefTin);
+            BottomReliefTin = UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, BottomReliefTin);
             BottomMassRate = UnitConvert.Convert(UOMEnum.MassRate, uomEnum.UserMassRate, BottomMassRate);
             Duty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, Duty);
-            FeedReliefTout =  UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, FeedReliefTout);
+            FeedReliefTout = UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, FeedReliefTout);
             FeedReliefSpEout = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, uomEnum.UserSpecificEnthalpy, FeedReliefSpEout);
         }
         private void InitUnit()

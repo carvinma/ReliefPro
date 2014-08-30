@@ -58,27 +58,27 @@ namespace ReliefProMain.ViewModel.HXs
 
                 TubeRupture dbmodel = dal.GetModelByScenarioID(SessionPS, ScenarioID);
                 model = new TubeRuptureModel(dbmodel);
-                
+
             }
             BasicUnit BU;
             BasicUnitDAL dbBU = new BasicUnitDAL();
             IList<BasicUnit> list = dbBU.GetAllList(SessionPF);
 
             BU = list.Where(s => s.IsDefault == 1).Single();
-            uomEnum = new UOMLib.UOMEnum(SessionPF);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
             model.ReliefLoadUnit = uomEnum.UserMassRate;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
             model.ReliefPressureUnit = uomEnum.UserPressure;
             model.ODUnit = uomEnum.UserLength;
             ReadConvert();
-            
+
         }
 
         public void CalcResult(object obj)
         {
-           
-            CustomStreamBLL csbll=new CustomStreamBLL(SessionPF,SessionPS);
-            ObservableCollection <CustomStream> feeds = csbll.GetStreams(SessionPS, false);
+
+            CustomStreamBLL csbll = new CustomStreamBLL(SessionPF, SessionPS);
+            ObservableCollection<CustomStream> feeds = csbll.GetStreams(SessionPS, false);
             csHigh = feeds[0];
             if (csHigh.Pressure < feeds[1].Pressure)
                 csHigh = feeds[1];
@@ -90,14 +90,14 @@ namespace ReliefProMain.ViewModel.HXs
             //valid 验证
             if (csHigh.Pressure < psv.Pressure)
             {
-                MessageBox.Show("High Pressure is lower than pressure of psv","Message Box");
+                MessageBox.Show("High Pressure is lower than pressure of psv", "Message Box");
                 return;
             }
 
 
 
 
-            string FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" +SourceFileInfo.FileName;
+            string FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
             reliefPressure = pressure * psv.ReliefPressureFactor;
             string tempdir = DirProtectedSystem + @"\temp\";
             string dirLatent = tempdir + "TubeRupture";
@@ -125,12 +125,12 @@ namespace ReliefProMain.ViewModel.HXs
                     csVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
                     csLiquid = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
                     k = csVapor.BulkCPCVRatio;
-                    double error=Math.Abs(csVapor.WeightFlow/csHigh.WeightFlow);
-                    if (error<1e-8) //L
+                    double error = Math.Abs(csVapor.WeightFlow / csHigh.WeightFlow);
+                    if (error < 1e-8) //L
                     {
                         Calc(0);
                     }
-                    else if (Math.Abs(error-1)<1e-8) //V
+                    else if (Math.Abs(error - 1) < 1e-8) //V
                     {
                         Calc(1);
                     }
@@ -162,10 +162,10 @@ namespace ReliefProMain.ViewModel.HXs
         /// <param name="calcType"></param>
         private void Calc(int calcType)
         {
-            double d = UnitConvert.Convert( model.ODUnit,"in",  model.OD);
-            double p1=csHigh.Pressure;
-            double p2=reliefPressure;
-            double rmass=0;
+            double d = UnitConvert.Convert(model.ODUnit, "in", model.OD);
+            double p1 = csHigh.Pressure;
+            double p2 = reliefPressure;
+            double rmass = 0;
             bool b = false;
             double pcf = 0;
             b = Algorithm.CheckCritial(p1, p2, k, ref pcf);
@@ -179,8 +179,8 @@ namespace ReliefProMain.ViewModel.HXs
                     model.ReliefTemperature = csLiquid.Temperature;
                     break;
                 case 1:
-                    k = csVapor.BulkCPCVRatio; 
-                    rmass=csVapor.BulkDensityAct;
+                    k = csVapor.BulkCPCVRatio;
+                    rmass = csVapor.BulkDensityAct;
                     if (b)
                     {
                         model.ReliefLoad = Algorithm.CalcWv(d, p1, rmass, k);
@@ -226,8 +226,8 @@ namespace ReliefProMain.ViewModel.HXs
 
                                 double Rv = csVapor2.WeightFlow / csHigh.WeightFlow;
                                 double KL = Algorithm.CalcKL(p1, csLiquid2.Pressure, csLiquid2.BulkDensityAct);
-                                double Kv = Algorithm.CalcKv(p1,csVapor2.BulkDensityAct,k);
-                                model.ReliefLoad = Algorithm.CalcWH(Rv,  KL,Kv, d);
+                                double Kv = Algorithm.CalcKv(p1, csVapor2.BulkDensityAct, k);
+                                model.ReliefLoad = Algorithm.CalcWH(Rv, KL, Kv, d);
                                 model.ReliefMW = csVapor2.BulkMwOfPhase;
                                 model.ReliefPressure = reliefPressure;
                                 model.ReliefTemperature = csVapor2.Temperature;
@@ -246,10 +246,10 @@ namespace ReliefProMain.ViewModel.HXs
                     }
                     else
                     {
-                        double Rv=csVapor.WeightFlow/csHigh.WeightFlow;
-                        double KL=Algorithm.CalcKL(p1,csLiquid.Pressure,csLiquid.BulkDensityAct);
+                        double Rv = csVapor.WeightFlow / csHigh.WeightFlow;
+                        double KL = Algorithm.CalcKL(p1, csLiquid.Pressure, csLiquid.BulkDensityAct);
                         double Kv = Algorithm.CalcKv(p1, csVapor.Pressure, csVapor.BulkDensityAct);
-                        model.ReliefLoad = Algorithm.CalcWH(Rv, Kv, KL,d);
+                        model.ReliefLoad = Algorithm.CalcWH(Rv, Kv, KL, d);
                         model.ReliefMW = csVapor.BulkMwOfPhase;
                         model.ReliefPressure = reliefPressure;
                         model.ReliefTemperature = csVapor.Temperature;
@@ -262,7 +262,7 @@ namespace ReliefProMain.ViewModel.HXs
 
         private void Save(object obj)
         {
-            if (!model.CheckData()) return; 
+            if (!model.CheckData()) return;
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;

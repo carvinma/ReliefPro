@@ -41,7 +41,7 @@ namespace ReliefProMain.ViewModel
 
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
-            uomEnum = new UOMLib.UOMEnum(sessionPlant);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
             BasicUnit BU;
             BasicUnitDAL dbBU = new BasicUnitDAL();
             IList<BasicUnit> list = dbBU.GetAllList(sessionPlant);

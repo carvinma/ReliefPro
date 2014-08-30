@@ -28,7 +28,7 @@ namespace ReliefProMain.ViewModel.TowerFires
         public UOMLib.UOMEnum uomEnum { get; set; }
         public TowerFireColumnVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            uomEnum = new UOMLib.UOMEnum(sessionPlant);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
             InitUnit();
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;

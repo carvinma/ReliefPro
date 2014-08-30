@@ -65,7 +65,7 @@ namespace ReliefProMain.ViewModel.Drums
         private ISession SessionPlant;
         private string DirPlant { set; get; }
         private string DirProtectedSystem { set; get; }
-       
+
         private double reliefPressure;
         private int ScenarioID;
         private DrumFireBLL fireBLL;
@@ -118,7 +118,7 @@ namespace ReliefProMain.ViewModel.Drums
             if (!string.IsNullOrEmpty(fireModel.HeatInputModel))
                 SelectedHeatInputModel = fireModel.HeatInputModel;
 
-            UOMLib.UOMEnum uomEnum = new UOMLib.UOMEnum(SessionPF);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
             model = new DrumFireModel(fireModel);
             model.WettedAreaUnit = uomEnum.UserArea;
             model.LatentHeatUnit = uomEnum.UserSpecificEnthalpy;
@@ -223,7 +223,7 @@ namespace ReliefProMain.ViewModel.Drums
             {
                 AirCooledHXFireSizeView win = new AirCooledHXFireSizeView();
                 win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                AirCooledHXFireSizeVM vm = new AirCooledHXFireSizeVM(model.dbmodel.ScenarioID,  SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
+                AirCooledHXFireSizeVM vm = new AirCooledHXFireSizeVM(model.dbmodel.ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
                 if (tmpAirCooledHXFireSizeVM != null) vm = tmpAirCooledHXFireSizeVM;
                 win.DataContext = vm;
                 if (win.ShowDialog() == true)
@@ -380,7 +380,7 @@ namespace ReliefProMain.ViewModel.Drums
                     }
                     int ImportResult = 0;
                     int RunResult = 0;
-                    string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" ;
+                    string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\";
                     string content = PROIIFileOperator.getUsableContent(liquidStream.StreamName, dir);
                     IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
                     string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 6, "0.05", liquidStream, vapor, liquid, tempdir, ref ImportResult, ref RunResult);
@@ -514,7 +514,7 @@ namespace ReliefProMain.ViewModel.Drums
                     string rate = "1";
                     int ImportResult = 0;
                     int RunResult = 0;
-                    
+
                     PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
 
                     string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
@@ -637,12 +637,12 @@ namespace ReliefProMain.ViewModel.Drums
             CustomStream maxTStream = feeds[0];
             foreach (CustomStream cs in feeds)
             {
-                if (cs.VaporFraction != null && maxTStream.VaporFraction!=null)
+                if (cs.VaporFraction != null && maxTStream.VaporFraction != null)
                 {
                     if (cs.VaporFraction > maxTStream.VaporFraction)
                         maxTStream = cs;
                 }
-            }            
+            }
             CustomStream product = new CustomStream();
             IList<CustomStream> products = customStreamDAL.GetAllList(SessionProtectedSystem, true);
             if (products.Count > 0)
@@ -705,7 +705,7 @@ namespace ReliefProMain.ViewModel.Drums
                     MessageBox.Show("cracking Heat not be empty or 小于0", "Message Box");
                     return;
                 }
-                
+
                 L = model.CrackingHeat;
                 model.ReliefLoad = Q / L;
                 model.ReliefMW = 114;
@@ -738,7 +738,7 @@ namespace ReliefProMain.ViewModel.Drums
                         PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
                         string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
                         IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-                        string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, second, stream, vapor, liquid,  dirLatent, ref ImportResult, ref RunResult);
+                        string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, second, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
                         if (ImportResult == 1 || ImportResult == 2)
                         {
                             if (RunResult == 1 || RunResult == 2)
@@ -809,7 +809,7 @@ namespace ReliefProMain.ViewModel.Drums
             }
 
         }
-        
+
         private void Calc(object obj)
         {
             if (!model.CheckData()) return;
@@ -842,8 +842,8 @@ namespace ReliefProMain.ViewModel.Drums
             PSVDAL psv = new PSVDAL();
             var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
             if (psvModel != null)
-            {        
-                    return psvModel.Pressure * psvModel.ReliefPressureFactor;
+            {
+                return psvModel.Pressure * psvModel.ReliefPressureFactor;
             }
             return 0;
         }
@@ -905,7 +905,7 @@ namespace ReliefProMain.ViewModel.Drums
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, "0", 4, "", stream, vapor, liquid,  dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, "0", 4, "", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)

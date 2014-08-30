@@ -118,7 +118,7 @@ namespace ReliefProMain.ViewModel
         int op = 1;
         public TowerVM(string towerName, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
-            uomEnum = new UOMLib.UOMEnum(SessionPlant);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
             ColorImport = "Gray";
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;

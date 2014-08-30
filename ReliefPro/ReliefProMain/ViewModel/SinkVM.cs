@@ -21,16 +21,16 @@ namespace ReliefProMain.ViewModel
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
-        SinkDAL db;       
+        SinkDAL db;
         public SinkModel MainModel { get; set; }
 
-        
+
         UOMLib.UOMEnum uomEnum;
-        public SinkVM(string name,  ISession sessionPlant, ISession sessionProtectedSystem)
+        public SinkVM(string name, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
-            uomEnum = new UOMLib.UOMEnum(sessionPlant);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
             db = new SinkDAL();
             Sink sink = db.GetModel(SessionProtectedSystem, name);
             MainModel = new SinkModel(sink);

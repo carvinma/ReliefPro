@@ -28,7 +28,7 @@ namespace ReliefProMain.ViewModel.TowerFires
         UOMLib.UOMEnum uomEnum;
         public AreaVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            uomEnum = new UOMLib.UOMEnum(sessionPlant);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
             InitUnit();
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
@@ -66,7 +66,7 @@ namespace ReliefProMain.ViewModel.TowerFires
         {
             if (!CheckData()) return;
             model.WettedArea = model.WettedArea;
-            if (model.WettedArea==null)
+            if (model.WettedArea == null)
             {
                 throw new ArgumentException("Please type in WettedArea.");
                 return;
@@ -94,12 +94,12 @@ namespace ReliefProMain.ViewModel.TowerFires
         private void ReadConvert()
         {
             //if (model.WettedArea!=null)
-                model.WettedArea = UnitConvert.Convert(UOMEnum.Area, wetteAreaUnit, model.WettedArea);
+            model.WettedArea = UnitConvert.Convert(UOMEnum.Area, wetteAreaUnit, model.WettedArea);
         }
         private void WriteConvert()
         {
             //if (model.WettedArea!=null)
-                model.WettedArea = UnitConvert.Convert(wetteAreaUnit, UOMEnum.Area, model.WettedArea);
+            model.WettedArea = UnitConvert.Convert(wetteAreaUnit, UOMEnum.Area, model.WettedArea);
         }
         private void InitUnit()
         {

@@ -79,7 +79,7 @@ namespace ReliefProMain.ViewModel
         }
         public TowerHXVM(string name, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            uomEnum = new UOMLib.UOMEnum(sessionPlant);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
             InitUnit();
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;

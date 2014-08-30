@@ -396,7 +396,7 @@ namespace ReliefProMain.ViewModel
         {
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
-            uomEnum = new UOMLib.UOMEnum(SessionPlant);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
             InitUnit();
             this.TowerScenarioHXID = TowerScenarioHXID;
             towerHXDetailDAL = new TowerHXDetailDAL();
@@ -537,7 +537,7 @@ namespace ReliefProMain.ViewModel
             double MaxErrorRate = 0.005;
 
             double productTin = Coldtin;
-            double productTout = Coldtout ;
+            double productTout = Coldtout;
             double reliefProductTout = ReliefColdtout;
             double reboilerTin = HeatTin;
             double reboilerTout = HeatTout;
@@ -555,21 +555,21 @@ namespace ReliefProMain.ViewModel
 
         private void GetUDesign()
         {
-            if (Coldtin!=null && Coldtout!=null && HeatTin!=null && HeatTout!=null)
+            if (Coldtin != null && Coldtout != null && HeatTin != null && HeatTout != null)
             {
                 double productTin = Coldtin;
                 double productTout = Coldtout;
                 double reboilerTin = HeatTin;
                 double reboilerTout = HeatTout;
                 double lmtd = GetLMTD(productTin, productTout, reboilerTin, reboilerTout);
-                if (Area!=null && Duty!=null)
+                if (Area != null && Duty != null)
                 {
                     double area = Area;
                     double duty = Duty;
                     double udesign = duty / lmtd / area / 3.6;
                     UDesign = udesign;
                     UDesignArea = udesign * area;
-                    if (UClean!=null)
+                    if (UClean != null)
                     {
                         UCD = UClean / udesign;
                     }
@@ -733,32 +733,32 @@ namespace ReliefProMain.ViewModel
 
         private void ReadConvert()
         {
-            if (_Coldtin!=null)
+            if (_Coldtin != null)
                 _Coldtin = UnitConvert.Convert(UOMEnum.Temperature, _ColdtinUnit, _Coldtin);
-            if (_Coldtout!=null)
+            if (_Coldtout != null)
                 _Coldtout = UnitConvert.Convert(UOMEnum.Temperature, _ColdtoutUnit, _Coldtout);
-            if (_HeatTin!=null)
+            if (_HeatTin != null)
                 _HeatTin = UnitConvert.Convert(UOMEnum.Temperature, _HeatTinUnit, _HeatTin);
 
-            if (_HeatTout!=null)
+            if (_HeatTout != null)
                 _HeatTout = UnitConvert.Convert(UOMEnum.Temperature, _HeatToutUnit, _HeatTout);
-            if (_ReliefHeatTin!=null)
+            if (_ReliefHeatTin != null)
                 _ReliefHeatTin = UnitConvert.Convert(UOMEnum.Temperature, _ReliefHeatTinUnit, _ReliefHeatTin);
-            if (_ReliefColdtout!=null)
+            if (_ReliefColdtout != null)
                 _ReliefColdtout = UnitConvert.Convert(UOMEnum.Temperature, _ReliefColdtoutUnit, _ReliefColdtout);
 
-            if (_Area!=null)
+            if (_Area != null)
                 _Area = UnitConvert.Convert(UOMEnum.Area, _AreaUnit, _Area);
-            if (_UDesign!=null)
+            if (_UDesign != null)
                 _UDesign = UnitConvert.Convert(UOMEnum.ThermalConductivity, _UDesignUnit, _UDesign);
-            if (_UDesignArea!=null)
+            if (_UDesignArea != null)
                 _UDesignArea = UnitConvert.Convert(UOMEnum.HeatTransCoeffcient, _UDesignAreaUnit, _UDesignArea);
 
-            if (_UClean!=null)
+            if (_UClean != null)
                 _UClean = UnitConvert.Convert(UOMEnum.ThermalConductivity, _UCleanUnit, _UClean);
-            if (_UCD!=null)
+            if (_UCD != null)
                 _UCD = UnitConvert.Convert(UOMEnum.Temperature, _UCDUnit, _UCD);
-            if (_Duty!=null)
+            if (_Duty != null)
                 _Duty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, _DutyUnit, _Duty);
 
             if (_ReliefDuty != null)
@@ -768,35 +768,35 @@ namespace ReliefProMain.ViewModel
         }
         private void WriteConvert()
         {
-            if (_Coldtin!=null)
+            if (_Coldtin != null)
                 _Coldtin = UnitConvert.Convert(_ColdtinUnit, UOMEnum.Temperature, _Coldtin);
-            if (_Coldtout!=null)
+            if (_Coldtout != null)
                 _Coldtout = UnitConvert.Convert(_ColdtoutUnit, UOMEnum.Temperature, _Coldtout);
-            if (_HeatTin!=null)
+            if (_HeatTin != null)
                 _HeatTin = UnitConvert.Convert(_HeatTinUnit, UOMEnum.Temperature, _HeatTin);
 
-            if (_HeatTout!=null)
+            if (_HeatTout != null)
                 _HeatTout = UnitConvert.Convert(_HeatToutUnit, UOMEnum.Temperature, _HeatTout);
-            if (_ReliefHeatTin!=null)
+            if (_ReliefHeatTin != null)
                 _ReliefHeatTin = UnitConvert.Convert(_ReliefHeatTinUnit, UOMEnum.Temperature, _ReliefHeatTin);
-            if (_ReliefColdtout!=null)
+            if (_ReliefColdtout != null)
                 _ReliefColdtout = UnitConvert.Convert(_ReliefColdtoutUnit, UOMEnum.Temperature, _ReliefColdtout);
 
-            if (_Area!=null)
+            if (_Area != null)
                 _Area = UnitConvert.Convert(_AreaUnit, UOMEnum.Area, _Area);
-            if (_UDesign!=null)
+            if (_UDesign != null)
                 _UDesign = UnitConvert.Convert(_UDesignUnit, UOMEnum.ThermalConductivity, _UDesign);
-            if (_UDesignArea!=null)
+            if (_UDesignArea != null)
                 _UDesignArea = UnitConvert.Convert(_UDesignAreaUnit, UOMEnum.HeatTransCoeffcient, _UDesignArea);
 
-            if (_UClean!=null)
+            if (_UClean != null)
                 _UClean = UnitConvert.Convert(_UCleanUnit, UOMEnum.ThermalConductivity, _UClean);
-            if (_UCD!=null)
+            if (_UCD != null)
                 _UCD = UnitConvert.Convert(_UCDUnit, UOMEnum.Temperature, _UCD);
-            if (_Duty!=null)
+            if (_Duty != null)
                 _Duty = UnitConvert.Convert(_DutyUnit, UOMEnum.EnthalpyDuty, _Duty);
 
-            if (_ReliefDuty!=null)
+            if (_ReliefDuty != null)
                 _ReliefDuty = UnitConvert.Convert(_ReliefDutyUnit, UOMEnum.EnthalpyDuty, _ReliefDuty);
             //if (!string.IsNullOrEmpty(_HeaderPressure))
             //    _Coldtout = unitConvert.Convert(_HeaderPressureUnit,UOMEnum.Pressure,  double.Parse(_Coldtout)).ToString();

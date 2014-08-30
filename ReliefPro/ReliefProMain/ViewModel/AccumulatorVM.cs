@@ -177,7 +177,7 @@ namespace ReliefProMain.ViewModel
         }
         public AccumulatorVM(string name, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            uomEnum = new UOMLib.UOMEnum(sessionPlant);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
             InitUnit();
             AccumulatorTypes = GetAccumulatorTypes();
             SessionPlant = sessionPlant;

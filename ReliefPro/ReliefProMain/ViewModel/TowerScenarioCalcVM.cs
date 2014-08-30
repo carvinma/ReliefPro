@@ -129,9 +129,9 @@ namespace ReliefProMain.ViewModel
         UOMLib.UOMEnum uomEnum;
         private string ScenarioName;
         private string EqName;
-        public TowerScenarioCalcVM(string EqName,string ScenarioName,int scenarioID, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string DirPlant, string DirProtectedSystem)
+        public TowerScenarioCalcVM(string EqName, string ScenarioName, int scenarioID, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string DirPlant, string DirProtectedSystem)
         {
-            uomEnum = new UOMLib.UOMEnum(sessionPlant);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
             InitUnit();
             ScenarioID = scenarioID;
             SessionPlant = sessionPlant;
@@ -198,7 +198,7 @@ namespace ReliefProMain.ViewModel
         private void Feed(object window)
         {
             TowerScenarioFeedView v = new TowerScenarioFeedView();
-            TowerScenarioFeedVM vm = new TowerScenarioFeedVM(ScenarioID,SourceFileInfo,  SessionPlant, SessionProtectedSystem);
+            TowerScenarioFeedVM vm = new TowerScenarioFeedVM(ScenarioID, SourceFileInfo, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.ShowDialog();
@@ -550,8 +550,8 @@ namespace ReliefProMain.ViewModel
                 }
             }
             CalRegSC(rduty);
-                    
-            
+
+
         }
 
         private void CalRegSC(double duty)
@@ -584,7 +584,7 @@ namespace ReliefProMain.ViewModel
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
 
             //除以10的6次方
-            string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 5, (duty/ Math.Pow(10, 6)).ToString(), stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 5, (duty / Math.Pow(10, 6)).ToString(), stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -602,19 +602,19 @@ namespace ReliefProMain.ViewModel
                     ReliefTemperature = vaporFire.Temperature;
                     ReliefCpCv = vaporFire.BulkCPCVRatio;
                     ReliefZ = vaporFire.VaporZFmKVal;
-                    
+
                 }
 
                 else
                 {
                     MessageBox.Show("Prz file is error", "Message Box");
-                    return ;
+                    return;
                 }
             }
             else
             {
                 MessageBox.Show("inp file is error", "Message Box");
-                return ;
+                return;
             }
         }
 
@@ -675,7 +675,7 @@ namespace ReliefProMain.ViewModel
                         }
                         if (cstream.ProdType == "4")
                         {
-                            overHeadWeightFlow =cstream.WeightFlow;
+                            overHeadWeightFlow = cstream.WeightFlow;
                         }
                     }
                 }
@@ -720,7 +720,7 @@ namespace ReliefProMain.ViewModel
                 }
             }
 
-            double latestH =latent.LatentEnthalpy;
+            double latestH = latent.LatentEnthalpy;
             double totalH = FeedTotal - ProductTotal + HeatTotal;
             double wAccumulation = totalH / latestH + overHeadWeightFlow;
             double wRelief = wAccumulation;
@@ -799,7 +799,7 @@ namespace ReliefProMain.ViewModel
                     if (shx.IsPinch == true)
                     {
                         ReboilerPinch detail = reboilerPinchDAL.GetModel(SessionProtectedSystem, shx.ID);
-                        HeatTotal = HeatTotal + shx.PinchFactor *detail.ReliefDuty;
+                        HeatTotal = HeatTotal + shx.PinchFactor * detail.ReliefDuty;
                     }
                     else
                     {
@@ -860,20 +860,20 @@ namespace ReliefProMain.ViewModel
 
         private void ReadConvert()
         {
-            if (_ReliefLoad!=null)
+            if (_ReliefLoad != null)
                 _ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, _ReliefLoadUnit, _ReliefLoad);
-            if (_ReliefTemperature!=null)
+            if (_ReliefTemperature != null)
                 _ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, _ReliefTemperatureUnit, _ReliefTemperature);
-            if (_ReliefPressure!=null)
+            if (_ReliefPressure != null)
                 _ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, _ReliefPressureUnit, _ReliefPressure);
         }
         private void WriteConvert()
         {
-            if (_ReliefLoad!=null)
+            if (_ReliefLoad != null)
                 _ReliefLoad = UnitConvert.Convert(_ReliefLoadUnit, UOMEnum.MassRate, _ReliefLoad);
-            if (_ReliefTemperature!=null)
+            if (_ReliefTemperature != null)
                 _ReliefTemperature = UnitConvert.Convert(_ReliefTemperatureUnit, UOMEnum.Temperature, _ReliefTemperature);
-            if (_ReliefPressure!=null)
+            if (_ReliefPressure != null)
                 _ReliefPressure = UnitConvert.Convert(_ReliefPressureUnit, UOMEnum.Pressure, _ReliefPressure);
         }
         private void InitUnit()

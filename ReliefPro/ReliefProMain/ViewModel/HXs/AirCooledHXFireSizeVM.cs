@@ -25,7 +25,7 @@ namespace ReliefProMain.ViewModel.HXs
         private ISession SessionPF;
         private string DirPlant;
         private string DirProtectedSystem;
-        
+
         public AirCooledHXFireSizeModel model { get; set; }
         private HXBLL hxBLL;
         private CustomStreamDAL customStreamDAL = new CustomStreamDAL();
@@ -41,20 +41,20 @@ namespace ReliefProMain.ViewModel.HXs
             CalcCMD = new DelegateCommand<object>(CalcResult);
 
 
-            UOMLib.UOMEnum uomEnum = new UOMLib.UOMEnum(SessionPF);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
             model.WettedBundleUnit = uomEnum.UserArea;
             model.ReliefLoadUnit = uomEnum.UserMassRate;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
             model.ReliefPressureUnit = uomEnum.UserPressure;
         }
 
-        public AirCooledHXFireSizeVM(int ScenarioID,SourceFile sourceFileInfo,  ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
+        public AirCooledHXFireSizeVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
-            SourceFileInfo = sourceFileInfo;            
+            SourceFileInfo = sourceFileInfo;
             FileFullPath = DirPlant + @"\" + sourceFileInfo.FileNameNoExt + @"\" + sourceFileInfo.FileName;
             OKCMD = new DelegateCommand<object>(Save);
             CalcCMD = new DelegateCommand<object>(CalcResult);
@@ -67,7 +67,7 @@ namespace ReliefProMain.ViewModel.HXs
             model.dbmodel.ScenarioID = ScenarioID;
 
 
-            UOMLib.UOMEnum uomEnum = new UOMLib.UOMEnum(SessionPF);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
             model.WettedBundleUnit = uomEnum.UserArea;
             model.ReliefLoadUnit = uomEnum.UserMassRate;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
@@ -174,7 +174,7 @@ namespace ReliefProMain.ViewModel.HXs
         }
         private void Save(object obj)
         {
-            if(!CheckData()) return;
+            if (!CheckData()) return;
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;

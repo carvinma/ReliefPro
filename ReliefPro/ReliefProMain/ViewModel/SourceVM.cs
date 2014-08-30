@@ -37,13 +37,13 @@ namespace ReliefProMain.ViewModel
             IList<BasicUnit> list = dbBU.GetAllList(sessionPlant);
             BU = list.Where(s => s.IsDefault == 1).Single();
 
-            uomEnum = new UOMLib.UOMEnum(SessionPlant);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
             Source source = sourcedal.GetModel(SessionProtectedSystem, name);
             model = new SourceModel(source);
             InitUnit();
-            
+
             ReadConvert();
-            
+
         }
 
         private ICommand _Update;
@@ -64,7 +64,7 @@ namespace ReliefProMain.ViewModel
 
             BasicUnitDAL dbBU = new BasicUnitDAL();
             IList<BasicUnit> list = dbBU.GetAllList(SessionPlant);
-            BU = list.Where(s => s.IsDefault == 1).Single();           
+            BU = list.Where(s => s.IsDefault == 1).Single();
             WriteConvert();
             sourcedal.Update(model.dbmodel, SessionProtectedSystem);
             SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction

@@ -20,9 +20,9 @@ namespace ReliefProMain.ViewModel.Drums
         public ICommand CalcCMD { get; set; }
         public ICommand DetailedCMD { get; set; }
         public ICommand DepressuringCurveCMD { get; set; }
-        
-        private KeyValuePair<int, double>[] Wt=new KeyValuePair<int,double>[16];
-        private KeyValuePair<int, double>[] Pt=new KeyValuePair<int,double>[16];
+
+        private KeyValuePair<int, double>[] Wt = new KeyValuePair<int, double>[16];
+        private KeyValuePair<int, double>[] Pt = new KeyValuePair<int, double>[16];
         private string selectedShotCut = "Shortcut";
         public string SelectedShotCut
         {
@@ -61,7 +61,7 @@ namespace ReliefProMain.ViewModel.Drums
             set
             {
                 selectedDeprRqe = value;
-                
+
                 OnPropertyChanged("SelectedDeprRqe");
             }
         }
@@ -106,7 +106,7 @@ namespace ReliefProMain.ViewModel.Drums
             if (!string.IsNullOrEmpty(drumModel.HeatInputModel))
                 selectedShotCut = drumModel.ShortCut;
 
-            UOMLib.UOMEnum uomEnum = new UOMLib.UOMEnum(SessionPF);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
             model = new DrumDepressuringModel(drumModel);
             model.InitialPressureUnit = uomEnum.UserPressure;
             model.VaporDensityUnit = uomEnum.UserDensity;
@@ -183,25 +183,25 @@ namespace ReliefProMain.ViewModel.Drums
             Pt[0] = new KeyValuePair<int, double>(0, model.InitialPressure);
             for (int i = 1; i <= 15; i++)
             {
-                double j = i/60.0;
-                double exp=Math.Exp(-1.0 * j / tConstant);
-                double tmpWt =wInitDepr *exp ;
-                double tmpPt =model.InitialPressure * exp;
-                decimal dd=(decimal)tmpPt;
+                double j = i / 60.0;
+                double exp = Math.Exp(-1.0 * j / tConstant);
+                double tmpWt = wInitDepr * exp;
+                double tmpPt = model.InitialPressure * exp;
+                decimal dd = (decimal)tmpPt;
                 Wt[i] = new KeyValuePair<int, double>(i, tmpWt);
-                Pt[i] = new KeyValuePair<int, double>(i, tmpPt);                
+                Pt[i] = new KeyValuePair<int, double>(i, tmpPt);
             }
             model.InitialDepressuringRate = wInitDepr;
-            model.Timespecify = (int)(tConstant*60);
+            model.Timespecify = (int)(tConstant * 60);
             model.CalculatedDepressuringRate = wInitDepr * Math.Exp(-1);
-            model.CalculatedVesselPressure = model.InitialPressure *Math.Exp(-1);
+            model.CalculatedVesselPressure = model.InitialPressure * Math.Exp(-1);
 
             //下列值需要保存到
             double reliefLoad = wInitDepr;
             double reliefPressure = model.InitialPressure;
             double reliefMW = 0;
             double reliefTemperature = 0;
-            
+
         }
         private void CalcDetailed(object obj)
         {
@@ -209,7 +209,7 @@ namespace ReliefProMain.ViewModel.Drums
         private void DepressuringCurve(object obj)
         {
             RateCurveView v = new RateCurveView();
-            
+
             v.WtSource = Wt;
             v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             v.Show();

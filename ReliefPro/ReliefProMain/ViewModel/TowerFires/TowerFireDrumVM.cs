@@ -26,7 +26,7 @@ namespace ReliefProMain.ViewModel.TowerFires
         UOMLib.UOMEnum uomEnum;
         public TowerFireDrumVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            uomEnum = new UOMLib.UOMEnum(sessionPlant);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
             InitUnit();
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
@@ -123,32 +123,32 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private void ReadConvert()
         {
-            if (model.Elevation!=null)
+            if (model.Elevation != null)
                 model.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, model.Elevation);
-            if (model.Diameter!=null)
+            if (model.Diameter != null)
                 model.Diameter = UnitConvert.Convert(UOMEnum.Length, diameterUnit, model.Diameter);
-            if (model.Length!=null)
+            if (model.Length != null)
                 model.Length = UnitConvert.Convert(UOMEnum.Length, lengthUnit, model.Length);
-            if (model.NormalLiquidLevel!=null)
+            if (model.NormalLiquidLevel != null)
                 model.NormalLiquidLevel = UnitConvert.Convert(UOMEnum.Length, normalLiquidLevelUnit, model.NormalLiquidLevel);
-            if (model.BootDiameter!=null)
+            if (model.BootDiameter != null)
                 model.BootDiameter = UnitConvert.Convert(UOMEnum.Length, bootDiameterUnit, model.BootDiameter);
-            if (model.BootHeight!=null)
+            if (model.BootHeight != null)
                 model.BootHeight = UnitConvert.Convert(UOMEnum.Length, bootHeightUnit, model.BootHeight);
         }
         private void WriteConvert()
         {
-            if (model.Elevation!=null)
+            if (model.Elevation != null)
                 model.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, model.Elevation);
-            if (model.Diameter!=null)
+            if (model.Diameter != null)
                 model.Diameter = UnitConvert.Convert(diameterUnit, UOMEnum.Length, model.Diameter);
-            if (model.Length!=null)
+            if (model.Length != null)
                 model.Length = UnitConvert.Convert(lengthUnit, UOMEnum.Length, model.Length);
-            if (model.NormalLiquidLevel!=null)
+            if (model.NormalLiquidLevel != null)
                 model.NormalLiquidLevel = UnitConvert.Convert(normalLiquidLevelUnit, UOMEnum.Length, model.NormalLiquidLevel);
-            if (model.BootDiameter!=null)
+            if (model.BootDiameter != null)
                 model.BootDiameter = UnitConvert.Convert(bootDiameterUnit, UOMEnum.Length, model.BootDiameter);
-            if (model.BootHeight!=null)
+            if (model.BootHeight != null)
                 model.BootHeight = UnitConvert.Convert(bootHeightUnit, UOMEnum.Length, model.BootHeight);
         }
         private void InitUnit()

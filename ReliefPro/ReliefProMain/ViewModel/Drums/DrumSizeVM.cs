@@ -53,7 +53,7 @@ namespace ReliefProMain.ViewModel.Drums
             model = new DrumSizeModel(sizeModel);
             //if(string.IsNullOrEmpty(model.Orientation))
 
-            UOMLib.UOMEnum uomEnum = new UOMLib.UOMEnum(SessionPF);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
             model.ElevationUnit = uomEnum.UserLength;
             model.DiameterUnit = uomEnum.UserLength;
             model.LengthUnit = uomEnum.UserLength;
