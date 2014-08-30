@@ -50,9 +50,11 @@ namespace UOMLib
         public IList<SystemUnit> lstSystemUnit;
         public int BasicUnitID;
         public bool UnitFormFlag = true;//true 从Current赋值下拉框，否则是原来系统默认值
+        public ISession SessionPlant;
         public UOMEnum(ISession SessionPlant)
         {
             SessionDBPath = SessionPlant.Connection.ConnectionString;
+            this.SessionPlant = SessionPlant;
             initInfo(SessionPlant);
 
             UserTemperature = GetUnit(UnitTypeEnum.Temperature);
