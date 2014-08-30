@@ -22,7 +22,7 @@ namespace ReliefProLL
     {
         private GlobalDefaultDAL globalDefaultDAL = new GlobalDefaultDAL();
         private PSVDAL psvDAL = new PSVDAL();
-        private ISession ProcessUnitSession;
+        private ISession SessionPlant;
         private volatile List<ISession> lstSession;
         private ScenarioDAL scenarioDAL = new ScenarioDAL();
         public ConcurrentBag<PSV> PSVBag;
@@ -54,7 +54,7 @@ namespace ReliefProLL
         }
         public List<FlareSystem> GetDisChargeTo()
         {
-            return globalDefaultDAL.GetFlareSystem(TempleSession.Session).ToList();
+            return globalDefaultDAL.GetFlareSystem(SessionPlant).ToList();
         }
 
         #region PlantSummary
@@ -275,10 +275,10 @@ namespace ReliefProLL
         #endregion
 
         #region Process Unit ALL Info
-        private void GetProcessUnitName(ISession SessionPS)
+        private void GetProcessUnitName(ISession SessionPT)
         {
             TreeUnitDAL dal = new TreeUnitDAL();
-            var TreeUnit = dal.GetModel(UnitID, SessionPS);
+            var TreeUnit = dal.GetModel(UnitID, SessionPT);
             if (TreeUnit != null)
             {
                 ProcessUnitName = TreeUnit.PUName;
@@ -347,8 +347,7 @@ namespace ReliefProLL
 
                     if (p.Contains("plant.mdb"))
                     {
-                        //ReportPlanSession.PlantSession = tmpSession;
-                        ProcessUnitSession = findSession;
+                        SessionPlant = findSession;
                         GetProcessUnitName(findSession);
                     }
                     else
@@ -490,12 +489,12 @@ namespace ReliefProLL
         public PUsummary GetPUsummaryModel(int UnitID)
         {
             PUsummaryDAL puSummaryDAL = new PUsummaryDAL();
-            return puSummaryDAL.GetModel(UnitID, ProcessUnitSession);
+            return puSummaryDAL.GetModel(UnitID, SessionPlant);
         }
         public void SavePUsummary(PUsummary model)
         {
             PUsummaryDAL puSummaryDAL = new PUsummaryDAL();
-            puSummaryDAL.Save(ProcessUnitSession, model);
+            puSummaryDAL.Save(SessionPlant, model);
         }
         #endregion
     }
