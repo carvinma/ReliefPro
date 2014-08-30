@@ -24,6 +24,7 @@ namespace ReliefProMain.ViewModel
         public ICommand SaveCommand { get; set; }
         public ICommand NewBasicCommand { get; set; }
         public ICommand BasicUnitDefaultCommand { get; set; }
+        public ICommand CancleCommand { get; set; }
 
         public FormatUnitsMeasureModel model { get; set; }
         private UnitInfo unitInfo;
@@ -64,6 +65,7 @@ namespace ReliefProMain.ViewModel
             SaveCommand = new DelegateCommand<object>(Save);
             NewBasicCommand = new DelegateCommand<object>(OpenAddWin);
             BasicUnitDefaultCommand = new DelegateCommand<object>(SetBasicUnitDefault);
+            CancleCommand = new DelegateCommand<object>(Cancle);
         }
 
         private void SetBasicUnitDefault(object obj)
@@ -71,7 +73,7 @@ namespace ReliefProMain.ViewModel
             try
             {
                 int id = model.BasicUnitselectLocation.ID;
-                unitInfo.BasicUnitSetDefault(id, SessionPlant);
+                unitInfo.BasicUnitSetDefault(id);
                 MessageBox.Show("Set Successful!");
             }
             catch (Exception ex)
@@ -95,7 +97,7 @@ namespace ReliefProMain.ViewModel
                     var listCopy = uomEnum.lstBasicUnitDefault.Where(p => p.BasicUnitID == model.BasicUnitselectLocation.ID)
                    .Select(p => { p.ID = 0; p.BasicUnitID = basicUnitID; return p; }).ToList();
                     unitInfo.Save(listCopy, SessionPlant);
-                    uomEnum.lstBasicUnitDefault = unitInfo.GetBasicUnitDefault(SessionPlant);
+                    //uomEnum.lstBasicUnitDefault = unitInfo.GetBasicUnitDefault(SessionPlant);
                     int index = model.ObBasicUnit.ToList().FindIndex(p => p.ID == basicUnitID);
                     if (index >= 0)
                         model.BasicUnitselectLocation = model.ObBasicUnit[index];
@@ -255,6 +257,47 @@ namespace ReliefProMain.ViewModel
             if (wd != null)
             {
                 wd.DialogResult = true;
+            }
+        }
+
+        public void Cancle(object obj)
+        {
+            System.Windows.Window wd = obj as System.Windows.Window;
+            if (wd != null)
+            {
+                foreach (var uom in UOMSingle.UomEnums)
+                {
+                    if (uom.SessionDBPath == this.SessionPlant.Connection.ConnectionString)
+                    {
+                        uom.UnitFormFlag = true;
+                        break;
+                    }
+                }
+                wd.DialogResult = true;
+            }
+        }
+        public ICommand LoadedCommand
+        {
+            get
+            {
+                return new DelegateCommand<System.Windows.Window>(win =>
+                {
+                    win.Closing += (sender, e) =>
+                    {
+                        foreach (var uom in UOMSingle.UomEnums)
+                        {
+                            if (uom.SessionDBPath == this.SessionPlant.Connection.ConnectionString)
+                            {
+                                uom.UnitFormFlag = true;
+                                break;
+                            }
+                        }
+                        //if (System.Windows.MessageBox.Show("确认要关闭窗口吗？", "提示", System.Windows.MessageBoxButton.YesNo) == System.Windows.MessageBoxResult.No)
+                        //{
+                        //    e.Cancel = true;
+                        //}
+                    };
+                });
             }
         }
     }
