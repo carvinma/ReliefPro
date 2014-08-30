@@ -28,12 +28,12 @@ namespace ReliefProMain.View
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-            UOMLib.UOMEnum.UnitFormFlag = true;
+            //UOMLib.UOMEnum.UnitFormFlag = true;
         }
 
         private void myWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            UOMLib.UOMEnum.UnitFormFlag = true;
+           // UOMLib.UOMEnum.UnitFormFlag = true;
         }
     }
 }

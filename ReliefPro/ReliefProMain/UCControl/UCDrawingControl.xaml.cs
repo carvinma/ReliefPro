@@ -932,26 +932,9 @@ namespace ReliefProMain.View
             dbProtectedSystemFile = data.tvFile.dbProtectedSystemFile;
             DirPlant = System.IO.Path.GetDirectoryName(dbPlantFile);
             DirProtectedSystem = System.IO.Path.GetDirectoryName(dbProtectedSystemFile);
+            SessionPlant = UOMSingle.UomEnums.First(p => p.SessionDBPath == dbPlantFile).SessionPlant;
 
-            var task = Task.Factory.StartNew<ISession>(() =>
-            {
-                NHibernateHelper helperPlant = new NHibernateHelper(dbPlantFile);
-                SessionPlant = helperPlant.GetCurrentSession();
-                return SessionPlant;
-            });
-            var t2 = task.ContinueWith((i) =>
-            {
-                UnitInfo unitInfo = new UnitInfo();
-                UOMEnum.lstBasicUnitDefault = unitInfo.GetBasicUnitDefault(i.Result);
-                UOMEnum.lstBasicUnitCurrent = unitInfo.GetBasicUnitCurrent(i.Result);
-                UOMEnum.lstSystemUnit = unitInfo.GetSystemUnit(i.Result);
-
-                var basicUnit = unitInfo.GetBasicUnitUOM(i.Result);
-                UOMEnum.BasicUnitID = basicUnit.ID;
-            });
-
-
-            var task2 = t2.ContinueWith((i) =>
+            var task = Task.Factory.StartNew(() =>
                 {
                     NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystemFile);
                     SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
@@ -1033,7 +1016,7 @@ namespace ReliefProMain.View
 
                 });
 
-            Task.WaitAll(task, t2, task2);
+            Task.WaitAll(task);
             this.btnPSV.IsEnabled = true;
         }
 

@@ -148,6 +148,12 @@ namespace ReliefProMain.ViewModel
                     TVPlantViewModel m1 = new TVPlantViewModel(p);
                     Plants.Add(m1);
                     SavePlant();
+
+                    if (!UOMSingle.UomEnums.Exists(uom => uom.SessionDBPath == dbPlant_target))
+                    {
+                        UOMEnum uomEnum = new UOMEnum(SessionPlant);
+                        UOMSingle.UomEnums.Add(uomEnum);
+                    }
                 }
             }
             catch (Exception ex)
@@ -181,14 +187,21 @@ namespace ReliefProMain.ViewModel
 
                     ReliefProCommon.CommonLib.CSharpZip.ExtractZipFile(currentPlantFile, "1", currentPlantWorkFolder);
                     string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
-                    //NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlant_target);
-                    //ISession SessionPlant = helperProtectedSystem.GetCurrentSession();
+
                     TVPlant p = new TVPlant();
                     p.FullPath = currentPlantWorkFolder;
                     p.FullRefPath = currentPlantFile;
                     p.Name = currentPlantName;
                     TVPlantViewModel m1 = new TVPlantViewModel(p);
                     Plants.Add(m1);
+
+                    if (!UOMSingle.UomEnums.Exists(uom => uom.SessionDBPath == dbPlant_target))
+                    {
+                        NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlant_target);
+                        ISession SessionPlant = helperProtectedSystem.GetCurrentSession();
+                        UOMEnum uomEnum = new UOMEnum(SessionPlant);
+                        UOMSingle.UomEnums.Add(uomEnum);
+                    }
                 }
             }
             catch (Exception ex)
