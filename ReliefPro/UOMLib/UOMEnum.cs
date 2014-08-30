@@ -49,7 +49,7 @@ namespace UOMLib
         public IList<BasicUnitCurrent> lstBasicUnitCurrent;
         public IList<SystemUnit> lstSystemUnit;
         public int BasicUnitID;
-        public bool UnitFormFlag = true;//true 从Current赋值下拉框，否则是原来系统默认值
+        public bool UnitFromFlag = true;//true 从Current赋值下拉框，否则是原来系统默认值
         public ISession SessionPlant;
         public UOMEnum(ISession SessionPlant)
         {
@@ -72,7 +72,7 @@ namespace UOMLib
         }
         private string GetUnit(UnitTypeEnum unitTypeEnum)
         {
-            if (UnitFormFlag && lstBasicUnitCurrent != null && lstBasicUnitCurrent.Count > 0)
+            if (lstBasicUnitCurrent != null && lstBasicUnitCurrent.Count > 0)
             {
                 return GetCurrentUnit(unitTypeEnum);
             }

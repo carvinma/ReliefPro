@@ -67,14 +67,14 @@ namespace UOMLib
             int.TryParse(o.ToString(), out tmpID);
             return tmpID;
         }
-        public int BasicUnitSetDefault(int id, ISession SessionPlan)
+        public int BasicUnitSetDefault(int id)
         {
             BasicUnitDAL db = new BasicUnitDAL();
 
             string sql = "update tbBasicUnit a set IsDefault=0 where a.ID<>:ID";
             string sql2 = "update tbBasicUnit a set IsDefault=1 where a.ID=:ID";
-            var query = SessionPlan.CreateSQLQuery(sql);
-            var query2 = SessionPlan.CreateSQLQuery(sql2);
+            var query = UOMSingle.Session.CreateSQLQuery(sql);
+            var query2 = UOMSingle.Session.CreateSQLQuery(sql2);
             query.SetInt32("ID", id);
             query2.SetInt32("ID", id);
             try
