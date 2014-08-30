@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TempleSession.cs" />
+    <Compile Include="UOMSingle.cs" />
     <Compile Include="UOMEnum.cs" />
     <Compile Include="UOMLNHibernateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
