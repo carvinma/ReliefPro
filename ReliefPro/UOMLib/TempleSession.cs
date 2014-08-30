@@ -29,11 +29,5 @@ namespace UOMLib
                 _instance = new TempleSession();
             return _instance;
         }
-        public static List<FlareSystem> lstFlareSys
-        {
-            get;
-            set;
-        }
-
     }
 }
