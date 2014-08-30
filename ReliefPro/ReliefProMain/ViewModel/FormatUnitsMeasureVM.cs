@@ -247,9 +247,6 @@ namespace ReliefProMain.ViewModel
             //    lstBasciUnitCurrent.Add(current);
             //});
             unitInfo.SaveCurrent(SelectedCurrent, this.SessionPlant);
-            //lstBasciUnitDefault = unitInfo.GetBasicUnitDefault();
-            uomEnum.lstBasicUnitCurrent = SelectedCurrent;
-            uomEnum.UnitFormFlag = true;
             int findindex = UOMSingle.UomEnums.FindIndex(p => p.SessionDBPath == uomEnum.SessionDBPath);
             UOMEnum uomEnumNew = new UOMEnum(SessionPlant);
             UOMSingle.UomEnums.RemoveAt(findindex);
