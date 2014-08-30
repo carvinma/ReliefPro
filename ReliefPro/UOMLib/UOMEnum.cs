@@ -43,43 +43,40 @@ namespace UOMLib
         public string UserThermalConductivity { get; private set; }
         public string UserHeatTransCoeffcient { get; private set; }
 
+        public string SessionDBPath;
 
-        public static IList<BasicUnitDefault> lstBasicUnitDefault;
-        public static IList<BasicUnitCurrent> lstBasicUnitCurrent;
-        public static IList<SystemUnit> lstSystemUnit;
-        public static int BasicUnitID;
-        public static int BasicUnitCuurentID;
-        public static bool UnitFormFlag = true;//true 从Current赋值下拉框，否则是原来系统默认值
-        public string TestUnit { get; set; }
+        public IList<BasicUnitDefault> lstBasicUnitDefault;
+        public IList<BasicUnitCurrent> lstBasicUnitCurrent;
+        public IList<SystemUnit> lstSystemUnit;
+        public int BasicUnitID;
+        public bool UnitFormFlag = true;//true 从Current赋值下拉框，否则是原来系统默认值
         public UOMEnum(ISession SessionPlant)
         {
-            UnitInfo unitInfo = new UnitInfo();
-            //var basicUnit = unitInfo.GetBasicUnitUOM(SessionPlant);
-            //lstBasicUnitDefault = unitInfo.GetBasicUnitDefaultUserSet(SessionPlant);
-            // lstBasicUnitCurrent = unitInfo.GetBasicUnitCurrentUserSet(SessionPlant);
+            SessionDBPath = SessionPlant.Connection.ConnectionString;
+            initInfo(SessionPlant);
 
-            UserTemperature = GetUnit(UnitTypeEnum.Temperature, BasicUnitID);
-            UserPressure = GetUnit(UnitTypeEnum.Pressure, BasicUnitID);
-            UserEnthalpyDuty = GetUnit(UnitTypeEnum.EnthalpyDuty, BasicUnitID);
-            UserMassRate = GetUnit(UnitTypeEnum.MassRate, BasicUnitID);
-            UserArea = GetUnit(UnitTypeEnum.Aera, BasicUnitID);
-            UserSpecificEnthalpy = GetUnit(UnitTypeEnum.SpecificEnthalpy, BasicUnitID);
-            UserDensity = GetUnit(UnitTypeEnum.Density, BasicUnitID);
-            UserVolume = GetUnit(UnitTypeEnum.Volume, BasicUnitID);
-            UserTime = GetUnit(UnitTypeEnum.Time, BasicUnitID);
-            UserLength = GetUnit(UnitTypeEnum.Length, BasicUnitID);
-            UserThermalConductivity = GetUnit(UnitTypeEnum.ThermalConductivity, BasicUnitID);
-            UserHeatTransCoeffcient = GetUnit(UnitTypeEnum.HeatTransCoeffcient, BasicUnitID);
+            UserTemperature = GetUnit(UnitTypeEnum.Temperature);
+            UserPressure = GetUnit(UnitTypeEnum.Pressure);
+            UserEnthalpyDuty = GetUnit(UnitTypeEnum.EnthalpyDuty);
+            UserMassRate = GetUnit(UnitTypeEnum.MassRate);
+            UserArea = GetUnit(UnitTypeEnum.Aera);
+            UserSpecificEnthalpy = GetUnit(UnitTypeEnum.SpecificEnthalpy);
+            UserDensity = GetUnit(UnitTypeEnum.Density);
+            UserVolume = GetUnit(UnitTypeEnum.Volume);
+            UserTime = GetUnit(UnitTypeEnum.Time);
+            UserLength = GetUnit(UnitTypeEnum.Length);
+            UserThermalConductivity = GetUnit(UnitTypeEnum.ThermalConductivity);
+            UserHeatTransCoeffcient = GetUnit(UnitTypeEnum.HeatTransCoeffcient);
         }
-        private string GetUnit(UnitTypeEnum unitTypeEnum, int basicUnitID)
+        private string GetUnit(UnitTypeEnum unitTypeEnum)
         {
-            if (UOMEnum.UnitFormFlag && lstBasicUnitCurrent != null && lstBasicUnitCurrent.Count > 0)
+            if (UnitFormFlag && lstBasicUnitCurrent != null && lstBasicUnitCurrent.Count > 0)
             {
                 return GetCurrentUnit(unitTypeEnum);
             }
             else
             {
-                return GetDefalutUnit(unitTypeEnum, basicUnitID);
+                return GetDefalutUnit(unitTypeEnum);
             }
         }
         private string GetCurrentUnit(UnitTypeEnum unitTypeEnum)
@@ -89,9 +86,28 @@ namespace UOMLib
                 return lstSystemUnit.FirstOrDefault(p => p.ID == currentUnit.SystemUnitID).Name;
             return "";
         }
-        private string GetDefalutUnit(UnitTypeEnum unitTypeEnum, int basicUnitID)
+        private void initInfo(ISession SessionPlant)
         {
-            var basicUnitDefault = lstBasicUnitDefault.FirstOrDefault(p => p.BasicUnitID == basicUnitID && p.UnitTypeID == int.Parse(unitTypeEnum.ToString("d")));
+            UnitInfo unitInfo = new UnitInfo();
+            var basicUnit = unitInfo.GetBasicUnitUOM(SessionPlant);
+            BasicUnitID = basicUnit.ID;
+
+            if (lstBasicUnitDefault == null || lstBasicUnitDefault.Count == 0)
+            {
+                lstBasicUnitDefault = unitInfo.GetBasicUnitDefault(SessionPlant);
+            }
+            if (lstSystemUnit == null || lstSystemUnit.Count == 0)
+            {
+                lstSystemUnit = unitInfo.GetSystemUnit(SessionPlant);
+            }
+            if (lstBasicUnitCurrent == null || lstBasicUnitCurrent.Count > 0)
+            {
+                lstBasicUnitCurrent = unitInfo.GetBasicUnitCurrent(SessionPlant);
+            }
+        }
+        private string GetDefalutUnit(UnitTypeEnum unitTypeEnum)
+        {
+            var basicUnitDefault = lstBasicUnitDefault.FirstOrDefault(p => p.BasicUnitID == BasicUnitID && p.UnitTypeID == int.Parse(unitTypeEnum.ToString("d")));
             return lstSystemUnit.FirstOrDefault(p => p.ID == basicUnitDefault.SystemUnitID).Name;
         }
         public enum UnitTypeEnum

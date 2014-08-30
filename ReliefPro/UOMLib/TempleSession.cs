@@ -8,25 +8,26 @@ using ReliefProModel.GlobalDefault;
 
 namespace UOMLib
 {
-    public class TempleSession
+    public class UOMSingle
     {
         private static readonly string dbConnectPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"Template\plant.mdb";
 
         public static ISession Session { get; private set; }
-        public static int UnitFormFlag = 0;
-        static TempleSession()
+        public static List<UOMEnum> UomEnums;
+        static UOMSingle()
         {
+            UomEnums = new List<UOMEnum>();
             using (var helper = new UOMLNHibernateHelper(dbConnectPath))
             {
                 Session = helper.GetCurrentSession();
             }
         }
-        private static TempleSession _instance;
+        private static UOMSingle _instance;
 
-        public static TempleSession Instance()
+        public static UOMSingle Instance()
         {
             if (_instance == null)
-                _instance = new TempleSession();
+                _instance = new UOMSingle();
             return _instance;
         }
     }
