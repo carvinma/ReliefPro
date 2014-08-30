@@ -38,7 +38,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
         private void InitPage()
         {
-            UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
             model.ReliefLoadUnit = uomEnum.UserMassRate;
             model.ReliefPressureUnit = uomEnum.UserPressure;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
@@ -79,20 +79,20 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
         private List<UtilityHXModel> GetInitUtilityHXs()
         {
-            List<UtilityHXModel> list=new List<UtilityHXModel>();
-             ReactorLoopDAL dal = new ReliefProDAL.ReactorLoops.ReactorLoopDAL();
-             IList<ReactorLoopDetail> details = dal.GetReactorLoopDetail(SessionPS, 1);
-             foreach (ReactorLoopDetail d in details)
-             {
-                 UtilityHXModel m = new UtilityHXModel();
-                 m.HXName = d.DetailInfo;
-                 m.Stop = false;
-                 m.DutyFactor = 1;
-                 list.Add(m);
-             }
-             return list;
+            List<UtilityHXModel> list = new List<UtilityHXModel>();
+            ReactorLoopDAL dal = new ReliefProDAL.ReactorLoops.ReactorLoopDAL();
+            IList<ReactorLoopDetail> details = dal.GetReactorLoopDetail(SessionPS, 1);
+            foreach (ReactorLoopDetail d in details)
+            {
+                UtilityHXModel m = new UtilityHXModel();
+                m.HXName = d.DetailInfo;
+                m.Stop = false;
+                m.DutyFactor = 1;
+                list.Add(m);
+            }
+            return list;
         }
-        
+
 
         private void CoolingRunCaseSimulation(object obj)
         { }

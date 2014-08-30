@@ -23,7 +23,7 @@ namespace ReliefProMain.ViewModel
         public int OutletType;
         public ICommand OKCMD { get; set; }
         public ICommand CalculateCommand { get; set; }
-        
+
         public BlockedVaporOutletVM(ISession SessionPF, ISession SessinPS, int ScenarioID, int OutletType)
         {
             OKCMD = new DelegateCommand<object>(Save);
@@ -44,7 +44,7 @@ namespace ReliefProMain.ViewModel
         }
         private void InitUnit()
         {
-            UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
             model.InletGasUpstreamMaxPressureUnit = uomEnum.UserPressure;
             model.InletAbsorbentUpstreamMaxPressureUnit = uomEnum.UserPressure;
             model.NormalGasFeedWeightRateUnit = uomEnum.UserMassRate;
@@ -67,7 +67,7 @@ namespace ReliefProMain.ViewModel
         }
         private void Calculate(object obj)
         {
-            if (!model.CheckData()) return; 
+            if (!model.CheckData()) return;
             PSVDAL psvdal = new PSVDAL();
             PSV psv = psvdal.GetModel(SessionPS);
             double pSet = psv.Pressure * psv.ReliefPressureFactor;
@@ -92,20 +92,20 @@ namespace ReliefProMain.ViewModel
             else
             {
                 if (model.InletGasUpstreamMaxPressure > pSet)
-                {                   
-                   model.ReliefLoad = model.NormalGasProductWeightRate-model.NormalGasProductWeightRate;                   
+                {
+                    model.ReliefLoad = model.NormalGasProductWeightRate - model.NormalGasProductWeightRate;
                 }
                 else
                 {
                     model.ReliefLoad = 0;
                 }
             }
-            
-            
+
+
         }
         private void Save(object obj)
         {
-            if (!model.CheckData()) return; 
+            if (!model.CheckData()) return;
             WriteConvertModel();
             blockBLL.Save(model.dbmodel, model.dbScenario);
             if (obj != null)

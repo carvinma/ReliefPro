@@ -37,7 +37,7 @@ namespace ReliefProMain.ViewModel.Compressors
             model.dbmodel.ScenarioID = ScenarioID;
 
 
-            UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
             model.ReliefloadUnit = uomEnum.UserMassRate;
             model.ReliefTempUnit = uomEnum.UserTemperature;
             model.ReliefPressureUnit = uomEnum.UserPressure;

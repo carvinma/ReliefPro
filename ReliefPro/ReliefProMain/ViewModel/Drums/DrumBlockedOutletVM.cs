@@ -53,7 +53,7 @@ namespace ReliefProMain.ViewModel.Drums
             model.dbmodel.ScenarioID = ScenarioID;
             CalcCMD = new DelegateCommand<object>(CalcResult);
             OKCMD = new DelegateCommand<object>(Save);
-            UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
             model.PressureUnit = uomEnum.UserPressure;
             model.StreamRateUnit = uomEnum.UserMassRate;
             model.FlashingDutyUnit = uomEnum.UserEnthalpyDuty;
@@ -70,7 +70,7 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void CalcResult(object obj)
         {
-            if (!model.CheckData()) return; 
+            if (!model.CheckData()) return;
             reliefPressure = drum.ScenarioReliefPressure(SessionPS);
             string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
             string liquid = "L_" + Guid.NewGuid().ToString().Substring(0, 6);
@@ -130,7 +130,7 @@ namespace ReliefProMain.ViewModel.Drums
 
         private void Save(object obj)
         {
-            if (!model.CheckData()) return; 
+            if (!model.CheckData()) return;
             WriteConvertModel();
             CalcTuple = new Tuple<double, double, double, double>(reliefLoad, reliefMW, reliefT, reliefPressure);
             drum.SaveDrumBlockedOutlet(model.dbmodel, SessionPS, reliefLoad, reliefMW, reliefT);

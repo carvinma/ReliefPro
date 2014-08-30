@@ -32,7 +32,7 @@ namespace ReliefProMain.ViewModel.HXs
         public string FileFullPath { get; set; }
         public HXBlockedOutletModel model { get; set; }
         private HXBLL hxBLL;
-        CustomStream normalHotInlet =null;
+        CustomStream normalHotInlet = null;
         CustomStream normalColdInlet = new CustomStream();
         CustomStream normalColdOutlet = new CustomStream();
 
@@ -57,9 +57,9 @@ namespace ReliefProMain.ViewModel.HXs
             model.dbmodel.ScenarioID = ScenarioID;
 
             //判断冷测进出，
-            CustomStreamBLL csbll=new CustomStreamBLL(SessionPF,SessionPS);
+            CustomStreamBLL csbll = new CustomStreamBLL(SessionPF, SessionPS);
             ObservableCollection<CustomStream> feeds = csbll.GetStreams(SessionPS, false);
-            
+
             normalColdInlet = feeds[0];
             if (feeds.Count > 1)
             {
@@ -93,7 +93,7 @@ namespace ReliefProMain.ViewModel.HXs
             model.ColdStream = normalColdInlet.StreamName;
 
 
-            UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
             model.NormalDutyUnit = uomEnum.UserEnthalpyDuty;
             model.NormalHotTemperatureUnit = uomEnum.UserTemperature;
             model.NormalColdInletTemperatureUnit = uomEnum.UserTemperature;
@@ -119,9 +119,9 @@ namespace ReliefProMain.ViewModel.HXs
         private void CalcResult(object obj)
         {
             //if (!model.CheckData()) return; 
-            double Q =model.NormalDuty ;
+            double Q = model.NormalDuty;
 
-            
+
             double tAvg = 0.5 * (normalColdInlet.Temperature + normalColdOutlet.Temperature);
 
             PSVDAL psvDAL = new PSVDAL();
@@ -159,10 +159,10 @@ namespace ReliefProMain.ViewModel.HXs
                     double latent = vaporcs.SpEnthalpy - liquidcs.SpEnthalpy;
                     //double tcoldbprelief =  double.Parse(flash.TempCalc);//转换单位
 
-                    double tcoldbprelief = UnitConvert.Convert("K","C", double.Parse(flash.TempCalc));
+                    double tcoldbprelief = UnitConvert.Convert("K", "C", double.Parse(flash.TempCalc));
                     model.LatentPoint = latent;
                     model.ReliefLoad = Q / latent * (model.NormalHotTemperature - tcoldbprelief) / (model.NormalHotTemperature - tAvg);
-                    if (model.ReliefLoad < 0 || tcoldbprelief>model.NormalHotTemperature)
+                    if (model.ReliefLoad < 0 || tcoldbprelief > model.NormalHotTemperature)
                         model.ReliefLoad = 0;
                     model.ReliefMW = vaporcs.BulkMwOfPhase;
                     model.ReliefPressure = reliefPressure;
