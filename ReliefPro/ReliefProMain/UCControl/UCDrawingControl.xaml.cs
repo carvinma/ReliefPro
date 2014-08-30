@@ -932,7 +932,7 @@ namespace ReliefProMain.View
             dbProtectedSystemFile = data.tvFile.dbProtectedSystemFile;
             DirPlant = System.IO.Path.GetDirectoryName(dbPlantFile);
             DirProtectedSystem = System.IO.Path.GetDirectoryName(dbProtectedSystemFile);
-            SessionPlant = UOMSingle.UomEnums.First(p => p.SessionDBPath == dbPlantFile).SessionPlant;
+            SessionPlant = UOMSingle.UomEnums.First(p => p.SessionDBPath.Contains(dbPlantFile)).SessionPlant;
 
             var task = Task.Factory.StartNew(() =>
                 {
