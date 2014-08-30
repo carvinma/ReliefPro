@@ -90,7 +90,7 @@ namespace ReliefProMain.ViewModel.Reports
             BtnReportCMD = new DelegateCommand<object>(BtnReprotClick);
             ExportExcelCMD = new DelegateCommand<object>(BtnExportExcel);
             reportBLL = new ReportBLL(UnitID, ReportPath);
-            listDischargeTo = TempleSession.lstFlareSys;
+            listDischargeTo = reportBLL.GetDisChargeTo();
             if (listDischargeTo != null)
             {
                 FlareSystem fs = new FlareSystem();
@@ -107,8 +107,6 @@ namespace ReliefProMain.ViewModel.Reports
             model.listGrid = new List<PUsummaryGridDS>();
             InitModel("ALL");
             CreateReport();
-            // DrawingPUReport draw = new DrawingPUReport(model.listGrid);
-            // StackpanelDraw.Children.Add(draw);
         }
 
         private void Save(object obj)

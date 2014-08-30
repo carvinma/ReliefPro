@@ -35,9 +35,9 @@ namespace ReliefProMain.Util
         /// <returns>Value</returns>
         public static string GetValueByKey(string Key)
         {
-            if (Application.Current.Resources.MergedDictionaries[0].Contains(Key))
+            if (Application.Current.Resources.MergedDictionaries[1].Contains(Key))
             {
-                return Application.Current.Resources.MergedDictionaries[0][Key].ToString();
+                return Application.Current.Resources.MergedDictionaries[1][Key].ToString();
             }
             return "";
         }

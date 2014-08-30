@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using NHibernate;
 using ReliefProLL;
 using ReliefProMain.CustomControl;
 using ReliefProMain.Models;
+using ReliefProMain.Util;
 using ReliefProModel.GlobalDefault;
 using UOMLib;
 
@@ -33,10 +35,12 @@ namespace ReliefProMain.ViewModel
 
             model = new GlobalDefaultModel();
             globalDefaultBLL = new GlobalDefaultBLL(SessionPlant);
-            model.lstFlareSystem = new ObservableCollection<FlareSystem>(globalDefaultBLL.GetFlareSystem());
-            foreach (var flareSystem in model.lstFlareSystem)
+            var lstFlareSystem = globalDefaultBLL.GetFlareSystem();
+            foreach (var flareSystem in lstFlareSystem)
             {
                 flareSystem.RowGuid = Guid.NewGuid();
+                GlobalFlareSystem gls = new GlobalFlareSystem(flareSystem);
+                model.lstFlareSystem.Add(gls);
             }
             model.conditSetModel = globalDefaultBLL.GetConditionsSettings();
             if (model.conditSetModel != null)
@@ -54,7 +58,7 @@ namespace ReliefProMain.ViewModel
             {
                 foreach (var t in model.lstFlareSystem)
                 {
-                    t.DesignBackPressure = UnitConvert.Convert(TargetUnit, UOMEnum.EnthalpyDuty, t.DesignBackPressure);
+                    t.DesignBackPressure = UnitConvert.Convert(TargetUnit, UOMEnum.Pressure, t.DesignBackPressure);
                 }
             }
             if (model.conditSetModel.LatentHeatSettings != null)
@@ -69,14 +73,31 @@ namespace ReliefProMain.ViewModel
             var rowGuid = (Guid)obj;
             var findFlareSystem = model.lstFlareSystem.FirstOrDefault(p => p.RowGuid == rowGuid);
             if (findFlareSystem.RowGuid != null)
+            {
                 model.lstFlareSystem.Remove(findFlareSystem);
+                if (findFlareSystem.ID > 0)
+                    globalDefaultBLL.DelFlareSystemByID(findFlareSystem.ID);
+            }
         }
         private void AddRow(object obj)
         {
             var flareSystem = new FlareSystem();
             flareSystem.isDel = true;
             flareSystem.RowGuid = Guid.NewGuid();
-            model.lstFlareSystem.Add(flareSystem);
+            GlobalFlareSystem gls = new GlobalFlareSystem(flareSystem);
+            model.lstFlareSystem.Add(gls);
+        }
+        private bool CheckFlareData()
+        {
+            foreach (var t in model.lstFlareSystem)
+            {
+                if (string.IsNullOrEmpty(t.FlareName))
+                {
+                    MessageBox.Show(LanguageHelper.GetValueByKey("GlobalDefaultViewErrorInfo"));
+                    return false;
+                }
+            }
+            return true;
         }
         private void Save(object obj)
         {
@@ -85,9 +106,13 @@ namespace ReliefProMain.ViewModel
                 System.Windows.Window wd = obj as System.Windows.Window;
                 if (wd != null)
                 {
-                    WriteConvertModel();
-                    globalDefaultBLL.Save(model.lstFlareSystem.ToList(), model.conditSetModel);
-                    wd.DialogResult = true;
+                    if (CheckFlareData())
+                    {
+                        WriteConvertModel();
+
+                        globalDefaultBLL.Save(model.lstFlareSystem.Select(p => p.dbmodel).ToList(), model.conditSetModel);
+                        wd.DialogResult = true;
+                    }
                 }
             }
         }
@@ -97,7 +122,7 @@ namespace ReliefProMain.ViewModel
             this.TargetUnit = uomEnum.UserPressure;
             foreach (var t in model.lstFlareSystem)
             {
-                t.DesignBackPressure = UnitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, t.DesignBackPressure);
+                t.DesignBackPressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, t.DesignBackPressure);
             }
         }
         public ChangeUnitDelegate changeUnit { get; set; }
