@@ -152,10 +152,10 @@ namespace ReliefProMain.ViewModel
             ValveTypes = GetValveTypes();
             DischargeTos = GetDischargeTos();
             Locations = GetLocations();
-            uomEnum = new UOMLib.UOMEnum(sessionPlant);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
             this.psvPressureUnit = uomEnum.UserPressure;
             this.drumPSVPressureUnit = uomEnum.UserPressure;
-            if (eqType == "Tower" )
+            if (eqType == "Tower")
             {
                 ReflexDrumVisible = "Visible";
             }
@@ -182,7 +182,7 @@ namespace ReliefProMain.ViewModel
                 {
                     CurrentModel.Location = eqName;
                 }
-                
+
             }
         }
         private PSVModel ConvertModel(PSV m)
@@ -197,7 +197,7 @@ namespace ReliefProMain.ViewModel
             model.DrumPSVName = m.DrumPSVName;
             model.Location = m.Location;
             model.DrumPressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, m.DrumPressure);
-            
+
             model.Description = m.Description;
             model.LocationDescription = m.LocationDescription;
             model.DischargeTo = m.DischargeTo;
@@ -269,14 +269,14 @@ namespace ReliefProMain.ViewModel
                 MessageBox.Show("Valve Type can't be empty.", "Message Box");
                 return;
             }
-            if (CurrentModel.ValveNumber<=0)
+            if (CurrentModel.ValveNumber <= 0)
             {
                 MessageBox.Show("Valve Number can't be zero.", "Message Box");
                 return;
             }
             try
             {
-                
+
                 this.IsBusy = true;
                 var t1 = Task.Factory.StartNew(() =>
                 {
@@ -425,9 +425,9 @@ namespace ReliefProMain.ViewModel
                     if (!Directory.Exists(dirflash))
                         Directory.CreateDirectory(dirflash);
                     double prodpressure = 0;
-                    
-                        prodpressure = p.Pressure;
-                    
+
+                    prodpressure = p.Pressure;
+
                     string usablecontent = PROIIFileOperator.getUsableContent(p.StreamName, tempdir);
 
                     if (prodtype == "4" || (prodtype == "2" && tray == 1)) // 2个条件是等同含义，后者是有气有液
@@ -660,8 +660,8 @@ namespace ReliefProMain.ViewModel
 
         private void ClearData()
         {
-            LatentDAL ldal = new LatentDAL();          
-            ldal.RemoveALL( SessionProtectedSystem);
+            LatentDAL ldal = new LatentDAL();
+            ldal.RemoveALL(SessionProtectedSystem);
 
             LatentProductDAL lpdal = new LatentProductDAL();
             lpdal.RemoveALL(SessionProtectedSystem);
@@ -671,7 +671,7 @@ namespace ReliefProMain.ViewModel
 
         }
 
-        
+
 
     }
 }
