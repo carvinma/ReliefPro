@@ -251,8 +251,9 @@ namespace ReliefProMain.ViewModel
             uomEnum.lstBasicUnitCurrent = SelectedCurrent;
             uomEnum.UnitFormFlag = true;
             int findindex = UOMSingle.UomEnums.FindIndex(p => p.SessionDBPath == uomEnum.SessionDBPath);
+            UOMEnum uomEnumNew = new UOMEnum(SessionPlant);
             UOMSingle.UomEnums.RemoveAt(findindex);
-            UOMSingle.UomEnums.Add(uomEnum);
+            UOMSingle.UomEnums.Add(uomEnumNew);
             System.Windows.Window wd = obj as System.Windows.Window;
             if (wd != null)
             {
