@@ -106,7 +106,7 @@ namespace ReliefProMain.ViewModel
         }
         private int GetUnit(int unitTypeid, int basicid)
         {
-            if (uomEnum.UnitFormFlag && uomEnum.lstBasicUnitCurrent != null && uomEnum.lstBasicUnitCurrent.Count > 0)
+            if (uomEnum.UnitFromFlag && uomEnum.lstBasicUnitCurrent != null && uomEnum.lstBasicUnitCurrent.Count > 0)
             {
                 return GetUnitCurrent(unitTypeid);
             }
@@ -184,7 +184,7 @@ namespace ReliefProMain.ViewModel
                 model.EnthalpySelectLocation = model.ObcEnthalpy.Where(p => p.ID == GetUnit(24, basicid)).FirstOrDefault();
                 model.FineLenthSelectLocation = model.ObcFineLength.Where(p => p.ID == GetUnit(23, basicid)).FirstOrDefault();
                 if (uomEnum.lstBasicUnitCurrent != null && uomEnum.lstBasicUnitCurrent.Count > 0)
-                    uomEnum.UnitFormFlag = false;
+                    uomEnum.UnitFromFlag = false;
             }
             catch (Exception ex)
             {
@@ -221,7 +221,7 @@ namespace ReliefProMain.ViewModel
             model.ObcSpecificEnthalpy = new ObservableCollection<SystemUnit>(uomEnum.lstSystemUnit.Where(p => p.UnitType == 22));
             model.ObcEnthalpy = new ObservableCollection<SystemUnit>(uomEnum.lstSystemUnit.Where(p => p.UnitType == 24));
             model.ObcFineLength = new ObservableCollection<SystemUnit>(uomEnum.lstSystemUnit.Where(p => p.UnitType == 23));
-            if (uomEnum.UnitFormFlag && uomEnum.lstBasicUnitCurrent != null && uomEnum.lstBasicUnitCurrent.Count > 0)
+            if (uomEnum.UnitFromFlag && uomEnum.lstBasicUnitCurrent != null && uomEnum.lstBasicUnitCurrent.Count > 0)
             {
                 model.BasicUnitselectLocation = lstBasicUnit.Where(p => p.ID == uomEnum.lstBasicUnitCurrent.First().BasicUnitID).First();
 
@@ -269,7 +269,7 @@ namespace ReliefProMain.ViewModel
                 {
                     if (uom.SessionDBPath == this.SessionPlant.Connection.ConnectionString)
                     {
-                        uom.UnitFormFlag = true;
+                        uom.UnitFromFlag = true;
                         break;
                     }
                 }
@@ -288,7 +288,7 @@ namespace ReliefProMain.ViewModel
                         {
                             if (uom.SessionDBPath == this.SessionPlant.Connection.ConnectionString)
                             {
-                                uom.UnitFormFlag = true;
+                                uom.UnitFromFlag = true;
                                 break;
                             }
                         }
