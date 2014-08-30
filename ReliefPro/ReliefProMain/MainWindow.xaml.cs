@@ -414,37 +414,15 @@ namespace ReliefProMain
 
         private void OpenGloadDefalut()
         {
-            TVPlantViewModel tvi = null;
-            ObservableCollection<TVPlantViewModel> Plants = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
-            if (Plants.Count == 0)
+            string PlantPath = GetPlantPath();
+            if (!string.IsNullOrEmpty(PlantPath))
             {
-                MessageBox.Show("Please create a plant or open a plant first.", "Message Box");
-                return;
+                ReliefProMain.View.GlobalDefault.GlobalDefaultView view = new View.GlobalDefault.GlobalDefaultView();
+                GlobalDefaultVM vm = new GlobalDefaultVM(UOMLib.UOMSingle.UomEnums.First(p => p.SessionDBPath.Contains(PlantPath)).SessionPlant);
+                view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                view.DataContext = vm;
+                view.ShowDialog();
             }
-            if (Plants.Count == 1)
-            {
-                tvi = Plants[0];
-            }
-            else if (Plants.Count > 1)
-            {
-                if (NavigationTreeView.SelectedItem == null || NavigationTreeView.SelectedItem.GetType() != typeof(TVPlantViewModel))
-                {
-                    MessageBox.Show("Please select a plant first.", "Message Box");
-                    return;
-                }
-                else
-                {
-                    tvi = (TVPlantViewModel)NavigationTreeView.SelectedItem;
-
-                }
-
-            }
-
-            ReliefProMain.View.GlobalDefault.GlobalDefaultView view = new View.GlobalDefault.GlobalDefaultView();
-            GlobalDefaultVM vm = new GlobalDefaultVM(tvi.SessionPlant);
-            view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            view.DataContext = vm;
-            view.ShowDialog();
         }
         private void OpenReport()
         {
@@ -482,38 +460,38 @@ namespace ReliefProMain
         }
         private void OpenUOM()
         {
-            TVPlantViewModel tvi = null;
-            ObservableCollection<TVPlantViewModel> Plants = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
-            if (Plants.Count == 0)
+            string PlantPath = GetPlantPath();
+            if (!string.IsNullOrEmpty(PlantPath))
             {
-                MessageBox.Show("Please create a plant or open a plant first.", "Message Box");
-                return;
+                FormatUnitsMeasure view = new FormatUnitsMeasure();
+                FormatUnitsMeasureVM vm = new FormatUnitsMeasureVM(UOMLib.UOMSingle.UomEnums.First(p => p.SessionDBPath.Contains(PlantPath)).SessionPlant);
+                view.DataContext = vm;
+                view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                view.ShowDialog();
             }
-            if (Plants.Count == 1)
-            {
-                tvi = Plants[0];
-            }
-            else if (Plants.Count > 1)
-            {
-                if (NavigationTreeView.SelectedItem == null || NavigationTreeView.SelectedItem.GetType() != typeof(TVPlantViewModel))
-                {
-                    MessageBox.Show("Please select a plant first.", "Message Box");
-                    return;
-                }
-                else
-                {
-                    tvi = (TVPlantViewModel)NavigationTreeView.SelectedItem;
-
-                }
-
-            }
-            FormatUnitsMeasure view = new FormatUnitsMeasure();
-            FormatUnitsMeasureVM vm = new FormatUnitsMeasureVM(tvi.SessionPlant);
-            view.DataContext = vm;
-            view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            view.ShowDialog();
         }
 
+        private string GetPlantPath()
+        {
+            var treeSelectedItem = NavigationTreeView.SelectedItem;
+            if ((treeSelectedItem as TVPlantViewModel) != null)
+            {
+                return (treeSelectedItem as TVPlantViewModel).tvPlant.dbPlantFile;
+            }
+            if ((treeSelectedItem as TVUnitViewModel) != null)
+            {
+                return (treeSelectedItem as TVUnitViewModel).tvUnit.dbPlantFile;
+            }
+            if ((treeSelectedItem as TVPSViewModel) != null)
+            {
+                return (treeSelectedItem as TVPSViewModel).tvPS.dbPlantFile;
+            }
+            if ((treeSelectedItem as TVFileViewModel) != null)
+            {
+                return (treeSelectedItem as TVFileViewModel).tvFile.dbPlantFile;
+            }
+            return string.Empty;
+        }
 
         private void SavePlant()
         {
@@ -535,9 +513,10 @@ namespace ReliefProMain
         {
             try
             {
-                if (NavigationTreeView.SelectedItem == null)
+                TVFileViewModel tvi = NavigationTreeView.SelectedItem as TVFileViewModel;
+                if (NavigationTreeView.SelectedItem == null || tvi == null)
                     return;
-                TVFileViewModel tvi = (TVFileViewModel)NavigationTreeView.SelectedItem;
+                //TVFileViewModel tvi = (TVFileViewModel)NavigationTreeView.SelectedItem;
                 var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
                 if (firstDocumentPane != null)
                 {
