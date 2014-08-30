@@ -17,10 +17,13 @@ namespace ReliefProLL
         private ISession SessionPF;
         private CentrifugalBlockedOutletDAL dbcentrifugal = new CentrifugalBlockedOutletDAL();
         private PistonBlockedOutletDAL dbpiston = new PistonBlockedOutletDAL();
+        private UOMLib.UOMEnum uomEnum;
+
         public CompressorBlockedBLL(ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
         }
         public CentrifugalBlockedOutlet GetCentrifugalModel(int ScenarioID)
         {
@@ -47,7 +50,6 @@ namespace ReliefProLL
             }
             CentrifugalBlockedOutlet Model = new CentrifugalBlockedOutlet();
             Model = model;
-            UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
             Model.Reliefload = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.Reliefload);
             Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature);
             Model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);
@@ -63,7 +65,6 @@ namespace ReliefProLL
             }
             PistonBlockedOutlet Model = new PistonBlockedOutlet();
             Model = model;
-            UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
             Model.Reliefload = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.Reliefload);
             Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature);
             Model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);

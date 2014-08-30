@@ -65,7 +65,7 @@ namespace ReliefProLL
             }
             DrumFireCalc fireModel = new DrumFireCalc();
             fireModel = model;
-            UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
             fireModel.WettedArea = UnitConvert.Convert(UOMLib.UOMEnum.Area.ToString(), uomEnum.UserArea, fireModel.WettedArea);
             fireModel.LatentHeat = UnitConvert.Convert(UOMLib.UOMEnum.SpecificEnthalpy.ToString(), uomEnum.UserSpecificEnthalpy, fireModel.LatentHeat);
             fireModel.CrackingHeat = UnitConvert.Convert(UOMLib.UOMEnum.SpecificEnthalpy.ToString(), uomEnum.UserSpecificEnthalpy, fireModel.CrackingHeat);
@@ -93,7 +93,7 @@ namespace ReliefProLL
                 DrumSizeDAL dbSize = new DrumSizeDAL();
                 dbSize.SaveDrumSize(SessionPS, sizeModel);
             }
-            
+
             sModel.ReliefLoad = model.ReliefLoad;
             sModel.ReliefPressure = model.ReliefPressure;
             sModel.ReliefTemperature = model.ReliefTemperature;

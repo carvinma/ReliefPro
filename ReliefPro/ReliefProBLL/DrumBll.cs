@@ -86,7 +86,7 @@ namespace ReliefProBLL
             }
             DrumBlockedOutlet outletModel = new DrumBlockedOutlet();
             outletModel = model;
-            UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPlan);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPlan.Connection.ConnectionString);
             outletModel.MaxPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, outletModel.MaxPressure);
             outletModel.MaxStreamRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, outletModel.MaxStreamRate);
             outletModel.NormalFlashDuty = UnitConvert.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(), uomEnum.UserEnthalpyDuty, outletModel.NormalFlashDuty);
@@ -108,7 +108,7 @@ namespace ReliefProBLL
             PSVDAL psv = new PSVDAL();
             var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
             if (psvModel != null)
-            {                
+            {
                 return psvModel.Pressure * psvModel.ReliefPressureFactor;
             }
             return 0;

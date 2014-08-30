@@ -16,7 +16,7 @@ namespace ReliefProLL
         private ISession SessionPS;
         private ISession SessionPF;
         private GeneralFailureCommonDAL generalDAL = new GeneralFailureCommonDAL();
-        
+
         public GeneralFailureCommonBLL(ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
@@ -36,7 +36,7 @@ namespace ReliefProLL
                 model = new GeneralFailureCommon();
             return model;
         }
-        
+
         public GeneralFailureCommon ReadConvert(GeneralFailureCommon model)
         {
             UnitInfo unitInfo = new UnitInfo();
@@ -45,7 +45,7 @@ namespace ReliefProLL
             {
                 return model;
             }
-            UOMLib.UOMEnum uomEnum = new UOMEnum(SessionPF);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
             model.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate, uomEnum.UserMassRate, model.ReliefLoad);
             model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure, uomEnum.UserPressure, model.ReliefPressure);
             model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature, uomEnum.UserTemperature, model.ReliefTemperature);

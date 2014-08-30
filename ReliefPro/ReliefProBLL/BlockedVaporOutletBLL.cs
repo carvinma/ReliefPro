@@ -17,10 +17,12 @@ namespace ReliefProLL
         private ISession SessionPS;
         private BlockedVaporOutletDAL dbBlockedVaporOutlet = new BlockedVaporOutletDAL();
         private ScenarioDAL scenarioDAL = new ScenarioDAL();
+        private UOMLib.UOMEnum uomEnum;
         public BlockedVaporOutletBLL(ISession SessionPF, ISession SessionPS)
         {
             this.SessionPF = SessionPF;
             this.SessionPS = SessionPS;
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
         }
         public BlockedVaporOutlet GeModel(int ScenarioID, int OutletType)
         {
@@ -42,7 +44,6 @@ namespace ReliefProLL
             }
             BlockedVaporOutlet Model = new BlockedVaporOutlet();
             Model = model;
-            UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
             Model.InletGasUpstreamMaxPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure, uomEnum.UserPressure, Model.InletGasUpstreamMaxPressure);
             Model.InletAbsorbentUpstreamMaxPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure, uomEnum.UserPressure, Model.InletAbsorbentUpstreamMaxPressure);
             Model.NormalGasFeedWeightRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate, uomEnum.UserMassRate, Model.NormalGasFeedWeightRate);
@@ -59,7 +60,6 @@ namespace ReliefProLL
             }
             Scenario Model = new Scenario();
             Model = model;
-            UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
             Model.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate, uomEnum.UserMassRate, Model.ReliefLoad);
             Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature, uomEnum.UserTemperature, Model.ReliefTemperature);
             Model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure, uomEnum.UserPressure, Model.ReliefPressure);

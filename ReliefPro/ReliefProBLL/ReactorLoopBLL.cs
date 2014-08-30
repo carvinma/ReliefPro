@@ -40,7 +40,7 @@ namespace ReliefProLL
             }
             ReactorLoopCommon Model = new ReactorLoopCommon();
             Model = model;
-            UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
             Model.EffluentTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.EffluentTemperature);
             Model.MaxGasRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.MaxGasRate);
             Model.TotalPurgeRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.TotalPurgeRate);

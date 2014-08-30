@@ -47,7 +47,7 @@ namespace ReliefProLL
             }
             DrumSize sizeModel = new DrumSize();
             sizeModel = model;
-            UOMLib.UOMEnum uomEnum = new UOMEnum(this.SessionPF);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
             sizeModel.Elevation = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, sizeModel.Elevation);
             sizeModel.Diameter = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, sizeModel.Diameter);
             sizeModel.Length = UnitConvert.Convert(UOMLib.UOMEnum.Length.ToString(), uomEnum.UserLength, sizeModel.Length);
