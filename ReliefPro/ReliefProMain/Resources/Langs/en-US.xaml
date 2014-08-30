@@ -322,6 +322,7 @@
     <s:String x:Key="LatentHeatforSupercriticalFluid">Latent Heat for Supercritical Fluid:</s:String>
     <s:String x:Key="DrumSurgeTimeThreshold">Drum Surge Time Threshold:</s:String>
     <s:String x:Key="GlobalDefaultViewStatusBar">...</s:String>
+    <s:String x:Key="GlobalDefaultViewErrorInfo">FlareName cannot be empty！</s:String>
 
     <!--AirCooledHXFireSizeView.xaml-->
     <s:String x:Key="AirCooledHXFireSizeViewTitle">AirCoolerFireView</s:String>
