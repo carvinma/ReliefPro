@@ -13,6 +13,7 @@ namespace ReliefProDAL.GlobalDefault
         {
             var t = session.Get<FlareSystem>(id);
             session.Delete(t);
+            session.Flush();
         }
         public void SaveGlobalDefault(ISession session, List<FlareSystem> lstFlarem, ConditionsSettings conditionsSettings)
         {
