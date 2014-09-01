@@ -106,7 +106,7 @@ namespace ReliefProMain.ViewModel.Drums
             if (!string.IsNullOrEmpty(drumModel.HeatInputModel))
                 selectedShotCut = drumModel.ShortCut;
 
-            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPF.Connection.ConnectionString);
             model = new DrumDepressuringModel(drumModel);
             model.InitialPressureUnit = uomEnum.UserPressure;
             model.VaporDensityUnit = uomEnum.UserDensity;
