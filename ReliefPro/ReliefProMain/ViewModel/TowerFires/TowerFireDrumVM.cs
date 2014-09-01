@@ -26,10 +26,11 @@ namespace ReliefProMain.ViewModel.TowerFires
         UOMLib.UOMEnum uomEnum;
         public TowerFireDrumVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
-            InitUnit();
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
+            InitUnit();
+
             Orientations = getOrientations();
             HeadTypes = getHeadTypes();
 

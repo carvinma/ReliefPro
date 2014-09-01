@@ -27,12 +27,12 @@ namespace ReliefProMain.ViewModel.TowerFires
         public UOMLib.UOMEnum uomEnum { get; set; }
         public TowerFireHXVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
+            SessionPlant = sessionPlant;
+            SessionProtectedSystem = sessionProtectedSystem;
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
             InitUnit();
             ExposedToFires = GetExposedToFires();
             Types = GetTypes();
-            SessionPlant = sessionPlant;
-            SessionProtectedSystem = sessionProtectedSystem;
 
             TowerFireHXDAL db = new TowerFireHXDAL();
             model = db.GetModel(SessionProtectedSystem, EqID);

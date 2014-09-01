@@ -28,9 +28,9 @@ namespace ReliefProMain.ViewModel.TowerFires
         UOMLib.UOMEnum uomEnum;
         public AreaVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
-            InitUnit();
             SessionPlant = sessionPlant;
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
+            InitUnit();
             SessionProtectedSystem = sessionProtectedSystem;
             TowerFireCoolerDAL db = new TowerFireCoolerDAL();
             model = db.GetModel(SessionProtectedSystem, EqID);

@@ -55,11 +55,11 @@ namespace ReliefProMain.ViewModel.TowerFires
         Tower TowerInfo;
         public TowerFireVM(int ScenarioID, string EqName, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string DirPlant, string DirProtectedSystem)
         {
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
-            InitUnit();
-
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
+            InitUnit();
+
             HeatInputModels = GetHeatInputModels();
             this.SourceFileInfo = sourceFileInfo;
 
