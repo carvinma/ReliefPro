@@ -41,7 +41,7 @@ namespace ReliefProMain.ViewModel.HXs
             CalcCMD = new DelegateCommand<object>(CalcResult);
 
 
-            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPF.Connection.ConnectionString);
             model.WettedBundleUnit = uomEnum.UserArea;
             model.ReliefLoadUnit = uomEnum.UserMassRate;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
@@ -67,7 +67,7 @@ namespace ReliefProMain.ViewModel.HXs
             model.dbmodel.ScenarioID = ScenarioID;
 
 
-            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPF.Connection.ConnectionString);
             model.WettedBundleUnit = uomEnum.UserArea;
             model.ReliefLoadUnit = uomEnum.UserMassRate;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
