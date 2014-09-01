@@ -17,6 +17,8 @@ namespace ReliefProModel.Compressors
         public virtual double ReliefMW { get; set; }
         public virtual double ReliefTemperature { get; set; }
         public virtual double ReliefPressure { get; set; }
+        public virtual double ReliefZ { get; set; }
+        public virtual double ReliefCpCv { get; set; }
 
         public virtual string ScenarioID_Color { get; set; }
         public virtual string Scale_Color { get; set; }
