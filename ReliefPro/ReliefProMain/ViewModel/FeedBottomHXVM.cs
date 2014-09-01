@@ -316,7 +316,7 @@ namespace ReliefProMain.ViewModel
         public FeedBottomHXVM(int HeatSourceID, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem)
         {
             SessionPlant = sessionPlant;
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             InitUnit();
             FileName = sourceFileInfo.FileName;
 

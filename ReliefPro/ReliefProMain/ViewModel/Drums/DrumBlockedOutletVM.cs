@@ -53,7 +53,7 @@ namespace ReliefProMain.ViewModel.Drums
             model.dbmodel.ScenarioID = ScenarioID;
             CalcCMD = new DelegateCommand<object>(CalcResult);
             OKCMD = new DelegateCommand<object>(Save);
-            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPF.Connection.ConnectionString);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
             model.PressureUnit = uomEnum.UserPressure;
             model.StreamRateUnit = uomEnum.UserMassRate;
             model.FlashingDutyUnit = uomEnum.UserEnthalpyDuty;

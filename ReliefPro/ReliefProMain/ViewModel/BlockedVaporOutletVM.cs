@@ -44,7 +44,7 @@ namespace ReliefProMain.ViewModel
         }
         private void InitUnit()
         {
-            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPF.Connection.ConnectionString);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
             model.InletGasUpstreamMaxPressureUnit = uomEnum.UserPressure;
             model.InletAbsorbentUpstreamMaxPressureUnit = uomEnum.UserPressure;
             model.NormalGasFeedWeightRateUnit = uomEnum.UserMassRate;

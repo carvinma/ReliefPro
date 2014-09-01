@@ -189,7 +189,7 @@ namespace ReliefProMain.ViewModel
         {
 
             SessionPlant = sessionPlant;
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             InitUnit();
             ScenarioID = scenarioID;
             EqName = eqName;

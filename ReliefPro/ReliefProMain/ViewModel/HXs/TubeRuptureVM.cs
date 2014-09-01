@@ -66,7 +66,7 @@ namespace ReliefProMain.ViewModel.HXs
             IList<BasicUnit> list = dbBU.GetAllList(SessionPF);
 
             BU = list.Where(s => s.IsDefault == 1).Single();
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPF.Connection.ConnectionString);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
             model.ReliefLoadUnit = uomEnum.UserMassRate;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
             model.ReliefPressureUnit = uomEnum.UserPressure;

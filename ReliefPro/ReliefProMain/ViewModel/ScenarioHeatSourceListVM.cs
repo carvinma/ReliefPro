@@ -54,7 +54,7 @@ namespace ReliefProMain.ViewModel
         public ScenarioHeatSourceListVM(int ScenarioStreamID, SourceFile sourceFileInfo, ISession SessionPlant, ISession SessionProtectedSystem)
         {
             this.SessionPlant = SessionPlant;
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             this.ScenarioStreamID = ScenarioStreamID;
 
             this.SessionProtectedSystem = SessionProtectedSystem;

@@ -78,7 +78,7 @@ namespace ReliefProMain.ViewModel
         public HeatSourceListVM(int SourceID, SourceFile sourceFileInfo, ISession SessionPlant, ISession SessionProtectedSystem)
         {
             this.SessionPlant = SessionPlant;
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             this.SourceID = SourceID;
             heatSourceDAL = new HeatSourceDAL();
 

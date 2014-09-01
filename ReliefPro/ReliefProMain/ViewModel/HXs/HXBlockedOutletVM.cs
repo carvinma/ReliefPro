@@ -93,7 +93,7 @@ namespace ReliefProMain.ViewModel.HXs
             model.ColdStream = normalColdInlet.StreamName;
 
 
-            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPF.Connection.ConnectionString);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
             model.NormalDutyUnit = uomEnum.UserEnthalpyDuty;
             model.NormalHotTemperatureUnit = uomEnum.UserTemperature;
             model.NormalColdInletTemperatureUnit = uomEnum.UserTemperature;

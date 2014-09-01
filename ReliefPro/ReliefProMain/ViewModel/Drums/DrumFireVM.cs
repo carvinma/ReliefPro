@@ -118,7 +118,7 @@ namespace ReliefProMain.ViewModel.Drums
             if (!string.IsNullOrEmpty(fireModel.HeatInputModel))
                 SelectedHeatInputModel = fireModel.HeatInputModel;
 
-            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             model = new DrumFireModel(fireModel);
             model.WettedAreaUnit = uomEnum.UserArea;
             model.LatentHeatUnit = uomEnum.UserSpecificEnthalpy;

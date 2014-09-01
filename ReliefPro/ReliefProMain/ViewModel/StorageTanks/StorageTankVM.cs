@@ -45,7 +45,7 @@ namespace ReliefProMain.ViewModel.StorageTanks
         {
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
             BasicUnit BU;

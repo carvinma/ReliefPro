@@ -113,7 +113,7 @@ namespace ReliefProMain.ViewModel
         public AbnormalHeatInputVM(int ScenarioID, ISession SessionPlant, ISession SessionProtectedSystem)
         {
             this.SessionPlant = SessionPlant;
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             InitUnit();
             this.ScenarioID = ScenarioID;
             this.SessionProtectedSystem = SessionProtectedSystem;

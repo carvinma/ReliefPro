@@ -55,7 +55,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             model = new ReactorLoopCommonModel(blockModel);
             model.dbmodel.ScenarioID = ScenarioID;
 
-            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPF.Connection.ConnectionString);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
             model.EffluentTemperatureUnit = uomEnum.UserTemperature;
             model.MaxGasRateUnit = uomEnum.UserMassRate;
             model.TotalPurgeRateUnit = uomEnum.UserMassRate;
