@@ -18,6 +18,7 @@ using System.Windows;
 using System.Collections.ObjectModel;
 using ReliefProModel.HXs;
 using ReliefProDAL.HXs;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.ViewModel.HXs
 {
@@ -51,11 +52,11 @@ namespace ReliefProMain.ViewModel.HXs
             if (ScenarioID == 0)
             {
                 TubeRupture dbmodel = new TubeRupture();
+                dbmodel.OD_Color = ColorBorder.red.ToString();
                 model = new TubeRuptureModel(dbmodel);
             }
             else
             {
-
                 TubeRupture dbmodel = dal.GetModelByScenarioID(SessionPS, ScenarioID);
                 model = new TubeRuptureModel(dbmodel);
 
@@ -76,9 +77,10 @@ namespace ReliefProMain.ViewModel.HXs
 
         public void CalcResult(object obj)
         {
+            if (!CheckData()) return;
+            CustomStreamBLL csbll=new CustomStreamBLL(SessionPF,SessionPS);
+            ObservableCollection <CustomStream> feeds = csbll.GetStreams(SessionPS, false);
 
-            CustomStreamBLL csbll = new CustomStreamBLL(SessionPF, SessionPS);
-            ObservableCollection<CustomStream> feeds = csbll.GetStreams(SessionPS, false);
             csHigh = feeds[0];
             if (csHigh.Pressure < feeds[1].Pressure)
                 csHigh = feeds[1];
@@ -162,10 +164,18 @@ namespace ReliefProMain.ViewModel.HXs
         /// <param name="calcType"></param>
         private void Calc(int calcType)
         {
+<<<<<<< .mine
+            
+            double d = UnitConvert.Convert( model.ODUnit,"in",  model.OD);
+            double p1=csHigh.Pressure;
+            double p2=reliefPressure;
+            double rmass=0;
+=======
             double d = UnitConvert.Convert(model.ODUnit, "in", model.OD);
             double p1 = csHigh.Pressure;
             double p2 = reliefPressure;
             double rmass = 0;
+>>>>>>> .r1572
             bool b = false;
             double pcf = 0;
             b = Algorithm.CheckCritial(p1, p2, k, ref pcf);
@@ -262,6 +272,7 @@ namespace ReliefProMain.ViewModel.HXs
 
         private void Save(object obj)
         {
+
             if (!model.CheckData()) return;
             if (obj != null)
             {
@@ -291,6 +302,19 @@ namespace ReliefProMain.ViewModel.HXs
             model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
             model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
         }
+
+        private bool CheckDataValid()
+        {
+            bool b = true;
+            if (model.OD <= 0)
+            {
+                string message= Application.Current.FindResource("ZeroWarning").ToString();
+                MessageBox.Show(message,"Message Box");
+                return false;
+            }
+            return b;
+        }
+
 
     }
 }
