@@ -44,7 +44,7 @@ namespace ReliefProLL
             }
             ConditionsSettings settingsModel = new ConditionsSettings();
             settingsModel = model;
-            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPF.Connection.ConnectionString);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
             settingsModel.LatentHeatSettings = UnitConvert.Convert(UOMLib.UOMEnum.SpecificEnthalpy.ToString(), uomEnum.UserSpecificEnthalpy, settingsModel.LatentHeatSettings);
             settingsModel.DrumSurgeTimeSettings = UnitConvert.Convert(UOMLib.UOMEnum.Time.ToString(), uomEnum.UserTime, settingsModel.DrumSurgeTimeSettings);
             return settingsModel;

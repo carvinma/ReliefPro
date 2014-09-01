@@ -22,7 +22,7 @@ namespace ReliefProLL
         {
             this.SessionPF = SessionPF;
             this.SessionPS = SessionPS;
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPF.Connection.ConnectionString);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
         }
         public BlockedVaporOutlet GeModel(int ScenarioID, int OutletType)
         {

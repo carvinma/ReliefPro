@@ -23,7 +23,7 @@ namespace ReliefProLL
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPF.Connection.ConnectionString);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
         }
         public CentrifugalBlockedOutlet GetCentrifugalModel(int ScenarioID)
         {
