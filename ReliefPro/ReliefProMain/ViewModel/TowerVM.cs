@@ -118,10 +118,11 @@ namespace ReliefProMain.ViewModel
         int op = 1;
         public TowerVM(string towerName, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
-            ColorImport = "Gray";
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
+            ColorImport = "Gray";
+
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
             SideColumns = new List<SideColumn>();
