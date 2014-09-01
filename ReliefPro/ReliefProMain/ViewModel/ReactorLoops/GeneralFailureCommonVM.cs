@@ -38,7 +38,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
         private void InitPage()
         {
-            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPF.Connection.ConnectionString);
             model.ReliefLoadUnit = uomEnum.UserMassRate;
             model.ReliefPressureUnit = uomEnum.UserPressure;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
