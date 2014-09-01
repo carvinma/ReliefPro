@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ReliefProModel.HXs;
-
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.Models.HXs
 {
@@ -61,14 +61,16 @@ namespace ReliefProMain.Models.HXs
                 model = new TubeRupture();
             dbmodel = model;
 
-            this.OD = model.OD;
-            this.ReliefPressure = model.ReliefPressure;
-            this.ReliefLoad = model.ReliefLoad;
-            this.ReliefMW = this.ReliefMW;
-            this.ReliefTemperature = this.ReliefTemperature;
+            this.OD = dbmodel.OD;
+            this.OD_Color = dbmodel.OD_Color;
+            this.ReliefPressure = dbmodel.ReliefPressure;
+            this.ReliefLoad = dbmodel.ReliefLoad;
+            this.ReliefMW = dbmodel.ReliefMW;
+            this.ReliefTemperature = dbmodel.ReliefTemperature;
         }
 
-       
+        [ReliefProMain.Util.Required(ErrorMessage = "ODEmpty")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         private double _OD;
         public double OD
         {
@@ -76,7 +78,25 @@ namespace ReliefProMain.Models.HXs
             set
             {
                 _OD = value;
+                if (_OD > 0)
+                {
+                    OD_Color = ColorBorder.blue.ToString();
+                }
+                else
+                {
+                    OD_Color = ColorBorder.red.ToString();
+                }
                 this.NotifyPropertyChanged("OD");
+            }
+        }
+        private string _OD_Color;
+        public string OD_Color
+        {
+            get { return _OD_Color; }
+            set
+            {
+                _OD_Color = value;
+                this.NotifyPropertyChanged("OD_Color");
             }
         }
 

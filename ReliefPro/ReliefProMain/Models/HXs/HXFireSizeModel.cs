@@ -85,7 +85,7 @@ namespace ReliefProMain.Models.HXs
             }
         }
         private double oD;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.Required(ErrorMessage = "ODWarning")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double OD
         {
@@ -98,7 +98,7 @@ namespace ReliefProMain.Models.HXs
         }
 
         private double length;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.Required(ErrorMessage = "LengthWarning")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double Length
         {
@@ -111,7 +111,7 @@ namespace ReliefProMain.Models.HXs
         }
 
         private double elevation;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.Required(ErrorMessage = "ElevationWarning")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double Elevation
         {
@@ -124,7 +124,6 @@ namespace ReliefProMain.Models.HXs
         }
 
         private double pipingContingency;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double PipingContingency
         {
