@@ -163,19 +163,12 @@ namespace ReliefProMain.ViewModel.HXs
         /// </summary>
         /// <param name="calcType"></param>
         private void Calc(int calcType)
-        {
-<<<<<<< .mine
-            
+        {            
             double d = UnitConvert.Convert( model.ODUnit,"in",  model.OD);
             double p1=csHigh.Pressure;
             double p2=reliefPressure;
             double rmass=0;
-=======
-            double d = UnitConvert.Convert(model.ODUnit, "in", model.OD);
-            double p1 = csHigh.Pressure;
-            double p2 = reliefPressure;
-            double rmass = 0;
->>>>>>> .r1572
+
             bool b = false;
             double pcf = 0;
             b = Algorithm.CheckCritial(p1, p2, k, ref pcf);
