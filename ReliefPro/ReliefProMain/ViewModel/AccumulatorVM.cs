@@ -53,7 +53,7 @@ namespace ReliefProMain.ViewModel
 
         private double _Diameter;
 
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        [ReliefProMain.Util.Required(ErrorMessage = "PressureWarning")]
         [ReliefProMain.Util.RegularExpression(ViewModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double Diameter
         {

@@ -56,7 +56,7 @@ namespace ReliefProMain.Util
         { }
         public override string FormatErrorMessage(string name)
         {
-            return name + "" + LanguageHelper.GetValueByKey(this.ErrorMessage);
+            return LanguageHelper.GetValueByKey(this.ErrorMessage);
         }
     }
 }
