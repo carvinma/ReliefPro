@@ -79,10 +79,11 @@ namespace ReliefProMain.ViewModel
         }
         public TowerHXVM(string name, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
-            InitUnit();
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
+
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
+            InitUnit();
 
             TowerHXDAL db = new TowerHXDAL();
             TowerHX hx = db.GetModel(SessionProtectedSystem, name);

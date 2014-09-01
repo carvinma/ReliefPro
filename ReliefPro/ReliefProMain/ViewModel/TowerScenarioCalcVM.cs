@@ -131,11 +131,12 @@ namespace ReliefProMain.ViewModel
         private string EqName;
         public TowerScenarioCalcVM(string EqName, string ScenarioName, int scenarioID, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string DirPlant, string DirProtectedSystem)
         {
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
-            InitUnit();
-            ScenarioID = scenarioID;
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
+            InitUnit();
+            ScenarioID = scenarioID;
+
             SourceFileInfo = sourceFileInfo;
             this.ScenarioName = ScenarioName;
             this.EqName = EqName;
