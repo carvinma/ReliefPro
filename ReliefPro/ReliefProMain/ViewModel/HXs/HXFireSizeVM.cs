@@ -57,7 +57,7 @@ namespace ReliefProMain.ViewModel.HXs
             if (!string.IsNullOrEmpty(fireModel.Type))
             { SelectedType = fireModel.Type; }
 
-            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
+            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPF.Connection.ConnectionString);
             model.ODUnit = uomEnum.UserLength;
             model.LengthUnit = uomEnum.UserLength;
             model.ElevationUnit = uomEnum.UserLength;
