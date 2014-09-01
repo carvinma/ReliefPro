@@ -152,7 +152,7 @@ namespace ReliefProMain.ViewModel
             ValveTypes = GetValveTypes();
             DischargeTos = GetDischargeTos();
             Locations = GetLocations();
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
             this.psvPressureUnit = uomEnum.UserPressure;
             this.drumPSVPressureUnit = uomEnum.UserPressure;
             if (eqType == "Tower")

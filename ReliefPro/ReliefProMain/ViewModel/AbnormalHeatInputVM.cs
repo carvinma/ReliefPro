@@ -112,10 +112,10 @@ namespace ReliefProMain.ViewModel
 
         public AbnormalHeatInputVM(int ScenarioID, ISession SessionPlant, ISession SessionProtectedSystem)
         {
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPlant.Connection.ConnectionString);
+            this.SessionPlant = SessionPlant;
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
             InitUnit();
             this.ScenarioID = ScenarioID;
-            this.SessionPlant = SessionPlant;
             this.SessionProtectedSystem = SessionProtectedSystem;
             Heaters = new ObservableCollection<AbnormalHeaterDetailModel>();
             abnormalHeaterDetailDAL = new AbnormalHeaterDetailDAL();

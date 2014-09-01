@@ -177,10 +177,11 @@ namespace ReliefProMain.ViewModel
         }
         public AccumulatorVM(string name, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
+            SessionPlant = sessionPlant;
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
             InitUnit();
             AccumulatorTypes = GetAccumulatorTypes();
-            SessionPlant = sessionPlant;
+
             SessionProtectedSystem = sessionProtectedSystem;
 
             AccumulatorDAL db = new AccumulatorDAL();

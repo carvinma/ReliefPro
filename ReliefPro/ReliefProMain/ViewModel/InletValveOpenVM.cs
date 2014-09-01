@@ -188,7 +188,8 @@ namespace ReliefProMain.ViewModel
         public InletValveOpenVM(int scenarioID, string eqName, string eqType, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
 
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
+            SessionPlant = sessionPlant;
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
             InitUnit();
             ScenarioID = scenarioID;
             EqName = eqName;
@@ -196,7 +197,7 @@ namespace ReliefProMain.ViewModel
             DirPlant = dirPlant;
             SourceFileInfo = sourceFileInfo;
             FileFullPath = DirPlant + @"\" + sourceFileInfo.FileNameNoExt + @"\" + sourceFileInfo.FileName;
-            SessionPlant = sessionPlant;
+
             SessionProtectedSystem = sessionProtectedSystem;
             OperatingPhases = GetOperatingPhases();
 

@@ -315,10 +315,11 @@ namespace ReliefProMain.ViewModel
         int HeatSourceID;
         public FeedBottomHXVM(int HeatSourceID, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem)
         {
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
+            SessionPlant = sessionPlant;
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
             InitUnit();
             FileName = sourceFileInfo.FileName;
-            SessionPlant = sessionPlant;
+
             SessionProtectedSystem = sessionProtectedSystem;
             heatSourceDAL = new HeatSourceDAL();
             sourceDAL = new SourceDAL();
