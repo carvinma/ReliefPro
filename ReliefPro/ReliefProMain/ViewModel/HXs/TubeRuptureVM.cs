@@ -66,7 +66,7 @@ namespace ReliefProMain.ViewModel.HXs
             IList<BasicUnit> list = dbBU.GetAllList(SessionPF);
 
             BU = list.Where(s => s.IsDefault == 1).Single();
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == SessionPF.Connection.ConnectionString);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPF.Connection.ConnectionString);
             model.ReliefLoadUnit = uomEnum.UserMassRate;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
             model.ReliefPressureUnit = uomEnum.UserPressure;
@@ -78,8 +78,8 @@ namespace ReliefProMain.ViewModel.HXs
         public void CalcResult(object obj)
         {
             if (!CheckData()) return;
-            CustomStreamBLL csbll=new CustomStreamBLL(SessionPF,SessionPS);
-            ObservableCollection <CustomStream> feeds = csbll.GetStreams(SessionPS, false);
+            CustomStreamBLL csbll = new CustomStreamBLL(SessionPF, SessionPS);
+            ObservableCollection<CustomStream> feeds = csbll.GetStreams(SessionPS, false);
 
             csHigh = feeds[0];
             if (csHigh.Pressure < feeds[1].Pressure)
@@ -301,8 +301,8 @@ namespace ReliefProMain.ViewModel.HXs
             bool b = true;
             if (model.OD <= 0)
             {
-                string message= Application.Current.FindResource("ZeroWarning").ToString();
-                MessageBox.Show(message,"Message Box");
+                string message = Application.Current.FindResource("ZeroWarning").ToString();
+                MessageBox.Show(message, "Message Box");
                 return false;
             }
             return b;
