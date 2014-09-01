@@ -354,7 +354,7 @@
     <s:String x:Key="HXFireSizeViewStatusBar">...</s:String>
 
     <!--TubeRuptureView.xaml-->
-    <s:String x:Key="TubeRuptureViewTitle">TubeRuptureView</s:String>
+    <s:String x:Key="TubeRuptureViewTitle">Tube Rupture</s:String>
     <s:String x:Key="TubeRuptureViewStatusBar">...</s:String>
 
     <!--GeneralCoolingWaterFailureView.xaml-->
@@ -632,6 +632,12 @@
     <s:String x:Key="ChangeTo">Change To:</s:String>
     <s:String x:Key="Longdescriptions">Long descriptions</s:String>
     <s:String x:Key="UnitConvertCommonViewStatusBar">...</s:String>
-    
+
+  
+
+    <s:String x:Key="ODWarning">OD must be greater than zero</s:String>
+    <s:String x:Key="LengthWarning">Length must be greater than zero</s:String>
+    <s:String x:Key="ElevationWarning">Length must be greater than zero</s:String>
+    <s:String x:Key="WettedBundleWarning">Wetted Bundle must be greater than zero</s:String>
 
 </ResourceDictionary>
