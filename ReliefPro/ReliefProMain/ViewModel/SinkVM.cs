@@ -30,7 +30,7 @@ namespace ReliefProMain.ViewModel
         {
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == sessionPlant.Connection.ConnectionString);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionDBPath == this.SessionPlant.Connection.ConnectionString);
             db = new SinkDAL();
             Sink sink = db.GetModel(SessionProtectedSystem, name);
             MainModel = new SinkModel(sink);
