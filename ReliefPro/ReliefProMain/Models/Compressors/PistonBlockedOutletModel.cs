@@ -50,6 +50,8 @@ namespace ReliefProMain.Models.Compressors
             this.reliefload = model.Reliefload;
             this.reliefTemperature = model.ReliefTemperature;
             this.reliefPressure = model.ReliefPressure;
+            this.ReliefCpCv = model.ReliefCpCv;
+            this.ReliefZ = model.ReliefZ;
 
             this.ratedCapacity_Color = model.RatedCapacity_Color;
             this.reliefMW_Color = model.ReliefMW_Color;
@@ -110,6 +112,27 @@ namespace ReliefProMain.Models.Compressors
             {
                 reliefPressure = value;
                 this.NotifyPropertyChanged("ReliefPressure");
+            }
+        }
+
+        private double reliefCpCv;
+        public double ReliefCpCv
+        {
+            get { return reliefCpCv; }
+            set
+            {
+                reliefCpCv = value;
+                this.NotifyPropertyChanged("ReliefCpCv");
+            }
+        }
+        private double reliefZ;
+        public double ReliefZ
+        {
+            get { return reliefZ; }
+            set
+            {
+                reliefZ = value;
+                this.NotifyPropertyChanged("ReliefZ");
             }
         }
 
