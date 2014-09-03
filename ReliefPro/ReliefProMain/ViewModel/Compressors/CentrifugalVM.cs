@@ -60,6 +60,8 @@ namespace ReliefProMain.ViewModel.Compressors
             model.dbmodel.InletLoad = model.InletLoad;
             model.dbmodel.OutletPressure = model.OutletPressure;
             model.dbmodel.SurgeLoad = model.SurgeLoad;
+            model.dbmodel.ReliefCpCv = model.ReliefCpCv;
+            model.dbmodel.ReliefZ = model.ReliefZ;
             //model.dbmodel.InletLoad = UnitConvert.Convert(model.InletLoad, UOMLib.UOMEnum.Viscosity.ToString(), model.ReliefPressure);
             //model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
             //model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
@@ -128,7 +130,8 @@ namespace ReliefProMain.ViewModel.Compressors
                 model.ReliefMW = cs.BulkMwOfPhase;
                 model.ReliefTemperature = cs.Temperature;
                 model.ReliefPressure = PDesign;
-
+                model.ReliefCpCv = cs.BulkCPCVRatio;
+                model.ReliefZ = cs.VaporZFmKVal;
             }
 
 
