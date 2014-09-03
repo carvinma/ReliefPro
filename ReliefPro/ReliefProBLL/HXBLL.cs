@@ -18,6 +18,7 @@ namespace ReliefProBLL
         private HXBlockedOutletDAL dbBlock = new HXBlockedOutletDAL();
         private AirCooledHXFireSizeDAL dbAir = new AirCooledHXFireSizeDAL();
         private HXFireSizeDAL dbFire = new HXFireSizeDAL();
+        private ScenarioDAL dbScenario = new ScenarioDAL();
         public HXBLL(ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
@@ -26,8 +27,21 @@ namespace ReliefProBLL
         public HXBlockedOutlet GetHXBlockedOutletModel(int ScenarioID)
         {
             var model = dbBlock.GetModelByScenarioID(SessionPS, ScenarioID);
+            var sModel = dbScenario.GetModel(ScenarioID, SessionPS);
             if (model == null)
                 model = new HXBlockedOutlet();
+            else
+            {
+                if (sModel != null)
+                {
+                    model.ReliefLoad = sModel.ReliefLoad;
+                    model.ReliefPressure = sModel.ReliefPressure;
+                    model.ReliefTemperature = sModel.ReliefTemperature;
+                    model.ReliefMW = sModel.ReliefMW;
+                    model.ReliefCpCv = sModel.ReliefCpCv;
+                    model.ReliefZ = sModel.ReliefZ;
+                }
+            }
             return model;
         }
         public HXBlockedOutlet ReadConvertHXBlockedOutletModel(HXBlockedOutlet model)
