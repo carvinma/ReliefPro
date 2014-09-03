@@ -229,6 +229,7 @@
     <Compile Include="Models\ScenarioHeatSourceModel.cs" />
     <Compile Include="Models\ScenarioModel.cs" />
     <Compile Include="Models\SinkModel.cs" />
+    <Compile Include="Models\TowerFireColumnDetailModel.cs" />
     <Compile Include="Models\TowerFireColumnModel.cs" />
     <Compile Include="Models\TowerFireModel.cs" />
     <Compile Include="Models\TowerHXDetailModel.cs" />

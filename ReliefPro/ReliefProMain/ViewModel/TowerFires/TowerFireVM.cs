@@ -299,12 +299,13 @@ namespace ReliefProMain.ViewModel.TowerFires
                     eq.HeatInput = Algorithm.GetQ(C1, eq.FFactor, eq.WettedArea);
                     eq.ReliefLoad = (eq.HeatInput / latentEnthalpy);
                     db.Update(eq, SessionProtectedSystem);
+                    SessionProtectedSystem.Flush();
                     IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, MainModel.ID);
                     foreach (TowerFireEq q in list)
                     {
                         EqList.Add(q);
                     }
-                    SessionProtectedSystem.Flush();
+                   
                 }
             }
             else if (eq.Type == "Drum")

@@ -14,6 +14,7 @@ using ReliefProMain.Service;
 using ReliefProMain.Models;
 using UOMLib;
 using NHibernate;
+using System.Windows;
 
 namespace ReliefProMain.ViewModel.TowerFires
 {
@@ -37,19 +38,19 @@ namespace ReliefProMain.ViewModel.TowerFires
 
             TowerFireColumnDetailDAL dbDetail = new TowerFireColumnDetailDAL();
             TowerFireColumnDAL db = new TowerFireColumnDAL();
-            model = new TowerFireColumnModel();
-            model.Instance = db.GetModel(sessionProtectedSystem, EqID);
-            if (model.Instance == null)
+
+            TowerFireColumn c = db.GetModel(sessionProtectedSystem, EqID);
+            
+            if (c == null)
             {
-                model.Instance = new TowerFireColumn();
-                model.Instance.NumberOfSegment = 0;
-                model.Instance = new TowerFireColumn();
-                model.Instance.NumberOfSegment = 0;
-                model.Instance.EqID = EqID;
-                model.Instance.PipingContingency = 10;
+                c = new TowerFireColumn();
+                c.NumberOfSegment = 0;
+                c.EqID = EqID;
+                c.PipingContingency = 10;
+                model = new TowerFireColumnModel(c);              
                 try
                 {
-                    db.Add(model.Instance, sessionProtectedSystem);
+                    db.Add(model.dbmodel, sessionProtectedSystem);
                 }
                 catch (Exception ex)
                 {
@@ -57,19 +58,19 @@ namespace ReliefProMain.ViewModel.TowerFires
             }
             else
             {
-                ReadConvert();
+                model = new TowerFireColumnModel(c);                                
             }
-            IList<TowerFireColumnDetail> list = dbDetail.GetAllList(sessionProtectedSystem, model.Instance.ID);
-            model.Details = new ObservableCollection<TowerFireColumnDetail>();
+            ReadConvert();
+            IList<TowerFireColumnDetail> list = dbDetail.GetAllList(sessionProtectedSystem, model.ID);
+            model.Details = new ObservableCollection<TowerFireColumnDetailModel>();
             foreach (TowerFireColumnDetail detail in list)
             {
-                detail.Height = UnitConvert.Convert(UOMEnum.Length, uomEnum.UserLength, detail.Height);
-                detail.Diameter = UnitConvert.Convert(UOMEnum.Length, uomEnum.UserLength, detail.Diameter);
-                model.Details.Add(detail);
+                TowerFireColumnDetailModel dm = new TowerFireColumnDetailModel(detail);
+                dm.Height = UnitConvert.Convert(UOMEnum.Length, uomEnum.UserLength, detail.Height);
+                dm.Diameter = UnitConvert.Convert(UOMEnum.Length, uomEnum.UserLength, detail.Diameter);
+                model.Details.Add(dm);
             }
-
-
-
+            
         }
 
         private ICommand _OKClick;
@@ -88,49 +89,61 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private void Update(object window)
         {
-            if (!model.CheckData()) return;
-            TowerFireColumnDAL db = new TowerFireColumnDAL();
-            TowerFireColumn m = db.GetModel(model.Instance.ID, SessionProtectedSystem);
-            m.BNLL = model.Instance.BNLL;
-            WriteConvert();
-            m.NumberOfSegment = model.Instance.NumberOfSegment;
-            m.LiquidHoldup = model.Instance.LiquidHoldup;
-            m.PipingContingency = model.Instance.PipingContingency;
-            m.Elevation = model.Instance.Elevation;
-
-            db.Update(m, SessionProtectedSystem);
-
-            TowerFireColumnDetailDAL dbDetail = new TowerFireColumnDetailDAL();
-            IList<TowerFireColumnDetail> list = dbDetail.GetAllList(SessionProtectedSystem, model.Instance.ID);
-            //model.Details = new ObservableCollection<TowerFireColumnDetail>();
-            foreach (TowerFireColumnDetail d in list)
+            try
             {
-                dbDetail.Delete(d, SessionProtectedSystem);
+                if (!model.CheckData()) return;
+                TowerFireColumnDAL db = new TowerFireColumnDAL();
+                
+                WriteConvert();
+                model.dbmodel.NumberOfSegment = model.NumberOfSegment;
+                //model.dbmodel.LiquidHoldup = model.InstaLiquidHoldup;
+                model.dbmodel.PipingContingency = model.PipingContingency;
+                               
+                db.Update(model.dbmodel, SessionProtectedSystem);
+                SessionProtectedSystem.Flush();
+
+                TowerFireColumnDetailDAL dbDetail = new TowerFireColumnDetailDAL();
+                IList<TowerFireColumnDetail> list = dbDetail.GetAllList(SessionProtectedSystem, model.ID);
+                //model.Details = new ObservableCollection<TowerFireColumnDetail>();
+                foreach (TowerFireColumnDetail d in list)
+                {
+                    dbDetail.Delete(d, SessionProtectedSystem);
+                }
+
+                foreach (TowerFireColumnDetailModel detail in model.Details)
+                {
+                    detail.dbmodel.ColumnID = detail.ColumnID;
+                    detail.dbmodel.Diameter = UnitConvert.Convert(uomEnum.UserLength, UOMEnum.Length, detail.Diameter); 
+                    detail.dbmodel.Height = UnitConvert.Convert(uomEnum.UserLength, UOMEnum.Length, detail.Height);
+                    detail.Segment = detail.Segment;
+                    detail.dbmodel.Diameter_Color = detail.Diameter_Color;
+                    detail.dbmodel.Height_Color = detail.Height_Color;
+                    dbDetail.Add(detail.dbmodel, SessionProtectedSystem);
+                    double L3 = model.Elevation;
+                    double L1 = model.BNLL;
+                    double hw = detail.Height;
+                    int n = detail.Trays;
+                    double L2 = (hw + 0.05) * n;
+                    double diameter = detail.Diameter;
+                    Area = Area + Algorithm.GetColumnArea(detail.Internal, n, L1, L2, L3, diameter);
+
+                }
+                
+
+                Area = Area + Area * model.PipingContingency / 100;
+
+
+
+                System.Windows.Window wd = window as System.Windows.Window;
+
+                if (wd != null)
+                {
+                    wd.DialogResult = true;
+                }
             }
-
-            foreach (TowerFireColumnDetail detail in model.Details)
+            catch (Exception ex)
             {
-                dbDetail.Add(detail, SessionProtectedSystem);
-                double L3 = model.Instance.Elevation;
-                double L1 = model.Instance.BNLL;
-                double hw = detail.Height;
-                int n = detail.Trays;
-                double L2 = (hw + 0.05) * n;
-                double diameter = detail.Diameter;
-                Area = Area + Algorithm.GetColumnArea(detail.Internal, n, L1, L2, L3, diameter);
-
-            }
-            SessionProtectedSystem.Flush();
-
-            Area = Area + Area * model.Instance.PipingContingency / 100;
-
-
-
-            System.Windows.Window wd = window as System.Windows.Window;
-
-            if (wd != null)
-            {
-                wd.DialogResult = true;
+                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -143,32 +156,23 @@ namespace ReliefProMain.ViewModel.TowerFires
         }
         private void ReadConvert()
         {
-
-            model.Instance.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, model.Instance.Elevation);
-            model.Instance.BNLL = UnitConvert.Convert(UOMEnum.Length, levelUnit, model.Instance.BNLL);
+            model.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, model.dbmodel.Elevation);
+            model.BNLL = UnitConvert.Convert(UOMEnum.Length, levelUnit, model.dbmodel.BNLL);
         }
         private void WriteConvert()
         {
-            model.Instance.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, model.Instance.Elevation);
-            model.Instance.BNLL = UnitConvert.Convert(levelUnit, UOMEnum.Length, model.Instance.BNLL);
+            model.dbmodel.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, model.Elevation);
+            model.dbmodel.BNLL = UnitConvert.Convert(levelUnit, UOMEnum.Length, model.BNLL);
         }
         private void InitUnit()
         {
             this.elevationUnit = uomEnum.UserLength;
             this.levelUnit = uomEnum.UserLength;
+
         }
 
         #region 单位字段
-        private string elevationUnit;
-        public string ElevationUnit
-        {
-            get { return elevationUnit; }
-            set
-            {
-                elevationUnit = value;
-                OnPropertyChanged("ElevationUnit");
-            }
-        }
+       
         private string levelUnit;
         public string LevelUnit
         {
@@ -179,6 +183,17 @@ namespace ReliefProMain.ViewModel.TowerFires
                 OnPropertyChanged("LevelUnit");
             }
         }
+        private string elevationUnit;
+        public string ElevationUnit
+        {
+            get { return elevationUnit; }
+            set
+            {
+                elevationUnit = value;
+                OnPropertyChanged("ElevationUnit");
+            }
+        }
+       
         #endregion
     }
 }

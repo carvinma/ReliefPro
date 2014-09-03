@@ -495,12 +495,18 @@ namespace ReliefProMain
 
         private void SavePlant()
         {
-            ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
-            foreach (TVPlantViewModel p in list)
+            try
             {
-                string currentPlantWorkFolder = p.tvPlant.FullPath;
-                string currentPlantFile = p.tvPlant.FullRefPath;
-                ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
+                ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
+                foreach (TVPlantViewModel p in list)
+                {                    
+                    string currentPlantWorkFolder = p.tvPlant.FullPath;
+                    string currentPlantFile = p.tvPlant.FullRefPath;
+                    ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
+                }
+            }
+            catch (Exception ex)
+            {
             }
         }
 
@@ -918,7 +924,8 @@ namespace ReliefProMain
 
         private void MainWindowApp_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to save all plants?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+             MessageBoxResult r=MessageBox.Show("Are you sure you want to save all plants?", "", MessageBoxButton.YesNoCancel);
+            if ( r== MessageBoxResult.Yes)
             {
                 var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
                 if (firstDocumentPane != null)
@@ -931,6 +938,11 @@ namespace ReliefProMain
                     }
                 }
                 SavePlant();
+            }
+            else if (r == MessageBoxResult.Cancel)
+            {
+                e.Cancel = true;
+                return;
             }
 
 

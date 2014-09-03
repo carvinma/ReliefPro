@@ -28,7 +28,7 @@ namespace ReliefProMain.ViewModel
 
         UOMLib.UOMEnum uomEnum;
         public SourceVM(string name, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem)
-        {
+        {           
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
             SourceFileInfo = sourceFileInfo;
@@ -36,7 +36,7 @@ namespace ReliefProMain.ViewModel
             BasicUnitDAL dbBU = new BasicUnitDAL();
             IList<BasicUnit> list = dbBU.GetAllList(sessionPlant);
             BU = list.Where(s => s.IsDefault == 1).Single();
-
+           
             uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             Source source = sourcedal.GetModel(SessionProtectedSystem, name);
             model = new SourceModel(source);

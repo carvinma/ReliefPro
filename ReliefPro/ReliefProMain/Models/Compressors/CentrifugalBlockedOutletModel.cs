@@ -54,8 +54,8 @@ namespace ReliefProMain.Models.Compressors
             this.reliefload = model.Reliefload;
             this.reliefTemperature = model.ReliefTemperature;
             this.reliefPressure = model.ReliefPressure;
-            this.reliefCpCv = model;
-            this.reliefPressure = model.ReliefPressure;
+            this.reliefCpCv = model.ReliefCpCv;
+            this.reliefZ = model.ReliefZ;
 
             this.inletLoad_Color = model.InletLoad_Color;
             this.outletPressure_Color = model.OutletPressure_Color;

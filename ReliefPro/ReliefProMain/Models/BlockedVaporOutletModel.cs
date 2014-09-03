@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ReliefProModel;
 using ReliefProModel.Towers;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.Models
 {
@@ -72,13 +73,28 @@ namespace ReliefProMain.Models
             this.ReliefLoad = dbScenario.ReliefLoad;
             this.ReliefPressure = dbScenario.ReliefPressure;
             this.ReliefTemperature = dbScenario.ReliefTemperature;
+            this.ReliefMW = dbScenario.ReliefMW;
             this.ReliefCpCv = dbScenario.ReliefCpCv;
             this.ReliefZ = dbScenario.ReliefZ;
+            if (reliefMW == 0)
+            {
+                this.InletGasUpstreamMaxPressure_Color = ColorBorder.green.ToString();
+                this.InletAbsorbentUpstreamMaxPressure_Color = ColorBorder.green.ToString();
+                this.NormalGasFeedWeightRate_Color = ColorBorder.green.ToString();
+                this.NormalGasProductWeightRate_Color = ColorBorder.green.ToString();
+            }
+            else
+            {
+                this.InletGasUpstreamMaxPressure_Color = ColorBorder.blue.ToString();
+                this.InletAbsorbentUpstreamMaxPressure_Color = ColorBorder.blue.ToString();
+                this.NormalGasFeedWeightRate_Color = ColorBorder.blue.ToString();
+                this.NormalGasProductWeightRate_Color = ColorBorder.blue.ToString();
+            }
+
         }
         #region Value
 
         private double inletGasUpstreamMaxPressure;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double InletGasUpstreamMaxPressure
         {
@@ -91,7 +107,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double inletAbsorbentUpstreamMaxPressure;        
+        private double inletAbsorbentUpstreamMaxPressure;
+        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double InletAbsorbentUpstreamMaxPressure
         {
             get { return inletAbsorbentUpstreamMaxPressure; }

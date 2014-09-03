@@ -13,8 +13,8 @@ namespace ReliefProMain.Models
 {
     public class TowerFireColumnModel : ModelBase
     {
-        private ObservableCollection<TowerFireColumnDetail> _Details;
-        public ObservableCollection<TowerFireColumnDetail> Details
+        private ObservableCollection<TowerFireColumnDetailModel> _Details;
+        public ObservableCollection<TowerFireColumnDetailModel> Details
         {
             get
             {
@@ -27,38 +27,45 @@ namespace ReliefProMain.Models
             }
         }
 
-
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        private int _NumberOfSegment;
+        [ReliefProMain.Util.Required(ErrorMessage = "NumberOfSegmentWarning")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public int NumberOfSegment
         {
             get
             {
-                return this.Instance.NumberOfSegment;
+                return _NumberOfSegment;
             }
             set
             {
-                this.Instance.NumberOfSegment = value;
-                _Details.Clear();
-                int count =this.Instance.NumberOfSegment;
-                for (int i = 0; i < count; i++)
+                _NumberOfSegment = value;
+                if (_NumberOfSegment > _Details.Count)
                 {
-                    TowerFireColumnDetail detail=new TowerFireColumnDetail();
-                    detail.Segment = i + 1;
-                    detail.ColumnID = Instance.ID;
-                    _Details.Add(detail);
+                    for (int i = _Details.Count; i < _NumberOfSegment; i++)
+                    {
+                        TowerFireColumnDetail d = new TowerFireColumnDetail();
+                        TowerFireColumnDetailModel detail = new TowerFireColumnDetailModel(d);
+                        detail.Segment = i + 1;                        
+                        detail.ColumnID = dbmodel.ID;
+                        Details.Add(detail);
+                    }
                 }
-                Instance.NumberOfSegment = this.Instance.NumberOfSegment;
-                NotifyPropertyChanged("NumberOfSegment");
-                NotifyPropertyChanged("Details");
-
+                else
+                {
+                    for (int i =_Details.Count-1 ; i>=_NumberOfSegment; i++)
+                    {
+                        Details.RemoveAt(i);
+                    }
+                }
+                
+                NotifyPropertyChanged("NumberOfSegment");                
             }
         }
 
-        private double? _Elevation;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        private double _Elevation;
+        [ReliefProMain.Util.Required(ErrorMessage = "ElevationWarning")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? Elevation
+        public double Elevation
         {
             get
             {
@@ -71,10 +78,10 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? _BNLL;
+        private double _BNLL;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? BNLL
+        public double BNLL
         {
             get
             {
@@ -87,10 +94,10 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double? _PipingContingency;
+        private double _PipingContingency;
         [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
-        public double? PipingContingency
+        public double PipingContingency
         {
             get
             {
@@ -103,19 +110,52 @@ namespace ReliefProMain.Models
             }
         }
 
-        private TowerFireColumn _Instance;
-        public TowerFireColumn Instance
+
+        public TowerFireColumn dbmodel;
+        
+        public TowerFireColumnModel(TowerFireColumn model)
+        {
+            dbmodel = model;
+            this.ID = model.ID;
+            this.EqID = model.EqID;
+            this._BNLL = model.BNLL;
+            this._Elevation = model.Elevation;
+            this._NumberOfSegment = model.NumberOfSegment;
+            this._PipingContingency = model.PipingContingency;
+            this.bNLL_Color = model.BNLL_Color;
+            this.elevation_Color = model.Elevation_Color;
+            this.numberOfSegment_Color = model.NumberOfSegment_Color;
+            this.pipingContingency_Color = model.PipingContingency_Color;
+        }
+        private int _EqID;
+        public int EqID
         {
             get
             {
-                return this._Instance;
+                return this._EqID;
             }
             set
             {
-                this._Instance = value;
-                NotifyPropertyChanged("Instance");
+                this._EqID = value;
+                NotifyPropertyChanged("EqID");
+
             }
         }
+        private int _ID;
+        public int ID
+        {
+            get
+            {
+                return this._ID;
+            }
+            set
+            {
+                this._ID = value;
+                NotifyPropertyChanged("ID");
+
+            }
+        }
+
 
         private string numberOfSegment_Color;
         public string NumberOfSegment_Color
