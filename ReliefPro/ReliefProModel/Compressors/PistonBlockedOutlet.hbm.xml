@@ -10,6 +10,8 @@
   <property name="ReliefMW" column="ReliefMW" type="Double"/>
   <property name="ReliefTemperature" column="ReliefTemperature" type="Double"/>
   <property name="ReliefPressure" column="ReliefPressure" type="Double"/>
+  <property name="ReliefCpCv" column="ReliefCpCv" type="Double"/>
+  <property name="ReliefZ" column="ReliefZ" type="Double"/>
 
   <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"/>
   <property name="RatedCapacity_Color" column="RatedCapacity_Color" type="String" length="255"/>
