@@ -75,7 +75,7 @@ namespace ReliefProMain.CustomControl
                         this.lblInfo.Content = string.Format("Change {0} To {1}", Unit, TargetUnit);
                     }
                 }
-                var tmpUnitType = unitInfo.GetUnitType(SessionPlant);
+                var tmpUnitType = unitInfo.GetUnitType(UOMSingle.Session);
                 if (null != tmpUnitType)
                     lkpUnitType = tmpUnitType.ToLookup(p => p.ShortName.ToLower());
 
