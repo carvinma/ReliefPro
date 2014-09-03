@@ -48,19 +48,16 @@ namespace ReliefProMain
         private void InitData()
         {
             UnitInfo unitInfo = new UnitInfo();
-            UnitConvert.tmpSystemUnit = unitInfo.GetSystemUnit(UOMSingle.Session);
-            if (null != UnitConvert.tmpSystemUnit)
+            var SystemUnits = unitInfo.GetSystemUnit(UOMSingle.Session);
+            var UnitTypes = unitInfo.GetUnitType(UOMSingle.Session);
+            if (null != SystemUnits)
             {
-                UnitConvert.lkpSystemUnit = UnitConvert.tmpSystemUnit.ToLookup(p => p.Name.ToLower());
-                UnitConvert.lkpSystemUnitByUnitType = UnitConvert.tmpSystemUnit.ToLookup(p => p.UnitType);
+                UnitConvert.lkpSystemUnit = SystemUnits.ToLookup(p => p.Name.ToLower());
+                UnitConvert.lkpSystemUnitByUnitType = SystemUnits.ToLookup(p => p.UnitType);
             }
 
-            UnitConvert.tmpUnitType = unitInfo.GetUnitType(UOMSingle.Session);
-            if (null != UnitConvert.tmpUnitType)
-                UnitConvert.lkpUnitType = UnitConvert.tmpUnitType.ToLookup(p => p.ShortName.ToLower());
-
-            UnitConvert.lstBasicUnit = unitInfo.GetBasicUnit(UOMSingle.Session);
-            UnitConvert.lstBasicUnitDefault = unitInfo.GetBasicUnitDefault(UOMSingle.Session);
+            if (null != UnitTypes)
+                UnitConvert.lkpUnitType = UnitTypes.ToLookup(p => p.ShortName.ToLower());
         }
     }
 }
