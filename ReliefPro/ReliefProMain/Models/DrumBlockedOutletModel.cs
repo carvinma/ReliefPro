@@ -50,6 +50,39 @@ namespace ReliefProMain.Models
             }
         }
 
+        private string reliefloadUnit;
+        public string ReliefloadUnit
+        {
+            get { return reliefloadUnit; }
+            set
+            {
+                reliefloadUnit = value;
+                this.NotifyPropertyChanged("ReliefloadUnit");
+            }
+        }
+
+        private string reliefTempUnit;
+        public string ReliefTempUnit
+        {
+            get { return reliefTempUnit; }
+            set
+            {
+                reliefTempUnit = value;
+                this.NotifyPropertyChanged("ReliefTempUnit");
+            }
+        }
+
+        private string reliefPressureUnit;
+        public string ReliefPressureUnit
+        {
+            get { return reliefPressureUnit; }
+            set
+            {
+                reliefPressureUnit = value;
+                this.NotifyPropertyChanged("ReliefPressureUnit");
+            }
+        }
+
         public DrumBlockedOutletModel(DrumBlockedOutlet outletModel)
         {
             dbmodel = outletModel;
@@ -60,7 +93,6 @@ namespace ReliefProMain.Models
             this.fdReliefCondition = dbmodel.FDReliefCondition;
             this.feed = dbmodel.Feed;
             this.reboilerPinch = dbmodel.ReboilerPinch;
-           
         }
         public DrumBlockedOutlet dbmodel { get; set; }
 
@@ -151,7 +183,71 @@ namespace ReliefProMain.Models
             }
         }
 
+        private double reliefMW;
+        public double ReliefMW
+        {
+            get { return reliefMW; }
+            set
+            {
+                reliefMW = value;
+                this.NotifyPropertyChanged("ReliefMW");
+            }
+        }
 
+        private double reliefload;
+        public double Reliefload
+        {
+            get { return reliefload; }
+            set
+            {
+                reliefload = value;
+                this.NotifyPropertyChanged("Reliefload");
+            }
+        }
+
+        private double reliefTemperature;
+        public double ReliefTemperature
+        {
+            get { return reliefTemperature; }
+            set
+            {
+                reliefTemperature = value;
+                this.NotifyPropertyChanged("ReliefTemperature");
+            }
+        }
+
+        private double reliefPressure;
+        public double ReliefPressure
+        {
+            get { return reliefPressure; }
+            set
+            {
+                reliefPressure = value;
+                this.NotifyPropertyChanged("ReliefPressure");
+            }
+        }
+
+        private double reliefCpCv;
+        public double ReliefCpCv
+        {
+            get { return reliefCpCv; }
+            set
+            {
+                reliefCpCv = value;
+                this.NotifyPropertyChanged("ReliefCpCv");
+            }
+        }
+
+        private double reliefZ;
+        public double ReliefZ
+        {
+            get { return reliefZ; }
+            set
+            {
+                reliefZ = value;
+                this.NotifyPropertyChanged("ReliefZ");
+            }
+        }
 
 
         private string maxPressure_Color;

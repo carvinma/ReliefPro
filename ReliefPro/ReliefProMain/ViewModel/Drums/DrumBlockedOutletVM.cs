@@ -33,7 +33,7 @@ namespace ReliefProMain.ViewModel.Drums
         private string DirPlant { set; get; }
         private string DirProtectedSystem { set; get; }
         SourceFile SourceFileInfo { set; get; }
-        double reliefLoad = 0, reliefMW = 0, reliefT = 0, reliefPressure = 0;
+        double reliefLoad = 0, reliefMW = 0, reliefT = 0, reliefPressure = 0, reliefCpCv = 0, reliefZ = 0;
         public Tuple<double, double, double, double> CalcTuple { get; set; }
         public DrumBlockedOutletVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
@@ -58,6 +58,20 @@ namespace ReliefProMain.ViewModel.Drums
             model.StreamRateUnit = uomEnum.UserMassRate;
             model.FlashingDutyUnit = uomEnum.UserEnthalpyDuty;
             model.ReliefConditionUnit = uomEnum.UserEnthalpyDuty;
+
+            model.ReliefloadUnit = uomEnum.UserMassRate;
+            model.ReliefTempUnit = uomEnum.UserTemperature;
+            model.ReliefPressureUnit = uomEnum.UserPressure;
+
+            ScenarioDAL db = new ScenarioDAL();
+            var sModel = db.GetModel(ScenarioID, SessionPS);
+
+            model.Reliefload = sModel.ReliefLoad;
+            model.ReliefPressure = sModel.ReliefPressure;
+            model.ReliefTemperature = sModel.ReliefTemperature;
+            model.ReliefMW = sModel.ReliefMW;
+            model.ReliefCpCv = sModel.ReliefCpCv;
+            model.ReliefZ = sModel.ReliefZ;
         }
         private void WriteConvertModel()
         {
@@ -67,6 +81,11 @@ namespace ReliefProMain.ViewModel.Drums
             model.dbmodel.FDReliefCondition = UnitConvert.Convert(model.ReliefConditionUnit, UOMLib.UOMEnum.EnthalpyDuty.ToString(), model.FDReliefCondition);
             model.dbmodel.ReboilerPinch = model.ReboilerPinch;
             model.dbmodel.Feed = model.Feed;
+
+            model.Reliefload = UnitConvert.Convert(model.ReliefloadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.Reliefload);
+            model.ReliefTemperature = UnitConvert.Convert(model.ReliefTempUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
+            model.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
+
         }
         private void CalcResult(object obj)
         {
@@ -133,7 +152,7 @@ namespace ReliefProMain.ViewModel.Drums
             if (!model.CheckData()) return;
             WriteConvertModel();
             CalcTuple = new Tuple<double, double, double, double>(reliefLoad, reliefMW, reliefT, reliefPressure);
-            drum.SaveDrumBlockedOutlet(model.dbmodel, SessionPS, reliefLoad, reliefMW, reliefT);
+            drum.SaveDrumBlockedOutlet(model.dbmodel, SessionPS, reliefLoad, reliefMW, reliefT, reliefCpCv, reliefZ);
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;

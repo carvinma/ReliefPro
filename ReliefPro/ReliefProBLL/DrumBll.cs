@@ -26,7 +26,8 @@ namespace ReliefProBLL
                 return model.ID;
             return 0;
         }
-        public void SaveDrumBlockedOutlet(DrumBlockedOutlet model, ISession SessionPS, double reliefLoad, double reliefMW, double reliefT)
+
+        public void SaveDrumBlockedOutlet(DrumBlockedOutlet model, ISession SessionPS, double reliefLoad, double reliefMW, double reliefT, double reliefCpCv, double reliefZ)
         {
 
             dbBlockedOutlet.SaveDrumBlockedOutlet(SessionPS, model);
@@ -37,6 +38,8 @@ namespace ReliefProBLL
             sModel.ReliefMW = reliefMW;
             sModel.ReliefTemperature = reliefT;
             sModel.ReliefPressure = ScenarioReliefPressure(SessionPS);
+            sModel.ReliefCpCv = reliefCpCv;
+            sModel.ReliefZ = reliefZ;
             db.Update(sModel, SessionPS);
 
         }
