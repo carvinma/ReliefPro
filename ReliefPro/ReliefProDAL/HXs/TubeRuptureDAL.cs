@@ -31,7 +31,16 @@ namespace ReliefProDAL.HXs
             var list = session.CreateCriteria<TubeRupture>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<TubeRupture>();
             if (list.Count() > 0)
             {
-                return list[0];
+                TubeRupture model = list[0];
+                ScenarioDAL db = new ScenarioDAL();
+                var sModel = db.GetModel(model.ScenarioID, session);
+                model.ReliefLoad = sModel.ReliefLoad;
+                model.ReliefPressure = sModel.ReliefPressure;
+                model.ReliefTemperature = sModel.ReliefTemperature;
+                model.ReliefMW = sModel.ReliefMW;
+                model.ReliefCpCv = sModel.ReliefCpCv;
+                model.ReliefZ = sModel.ReliefZ;
+                return model;
             }
             return null;
         }
