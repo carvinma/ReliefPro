@@ -80,6 +80,8 @@ namespace ReliefProLL
             sModel.ReliefPressure = model.ReliefPressure;
             sModel.ReliefTemperature = model.ReliefTemperature;
             sModel.ReliefMW = model.ReliefMW;
+            sModel.ReliefCpCv = model.ReliefCpCv;
+            sModel.ReliefZ = model.ReliefZ;
             db.Update(sModel, SessionPS);
         }
 
@@ -92,6 +94,8 @@ namespace ReliefProLL
             sModel.ReliefPressure = model.ReliefPressure;
             sModel.ReliefTemperature = model.ReliefTemperature;
             sModel.ReliefMW = model.ReliefMW;
+            sModel.ReliefCpCv = model.ReliefCpCv;
+            sModel.ReliefZ = model.ReliefZ;
             db.Update(sModel, SessionPS);
         }
     }
