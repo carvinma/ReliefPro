@@ -23,7 +23,6 @@ namespace ReliefProMain.CustomControl
     /// </summary>
     public partial class UnitConvertCommonView : Window
     {
-        private readonly string dbConnectPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\plant.mdb";
         private ILookup<int, SystemUnit> lkpSystemUnit;
         private ILookup<string, UnitType> lkpUnitType;
         private UnitInfo unitInfo;
@@ -61,9 +60,7 @@ namespace ReliefProMain.CustomControl
             try
             {
                 unitInfo = new UnitInfo();
-                var helper = new UOMLNHibernateHelper(dbConnectPath);
-                var SessionPlant = helper.GetCurrentSession();
-                var tmpSystemUnit = unitInfo.GetSystemUnit(SessionPlant);
+                var tmpSystemUnit = unitInfo.GetSystemUnit(UOMSingle.Session);
                 if (null != tmpSystemUnit)
                 {
                     var systemUnit = tmpSystemUnit.Where(p => p.Name.ToLower() == Unit.ToLower()).FirstOrDefault();
