@@ -10,15 +10,17 @@ namespace ReliefProModel.HXs
         public virtual int ID { get; set; }
         public virtual int ScenarioID { get; set; }
 
-        
+
         public virtual double OD { get; set; }
-        
+
         public virtual double ReliefLoad { get; set; }
         public virtual double ReliefMW { get; set; }
         public virtual double ReliefTemperature { get; set; }
         public virtual double ReliefPressure { get; set; }
+        public virtual double ReliefCpCv { get; set; }
+        public virtual double ReliefZ { get; set; }
 
-        
+
         public virtual string OD_Color { get; set; }
         public virtual string ReliefLoad_Color { get; set; }
         public virtual string ReliefMW_Color { get; set; }
