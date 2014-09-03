@@ -51,7 +51,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                 OnPropertyChanged("EqList");
             }
         }
-        UOMLib.UOMEnum uomEnum;
+        public UOMLib.UOMEnum uomEnum { set; get; }
         Tower TowerInfo;
         public TowerFireVM(int ScenarioID, string EqName, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string DirPlant, string DirProtectedSystem)
         {
@@ -71,6 +71,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             UnitConvert uc = new UnitConvert();
             TowerFireDAL db = new TowerFireDAL();
             ReliefProModel.TowerFire model = db.GetModel(SessionProtectedSystem, ScenarioID);
+            model.HeatInputModel = HeatInputModels[0];
             MainModel = new TowerFireModel(model);
             ReadConvert();
             TowerFireEqDAL dbtfeq = new TowerFireEqDAL();
@@ -80,8 +81,6 @@ namespace ReliefProMain.ViewModel.TowerFires
             {
                 EqList.Add(eq);
             }
-
-
 
             TowerDAL towerdal = new TowerDAL();
             TowerInfo = towerdal.GetModel(SessionProtectedSystem);

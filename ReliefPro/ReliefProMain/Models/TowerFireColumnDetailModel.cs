@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ReliefProModel;
+using System.Collections.ObjectModel;
 
 namespace ReliefProMain.Models
 {
     public class TowerFireColumnDetailModel: ModelBase
     {
+        public ObservableCollection<string> Internals { get; set; }
         public TowerFireColumnDetail dbmodel;
         public TowerFireColumnDetailModel(TowerFireColumnDetail model)
         {
+            Internals = getInternals();
             dbmodel = model;
             this._ID = model.ID;
+            this._ColumnID = model.ColumnID;
             this._Internal = model.Internal;
             this._Internal = model.Internal;
             this._Diameter = model.Diameter;
@@ -22,6 +26,8 @@ namespace ReliefProMain.Models
             this._Height_Color = model.Height_Color;
             this._Diameter_Color = model.Diameter_Color;
             this._Segment = model.Segment;
+            this._Internal = model.Internal;
+            
         }
 
         private int _Segment;
@@ -170,6 +176,12 @@ namespace ReliefProMain.Models
 
             }
         }
-
+        private ObservableCollection<string> getInternals()
+        {
+            ObservableCollection<string> list = new ObservableCollection<string>();
+            list.Add("Trayed");
+            list.Add("Packed");
+            return list;
+        }
     }
 }

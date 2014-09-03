@@ -24,7 +24,7 @@ namespace ReliefProMain.ViewModel.TowerFires
         private ISession SessionProtectedSystem { set; get; }
         public TowerFireColumnModel model { get; set; }
         public double Area { get; set; }
-        public ObservableCollection<string> Internals { get; set; }
+        
 
         public UOMLib.UOMEnum uomEnum { get; set; }
         public TowerFireColumnVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
@@ -34,7 +34,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             InitUnit();
 
-            Internals = getInternals();
+            
 
             TowerFireColumnDetailDAL dbDetail = new TowerFireColumnDetailDAL();
             TowerFireColumnDAL db = new TowerFireColumnDAL();
@@ -115,7 +115,9 @@ namespace ReliefProMain.ViewModel.TowerFires
                     detail.dbmodel.ColumnID = detail.ColumnID;
                     detail.dbmodel.Diameter = UnitConvert.Convert(uomEnum.UserLength, UOMEnum.Length, detail.Diameter); 
                     detail.dbmodel.Height = UnitConvert.Convert(uomEnum.UserLength, UOMEnum.Length, detail.Height);
-                    detail.Segment = detail.Segment;
+                    detail.dbmodel.Segment = detail.Segment;
+                    detail.dbmodel.Internal = detail.Internal;
+                    detail.dbmodel.Trays = detail.Trays;
                     detail.dbmodel.Diameter_Color = detail.Diameter_Color;
                     detail.dbmodel.Height_Color = detail.Height_Color;
                     dbDetail.Add(detail.dbmodel, SessionProtectedSystem);
@@ -147,13 +149,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             }
         }
 
-        private ObservableCollection<string> getInternals()
-        {
-            ObservableCollection<string> list = new ObservableCollection<string>();
-            list.Add("Trayed");
-            list.Add("Packed");
-            return list;
-        }
+       
         private void ReadConvert()
         {
             model.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, model.dbmodel.Elevation);

@@ -46,10 +46,8 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox 
-                                    ItemsSource="{Binding Path=DataContext.Internals, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                                     SelectedItem="{Binding Internal, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
-                            SelectedValue="{Binding Internal, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Mode=OneWay}"
-                            SelectedValuePath="Internal" >
+                                    ItemsSource="{Binding Path=Internals}"
+                                     SelectedItem="{Binding Path=Internal}">
 
 
                                 </ComboBox>

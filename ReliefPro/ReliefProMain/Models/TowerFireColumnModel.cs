@@ -45,14 +45,16 @@ namespace ReliefProMain.Models
                     {
                         TowerFireColumnDetail d = new TowerFireColumnDetail();
                         TowerFireColumnDetailModel detail = new TowerFireColumnDetailModel(d);
-                        detail.Segment = i + 1;                        
+                        detail.Segment = i + 1;
+                        detail.Internal = "Trayed";
                         detail.ColumnID = dbmodel.ID;
                         Details.Add(detail);
                     }
                 }
                 else
                 {
-                    for (int i =_Details.Count-1 ; i>=_NumberOfSegment; i++)
+                    int count = _Details.Count;
+                    for (int i =count-1 ; i>=_NumberOfSegment; i--)
                     {
                         Details.RemoveAt(i);
                     }
