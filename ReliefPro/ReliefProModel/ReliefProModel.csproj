@@ -265,7 +265,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CustomStream.hbm.xml" />
-    <EmbeddedResource Include="TowerHX.hbm.xml" />
+    <EmbeddedResource Include="TowerHX.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="SystemUnit.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

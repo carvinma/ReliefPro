@@ -12,7 +12,7 @@ namespace ReliefProModel
         public virtual int NumberOfSegment { get; set; }
         public virtual double Elevation { get; set; }
         public virtual double BNLL { get; set; }
-        public virtual double LiquidHoldup { get; set; }
+        public virtual double LiquidHoldup { get; set; }//作废，暂时不用
         public virtual double PipingContingency { get; set; }
         public virtual int EqID { get; set; }
 

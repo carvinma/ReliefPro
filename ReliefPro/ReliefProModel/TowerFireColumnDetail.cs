@@ -14,7 +14,7 @@ namespace ReliefProModel
         public virtual double Height { get; set; }
         public virtual double Diameter { get; set; }
         public virtual int ColumnID { get; set; }
-        public virtual int Segment { get; set; }
+        public virtual int Segment { get; set; }//序号
 
         public virtual string Internal_Color { get; set; }
         public virtual string Trays_Color { get; set; }
