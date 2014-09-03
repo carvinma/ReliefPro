@@ -24,7 +24,6 @@ namespace ReliefProMain.CustomControl
     public partial class UnitConvertCommonView : Window
     {
         private ILookup<int, SystemUnit> lkpSystemUnit;
-        private ILookup<string, UnitType> lkpUnitType;
         private UnitInfo unitInfo;
         private int UnitTypeID;
         private string OriginUnit;
@@ -40,45 +39,15 @@ namespace ReliefProMain.CustomControl
         {
             this.OriginUnit = OriginUnit;
             this.Value = value;
-            InitInfo(OriginUnit);
             InitListBox();
         }
         private void InitListBox()
         {
             try
             {
-                this.ltboxUnit.ItemsSource = lkpSystemUnit[this.UnitTypeID].ToList();
+                UnitTypeID = UnitConvert.lkpSystemUnit[OriginUnit.ToLower()].First().UnitType;
+                this.ltboxUnit.ItemsSource = UnitConvert.lkpSystemUnitByUnitType[this.UnitTypeID].ToList();
                 this.ltboxUnit.DisplayMemberPath = "Name";
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        private void InitInfo(string Unit)
-        {
-            try
-            {
-                unitInfo = new UnitInfo();
-                var tmpSystemUnit = unitInfo.GetSystemUnit(UOMSingle.Session);
-                if (null != tmpSystemUnit)
-                {
-                    var systemUnit = tmpSystemUnit.Where(p => p.Name.ToLower() == Unit.ToLower()).FirstOrDefault();
-                    if (systemUnit != null)
-                    {
-                        UnitTypeID = systemUnit.UnitType;
-                    }
-                    lkpSystemUnit = tmpSystemUnit.ToLookup(p => p.UnitType);
-                    if (tmpSystemUnit.Count > 0 && UnitTypeID > 0)
-                    {
-                        TargetUnit = lkpSystemUnit[UnitTypeID].First().Name;
-                        this.lblInfo.Content = string.Format("Change {0} To {1}", Unit, TargetUnit);
-                    }
-                }
-                var tmpUnitType = unitInfo.GetUnitType(UOMSingle.Session);
-                if (null != tmpUnitType)
-                    lkpUnitType = tmpUnitType.ToLookup(p => p.ShortName.ToLower());
-
             }
             catch (Exception ex)
             {

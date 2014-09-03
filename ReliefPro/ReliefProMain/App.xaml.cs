@@ -50,7 +50,10 @@ namespace ReliefProMain
             UnitInfo unitInfo = new UnitInfo();
             UnitConvert.tmpSystemUnit = unitInfo.GetSystemUnit(UOMSingle.Session);
             if (null != UnitConvert.tmpSystemUnit)
+            {
                 UnitConvert.lkpSystemUnit = UnitConvert.tmpSystemUnit.ToLookup(p => p.Name.ToLower());
+                UnitConvert.lkpSystemUnitByUnitType = UnitConvert.tmpSystemUnit.ToLookup(p => p.UnitType);
+            }
 
             UnitConvert.tmpUnitType = unitInfo.GetUnitType(UOMSingle.Session);
             if (null != UnitConvert.tmpUnitType)
