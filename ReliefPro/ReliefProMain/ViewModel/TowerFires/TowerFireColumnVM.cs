@@ -61,16 +61,15 @@ namespace ReliefProMain.ViewModel.TowerFires
             {
                 model = new TowerFireColumnModel(c);
             }
-            ReadConvert();
+          
             IList<TowerFireColumnDetail> list = dbDetail.GetAllList(sessionProtectedSystem, model.ID);
             model.Details = new ObservableCollection<TowerFireColumnDetailModel>();
             foreach (TowerFireColumnDetail detail in list)
             {
-                TowerFireColumnDetailModel dm = new TowerFireColumnDetailModel(detail);
-                dm.Height = UnitConvert.Convert(UOMEnum.Length, uomEnum.UserLength, detail.Height);
-                dm.Diameter = UnitConvert.Convert(UOMEnum.Length, uomEnum.UserLength, detail.Diameter);
+                TowerFireColumnDetailModel dm = new TowerFireColumnDetailModel(detail);               
                 model.Details.Add(dm);
-            }
+            }  
+            ReadConvert();
 
         }
 
@@ -178,8 +177,8 @@ namespace ReliefProMain.ViewModel.TowerFires
         }
         private void InitUnit()
         {
-            this.elevationUnit = uomEnum.UserLength;
-            this.levelUnit = uomEnum.UserLength;
+            this.ElevationUnit = uomEnum.UserLength;
+            this.LevelUnit = uomEnum.UserLength;
 
         }
 

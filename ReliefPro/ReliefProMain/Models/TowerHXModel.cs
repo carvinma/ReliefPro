@@ -14,7 +14,6 @@ namespace ReliefProMain.Models
 {     
     public class TowerHXModel : ModelBase
     {
-        
         public TowerHXModel()
         {
             

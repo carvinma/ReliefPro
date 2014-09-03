@@ -6,7 +6,6 @@ using NHibernate;
 using ReliefProDAL.ReactorLoops;
 using ReliefProModel;
 using ReliefProModel.ReactorLoops;
-using ReliefProDAL.ReactorLoops;
 using UOMLib;
 
 namespace ReliefProLL

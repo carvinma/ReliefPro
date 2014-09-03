@@ -12,6 +12,8 @@ using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using UOMLib;
 using NHibernate;
+using ReliefProMain.Models;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.ViewModel.TowerFires
 {
@@ -20,7 +22,7 @@ namespace ReliefProMain.ViewModel.TowerFires
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         public double Area { get; set; }
-        public TowerFireDrum model { get; set; }
+        public TowerFireDrumModel model { get; set; }
         public List<string> Orientations { get; set; }
         public List<string> HeadTypes { get; set; }
         UOMLib.UOMEnum uomEnum;
@@ -35,17 +37,28 @@ namespace ReliefProMain.ViewModel.TowerFires
             HeadTypes = getHeadTypes();
 
             TowerFireDrumDAL db = new TowerFireDrumDAL();
-            model = db.GetModel(SessionProtectedSystem, EqID);
-            if (model == null)
+            TowerFireDrum sizemodel = db.GetModel(SessionProtectedSystem, EqID);
+            if (sizemodel == null)
             {
-                model = new TowerFireDrum();
-                model.EqID = EqID;
-                db.Add(model, SessionProtectedSystem);
+                sizemodel = new TowerFireDrum();               
+                sizemodel.EqID = EqID;
+                sizemodel.PipingContingency = 10;
+                sizemodel.Orientation = "Horizon";
+                sizemodel.HeadType = "Eclipse";
+                sizemodel.BootDiameter_Color = ColorBorder.green.ToString();
+                sizemodel.BootHeight_Color = ColorBorder.green.ToString();
+                sizemodel.Diameter_Color = ColorBorder.green.ToString();
+                sizemodel.Elevation_Color = ColorBorder.green.ToString();
+                sizemodel.HeadNumber_Color = ColorBorder.green.ToString();
+                sizemodel.Length_Color = ColorBorder.green.ToString();
+                sizemodel.NormalLiquidLevel_Color = ColorBorder.green.ToString();
+                sizemodel.PipingContingency_Color = ColorBorder.green.ToString(); 
+               
+                db.Add(sizemodel, SessionProtectedSystem);                
             }
-            else
-            {
-                ReadConvert();
-            }
+            model = new TowerFireDrumModel(sizemodel);
+            ReadConvert();
+           
         }
 
         private ICommand _OKClick;
@@ -64,23 +77,26 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private void Update(object window)
         {
-
             TowerFireDrumDAL db = new TowerFireDrumDAL();
-            TowerFireDrum m = db.GetModel(model.ID, SessionProtectedSystem);
-            WriteConvert();
-            m.Elevation = model.Elevation;
-            m.BootDiameter = model.BootDiameter;
-            m.BootHeight = model.BootHeight;
-            m.Diameter = model.Diameter;
-            m.HeadNumber = model.HeadNumber;
-            m.HeadType = model.HeadType;
-            m.Length = model.Length;
-            m.NormalLiquidLevel = model.NormalLiquidLevel;
-            m.Orientation = model.Orientation;
-            m.PipingContingency = model.PipingContingency;
+            WriteConvert();           
             try
             {
-                db.Update(m, SessionProtectedSystem);
+                model.dbmodel.PipingContingency = model.PipingContingency;
+                model.dbmodel.Orientation=model.Orientation;
+                model.dbmodel.HeadNumber=model.Headnumber;;
+                model.dbmodel.HeadType = model.HeadType;
+               
+                model.dbmodel.BootDiameter_Color=model.BootDiameter_Color;
+                model.dbmodel.BootHeight_Color=model.BootHeight_Color;
+                model.dbmodel.PipingContingency_Color = model.PipingContingency_Color;
+                model.dbmodel.Elevation_Color = model.Elevation_Color;
+                model.dbmodel.HeadNumber_Color = model.Headnumber_Color;
+                model.dbmodel.HeadType_Color = model.Headnumber_Color;
+                model.dbmodel.Diameter_Color = model.Diameter_Color;
+                model.dbmodel.Length_Color = model.Length_Color;
+                model.dbmodel.NormalLiquidLevel_Color = model.NormalLiquidLevel_Color;
+                model.dbmodel.Orientation_Color = model.Orientation_Color;
+                db.Update(model.dbmodel, SessionProtectedSystem);
 
                 SessionProtectedSystem.Flush();
             }
@@ -89,14 +105,14 @@ namespace ReliefProMain.ViewModel.TowerFires
             }
 
 
-            double elevation = m.Elevation;
-            double diameter = m.Diameter;
-            double length = m.Length;
-            double NLL = m.NormalLiquidLevel;
-            double bootheight = m.BootHeight;
-            double bootdiameter = m.BootDiameter;
+            double elevation = model.dbmodel.Elevation;
+            double diameter = model.dbmodel.Diameter;
+            double length = model.dbmodel.Length;
+            double NLL = model.dbmodel.NormalLiquidLevel;
+            double bootheight = model.dbmodel.BootHeight;
+            double bootdiameter = model.dbmodel.BootDiameter;
 
-            Area = Algorithm.GetDrumArea(m.Orientation, model.HeadType, elevation, diameter, length, NLL, bootheight, bootdiameter);
+            Area = Algorithm.GetDrumArea(model.Orientation, model.HeadType, elevation, diameter, length, NLL, bootheight, bootdiameter);
             Area = Area + Area * model.PipingContingency / 100;
 
             System.Windows.Window wd = window as System.Windows.Window;
@@ -110,7 +126,7 @@ namespace ReliefProMain.ViewModel.TowerFires
         private List<string> getOrientations()
         {
             List<string> list = new List<string>();
-            list.Add("Horiz");
+            list.Add("Horizon");
             list.Add("Vertical");
             return list;
         }
@@ -125,32 +141,32 @@ namespace ReliefProMain.ViewModel.TowerFires
         private void ReadConvert()
         {
             if (model.Elevation != null)
-                model.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, model.Elevation);
+                model.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, model.dbmodel.Elevation);
             if (model.Diameter != null)
-                model.Diameter = UnitConvert.Convert(UOMEnum.Length, diameterUnit, model.Diameter);
+                model.Diameter = UnitConvert.Convert(UOMEnum.Length, diameterUnit, model.dbmodel.Diameter);
             if (model.Length != null)
-                model.Length = UnitConvert.Convert(UOMEnum.Length, lengthUnit, model.Length);
+                model.Length = UnitConvert.Convert(UOMEnum.Length, lengthUnit, model.dbmodel.Length);
             if (model.NormalLiquidLevel != null)
-                model.NormalLiquidLevel = UnitConvert.Convert(UOMEnum.Length, normalLiquidLevelUnit, model.NormalLiquidLevel);
+                model.NormalLiquidLevel = UnitConvert.Convert(UOMEnum.Length, normalLiquidLevelUnit, model.dbmodel.NormalLiquidLevel);
             if (model.BootDiameter != null)
-                model.BootDiameter = UnitConvert.Convert(UOMEnum.Length, bootDiameterUnit, model.BootDiameter);
+                model.BootDiameter = UnitConvert.Convert(UOMEnum.Length, bootDiameterUnit, model.dbmodel.BootDiameter);
             if (model.BootHeight != null)
-                model.BootHeight = UnitConvert.Convert(UOMEnum.Length, bootHeightUnit, model.BootHeight);
+                model.BootHeight = UnitConvert.Convert(UOMEnum.Length, bootHeightUnit, model.dbmodel.BootHeight);
         }
         private void WriteConvert()
         {
             if (model.Elevation != null)
-                model.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, model.Elevation);
+                model.dbmodel.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, model.Elevation);
             if (model.Diameter != null)
-                model.Diameter = UnitConvert.Convert(diameterUnit, UOMEnum.Length, model.Diameter);
+                model.dbmodel.Diameter = UnitConvert.Convert(diameterUnit, UOMEnum.Length, model.Diameter);
             if (model.Length != null)
-                model.Length = UnitConvert.Convert(lengthUnit, UOMEnum.Length, model.Length);
+                model.dbmodel.Length = UnitConvert.Convert(lengthUnit, UOMEnum.Length, model.Length);
             if (model.NormalLiquidLevel != null)
-                model.NormalLiquidLevel = UnitConvert.Convert(normalLiquidLevelUnit, UOMEnum.Length, model.NormalLiquidLevel);
+                model.dbmodel.NormalLiquidLevel = UnitConvert.Convert(normalLiquidLevelUnit, UOMEnum.Length, model.NormalLiquidLevel);
             if (model.BootDiameter != null)
-                model.BootDiameter = UnitConvert.Convert(bootDiameterUnit, UOMEnum.Length, model.BootDiameter);
+                model.dbmodel.BootDiameter = UnitConvert.Convert(bootDiameterUnit, UOMEnum.Length, model.BootDiameter);
             if (model.BootHeight != null)
-                model.BootHeight = UnitConvert.Convert(bootHeightUnit, UOMEnum.Length, model.BootHeight);
+                model.dbmodel.BootHeight = UnitConvert.Convert(bootHeightUnit, UOMEnum.Length, model.BootHeight);
         }
         private void InitUnit()
         {

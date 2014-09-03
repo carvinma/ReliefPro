@@ -231,6 +231,8 @@
     <Compile Include="Models\SinkModel.cs" />
     <Compile Include="Models\TowerFireColumnDetailModel.cs" />
     <Compile Include="Models\TowerFireColumnModel.cs" />
+    <Compile Include="Models\TowerFireDrumModel.cs" />
+    <Compile Include="Models\TowerFireEqModel.cs" />
     <Compile Include="Models\TowerFireModel.cs" />
     <Compile Include="Models\TowerHXDetailModel.cs" />
     <Compile Include="Models\TowerHXModel.cs" />
@@ -239,6 +241,7 @@
     <Compile Include="Models\TowerScenarioStreamModel.cs" />
     <Compile Include="Models\TreeDataModel.cs" />
     <Compile Include="Models\SourceModel.cs" />
+    <Compile Include="Models\TowerFireHXModel.cs" />
     <Compile Include="ProIIFactory.cs" />
     <Compile Include="ProIIToDefault.cs" />
     <Compile Include="Service\ServiceProvider.cs" />

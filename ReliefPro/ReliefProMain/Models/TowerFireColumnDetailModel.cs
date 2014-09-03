@@ -27,7 +27,6 @@ namespace ReliefProMain.Models
             this._Diameter_Color = model.Diameter_Color;
             this._Segment = model.Segment;
             this._Internal = model.Internal;
-            
         }
 
         private int _Segment;

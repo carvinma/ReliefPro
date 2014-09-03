@@ -128,7 +128,6 @@ namespace ReliefProMain.Models
                 this._DutyPercentage = value;
                 this.Duty = (_DutyPercentage * Parent.HeaterDuty/100);
                 NotifyPropertyChanged("DutyPercentage");
-                //NotifyPropertyChanged("Duty");
             }
         }
 

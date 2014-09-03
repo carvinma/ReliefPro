@@ -14,7 +14,7 @@
     <property name="BootHeight" column="BootHeight" type="Double"  />  
     <property name="PipingContingency" column="PipingContingency" type="Double"  />
     <property name="EqID" column="EqID" type="Int32" />
-    <property name="Elevation" column="Elevation" type="String" length="255" />
+    <property name="Elevation" column="Elevation" type="Double"  />
   
     <!--color-->
     <property name="Diameter_Color" column="Diameter_Color" type="String" length="255" />

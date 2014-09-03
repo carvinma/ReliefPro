@@ -13,6 +13,8 @@ using ReliefProMain.Service;
 using ReliefProMain;
 using UOMLib;
 using NHibernate;
+using ReliefProMain.Models;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.ViewModel.TowerFires
 {
@@ -21,7 +23,7 @@ namespace ReliefProMain.ViewModel.TowerFires
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         public double Area { get; set; }
-        public TowerFireHX model { get; set; }
+        public TowerFireHXModel model { get; set; }
         public List<string> ExposedToFires { get; set; }
         public List<string> Types { get; set; }
         public UOMLib.UOMEnum uomEnum { get; set; }
@@ -35,18 +37,22 @@ namespace ReliefProMain.ViewModel.TowerFires
             Types = GetTypes();
 
             TowerFireHXDAL db = new TowerFireHXDAL();
-            model = db.GetModel(SessionProtectedSystem, EqID);
-            if (model == null)
+            TowerFireHX sizemodel = db.GetModel(SessionProtectedSystem, EqID);
+            if (sizemodel == null)
             {
-                model = new TowerFireHX();
-                model.EqID = EqID;
-                model.PipingContingency = 10;
-                db.Add(model, SessionProtectedSystem);
+                sizemodel = new TowerFireHX();
+                sizemodel.EqID = EqID;
+                sizemodel.Length_Color = ColorBorder.green.ToString();
+                sizemodel.Elevation_Color = ColorBorder.green.ToString();
+                sizemodel.ExposedToFire = "Shell";
+                sizemodel.Type = "Fixed";
+                sizemodel.OD_Color = ColorBorder.green.ToString();
+                sizemodel.PipingContingency = 10;
+                db.Add(sizemodel, SessionProtectedSystem);
             }
-            else
-            {
-                ReadConvert();
-            }
+            model = new TowerFireHXModel(sizemodel);
+            ReadConvert();
+            
         }
 
         private ICommand _OKClick;
@@ -67,21 +73,15 @@ namespace ReliefProMain.ViewModel.TowerFires
         {
 
             TowerFireHXDAL db = new TowerFireHXDAL();
-            TowerFireHX m = db.GetModel(model.ID, SessionProtectedSystem);
             WriteConvert();
-            m.ExposedToFire = model.ExposedToFire;
-            m.Length = model.Length;
-            m.OD = model.OD;
-            m.Type = model.Type;
-            m.Elevation = model.Elevation;
-            m.PipingContingency = model.PipingContingency;
-            db.Update(m, SessionProtectedSystem);
+            
+            db.Update(model.dbmodel, SessionProtectedSystem);
             SessionProtectedSystem.Flush();
 
-            double length = m.Length;
-            double pipingContingency = m.PipingContingency;
-            double od = m.OD;
-            Area = Algorithm.GetHXArea(m.ExposedToFire, m.Type, length, od);
+            double length = model.dbmodel.Length;
+            double pipingContingency = model.dbmodel.PipingContingency;
+            double od = model.dbmodel.OD;
+            Area = Algorithm.GetHXArea(model.ExposedToFire, model.Type, length, od);
             Area = Area + Area * model.PipingContingency / 100;
 
 
@@ -112,20 +112,20 @@ namespace ReliefProMain.ViewModel.TowerFires
         private void ReadConvert()
         {
             //if (model.OD!=null)
-            model.OD = UnitConvert.Convert(UOMEnum.Length, oDUnit, model.OD);
+            model.OD = UnitConvert.Convert(UOMEnum.Length, oDUnit, model.dbmodel.OD);
             //if (model.Length!=null)
-            model.Length = UnitConvert.Convert(UOMEnum.Length, lengthUnit, model.Length);
+            model.Length = UnitConvert.Convert(UOMEnum.Length, lengthUnit, model.dbmodel.Length);
             //if (model.Elevation!=null)
-            model.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, model.Elevation);
+            model.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, model.dbmodel.Elevation);
         }
         private void WriteConvert()
         {
             //if (model.OD!=null)
-            model.OD = UnitConvert.Convert(oDUnit, UOMEnum.Length, model.OD);
+            model.dbmodel.OD = UnitConvert.Convert(oDUnit, UOMEnum.Length, model.OD);
             //if (model.Length!=null)
-            model.Length = UnitConvert.Convert(lengthUnit, UOMEnum.Length, model.Length);
+            model.dbmodel.Length = UnitConvert.Convert(lengthUnit, UOMEnum.Length, model.Length);
             //if (model.Elevation!=null)
-            model.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, model.Elevation);
+            model.dbmodel.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, model.Elevation);
         }
         private void InitUnit()
         {
