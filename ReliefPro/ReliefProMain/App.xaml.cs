@@ -58,6 +58,8 @@ namespace ReliefProMain
 
             if (null != UnitTypes)
                 UnitConvert.lkpUnitType = UnitTypes.ToLookup(p => p.ShortName.ToLower());
+            SystemUnits.Clear();
+            UnitTypes.Clear();
         }
     }
 }
