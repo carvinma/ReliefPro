@@ -63,10 +63,15 @@
                     </GridViewColumn>
                     <GridViewColumn Width="100" >
                         <GridViewColumn.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{DynamicResource Height_m}"/>
-                                <TextBlock Text="{Binding uomEnum.UserLength}"/>
-                            </StackPanel>
+                            <CustomControl:GVColumnHeader x:Name="colHeight" UOrigin="{Binding uomEnum.UserLength}" ColInfo="3"
+                                                          ChangeUnitEvent="{Binding changeUnit}">
+                                <CustomControl:GVColumnHeader.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{DynamicResource Height_m}"/>
+                                        <TextBlock Text="{Binding ElementName=colHeight,Path=UOrigin}"/>
+                                     </StackPanel>
+                                </CustomControl:GVColumnHeader.Content>
+                            </CustomControl:GVColumnHeader>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -76,10 +81,15 @@
                     </GridViewColumn>
                     <GridViewColumn Width="100" >
                         <GridViewColumn.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{DynamicResource Diameter_m}"/>
-                                <TextBlock Text="{Binding uomEnum.UserLength}"/>
+                            <CustomControl:GVColumnHeader x:Name="colDiameter" UOrigin="{Binding uomEnum.UserLength}" ColInfo="4"
+                                                          ChangeUnitEvent="{Binding changeUnit}">
+                                <CustomControl:GVColumnHeader.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{DynamicResource Diameter_m}"/>
+                                        <TextBlock Text="{Binding ElementName=colDiameter,Path=UOrigin}"/>
                             </StackPanel>
+                                </CustomControl:GVColumnHeader.Content>
+                            </CustomControl:GVColumnHeader>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>

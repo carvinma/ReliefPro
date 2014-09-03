@@ -15,6 +15,7 @@ using ReliefProMain.Models;
 using UOMLib;
 using NHibernate;
 using System.Windows;
+using ReliefProMain.CustomControl;
 
 namespace ReliefProMain.ViewModel.TowerFires
 {
@@ -24,7 +25,7 @@ namespace ReliefProMain.ViewModel.TowerFires
         private ISession SessionProtectedSystem { set; get; }
         public TowerFireColumnModel model { get; set; }
         public double Area { get; set; }
-        
+
 
         public UOMLib.UOMEnum uomEnum { get; set; }
         public TowerFireColumnVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
@@ -34,20 +35,20 @@ namespace ReliefProMain.ViewModel.TowerFires
             uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             InitUnit();
 
-            
+            changeUnit += new ChangeUnitDelegate(ExcuteThumbMoved);
 
             TowerFireColumnDetailDAL dbDetail = new TowerFireColumnDetailDAL();
             TowerFireColumnDAL db = new TowerFireColumnDAL();
 
             TowerFireColumn c = db.GetModel(sessionProtectedSystem, EqID);
-            
+
             if (c == null)
             {
                 c = new TowerFireColumn();
                 c.NumberOfSegment = 0;
                 c.EqID = EqID;
                 c.PipingContingency = 10;
-                model = new TowerFireColumnModel(c);              
+                model = new TowerFireColumnModel(c);
                 try
                 {
                     db.Add(model.dbmodel, sessionProtectedSystem);
@@ -58,7 +59,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             }
             else
             {
-                model = new TowerFireColumnModel(c);                                
+                model = new TowerFireColumnModel(c);
             }
             ReadConvert();
             IList<TowerFireColumnDetail> list = dbDetail.GetAllList(sessionProtectedSystem, model.ID);
@@ -70,7 +71,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                 dm.Diameter = UnitConvert.Convert(UOMEnum.Length, uomEnum.UserLength, detail.Diameter);
                 model.Details.Add(dm);
             }
-            
+
         }
 
         private ICommand _OKClick;
@@ -93,12 +94,12 @@ namespace ReliefProMain.ViewModel.TowerFires
             {
                 if (!model.CheckData()) return;
                 TowerFireColumnDAL db = new TowerFireColumnDAL();
-                
+
                 WriteConvert();
                 model.dbmodel.NumberOfSegment = model.NumberOfSegment;
                 //model.dbmodel.LiquidHoldup = model.InstaLiquidHoldup;
                 model.dbmodel.PipingContingency = model.PipingContingency;
-                               
+
                 db.Update(model.dbmodel, SessionProtectedSystem);
                 SessionProtectedSystem.Flush();
 
@@ -113,7 +114,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                 foreach (TowerFireColumnDetailModel detail in model.Details)
                 {
                     detail.dbmodel.ColumnID = detail.ColumnID;
-                    detail.dbmodel.Diameter = UnitConvert.Convert(uomEnum.UserLength, UOMEnum.Length, detail.Diameter); 
+                    detail.dbmodel.Diameter = UnitConvert.Convert(uomEnum.UserLength, UOMEnum.Length, detail.Diameter);
                     detail.dbmodel.Height = UnitConvert.Convert(uomEnum.UserLength, UOMEnum.Length, detail.Height);
                     detail.dbmodel.Segment = detail.Segment;
                     detail.dbmodel.Internal = detail.Internal;
@@ -130,7 +131,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                     Area = Area + Algorithm.GetColumnArea(detail.Internal, n, L1, L2, L3, diameter);
 
                 }
-                
+
 
                 Area = Area + Area * model.PipingContingency / 100;
 
@@ -149,14 +150,29 @@ namespace ReliefProMain.ViewModel.TowerFires
             }
         }
 
-       
+
         private void ReadConvert()
         {
+            this.TargetUnit[0] = uomEnum.UserLength;
+            this.TargetUnit[1] = uomEnum.UserLength;
+            foreach (var t in model.Details)
+            {
+                t.Height = UnitConvert.Convert(this.TargetUnit[0], UOMEnum.Length, t.Height);
+                t.Diameter = UnitConvert.Convert(this.TargetUnit[1], UOMEnum.Length, t.Diameter);
+            }
+
             model.Elevation = UnitConvert.Convert(UOMEnum.Length, elevationUnit, model.dbmodel.Elevation);
             model.BNLL = UnitConvert.Convert(UOMEnum.Length, levelUnit, model.dbmodel.BNLL);
         }
         private void WriteConvert()
         {
+            foreach (var t in model.Details)
+            {
+                if (!string.IsNullOrEmpty(this.TargetUnit[0]))
+                    t.Height = UnitConvert.Convert(this.TargetUnit[0], UOMEnum.Length, t.Height);
+                if (!string.IsNullOrEmpty(this.TargetUnit[1]))
+                    t.Diameter = UnitConvert.Convert(this.TargetUnit[1], UOMEnum.Length, t.Diameter);
+            }
             model.dbmodel.Elevation = UnitConvert.Convert(elevationUnit, UOMEnum.Length, model.Elevation);
             model.dbmodel.BNLL = UnitConvert.Convert(levelUnit, UOMEnum.Length, model.BNLL);
         }
@@ -167,8 +183,34 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         }
 
+
+        private string[] TargetUnit = new string[2];
+        public ChangeUnitDelegate changeUnit { get; set; }
+        public void ExcuteThumbMoved(object ColInfo, object OrigionUnit, object TargetUnit)
+        {
+            int k = string.Compare(OrigionUnit.ToString(), TargetUnit.ToString(), true);
+            if (k != 0 && ColInfo != null)
+            {
+                if (ColInfo.ToString() == "3")
+                {
+                    this.TargetUnit[0] = TargetUnit.ToString();
+                }
+                else if (ColInfo.ToString() == "4")
+                {
+                    this.TargetUnit[1] = TargetUnit.ToString();
+                }
+                foreach (var t in model.Details)
+                {
+                    if (!string.IsNullOrEmpty(this.TargetUnit[0]))
+                        t.Height = UnitConvert.Convert(OrigionUnit.ToString(), this.TargetUnit[0], t.Height);
+                    if (!string.IsNullOrEmpty(this.TargetUnit[1]))
+                        t.Diameter = UnitConvert.Convert(OrigionUnit.ToString(), this.TargetUnit[1], t.Diameter);
+                }
+            }
+        }
+
         #region 单位字段
-       
+
         private string levelUnit;
         public string LevelUnit
         {
@@ -189,7 +231,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                 OnPropertyChanged("ElevationUnit");
             }
         }
-       
+
         #endregion
     }
 }
