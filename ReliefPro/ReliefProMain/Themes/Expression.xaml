@@ -100,9 +100,10 @@
         <Setter Property="Width" Value="125"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
         <Setter Property="FontSize" Value="12px" />
-        <Setter Property="FontFamily" Value="Calibri"/>        
-        <Setter Property="Background" Value="LightGray"/>
+        <Setter Property="FontFamily" Value="Calibri"/>
+        <Setter Property="Background" Value="{DynamicResource BackBrush}"/>
         <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="BorderThickness" Value="1,1,1,1"/>
     </Style>
     <Style x:Key="TextBoxReadOnly" TargetType="TextBox" >
         <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -111,9 +112,10 @@
         <Setter Property="Width" Value="125"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
         <Setter Property="FontSize" Value="12px" />
-        <Setter Property="FontFamily" Value="Calibri"/>        
-        <Setter Property="Background" Value="LightGray"/>
+        <Setter Property="FontFamily" Value="Calibri"/>
+        <Setter Property="Background" Value="{DynamicResource BackBrush}"/>
         <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="BorderThickness" Value="1,1,1,1"/>
     </Style>
     <Style x:Key="LabelLeftStyle">
         <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left"/>

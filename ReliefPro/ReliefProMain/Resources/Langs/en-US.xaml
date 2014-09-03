@@ -633,11 +633,15 @@
     <s:String x:Key="Longdescriptions">Long descriptions</s:String>
     <s:String x:Key="UnitConvertCommonViewStatusBar">...</s:String>
 
-  
 
-    <s:String x:Key="ODWarning">OD must be greater than zero</s:String>
-    <s:String x:Key="LengthWarning">Length must be greater than zero</s:String>
-    <s:String x:Key="ElevationWarning">Length must be greater than zero</s:String>
-    <s:String x:Key="WettedBundleWarning">Wetted Bundle must be greater than zero</s:String>
+
+    <s:String x:Key="ODWarning">OD must be greater than or equal to</s:String>
+    <s:String x:Key="LengthWarning">Length must be greater than or equal to zero</s:String>
+    <s:String x:Key="ElevationWarning">Length must be greater than or equal to zero</s:String>
+    <s:String x:Key="WettedBundleWarning">Wetted Bundle must be greater than or equal to zero</s:String>
+
+    <s:String x:Key="TraysWarning">OD must be greater than or equal to</s:String>
+    <s:String x:Key="HeightWarning">Length must be greater than or equal to zero</s:String>
+    <s:String x:Key="DiameterWarning">Length must be greater than or equal to zero</s:String>
 
 </ResourceDictionary>
