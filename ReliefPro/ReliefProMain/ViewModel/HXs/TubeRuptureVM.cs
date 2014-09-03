@@ -163,11 +163,11 @@ namespace ReliefProMain.ViewModel.HXs
         /// </summary>
         /// <param name="calcType"></param>
         private void Calc(int calcType)
-        {            
-            double d = UnitConvert.Convert( model.ODUnit,"in",  model.OD);
-            double p1=csHigh.Pressure;
-            double p2=reliefPressure;
-            double rmass=0;
+        {
+            double d = UnitConvert.Convert(model.ODUnit, "in", model.OD);
+            double p1 = csHigh.Pressure;
+            double p2 = reliefPressure;
+            double rmass = 0;
 
             bool b = false;
             double pcf = 0;
@@ -274,12 +274,24 @@ namespace ReliefProMain.ViewModel.HXs
                 {
                     WriteConvert();
                     dal.Update(model.dbmodel, SessionPS);
+                    SaveScenario(model.dbmodel);
                     SessionPS.Flush();
                     wd.DialogResult = true;
                 }
             }
         }
-
+        private void SaveScenario(TubeRupture model)
+        {
+            ScenarioDAL db = new ScenarioDAL();
+            var sModel = db.GetModel(model.ScenarioID, SessionPS);
+            sModel.ReliefLoad = model.ReliefLoad;
+            sModel.ReliefPressure = model.ReliefPressure;
+            sModel.ReliefTemperature = model.ReliefTemperature;
+            sModel.ReliefMW = model.ReliefMW;
+            sModel.ReliefCpCv = model.ReliefCpCv;
+            sModel.ReliefZ = model.ReliefZ;
+            db.Update(sModel, SessionPS);
+        }
         private void ReadConvert()
         {
             model.OD = UnitConvert.Convert(UOMEnum.Length, model.ODUnit, model.OD);
@@ -291,6 +303,8 @@ namespace ReliefProMain.ViewModel.HXs
         {
             model.dbmodel.OD = UnitConvert.Convert(model.ODUnit, UOMLib.UOMEnum.Length.ToString(), model.OD);
             model.dbmodel.ReliefMW = model.ReliefMW;
+            model.dbmodel.ReliefCpCv = model.ReliefCpCv;
+            model.dbmodel.ReliefZ = model.ReliefZ;
             model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad);
             model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
             model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);

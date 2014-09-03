@@ -110,6 +110,8 @@ namespace ReliefProMain.Models.HXs
             this.reliefload = model.ReliefLoad;
             this.reliefTemperature = model.ReliefTemperature;
             this.reliefPressure = model.ReliefPressure;
+            this.reliefCpCv = model.ReliefCpCv;
+            this.reliefZ = model.ReliefZ;
         }
 
         private string coldStream;
@@ -227,6 +229,28 @@ namespace ReliefProMain.Models.HXs
             {
                 reliefPressure = value;
                 this.NotifyPropertyChanged("ReliefPressure");
+            }
+        }
+
+        private double reliefCpCv;
+        public double ReliefCpCv
+        {
+            get { return reliefCpCv; }
+            set
+            {
+                reliefCpCv = value;
+                this.NotifyPropertyChanged("ReliefCpCv");
+            }
+        }
+
+        private double reliefZ;
+        public double ReliefZ
+        {
+            get { return reliefZ; }
+            set
+            {
+                reliefZ = value;
+                this.NotifyPropertyChanged("ReliefZ");
             }
         }
 

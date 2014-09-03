@@ -115,6 +115,8 @@ namespace ReliefProMain.ViewModel.HXs
             model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad);
             model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
             model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
+            model.dbmodel.ReliefCpCv = model.ReliefCpCv;
+            model.dbmodel.ReliefZ = model.ReliefZ;
         }
         private void CalcResult(object obj)
         {

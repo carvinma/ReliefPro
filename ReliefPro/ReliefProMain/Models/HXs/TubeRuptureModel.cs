@@ -67,6 +67,8 @@ namespace ReliefProMain.Models.HXs
             this.ReliefLoad = dbmodel.ReliefLoad;
             this.ReliefMW = dbmodel.ReliefMW;
             this.ReliefTemperature = dbmodel.ReliefTemperature;
+            this.ReliefCpCv = dbmodel.ReliefCpCv;
+            this.ReliefZ = dbmodel.ReliefZ;
         }
 
         [ReliefProMain.Util.Required(ErrorMessage = "ODEmpty")]
@@ -144,7 +146,27 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
+        private double reliefCpCv;
+        public double ReliefCpCv
+        {
+            get { return reliefCpCv; }
+            set
+            {
+                reliefCpCv = value;
+                this.NotifyPropertyChanged("ReliefCpCv");
+            }
+        }
 
-        
+        private double reliefZ;
+        public double ReliefZ
+        {
+            get { return reliefZ; }
+            set
+            {
+                reliefZ = value;
+                this.NotifyPropertyChanged("ReliefZ");
+            }
+        }
+
     }
 }
