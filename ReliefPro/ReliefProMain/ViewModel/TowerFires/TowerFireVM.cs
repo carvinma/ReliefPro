@@ -478,129 +478,137 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private Latent GetAbsorberFireLatent()
         {
-            Latent lt = new Latent();
-            PSVDAL psvDAL = new PSVDAL();
-            PSV psv = psvDAL.GetModel(SessionProtectedSystem);
-            double pressure = psv.Pressure;
-
-            double reliefFirePressure = pressure * 1.21;
-            string tempdir = DirProtectedSystem + @"\temp\";
-            string dirLatent = tempdir + "TowerFire";
-            if (!Directory.Exists(dirLatent))
-                Directory.CreateDirectory(dirLatent);
-
-            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-            reader.InitProIIReader(FileFullPath);
-            ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, TowerInfo.StageNumber, 2, 1);
-            reader.ReleaseProIIReader();
-            CustomStream stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
-
-
-            string gd = Guid.NewGuid().ToString();
-            string vapor = "S_" + gd.Substring(0, 5).ToUpper();
-            string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
-            int ImportResult = 0;
-            int RunResult = 0;
-            PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
-            string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, "0.05", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
-            if (ImportResult == 1 || ImportResult == 2)
+            if (MainModel.ReliefMW == 0)
             {
-                if (RunResult == 1 || RunResult == 2)
-                {
-                    reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(tray1_f);
-                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
-                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
-                    reader.ReleaseProIIReader();
-                    CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
-                    CustomStream liquidFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
-                    //MainModel.ReliefLoad = vaporFire.WeightFlow;
-                    MainModel.ReliefMW = vaporFire.BulkMwOfPhase;
-                    MainModel.ReliefPressure = reliefFirePressure;
-                    MainModel.ReliefTemperature = vaporFire.Temperature;
-                    MainModel.ReliefCpCv = vaporFire.BulkCPCVRatio;
-                    MainModel.ReliefZ = vaporFire.VaporZFmKVal;
-                    lt.LatentEnthalpy = vaporFire.SpEnthalpy - liquidFire.SpEnthalpy;
-                    return lt;
-                }
+                Latent lt = new Latent();
+                PSVDAL psvDAL = new PSVDAL();
+                PSV psv = psvDAL.GetModel(SessionProtectedSystem);
+                double pressure = psv.Pressure;
 
+                double reliefFirePressure = pressure * 1.21;
+                string tempdir = DirProtectedSystem + @"\temp\";
+                string dirLatent = tempdir + "TowerFire";
+                if (!Directory.Exists(dirLatent))
+                    Directory.CreateDirectory(dirLatent);
+
+                IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                reader.InitProIIReader(FileFullPath);
+                ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, TowerInfo.StageNumber, 2, 1);
+                reader.ReleaseProIIReader();
+                CustomStream stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
+
+
+                string gd = Guid.NewGuid().ToString();
+                string vapor = "S_" + gd.Substring(0, 5).ToUpper();
+                string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
+                int ImportResult = 0;
+                int RunResult = 0;
+                PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+                string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
+                IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+                string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, "0.05", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+                if (ImportResult == 1 || ImportResult == 2)
+                {
+                    if (RunResult == 1 || RunResult == 2)
+                    {
+                        reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                        reader.InitProIIReader(tray1_f);
+                        ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                        ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                        reader.ReleaseProIIReader();
+                        CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
+                        CustomStream liquidFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
+                        //MainModel.ReliefLoad = vaporFire.WeightFlow;
+                        MainModel.ReliefMW = vaporFire.BulkMwOfPhase;
+                        MainModel.ReliefPressure = reliefFirePressure;
+                        MainModel.ReliefTemperature = vaporFire.Temperature;
+                        MainModel.ReliefCpCv = vaporFire.BulkCPCVRatio;
+                        MainModel.ReliefZ = vaporFire.VaporZFmKVal;
+                        lt.LatentEnthalpy = vaporFire.SpEnthalpy - liquidFire.SpEnthalpy;
+                        return lt;
+                    }
+
+                    else
+                    {
+                        MessageBox.Show("Prz file is error", "Message Box");
+                        return null;
+                    }
+                }
                 else
                 {
-                    MessageBox.Show("Prz file is error", "Message Box");
+                    MessageBox.Show("inp file is error", "Message Box");
                     return null;
                 }
             }
-            else
-            {
-                MessageBox.Show("inp file is error", "Message Box");
-                return null;
-            }
+            return null;
         }
 
         private Latent GetRegeneratorLatent()
         {
-            Latent lt = new Latent();
-            PSVDAL psvDAL = new PSVDAL();
-            PSV psv = psvDAL.GetModel(SessionProtectedSystem);
-            double pressure = psv.Pressure;
+            if (MainModel.ReliefMW == 0)
+            {
+                Latent lt = new Latent();
+                PSVDAL psvDAL = new PSVDAL();
+                PSV psv = psvDAL.GetModel(SessionProtectedSystem);
+                double pressure = psv.Pressure;
 
-            double reliefFirePressure = pressure * 1.21;
-            string tempdir = DirProtectedSystem + @"\temp\";
-            string dirLatent = tempdir + "TowerFire";
-            if (!Directory.Exists(dirLatent))
-                Directory.CreateDirectory(dirLatent);
-            CustomStreamDAL csdal = new CustomStreamDAL();
-            IList<CustomStream> list = csdal.GetAllList(SessionProtectedSystem, false);
-            List<CustomStream> feedlist = list.ToList();
-            string gd = Guid.NewGuid().ToString();
-            string vapor = "S_" + gd.Substring(0, 5).ToUpper();
-            string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
-            int ImportResult = 0;
-            int RunResult = 0;
-            PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
-            StringBuilder sbcontent = new StringBuilder();
-            foreach (CustomStream cs in feedlist)
-            {
-                string content = PROIIFileOperator.getUsableContent(cs.StreamName, tempdir);
-                sbcontent.Append(content).Append("\n");
-            }
-            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(sbcontent.ToString(), 1, reliefFirePressure.ToString(), 6, "0.05", feedlist, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
-            if (ImportResult == 1 || ImportResult == 2)
-            {
-                if (RunResult == 1 || RunResult == 2)
+                double reliefFirePressure = pressure * 1.21;
+                string tempdir = DirProtectedSystem + @"\temp\";
+                string dirLatent = tempdir + "TowerFire";
+                if (!Directory.Exists(dirLatent))
+                    Directory.CreateDirectory(dirLatent);
+                CustomStreamDAL csdal = new CustomStreamDAL();
+                IList<CustomStream> list = csdal.GetAllList(SessionProtectedSystem, false);
+                List<CustomStream> feedlist = list.ToList();
+                string gd = Guid.NewGuid().ToString();
+                string vapor = "S_" + gd.Substring(0, 5).ToUpper();
+                string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
+                int ImportResult = 0;
+                int RunResult = 0;
+                PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+                StringBuilder sbcontent = new StringBuilder();
+                foreach (CustomStream cs in feedlist)
                 {
-                    IProIIReader reader;
-                    reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(tray1_f);
-                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
-                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
-                    reader.ReleaseProIIReader();
-                    CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
-                    CustomStream liquidFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
-                    //MainModel.ReliefLoad = vaporFire.WeightFlow;
-                    MainModel.ReliefMW = vaporFire.BulkMwOfPhase;
-                    MainModel.ReliefPressure = reliefFirePressure;
-                    MainModel.ReliefTemperature = vaporFire.Temperature;
-                    MainModel.ReliefCpCv = vaporFire.BulkCPCVRatio;
-                    MainModel.ReliefZ = vaporFire.VaporZFmKVal;
-                    lt.LatentEnthalpy = vaporFire.SpEnthalpy - liquidFire.SpEnthalpy;
-                    return lt;
+                    string content = PROIIFileOperator.getUsableContent(cs.StreamName, tempdir);
+                    sbcontent.Append(content).Append("\n");
                 }
+                IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+                string tray1_f = fcalc.Calculate(sbcontent.ToString(), 1, reliefFirePressure.ToString(), 6, "0.05", feedlist, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+                if (ImportResult == 1 || ImportResult == 2)
+                {
+                    if (RunResult == 1 || RunResult == 2)
+                    {
+                        IProIIReader reader;
+                        reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                        reader.InitProIIReader(tray1_f);
+                        ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                        ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                        reader.ReleaseProIIReader();
+                        CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
+                        CustomStream liquidFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
+                        //MainModel.ReliefLoad = vaporFire.WeightFlow;
+                        MainModel.ReliefMW = vaporFire.BulkMwOfPhase;
+                        MainModel.ReliefPressure = reliefFirePressure;
+                        MainModel.ReliefTemperature = vaporFire.Temperature;
+                        MainModel.ReliefCpCv = vaporFire.BulkCPCVRatio;
+                        MainModel.ReliefZ = vaporFire.VaporZFmKVal;
+                        lt.LatentEnthalpy = vaporFire.SpEnthalpy - liquidFire.SpEnthalpy;
+                        return lt;
+                    }
 
+                    else
+                    {
+                        MessageBox.Show("Prz file is error", "Message Box");
+                        return null;
+                    }
+                }
                 else
                 {
-                    MessageBox.Show("Prz file is error", "Message Box");
+                    MessageBox.Show("inp file is error", "Message Box");
                     return null;
                 }
             }
-            else
-            {
-                MessageBox.Show("inp file is error", "Message Box");
-                return null;
-            }
+            return null; 
         }
     }
 }

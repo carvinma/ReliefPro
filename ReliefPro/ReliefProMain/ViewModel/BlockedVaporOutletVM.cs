@@ -36,19 +36,43 @@ namespace ReliefProMain.ViewModel
             var ScenarioModel = blockBLL.GetScenarioModel(ScenarioID);
 
             CustomStreamDAL csdal = new CustomStreamDAL();
-            if (ScenarioModel.ReliefMW == 0)
+            SourceDAL srdal = new SourceDAL();
+            if (BlockedModel == null)
             {
+                BlockedModel = new BlockedVaporOutlet();
                 IList<CustomStream> feeds = csdal.GetAllList(this.SessionPS,false);
-                IList<CustomStream> products = csdal.GetAllList(this.SessionPS,false);
+                IList<CustomStream> products = csdal.GetAllList(this.SessionPS,true);
                 foreach (CustomStream cs in feeds)
                 {
-                    BlockedModel.InletGasUpstreamMaxPressure = cs.Pressure;
-                    BlockedModel.InletAbsorbentUpstreamMaxPressure=cs.Pressure;
-                    BlockedModel.NormalGasFeedWeightRate = cs.WeightFlow;
+                    if (cs.VaporFraction == 1)
+                    {
+                        Source sr = srdal.GetModel(cs.StreamName, SessionPS);
+                        BlockedModel.InletGasUpstreamMaxPressure = sr.MaxPossiblePressure;
+                        BlockedModel.NormalGasFeedWeightRate = cs.WeightFlow;
+                        ScenarioModel.ReliefMW = cs.BulkMwOfPhase;
+                        
+                        ScenarioModel.ReliefTemperature = cs.Temperature;
+                        ScenarioModel.ReliefCpCv = cs.BulkCPCVRatio;
+                        ScenarioModel.ReliefZ = cs.VaporZFmKVal;
+                    }
+                    else
+                    {
+                        Source sr = srdal.GetModel(cs.StreamName, SessionPS);
+                        BlockedModel.InletAbsorbentUpstreamMaxPressure = sr.MaxPossiblePressure;
+                    }
+                    
                 }
                 foreach (CustomStream cs in products)
                 {
-                    BlockedModel.NormalGasProductWeightRate = cs.WeightFlow;
+                    if (cs.VaporFraction == 1)
+                    {
+                        BlockedModel.NormalGasProductWeightRate = cs.WeightFlow;
+                        ScenarioModel.ReliefMW = cs.BulkMwOfPhase;
+                        
+                        ScenarioModel.ReliefTemperature = cs.Temperature;
+                        ScenarioModel.ReliefCpCv = cs.BulkCPCVRatio;
+                        ScenarioModel.ReliefZ = cs.VaporZFmKVal;             
+                    }
                 }
             }
             BlockedModel = blockBLL.ReadConvertBlockedVaporOutletModel(BlockedModel);
@@ -87,6 +111,7 @@ namespace ReliefProMain.ViewModel
             PSVDAL psvdal = new PSVDAL();
             PSV psv = psvdal.GetModel(SessionPS);
             double pSet = psv.Pressure ;//和定压比较。不是ReliefPressure
+            model.ReliefPressure = pSet;
             if (model.dbmodel.OutletType == 0)
             {
                 if (model.InletGasUpstreamMaxPressure > pSet)
@@ -104,6 +129,7 @@ namespace ReliefProMain.ViewModel
                 {
                     model.ReliefLoad = 0;
                 }
+                
             }
             else
             {
@@ -115,6 +141,7 @@ namespace ReliefProMain.ViewModel
                 {
                     model.ReliefLoad = 0;
                 }
+                
             }
 
 

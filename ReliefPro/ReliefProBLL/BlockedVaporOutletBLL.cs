@@ -79,7 +79,7 @@ namespace ReliefProLL
             sModel.ReliefCpCv = smodel.ReliefCpCv;
             smodel.ReliefZ = smodel.ReliefZ;
             db.Update(sModel, SessionPS);
-
+            SessionPS.Flush();
         }
     }
 }

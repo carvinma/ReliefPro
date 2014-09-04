@@ -21,7 +21,8 @@ namespace ReliefProMain.Models
         //        this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         //    }
         //}
-        public const string GreaterThanZero = @"^(?!0(\.0+)?$)([1-9][0-9]*|0)(\.[0-9]+)?$";
+        //public const string GreaterThanZero = @"^(?!0(\.0+)?$)([1-9][0-9]*|0)(\.[0-9]+)?$";
+        public const string GreaterThanZero = @"^(?!0(\.0+)?$)([0-9]*|0)(\.[0-9]+)?";  
         public const string IsNum = @"^[+-]?/d*[.]?/d*$";
         public bool CheckData()
         {
