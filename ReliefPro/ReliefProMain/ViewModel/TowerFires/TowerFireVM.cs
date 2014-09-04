@@ -72,6 +72,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             UnitConvert uc = new UnitConvert();
             TowerFireDAL db = new TowerFireDAL();
             ReliefProModel.TowerFire model = db.GetModel(SessionProtectedSystem, ScenarioID);
+           
             model.HeatInputModel = HeatInputModels[0];
             MainModel = new TowerFireModel(model);
             ReadConvert();
@@ -122,14 +123,22 @@ namespace ReliefProMain.ViewModel.TowerFires
 
             TowerFireDAL towerFireDAL = new TowerFireDAL();
             WriteConvert();
-            towerFireDAL.Update(MainModel.model, SessionProtectedSystem);
+            MainModel.dbmodel.HeatInputModel = MainModel.HeatInputModel;
+            MainModel.dbmodel.IsExist = MainModel.IsExist;
+            MainModel.dbmodel.ReliefCpCv = MainModel.ReliefCpCv;
+            MainModel.dbmodel.ReliefZ = MainModel.ReliefZ;
+            MainModel.dbmodel.ReliefMW = MainModel.ReliefMW;
+            towerFireDAL.Update(MainModel.dbmodel, SessionProtectedSystem);
+            SessionProtectedSystem.Flush();
 
             ScenarioDAL scenarioDAL = new ScenarioDAL();
             Scenario sc = scenarioDAL.GetModel(ScenarioID, SessionProtectedSystem);
-            sc.ReliefLoad = MainModel.ReliefLoad;
+            sc.ReliefLoad = MainModel.dbmodel.ReliefLoad;
             sc.ReliefMW = MainModel.ReliefMW;
-            sc.ReliefPressure = MainModel.ReliefPressure;
-            sc.ReliefTemperature = MainModel.ReliefTemperature;
+            sc.ReliefPressure = MainModel.dbmodel.ReliefPressure;
+            sc.ReliefTemperature = MainModel.dbmodel.ReliefTemperature;
+            sc.ReliefCpCv = MainModel.ReliefCpCv;
+            sc.ReliefZ = MainModel.ReliefZ;
             scenarioDAL.Update(sc, SessionProtectedSystem);
             SessionProtectedSystem.Flush();
 
@@ -213,20 +222,20 @@ namespace ReliefProMain.ViewModel.TowerFires
         private void ReadConvert()
         {
             if (MainModel.ReliefLoad != null)
-                MainModel.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, reliefloadUnit, MainModel.ReliefLoad);
+                MainModel.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, reliefloadUnit, MainModel.dbmodel.ReliefLoad);
             if (MainModel.ReliefPressure != null)
-                MainModel.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit, MainModel.ReliefPressure);
+                MainModel.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, reliefPressureUnit, MainModel.dbmodel.ReliefPressure);
             if (MainModel.ReliefTemperature != null)
-                MainModel.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit, MainModel.ReliefTemperature);
+                MainModel.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, reliefTemperatureUnit, MainModel.dbmodel.ReliefTemperature);
         }
         private void WriteConvert()
         {
             if (MainModel.ReliefLoad != null)
-                MainModel.ReliefLoad = UnitConvert.Convert(reliefloadUnit, UOMEnum.MassRate, MainModel.ReliefLoad);
+                MainModel.dbmodel.ReliefLoad = UnitConvert.Convert(reliefloadUnit, UOMEnum.MassRate, MainModel.ReliefLoad);
             if (MainModel.ReliefPressure != null)
-                MainModel.ReliefPressure = UnitConvert.Convert(reliefPressureUnit, UOMEnum.Pressure, MainModel.ReliefPressure);
+                MainModel.dbmodel.ReliefPressure = UnitConvert.Convert(reliefPressureUnit, UOMEnum.Pressure, MainModel.ReliefPressure);
             if (MainModel.ReliefTemperature != null)
-                MainModel.ReliefTemperature = UnitConvert.Convert(reliefTemperatureUnit, UOMEnum.Temperature, MainModel.ReliefTemperature);
+                MainModel.dbmodel.ReliefTemperature = UnitConvert.Convert(reliefTemperatureUnit, UOMEnum.Temperature, MainModel.ReliefTemperature);
         }
         private void InitUnit()
         {
@@ -301,12 +310,14 @@ namespace ReliefProMain.ViewModel.TowerFires
                     eqm.WettedArea = vm.Area;
                     eqm.HeatInput = Algorithm.GetQ(C1, eqm.FFactor, eqm.WettedArea);
                     eqm.ReliefLoad = (eqm.HeatInput / latentEnthalpy);
+                    eqm.Elevation = vm.model.Elevation;
 
                     eqm.dbmodel.WettedArea = eqm.WettedArea;
                     eqm.dbmodel.HeatInput = eqm.HeatInput;
                     eqm.dbmodel.ReliefLoad = eqm.HeatInput;
                     eqm.dbmodel.FFactor = eqm.FFactor;
                     eqm.dbmodel.FireZone = eqm.FireZone;
+                    eqm.dbmodel.Elevation = eqm.Elevation;
                     fireEqDal.Update(eqm.dbmodel, SessionProtectedSystem);
                     SessionProtectedSystem.Flush();
                     
@@ -324,11 +335,14 @@ namespace ReliefProMain.ViewModel.TowerFires
                     eqm.WettedArea = vm.Area;
                     eqm.HeatInput = Algorithm.GetQ(C1, eqm.FFactor, eqm.WettedArea);
                     eqm.ReliefLoad = (eqm.HeatInput / latentEnthalpy);
+                    eqm.Elevation = vm.model.Elevation;
+
                     eqm.dbmodel.WettedArea = eqm.WettedArea;
                     eqm.dbmodel.HeatInput = eqm.HeatInput;
                     eqm.dbmodel.ReliefLoad = eqm.ReliefLoad;
                     eqm.dbmodel.FFactor = eqm.FFactor;
                     eqm.dbmodel.FireZone = eqm.FireZone;
+                    eqm.dbmodel.Elevation = eqm.Elevation;
                     fireEqDal.Update(eqm.dbmodel, SessionProtectedSystem);
                     SessionProtectedSystem.Flush();
                     
@@ -345,11 +359,14 @@ namespace ReliefProMain.ViewModel.TowerFires
                     eqm.WettedArea = vm.Area;
                     eqm.HeatInput = Algorithm.GetQ(C1, eqm.FFactor, eqm.WettedArea);
                     eqm.ReliefLoad = (eqm.HeatInput / latentEnthalpy);
+                    eqm.Elevation = vm.model.Elevation;
+
                     eqm.dbmodel.WettedArea = eqm.WettedArea;
                     eqm.dbmodel.HeatInput = eqm.HeatInput;
                     eqm.dbmodel.ReliefLoad = eqm.HeatInput;
                     eqm.dbmodel.FFactor = eqm.FFactor;
                     eqm.dbmodel.FireZone = eqm.FireZone;
+                    eqm.dbmodel.Elevation = eqm.Elevation;
                     fireEqDal.Update(eqm.dbmodel, SessionProtectedSystem);
                     SessionProtectedSystem.Flush();
                 }
@@ -365,6 +382,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                     eqm.WettedArea = vm.Area;
                     eqm.HeatInput = Algorithm.GetQ(C1, eqm.FFactor, eqm.WettedArea);
                     eqm.ReliefLoad = (eqm.HeatInput / latentEnthalpy);
+                    
                     eqm.dbmodel.WettedArea = eqm.WettedArea;
                     eqm.dbmodel.HeatInput = eqm.HeatInput;
                     eqm.dbmodel.ReliefLoad = eqm.HeatInput;

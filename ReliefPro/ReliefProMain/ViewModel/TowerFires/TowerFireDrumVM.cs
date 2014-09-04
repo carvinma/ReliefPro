@@ -83,7 +83,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             {
                 model.dbmodel.PipingContingency = model.PipingContingency;
                 model.dbmodel.Orientation=model.Orientation;
-                model.dbmodel.HeadNumber=model.Headnumber;;
+                model.dbmodel.HeadNumber=model.HeadNumber;;
                 model.dbmodel.HeadType = model.HeadType;
                
                 model.dbmodel.BootDiameter_Color=model.BootDiameter_Color;

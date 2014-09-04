@@ -35,6 +35,22 @@ namespace ReliefProMain.ViewModel
             var BlockedModel = blockBLL.GeModel(ScenarioID, OutletType);
             var ScenarioModel = blockBLL.GetScenarioModel(ScenarioID);
 
+            CustomStreamDAL csdal = new CustomStreamDAL();
+            if (ScenarioModel.ReliefMW == 0)
+            {
+                IList<CustomStream> feeds = csdal.GetAllList(this.SessionPS,false);
+                IList<CustomStream> products = csdal.GetAllList(this.SessionPS,false);
+                foreach (CustomStream cs in feeds)
+                {
+                    BlockedModel.InletGasUpstreamMaxPressure = cs.Pressure;
+                    BlockedModel.InletAbsorbentUpstreamMaxPressure=cs.Pressure;
+                    BlockedModel.NormalGasFeedWeightRate = cs.WeightFlow;
+                }
+                foreach (CustomStream cs in products)
+                {
+                    BlockedModel.NormalGasProductWeightRate = cs.WeightFlow;
+                }
+            }
             BlockedModel = blockBLL.ReadConvertBlockedVaporOutletModel(BlockedModel);
             ScenarioModel = blockBLL.ReadConvertScenarioModel(ScenarioModel);
             model = new BlockedVaporOutletModel(BlockedModel, ScenarioModel);
@@ -70,7 +86,7 @@ namespace ReliefProMain.ViewModel
             if (!model.CheckData()) return;
             PSVDAL psvdal = new PSVDAL();
             PSV psv = psvdal.GetModel(SessionPS);
-            double pSet = psv.Pressure * psv.ReliefPressureFactor;
+            double pSet = psv.Pressure ;//和定压比较。不是ReliefPressure
             if (model.dbmodel.OutletType == 0)
             {
                 if (model.InletGasUpstreamMaxPressure > pSet)
@@ -93,7 +109,7 @@ namespace ReliefProMain.ViewModel
             {
                 if (model.InletGasUpstreamMaxPressure > pSet)
                 {
-                    model.ReliefLoad = model.NormalGasProductWeightRate - model.NormalGasProductWeightRate;
+                    model.ReliefLoad = model.NormalGasFeedWeightRate - model.NormalGasProductWeightRate;
                 }
                 else
                 {

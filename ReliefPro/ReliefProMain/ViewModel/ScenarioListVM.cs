@@ -544,13 +544,13 @@ namespace ReliefProMain.ViewModel
                 eq.FireID = tf.ID;
                 dbtfeq.Add(eq, Session);
 
-                eq = new TowerFireEq();
-                eq.EqName = "Other";
-                eq.Type = "Other HX";
-                eq.FFactor = 1;
-                eq.FireZone = true;
-                eq.FireID = tf.ID;
-                dbtfeq.Add(eq, Session);
+                //eq = new TowerFireEq();
+                //eq.EqName = "Other";
+                //eq.Type = "Other HX";
+                //eq.FFactor = 1;
+                //eq.FireZone = true;
+                //eq.FireID = tf.ID;
+                //dbtfeq.Add(eq, Session);
 
                 SideColumnDAL dbsidecolumn = new SideColumnDAL();
                 IList<SideColumn> listSideColumn = dbsidecolumn.GetAllList(Session);

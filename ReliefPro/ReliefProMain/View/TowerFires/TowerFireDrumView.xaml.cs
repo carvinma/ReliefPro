@@ -23,5 +23,60 @@ namespace ReliefProMain.View.TowerFires
         {
             InitializeComponent();
         }
+
+        
+        /// <summary>
+        /// 只能是整数,>=0
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextBox_KeyDown_1(object sender, KeyEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            //屏蔽非法按键
+            if (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
+            {
+                e.Handled = true;
+                return;                
+            }
+            e.Handled = false;
+        }
+
+        /// <summary>
+        /// 允许有小数
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextBox_KeyDown_2(object sender, KeyEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+
+            //屏蔽非法按键
+            if ((e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) || e.Key == Key.Decimal)
+            {
+                if (txt.Text.Contains(".") && e.Key == Key.Decimal)
+                {
+                    e.Handled = true;
+                    return;
+                }
+                e.Handled = false;
+            }
+            else if (((e.Key >= Key.D0 && e.Key <= Key.D9) || e.Key == Key.OemPeriod) && e.KeyboardDevice.Modifiers != ModifierKeys.Shift)
+            {
+                if (txt.Text.Contains(".") && e.Key == Key.OemPeriod)
+                {
+                    e.Handled = true;
+                    return;
+                }
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+            }
+            
+        }
+        
     }
 }

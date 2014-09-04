@@ -993,19 +993,24 @@ namespace ReliefProMain
             {
                 return;
             }
-            var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
-            if (firstDocumentPane != null)
-            {
-                if (firstDocumentPane.Children.Count > 0)
-                {
-                    MessageBox.Show("Please close all documents first!", "Message Box");
-                    return;
-                }
-            }
-            MessageBoxResult result = MessageBox.Show("Are your sure clear all plants?", "Message Box", MessageBoxButton.OKCancel);
+            
+            MessageBoxResult result = MessageBox.Show("Are your sure clear all plants and save all documents?", "Message Box", MessageBoxButton.OKCancel);
             if (result == MessageBoxResult.OK)
             {
                 Plants.Clear();
+                var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+                if (firstDocumentPane != null)
+                {
+                    if (firstDocumentPane.Children.Count > 0)
+                    {
+                        foreach (LayoutDocument doc in firstDocumentPane.Children)
+                        {
+                            UCDrawingControl uc = doc.Content as UCDrawingControl;
+                            uc.visioControl.Document.SaveAs(uc.visioControl.Src);
+                        }
+                        
+                    }
+                }
             }
         }
 

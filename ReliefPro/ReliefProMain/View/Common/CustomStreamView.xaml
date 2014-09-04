@@ -44,7 +44,7 @@
                 <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblTemperature,Path=Content,Mode=TwoWay}"   Text="{Binding CurrentModel.Temperature,Mode=TwoWay}"    Grid.Row="3" Grid.Column="2"/>
 
                 <Label Content="{DynamicResource Presressure_Mpag}"   Grid.Row="4"  Grid.Column="1" Margin="0,0,0,1"/>
-                <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}"   Text="{Binding CurrentModel.Temperature,Mode=TwoWay}" VerticalAlignment="Top"  Grid.Row="4" Grid.Column="2" />
+                <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}"   Text="{Binding CurrentModel.Pressure,Mode=TwoWay}" VerticalAlignment="Top"  Grid.Row="4" Grid.Column="2" />
                 <Label Content="{DynamicResource WorkflowKghr}"   Grid.Row="5"  Grid.Column="1"/>
                 <CustomControl:UnitConvertTextBox IsEnabled="False" UnitOrigin="{Binding ElementName=lblWeightFlow,Path=Content,Mode=TwoWay}"   Text="{Binding CurrentModel.WeightFlow,Mode=TwoWay}"   Grid.Row="5" Grid.Column="2" />
 

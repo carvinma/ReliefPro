@@ -13,149 +13,165 @@ namespace ReliefProMain.Models
 {
     public class TowerFireModel: ModelBase
     {
-        public TowerFire model { set; get; }
-        public TowerFireModel(TowerFire m)
+        public TowerFire dbmodel { set; get; }
+        public TowerFireModel(TowerFire model)
         {
-            model = m;
+            dbmodel = model;
+            this._HeatInputModel = model.HeatInputModel;
+            this._ID = model.ID;
+            this._IsExist = model.IsExist;
+            this._ReliefCpCv = model.ReliefCpCv;
+            this._ReliefLoad = model.ReliefLoad;
+            this._ReliefMW = model.ReliefMW;
+            this._ReliefPressure = model.ReliefPressure;
+            this._ReliefTemperature = model.ReliefTemperature;
+            this._ReliefZ = model.ReliefZ;
         }
 
+        private string _HeatInputModel;
         public string HeatInputModel
         {
             get
             {
-                return model.HeatInputModel;
+                return _HeatInputModel;
             }
             set
             {
-                if (model.HeatInputModel != value)
+                if (_HeatInputModel != value)
                 {
-                    model.HeatInputModel = value;
+                    _HeatInputModel = value;
                     NotifyPropertyChanged("HeatInputModel");
                 }
             }
         }
+        private int _ID;
         public int ID
         {
             get
             {
-                return model.ID;
+                return _ID;
             }
             set
             {
-                if (model.ID != value)
+                if (_ID != value)
                 {
-                    model.ID = value;
+                    _ID = value;
                     NotifyPropertyChanged("ID");
                 }
             }
         }
+
+        private bool _IsExist;
         public bool IsExist
         {
             get
             {
-                return model.IsExist;
+                return _IsExist;
             }
             set
             {
-                if (model.IsExist != value)
+                if (_IsExist != value)
                 {
-                    model.IsExist = value;
+                    _IsExist = value;
                     NotifyPropertyChanged("IsExist");
                 }
             }
         }
-
+        private double _ReliefLoad;
         public double ReliefLoad
         {
             get
             {
-                return model.ReliefLoad;
+                return _ReliefLoad;
             }
             set
             {
-                if (model.ReliefLoad != value)
+                if (_ReliefLoad != value)
                 {
-                    model.ReliefLoad = value;
+                    _ReliefLoad = value;
                     NotifyPropertyChanged("ReliefLoad");
                 }
             }
         }
 
+        private double _ReliefTemperature;
         public double ReliefTemperature
         {
             get
             {
-                return model.ReliefTemperature;
+                return _ReliefTemperature;
             }
             set
             {
-                if (model.ReliefTemperature != value)
+                if (_ReliefTemperature != value)
                 {
-                    model.ReliefTemperature = value;
+                    _ReliefTemperature = value;
                     NotifyPropertyChanged("ReliefTemperature");
                 }
             }
         }
 
+        private double _ReliefPressure;
         public double ReliefPressure
         {
             get
             {
-                return model.ReliefPressure;
+                return _ReliefPressure;
             }
             set
             {
-                if (model.ReliefPressure != value)
+                if (_ReliefPressure != value)
                 {
-                    model.ReliefPressure = value;
+                    _ReliefPressure = value;
                     NotifyPropertyChanged("ReliefPressure");
                 }
             }
         }
-
+        private double _ReliefMW;
         public double ReliefMW
         {
             get
             {
-                return model.ReliefMW;
+                return _ReliefMW;
             }
             set
             {
-                if (model.ReliefMW != value)
+                if (_ReliefMW != value)
                 {
-                    model.ReliefMW = value;
+                    _ReliefMW = value;
                     NotifyPropertyChanged("ReliefMW");
                 }
             }
         }
-
+        private double _ReliefCpCv;
         public double ReliefCpCv
         {
             get
             {
-                return model.ReliefCpCv;
+                return _ReliefCpCv;
             }
             set
             {
-                if (model.ReliefCpCv != value)
+                if (_ReliefCpCv != value)
                 {
-                    model.ReliefCpCv = value;
+                    _ReliefCpCv = value;
                     NotifyPropertyChanged("ReliefCpCv");
                 }
             }
         }
 
+        private double _ReliefZ;
         public double ReliefZ
         {
             get
             {
-                return model.ReliefZ;
+                return _ReliefZ;
             }
             set
             {
-                if (model.ReliefZ != value)
+                if (_ReliefZ != value)
                 {
-                    model.ReliefZ= value;
+                    _ReliefZ= value;
                     NotifyPropertyChanged("ReliefZ");
                 }
             }

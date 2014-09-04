@@ -231,6 +231,7 @@
     <Compile Include="Models\SinkModel.cs" />
     <Compile Include="Models\TowerFireColumnDetailModel.cs" />
     <Compile Include="Models\TowerFireColumnModel.cs" />
+    <Compile Include="Models\TowerFireCoolerModel.cs" />
     <Compile Include="Models\TowerFireDrumModel.cs" />
     <Compile Include="Models\TowerFireEqModel.cs" />
     <Compile Include="Models\TowerFireModel.cs" />

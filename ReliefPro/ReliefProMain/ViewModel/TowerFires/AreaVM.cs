@@ -12,13 +12,15 @@ using ReliefProMain.Interface;
 using ReliefProMain.Service;
 using UOMLib;
 using NHibernate;
+using ReliefProMain.Models;
+using ReliefProCommon.Enum;
 namespace ReliefProMain.ViewModel.TowerFires
 {
     public class AreaVM : ViewModelBase
     {
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
-        public TowerFireCooler model { get; set; }
+        public TowerFireCoolerModel model { get; set; }
 
 
 
@@ -33,18 +35,19 @@ namespace ReliefProMain.ViewModel.TowerFires
             InitUnit();
             SessionProtectedSystem = sessionProtectedSystem;
             TowerFireCoolerDAL db = new TowerFireCoolerDAL();
-            model = db.GetModel(SessionProtectedSystem, EqID);
-            if (model == null)
+            TowerFireCooler sizemodel = db.GetModel(SessionProtectedSystem, EqID);
+            if (sizemodel == null)
             {
-                model = new TowerFireCooler();
-                model.EqID = EqID;
-                model.PipingContingency = 10;
-                db.Add(model, SessionProtectedSystem);
+                sizemodel = new TowerFireCooler();
+                sizemodel.EqID = EqID;
+                sizemodel.PipingContingency = 10;
+                sizemodel.WettedArea_Color = ColorBorder.green.ToString();
+                sizemodel.PipingContingency_Color = ColorBorder.green.ToString();
+                db.Add(sizemodel, SessionProtectedSystem);
             }
-            else
-            {
-                ReadConvert();
-            }
+            model = new TowerFireCoolerModel(sizemodel);
+            ReadConvert();
+            
 
         }
 
@@ -65,21 +68,14 @@ namespace ReliefProMain.ViewModel.TowerFires
         private void Update(object window)
         {
             if (!CheckData()) return;
-            model.WettedArea = model.WettedArea;
-            if (model.WettedArea == null)
-            {
-                throw new ArgumentException("Please type in WettedArea.");
-                return;
-            }
-
+            
             TowerFireCoolerDAL db = new TowerFireCoolerDAL();
-            TowerFireCooler m = db.GetModel(model.ID, SessionProtectedSystem);
+            
             WriteConvert();
-            m.WettedArea = model.WettedArea;
-            m.PipingContingency = model.PipingContingency;
-            db.Update(m, SessionProtectedSystem);
+          
+            db.Update(model.dbmodel, SessionProtectedSystem);
             SessionProtectedSystem.Flush();
-            Area = m.WettedArea;
+            Area = model.WettedArea;
             Area = Area + Area * model.PipingContingency / 100;
 
 
@@ -93,13 +89,13 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private void ReadConvert()
         {
-            //if (model.WettedArea!=null)
-            model.WettedArea = UnitConvert.Convert(UOMEnum.Area, wetteAreaUnit, model.WettedArea);
+            if (model.WettedArea!=null)
+            model.WettedArea = UnitConvert.Convert(UOMEnum.Area, wetteAreaUnit, model.dbmodel.WettedArea);
         }
         private void WriteConvert()
         {
-            //if (model.WettedArea!=null)
-            model.WettedArea = UnitConvert.Convert(wetteAreaUnit, UOMEnum.Area, model.WettedArea);
+            if (model.WettedArea!=null)
+            model.dbmodel.WettedArea = UnitConvert.Convert(wetteAreaUnit, UOMEnum.Area, model.WettedArea);
         }
         private void InitUnit()
         {
