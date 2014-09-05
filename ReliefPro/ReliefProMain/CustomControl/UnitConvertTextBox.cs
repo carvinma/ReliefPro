@@ -22,7 +22,6 @@ namespace ReliefProMain.CustomControl
             set { format = value; }
         }
         private string preUnit = string.Empty;
-        private string preValue = string.Empty;
         public string UnitOrigin
         {
             get { return GetValue(UnitOriginProperty).ToString(); }
@@ -47,10 +46,6 @@ namespace ReliefProMain.CustomControl
         {
             //BindingExpression expresson = this.GetBindingExpression(TextBox.TextProperty);
             //expresson.UpdateSource();
-            // this.BorderBrush = new SolidColorBrush(Colors.Green);
-            // string s = UnitConvertTextBox.UnitOriginProperty.ToString();
-            //string s = this.GetValue(UnitConvertTextBox.UnitOriginProperty).ToString();
-            //UnitConvertTextBox.UnitOriginProperty;
             if (this.GetValue(UnitConvertTextBox.UnitOriginProperty) != null)
             {
                 if (!string.IsNullOrEmpty(preUnit) && preUnit != this.UnitOrigin)
@@ -70,7 +65,6 @@ namespace ReliefProMain.CustomControl
             if (!string.IsNullOrEmpty(UnitOrigin))
             {
                 preUnit = UnitOrigin;
-                preValue = this.Text.Trim();
                 double UnitValue;
                 if (BindingOperations.IsDataBound(this, TextBox.TextProperty))
                 {
