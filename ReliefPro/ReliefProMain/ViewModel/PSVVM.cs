@@ -129,11 +129,23 @@ namespace ReliefProMain.ViewModel
         public ObservableCollection<string> GetLocations()
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
-            ProIIEqDataDAL gdDAL = new ProIIEqDataDAL();
-            IList<ProIIEqData> fs = gdDAL.GetAllList(SessionPlant);
-            foreach (ProIIEqData m in fs)
+            if (EqType == "StorageTank")
             {
-                list.Add(m.EqName);
+                CustomStreamDAL csdal = new CustomStreamDAL();
+                IList<CustomStream> cslist = csdal.GetAllList(SessionProtectedSystem);
+                foreach (CustomStream m in cslist)
+                {
+                    list.Add(m.StreamName);
+                }
+            }
+            else
+            {
+                ProIIEqDataDAL gdDAL = new ProIIEqDataDAL();
+                IList<ProIIEqData> fs = gdDAL.GetAllList(SessionPlant);
+                foreach (ProIIEqData m in fs)
+                {
+                    list.Add(m.EqName);
+                }
             }
             return list;
         }
@@ -178,7 +190,12 @@ namespace ReliefProMain.ViewModel
                 {
                     CurrentModel.DischargeTo = DischargeTos[0];
                 }
-                if (eqType != "StorageTank")
+
+                if (eqType == "StorageTank")
+                {
+                    CurrentModel.Location = Locations[0];                        ;
+                }
+                else
                 {
                     CurrentModel.Location = eqName;
                 }

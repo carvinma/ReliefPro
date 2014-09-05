@@ -99,8 +99,8 @@ namespace ReliefProMain.Models
             this.bootHeight_Color = sizemodel.BootHeight_Color;
         }
         private double elevation;
-        
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "ElevationWarning")]
         public double Elevation
         {
             get { return elevation; }
@@ -111,9 +111,9 @@ namespace ReliefProMain.Models
             }
         }
 
-        public double diameter;
-        
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        private double diameter;
+
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double Diameter
         {
             get { return diameter; }
@@ -124,8 +124,8 @@ namespace ReliefProMain.Models
             }
         }
         private double length;
-        
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double Length
         {
             get { return length; }
@@ -136,9 +136,9 @@ namespace ReliefProMain.Models
             }
         }
 
-        public double normalLiquidLevel;
-        
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        private double normalLiquidLevel;
+
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double NormalLiquidLevel
         {
             get { return normalLiquidLevel; }
@@ -148,7 +148,7 @@ namespace ReliefProMain.Models
                 this.NotifyPropertyChanged("NormalLiquidLevel");
             }
         }
-        private double bootDiameter;
+        private double bootDiameter;        
         public double BootDiameter
         {
             get { return bootDiameter; }
@@ -159,7 +159,7 @@ namespace ReliefProMain.Models
             }
         }
 
-        public double bootHeight;
+        private double bootHeight;       
         public double BootHeight
         {
             get { return bootHeight; }
@@ -182,8 +182,9 @@ namespace ReliefProMain.Models
             }
         }
 
-        public double headnumber;
-        public double Headnumber
+        private int headnumber;
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
+        public int Headnumber
         {
             get { return headnumber; }
             set
@@ -217,7 +218,7 @@ namespace ReliefProMain.Models
             }
         }
 
-        public string diameter_Color;
+        private string diameter_Color;
         public string Diameter_Color
         {
             get { return diameter_Color; }
@@ -238,7 +239,7 @@ namespace ReliefProMain.Models
             }
         }
 
-        public string normalLiquidLevel_Color;
+        private string normalLiquidLevel_Color;
         public string NormalLiquidLevel_Color
         {
             get { return normalLiquidLevel_Color; }
@@ -259,7 +260,7 @@ namespace ReliefProMain.Models
             }
         }
 
-        public string bootHeight_Color;
+        private string bootHeight_Color;
         public string BootHeight_Color
         {
             get { return bootHeight_Color; }
@@ -282,7 +283,7 @@ namespace ReliefProMain.Models
             }
         }
 
-        public string headnumber_Color;
+        private string headnumber_Color;
         public string Headnumber_Color
         {
             get { return headnumber_Color; }

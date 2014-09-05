@@ -22,17 +22,17 @@ namespace ReliefProMain.Models
         //    }
         //}
         //public const string GreaterThanZero = @"^(?!0(\.0+)?$)([1-9][0-9]*|0)(\.[0-9]+)?$";
-        public const string GreaterThanZero = @"^(?!0(\.0+)?$)([0-9]*|0)(\.[0-9]+)?";  
-        public const string IsNum = @"^[+-]?/d*[.]?/d*$";
+        public const string GreaterThanZero = @"^(?!0(\.0+)?$)([0-9]*|0)(\.[0-9]+)?$";
+        public const string IsNum = @"^[-+]?\d+(\.\d+)?$";
         public bool CheckData()
         {
-            foreach (var pInfo in this.GetType().GetProperties())
-            {
-                if (pInfo.Name.Contains("_Color"))
-                {
-                    pInfo.SetValue(this, ColorBorder.blue.ToString(), null);
-                }
-            }
+            //foreach (var pInfo in this.GetType().GetProperties())
+            //{
+            //    if (pInfo.Name.Contains("_Color"))
+            //    {
+            //        pInfo.SetValue(this, ColorBorder.blue.ToString(), null);
+            //    }
+            //}
             if (!this.Validate())
             {
                 string sb = string.Empty;

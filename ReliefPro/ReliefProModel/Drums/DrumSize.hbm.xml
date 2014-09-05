@@ -11,7 +11,7 @@
   <property name="Diameter" column="Diameter" type="Double"/>
   <property name="Length" column="Length" type="Double"/>
   <property name="NormalLiquidLevel" column="NormalLiquidLevel" type="Double"/>
-  <property name="HeadNumber" column="HeadNumber" type="Double"/>
+  <property name="HeadNumber" column="HeadNumber" type="Int32"/>
   <property name="BootDiameter" column="BootDiameter" type="Double"/>
   <property name="BootHeight" column="BootHeight" type="Double"/>
 
