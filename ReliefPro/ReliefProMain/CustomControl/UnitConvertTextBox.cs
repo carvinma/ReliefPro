@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
@@ -8,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace ReliefProMain.CustomControl
 {
@@ -19,6 +21,8 @@ namespace ReliefProMain.CustomControl
             get { return format; }
             set { format = value; }
         }
+        private string preUnit = string.Empty;
+        private string preValue = string.Empty;
         public string UnitOrigin
         {
             get { return GetValue(UnitOriginProperty).ToString(); }
@@ -43,11 +47,30 @@ namespace ReliefProMain.CustomControl
         {
             //BindingExpression expresson = this.GetBindingExpression(TextBox.TextProperty);
             //expresson.UpdateSource();
+            // this.BorderBrush = new SolidColorBrush(Colors.Green);
+            // string s = UnitConvertTextBox.UnitOriginProperty.ToString();
+            //string s = this.GetValue(UnitConvertTextBox.UnitOriginProperty).ToString();
+            //UnitConvertTextBox.UnitOriginProperty;
+            if (this.GetValue(UnitConvertTextBox.UnitOriginProperty) != null)
+            {
+                if (!string.IsNullOrEmpty(preUnit) && preUnit != this.UnitOrigin)
+                {
+                    preUnit = string.Empty;
+                }
+                else
+                {
+                    this.SetValue(TextBox.BorderBrushProperty, new SolidColorBrush(Colors.Blue));
+                }
+            }
+
         }
+
         protected override void OnMouseDoubleClick(System.Windows.Input.MouseButtonEventArgs e)
         {
             if (!string.IsNullOrEmpty(UnitOrigin))
             {
+                preUnit = UnitOrigin;
+                preValue = this.Text.Trim();
                 double UnitValue;
                 if (BindingOperations.IsDataBound(this, TextBox.TextProperty))
                 {
