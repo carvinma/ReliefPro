@@ -12,6 +12,6 @@
     <property name="Description_Color" column="Description_Color" type="String" length="255" />
     <property name="StageNumber_Color" column="StageNumber_Color" type="String" length="255" />
     <property name="SourceFile" column="SourceFile" type="String" length="255" />
-
+    <property name="TowerType_Color" column="TowerType_Color" type="String" length="255" />
   </class>
 </hibernate-mapping>

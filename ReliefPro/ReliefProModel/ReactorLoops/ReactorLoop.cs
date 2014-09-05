@@ -8,6 +8,7 @@ namespace ReliefProModel.ReactorLoops
     public class ReactorLoop
     {
         public virtual int ID { get; set; }
+        public virtual string ReactorLoopName { get; set; }
         public virtual string EffluentStream { get; set; }
         public virtual string ColdReactorFeedStream { get; set; }
         public virtual string EffluentStream2 { get; set; }
@@ -18,7 +19,8 @@ namespace ReliefProModel.ReactorLoops
         public virtual string InjectionWaterStream { get; set; }
         public virtual string CompressorH2Stream { get; set; }
         public virtual string SourceFile { get; set; }
-        
+
+        public virtual string ReactorLoopName_Color { get; set; }
         public virtual string EffluentStream_Color { get; set; }
         public virtual string ColdReactorFeedStream_Color { get; set; }
         public virtual string EffluentStream2_Color { get; set; }
@@ -28,5 +30,8 @@ namespace ReliefProModel.ReactorLoops
         public virtual string HXNetworkColdStream_Color { get; set; }
         public virtual string InjectionWaterStream_Color { get; set; }
         public virtual string CompressorH2Stream_Color { get; set; }
+
+
+
     }
 }
