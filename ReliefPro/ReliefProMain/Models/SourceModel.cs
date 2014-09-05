@@ -55,8 +55,9 @@ namespace ReliefProMain.Models
             set
             {
                 if (dbmodel.SourceType != value)
-                {
+                {                    
                     dbmodel.SourceType = value;
+                    SourceType_Color = ColorBorder.blue.ToString();
                     NotifyPropertyChanged("SourceType");
                 }
             }
@@ -86,9 +87,12 @@ namespace ReliefProMain.Models
             }
             set
             {
-                MaxPossiblePressure_Color = ColorBorder.blue.ToString();
-                dbmodel.MaxPossiblePressure = value;
-                NotifyPropertyChanged("MaxPossiblePressure");
+                if (dbmodel.MaxPossiblePressure != value)
+                {
+                    MaxPossiblePressure_Color = ColorBorder.blue.ToString();
+                    dbmodel.MaxPossiblePressure = value;
+                    NotifyPropertyChanged("MaxPossiblePressure");
+                }
 
             }
         }
