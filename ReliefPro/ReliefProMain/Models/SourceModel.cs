@@ -143,7 +143,7 @@ namespace ReliefProMain.Models
             {
                 if (dbmodel.IsSteam!=value)
                 {
-                    dbmodel.IsSteam != value;
+                    dbmodel.IsSteam = value;
                 }
                 OnPropertyChanged("IsSteam");
 

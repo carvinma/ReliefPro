@@ -36,6 +36,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         public ICommand MixerSplitterAddCMD { get; set; }
         public ICommand MixerSplitterDelCMD { get; set; }
 
+        public ICommand NetworkHXAddCMD { get; set; }
+        public ICommand NetworkHXDelCMD { get; set; }
+        
         private ISession SessionPS;
         private ISession SessionPF;
         public string DirPlant { set; get; }
@@ -61,6 +64,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             UtilityHXAddCMD = new DelegateCommand<object>(UtilityHXAdd);
             UtilityHXDelCMD = new DelegateCommand<object>(UtilityHXDel);
 
+            NetworkHXAddCMD = new DelegateCommand<object>(NetworkHXAdd);
+            NetworkHXDelCMD = new DelegateCommand<object>(NetworkHXDel);
+
             MixerSplitterAddCMD = new DelegateCommand<object>(MixerSplitterAdd);
             MixerSplitterDelCMD = new DelegateCommand<object>(MixerSplitterDel);
 
@@ -77,12 +83,14 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 model.ObcProcessHXSource = GetProIIHXs(0);
                 model.ObcUtilityHXSource = GetProIIHXs(1);
+                model.ObcNetworkHXSource = GetProIIHXs(3);
                 model.ObcMixerSplitterSource = GetProIIMixers();
             }
             if (model.dbModel==null)
             {
                 model.ObcProcessHX = new ObservableCollection<ReactorLoopDetail>();
                 model.ObcUtilityHX = new ObservableCollection<ReactorLoopDetail>();
+                model.ObcNetworkHX = new ObservableCollection<ReactorLoopDetail>();
                 model.ObcMixerSplitter = new ObservableCollection<ReactorLoopDetail>();
             }
         }
@@ -225,6 +233,27 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcUtilityHX.Remove(find);
             }
         }
+
+        private void NetworkHXAdd(object obj)
+        {
+            if (model.SelectedNetworkHXModel != null)
+            {
+                model.ObcNetworkHXSource.Add(model.SelectedUtilityHXModel);
+                var find = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedNetworkHXModel.DetailInfo && p.ReactorType == 3);
+                model.ObcNetworkHXSource.Remove(find);
+            }
+        }
+        private void NetworkHXDel(object obj)
+        {
+            if (model.SelectedNetworkHXModel != null)
+            {
+                model.ObcNetworkHXSource.Add(model.SelectedNetworkHXModel);
+                var find = model.ObcUtilityHX.FirstOrDefault(p => p.DetailInfo == model.SelectedNetworkHXModel.DetailInfo && p.ReactorType == 3);
+                model.ObcNetworkHXSource.Remove(find);
+            }
+        }
+
+
         private void MixerSplitterAdd(object obj)
         {
             if (model.SelectedMixerModel != null)
@@ -267,6 +296,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 processHxList.Add(d.DetailInfo);
             }
             foreach (ReactorLoopDetail d in model.ObcUtilityHX)
+            {
+                eqList.Add(d.DetailInfo);
+            }
+            foreach (ReactorLoopDetail d in model.ObcNetworkHX)
             {
                 eqList.Add(d.DetailInfo);
             }
@@ -382,6 +415,14 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     if (model.ObcUtilityHX != null)
                     {
                         foreach (var hx in model.ObcUtilityHX)
+                        {
+                            hx.ID = 0;
+                            allSelectedInfo.Add(hx);
+                        }
+                    }
+                    if (model.ObcNetworkHX != null)
+                    {
+                        foreach (var hx in model.ObcNetworkHX)
                         {
                             hx.ID = 0;
                             allSelectedInfo.Add(hx);

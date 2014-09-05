@@ -6,7 +6,6 @@ using NHibernate;
 using NHibernate.Criterion;
 using ReliefProDAL.Common;
 using ReliefProModel.HXs;
-using ReliefProModel.HXs;
 
 namespace ReliefProDAL.HXs
 {

@@ -416,7 +416,7 @@
     <s:String x:Key="HotHighPressureSeparator">Hot High Pressure Separator:</s:String>
     <s:String x:Key="ColdHighPressureSeparator">Cold High Pressure Separator:</s:String>
     <s:String x:Key="ProcessHX">Process HX:</s:String>
-    <s:String x:Key="NetWorkHX">NetWork HX:</s:String>
+    <s:String x:Key="NetworkHX">Network HX:</s:String>
     <s:String x:Key="Mixer_Splitter">Mixer/Splitter:</s:String>
     <s:String x:Key="SplitterName">Splitter Name:</s:String>
     <s:String x:Key="Simulation">Simulation:</s:String>

@@ -166,6 +166,16 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("SelectedUtilityHXModel");
             }
         }
+        private ReactorLoopDetail selectedNetworkHXModel;
+        public ReactorLoopDetail SelectedNetworkHXModel
+        {
+            get { return selectedNetworkHXModel; }
+            set
+            {
+                selectedNetworkHXModel = value;
+                this.NotifyPropertyChanged("SelectedNetworkHXModel");
+            }
+        }
 
         private ReactorLoopDetail selectedMixerModel;
         public ReactorLoopDetail SelectedMixerModel
@@ -199,6 +209,16 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("ObcUtilityHX");
             }
         }
+        private ObservableCollection<ReactorLoopDetail> obcNetworkHX;
+        public ObservableCollection<ReactorLoopDetail> ObcNetworkHX
+        {
+            get { return obcNetworkHX; }
+            set
+            {
+                obcNetworkHX = value;
+                this.NotifyPropertyChanged("ObcNetworkHX");
+            }
+        }
 
         private ObservableCollection<ReactorLoopDetail> obcMixerSplitter;
         public ObservableCollection<ReactorLoopDetail> ObcMixerSplitter
@@ -230,6 +250,16 @@ namespace ReliefProMain.Models.ReactorLoops
             {
                 obcUtilityHXSource = value;
                 this.NotifyPropertyChanged("ObcUtilityHXSource");
+            }
+        }
+        private ObservableCollection<ReactorLoopDetail> obcNetworkHXSource;
+        public ObservableCollection<ReactorLoopDetail> ObcNetworkHXSource
+        {
+            get { return obcNetworkHXSource; }
+            set
+            {
+                obcNetworkHXSource = value;
+                this.NotifyPropertyChanged("ObcNetworkHXSource");
             }
         }
 

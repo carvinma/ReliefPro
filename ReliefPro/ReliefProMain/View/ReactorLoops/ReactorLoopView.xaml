@@ -163,17 +163,17 @@
                     <Label  Content="{DynamicResource ReactorLoopViewStatusBar}"/>
                 </StatusBar>
             </Grid>
-            <GroupBox Header="{DynamicResource NetWorkHX}" HorizontalAlignment="Left"  Grid.Row="7" Grid.RowSpan="5" Width="150" Grid.Column="4" Margin="0,5" >
+            <GroupBox Header="{DynamicResource NetworkHX}" HorizontalAlignment="Left"  Grid.Row="7" Grid.RowSpan="5" Width="150" Grid.Column="4" Margin="0,5" >
                 <ListBox  Background="{x:Null}" BorderBrush="{x:Null}" 
             		ItemsSource="{Binding model.ObcProcessHX, Mode=TwoWay}"  
             		SelectedItem="{Binding model.SelectedHXModel, Mode=OneWayToSource}"/>
             </GroupBox>
-            <Button Command="{Binding ProcessHXAddCMD}" Content="&lt;&lt;--" Grid.Column="5" HorizontalAlignment="Center" Width="80" Grid.Row="9" Margin="26,4"   />
-            <Button Command="{Binding ProcessHXDelCMD}" Content="--&gt;&gt;" Grid.Column="5" HorizontalAlignment="Center"  Width="80" Grid.Row="10" Margin="26,4"   />
-            <GroupBox Header="{DynamicResource NetWorkHX}" HorizontalAlignment="Left"   Grid.Row="7" Grid.RowSpan="5" Width="150" Grid.Column="6" Margin="0,5,-117,5" >
+            <Button Command="{Binding NetworkHXAddCMD}" Content="&lt;&lt;--" Grid.Column="5" HorizontalAlignment="Center" Width="80" Grid.Row="9" Margin="26,4"   />
+            <Button Command="{Binding NetworkHXDelCMD}" Content="--&gt;&gt;" Grid.Column="5" HorizontalAlignment="Center"  Width="80" Grid.Row="10" Margin="26,4"   />
+            <GroupBox Header="{DynamicResource NetworkHX}" HorizontalAlignment="Left"   Grid.Row="7" Grid.RowSpan="5" Width="150" Grid.Column="6" Margin="0,5,-117,5" >
                 <ListBox Background="{x:Null}" BorderBrush="{x:Null}" 
-            		ItemsSource="{Binding model.ObcProcessHXSource, Mode=TwoWay}"  
-            		SelectedItem="{Binding model.SelectedHXModel, Mode=OneWayToSource}"/>
+            		ItemsSource="{Binding model.NetworkHXSource, Mode=TwoWay}"  
+            		SelectedItem="{Binding model.SelectedNetworkHXModel, Mode=OneWayToSource}"/>
             </GroupBox>
         </Grid>
     </Grid>

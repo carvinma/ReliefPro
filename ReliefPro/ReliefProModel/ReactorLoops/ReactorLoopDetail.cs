@@ -8,7 +8,7 @@ namespace ReliefProModel.ReactorLoops
     public class ReactorLoopDetail
     {
         public virtual int ID { get; set; }
-        //0-ProcessHX,1-UtilityHX,2-Mixer/Splitter
+        //0-ProcessHX,1-UtilityHX,2-Mixer/Splitter 3 network
         public virtual int ReactorLoopID { get; set; }
         public virtual int ReactorType { get; set; }
         public virtual string DetailInfo { get; set; }
