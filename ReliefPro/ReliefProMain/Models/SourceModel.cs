@@ -87,12 +87,9 @@ namespace ReliefProMain.Models
             }
             set
             {
-                if (dbmodel.MaxPossiblePressure != value)
-                {
-                    // MaxPossiblePressure_Color = ColorBorder.blue.ToString();
-                    dbmodel.MaxPossiblePressure = value;
-                    NotifyPropertyChanged("MaxPossiblePressure");
-                }
+                // MaxPossiblePressure_Color = ColorBorder.blue.ToString();
+                dbmodel.MaxPossiblePressure = value;
+                NotifyPropertyChanged("MaxPossiblePressure");
 
             }
         }
