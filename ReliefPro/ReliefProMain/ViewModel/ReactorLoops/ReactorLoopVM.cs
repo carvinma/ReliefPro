@@ -19,6 +19,8 @@ using System.IO;
 using System.Windows.Controls;
 using ReliefProBLL;
 
+using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -238,7 +240,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         {
             if (model.SelectedNetworkHXModel != null)
             {
-                model.ObcNetworkHXSource.Add(model.SelectedUtilityHXModel);
+                model.ObcNetworkHX.Add(model.SelectedNetworkHXModel);
                 var find = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedNetworkHXModel.DetailInfo && p.ReactorType == 3);
                 model.ObcNetworkHXSource.Remove(find);
             }
@@ -249,7 +251,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 model.ObcNetworkHXSource.Add(model.SelectedNetworkHXModel);
                 var find = model.ObcUtilityHX.FirstOrDefault(p => p.DetailInfo == model.SelectedNetworkHXModel.DetailInfo && p.ReactorType == 3);
-                model.ObcNetworkHXSource.Remove(find);
+                model.ObcNetworkHX.Remove(find);
             }
         }
 
@@ -372,11 +374,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
             int errorTag = 0;
             string inpData = CreateReactorLoopInpData(dir, csList, eqList,processHxList,ref errorTag);
-            if (errorTag == -1)
-            {
-                MessageBox.Show("New inp file has error ","Message Box");
-                return;
-            }
+            
             string newInpFile = DirProtectedSystem + @"\" + SourceFileInfo.FileNameNoExt+ @"\"+SourceFileInfo.FileNameNoExt+".inp";
             string sourcePrzFile = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
 
@@ -387,7 +385,26 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
             File.Create(newInpFile).Close();
             File.WriteAllText(newInpFile, inpData);
-            
+            if (errorTag == -1)
+            {
+                MessageBoxResult r = MessageBox.Show("New inp file has error,do you want to investigate it? ", "Message Box", MessageBoxButton.YesNo);
+                if (r == MessageBoxResult.Yes)
+                {
+                    ProcessStartInfo procInfo = new System.Diagnostics.ProcessStartInfo();
+                    //设置要调用的外部程序名
+                    procInfo.FileName = "notepad.exe";
+
+                    //设置外部程序的启动参数（命令行参数）为1.txt
+                    procInfo.Arguments = newInpFile;
+
+                    //设置外部程序工作目录为 C:\
+                    //procInfo.WorkingDirectory = "C:\\";
+
+                    System.Diagnostics.Process.Start(procInfo);
+
+                    
+                }
+            }
             ReactorLoopSimulationView v = new ReactorLoopSimulationView();
             ReactorLoopSimulationVM vm = new ReactorLoopSimulationVM(newInpFile,sourcePrzFile,SourceFileInfo.FileVersion,processHxList,SessionPF);
             v.DataContext = vm;
@@ -485,7 +502,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 }
                 else
                 {
-                    sb.Append(line).Append("\n");
+                    sb.Append(line).Append("\r\n");
                     i++;
                 }
             }
@@ -494,14 +511,14 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 string line = lines[i];                
                 if (line.Contains("STREAM DATA"))
                 {
-                    sb.Append(line).Append("\n");
+                    sb.Append(line).Append("\r\n");
                     i++;
                     break;
                 }
                 else
                 {
                     i++;
-                    sb.Append(line).Append("\n");
+                    sb.Append(line).Append("\r\n");
                 }
             }
 
@@ -541,11 +558,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 if (line.Contains("UNIT OPERATIONS"))
                 {
                     unitStart = i;
-                    sb.Append("UNIT OPERATIONS").Append("\n");
+                    sb.Append("UNIT OPERATIONS").Append("\r\n");
                     foreach (string eq in eqList)
                     {
                         string eqinfo = CopyEqInfo(lines, eq);
-                        sb.Append(eqinfo).Append("\n");
+                        sb.Append(eqinfo).Append("\r\n");
                     }
 
                     break;
@@ -562,7 +579,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 foreach (string eq in processHxList)
                 {
                     string eqinfo = FindProcessHxInfo(lines, i, eq, ref errorTag);
-                    sb.Append(eqinfo).Append("\n");                   
+                    sb.Append(eqinfo).Append("\r\n");                   
                 }
                 break;
             }
@@ -625,13 +642,13 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 string line2 = lines[i + 1];
                 if (line.Contains(" STREAM=") && line2.Contains("ASSAY=LV"))
                 {
-                    sb.Append(line).Append("\n");
-                    sb.Append(line2).Append("\n");
+                    sb.Append(line).Append("\r\n");
+                    sb.Append(line2).Append("\r\n");
                     i = i + 2;
                     line = lines[i];
                     while (line.Contains("    "))
                     {
-                        sb.Append(line).Append("\n");
+                        sb.Append(line).Append("\r\n");
                         i++;
                         line = lines[i];
                     }
@@ -661,7 +678,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 if (line.Contains(EqInfo))
                 {
                     i++;
-                    sb.Append(line).Append("\n");
+                    sb.Append(line).Append("\r\n");
                     break;
                 }
                 else
@@ -675,7 +692,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 string line = lines[i];
                 if (line.Contains("     "))
                 {
-                    sb.Append(line).Append("\n");
+                    sb.Append(line).Append("\r\n");
                     i++;
                 }
                 else
@@ -715,19 +732,19 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         {
             StringBuilder data1 = new StringBuilder();
             string streamName = stream.StreamName;
-            data1.Append("\tPROP STRM=").Append(streamName.ToUpper()).Append(",&\n");
-            data1.Append("\t PRESSURE(MPAG)=").Append(stream.Pressure).Append(",&\n");
-            data1.Append("\t TEMPERATURE(C)=").Append(stream.Temperature).Append(",&\n");
+            data1.Append("\tPROP STRM=").Append(streamName.ToUpper()).Append(",&\r\n");
+            data1.Append("\t PRESSURE(MPAG)=").Append(stream.Pressure).Append(",&\r\n");
+            data1.Append("\t TEMPERATURE(C)=").Append(stream.Temperature).Append(",&\r\n");
             double rate = stream.TotalMolarRate;
             if (rate == 0)
                 rate = 1;
-            data1.Append("\t RATE(KGM/S)=").Append(rate).Append(",&\n");
+            data1.Append("\t RATE(KGM/S)=").Append(rate).Append(",&\r\n");
             string com = stream.TotalComposition;
             string Componentid = stream.Componentid;
             string CompIn = stream.CompIn;
             string PrintNumber = stream.PrintNumber;
             Dictionary<string, string> compdict = new Dictionary<string, string>();
-            data1.Append("\t COMP=&\n");
+            data1.Append("\t COMP=&\r\n");
             string[] coms = com.Split(',');
             string[] PrintNumbers = PrintNumber.Split(',');
             StringBuilder sbCom = new StringBuilder();
@@ -741,9 +758,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             for (int i = 0; i < comCount; i++)
             {
                 //string s = CompIns[i];
-                sbCom.Append("/&\n").Append(PrintNumbers[i]).Append(",").Append(coms[i]);
+                sbCom.Append("/&\r\n").Append(PrintNumbers[i]).Append(",").Append(coms[i]);
             }
-            data1.Append("\t").Append(sbCom.Remove(0, 2)).Append("\n");
+            data1.Append("\t").Append(sbCom.Remove(0, 2)).Append("\r\n");
             return data1.ToString();
         }
 
@@ -927,7 +944,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             string[] feeds = feeddata.Split(',');
              string productdata = eqData.ProductData;
             string[] products = productdata.Split(',');
-            if (feeds.Length >= 2 && products.Length > -2)
+            if (feeds.Length >= 2 && products.Length >=2)
             {
                 ProIIStreamData prostream = streamDAL.GetModel(sessionPlant, feeds[0], fileName);
                 if(!string.IsNullOrEmpty(prostream.Temperature))
@@ -974,13 +991,13 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             StringBuilder sb = new StringBuilder();
             int i = start;
             string line = lines[i];
-            sb.Append(line).Append("\n");
+            sb.Append(line).Append("\r\n");
             i++;
             line = lines[i];
-            sb.Append(line).Append("\n");
+            sb.Append(line).Append("\r\n");
             i++;
             line = lines[i];
-            sb.Append(line).Append("\n");
+            sb.Append(line).Append("\r\n");
             i++;
             line = lines[i];
             sb.Append(line);
@@ -988,7 +1005,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             double ltmd = GetLTMD(SessionPF, FileName, hxName,out  duty);
             double k = 300;
             double a = duty / ltmd / k;
-            sb.Append(" ,U=").Append(ltmd).Append(",AREA=").Append(a).Append("\n");
+            sb.Append(" ,U=").Append(ltmd).Append(",AREA=").Append(a).Append("\r\n");
             if (ltmd < 0)
                 errorTag = -1;
             return sb.ToString();
