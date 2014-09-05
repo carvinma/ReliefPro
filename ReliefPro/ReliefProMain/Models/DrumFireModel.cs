@@ -204,7 +204,7 @@ namespace ReliefProMain.Models
         }
 
         private double designPressure;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double DesignPressure
         {

@@ -99,7 +99,7 @@ namespace ReliefProMain.Models
             this.bootHeight_Color = sizemodel.BootHeight_Color;
         }
         private double elevation;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double Elevation
         {
@@ -112,7 +112,7 @@ namespace ReliefProMain.Models
         }
 
         public double diameter;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double Diameter
         {
@@ -124,7 +124,7 @@ namespace ReliefProMain.Models
             }
         }
         private double length;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double Length
         {
@@ -137,7 +137,7 @@ namespace ReliefProMain.Models
         }
 
         public double normalLiquidLevel;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double NormalLiquidLevel
         {

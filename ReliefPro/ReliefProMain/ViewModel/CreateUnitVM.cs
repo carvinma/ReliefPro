@@ -26,7 +26,7 @@ namespace ReliefProMain.ViewModel
         public TVUnit tvUnit { get; set; } 
 
         private string _UnitName;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        
         public string UnitName
         {
             get

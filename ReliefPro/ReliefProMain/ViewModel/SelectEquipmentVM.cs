@@ -24,7 +24,7 @@ namespace ReliefProMain.ViewModel
         public SourceFile SourceFileInfo;
 
         private string _SelectedFile;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        
         public string SelectedFile
         {
             get
@@ -60,7 +60,7 @@ namespace ReliefProMain.ViewModel
         }
         
         private string _SelectedEq;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        
         public string SelectedEq
         {
             get

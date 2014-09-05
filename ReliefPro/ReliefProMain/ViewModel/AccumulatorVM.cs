@@ -73,7 +73,7 @@ namespace ReliefProMain.ViewModel
         }
 
         private double _Length;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        
         [ReliefProMain.Util.RegularExpression(ViewModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double Length
         {
@@ -93,7 +93,7 @@ namespace ReliefProMain.ViewModel
         }
 
         private double _NormalLiquidLevel;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        
         [ReliefProMain.Util.RegularExpression(ViewModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double NormalLiquidLevel
         {

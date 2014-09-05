@@ -81,7 +81,7 @@ namespace ReliefProMain.Models
         }
 
         private double _BNLL;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double BNLL
         {
@@ -97,7 +97,7 @@ namespace ReliefProMain.Models
         }
 
         private double _PipingContingency;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double PipingContingency
         {

@@ -19,6 +19,7 @@ using ReliefProCommon.CommonLib;
 using NHibernate;
 using ReliefProMain.View;
 using UOMLib;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.ViewModel
 {
@@ -54,6 +55,19 @@ namespace ReliefProMain.ViewModel
             {
                 this._TowerType = value;
                 OnPropertyChanged("TowerType");
+            }
+        }
+        private string _TowerType_Color;
+        public string TowerType_Color
+        {
+            get
+            {
+                return this._TowerType_Color;
+            }
+            set
+            {
+                this._TowerType_Color = value;
+                OnPropertyChanged("TowerType_Color");
             }
         }
         private string _Desciption;
@@ -638,7 +652,7 @@ namespace ReliefProMain.ViewModel
 
                     IList<Accumulator> listAccumulator = dbAc.GetAllList(SessionProtectedSystem);
                     foreach (Accumulator m in listAccumulator)
-                    {
+                    {                       
                         dbAc.Delete(m, SessionProtectedSystem);
                     }
 
@@ -651,7 +665,7 @@ namespace ReliefProMain.ViewModel
 
                     IList<Source> listSource = dbsr.GetAllList(SessionProtectedSystem);
                     foreach (Source m in listSource)
-                    {
+                    {                        
                         dbsr.Delete(m, SessionProtectedSystem);
                     }
 
@@ -670,7 +684,7 @@ namespace ReliefProMain.ViewModel
 
                     IList<Tower> listTower = dbtower.GetAllList(SessionProtectedSystem);
                     foreach (Tower m in listTower)
-                    {
+                    {                        
                         dbtower.Delete(m, SessionProtectedSystem);
                     }
                     IList<TowerHX> listTowerHX = dbHx.GetAllList(SessionProtectedSystem);
@@ -741,6 +755,10 @@ namespace ReliefProMain.ViewModel
 
                     Accumulator ac = new Accumulator();
                     ac.AccumulatorName = "AC1";
+                    ac.AccumulatorName_Color = ColorBorder.green.ToString();
+                    ac.Length_Color = ColorBorder.green.ToString();
+                    ac.NormalLiquidLevel_Color = ColorBorder.green.ToString();
+                    ac.Diameter_Color = ColorBorder.green.ToString();
                     dbAc.Add(ac, SessionProtectedSystem);
 
 
@@ -763,6 +781,8 @@ namespace ReliefProMain.ViewModel
                         sr.StreamName = cs.StreamName;
                         sr.IsSteam = IsSteam(cs);
                         sr.IsHeatSource = false;
+                        sr.MaxPossiblePressure_Color = ColorBorder.green.ToString();
+                        sr.SourceType_Color = ColorBorder.green.ToString();
                         dbsr.Add(sr, SessionProtectedSystem);
 
                         dbCS.Add(cs, SessionProtectedSystem);
@@ -776,7 +796,8 @@ namespace ReliefProMain.ViewModel
                         sink.StreamName = cs.StreamName;
                         sink.SinkName = cs.StreamName + "_Sink";
                         sink.SinkType = "Pump(Motor)";
-
+                        sink.MaxPossiblePressure_Color = ColorBorder.green.ToString();
+                        sink.SinkType_Color = ColorBorder.green.ToString();
                         dbsink.Add(sink, SessionProtectedSystem);
                         dbCS.Add(cs, SessionProtectedSystem);
                     }
@@ -787,6 +808,7 @@ namespace ReliefProMain.ViewModel
                     tower.StageNumber = StageNumber;
                     tower.SourceFile = SourceFileName;
                     tower.TowerType = TowerType;
+                    tower.TowerType_Color = ColorBorder.green.ToString();
                     dbtower.Add(tower, SessionProtectedSystem);
 
                     ProtectedSystemDAL psDAL = new ProtectedSystemDAL();

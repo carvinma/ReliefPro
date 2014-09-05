@@ -23,14 +23,14 @@
             <ColumnDefinition Width="29*"/>
         </Grid.ColumnDefinitions>
         <Label Content="{DynamicResource SinkName}" Grid.Row="1"   Grid.Column="1"   />
-        <TextBox Name="txtName"      Text="{Binding Path=MainModel.SinkName}" Grid.Row="1"  Grid.Column="2"  />
+        <TextBox Name="txtName"  Style="{DynamicResource TextBoxReadOnly}"     Text="{Binding Path=MainModel.SinkName}" Grid.Row="1"  Grid.Column="2"  />
         <Label Content="{DynamicResource Description}"    Grid.Row="2" Grid.Column="1"   />
         <TextBox Name="txtDescription"     Text="{Binding Path=MainModel.Description}"  Width="200" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"/>
         <Label Content="{DynamicResource SinkType}"     Grid.Column="1" Grid.Row="3" />
         <ComboBox ItemsSource="{Binding Path=MainModel.SinkTypes}" SelectedItem="{Binding MainModel.SinkType}"   Name="cbxType"  Grid.Column="2"  Grid.Row="3" />
 
         <Label Content="{DynamicResource MaxPossiblePressure}"    Grid.Row="4" Grid.Column="1" />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblMaxPressure,Path=Content,Mode=TwoWay}"  Text="{Binding MainModel.MaxPossiblePressure,StringFormat='{}{0:N2}',Mode=TwoWay}" Grid.Row="4" Grid.Column="2"   />
+        <CustomControl:UnitConvertTextBox BorderBrush="{Binding model.MaxPossiblePressure_Color}" UnitOrigin="{Binding ElementName=lblMaxPressure,Path=Content,Mode=TwoWay}"  Text="{Binding MainModel.MaxPossiblePressure,StringFormat='{}{0:N2}',Mode=TwoWay}" Grid.Row="4" Grid.Column="2"   />
         <Label Name="lblMaxPressure"  Content="{Binding Path=MainModel.PressureUnit,Mode=TwoWay}"  Grid.Row="4" Grid.Column="3" />
 
        

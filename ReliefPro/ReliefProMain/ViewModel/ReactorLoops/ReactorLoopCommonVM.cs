@@ -75,9 +75,15 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             model.dbmodel.ReactorType = reactorType;
         }
         private void RunCaseSimulation(object obj)
-        { }
+        { 
+            //读取新构建的prz文件的inp文件。
+
+
+            //讲inp文件里的feed的RATE(WT)=0. 然后再导入inp文件，生成prz文件，查看它是否正确
+        }
         private void LaunchSimulator(object obj)
         {
+
         }
         private void CalcResult(object obj)
         {

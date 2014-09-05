@@ -74,7 +74,6 @@ namespace ReliefProMain.Models
         }
 
         private double vaporMW;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double VaporMW
         {
@@ -86,7 +85,6 @@ namespace ReliefProMain.Models
             }
         }
         private double vessel;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double Vessel
         {
@@ -99,7 +97,6 @@ namespace ReliefProMain.Models
         }
 
         private double temperature;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double Temperature
         {
@@ -112,7 +109,6 @@ namespace ReliefProMain.Models
         }
 
         private double pressure;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double Pressure
         {
@@ -125,7 +121,7 @@ namespace ReliefProMain.Models
         }
 
         private double pSVPressure;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double PSVPressure
         {
@@ -138,7 +134,7 @@ namespace ReliefProMain.Models
         }
 
         private double tw;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        
         [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
         public double TW
         {

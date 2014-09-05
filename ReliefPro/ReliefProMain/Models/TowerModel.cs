@@ -7,5 +7,6 @@ namespace ReliefProMain.Models
 {
     public class TowerModel
     {
+
     }
 }

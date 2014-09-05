@@ -186,7 +186,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
             else
             {
-
+                model.ReactorLoopName = "ReactorLoop1";
             }
         }
         private void ProcessHXAdd(object obj)

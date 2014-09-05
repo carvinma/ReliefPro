@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ReliefProModel;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.Models
 {
@@ -85,11 +86,10 @@ namespace ReliefProMain.Models
             }
             set
             {
-                if (dbmodel.MaxPossiblePressure != value)
-                {
-                    dbmodel.MaxPossiblePressure = value;
-                    NotifyPropertyChanged("MaxPossiblePressure");
-                }
+                MaxPossiblePressure_Color = ColorBorder.blue.ToString();
+                dbmodel.MaxPossiblePressure = value;
+                NotifyPropertyChanged("MaxPossiblePressure");
+
             }
         }
         public string StreamName

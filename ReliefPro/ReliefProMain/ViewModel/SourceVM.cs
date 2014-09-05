@@ -15,6 +15,7 @@ using NHibernate;
 using ReliefProMain.View;
 using System.Windows;
 using ReliefProMain.Models;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.ViewModel
 {
@@ -39,7 +40,7 @@ namespace ReliefProMain.ViewModel
            
             uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             Source source = sourcedal.GetModel(SessionProtectedSystem, name);
-            model = new SourceModel(source);
+            model = new SourceModel(source);            
             InitUnit();
 
             ReadConvert();
@@ -66,6 +67,7 @@ namespace ReliefProMain.ViewModel
             IList<BasicUnit> list = dbBU.GetAllList(SessionPlant);
             BU = list.Where(s => s.IsDefault == 1).Single();
             WriteConvert();
+            model.dbmodel.MaxPossiblePressure_Color = model.MaxPossiblePressure_Color;
             sourcedal.Update(model.dbmodel, SessionProtectedSystem);
             SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction
 
@@ -101,11 +103,11 @@ namespace ReliefProMain.ViewModel
         }
         private void ReadConvert()
         {
-            model.MaxPossiblePressure = UnitConvert.Convert(UOMEnum.Pressure, model.PressureUnit, model.MaxPossiblePressure);
+            model.MaxPossiblePressure = UnitConvert.Convert(UOMEnum.Pressure, model.PressureUnit, model.dbmodel.MaxPossiblePressure);
         }
         private void WriteConvert()
         {
-            model.MaxPossiblePressure = UnitConvert.Convert(model.PressureUnit, UOMEnum.Pressure, model.MaxPossiblePressure);
+            model.dbmodel.MaxPossiblePressure = UnitConvert.Convert(model.PressureUnit, UOMEnum.Pressure, model.MaxPossiblePressure);
         }
         private void InitUnit()
         {

@@ -126,7 +126,7 @@ namespace ReliefProMain.Models.ReactorLoops
             }
         }
         
-
+        
         public string SourceFile
         {
             get { return dbModel.SourceFile; }
@@ -134,6 +134,15 @@ namespace ReliefProMain.Models.ReactorLoops
             {
                 dbModel.SourceFile = value;
                 NotifyPropertyChanged("SourceFile");
+            }
+        }
+        public string ReactorLoopName
+        {
+            get { return dbModel.ReactorLoopName; }
+            set
+            {
+                dbModel.ReactorLoopName = value;
+                NotifyPropertyChanged("ReactorLoopName");
             }
         }
         private ReactorLoopDetail selectedHXModel;

@@ -25,7 +25,7 @@ namespace ReliefProMain.ViewModel
         public TVPS tvPS { get; set; } 
         private int UnitID;
         private string _ProtectedSystemName;
-        [ReliefProMain.Util.Required(ErrorMessage = "NotEmpty")]
+        
         public string ProtectedSystemName
         {
             get

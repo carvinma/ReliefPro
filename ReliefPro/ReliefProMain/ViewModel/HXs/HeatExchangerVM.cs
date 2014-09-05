@@ -153,6 +153,14 @@ namespace ReliefProMain.ViewModel
         }
         private void Import(object obj)
         {
+            if (!string.IsNullOrEmpty(this.HXName))
+            {
+                MessageBoxResult r = MessageBox.Show("Data was Imported,Are you sure you want to reimport?", "Message Box");
+                if (r == MessageBoxResult.No)
+                {
+                    return;
+                }
+            }
             SelectEquipmentView v = new SelectEquipmentView();
             SelectEquipmentVM vm = new SelectEquipmentVM("Hx",  SessionPlant);
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
