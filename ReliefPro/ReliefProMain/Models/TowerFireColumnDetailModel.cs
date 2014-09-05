@@ -87,7 +87,7 @@ namespace ReliefProMain.Models
 
         private double _Diameter;
         [ReliefProMain.Util.Required(ErrorMessage = "DiameterWarning")]
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double Diameter
         {
             get
@@ -102,7 +102,7 @@ namespace ReliefProMain.Models
         }
         private double _Height;
         [ReliefProMain.Util.Required(ErrorMessage = "HeightWarning")]
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double Height
         {
             get
@@ -117,7 +117,7 @@ namespace ReliefProMain.Models
         }
         private int _Trays;
         [ReliefProMain.Util.Required(ErrorMessage = "TraysWarning")]
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public int Trays
         {
             get

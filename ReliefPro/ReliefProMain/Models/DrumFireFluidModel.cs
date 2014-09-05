@@ -74,7 +74,7 @@ namespace ReliefProMain.Models
         }
 
         private double vaporMW;
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double VaporMW
         {
             get { return vaporMW; }
@@ -85,7 +85,7 @@ namespace ReliefProMain.Models
             }
         }
         private double vessel;
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double Vessel
         {
             get { return vessel; }
@@ -97,7 +97,7 @@ namespace ReliefProMain.Models
         }
 
         private double temperature;
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double Temperature
         {
             get { return temperature; }
@@ -109,7 +109,7 @@ namespace ReliefProMain.Models
         }
 
         private double pressure;
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double Pressure
         {
             get { return pressure; }
@@ -122,7 +122,7 @@ namespace ReliefProMain.Models
 
         private double pSVPressure;
         
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double PSVPressure
         {
             get { return pSVPressure; }
@@ -135,7 +135,7 @@ namespace ReliefProMain.Models
 
         private double tw;
         
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double TW
         {
             get { return tw; }

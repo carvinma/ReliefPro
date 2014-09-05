@@ -95,7 +95,7 @@ namespace ReliefProMain.Models
         #region Value
 
         private double inletGasUpstreamMaxPressure;
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double InletGasUpstreamMaxPressure
         {
             get { return inletGasUpstreamMaxPressure; }
@@ -108,7 +108,7 @@ namespace ReliefProMain.Models
         }
 
         private double inletAbsorbentUpstreamMaxPressure;
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double InletAbsorbentUpstreamMaxPressure
         {
             get { return inletAbsorbentUpstreamMaxPressure; }
@@ -121,7 +121,7 @@ namespace ReliefProMain.Models
         }
 
         private double normalGasFeedWeightRate;
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double NormalGasFeedWeightRate
         {
             get { return normalGasFeedWeightRate; }
@@ -134,7 +134,7 @@ namespace ReliefProMain.Models
         }
 
         private double normalGasProductWeightRate;
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double NormalGasProductWeightRate
         {
             get { return normalGasProductWeightRate; }

@@ -72,7 +72,7 @@ namespace ReliefProMain.Models.HXs
         }
 
         [ReliefProMain.Util.Required(ErrorMessage = "ODEmpty")]
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         private double _OD;
         public double OD
         {

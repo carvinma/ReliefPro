@@ -29,7 +29,7 @@ namespace ReliefProMain.Models
 
         private int _NumberOfSegment;
         [ReliefProMain.Util.Required(ErrorMessage = "NumberOfSegmentWarning")]
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public int NumberOfSegment
         {
             get
@@ -66,7 +66,7 @@ namespace ReliefProMain.Models
 
         private double _Elevation;
         [ReliefProMain.Util.Required(ErrorMessage = "ElevationWarning")]
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double Elevation
         {
             get
@@ -82,7 +82,7 @@ namespace ReliefProMain.Models
 
         private double _BNLL;
         
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double BNLL
         {
             get
@@ -98,7 +98,7 @@ namespace ReliefProMain.Models
 
         private double _PipingContingency;
         
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double PipingContingency
         {
             get

@@ -205,7 +205,7 @@ namespace ReliefProMain.Models
 
         private double designPressure;
         
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double DesignPressure
         {
             get { return designPressure; }

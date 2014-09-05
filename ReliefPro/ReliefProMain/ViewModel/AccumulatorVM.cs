@@ -54,7 +54,7 @@ namespace ReliefProMain.ViewModel
         private double _Diameter;
 
         [ReliefProMain.Util.Required(ErrorMessage = "PressureWarning")]
-        [ReliefProMain.Util.RegularExpression(ViewModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ViewModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double Diameter
         {
             get
@@ -74,7 +74,7 @@ namespace ReliefProMain.ViewModel
 
         private double _Length;
         
-        [ReliefProMain.Util.RegularExpression(ViewModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ViewModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double Length
         {
             get
@@ -94,7 +94,7 @@ namespace ReliefProMain.ViewModel
 
         private double _NormalLiquidLevel;
         
-        [ReliefProMain.Util.RegularExpression(ViewModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ViewModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double NormalLiquidLevel
         {
             get

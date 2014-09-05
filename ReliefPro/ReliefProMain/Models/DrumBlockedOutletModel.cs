@@ -98,7 +98,7 @@ namespace ReliefProMain.Models
 
         private double maxPressure;
         
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double MaxPressure
         {
             get { return maxPressure; }
@@ -112,7 +112,7 @@ namespace ReliefProMain.Models
 
         private double maxStreamRate;
         
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double MaxStreamRate
         {
             get { return maxStreamRate; }
@@ -136,7 +136,7 @@ namespace ReliefProMain.Models
         }
         private double normalFlashDuty;
         
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double NormalFlashDuty
         {
             get { return normalFlashDuty; }
@@ -149,7 +149,7 @@ namespace ReliefProMain.Models
         }
         private double fdReliefCondition;
         
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double FDReliefCondition
         {
             get { return fdReliefCondition; }

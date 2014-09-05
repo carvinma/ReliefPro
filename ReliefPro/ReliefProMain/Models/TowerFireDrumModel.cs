@@ -99,7 +99,7 @@ namespace ReliefProMain.Models
         }
         private double elevation;
         [ReliefProMain.Util.Required(ErrorMessage = "ElevationWarning")]
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double Elevation
         {
             get { return elevation; }
@@ -112,7 +112,7 @@ namespace ReliefProMain.Models
 
         public double diameter;
         [ReliefProMain.Util.Required(ErrorMessage = "DiameterWarning")]
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double Diameter
         {
             get { return diameter; }
@@ -124,7 +124,7 @@ namespace ReliefProMain.Models
         }
         private double length;
         [ReliefProMain.Util.Required(ErrorMessage = "LengthWarning")]
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double Length
         {
             get { return length; }
@@ -137,7 +137,7 @@ namespace ReliefProMain.Models
 
         public double normalLiquidLevel;
         [ReliefProMain.Util.Required(ErrorMessage = "NormalLiquidLevelWarning")]
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double NormalLiquidLevel
         {
             get { return normalLiquidLevel; }
@@ -204,7 +204,7 @@ namespace ReliefProMain.Models
         }
         private double _PipingContingency;
         [ReliefProMain.Util.Required(ErrorMessage = "PipingContingencyWarning")]
-        [ReliefProMain.Util.RegularExpression(ModelBase.GreaterThanZero, ErrorMessage = "GreaterThanZero")]
+        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double PipingContingency
         {
             get
