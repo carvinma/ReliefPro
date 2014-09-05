@@ -133,75 +133,71 @@ namespace ReliefProMain.Models
                 this.NotifyPropertyChanged("SourceTypes");
             }
         }
-        public bool _IsSteam;
         public bool IsSteam
         {
             get
             {
-                return this._IsSteam;
+                return dbmodel.IsSteam;
             }
             set
             {
-                this._IsSteam = value;
-                if (this._IsSteam)
+                if (dbmodel.IsSteam!=value)
                 {
-                    SourceType = "Pressurized Vessel";
+                    dbmodel.IsSteam != value;
                 }
                 OnPropertyChanged("IsSteam");
 
             }
         }
-        public bool _IsHeatSource;
+        
         public bool IsHeatSource
         {
             get
             {
-                return this._IsHeatSource;
+                return dbmodel.IsHeatSource;
             }
             set
             {
-                this._IsHeatSource = value;
+                dbmodel.IsHeatSource = value;
                 OnPropertyChanged("IsHeatSource");
             }
         }
 
-        public string _SourceName_Color;
         public string SourceName_Color {
             get
             {
-                return this._SourceName_Color;
+                return dbmodel.SourceName_Color;
             }
             set
             {
-                this._SourceName_Color = value;
+                dbmodel.SourceName_Color = value;
                 OnPropertyChanged("SourceName_Color");
             }
         }
         public string Description_Color { get; set; }
 
-        private string _SourceType_Color;
         public string SourceType_Color
         {
             get
             {
-                return this._SourceType_Color;
+                return dbmodel.SourceType_Color;
             }
             set
             {
-                this._SourceType_Color = value;
+                dbmodel.SourceType_Color = value;
                 OnPropertyChanged("SourceType_Color");
             }
         }
-        private string _MaxPossiblePressure_Color;
+
         public string MaxPossiblePressure_Color
         {
             get
             {
-                return this._MaxPossiblePressure_Color;
+                return dbmodel.MaxPossiblePressure_Color;
             }
             set
             {
-                this._MaxPossiblePressure_Color = value;
+                dbmodel.MaxPossiblePressure_Color = value;
                 OnPropertyChanged("MaxPossiblePressure_Color");
             }
         }
