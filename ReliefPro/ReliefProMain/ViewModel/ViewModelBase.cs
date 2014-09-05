@@ -34,13 +34,13 @@ namespace ReliefProMain.ViewModel
         public const string IsNum = @"^[-+]?\d+(\.\d+)?$";
         public bool CheckData()
         {
-            foreach (var pInfo in this.GetType().GetProperties())
-            {
-                if (pInfo.Name.Contains("_Color"))
-                {
-                    pInfo.SetValue(this, ColorBorder.blue.ToString(), null);
-                }
-            }
+            //foreach (var pInfo in this.GetType().GetProperties())
+            //{
+            //    if (pInfo.Name.Contains("_Color"))
+            //    {
+            //        pInfo.SetValue(this, ColorBorder.blue.ToString(), null);
+            //    }
+            //}
             if (!this.Validate())
             {
                 string sb = string.Empty;

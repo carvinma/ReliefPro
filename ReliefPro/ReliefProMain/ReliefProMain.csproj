@@ -191,6 +191,12 @@
     <Compile Include="CustomControl\ReportViewer.xaml.cs">
       <DependentUpon>ReportViewer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControl\UCInteger.xaml.cs">
+      <DependentUpon>UCInteger.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControl\UCNumber.xaml.cs">
+      <DependentUpon>UCNumber.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControl\UCTextBoxLbl.xaml.cs">
       <DependentUpon>UCTextBoxLbl.xaml</DependentUpon>
     </Compile>
@@ -538,6 +544,14 @@
       <DependentUpon>TowerScenarioHXView.xaml</DependentUpon>
     </Compile>
     <Page Include="CustomControl\ReportViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\UCInteger.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControl\UCNumber.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
