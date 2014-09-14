@@ -15,6 +15,7 @@ namespace ReliefProModel.ReactorLoops
         public virtual double TotalPurgeRate { get; set; }
         public virtual double ReliefLoad { get; set; }
         public virtual double ReliefTemperature { get; set; }
+        public virtual double ReliefPressure { get; set; }
         public virtual double ReliefMW { get; set; }
         public virtual double ReliefCpCv { get; set; }
         public virtual double ReliefZ { get; set; }
@@ -26,6 +27,7 @@ namespace ReliefProModel.ReactorLoops
         public virtual string TotalPurgeRate_Color { get; set; }
         public virtual string ReliefLoad_Color { get; set; }
         public virtual string ReliefTemperature_Color { get; set; }
+        public virtual string ReliefPressure_Color { get; set; }
         public virtual string ReliefMW_Color { get; set; }
         public virtual string ReliefCpCv_Color { get; set; }
         public virtual string ReliefZ_Color { get; set; }
