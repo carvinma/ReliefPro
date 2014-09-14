@@ -40,11 +40,12 @@ namespace ReliefProDAL.ReactorLoops
             {
                 try
                 {
+                    session.Clear();
                     var sql = " from ReliefProModel.ReactorLoops.ReactorLoopDetail o Where o.ReactorType in (0,1,2,3) and o.ReactorLoopID=" + model.ID;
                     session.Delete(sql);
 
                     session.SaveOrUpdate(model);
-                    
+
                     foreach (var detail in lstDetailModel)
                     {
                         detail.ReactorLoopID = model.ID;
