@@ -21,10 +21,10 @@ namespace ReliefProDAL.ReactorLoops
             }
             return null;
         }
-        public IList<GeneralFailureCommonDetail> GetGeneralFailureCommonDetail(ISession session, int GeneralFailureCommonID)
+        public IList<GeneralFailureCommonDetail> GetGeneralFailureCommonDetail(ISession session, int GeneralFailureCommonID, int ReactorType)
         {
             session.Clear();
-            var list = session.CreateCriteria<GeneralFailureCommonDetail>().Add(Expression.Eq("GeneralFailureCommonID", GeneralFailureCommonID))
+            var list = session.CreateCriteria<GeneralFailureCommonDetail>().Add(Expression.Eq("GeneralFailureCommonID", GeneralFailureCommonID)).Add(Expression.Eq("ReactorType", ReactorType))
                .List<GeneralFailureCommonDetail>();
             return list;
         }
