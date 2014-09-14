@@ -33,7 +33,6 @@
             <ColumnDefinition Width="40"/>
             <ColumnDefinition Width="30"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Content="{DynamicResource Injectionwaterstream}"  Grid.Row="3"  Grid.Column="1"/>
         <Label Content="{DynamicResource UtilityHX}" HorizontalAlignment="Right"  Grid.Row="4"  Grid.Column="0"/>
         <Label Content="{DynamicResource SimulationSolvedUnsolved}"  Grid.Row="10" Grid.Column="1"/>
         <Label Content="{DynamicResource ReliefLoad}"  Grid.Row="11" Grid.Column="1"/>
@@ -52,8 +51,7 @@
         <Button Content="{DynamicResource RunCaseSimulation}" Command="{Binding CoolingRunCaseSimulationCMD}" Grid.Column="1" Grid.Row="9" Width="130"  />
         <Button Content="{DynamicResource LaunchSimulator}" Command="{Binding CoolingLaunchSimulatorCMD}" Grid.Column="2"  Grid.Row="9" Width="130" />
         <CheckBox Content="{DynamicResource RecycleCompressorfailure}" IsChecked="{Binding Path=model.RecycleCompressorFailure,Mode=TwoWay}"  HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" />
-        <CheckBox Content="" IsChecked="{Binding Path=model.CalcInjectionWaterStream,Mode=TwoWay}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right"/>
-        <TextBox Grid.Row="3" Text="{Binding model.InjectionWaterStream,Mode=TwoWay}" Grid.Column="2" VerticalAlignment="Center"/>
+        <CheckBox Content="{DynamicResource Injectionwaterstream}" IsChecked="{Binding Path=model.CalcInjectionWaterStream,Mode=TwoWay}"  HorizontalAlignment="Left" Grid.Column="1" Grid.Row="3" />
         <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  
                   ItemsSource="{Binding model.lstUtilityHX, Mode=TwoWay}" 
                   Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan="5" Grid.Column="1" >

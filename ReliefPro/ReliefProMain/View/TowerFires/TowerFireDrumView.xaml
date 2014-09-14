@@ -42,7 +42,7 @@
         <CustomControl:UnitConvertTextBox BorderBrush="{Binding model.Diameter_Color}" UnitOrigin="{Binding ElementName=lblDiameter,Path=Content,Mode=TwoWay}"  Grid.Column="2" Grid.Row="3" Text="{Binding Path=model.Diameter}"/>
         <CustomControl:UnitConvertTextBox BorderBrush="{Binding model.Length_Color}" UnitOrigin="{Binding ElementName=lblLength,Path=Content,Mode=TwoWay}"  Grid.Column="2" Grid.Row="4" Text="{Binding Path=model.Length}"/>
         <CustomControl:UnitConvertTextBox BorderBrush="{Binding model.NormalLiquidLevel_Color}" UnitOrigin="{Binding ElementName=lblNormalLiquidLevel,Path=Content,Mode=TwoWay}"  Grid.Column="2" Grid.Row="5" Text="{Binding Path=model.NormalLiquidLevel}"/>
-        <TextBox  Grid.Column="2" Grid.Row="6" Text="{Binding Path=model.HeadNumber,Mode=TwoWay}" KeyDown="TextBox_KeyDown_1"/>
+        <CustomControl:UCIntegerTextBox  Grid.Column="2" Grid.Row="6" Text="{Binding Path=model.HeadNumber,Mode=TwoWay}" KeyDown="TextBox_KeyDown_1"/>
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBootDiameter,Path=Content,Mode=TwoWay}"  Grid.Column="2" Grid.Row="8" Text="{Binding Path=model.BootDiameter}"/>
         <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBootHeight,Path=Content,Mode=TwoWay}"  Grid.Column="2" Grid.Row="9" Text="{Binding Path=model.BootHeight}"/>
         <TextBox  Grid.Column="2" Grid.Row="10" Text="{Binding Path=model.PipingContingency}" KeyDown="TextBox_KeyDown_2"/>

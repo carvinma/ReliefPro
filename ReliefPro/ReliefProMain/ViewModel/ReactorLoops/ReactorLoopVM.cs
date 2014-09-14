@@ -187,6 +187,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 reactorLoopID = RLModel.ID;
                 model.ObcProcessHX = reactorBLL.GetProcessHX(reactorLoopID);
                 model.ObcUtilityHX = reactorBLL.GetUtilityHX(reactorLoopID);
+                model.ObcNetworkHX = reactorBLL.GetNetworkHX(reactorLoopID);
                 model.ObcMixerSplitter = reactorBLL.GetMixerSplitter(reactorLoopID);
                 SourceFileBLL sfbll = new SourceFileBLL(SessionPF);
                 SourceFileInfo = sfbll.GetSourceFileInfo(model.dbModel.SourceFile);
@@ -326,19 +327,19 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             if (!string.IsNullOrEmpty(model.ColdReactorFeedStream) && !streams.Contains(model.ColdReactorFeedStream))
             {               
                 if (!streams.Contains(model.ColdReactorFeedStream))
-                {
-                    streams.Add(model.ColdReactorFeedStream);
+                {                   
                     CustomStream cs = GetReactorLoopStreamInfoFromProII(model.ColdReactorFeedStream);
                     csList.Add(cs);
+                    streams.Add(model.ColdReactorFeedStream);
                 }
             }
-            if (!string.IsNullOrEmpty(model.HXNetworkColdStream) && !streams.Contains(model.HXNetworkColdStream))
+            if (!string.IsNullOrEmpty(model.ColdReactorFeedStream2) && !streams.Contains(model.ColdReactorFeedStream2))
             {
-                if (!streams.Contains(model.HXNetworkColdStream))
+                if (!streams.Contains(model.ColdReactorFeedStream2))
                 {
-                    CustomStream cs = GetReactorLoopStreamInfoFromProII(model.HXNetworkColdStream);
+                    CustomStream cs = GetReactorLoopStreamInfoFromProII(model.ColdReactorFeedStream2);
                     csList.Add(cs);
-                    streams.Add(model.HXNetworkColdStream);
+                    streams.Add(model.ColdReactorFeedStream2);
                 }
             }
             if (!string.IsNullOrEmpty(model.InjectionWaterStream) && !streams.Contains(model.InjectionWaterStream))
@@ -375,10 +376,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             int errorTag = 0;
             string inpData = CreateReactorLoopInpData(dir, csList, eqList,processHxList,ref errorTag);
             
-            string newInpFile = DirProtectedSystem + @"\" + SourceFileInfo.FileNameNoExt+ @"\"+SourceFileInfo.FileNameNoExt+".inp";
+            string newInpFile = DirProtectedSystem + @"\myrp\myrp.inp";
             string sourcePrzFile = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
 
-            string newInpDir = DirProtectedSystem + @"\" + SourceFileInfo.FileNameNoExt;
+            string newInpDir = DirProtectedSystem + @"\myrp";
             if (!Directory.Exists(newInpDir))
             {
                 Directory.CreateDirectory(newInpDir);
@@ -402,7 +403,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
                     System.Diagnostics.Process.Start(procInfo);
 
-                    
+                    
+
                 }
             }
             ReactorLoopSimulationView v = new ReactorLoopSimulationView();
@@ -485,7 +487,6 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         /// <returns></returns>
         public string CreateReactorLoopInpData(string rootDir, List<CustomStream> csList, List<string> eqList, List<string> processHxList,ref int errorTag)
         {
-
             StringBuilder sb = new StringBuilder();
             string[] files = Directory.GetFiles(rootDir, "*.inp");
             string sourceFile = files[0];
@@ -732,7 +733,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         {
             StringBuilder data1 = new StringBuilder();
             string streamName = stream.StreamName;
-            data1.Append("\tPROP STRM=").Append(streamName.ToUpper()).Append(",&\r\n");
+            data1.Append("\tPROPERTY STREAM=").Append(streamName.ToUpper()).Append(",&\r\n");
             data1.Append("\t PRESSURE(MPAG)=").Append(stream.Pressure).Append(",&\r\n");
             data1.Append("\t TEMPERATURE(C)=").Append(stream.Temperature).Append(",&\r\n");
             double rate = stream.TotalMolarRate;
@@ -1046,5 +1047,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
             
     }
+
+
 
 }

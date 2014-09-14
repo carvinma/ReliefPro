@@ -53,10 +53,6 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
         private void CheckData(object obj)
         {
-            double diff = 1;
-            bool b=true;
-            ProIIEqDataDAL dal=new ProIIEqDataDAL();
-
             IProIIImport import = ProIIFactory.CreateProIIImport(przVersion);
             int ImportResult = -1;
             int RunResult = -1;
@@ -65,49 +61,56 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    IProIIReader reader = ProIIFactory.CreateReader(przVersion);
-                    reader.InitProIIReader(newPrzFile);
-                    foreach (string s in hxs)
-                    {
-                        ProIIEqData eq1 = dal.GetModel(SessionPlant,przFileName, s);
-                        ProIIEqData eq2 = reader.GetEqInfo("Hx", s);
-                        double d=Math.Abs(double.Parse(eq1.DutyCalc) - double.Parse(eq2.DutyCalc));
-                        if (d > diff)
-                        {
-                            b=false;
-                            break;
-                        }
-                    }
+                    MessageBox.Show("Data is right.", "Message Box");
+                    return;
                 }
 
                 else
                 {
-                    MessageBox.Show("Prz file is error", "Message Box");
+                    MessageBox.Show("Prz file is error!", "Message Box");
                     return;
                 }
             }
             else
             {
-                MessageBox.Show("inp file is error", "Message Box");
+                MessageBox.Show("inp file is error!", "Message Box");
                 return;
             }
-            if(b)
-            {
-                MessageBox.Show("OK", "Message Box");
-            }
-            else
-            {
-                MessageBox.Show("Diff", "Message Box");
-            }
+            
         }
         private void LaunchSimulator(object obj)
         {
-            
+            //open prz 文件
 
         }
         private void RunSimulation(object obj)
         {
+            //run prz file ,then compare hx duty
+            double diff = 1;
+            bool b = true;
+            ProIIEqDataDAL dal = new ProIIEqDataDAL();
+            IProIIReader reader = ProIIFactory.CreateReader(przVersion);
+            reader.InitProIIReader(newPrzFile);
+            foreach (string s in hxs)
+            {
+                ProIIEqData eq1 = dal.GetModel(SessionPlant, przFileName, s);
+                ProIIEqData eq2 = reader.GetEqInfo("Hx", s);
+                double d = Math.Abs(double.Parse(eq1.DutyCalc) - double.Parse(eq2.DutyCalc));
+                if (d > diff)
+                {
+                    b = false;
+                    break;
+                }
 
+                if (b)
+                {
+                    MessageBox.Show("OK", "Message Box");
+                }
+                else
+                {
+                    MessageBox.Show("Diff", "Message Box");
+                }
+            }
         }
         private void OK(object obj)
         {

@@ -19,6 +19,17 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("EffluentTemperatureUnit");
             }
         }
+        private string effluentTemperature2Unit;
+        public string EffluentTemperature2Unit
+        {
+            get { return effluentTemperature2Unit; }
+            set
+            {
+                effluentTemperature2Unit = value;
+                this.NotifyPropertyChanged("EffluentTemperature2Unit");
+            }
+        }
+
         private string maxGasRateUnit;
         public string MaxGasRateUnit
         {
@@ -63,6 +74,21 @@ namespace ReliefProMain.Models.ReactorLoops
             }
         }
 
+        private string reliefPressureUnit;
+        public string ReliefPressureUnit
+        {
+            get
+            {
+                return this.reliefPressureUnit;
+            }
+            set
+            {
+                this.reliefPressureUnit = value;
+
+                OnPropertyChanged("ReliefPressureUnit");
+            }
+        }
+
         public ReactorLoopCommon dbmodel { get; set; }
         public ReactorLoopCommonModel(ReactorLoopCommon model)
         {
@@ -96,6 +122,16 @@ namespace ReliefProMain.Models.ReactorLoops
             {
                 effluentTemperature = value;
                 this.NotifyPropertyChanged("EffluentTemperature");
+            }
+        }
+        private double effluentTemperature2;
+        public double EffluentTemperature2
+        {
+            get { return effluentTemperature2; }
+            set
+            {
+                effluentTemperature2 = value;
+                this.NotifyPropertyChanged("EffluentTemperature2");
             }
         }
 

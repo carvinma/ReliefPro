@@ -8,7 +8,7 @@ namespace ReliefProMain.Models.ReactorLoops
 {
     public class GeneralFailureCommonModel : ModelBase
     {
-        public GeneralFailureCommon dbModel { get; set; }
+        public GeneralFailureCommon dbmodel { get; set; }
         private string reliefLoadUnit;
         public string ReliefLoadUnit
         {
@@ -40,93 +40,116 @@ namespace ReliefProMain.Models.ReactorLoops
             }
         }
 
-        public List<UtilityHXModel> lstUtilityHX { get; set; }
+        public List<GeneralFailureHXModel> lstNetworkHX { get; set; }
+        public List<GeneralFailureHXModel> lstUtilityHX { get; set; }
 
         public bool RecycleCompressorFailure
         {
-            get { return dbModel.RecycleCompressorFailure; }
+            get { return dbmodel.RecycleCompressorFailure; }
             set
             {
-                dbModel.RecycleCompressorFailure = value;
+                dbmodel.RecycleCompressorFailure = value;
                 this.NotifyPropertyChanged("RecycleCompressorFailure");
             }
         }
         public bool CalcInjectionWaterStream
         {
-            get { return dbModel.CalcInjectionWaterStream; }
+            get { return dbmodel.CalcInjectionWaterStream; }
             set
             {
-                dbModel.CalcInjectionWaterStream = value;
+                dbmodel.CalcInjectionWaterStream = value;
                 this.NotifyPropertyChanged("CalcInjectionWaterStream");
             }
         }
         public double InjectionWaterStream
         {
-            get { return dbModel.InjectionWaterStream; }
+            get { return dbmodel.InjectionWaterStream; }
             set
             {
-                dbModel.InjectionWaterStream = value;
+                dbmodel.InjectionWaterStream = value;
                 this.NotifyPropertyChanged("InjectionWaterStream");
             }
         }
 
         public bool CalcHXNetworkColdStream
         {
-            get { return dbModel.CalcHXNetworkColdStream; }
+            get { return dbmodel.CalcHXNetworkColdStream; }
             set
             {
-                dbModel.CalcHXNetworkColdStream = value;
+                dbmodel.CalcHXNetworkColdStream = value;
                 this.NotifyPropertyChanged("CalcHXNetworkColdStream");
             }
         }
         public double HXNetworkColdStream
         {
-            get { return dbModel.HXNetworkColdStream; }
+            get { return dbmodel.HXNetworkColdStream; }
             set
             {
-                dbModel.HXNetworkColdStream = value;
+                dbmodel.HXNetworkColdStream = value;
                 this.NotifyPropertyChanged("HXNetworkColdStream");
             }
         }
 
         public double ReliefLoad
         {
-            get { return dbModel.ReliefLoad; }
+            get { return dbmodel.ReliefLoad; }
             set
             {
-                dbModel.ReliefLoad = value;
+                dbmodel.ReliefLoad = value;
                 this.NotifyPropertyChanged("ReliefLoad");
             }
         }
         public double ReliefMW
         {
-            get { return dbModel.ReliefMW; }
+            get { return dbmodel.ReliefMW; }
             set
             {
-                dbModel.ReliefMW = value;
+                dbmodel.ReliefMW = value;
                 this.NotifyPropertyChanged("ReliefMW");
             }
         }
         public double ReliefTemperature
         {
-            get { return dbModel.ReliefTemperature; }
+            get { return dbmodel.ReliefTemperature; }
             set
             {
-                dbModel.ReliefTemperature = value;
+                dbmodel.ReliefTemperature = value;
                 this.NotifyPropertyChanged("ReliefTemperature");
             }
         }
         public double ReliefPressure
         {
-            get { return dbModel.ReliefPressure; }
+            get { return dbmodel.ReliefPressure; }
             set
             {
-                dbModel.ReliefPressure = value;
+                dbmodel.ReliefPressure = value;
                 this.NotifyPropertyChanged("ReliefPressure");
             }
         }
+        private double reliefCpCv;
+        public double ReliefCpCv
+        {
+            get { return reliefCpCv; }
+            set
+            {
+                reliefCpCv = value;
+                this.NotifyPropertyChanged("ReliefCpCv");
+            }
+        }
+
+        private double reliefZ;
+        public double ReliefZ
+        {
+            get { return reliefZ; }
+            set
+            {
+                reliefZ = value;
+                this.NotifyPropertyChanged("ReliefZ");
+            }
+        }
     }
-    public class UtilityHXModel : ModelBase
+
+    public class GeneralFailureHXModel : ModelBase
     {
         private string hXName;
         public string HXName
@@ -146,6 +169,16 @@ namespace ReliefProMain.Models.ReactorLoops
             {
                 stop = value;
                 this.NotifyPropertyChanged("Stop");
+            }
+        }
+        private int reactorType;
+        public int ReactorType
+        {
+            get { return reactorType; }
+            set
+            {
+                reactorType = value;
+                this.NotifyPropertyChanged("ReactorType");
             }
         }
         private double dutyFactor;

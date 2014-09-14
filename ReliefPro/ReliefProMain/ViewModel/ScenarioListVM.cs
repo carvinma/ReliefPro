@@ -439,7 +439,7 @@ namespace ReliefProMain.ViewModel
                         {
                             SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
                             SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                            //SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                             SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                         }
                     }
@@ -452,7 +452,7 @@ namespace ReliefProMain.ViewModel
                         {
                             SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
                             SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                            //SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                             SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                         }
                     }
@@ -465,17 +465,35 @@ namespace ReliefProMain.ViewModel
                         {
                             SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
                             SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                            //SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                             SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                         }
                     }
                     else if (ScenarioName.Contains("GeneralElectricPowerFailure"))
                     {
-
+                        GeneralElectricPowerFailureView v = new GeneralElectricPowerFailureView();
+                        GeneralFailureCommonVM vm = new GeneralFailureCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 2);
+                        v.DataContext = vm;
+                        if (v.ShowDialog() == true)
+                        {
+                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
+                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                        }
                     }
                     else if (ScenarioName.Contains("GeneralCoolingWaterFailure"))
                     {
-
+                        GeneralCoolingWaterFailureView v = new GeneralCoolingWaterFailureView();
+                        GeneralFailureCommonVM vm = new GeneralFailureCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 2);
+                        v.DataContext = vm;
+                        if (v.ShowDialog() == true)
+                        {
+                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
+                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                        }
                     }
                 }
             }
