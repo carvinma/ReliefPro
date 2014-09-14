@@ -79,6 +79,12 @@ namespace ReliefProLL
             ObservableCollection<ReactorLoopDetail> tObject = new ObservableCollection<ReactorLoopDetail>(lst);
             return tObject;
         }
+        public ObservableCollection<ReactorLoopDetail> GetNetworkHX(int ReactorLoopID)
+        {
+            var lst = reactorLoopDAL.GetReactorLoopDetail(SessionPS, ReactorLoopID, 3);
+            ObservableCollection<ReactorLoopDetail> tObject = new ObservableCollection<ReactorLoopDetail>(lst);
+            return tObject;
+        }
         public ObservableCollection<ReactorLoopDetail> GetMixerSplitter(int ReactorLoopID)
         {
             var lst = reactorLoopDAL.GetReactorLoopDetail(SessionPS, ReactorLoopID, 2);

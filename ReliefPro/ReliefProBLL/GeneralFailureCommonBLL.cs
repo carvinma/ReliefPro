@@ -50,9 +50,9 @@ namespace ReliefProLL
             model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature, uomEnum.UserTemperature, model.ReliefTemperature);
             return model;
         }
-        public IList<GeneralFailureCommonDetail> GetGeneralFailureCommonDetail(int GeneralFailureCommonID)
+        public IList<GeneralFailureCommonDetail> GetGeneralFailureCommonDetail(int GeneralFailureCommonID,int ReactorType)
         {
-            var list = generalDAL.GetGeneralFailureCommonDetail(SessionPS, GeneralFailureCommonID);
+            var list = generalDAL.GetGeneralFailureCommonDetail(SessionPS, GeneralFailureCommonID, ReactorType);
             return list;
         }
         public void Save(GeneralFailureCommon model, IList<GeneralFailureCommonDetail> lstDetail)
