@@ -72,8 +72,6 @@ namespace ReliefProMain.CustomControl
                         this.SetValue(TextBox.BorderBrushProperty, new SolidColorBrush(Colors.Blue));
                 }
             }
-
-
         }
 
         protected override void OnMouseDoubleClick(System.Windows.Input.MouseButtonEventArgs e)
