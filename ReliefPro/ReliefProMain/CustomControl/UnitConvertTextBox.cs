@@ -28,6 +28,7 @@ namespace ReliefProMain.CustomControl
             set { SetValue(UnitOriginProperty, value); }
         }
         private string dbFirstValue = string.Empty;
+        private object dbFirstColor = null;
         private bool isFirst = true;
         public static readonly DependencyProperty UnitOriginProperty =
            DependencyProperty.Register("UnitOrigin", typeof(string), typeof(UnitConvertTextBox), new PropertyMetadata());
@@ -53,6 +54,7 @@ namespace ReliefProMain.CustomControl
                 if (BindingOperations.IsDataBound(this, TextBox.TextProperty))
                 {
                     dbFirstValue = this.Text.Trim();
+                    dbFirstColor = this.GetValue(TextBox.BorderBrushProperty);
                     isFirst = false;
                 }
             }
@@ -65,7 +67,7 @@ namespace ReliefProMain.CustomControl
                 else
                 {
                     if (dbFirstValue == this.Text.Trim())
-                        this.SetValue(TextBox.BorderBrushProperty, new SolidColorBrush(Colors.Green));
+                        this.SetValue(TextBox.BorderBrushProperty, dbFirstColor);
                     else
                         this.SetValue(TextBox.BorderBrushProperty, new SolidColorBrush(Colors.Blue));
                 }
