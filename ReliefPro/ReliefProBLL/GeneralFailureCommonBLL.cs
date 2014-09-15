@@ -7,6 +7,7 @@ using ReliefProDAL.ReactorLoops;
 using ReliefProModel;
 using ReliefProModel.ReactorLoops;
 using UOMLib;
+using ReliefProDAL;
 
 namespace ReliefProLL
 {
@@ -57,7 +58,16 @@ namespace ReliefProLL
         }
         public void Save(GeneralFailureCommon model, IList<GeneralFailureCommonDetail> lstDetail)
         {
+            ScenarioDAL db = new ScenarioDAL();
             generalDAL.Save(SessionPS, model, lstDetail);
+            var sModel = db.GetModel(model.ScenarioID, SessionPS);
+            sModel.ReliefLoad = model.ReliefLoad;
+            sModel.ReliefTemperature = model.ReliefTemperature;
+            sModel.ReliefMW = model.ReliefMW;
+            sModel.ReliefPressure = model.ReliefPressure;
+            sModel.ReliefCpCv = model.ReliefCpCv;
+            sModel.ReliefZ = model.ReliefZ;
+            db.Update(sModel, SessionPS);
         }
     }
 }

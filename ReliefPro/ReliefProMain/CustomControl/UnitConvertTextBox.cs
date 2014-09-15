@@ -66,10 +66,13 @@ namespace ReliefProMain.CustomControl
                 }
                 else
                 {
-                    if (dbFirstValue == this.Text.Trim())
-                        this.SetValue(TextBox.BorderBrushProperty, dbFirstColor);
-                    else
-                        this.SetValue(TextBox.BorderBrushProperty, new SolidColorBrush(Colors.Blue));
+                    if (!this.IsReadOnly)
+                    {
+                        if (dbFirstValue == this.Text.Trim())
+                            this.SetValue(TextBox.BorderBrushProperty, dbFirstColor);
+                        else
+                            this.SetValue(TextBox.BorderBrushProperty, new SolidColorBrush(Colors.Blue));
+                    }
                 }
             }
         }

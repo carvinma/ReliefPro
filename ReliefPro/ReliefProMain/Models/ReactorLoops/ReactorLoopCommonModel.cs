@@ -96,6 +96,7 @@ namespace ReliefProMain.Models.ReactorLoops
             this.reactorType = dbmodel.ReactorType;
             this.effluentTemperature = dbmodel.EffluentTemperature;
             this.effluentTemperature2 = dbmodel.EffluentTemperature2;
+            
             this.maxGasRate = model.MaxGasRate;
             this.totalPurgeRate = model.TotalPurgeRate;
             this.reliefMW = model.ReliefMW;
@@ -103,6 +104,11 @@ namespace ReliefProMain.Models.ReactorLoops
             this.reliefTemperature = model.ReliefTemperature;
             this.reliefCpCv = model.ReliefCpCv;
             this.reliefZ = model.ReliefZ;
+
+            this.effluentTemperature_Color = dbmodel.EffluentTemperature_Color;
+            this.effluentTemperature2_Color = dbmodel.EffluentTemperature2_Color;
+            this.totalPurgeRate_Color = dbmodel.TotalPurgeRate_Color;
+            this.maxGasRate_Color = dbmodel.MaxGasRate_Color;
         }
 
         private int reactorType;
@@ -224,8 +230,8 @@ namespace ReliefProMain.Models.ReactorLoops
             }
         }
 
-        private double effluentTemperature_Color;
-        public double EffluentTemperature_Color
+        private string effluentTemperature_Color;
+        public string EffluentTemperature_Color
         {
             get { return effluentTemperature_Color; }
             set
@@ -234,8 +240,8 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("EffluentTemperature_Color");
             }
         }
-        private double effluentTemperature2_Color;
-        public double EffluentTemperature2_Color
+        private string effluentTemperature2_Color;
+        public string EffluentTemperature2_Color
         {
             get { return effluentTemperature2_Color; }
             set
@@ -244,7 +250,26 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("EffluentTemperature2_Color");
             }
         }
-
+        private string maxGasRate_Color;
+        public string MaxGasRate_Color
+        {
+            get { return effluentTemperature_Color; }
+            set
+            {
+                maxGasRate_Color = value;
+                this.NotifyPropertyChanged("MaxGasRate_Color");
+            }
+        }
+        private string totalPurgeRate_Color;
+        public string TotalPurgeRate_Color
+        {
+            get { return totalPurgeRate_Color; }
+            set
+            {
+                totalPurgeRate_Color = value;
+                this.NotifyPropertyChanged("TotalPurgeRate_Color");
+            }
+        }
 
     }
 }

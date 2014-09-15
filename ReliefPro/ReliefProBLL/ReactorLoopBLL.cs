@@ -63,7 +63,11 @@ namespace ReliefProLL
             sModel.ReliefLoad = model.ReliefLoad;
             sModel.ReliefTemperature = model.ReliefTemperature;
             sModel.ReliefMW = model.ReliefMW;
+            sModel.ReliefPressure = model.ReliefPressure;
+            sModel.ReliefCpCv = model.ReliefCpCv;
+            sModel.ReliefZ = model.ReliefZ;
             db.Update(sModel, SessionPS);
+            SessionPS.Flush();
         }
 
         public ReactorLoop GetReactorLoopModel()
