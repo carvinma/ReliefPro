@@ -38,6 +38,10 @@ namespace ReliefProMain.ViewModel
                 {
                     SelectedFile_Color = ColorBorder.red.ToString();
                 }
+                if (this._SelectedFile != value)
+                {
+                    SelectedFile_Color = ColorBorder.blue.ToString();
+                }
                 SourceFileBLL sfbll = new SourceFileBLL(SessionPlant);
                 SourceFileInfo = sfbll.GetSourceFileInfo(_SelectedFile);
                 EqNames = GetEqNames();
@@ -74,6 +78,11 @@ namespace ReliefProMain.ViewModel
                 {
                     SelectedEq_Color = ColorBorder.red.ToString();
                 }
+                
+                if (this._SelectedEq != value)
+                {
+                    SelectedEq_Color = ColorBorder.blue.ToString();
+                }
                 OnPropertyChanged("SelectedEq");
             }
         }
@@ -98,7 +107,12 @@ namespace ReliefProMain.ViewModel
             SessionPlant = sessionPlant;
             EqType = eqType;
             SourceFiles = GetSourceFiles();
+            if (SourceFiles.Count > 0)
+                SelectedFile = SourceFiles[0];
             EqNames = GetEqNames();
+            if (EqNames.Count > 0)
+                SelectedEq = EqNames[0];
+
         }
         private ObservableCollection<string> _SourceFiles;
         public ObservableCollection<string> SourceFiles

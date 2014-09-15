@@ -52,8 +52,7 @@ namespace ReliefProMain.ViewModel
         }
 
         private double _Diameter;
-
-        [ReliefProMain.Util.Required(ErrorMessage = "PressureWarning")]
+       
         [ReliefProMain.Util.RegularExpression(ViewModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double Diameter
         {
@@ -63,8 +62,16 @@ namespace ReliefProMain.ViewModel
             }
             set
             {
+                if (CurrentAccumulator.Diameter == UnitConvert.Convert(DiameterUnit, uomEnum.UserLength, value))
+                {
+                    this.Diameter_Color = ColorBorder.green.ToString();
+                }
+                else
+                {
+                    this.Diameter_Color = ColorBorder.blue.ToString();
+                }
                 this._Diameter = value;
-                if (Horiz && _NormalLiquidLevel != null && _Diameter != null)
+                if (Horiz)
                 {
                     NormalLiquidLevel = _Diameter / 2;
                 }
@@ -83,6 +90,14 @@ namespace ReliefProMain.ViewModel
             }
             set
             {
+                if (CurrentAccumulator.Length == UnitConvert.Convert(LengthUnit, uomEnum.UserLength, value))
+                {
+                    this.Length_Color = ColorBorder.green.ToString();
+                }
+                else
+                {
+                    this.Length_Color = ColorBorder.blue.ToString();
+                }
                 this._Length = value;
                 if (Vertical)
                 {
@@ -103,6 +118,14 @@ namespace ReliefProMain.ViewModel
             }
             set
             {
+                if (CurrentAccumulator.NormalLiquidLevel == UnitConvert.Convert(NormalLiquidLevelUnit, uomEnum.UserLength, value))
+                {
+                    this.NormalLiquidLevel_Color = ColorBorder.green.ToString();
+                }
+                else
+                {
+                    this.NormalLiquidLevel_Color = ColorBorder.blue.ToString();
+                }
                 this._NormalLiquidLevel = value;
                 OnPropertyChanged("NormalLiquidLevel");
             }
@@ -180,7 +203,7 @@ namespace ReliefProMain.ViewModel
             SessionPlant = sessionPlant;
             uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             InitUnit();
-            AccumulatorTypes = GetAccumulatorTypes();
+            //AccumulatorTypes = GetAccumulatorTypes(); //没用到
 
             SessionProtectedSystem = sessionProtectedSystem;
 
@@ -189,6 +212,10 @@ namespace ReliefProMain.ViewModel
             Diameter = CurrentAccumulator.Diameter;
             Length = CurrentAccumulator.Length;
             NormalLiquidLevel = CurrentAccumulator.NormalLiquidLevel;
+            Diameter_Color = CurrentAccumulator.Diameter_Color;
+            Length_Color = CurrentAccumulator.Length_Color;
+            NormalLiquidLevel_Color = CurrentAccumulator.NormalLiquidLevel_Color;
+
             if (CurrentAccumulator.Orientation)
             {
                 Horiz = true;

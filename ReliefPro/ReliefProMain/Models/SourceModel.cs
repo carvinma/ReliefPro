@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ReliefProModel;
 using ReliefProCommon.Enum;
+using UOMLib;
 
 namespace ReliefProMain.Models
 {
@@ -13,6 +14,10 @@ namespace ReliefProMain.Models
         public SourceModel(Source m)
         {
             dbmodel = m;
+            _MaxPossiblePressure = m.MaxPossiblePressure;
+            _MaxPossiblePressure_Color = m.MaxPossiblePressure_Color;
+            _SourceType = m.SourceType;
+            _SourceType_Color = m.SourceType_Color;
             _SourceTypes = GetSourceTypes();
         }
         public int ID
@@ -46,20 +51,25 @@ namespace ReliefProMain.Models
             }
         }
 
+        private string _SourceType;
         public string SourceType
         {
             get
             {
-                return dbmodel.SourceType;
+                return _SourceType;
             }
             set
             {
-                if (dbmodel.SourceType != value)
+                if (dbmodel.SourceType == value && dbmodel.SourceType_Color==ColorBorder.green.ToString())
                 {
-                    dbmodel.SourceType = value;
-                    SourceType_Color = ColorBorder.blue.ToString();
-                    NotifyPropertyChanged("SourceType");
+                    SourceType_Color = ColorBorder.green.ToString();
                 }
+                else
+                {
+                    SourceType_Color = ColorBorder.blue.ToString();
+                }
+                _SourceType = value;
+                NotifyPropertyChanged("SourceType");
             }
         }
 
@@ -79,18 +89,25 @@ namespace ReliefProMain.Models
             }
         }
 
+        private double _MaxPossiblePressure;
         public double MaxPossiblePressure
         {
             get
             {
-                return dbmodel.MaxPossiblePressure;
+                return _MaxPossiblePressure;
             }
             set
             {
-                // MaxPossiblePressure_Color = ColorBorder.blue.ToString();
-                dbmodel.MaxPossiblePressure = value;
+                if (dbmodel.MaxPossiblePressure ==  UnitConvert.Convert(PressureUnit, UOMEnum.Pressure, value) && dbmodel.MaxPossiblePressure_Color==ColorBorder.green.ToString())
+                {
+                    MaxPossiblePressure_Color = ColorBorder.green.ToString();
+                }
+                else
+                {
+                    MaxPossiblePressure_Color = ColorBorder.blue.ToString();
+                }
+                _MaxPossiblePressure = value;
                 NotifyPropertyChanged("MaxPossiblePressure");
-
             }
         }
         public string StreamName
@@ -174,28 +191,30 @@ namespace ReliefProMain.Models
         }
         public string Description_Color { get; set; }
 
+        private string _SourceType_Color;
         public string SourceType_Color
         {
             get
             {
-                return dbmodel.SourceType_Color;
+                return _SourceType_Color;
             }
             set
             {
-                dbmodel.SourceType_Color = value;
+                _SourceType_Color = value;
                 OnPropertyChanged("SourceType_Color");
             }
         }
 
+        private string _MaxPossiblePressure_Color;
         public string MaxPossiblePressure_Color
         {
             get
             {
-                return dbmodel.MaxPossiblePressure_Color;
+                return _MaxPossiblePressure_Color;
             }
             set
             {
-                dbmodel.MaxPossiblePressure_Color = value;
+                _MaxPossiblePressure_Color = value;
                 OnPropertyChanged("MaxPossiblePressure_Color");
             }
         }

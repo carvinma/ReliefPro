@@ -23,7 +23,7 @@ namespace ReliefProMain.ViewModel
         private ISession SessionProtectedSystem { set; get; }
         SinkDAL db;
         public SinkModel MainModel { get; set; }
-
+        public Sink sink;
 
         UOMLib.UOMEnum uomEnum;
         public SinkVM(string name, ISession sessionPlant, ISession sessionProtectedSystem)
@@ -32,7 +32,7 @@ namespace ReliefProMain.ViewModel
             SessionProtectedSystem = sessionProtectedSystem;
             uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             db = new SinkDAL();
-            Sink sink = db.GetModel(SessionProtectedSystem, name);
+            sink= db.GetModel(SessionProtectedSystem, name);
             MainModel = new SinkModel(sink);
             InitUnit();
             ReadConvert();
@@ -59,6 +59,9 @@ namespace ReliefProMain.ViewModel
             BU = list.Where(s => s.IsDefault == 1).Single();
 
             WriteConvert();
+            MainModel.dbmodel.SinkType_Color = MainModel.SinkType_Color;
+            MainModel.dbmodel.MaxPossiblePressure_Color = MainModel.MaxPossiblePressure_Color;
+            MainModel.dbmodel.SinkType = MainModel.SinkType;
             db.Update(MainModel.dbmodel, SessionProtectedSystem);
             SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction
 

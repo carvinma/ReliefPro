@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ReliefProModel;
+using UOMLib;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.Models
 {
@@ -12,6 +14,10 @@ namespace ReliefProMain.Models
         public SinkModel(Sink m)
         {
             dbmodel = m;
+            _MaxPossiblePressure = m.MaxPossiblePressure;
+            _MaxPossiblePressure_Color = m.MaxPossiblePressure_Color;
+            _SinkType = m.SinkType;
+            _SinkType_Color = m.SinkType_Color;
             _SinkTypes = GetSinkTypes();
         }
         public int ID
@@ -44,20 +50,25 @@ namespace ReliefProMain.Models
                 }
             }
         }
-
+        private string _SinkType;
         public string SinkType
         {
             get
             {
-                return dbmodel.SinkType;
+                return _SinkType;
             }
             set
             {
-                if (dbmodel.SinkType != value)
+                if (dbmodel.SinkType == value && dbmodel.SinkType_Color == ColorBorder.green.ToString())
                 {
-                    dbmodel.SinkType = value;
-                    NotifyPropertyChanged("SinkType");
+                    SinkType_Color = ColorBorder.green.ToString();
                 }
+                else
+                {
+                    SinkType_Color = ColorBorder.blue.ToString();
+                }
+                _SinkType = value;
+                NotifyPropertyChanged("SinkType");
             }
         }
 
@@ -77,19 +88,25 @@ namespace ReliefProMain.Models
             }
         }
 
+        private double _MaxPossiblePressure;
         public double MaxPossiblePressure
         {
             get
             {
-                return dbmodel.MaxPossiblePressure;
+                return _MaxPossiblePressure;
             }
             set
             {
-                if (dbmodel.MaxPossiblePressure != value)
+                if (dbmodel.MaxPossiblePressure == UnitConvert.Convert(PressureUnit, UOMEnum.Pressure, value) && dbmodel.MaxPossiblePressure_Color == ColorBorder.green.ToString())
                 {
-                    dbmodel.MaxPossiblePressure = value;
-                    NotifyPropertyChanged("MaxPossiblePressure");
+                    MaxPossiblePressure_Color = ColorBorder.green.ToString();
                 }
+                else
+                {
+                    MaxPossiblePressure_Color = ColorBorder.blue.ToString();
+                }
+                _MaxPossiblePressure = value;
+                NotifyPropertyChanged("MaxPossiblePressure");
             }
         }
         public string StreamName
@@ -139,6 +156,34 @@ namespace ReliefProMain.Models
             list.Add("Pump(Motor)");
             list.Add("Pressurized Vessel");
             return list;
+        }
+
+        private string _SinkType_Color;
+        public string SinkType_Color
+        {
+            get
+            {
+                return _SinkType_Color;
+            }
+            set
+            {
+                _SinkType_Color = value;
+                OnPropertyChanged("SinkType_Color");
+            }
+        }
+
+        private string _MaxPossiblePressure_Color;
+        public string MaxPossiblePressure_Color
+        {
+            get
+            {
+                return _MaxPossiblePressure_Color;
+            }
+            set
+            {
+                _MaxPossiblePressure_Color = value;
+                OnPropertyChanged("MaxPossiblePressure_Color");
+            }
         }
     }
 }

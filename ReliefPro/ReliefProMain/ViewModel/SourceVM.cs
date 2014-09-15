@@ -67,7 +67,9 @@ namespace ReliefProMain.ViewModel
             IList<BasicUnit> list = dbBU.GetAllList(SessionPlant);
             BU = list.Where(s => s.IsDefault == 1).Single();
             WriteConvert();
+            model.dbmodel.SourceType_Color = model.SourceType_Color;
             model.dbmodel.MaxPossiblePressure_Color = model.MaxPossiblePressure_Color;
+            model.dbmodel.SourceType = model.SourceType;
             sourcedal.Update(model.dbmodel, SessionProtectedSystem);
             SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction
 
