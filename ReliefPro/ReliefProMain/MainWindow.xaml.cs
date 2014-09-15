@@ -224,6 +224,7 @@ namespace ReliefProMain
         {
             try
             {
+
                 //Application.Current.FindResource
                 MessageBoxResult r = MessageBox.Show("Are you sure you want to save the document?", "Message Box", MessageBoxButton.YesNoCancel);
                 if (r == MessageBoxResult.Yes)
@@ -924,6 +925,12 @@ namespace ReliefProMain
 
         private void MainWindowApp_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
+            if (list.Count == 0)
+            {
+                Application.Current.Shutdown();
+                return;
+            }
              MessageBoxResult r=MessageBox.Show("Are you sure you want to save all plants?", "", MessageBoxButton.YesNoCancel);
             if ( r== MessageBoxResult.Yes)
             {
