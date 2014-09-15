@@ -119,7 +119,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             string rpInpDir = DirProtectedSystem + @"\myrp";
             string caseDir = DirProtectedSystem + @"\GeneralElectricPowerFailure";
             PROIIFileOperator.DecompressProIIFile(rpPrzFile, rpInpDir);
-            string inpFile = rpInpDir + @"\myrp_backup.inp";
+            string inpFile = rpInpDir + @"\myrp.inp";
             string[] lines = System.IO.File.ReadAllLines(inpFile);
             StringBuilder sb = new StringBuilder();
             ProIIEqDataDAL eqdatadal = new ProIIEqDataDAL();
@@ -218,6 +218,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         model.ReliefLoad = cs.WeightFlow;
                         model.ReliefMW = cs.BulkMwOfPhase;
                         model.ReliefTemperature = cs.Temperature;
+                        model.ReliefPressure = cs.Pressure;
                         model.ReliefCpCv = cs.BulkCPCVRatio;
                         model.ReliefZ = cs.VaporZFmKVal;
                     }
@@ -228,6 +229,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         model.ReliefLoad = cs.WeightFlow;
                         model.ReliefMW = cs.BulkMwOfPhase;
                         model.ReliefTemperature = cs.Temperature;
+                        model.ReliefPressure = cs.Pressure;
                         model.ReliefCpCv = cs.BulkCPCVRatio;
                         model.ReliefZ = cs.VaporZFmKVal;
                     }
@@ -256,7 +258,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             string rpInpDir = DirProtectedSystem + @"\myrp";
             string caseDir = DirProtectedSystem + @"\GeneralElectricPowerFailure";
             PROIIFileOperator.DecompressProIIFile(rpPrzFile, rpInpDir);
-            string inpFile = rpInpDir + @"\myrp_backup.inp";
+            string inpFile = rpInpDir + @"\myrp.inp";
             string[] lines = System.IO.File.ReadAllLines(inpFile);
             StringBuilder sb = new StringBuilder();
             ProIIEqDataDAL eqdatadal = new ProIIEqDataDAL();
@@ -331,6 +333,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         model.ReliefLoad = cs.WeightFlow;
                         model.ReliefMW = cs.BulkMwOfPhase;
                         model.ReliefTemperature = cs.Temperature;
+                        model.ReliefPressure = cs.Pressure;
                         model.ReliefCpCv = cs.BulkCPCVRatio;
                         model.ReliefZ = cs.VaporZFmKVal;
                     }
@@ -341,6 +344,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         model.ReliefLoad = cs.WeightFlow;
                         model.ReliefMW = cs.BulkMwOfPhase;
                         model.ReliefTemperature = cs.Temperature;
+                        model.ReliefPressure = cs.Pressure;
                         model.ReliefCpCv = cs.BulkCPCVRatio;
                         model.ReliefZ = cs.VaporZFmKVal;
                     }

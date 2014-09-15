@@ -7,6 +7,7 @@
   <property name="ScenarioID" column="ScenarioID" type="Int32"/>
   <property name="ReactorType" column="ReactorType" type="Int32"/>
   <property name="EffluentTemperature" column="EffluentTemperature" type="Double"/>
+  <property name="EffluentTemperature2" column="EffluentTemperature2" type="Double"/>
   <property name="MaxGasRate" column="MaxGasRate" type="Double"/>
   <property name="TotalPurgeRate" column="TotalPurgeRate" type="Double"/>
   <property name="ReliefLoad" column="ReliefLoad" type="Double"/>
@@ -19,6 +20,7 @@
   <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"/>
   <property name="ReactorType_Color" column="ReactorType_Color" type="String" length="255"/>
   <property name="EffluentTemperature_Color" column="EffluentTemperature_Color" type="String" length="255"/>
+  <property name="EffluentTemperature2_Color" column="EffluentTemperature2_Color" type="String" length="255"/>
   <property name="MaxGasRate_Color" column="MaxGasRate_Color" type="String" length="255"/>
   <property name="TotalPurgeRate_Color" column="TotalPurgeRate_Color" type="String" length="255"/>
   <property name="ReliefLoad_Color" column="ReliefLoad_Color" type="String" length="255"/>

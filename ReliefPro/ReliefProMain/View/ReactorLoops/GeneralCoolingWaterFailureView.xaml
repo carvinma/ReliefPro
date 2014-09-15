@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-        Title="{DynamicResource GeneralCoolingWaterFailureViewTitle}" Height="508" Width="600" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+        Name="myWindow" Title="{DynamicResource GeneralCoolingWaterFailureViewTitle}" Height="508" Width="600" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
 
     <Grid>
         <Grid.RowDefinitions>
@@ -37,20 +37,21 @@
         <Label Content="{DynamicResource SimulationSolvedUnsolved}"  Grid.Row="10" Grid.Column="1"/>
         <Label Content="{DynamicResource ReliefLoad}"  Grid.Row="11" Grid.Column="1"/>
         <Label Content="{DynamicResource ReliefTemperature}"  Grid.Row="12" Grid.Column="1"/>
-        <Label Content="{DynamicResource ReliefMW}"  Grid.Row="13" Grid.Column="1"/>
-        <Label Content="{DynamicResource ReliefPressure}"  Grid.Row="14" Grid.Column="1"/>
+        <Label Content="{DynamicResource ReliefMW}"  Grid.Row="14" Grid.Column="1"/>
+        <Label Content="{DynamicResource ReliefPressure}"  Grid.Row="13" Grid.Column="1"/>
         <Label x:Name="lblReliefLoad" Content="{Binding Path=model.ReliefLoadUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3"  Grid.Row="11" />
         <Label x:Name="lblReliefTemperature" Content="{Binding Path=model.ReliefTemperatureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="12" />
-        <Label x:Name="lblReliefPressure" Content="{Binding Path=model.ReliefPressureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="14" />
+        <Label x:Name="lblReliefPressure" Content="{Binding Path=model.ReliefPressureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="13" />
 
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}" Text="{Binding Path=model.ReliefLoad,Mode=TwoWay}" Grid.Column="2" Grid.Row="11"  />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}" Text="{Binding Path=model.ReliefTemperature,Mode=TwoWay}" Grid.Column="2" Grid.Row="12" />
-        <TextBox Text="{Binding Path=model.ReliefMW,Mode=TwoWay}" Grid.Column="2" Grid.Row="13"  />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}" Text="{Binding Path=model.ReliefPressure,Mode=TwoWay}" Grid.Column="2" Grid.Row="14" />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}" Text="{Binding Path=model.ReliefLoad,Mode=TwoWay}" Grid.Column="2" Grid.Row="11"  />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}" Text="{Binding Path=model.ReliefTemperature,Mode=TwoWay}" Grid.Column="2" Grid.Row="12" />
+        <TextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.ReliefMW,Mode=TwoWay}" Grid.Column="2" Grid.Row="14"  />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}" Text="{Binding Path=model.ReliefPressure,Mode=TwoWay}" Grid.Column="2" Grid.Row="13" />
 
         <Button Content="{DynamicResource RunCaseSimulation}" Command="{Binding CoolingRunCaseSimulationCMD}" Grid.Column="1" Grid.Row="9" Width="130"  />
         <Button Content="{DynamicResource LaunchSimulator}" Command="{Binding CoolingLaunchSimulatorCMD}" Grid.Column="2"  Grid.Row="9" Width="130" />
         <CheckBox Content="{DynamicResource RecycleCompressorfailure}" IsChecked="{Binding Path=model.RecycleCompressorFailure,Mode=TwoWay}"  HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" />
+        
         <CheckBox Content="{DynamicResource Injectionwaterstream}" IsChecked="{Binding Path=model.CalcInjectionWaterStream,Mode=TwoWay}"  HorizontalAlignment="Left" Grid.Column="1" Grid.Row="3" />
         <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  
                   ItemsSource="{Binding model.lstUtilityHX, Mode=TwoWay}" 
@@ -91,7 +92,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" Grid.Column="1"  />
+            <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="1"  />
             <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="3" />
         </Grid>
 

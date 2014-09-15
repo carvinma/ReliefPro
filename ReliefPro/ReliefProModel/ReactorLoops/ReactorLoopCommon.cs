@@ -11,6 +11,7 @@ namespace ReliefProModel.ReactorLoops
         public virtual int ScenarioID { get; set; }
         public virtual int ReactorType { get; set; }   //0-ReactorLoopBlockedOutlet,1-LossOfReactorQuench,2-LossOfColdFeed
         public virtual double EffluentTemperature { get; set; }
+        public virtual double EffluentTemperature2 { get; set; }
         public virtual double MaxGasRate { get; set; }
         public virtual double TotalPurgeRate { get; set; }
         public virtual double ReliefLoad { get; set; }
@@ -23,6 +24,7 @@ namespace ReliefProModel.ReactorLoops
         public virtual string ScenarioID_Color { get; set; }
         public virtual string ReactorType_Color { get; set; }   //0-ReactorLoopBlockedOutlet,1-LossOfReactorQuench,2-LossOfColdFeed
         public virtual string EffluentTemperature_Color { get; set; }
+        public virtual string EffluentTemperature2_Color { get; set; }
         public virtual string MaxGasRate_Color { get; set; }
         public virtual string TotalPurgeRate_Color { get; set; }
         public virtual string ReliefLoad_Color { get; set; }

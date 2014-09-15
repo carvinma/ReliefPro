@@ -9,6 +9,7 @@ using ReliefProDAL.ReactorLoops;
 using ReliefProModel;
 using ReliefProModel.ReactorLoops;
 using UOMLib;
+using ReliefProCommon.Enum;
 
 namespace ReliefProLL
 {
@@ -27,7 +28,13 @@ namespace ReliefProLL
         {
             var model = dbBlock.GetModelByScenarioID(SessionPS, ScenarioID, ReactorType);
             if (model == null)
+            {
                 model = new ReactorLoopCommon();
+                model.MaxGasRate_Color = ColorBorder.green.ToString();
+                model.TotalPurgeRate_Color = ColorBorder.green.ToString();
+                model.EffluentTemperature_Color = ColorBorder.green.ToString();
+                model.EffluentTemperature2_Color = ColorBorder.green.ToString();
+            }
             return model;
         }
         public ReactorLoopCommon ReadConvertBlockedOutletModel(ReactorLoopCommon model)

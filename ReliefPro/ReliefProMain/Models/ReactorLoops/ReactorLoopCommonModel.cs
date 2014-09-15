@@ -95,6 +95,7 @@ namespace ReliefProMain.Models.ReactorLoops
             dbmodel = model;
             this.reactorType = dbmodel.ReactorType;
             this.effluentTemperature = dbmodel.EffluentTemperature;
+            this.effluentTemperature2 = dbmodel.EffluentTemperature2;
             this.maxGasRate = model.MaxGasRate;
             this.totalPurgeRate = model.TotalPurgeRate;
             this.reliefMW = model.ReliefMW;
@@ -179,6 +180,17 @@ namespace ReliefProMain.Models.ReactorLoops
             }
         }
 
+        private double reliefPressure;
+        public double ReliefPressure
+        {
+            get { return reliefPressure; }
+            set
+            {
+                reliefPressure = value;
+                this.NotifyPropertyChanged("ReliefPressure");
+            }
+        }
+
         private double reliefMW;
         public double ReliefMW
         {
@@ -211,5 +223,28 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("ReliefZ");
             }
         }
+
+        private double effluentTemperature_Color;
+        public double EffluentTemperature_Color
+        {
+            get { return effluentTemperature_Color; }
+            set
+            {
+                effluentTemperature_Color = value;
+                this.NotifyPropertyChanged("EffluentTemperature_Color");
+            }
+        }
+        private double effluentTemperature2_Color;
+        public double EffluentTemperature2_Color
+        {
+            get { return effluentTemperature2_Color; }
+            set
+            {
+                effluentTemperature2_Color = value;
+                this.NotifyPropertyChanged("EffluentTemperature2_Color");
+            }
+        }
+
+
     }
 }
