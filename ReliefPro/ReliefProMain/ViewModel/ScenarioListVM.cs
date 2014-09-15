@@ -1077,10 +1077,10 @@ namespace ReliefProMain.ViewModel
                 list.Add("Blocked Outlet");
                 list.Add("Loss of Liquid Feed");
                 list.Add("Loss of reactor quench");
-                list.Add("Recycle compressor failure");
+                //list.Add("Recycle compressor failure");
                 list.Add("General Electric Power Failure");
                 list.Add("General Cooling Water Failure");
-                list.Add("Depressuring");
+                //list.Add("Depressuring");
             }
             return list;
         }

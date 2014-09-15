@@ -12,21 +12,21 @@ namespace ReliefProMain.CustomControl
     public class UCIntegerTextBox : TextBox
     {
         protected override void OnPreviewKeyDown(KeyEventArgs e)
-        {           
+        {
             //屏蔽非法按键
             if ((e.Key >= Key.D0 && e.Key <= Key.D9)//数字0-9键 
                 || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
                 || e.Key == Key.Back || e.Key == Key.Left || e.Key == Key.Right)//小键盘数字0-9 
             {
-                e.Handled = true;
+                e.Handled = false;
                 return;
             }
             else if (e.Key == Key.Subtract || e.Key == Key.OemMinus)//减号 
             {
                 if (this.Text.IndexOf('-') == -1 && this.SelectionStart == 0)
-                { 
-                    e.Handled = false; 
-                    return; 
+                {
+                    e.Handled = false;
+                    return;
                 }
                 else
                 {
@@ -34,13 +34,13 @@ namespace ReliefProMain.CustomControl
                     return;
                 }
             }
-            e.Handled = false;
+            e.Handled = true;
         }
 
-       
+
         protected override void OnTextChanged(TextChangedEventArgs e)
         {
-            this.Text = int.Parse(this.Text).ToString();
+            this.Text = double.Parse(this.Text).ToString();
         }
     }
 

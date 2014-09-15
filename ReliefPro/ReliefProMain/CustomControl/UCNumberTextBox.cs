@@ -13,30 +13,32 @@ namespace ReliefProMain.CustomControl
     {
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-           
-            //屏蔽非法按键
-            if ((e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) || e.Key == Key.Decimal)
+            //可输入：数字0-9,小数点,减号
+            int PPos = this.Text.IndexOf('.');   //获取当前小数点位置 
+            if ((e.Key >= Key.D0 && e.Key <= Key.D9)//数字0-9键 
+                || (e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
+                || e.Key == Key.Back || e.Key == Key.Left || e.Key == Key.Right)//小键盘数字0-9 
             {
-                if (this.Text.Contains(".") && e.Key == Key.Decimal)
+                if (PPos != -1 && this.SelectionStart > PPos)//可输入小数，且输入点在小数点后 
                 {
-                    e.Handled = true;
-                    return;
+                    e.Handled = false; return;
                 }
-                e.Handled = false;
+                else { e.Handled = false; return; }
             }
-            else if (((e.Key >= Key.D0 && e.Key <= Key.D9) || e.Key == Key.OemPeriod) && e.KeyboardDevice.Modifiers != ModifierKeys.Shift)
+            else if (e.Key == Key.Decimal || e.Key == Key.OemPeriod)//小数点 
             {
-                if (this.Text.Contains(".") && e.Key == Key.OemPeriod)
+                if (PPos == -1)//未输入过小数点,且允许输入小数 
                 {
-                    e.Handled = true;
-                    return;
+                    if (this.SelectionStart == 0) { this.Text = "0."; }
+                    e.Handled = false; return;
                 }
-                e.Handled = false;
             }
-            else
+            else if (e.Key == Key.Subtract || e.Key == Key.OemMinus)//减号 不允许是负数
             {
-                e.Handled = true;
+                if (this.Text.IndexOf('-') == -1 && this.SelectionStart == 0)
+                { e.Handled = true; return; }
             }
+            e.Handled = true;
         }
 
 
