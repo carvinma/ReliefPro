@@ -27,6 +27,8 @@ namespace ReliefProMain.CustomControl
             get { return GetValue(UnitOriginProperty).ToString(); }
             set { SetValue(UnitOriginProperty, value); }
         }
+        private string dbFirstValue = string.Empty;
+        private bool isFirst = true;
         public static readonly DependencyProperty UnitOriginProperty =
            DependencyProperty.Register("UnitOrigin", typeof(string), typeof(UnitConvertTextBox), new PropertyMetadata());
         public UnitConvertTextBox()
@@ -46,6 +48,14 @@ namespace ReliefProMain.CustomControl
         {
             //BindingExpression expresson = this.GetBindingExpression(TextBox.TextProperty);
             //expresson.UpdateSource();
+            if (isFirst)
+            {
+                if (BindingOperations.IsDataBound(this, TextBox.TextProperty))
+                {
+                    dbFirstValue = this.Text.Trim();
+                    isFirst = false;
+                }
+            }
             if (this.GetValue(UnitConvertTextBox.UnitOriginProperty) != null)
             {
                 if (!string.IsNullOrEmpty(preUnit) && preUnit != this.UnitOrigin)
@@ -54,9 +64,13 @@ namespace ReliefProMain.CustomControl
                 }
                 else
                 {
-                    this.SetValue(TextBox.BorderBrushProperty, new SolidColorBrush(Colors.Blue));
+                    if (dbFirstValue == this.Text.Trim())
+                        this.SetValue(TextBox.BorderBrushProperty, new SolidColorBrush(Colors.Green));
+                    else
+                        this.SetValue(TextBox.BorderBrushProperty, new SolidColorBrush(Colors.Blue));
                 }
             }
+
 
         }
 
@@ -68,6 +82,11 @@ namespace ReliefProMain.CustomControl
                 double UnitValue;
                 if (BindingOperations.IsDataBound(this, TextBox.TextProperty))
                 {
+                    //this.DataContext = obj;
+                    //Binding b = new Binding(property);
+                    //b.Mode = BindingMode.TwoWay;
+                    //b.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                    //BindingOperations.SetBinding(textBox, textProp, b);
                 }
 
                 BindingExpression bexp = this.GetBindingExpression(TextBox.TextProperty);
