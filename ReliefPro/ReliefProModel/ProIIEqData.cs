@@ -31,6 +31,8 @@ namespace ReliefProModel
         public virtual string CondenserDuty { get; set; }
         public virtual string ReboilerDuty { get; set; }
         public virtual string DutyCalc { get; set; }
+        public virtual string LmtdCalc { get; set; }
+        public virtual string LmtdFactorCalc { get; set; }
         public virtual string WorkActualCalc { get; set; }
         public virtual string NumberOfTrays { get; set; }
         public virtual string FeedTrays { get; set; }

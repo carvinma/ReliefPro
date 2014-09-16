@@ -153,7 +153,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 d.ReactorType = 2;
                 rlt.Add(d);
             }
-            IList<ProIIEqData> list2 = dal.GetAllList(SessionPF, SourceFileInfo.FileName, "Spliter");
+            IList<ProIIEqData> list2 = dal.GetAllList(SessionPF, SourceFileInfo.FileName, "Splitter");
             var query2 = from s in list2
                         orderby s.EqName
                         select s;
@@ -1004,9 +1004,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             sb.Append(line);
             double duty=0;
             double ltmd = GetLTMD(SessionPF, FileName, hxName,out  duty);
-            double k = 300;
-            double a = duty / ltmd / k;
-            sb.Append(" ,U=").Append(ltmd).Append(",AREA=").Append(a).Append("\r\n");
+            double k = 0.3;  //  KW/m2-K
+            double a = duty / ltmd / k;  //   m2
+            sb.Append(" ,U(KW/MK)=").Append(k).Append(",AREA(M2)=").Append(a).Append("\r\n");
             if (ltmd < 0)
                 errorTag = -1;
             return sb.ToString();

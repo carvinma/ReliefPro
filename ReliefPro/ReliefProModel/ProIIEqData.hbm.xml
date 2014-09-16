@@ -30,6 +30,8 @@
     <property name="CondenserDuty" column="CondenserDuty" type="String" length="255" />
     <property name="ReboilerDuty" column="ReboilerDuty" type="String" length="255" />
     <property name="DutyCalc" column="DutyCalc" type="String" length="255" />
+    <property name="LmtdFactorCalc" column="LmtdFactorCalc" type="String" length="255" />
+    <property name="LmtdCalc" column="LmtdCalc" type="String" length="255" />
     <property name="WorkActualCalc" column="WorkActualCalc" type="String" length="255" />
     <property name="NumberOfTrays" column="NumberOfTrays" type="String" length="255" />
 

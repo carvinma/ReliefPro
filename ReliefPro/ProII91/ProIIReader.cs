@@ -27,7 +27,7 @@ namespace ProII91
         string[] arrColumnAttributes = { "PressureDrop", "Duty", "NumberOfTrays", "HeaterNames", "HeaterDuties", "HeaterNumber", "HeaterPANumberfo", "HeaterRegOrPAFlag", "HeaterTrayLoc", "HeaterTrayNumber" };
         string[] arrColumnInAttributes = { "ProdType", "FeedTrays", "ProdTrays", "FeedData", "ProductData" };
         string[] arrFlashAttributes = { "FeedData", "ProductData", "PressCalc", "TempCalc", "DutyCalc", "Type", "ProductStoreData" };
-        string[] arrHxAttributes = { "FeedData", "ProductData", "DutyCalc", "ProductStoreData" };
+        string[] arrHxAttributes = { "FeedData", "ProductData", "DutyCalc", "ProductStoreData", "LmtdCalc", "LmtdFactorCalc" };
         string[] arrCompressorAttributes = { "FeedData", "ProductData", "ProductStoreData" };
         string[] arrMixerAttributes = { "FeedData", "ProductData" };
         string[] arrSplitterAttributes = { "FeedData", "ProductData" };
