@@ -1003,7 +1003,15 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             line = lines[i];
             sb.Append(line);
             double duty=0;
-            double ltmd = GetLTMD(SessionPF, FileName, hxName,out  duty);
+            double ltmd = 0;// GetLTMD(SessionPF, FileName, hxName, out  duty);
+            ProIIEqDataDAL eqDAL = new ProIIEqDataDAL();
+            ProIIEqData eqData = eqDAL.GetModel(SessionPF, FileName, hxName);
+            double LmtdCalc = double.Parse(eqData.LmtdCalc);
+            double LmtdFactorCalc = double.Parse(eqData.LmtdFactorCalc);
+            if (LmtdFactorCalc == 0)
+                ltmd = GetLTMD(SessionPF, FileName, hxName, out  duty);
+            else
+                ltmd = LmtdCalc / LmtdFactorCalc;
             double k = 0.3;  //  KW/m2-K
             double a = duty / ltmd / k;  //   m2
             sb.Append(" ,U(KW/MK)=").Append(k).Append(",AREA(M2)=").Append(a).Append("\r\n");
