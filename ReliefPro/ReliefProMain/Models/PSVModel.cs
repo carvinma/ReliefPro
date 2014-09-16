@@ -8,10 +8,25 @@ namespace ReliefProMain.Models
 {
     public class PSVModel : ModelBase
     {
-        public PSVModel()
+        public PSV dbmodel;
+        public PSVModel(PSV m)
         {
-            PSVName = "PSV1";
-            ValveNumber = 2;
+            dbmodel= m;
+            this.PSVName = m.PSVName;
+            this.Pressure = m.Pressure;
+            this.ReliefPressureFactor = m.ReliefPressureFactor;
+            this.ValveNumber = m.ValveNumber;
+            this.ValveType = m.ValveType;
+            this.DrumPSVName = m.DrumPSVName;
+            this.Location = m.Location;
+            this.DrumPressure = m.DrumPressure;
+            this.Description = m.Description;
+            this.LocationDescription = m.LocationDescription;
+            this.DischargeTo = m.DischargeTo;
+
+            this._ReliefPressureFactor_Color = m.ReliefPressureFactor_Color;
+            this.Pressure_Color = m.Pressure_Color;
+
         }
         private string _PSVName;
         public string PSVName
@@ -213,6 +228,86 @@ namespace ReliefProMain.Models
             {
                 _CriticalPressure_Color = value;
                 NotifyPropertyChanged("CriticalPressure_Color");
+            }
+        }
+
+        private string _PSVName_Color;
+        public string PSVName_Color
+        {
+            get
+            {
+                return this._PSVName_Color;
+            }
+            set
+            {
+                this._PSVName_Color = value;
+                NotifyPropertyChanged("PSVName_Color");
+            }
+        }
+        private string _DrumPressure_Color;
+        public string DrumPressure_Color
+        {
+            get
+            {
+                return this._DrumPressure_Color;
+            }
+            set
+            {
+                this._DrumPressure_Color = value;
+                NotifyPropertyChanged("DrumPressure_Color");
+            }
+        }
+
+        private string _ReliefPressureFactor_Color;
+        public string ReliefPressureFactor_Color
+        {
+            get
+            {
+                return this._ReliefPressureFactor_Color;
+            }
+            set
+            {
+                this._ReliefPressureFactor_Color = value;
+                NotifyPropertyChanged("ReliefPressureFactor_Color");
+            }
+        }
+
+        private string _Pressure_Color;
+        public string Pressure_Color
+        {
+            get
+            {
+                return this._Pressure_Color;
+            }
+            set
+            {
+                this._Pressure_Color = value;
+                NotifyPropertyChanged("Pressure_Color");
+            }
+        }
+
+        private string psvPressureUnit;
+        public string PSVPressureUnit
+        {
+            get { return psvPressureUnit; }
+            set
+            {
+                psvPressureUnit = value;
+                OnPropertyChanged("PSVPressureUnit");
+            }
+        }
+
+       
+
+
+        private string _CriticalPressureUnit;
+        public string CriticalPressureUnit
+        {
+            get { return _CriticalPressureUnit; }
+            set
+            {
+                _CriticalPressureUnit = value;
+                OnPropertyChanged("CriticalPressureUnit");
             }
         }
     }

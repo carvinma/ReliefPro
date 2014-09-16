@@ -96,15 +96,7 @@ namespace ReliefProMain.Models
                 return _MaxPossiblePressure;
             }
             set
-            {
-                if (dbmodel.MaxPossiblePressure == UnitConvert.Convert(PressureUnit, UOMEnum.Pressure, value) && dbmodel.MaxPossiblePressure_Color == ColorBorder.green.ToString())
-                {
-                    MaxPossiblePressure_Color = ColorBorder.green.ToString();
-                }
-                else
-                {
-                    MaxPossiblePressure_Color = ColorBorder.blue.ToString();
-                }
+            {                
                 _MaxPossiblePressure = value;
                 NotifyPropertyChanged("MaxPossiblePressure");
             }

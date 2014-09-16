@@ -33,6 +33,7 @@ namespace ReliefProMain
             MainWindow v = new MainWindow();
             MainWindowVM vm = new MainWindowVM();
             v.DataContext = vm;
+            //Window1 v = new Window1();
             v.WindowState = WindowState.Maximized;
             v.Show();
 

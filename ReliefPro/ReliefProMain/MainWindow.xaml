@@ -21,20 +21,15 @@
     </Window.Resources>
     <Grid>
         <s:BusyIndicator x:Name="busyCtrl"/>
-        <Grid x:Name="layoutRoot" Background="#cbdbea" Grid.Row="1">
+        <Grid x:Name="layoutRoot" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="800*"/>
             </Grid.RowDefinitions>
 
-            <Border  BorderThickness="0"   Grid.Row="0">
-                <Border.Background>
-                    <SolidColorBrush Color="#cbdbea"/>
-                </Border.Background>
-                <Menu Padding="0" Background="#cbdbea" >
-
-                    <MenuItem Header="File(F)" Background="#cbdbea" >
+            <Menu Grid.Row="0" Background="#cbdbea">
+                    <MenuItem Header="File(F)">
                         <MenuItem Command="{Binding NewPlantCommand}" Header="New Plant" />
                         <Separator />
                         <MenuItem Command="{Binding OpenPlantCommand}" Header="Open Plant" />
@@ -46,22 +41,22 @@
                         <Separator/>
                         <MenuItem Click="MenuItem_Click" Header="Exit"/>
                     </MenuItem> 
-                    <MenuItem Header="Tools(T)" Background="#cbdbea" >
+                    <MenuItem Header="_Tools(T)">
                         <MenuItem Header="Units Of Measure" Click="OnloadUnitOfMeasure" />
                         <MenuItem Header="Plant Explorer"  Click="OnShowPlantExplorer" />
                         <MenuItem Header="ICON"  Click="OnShowICON" />
                        
                     </MenuItem>
-                    <MenuItem Header="Plant(P)" Background="#cbdbea">
-                        <MenuItem Header="Import Simulation" Click="MenuItem_Click" Background="#cbdbea"/>                       
+                    <MenuItem Header="_Plant(P)" >
+                        <MenuItem Header="Import Simulation" Click="MenuItem_Click" />                       
                     </MenuItem>
-                    
-                    <MenuItem Header="Help(H)" Background="#cbdbea">
-                        <MenuItem Header="Help" Background="#cbdbea"/>
-                        <MenuItem Header="About ReliefPro" Background="#cbdbea"/>
+
+                    <MenuItem Header="Help(H)" >
+                        <MenuItem Header="Help" />
+                        <MenuItem Header="About ReliefPro" />
                     </MenuItem>
                 </Menu>
-            </Border>
+            
             <Border Grid.Row="1" BorderThickness="1"  >
                 <Border.Background>
                     <SolidColorBrush Color="#ffffff"/>

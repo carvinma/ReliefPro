@@ -31,12 +31,12 @@
         <Label Content="{DynamicResource PSVSetPressure}" Grid.Row="5"  Grid.Column="1" />
         <Label Content="{DynamicResource TW}" Grid.Row="6" Grid.Column="1" />
 
-        <TextBox Text="{Binding Path=model.VaporMW,Mode=TwoWay}" BorderBrush="{Binding model.VaporMW_Color}" Grid.Column="2"  Grid.Row="1" />
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Vessel,Mode=TwoWay}" BorderBrush="{Binding model.Vessel_Color}" UnitOrigin="{Binding ElementName=lblVessel,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="2"  />
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Temperature,Mode=TwoWay}" BorderBrush="{Binding model.Temperature_Color}" UnitOrigin="{Binding ElementName=lblTempre,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="3"  />
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Pressure,Mode=TwoWay}" BorderBrush="{Binding model.Pressure_Color}" UnitOrigin="{Binding ElementName=lblPre,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="4"  />
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.PSVPressure,Mode=TwoWay}" BorderBrush="{Binding model.PSVPressure_Color}" UnitOrigin="{Binding ElementName=lblPsvPre,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="5"  />
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.TW,Mode=TwoWay}" BorderBrush="{Binding model.TW_Color}" UnitOrigin="{Binding ElementName=lblTW,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="6" />
+        <TextBox Text="{Binding Path=model.VaporMW,Mode=TwoWay}" BorderBrush="{Binding model.VaporMW_Color,Mode=TwoWay}" Grid.Column="2"  Grid.Row="1" />
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Vessel,Mode=TwoWay}" BorderBrush="{Binding model.Vessel_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblVessel,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="2" Height="Auto" Margin="0,0,0,12" VerticalAlignment="Stretch"  />
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Temperature,Mode=TwoWay}" BorderBrush="{Binding model.Temperature_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblTempre,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="3"  />
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Pressure,Mode=TwoWay}" BorderBrush="{Binding model.Pressure_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPre,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="4"  />
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.PSVPressure,Mode=TwoWay}" BorderBrush="{Binding model.PSVPressure_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPsvPre,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="5"  />
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.TW,Mode=TwoWay}" BorderBrush="{Binding model.TW_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblTW,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="6" />
 
         <Label x:Name="lblVessel" Content="{Binding model.VesselUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="2" />
         <Label x:Name="lblTempre" Content="{Binding model.TemperatureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="3" />

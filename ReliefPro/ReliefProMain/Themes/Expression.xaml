@@ -33,14 +33,10 @@
     <SolidColorBrush x:Key="HoverBrush" Color="{StaticResource HoverColor}" />
     <SolidColorBrush x:Key="GlyphBrush" Color="#FFFFFFFF" />
     <!--<SolidColorBrush x:Key="BackBrush" Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>-->
-    <SolidColorBrush x:Key="BackBrush" Color="#f0f0f0"/>
-    
+    <!--<SolidColorBrush x:Key="BackBrush" Color="#f0f0f0"/>-->
+    <SolidColorBrush x:Key="BackBrush" Color="#cbdbea"/> 
 
-    <Style TargetType="{x:Type Window}">
-        <Setter Property="Background" Value="{DynamicResource BackBrush}" />
-        <Setter Property="FontSize" Value="12px" />
-        <Setter Property="FontFamily" Value="Calibri"/>
-    </Style>
+    
     
     <Style TargetType="{x:Type Grid}">
         <Setter Property="Background" Value="{DynamicResource BackBrush}" />
@@ -137,6 +133,7 @@
         <Setter Property="Height" Value="18"/>
         <Setter Property="FontSize" Value="12px" />
         <Setter Property="FontFamily" Value="Calibri"/>
+        <Setter Property="BorderThickness" Value="0,1,0,0"/>
     </Style>
     <Style TargetType="{x:Type CustomControl:CustomComboBox}">
         <Setter Property="HorizontalAlignment" Value="Left"/>

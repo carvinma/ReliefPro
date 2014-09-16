@@ -23,6 +23,31 @@ namespace ReliefProMain.ViewModel
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         UOMLib.UOMEnum uomEnum;
+
+
+        private string _AccumulatorName;
+        public string AccumulatorName
+        {
+            get
+            {
+                return this._AccumulatorName;
+            }
+            set
+            {
+                if (CurrentAccumulator.AccumulatorName == value && CurrentAccumulator.AccumulatorName_Color == ColorBorder.green.ToString())
+                {
+                    this.AccumulatorName_Color = ColorBorder.green.ToString();
+                }
+                else
+                {
+                    this.AccumulatorName_Color = ColorBorder.blue.ToString();
+                }
+
+                this._AccumulatorName = value;
+                OnPropertyChanged("AccumulatorName");
+            }
+        }
+
         private bool _Horiz;
         public bool Horiz
         {
@@ -61,15 +86,7 @@ namespace ReliefProMain.ViewModel
                 return this._Diameter;
             }
             set
-            {
-                if (CurrentAccumulator.Diameter == UnitConvert.Convert(DiameterUnit, uomEnum.UserLength, value))
-                {
-                    this.Diameter_Color = ColorBorder.green.ToString();
-                }
-                else
-                {
-                    this.Diameter_Color = ColorBorder.blue.ToString();
-                }
+            {                
                 this._Diameter = value;
                 if (Horiz)
                 {
@@ -90,14 +107,7 @@ namespace ReliefProMain.ViewModel
             }
             set
             {
-                if (CurrentAccumulator.Length == UnitConvert.Convert(LengthUnit, uomEnum.UserLength, value))
-                {
-                    this.Length_Color = ColorBorder.green.ToString();
-                }
-                else
-                {
-                    this.Length_Color = ColorBorder.blue.ToString();
-                }
+                
                 this._Length = value;
                 if (Vertical)
                 {
@@ -118,20 +128,13 @@ namespace ReliefProMain.ViewModel
             }
             set
             {
-                if (CurrentAccumulator.NormalLiquidLevel == UnitConvert.Convert(NormalLiquidLevelUnit, uomEnum.UserLength, value))
-                {
-                    this.NormalLiquidLevel_Color = ColorBorder.green.ToString();
-                }
-                else
-                {
-                    this.NormalLiquidLevel_Color = ColorBorder.blue.ToString();
-                }
+                
                 this._NormalLiquidLevel = value;
                 OnPropertyChanged("NormalLiquidLevel");
             }
         }
 
-        private string accumulatorName_Color = ColorBorder.blue.ToString();
+        private string accumulatorName_Color;
         public string AccumulatorName_Color
         {
             get
@@ -145,7 +148,7 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("AccumulatorName_Color");
             }
         }
-        private string _Diameter_Color = ColorBorder.blue.ToString();
+        private string _Diameter_Color;
         public string Diameter_Color
         {
             get
@@ -160,7 +163,7 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private string _Length_Color = ColorBorder.blue.ToString();
+        private string _Length_Color;
         public string Length_Color
         {
             get
@@ -174,7 +177,7 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("Length_Color");
             }
         }
-        private string _NormalLiquidLevel_Color = ColorBorder.blue.ToString();
+        private string _NormalLiquidLevel_Color;
         public string NormalLiquidLevel_Color
         {
             get
@@ -209,6 +212,7 @@ namespace ReliefProMain.ViewModel
 
             AccumulatorDAL db = new AccumulatorDAL();
             CurrentAccumulator = db.GetModel(SessionProtectedSystem);
+            AccumulatorName = CurrentAccumulator.AccumulatorName;
             Diameter = CurrentAccumulator.Diameter;
             Length = CurrentAccumulator.Length;
             NormalLiquidLevel = CurrentAccumulator.NormalLiquidLevel;
@@ -247,24 +251,29 @@ namespace ReliefProMain.ViewModel
         {
             if (!this.CheckData()) return;
             WriteConvert();
-            CurrentAccumulator.AccumulatorName = CurrentAccumulator.AccumulatorName.Trim();
-            if (CurrentAccumulator.AccumulatorName == "")
+            
+            if (string.IsNullOrEmpty(AccumulatorName))
             {
-                throw new ArgumentException("Please type in a name for the Accumulator.");
+                //throw new ArgumentException("Please type in a name for the Accumulator.");
+                MessageBox.Show("Please type in a name for the Accumulator.", "Message Box");
             }
 
             AccumulatorDAL db = new AccumulatorDAL();
-            Accumulator m = db.GetModel(SessionProtectedSystem);
+            
+            CurrentAccumulator.AccumulatorName =AccumulatorName;
+            CurrentAccumulator.Diameter = Diameter;
+            CurrentAccumulator.Length = Length;
+            CurrentAccumulator.NormalLiquidLevel = NormalLiquidLevel;
+            CurrentAccumulator.AccumulatorName_Color = accumulatorName_Color;
+            CurrentAccumulator.Diameter_Color = Diameter_Color;
+            CurrentAccumulator.Length_Color = Length_Color;
+            CurrentAccumulator.NormalLiquidLevel_Color = NormalLiquidLevel_Color;
 
-            m.AccumulatorName = CurrentAccumulator.AccumulatorName;
-            m.Diameter = Diameter;
-            m.Length = Length;
-            m.NormalLiquidLevel = NormalLiquidLevel;
             if (Horiz)
-                m.Orientation = true;
+                CurrentAccumulator.Orientation = true;
             else
-                m.Orientation = false;
-            db.Update(m, SessionProtectedSystem);
+                CurrentAccumulator.Orientation = false;
+            db.Update(CurrentAccumulator, SessionProtectedSystem);
             SessionProtectedSystem.Flush();
 
 
@@ -278,20 +287,20 @@ namespace ReliefProMain.ViewModel
 
         private void ReadConvert()
         {
-            if (_Diameter != null)
+            //if (_Diameter != null)
                 _Diameter = UnitConvert.Convert(UOMEnum.Length, _DiameterUnit, _Diameter);
-            if (_Length != null)
+            //if (_Length != null)
                 _Length = UnitConvert.Convert(UOMEnum.Length, _LengthUnit, _Length);
-            if (_NormalLiquidLevel != null)
+            //if (_NormalLiquidLevel != null)
                 _NormalLiquidLevel = UnitConvert.Convert(UOMEnum.Length, _NormalLiquidLevelUnit, _NormalLiquidLevel);
         }
         private void WriteConvert()
         {
-            if (_Diameter != null)
+            //if (_Diameter != null)
                 _Diameter = UnitConvert.Convert(_DiameterUnit, UOMEnum.Length, _Diameter);
-            if (_Length != null)
+            //if (_Length != null)
                 _Length = UnitConvert.Convert(_LengthUnit, UOMEnum.Length, _Length);
-            if (_NormalLiquidLevel != null)
+            //if (_NormalLiquidLevel != null)
                 _NormalLiquidLevel = UnitConvert.Convert(_NormalLiquidLevelUnit, UOMEnum.Length, _NormalLiquidLevel);
         }
         private void InitUnit()

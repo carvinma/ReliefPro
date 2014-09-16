@@ -10,6 +10,7 @@
     <property name="MaxPossiblePressure" column="MaxPossiblePressure" type="Double"  />
     <property name="IsMaintained" column="IsMaintained" type="bool"  />
     <property name="SourceName_Color" column="SourceName_Color" type="String" length="255" />
+    <property name="SourceType_Color" column="SourceType_Color" type="String" length="255" />
     <property name="Description_Color" column="Description_Color" type="String" length="255" />
     <property name="MaxPossiblePressure_Color" column="MaxPossiblePressure_Color" type="String" length="255" />
     <property name="IsMaintained_Color" column="IsMaintained_Color" type="String" length="255" />
