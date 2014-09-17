@@ -459,7 +459,7 @@ namespace ReliefProMain.ViewModel
                     else if (ScenarioName.Contains("LossofLiquidFeed"))
                     {
                         LossOfColdFeedView v = new LossOfColdFeedView();
-                        ReactorLoopCommonVM vm = new ReactorLoopCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 2);
+                        GeneralFailureCommonVM vm = new GeneralFailureCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 2);                       
                         v.DataContext = vm;
                         if (v.ShowDialog() == true)
                         {

@@ -33,7 +33,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private SourceFile SourceFileInfo;
         private string DirPlant;
         private string DirProtectedSystem;
-
+        private string coldVaporStream;
+        private CustomStream compressorH2Stream;
         public GeneralFailureCommonModel model { get; set; }
         private GeneralFailureCommonBLL generalBLL;
         private void InitCMD()
@@ -69,6 +70,16 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             this.DirProtectedSystem = DirProtectedSystem;
             InitCMD();
             InitPage();
+
+            ReactorLoopDAL rldal = new ReactorLoopDAL();
+            ReactorLoop rl = rldal.GetModel(SessionPS);
+            ProIIEqDataDAL eqDataDAL = new ProIIEqDataDAL();
+            ProIIEqData eqData = eqDataDAL.GetModel(SessionPF, SourceFileInfo.FileName, rl.ColdHighPressureSeparator);
+            int idx = eqData.ProductData.IndexOf(",");
+            coldVaporStream = eqData.ProductData.Substring(0, idx);
+            ProIIStreamDataDAL streamDataDAL = new ProIIStreamDataDAL();
+            ProIIStreamData streamData = streamDataDAL.GetModel(SessionPF, rl.CompressorH2Stream, SourceFileInfo.FileName);
+            compressorH2Stream = ProIIToDefault.ConvertProIIStreamToCustomStream(streamData);
 
             generalBLL = new GeneralFailureCommonBLL(SessionPS, SessionPF);
             GeneralFailureCommon commonModel = new GeneralFailureCommon();
@@ -117,7 +128,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         {
             string rpPrzFile = DirProtectedSystem + @"\myrp\myrp.prz";
             string rpInpDir = DirProtectedSystem + @"\myrp";
-            string caseDir = DirProtectedSystem + @"\GeneralElectricPowerFailure";
+            string caseDir = DirProtectedSystem + @"\CoolingWaterFailure";
             PROIIFileOperator.DecompressProIIFile(rpPrzFile, rpInpDir);
             string inpFile = rpInpDir + @"\myrp.inp";
             string[] lines = System.IO.File.ReadAllLines(inpFile);
@@ -127,8 +138,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
             ReactorLoopDAL rldal = new ReactorLoopDAL();
             ReactorLoop rl = rldal.GetModel(SessionPS);
-            InpPosInfo spi1 = GetStreamPosInfo(lines, rl.CompressorH2Stream, "TEMPERATURE=", "1e-8");
-            InpPosInfo spi2 = GetStreamPosInfo(lines, rl.InjectionWaterStream, "TEMPERATURE=", "1e-8");
+            InpPosInfo spi1 = GetStreamPosInfo(lines, rl.CompressorH2Stream, "RATE(KGM/S)=", "1e-3");
+            InpPosInfo spi2 = GetStreamPosInfo(lines, rl.InjectionWaterStream, "RATE(KGM/S)=", "1e-3");
 
             foreach (GeneralFailureHXModel m in model.lstUtilityHX)
             {
@@ -140,59 +151,50 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     list.Add(spi);
                 }
             }
-            if (model.RecycleCompressorFailure)
+
+            for (int i = 0; i < lines.Length; i++)
             {
-                for (int i = 0; i < lines.Length; i++)
+                bool b = false;
+                if (model.RecycleCompressorFailure)
                 {
                     if (spi1 != null && i == spi1.start)
                     {
                         sb.Append(spi1.NewInfo);
                         i = spi1.end;
-                    }
-                    else if (spi2 != null && i == spi2.start)
-                    {
-                        sb.Append(spi2.NewInfo);
-                        i = spi2.end;
-                    }
-                    else
-                    {
-                        string line = lines[i];
-                        sb.Append(line).Append("\r\n");
+                        b = true;
                     }
                 }
-            }
-            else
-            {
-                for (int i = 0; i < lines.Length; i++)
+
+                if (model.CalcInjectionWaterStream)
                 {
-                    bool b = false;
                     if (spi2 != null && i == spi2.start)
                     {
                         sb.Append(spi2.NewInfo);
                         i = spi2.end;
                         b = true;
                     }
-                    
-                    foreach (InpPosInfo spi in list)
+                }
+
+                foreach (InpPosInfo spi in list)
+                {
+                    if (spi != null && i == spi.start )
                     {
-                        if (spi != null && i == spi.start)
-                        {
-                            sb.Append(spi.NewInfo);
-                            i = spi.end;
-                            b = true;
-                            break;
-                        }
+                        sb.Append(spi.NewInfo);
+                        i = spi.end;
+                        b = true;
+                        break;
                     }
-                    if (!b)
-                    {
-                        string line = lines[i];
-                        sb.Append(line).Append("\r\n");
-                    }
+                }
+                if (!b)
+                {
+                    string line = lines[i];
+                    sb.Append(line).Append("\r\n");
                 }
             }
 
+
             //保存inpdata 到文件。
-            string newInpDir = DirProtectedSystem + @"\GeneralElectricPowerFailure";
+            string newInpDir = DirProtectedSystem + @"\CoolingWaterFailure";
             if (!Directory.Exists(newInpDir))
             {
                 Directory.CreateDirectory(newInpDir);
@@ -208,31 +210,26 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
-                {                    
+                {
                     IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(newPrzFile);
-                    if (!string.IsNullOrEmpty(rl.ColdReactorFeedStream))
+
+                    ProIIStreamData proiiStream = reader.GetSteamInfo(coldVaporStream);
+                    CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proiiStream);
+                    if (model.RecycleCompressorFailure)
                     {
-                        ProIIStreamData proiiStream = reader.GetSteamInfo(rl.ColdReactorFeedStream);
-                        CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proiiStream);
                         model.ReliefLoad = cs.WeightFlow;
-                        model.ReliefMW = cs.BulkMwOfPhase;
-                        model.ReliefTemperature = cs.Temperature;
-                        model.ReliefPressure = cs.Pressure;
-                        model.ReliefCpCv = cs.BulkCPCVRatio;
-                        model.ReliefZ = cs.VaporZFmKVal;
                     }
-                    else if (!string.IsNullOrEmpty(rl.ColdReactorFeedStream2))
+                    else
                     {
-                        ProIIStreamData proiiStream = reader.GetSteamInfo(rl.ColdReactorFeedStream2);
-                        CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proiiStream);
-                        model.ReliefLoad = cs.WeightFlow;
-                        model.ReliefMW = cs.BulkMwOfPhase;
-                        model.ReliefTemperature = cs.Temperature;
-                        model.ReliefPressure = cs.Pressure;
-                        model.ReliefCpCv = cs.BulkCPCVRatio;
-                        model.ReliefZ = cs.VaporZFmKVal;
+                        model.ReliefLoad = 1.1 * cs.BulkDensityAct * (cs.WeightFlow / cs.BulkDensityAct - compressorH2Stream.WeightFlow / compressorH2Stream.BulkDensityAct);
                     }
+                    model.ReliefMW = cs.BulkMwOfPhase;
+                    model.ReliefTemperature = cs.Temperature;
+                    model.ReliefPressure = cs.Pressure;
+                    model.ReliefCpCv = cs.BulkCPCVRatio;
+                    model.ReliefZ = cs.VaporZFmKVal;
+
                     reader.ReleaseProIIReader();
                 }
 
@@ -326,28 +323,18 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
                     IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(newPrzFile);
-                    if (!string.IsNullOrEmpty(rl.ColdReactorFeedStream))
-                    {
-                        ProIIStreamData proiiStream = reader.GetSteamInfo(rl.ColdReactorFeedStream);
-                        CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proiiStream);
-                        model.ReliefLoad = cs.WeightFlow;
-                        model.ReliefMW = cs.BulkMwOfPhase;
-                        model.ReliefTemperature = cs.Temperature;
-                        model.ReliefPressure = cs.Pressure;
-                        model.ReliefCpCv = cs.BulkCPCVRatio;
-                        model.ReliefZ = cs.VaporZFmKVal;
-                    }
-                    else if (!string.IsNullOrEmpty(rl.ColdReactorFeedStream2))
-                    {
-                        ProIIStreamData proiiStream = reader.GetSteamInfo(rl.ColdReactorFeedStream2);
-                        CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proiiStream);
-                        model.ReliefLoad = cs.WeightFlow;
-                        model.ReliefMW = cs.BulkMwOfPhase;
-                        model.ReliefTemperature = cs.Temperature;
-                        model.ReliefPressure = cs.Pressure;
-                        model.ReliefCpCv = cs.BulkCPCVRatio;
-                        model.ReliefZ = cs.VaporZFmKVal;
-                    }
+
+                    ProIIStreamData proiiStream = reader.GetSteamInfo(coldVaporStream);
+                    CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proiiStream);
+                    double v1 = cs.WeightFlow / cs.BulkDensityAct;
+                    double v2=compressorH2Stream.WeightFlow / compressorH2Stream.BulkDensityAct;
+                    model.ReliefLoad = 1.1 * cs.BulkDensityAct * (v1-v2 );
+                    model.ReliefMW = cs.BulkMwOfPhase;
+                    model.ReliefTemperature = cs.Temperature;
+                    model.ReliefPressure = cs.Pressure;
+                    model.ReliefCpCv = cs.BulkCPCVRatio;
+                    model.ReliefZ = cs.VaporZFmKVal;
+
                     reader.ReleaseProIIReader();
                 }
 
@@ -457,6 +444,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     if (!b)
                     {
                         attrvalue = "OPER " + rewriteAttr + rewriteValue;
+                        list.Add(attrvalue);
                     }
                     break;
                 }
@@ -464,7 +452,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 {
                     b = true;
                     attrvalue = "OPER " + rewriteAttr + rewriteValue;
-                    list.Add(line);
+                    list.Add(attrvalue);
                 }
                 else
                 {

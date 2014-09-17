@@ -300,6 +300,12 @@ namespace ProII92
                         case "DutyCalc":
                             data.DutyCalc = value;
                             break;
+                        case "LmtdCalc":
+                            data.LmtdCalc = value;
+                            break;
+                        case "LmtdFactorCalc":
+                            data.LmtdFactorCalc = value;
+                            break;
                         case "ProductStoreData":
                             data.ProductStoreData = value;
                             break;
