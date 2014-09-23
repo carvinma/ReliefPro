@@ -18,7 +18,7 @@
             <ColumnDefinition Width="26*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="18"/>
+            <RowDefinition Height="18*"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
@@ -27,7 +27,7 @@
             <RowDefinition Height="100"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="23"/>
-            <RowDefinition Height="*"/>
+            
 
         </Grid.RowDefinitions>
         <Loading:BusyIndicator x:Name="busyCtrl" IsBusy="{Binding IsBusy}" />
