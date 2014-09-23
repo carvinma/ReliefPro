@@ -298,6 +298,9 @@ namespace ReliefProMain
                     case "Save Plant":
                         SavePlant();
                         break;
+                    case "Close Plant":
+                        
+                        break;
                     case "Import Simulation":
                         ImportExtraData();
                         break;

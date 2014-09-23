@@ -1013,7 +1013,7 @@ namespace ReliefProMain.ViewModel
                     list.Add("Reflux Failure");
                     list.Add("General Electric Power Failure");
                     list.Add("Partial Electric Power Failure");
-                    list.Add("Cooling Water Failure");
+                    list.Add("General Cooling Water Failure");
                     list.Add("Refrigerant Failure");
                     list.Add("PumpAround Failure");
                     list.Add("Abnormal Heat Input");
@@ -1035,7 +1035,7 @@ namespace ReliefProMain.ViewModel
                     list.Add("Reflux Failure");
                     list.Add("General Electric Power Failure");
                     list.Add("Partial Electric Power Failure");
-                    list.Add("Cooling Water Failure");
+                    list.Add("General Cooling Water Failure");
                     list.Add("Refrigerant Failure");
                     list.Add("Inlet Valve Fails Open");
                     list.Add("Fire");
@@ -1114,7 +1114,7 @@ namespace ReliefProMain.ViewModel
                 case "PartialElectricPowerFailure":
                     factor = model.GeneralElectricPowerFailure;
                     break;
-                case "CoolingWaterFailure":
+                case "GeneralCoolingWaterFailure":
                     factor = model.CoolingWaterFailure;
                     break;
                 case "RefrigerantFailure":
