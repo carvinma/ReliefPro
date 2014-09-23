@@ -150,21 +150,46 @@ namespace ReliefProCommon.CommonLib
                     string key = s.Substring(start + 1, end - start - 1);
                     if (!keys.Contains(key.ToLower()))
                     {
-                        //更改方法和名字
-                        int st = s.IndexOf("SET=");
-                        string methodName = s.Substring(st);
-                        int ed = methodName.IndexOf(",");
+                        string result = s.Replace("METHOD SYSTEM=" + key, "METHOD SYSTEM=SRK");
+                        sb.Append(result).Append("\r\n");
 
-                        string mName = s.Substring(st);
-                        if (ed != -1)
+                        if (s.Contains("&"))
                         {
-                            mName = methodName.Substring(0, ed);
+                            i++;
+                            s = lines[i];
+                            while (s.Contains("&"))
+                            {
+                                sb.Append(s).Append("\r\n");
+                                i++;
+                                s = lines[i];
+                                
+                            }
+                            sb.Append(s).Append("\r\n");
                         }
-                        string result = "METHOD SYSTEM=SRK," + mName;
-                        sb.Append(result).Append("\n");
+                        
+                        ////////更改方法和名字
+                        //////int st = s.IndexOf("SET=");
+                        //////while (st == -1)
+                        //////{
+                        //////    sb.Append(s).Append("\n");
+                        //////    i++;
+                        //////    s = lines[i];
+                        //////    st = s.IndexOf("SET=");
+                        //////}
+                        //////string methodName = s.Substring(st);
+                        //////int ed = methodName.IndexOf(",");
+
+                        //////string mName = s.Substring(st);
+                        //////if (ed != -1)
+                        //////{
+                        //////    mName = methodName.Substring(0, ed);
+                        //////}
+
+                        //////string result = "METHOD SYSTEM=SRK," + mName;
+                        //////sb.Append(result).Append("\n");
                     }
                     else
-                        sb.Append(s).Append("\n");
+                        sb.Append(s).Append("\r\n");
                     i++;
 
                     s = lines[i];
@@ -229,13 +254,13 @@ namespace ReliefProCommon.CommonLib
                     {
                         s = s.Replace(subS, "REFSTREAM=" + streamName);
                     }
-                    sb.Append(s).Append("\n");
+                    sb.Append(s).Append("\r\n");
 
                     i++;
                 }
                 else
                 {
-                    sb.Append(s).Append("\n");
+                    sb.Append(s).Append("\r\n");
                     i++;
                 }
 
