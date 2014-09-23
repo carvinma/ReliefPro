@@ -79,11 +79,13 @@ namespace ReliefProMain.ViewModel.Reports
         }
 
 
+        private ReportBLL reportBLL;
         public PlantSummaryVM(List<Tuple<int, List<string>>> UnitPath)
         {
             ProcessUnitPath = UnitPath;
             listPlantReportDS = new List<PlantSummaryGridDS>();
-            report = new ReportBLL();
+
+            report = new ReportBLL(UnitPath[0].Item1, UnitPath[0].Item2);
             listPlantCalc = report.listPlantCalc;
             listDischargeTo = report.GetDisChargeTo();
             if (listDischargeTo.Count > 0)
@@ -107,11 +109,11 @@ namespace ReliefProMain.ViewModel.Reports
         }
         private void InitPUnitReportDS(string ReportDischargeTo, int UnitID, List<string> UnitPath)
         {
-            ReportBLL reportBLL = new ReportBLL(UnitID, UnitPath);
-            List<PSV> listPSV = reportBLL.PSVBag.ToList();
+            // reportBLL = new ReportBLL(UnitID, UnitPath);
+            List<PSV> listPSV = report.PSVBag.ToList();
             listPSV = listPSV.Where(p => p.DischargeTo == ReportDischargeTo).ToList();
-            listPUReportDS = reportBLL.GetPuReprotDS(listPSV);
-            PlantSummaryGridDS psDS = reportBLL.GetPlantReprotDS(listPUReportDS, 0);
+            listPUReportDS = report.GetPuReprotDS(listPSV);
+            PlantSummaryGridDS psDS = report.GetPlantReprotDS(listPUReportDS, 0);
             if (psDS != null)
             {
                 listPlantReportDS.Clear();

@@ -336,7 +336,7 @@ namespace ReliefProLL
         }
         private void GenerateDbSession()
         {
-            ProcessUnitReportPath.AsParallel().ForAll(p =>
+            ProcessUnitReportPath.ForEach(p =>
             {
                 var findSession = lstSession.Find(s => s.Connection.ConnectionString == p);
                 if (findSession == null)
@@ -347,8 +347,10 @@ namespace ReliefProLL
 
                     if (p.Contains("plant.mdb"))
                     {
-                        SessionPlant = findSession;
-                        GetProcessUnitName(findSession);
+                        
+                            SessionPlant = findSession;
+                            GetProcessUnitName(findSession);
+                        
                     }
                     else
                     {
