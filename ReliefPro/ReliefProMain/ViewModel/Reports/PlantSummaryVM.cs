@@ -109,7 +109,7 @@ namespace ReliefProMain.ViewModel.Reports
         }
         private void InitPUnitReportDS(string ReportDischargeTo, int UnitID, List<string> UnitPath)
         {
-            // reportBLL = new ReportBLL(UnitID, UnitPath);
+            report = new ReportBLL(UnitID, UnitPath);
             List<PSV> listPSV = report.PSVBag.ToList();
             listPSV = listPSV.Where(p => p.DischargeTo == ReportDischargeTo).ToList();
             listPUReportDS = report.GetPuReprotDS(listPSV);
