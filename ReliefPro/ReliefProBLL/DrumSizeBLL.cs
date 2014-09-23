@@ -8,6 +8,7 @@ using ReliefProDAL.Drums;
 using ReliefProModel;
 using ReliefProModel.Drums;
 using UOMLib;
+using ReliefProCommon.Enum;
 
 namespace ReliefProLL
 {
@@ -33,7 +34,17 @@ namespace ReliefProLL
             }
             else
             {
-
+                Model.Orientation = "Vertical";
+                Model.HeadType = "Eclipse";
+                Model.BootDiameter_Color = ColorBorder.green.ToString();
+                Model.BootHeight_Color = ColorBorder.green.ToString();
+                Model.Diameter_Color = ColorBorder.green.ToString();
+                Model.Elevation_Color = ColorBorder.green.ToString();
+                Model.HeadNumber_Color = ColorBorder.green.ToString();
+                Model.HeadType_Color = ColorBorder.green.ToString();
+                Model.Length_Color = ColorBorder.green.ToString();
+                Model.NormalLiquidLevel_Color = ColorBorder.green.ToString();
+                Model.Orientation_Color = ColorBorder.green.ToString();
             }
             return Model;
         }

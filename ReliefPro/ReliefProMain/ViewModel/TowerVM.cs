@@ -354,12 +354,8 @@ namespace ReliefProMain.ViewModel
                             Products.Add(cstream);
                         }
                     }
-
-
-
-
                 }
-
+                
             }
         }
 

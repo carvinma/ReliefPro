@@ -17,6 +17,7 @@ using ReliefProModel.Compressors;
 using ReliefProDAL.Compressors;
 using ReliefProMain.Models.Compressors;
 using ReliefProBLL;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.ViewModel
 {
@@ -29,7 +30,7 @@ namespace ReliefProMain.ViewModel
         public SourceFile SourceFileInfo { set; get; }
         public string FileName { set; get; }
         private ProIIEqData ProIICompressor;
-
+        public int op;
         public CompressorModel model { set; get; }
         List<string> dicFeeds = new List<string>();
         List<string> dicProducts = new List<string>();
@@ -38,7 +39,19 @@ namespace ReliefProMain.ViewModel
         CustomStreamBLL csbll;
         CompressorBLL compressorbll;
         SourceFileBLL sourcebll;
-
+        private string _ColorImport;
+        public string ColorImport
+        {
+            get
+            {
+                return this._ColorImport;
+            }
+            set
+            {
+                this._ColorImport = value;
+                OnPropertyChanged("ColorImport");
+            }
+        }
         public CompressorVM(string CompressorName, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
             csbll = new CustomStreamBLL( sessionPlant,sessionProtectedSystem);
@@ -60,14 +73,18 @@ namespace ReliefProMain.ViewModel
                 SourceFileDAL sfdal = new SourceFileDAL();
                 SourceFileInfo = sfdal.GetModel(compressor.SourceFile, SessionPlant);
                 FileName = compressor.SourceFile;
-
+                ColorImport = ColorBorder.blue.ToString();
+                op = 1;
             }
             else
             {
+                ColorImport = ColorBorder.red.ToString();
                 ObservableCollection<CustomStream> Feeds = new ObservableCollection<CustomStream>();
                 ObservableCollection<CustomStream> Products = new ObservableCollection<CustomStream>();
                 Compressor compressor = new Compressor();
+                compressor.CompressorType = "Centrifugal";
                 model = new CompressorModel(compressor, Feeds, Products);
+                op = 0;
             }
         }
         private ICommand _ImportCommand;
@@ -93,6 +110,7 @@ namespace ReliefProMain.ViewModel
             {
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
                 {
+                    op = 0;
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
                     ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
                     FileName = vm.SelectedFile;
@@ -125,7 +143,10 @@ namespace ReliefProMain.ViewModel
                         model.Products.Add(cstream);
                     }
 
+                    ColorImport = ColorBorder.blue.ToString();
+                    
                 }
+                
             }
         }
 
@@ -169,6 +190,12 @@ namespace ReliefProMain.ViewModel
         }
         public void Save(object obj)
         {
+            if (string.IsNullOrEmpty(model.CompressorName))
+            {
+                MessageBox.Show("You must Import Data first.", "Message Box");
+                ColorImport = ColorBorder.red.ToString();
+                return;
+            }
             ProtectedSystem ps = new ProtectedSystem();
             ps.PSType = 3;
             compressorbll.Save(model.dbmodel, model.Feeds, model.Products, ps);

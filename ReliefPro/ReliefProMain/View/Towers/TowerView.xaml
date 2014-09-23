@@ -27,7 +27,7 @@
         <TextBox Name="txtName" IsEnabled="False"  Text="{Binding TowerName}" Grid.Column="3" Grid.Row="1"/>
         <Label Content="{DynamicResource Description}" Grid.Column="2" Grid.Row="4" />
         <TextBox Name="txtDescription" TextWrapping="Wrap" Text="{Binding Description}" Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="2" Width="200"/>
-        <Button Name="btnImport" Content="{DynamicResource ImportFromDatabase}" HorizontalAlignment="Left" VerticalAlignment="Top"  Width="150" Command="{Binding ImportCommand}" Grid.Row="1" Grid.Column="4" BorderThickness="1"  BorderBrush="{Binding ColorImport}" />
+        <Button Name="btnImport" Content="{DynamicResource ImportFromDatabase}" HorizontalAlignment="Left" VerticalAlignment="Top"  Width="150" Command="{Binding ImportCommand}" Grid.Row="1" Grid.Column="4" BorderThickness="1"  BorderBrush="{Binding ColorImport,Mode=TwoWay}" />
         <Label Content="{DynamicResource StageNumber}" Grid.Row="2" Grid.Column="2" />
         <Label Content="{DynamicResource TowerType}" Grid.Row="3" Grid.Column="2" />
         <TextBox IsEnabled="False" Name="txtStageNumber"  TextWrapping="Wrap" Text="{Binding StageNumber}" Grid.Column="3" Grid.Row="2"/>

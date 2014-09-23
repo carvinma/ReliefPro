@@ -14,6 +14,7 @@ using UOMLib;
 using NHibernate;
 using ReliefProMain.View;
 using ReliefProMain.Models;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.ViewModel.StorageTanks
 {
@@ -41,6 +42,19 @@ namespace ReliefProMain.ViewModel.StorageTanks
         }
         private CustomStreamDAL db;
         UOMLib.UOMEnum uomEnum;
+        private string _ColorImport;
+        public string ColorImport
+        {
+            get
+            {
+                return this._ColorImport;
+            }
+            set
+            {
+                this._ColorImport = value;
+                OnPropertyChanged("ColorImport");
+            }
+        }
         public StorageTankVM(string name, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
             SessionPlant = sessionPlant;
@@ -60,6 +74,14 @@ namespace ReliefProMain.ViewModel.StorageTanks
                 CurrentModel = new CustomStreamModel(cs);
                 InitUnit();
                 ReadConvert();
+                ColorImport = ColorBorder.blue.ToString();
+            }
+            else
+            {
+                CustomStream cs = new CustomStream();
+                CurrentModel = new CustomStreamModel(cs);
+                ColorImport = ColorBorder.red.ToString();
+                InitUnit();               
             }
             OKCMD = new DelegateCommand<object>(Save);
         }
@@ -87,6 +109,7 @@ namespace ReliefProMain.ViewModel.StorageTanks
             {
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
                 {
+                    ColorImport = ColorBorder.blue.ToString();
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
                     ProIIStreamDataDAL proIIStreamDataDAL = new ProIIStreamDataDAL();
                     FileName = vm.SelectedFile;
@@ -94,7 +117,10 @@ namespace ReliefProMain.ViewModel.StorageTanks
                     CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(data);
                     CurrentModel = new CustomStreamModel(cs);
                     SourceFileInfo = vm.SourceFileInfo;
+                    InitUnit();
+                    ReadConvert();
                 }
+                
             }
         }
 
@@ -133,6 +159,12 @@ namespace ReliefProMain.ViewModel.StorageTanks
         }
         private void Save(object obj)
         {
+            if ( string.IsNullOrEmpty(CurrentModel.StreamName))
+            {
+                MessageBox.Show("You must Import Data first.", "Message Box");
+                ColorImport = ColorBorder.red.ToString();
+                return;
+            }
             if (obj != null)
             {
                 WriteConvert();

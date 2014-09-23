@@ -147,7 +147,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 {
                     ProIIEqData eqdata = eqdatadal.GetModel(SessionPF, SourceFileInfo.FileName, m.HXName.ToUpper());
                     double duty = double.Parse(eqdata.DutyCalc) * m.DutyFactor;//不需要转换单位了。因为它将用于proii文件中
-                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty=", duty.ToString());
+                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty=", (duty / 10e6).ToString());
                     list.Add(spi);
                 }
             }
@@ -266,7 +266,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 {
                     ProIIEqData eqdata = eqdatadal.GetModel(SessionPF, SourceFileInfo.FileName, m.HXName.ToUpper());
                     double duty = double.Parse(eqdata.DutyCalc) * m.DutyFactor;//不需要转换单位了。因为它将用于proii文件中
-                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty=", duty.ToString());
+                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty=", (duty/10e6).ToString());
                     list.Add(spi);
                 }
             }
@@ -276,7 +276,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 {
                     ProIIEqData eqdata = eqdatadal.GetModel(SessionPF, SourceFileInfo.FileName, m.HXName.ToUpper());
                     double duty = double.Parse(eqdata.DutyCalc) * m.DutyFactor;//不需要转换单位了。因为它将用于proii文件中
-                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty=", duty.ToString());
+                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty=", (duty / 10e6).ToString());
                     list.Add(spi);
                 }
             }

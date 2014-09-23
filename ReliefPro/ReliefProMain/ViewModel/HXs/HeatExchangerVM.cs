@@ -16,6 +16,7 @@ using UOMLib;
 using ReliefProModel.HXs;
 using ReliefProDAL.HXs;
 using ReliefProBLL;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.ViewModel
 {
@@ -27,6 +28,8 @@ namespace ReliefProMain.ViewModel
         private string DirProtectedSystem { set; get; }
         public SourceFile SourceFileInfo { set; get; }
         public string FileName { set; get; }
+
+        public int op=1;
         private ProIIEqData ProIIHX;
         private ObservableCollection<string> _HXTypes;
         public ObservableCollection<string> HXTypes
@@ -105,6 +108,21 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("Products");
             }
         }
+
+        private string _ColorImport;
+        public string ColorImport
+        {
+            get
+            {
+                return this._ColorImport;
+            }
+            set
+            {
+                this._ColorImport = value;
+                OnPropertyChanged("ColorImport");
+            }
+        }
+
         List<string> dicFeeds = new List<string>();
         List<string> dicProducts = new List<string>();
         List<string> dicProductTypes = new List<string>();
@@ -115,9 +133,11 @@ namespace ReliefProMain.ViewModel
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
             HXTypes = GetHXTypes();
+            HXType = HXTypes[0];
             this.HXName = HXName;
             if (!string.IsNullOrEmpty(HXName))
             {
+                op = 1;
                 HXType = HXTypes[0];
                 Feeds = GetStreams(SessionProtectedSystem, false);
                 Products = GetStreams(SessionProtectedSystem, true);
@@ -135,7 +155,8 @@ namespace ReliefProMain.ViewModel
             }
             else
             {
-
+                op = 0;
+                ColorImport = ColorBorder.red.ToString();
             }
         }
         private ICommand _ImportCommand;
@@ -200,8 +221,13 @@ namespace ReliefProMain.ViewModel
                         cstream.ProdType = dicProductTypes[i];
                         Products.Add(cstream);
                     }
+                    ColorImport = ColorBorder.blue.ToString();
+                    op = 0;
                 }
+                
+
             }
+            
         }
 
         public void GetEqFeedProduct(ProIIEqData data, ref List<string> dicFeeds, ref List<string> dicProducts,ref List<string> dicProductTypes)
@@ -255,53 +281,69 @@ namespace ReliefProMain.ViewModel
         }
         public void Save(object obj)
         {
-
+            if (string.IsNullOrEmpty(HXName))
+            {
+                MessageBox.Show("You must Import Data first.", "Message Box");
+                ColorImport = ColorBorder.red.ToString();
+                return;
+            }
             CustomStreamDAL dbCS = new CustomStreamDAL();
             SourceDAL dbsr = new SourceDAL();
             SinkDAL sinkdal = new SinkDAL();
-            foreach (CustomStream cs in Feeds)
-            {
-                Source sr = new Source();
-                sr.MaxPossiblePressure = cs.Pressure;
-                sr.StreamName = cs.StreamName;
-                sr.SourceType = "Pump(Motor)";
-                sr.SourceName = cs.StreamName + "_Source";
-                dbsr.Add(sr, SessionProtectedSystem);
-
-
-                dbCS.Add(cs, SessionProtectedSystem);
-            }
-
-
-            foreach (CustomStream cs in Products)
-            {
-                Sink sink = new Sink();
-                sink.MaxPossiblePressure = cs.Pressure;
-                sink.StreamName = cs.StreamName;
-                sink.SinkName = cs.StreamName + "_Sink";
-                sink.SinkType = "Pump(Motor)";
-                sinkdal.Add(sink, SessionProtectedSystem);
-                dbCS.Add(cs, SessionProtectedSystem);
-            }
-
             HeatExchangerDAL dbHX = new HeatExchangerDAL();
-            HeatExchanger HX = new HeatExchanger();
-            HX.HXName = HXName;
-            HX.Duty = Duty;
-            HX.HXType = HXType;
-            HX.SourceFile = FileName;
-
-            dbHX.Add(HX, SessionProtectedSystem);
-
             ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
-            ProtectedSystem ps = new ProtectedSystem();
-            ps.PSType = 4;
-            psDAL.Add(ps, SessionProtectedSystem);
+            if (op == 0)
+            {     
+                foreach (CustomStream cs in Feeds)
+                {
+                    Source sr = new Source();
+                    sr.MaxPossiblePressure = cs.Pressure;
+                    sr.StreamName = cs.StreamName;
+                    sr.SourceType = "Pump(Motor)";
+                    sr.SourceName = cs.StreamName + "_Source";
+                    dbsr.Add(sr, SessionProtectedSystem);
 
-            SourceFileDAL sfdal = new SourceFileDAL();
-            SourceFileInfo = sfdal.GetModel(HX.SourceFile, SessionPlant);
-            SessionProtectedSystem.Flush();
 
+                    dbCS.Add(cs, SessionProtectedSystem);
+                }
+
+
+                foreach (CustomStream cs in Products)
+                {
+                    Sink sink = new Sink();
+                    sink.MaxPossiblePressure = cs.Pressure;
+                    sink.StreamName = cs.StreamName;
+                    sink.SinkName = cs.StreamName + "_Sink";
+                    sink.SinkType = "Pump(Motor)";
+                    sinkdal.Add(sink, SessionProtectedSystem);
+                    dbCS.Add(cs, SessionProtectedSystem);
+                }
+
+                
+                HeatExchanger HX = new HeatExchanger();
+                HX.HXName = HXName;
+                HX.Duty = Duty;
+                HX.HXType = HXType;
+                HX.SourceFile = FileName;
+
+                dbHX.Add(HX, SessionProtectedSystem);
+
+                
+                ProtectedSystem ps = new ProtectedSystem();
+                ps.PSType = 4;
+                psDAL.Add(ps, SessionProtectedSystem);
+
+                SourceFileDAL sfdal = new SourceFileDAL();
+                SourceFileInfo = sfdal.GetModel(HX.SourceFile, SessionPlant);
+                SessionProtectedSystem.Flush();
+            }
+            else
+            {
+                CurrentHX = dbHX.GetModel(SessionProtectedSystem);
+                CurrentHX.HXType = HXType;
+                dbHX.Update(CurrentHX, SessionProtectedSystem);
+                SessionProtectedSystem.Flush();
+            }
 
             System.Windows.Window wd = obj as System.Windows.Window;
 

@@ -129,6 +129,7 @@ namespace ReliefProMain.ViewModel
         UOMLib.UOMEnum uomEnum;
         private string ScenarioName;
         private string EqName;
+        Tower tower;
         public TowerScenarioCalcVM(string EqName, string ScenarioName, int scenarioID, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string DirPlant, string DirProtectedSystem)
         {
             SessionPlant = sessionPlant;
@@ -150,6 +151,8 @@ namespace ReliefProMain.ViewModel
             ReliefMW = CurrentScenario.ReliefMW;
             ReliefPressure = CurrentScenario.ReliefPressure;
             ReliefTemperature = CurrentScenario.ReliefTemperature;
+            ReliefCpCv = CurrentScenario.ReliefCpCv;
+            ReliefZ = CurrentScenario.ReliefZ;
             SteamFreezed = CheckSteamFreezed();
             ReadConvert();
 
@@ -316,7 +319,7 @@ namespace ReliefProMain.ViewModel
         private void Calc(object window)
         {
             TowerDAL towerdal = new TowerDAL();
-            Tower tower = towerdal.GetModel(SessionProtectedSystem);
+            tower = towerdal.GetModel(SessionProtectedSystem);
             if (tower.TowerType == "Distillation")
             {
                 CalcDistillation();
@@ -733,7 +736,8 @@ namespace ReliefProMain.ViewModel
             reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / latent.ReliefOHWeightFlow + waterWeightFlow / 18);
             reliefTemperature = latent.ReliefTemperature;
             reliefPressure = latent.ReliefPressure;
-
+            if (reliefLoad < 0)
+                reliefLoad = 0;
         }
         private void SteamFreezedMethod(ref double reliefLoad, ref double reliefMW, ref double reliefTemperature, ref double reliefPressure)
         {
@@ -822,6 +826,10 @@ namespace ReliefProMain.ViewModel
             reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / latent.ReliefOHWeightFlow + waterWeightFlow / 18);
             reliefTemperature = latent.ReliefTemperature;
             reliefPressure = latent.ReliefPressure;
+            if (reliefLoad < 0)
+                reliefLoad = 0;
+
+            
         }
 
 
@@ -842,12 +850,23 @@ namespace ReliefProMain.ViewModel
         private void Save(object window)
         {
             WriteConvert();
+
+            LatentProductDAL lpdal=new LatentProductDAL();
+            LatentProduct vaporProduct = lpdal.GetModel(SessionProtectedSystem, "2");
+
             ScenarioDAL dbTS = new ScenarioDAL();
             Scenario scenario = dbTS.GetModel(ScenarioID, SessionProtectedSystem);
             scenario.ReliefLoad = ReliefLoad;
             scenario.ReliefMW = ReliefMW;
             scenario.ReliefTemperature = ReliefTemperature;
             scenario.ReliefPressure = ReliefPressure;
+            scenario.ReliefCpCv = ReliefCpCv;
+            scenario.ReliefZ = ReliefZ;
+            if (tower.TowerType == "Distillation")
+            {
+                scenario.ReliefCpCv = vaporProduct.BulkCPCVRatio;
+                scenario.ReliefZ = vaporProduct.VaporZFmKVal;
+            }
             dbTS.Update(scenario, SessionProtectedSystem);
             SessionProtectedSystem.Flush();
 

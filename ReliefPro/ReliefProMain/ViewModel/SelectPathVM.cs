@@ -64,7 +64,10 @@ namespace ReliefProMain.ViewModel
             {
                 list.Add(df.FileName);
             }
-
+            if (list.Count > 0)
+            {
+                SelectedFile = list[0];
+            }
             return list;
         }
 

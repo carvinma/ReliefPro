@@ -3,7 +3,7 @@
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-		 Title="{DynamicResource FireViewTitle}" Height="488" Width="413" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+		 Title="{DynamicResource HXFireViewTitle}" Height="488" Width="413" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="18"></RowDefinition>
@@ -35,7 +35,7 @@
         <CheckBox IsEnabled="{Binding Path=EnabledEquipmentExist}" IsChecked="{Binding model.EquipmentExist}" Content="{DynamicResource Adequatedrainageandfirefightingequipmentexist}"   Grid.Row="3" HorizontalAlignment="Left"  Grid.ColumnSpan="2"  Grid.Column="1" />
 
         <Label Content="{DynamicResource DesignPressure}"  Grid.Row="4" Grid.Column="1"/>
-        <Button Command="{Binding DrumSizeCMD}" Content="{DynamicResource DrumSize}"  Grid.Row="5"  IsCancel="True" Grid.Column="1"/>
+        <Button Command="{Binding DrumSizeCMD}" Content="{DynamicResource HXSize}"  Grid.Row="5"  IsCancel="True" Grid.Column="1"/>
         <Button Command="{Binding CalcCMD}" Content="{DynamicResource RunCalculation}"  Grid.Row="5"  IsCancel="True" Grid.Column="2"/>
         <Label Content="{DynamicResource WettedArea}"  Grid.Row="6" Grid.Column="1" />
         <Label Content="{DynamicResource LatentHeat}"  Grid.Row="7" Grid.Column="1" />

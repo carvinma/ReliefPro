@@ -64,7 +64,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
             model = new ReactorLoopCommonModel(blockModel);
             model.dbmodel.ScenarioID = ScenarioID;
-
+            
             UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
             model.EffluentTemperatureUnit = uomEnum.UserTemperature;
             model.EffluentTemperature2Unit = uomEnum.UserTemperature;
@@ -77,11 +77,13 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private void WriteConvertModel()
         {
             model.dbmodel.EffluentTemperature = UnitConvert.Convert(model.EffluentTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.EffluentTemperature);
+            model.dbmodel.EffluentTemperature2 = UnitConvert.Convert(model.EffluentTemperature2Unit, UOMLib.UOMEnum.Temperature.ToString(), model.EffluentTemperature2);
             model.dbmodel.MaxGasRate = UnitConvert.Convert(model.MaxGasRateUnit, UOMLib.UOMEnum.MassRate.ToString(), model.MaxGasRate);
             model.dbmodel.TotalPurgeRate = UnitConvert.Convert(model.TotalPurgeRateUnit, UOMLib.UOMEnum.MassRate.ToString(), model.TotalPurgeRate);
             model.dbmodel.ReliefMW = model.ReliefMW;
             model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad);
             model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
+            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
             model.dbmodel.ReliefCpCv = model.ReliefCpCv;
             model.dbmodel.ReliefZ = model.ReliefZ;
             model.dbmodel.ReactorType = reactorType;

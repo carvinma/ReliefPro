@@ -1,9 +1,9 @@
 ﻿<Window x:Class="ReliefProMain.View.HXs.AirCooledHXFireView"
-		x:Name="HXFireWin"
+		x:Name="myWindow"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-		 Title="{DynamicResource FireViewTitle}" Height="478" Width="450" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+		 Title="{DynamicResource HXFireViewTitle}" Height="478" Width="450" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="18"></RowDefinition>
@@ -36,7 +36,7 @@
         <CheckBox IsEnabled="{Binding Path=EnabledEquipmentExist}" IsChecked="{Binding model.EquipmentExist}" Content="{DynamicResource Adequatedrainageandfirefightingequipmentexist}"   Grid.Row="3"  Grid.ColumnSpan="2" HorizontalAlignment="Left" Grid.Column="1"/>
 
         <Label Content="{DynamicResource DesignPressure}"  Grid.Row="4" Grid.Column="1" />
-        <Button Command="{Binding DrumSizeCMD}" Content="{DynamicResource DrumSize}"  Grid.Row="5"    IsCancel="True" Grid.Column="1"/>
+        <Button Command="{Binding DrumSizeCMD}" Content="{DynamicResource HXSize}"  Grid.Row="5"    IsCancel="True" Grid.Column="1"/>
         <Button Command="{Binding CalcCMD}" Content="{DynamicResource RunCalculation}" Grid.Row="5"  IsCancel="True" Grid.Column="2"/>
         <Label Content="{DynamicResource WettedArea}"  Grid.Row="6" Grid.Column="1"  />
         <Label Content="{DynamicResource LatentHeat}"  Grid.Row="7" Grid.Column="1" />
@@ -60,8 +60,8 @@
 				   Grid.Column="2"  Grid.Row="2"/>
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.DesignPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblDesignPresses,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="4"/>
 
-        <CustomControl:UnitConvertTextBox IsReadOnly="True" Text="{Binding Path=model.WettedArea,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblArea,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="6" />
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.LatentHeat,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLatent,Path=Content,Mode=TwoWay}" IsReadOnly="True" Grid.Column="2" Grid.Row="7" />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.WettedArea,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblArea,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="6" />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.LatentHeat,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLatent,Path=Content,Mode=TwoWay}" IsReadOnly="True" Grid.Column="2" Grid.Row="7" />
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.CrackingHeat,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblCraking,Path=Content,Mode=TwoWay}" IsEnabled="{Binding Path=model.EnabledCrack,Mode=TwoWay}" Grid.Column="2" Grid.Row="8" />
         <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}" Text="{Binding Path=model.ReliefLoad,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="10" />
         <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}" Text="{Binding Path=model.ReliefPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPresses,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="11"  />

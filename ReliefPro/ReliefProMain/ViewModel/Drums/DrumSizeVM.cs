@@ -20,26 +20,7 @@ namespace ReliefProMain.ViewModel.Drums
         public List<string> lstOrientation { get; set; }
         public List<string> lstHeadType { get; set; }
 
-        private string selectedOrientation = "Vertical";
-        public string SelectedOrientation
-        {
-            get { return selectedOrientation; }
-            set
-            {
-                selectedOrientation = value;
-                OnPropertyChanged("SelectedOrientation");
-            }
-        }
-        private string selectedHeadType = "Eclipse";
-        public string SelectedHeadType
-        {
-            get { return selectedHeadType; }
-            set
-            {
-                selectedHeadType = value;
-                OnPropertyChanged("SelectedHeadType");
-            }
-        }
+        
         public DrumSizeVM(int DrumFireCalcID, ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
@@ -64,9 +45,9 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void WriteConvertModel()
         {
-            model.dbmodel.Orientation = selectedOrientation;
+            model.dbmodel.Orientation = model.Orientation;
             model.dbmodel.HeadNumber = model.Headnumber;
-            model.dbmodel.HeadType = selectedHeadType;
+            model.dbmodel.HeadType = model.HeadType;
 
             model.dbmodel.Elevation = UnitConvert.Convert(model.ElevationUnit, UOMLib.UOMEnum.Length.ToString(), model.Elevation);
             model.dbmodel.Diameter = UnitConvert.Convert(model.DiameterUnit, UOMLib.UOMEnum.Length.ToString(), model.Diameter);

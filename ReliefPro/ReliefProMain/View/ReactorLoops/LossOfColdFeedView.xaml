@@ -64,6 +64,35 @@
                 <TextBlock Text="{DynamicResource LossOfColdFeedViewStatusBar}"></TextBlock>
             </StatusBarItem>
         </StatusBar>
-       
+        <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding model.lstHX, Mode=TwoWay}" 
+        	Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="1" Margin="0,0,0,0" >
+            <ListView.View>
+                <GridView >
+                    <GridViewColumn Header="{DynamicResource HXName}" Width="150px" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox IsEnabled="False" Text="{Binding HXName, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Header="{DynamicResource Stop}" Width="50px" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Stop, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="50px" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource DutyFactor}" Width="150px" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox  Text="{Binding DutyFactor, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
     </Grid>
 </Window>

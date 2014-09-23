@@ -13,6 +13,7 @@ using ReliefProBLL.Common;
 using System.Collections.ObjectModel;
 using NHibernate;
 using ReliefProBLL;
+using System.Windows.Forms;
 
 namespace ReliefProMain.ViewModel
 {
@@ -33,6 +34,8 @@ namespace ReliefProMain.ViewModel
                 SourceFileBLL sfbll = new SourceFileBLL(SessionPlant);
                 SourceFileInfo = sfbll.GetSourceFileInfo(_SelectedFile);
                 EqNames = GetEqNames();
+                if (EqNames.Count > 0)
+                    SelectedEq = EqNames[0];
                 OnPropertyChanged("SelectedFile");
             }
         }
@@ -94,6 +97,10 @@ namespace ReliefProMain.ViewModel
                     {
                         list.Add(d.StreamName);
                     }
+                    if (list.Count > 0)
+                    {
+                        SelectedEq = list[0];
+                    }
                 }
             }
             return list;
@@ -108,7 +115,10 @@ namespace ReliefProMain.ViewModel
             {
                 list.Add(df.FileName);
             }
-
+            if (list.Count > 0)
+            {
+                SelectedFile = list[0];
+            }
             return list;
         }
 
@@ -130,6 +140,7 @@ namespace ReliefProMain.ViewModel
         {
             if(string.IsNullOrEmpty(SelectedEq))
             {
+                MessageBox.Show("Please select stream! ", "Message Box");
                 return;
             }
             System.Windows.Window wd = obj as System.Windows.Window;

@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using NHibernate;
 using ReliefProBLL;
 using ReliefProCommon.Enum;
+using System.Windows.Forms;
 
 namespace ReliefProMain.ViewModel
 {
@@ -45,6 +46,8 @@ namespace ReliefProMain.ViewModel
                 SourceFileBLL sfbll = new SourceFileBLL(SessionPlant);
                 SourceFileInfo = sfbll.GetSourceFileInfo(_SelectedFile);
                 EqNames = GetEqNames();
+                if (EqNames.Count > 0)
+                    SelectedEq = EqNames[0];
                 OnPropertyChanged("SelectedFile");
             }
         }
@@ -186,6 +189,11 @@ namespace ReliefProMain.ViewModel
 
         public void OK(object obj)
         {
+            if (string.IsNullOrEmpty(SelectedEq))
+            {
+                MessageBox.Show("Please select equipment! ", "Message Box");
+                return;
+            }
             if (!CheckData()) return;
             System.Windows.Window wd = obj as System.Windows.Window;
 

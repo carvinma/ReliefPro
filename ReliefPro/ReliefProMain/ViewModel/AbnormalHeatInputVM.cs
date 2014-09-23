@@ -108,7 +108,34 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefPressure");
             }
         }
+        private double _ReliefCpCv;
+        public double ReliefCpCv
+        {
+            get
+            {
+                return this._ReliefCpCv;
+            }
+            set
+            {
+                this._ReliefCpCv = value;
 
+                OnPropertyChanged("ReliefCpCv");
+            }
+        }
+        private double _ReliefZ;
+        public double ReliefZ
+        {
+            get
+            {
+                return this._ReliefZ;
+            }
+            set
+            {
+                this._ReliefZ = value;
+
+                OnPropertyChanged("ReliefZ");
+            }
+        }
 
         public AbnormalHeatInputVM(int ScenarioID, ISession SessionPlant, ISession SessionProtectedSystem)
         {
@@ -144,6 +171,9 @@ namespace ReliefProMain.ViewModel
             ReliefMW = sc.ReliefMW;
             ReliefPressure = sc.ReliefPressure;
             ReliefTemperature = sc.ReliefTemperature;
+            ReliefCpCv = sc.ReliefCpCv;
+            ReliefZ = sc.ReliefZ;
+
             ReadConvert();
         }
 
@@ -235,16 +265,11 @@ namespace ReliefProMain.ViewModel
             double reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / latent.ReliefOHWeightFlow + waterWeightFlow / 18);
             ReliefTemperature = latent.ReliefTemperature;
             ReliefPressure = latent.ReliefPressure;
+            if (reliefLoad < 0)
+                reliefLoad = 0;
             ReliefLoad = reliefLoad;
             ReliefMW = reliefMW;
-            ScenarioDAL dbTS = new ScenarioDAL();
-            Scenario scenario = dbTS.GetModel(ScenarioID, SessionProtectedSystem);
-            scenario.ReliefLoad = ReliefLoad;
-            scenario.ReliefPressure = latent.ReliefPressure;
-            scenario.ReliefMW = ReliefMW;
-            scenario.ReliefTemperature = latent.ReliefTemperature;
-            dbTS.Update(scenario, SessionProtectedSystem);
-            SessionProtectedSystem.Flush();
+           
         }
 
 
@@ -372,11 +397,17 @@ namespace ReliefProMain.ViewModel
                 abnormalHeaterDetailDAL.Update(m.model, SessionProtectedSystem);
             }
 
+            LatentProductDAL lpdal = new LatentProductDAL();
+            LatentProduct vaporProduct = lpdal.GetModel(SessionProtectedSystem, "2");
+
             Scenario scenario = this.scenarioDAL.GetModel(ScenarioID, SessionProtectedSystem);
             scenario.ReliefLoad = ReliefLoad;
             scenario.ReliefMW = ReliefMW;
             scenario.ReliefTemperature = ReliefTemperature;
             scenario.ReliefPressure = ReliefPressure;
+            scenario.ReliefCpCv = vaporProduct.BulkCPCVRatio;
+            scenario.ReliefZ = vaporProduct.VaporZFmKVal;
+
             scenarioDAL.Update(scenario, SessionProtectedSystem);
 
             SessionProtectedSystem.Flush();

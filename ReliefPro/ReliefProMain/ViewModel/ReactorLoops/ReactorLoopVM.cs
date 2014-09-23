@@ -134,10 +134,37 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         select s;
             foreach (ProIIEqData eq in query.ToList())
             {
-                ReactorLoopDetail d = new ReactorLoopDetail();
-                d.DetailInfo = eq.EqName;
-                d.ReactorType = reactorType;
-                rlt.Add(d);
+                if (reactorType == 0)
+                {
+                    string[] arr1 = eq.FeedData.Split(',');
+                    string[] arr2 = eq.ProductData.Split(',');
+                    if (arr1.Length == 2 && arr2.Length == 2)
+                    {
+                        ReactorLoopDetail d = new ReactorLoopDetail();
+                        d.DetailInfo = eq.EqName;
+                        d.ReactorType = reactorType;
+                        rlt.Add(d);
+                    }
+                }
+                else if (reactorType == 3)
+                {
+                    string[] arr1 = eq.FeedData.Split(',');
+                    string[] arr2 = eq.ProductData.Split(',');
+                    if (arr1.Length == 1 && arr2.Length == 1)
+                    {
+                        ReactorLoopDetail d = new ReactorLoopDetail();
+                        d.DetailInfo = eq.EqName;
+                        d.ReactorType = reactorType;
+                        rlt.Add(d);
+                    }
+                }
+                else
+                {
+                    ReactorLoopDetail d = new ReactorLoopDetail();
+                    d.DetailInfo = eq.EqName;
+                    d.ReactorType = reactorType;
+                    rlt.Add(d);
+                }
             }
             return rlt;
         }
@@ -210,6 +237,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcProcessHX.Add(model.SelectedHXModel);
                 var find = model.ObcProcessHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 0);
                 model.ObcProcessHXSource.Remove(find);
+
+                var find2 = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 3);
+                model.ObcNetworkHXSource.Remove(find2);
             }
         }
         private void ProcessHXDel(object obj)
@@ -219,6 +249,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcProcessHXSource.Add(model.SelectedHXModel);
                 var find = model.ObcProcessHX.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 0);
                 model.ObcProcessHX.Remove(find);
+
+                model.ObcNetworkHXSource.Add(model.SelectedHXModel);
             }
         }
         private void UtilityHXAdd(object obj)
@@ -228,6 +260,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcUtilityHX.Add(model.SelectedUtilityHXModel);
                 var find = model.ObcUtilityHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedUtilityHXModel.DetailInfo && p.ReactorType == 1);
                 model.ObcUtilityHXSource.Remove(find);
+
+                var find2 = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 3);
+                model.ObcNetworkHXSource.Remove(find2);
             }
         }
         private void UtilityHXDel(object obj)
@@ -237,6 +272,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcUtilityHXSource.Add(model.SelectedUtilityHXModel);
                 var find = model.ObcUtilityHX.FirstOrDefault(p => p.DetailInfo == model.SelectedUtilityHXModel.DetailInfo && p.ReactorType == 1);
                 model.ObcUtilityHX.Remove(find);
+
+                model.ObcNetworkHXSource.Add(model.SelectedHXModel);
             }
         }
 
@@ -247,6 +284,18 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcNetworkHX.Add(model.SelectedNetworkHXModel);
                 var find = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedNetworkHXModel.DetailInfo && p.ReactorType == 3);
                 model.ObcNetworkHXSource.Remove(find);
+
+                var find2 = model.ObcUtilityHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 1);
+                if (find2 != null)
+                {
+                    model.ObcUtilityHXSource.Remove(find2);
+                }
+                var find3 = model.ObcProcessHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 0);
+                if (find3 != null)
+                {
+                    model.ObcProcessHXSource.Remove(find3);
+                }
+
             }
         }
         private void NetworkHXDel(object obj)
@@ -256,6 +305,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcNetworkHXSource.Add(model.SelectedNetworkHXModel);
                 var find = model.ObcUtilityHX.FirstOrDefault(p => p.DetailInfo == model.SelectedNetworkHXModel.DetailInfo && p.ReactorType == 3);
                 model.ObcNetworkHX.Remove(find);
+
+
+
             }
         }
 
@@ -325,10 +377,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
             csList = GetReactorLoopStreamsFromProII(eqList);
             List<CustomStream> csList2 = GetReactorLoopStreamsFromProII(processHxList);
-            foreach (CustomStream cs in csList2)
-            {
-                csList.Add(cs);
-            }
+            List<CustomStream> csList3 = GetReactorLoopStreamsFromProII(otherHxList);
+            csList=csList.Union(csList2).ToList();
+            csList = csList.Union(csList3).ToList();
             if (!string.IsNullOrEmpty(model.ColdReactorFeedStream) && !streams.Contains(model.ColdReactorFeedStream))
             {               
                 if (!streams.Contains(model.ColdReactorFeedStream))
@@ -584,7 +635,6 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 }
                 else
                 {
-                    //sb.Append(line).Append("\n");
                     i++;
                 }
             }
@@ -1094,14 +1144,14 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             for (int i = start+1; i < lines.Length; i++)
             {
                 line = lines[i];
-                string key1 = "HX   UID=";
+                string key1 = "UID=";
                 string key2 = "END";
                 if (line.Contains(key1) || line.Contains(key2))
                 {
                     
                     if (!b)
                     {
-                        attrvalue = "OPER Duty=" + eqData.DutyCalc;
+                        attrvalue = "OPER Duty=" + double.Parse(eqData.DutyCalc)/10e6;
                         sb.Append(attrvalue).Append("\r\n");
                     }
                     break;
@@ -1109,7 +1159,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 else if (line.Contains("OPER "))
                 {
                     b = true;
-                    attrvalue = "OPER Duty=" + eqData.DutyCalc; ;
+                    attrvalue = "OPER Duty=" + double.Parse(eqData.DutyCalc) / 10e6;
                     sb.Append(attrvalue).Append("\r\n");
                 }
                 else

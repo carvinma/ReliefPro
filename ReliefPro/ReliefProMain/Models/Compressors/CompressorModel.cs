@@ -98,7 +98,7 @@ namespace ReliefProMain.Models.Compressors
             this.dbmodel = compressor;
             this.CompressorName = compressor.CompressorName;
             this.CompressorTypes = GetCompressorTypes();          
-            this.CompressorType = CompressorTypes[0];
+            this.CompressorType = compressor.CompressorType;
             this.Feeds = Feeds;
             this.Products = Products;
             this.CompressorName = compressor.CompressorName;

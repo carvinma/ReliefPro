@@ -15,6 +15,7 @@ using ReliefProMain.View;
 using UOMLib;
 using ReliefProModel.Drums;
 using ReliefProDAL.Drums;
+using ReliefProCommon.Enum;
 
 
 namespace ReliefProMain.ViewModel
@@ -29,6 +30,20 @@ namespace ReliefProMain.ViewModel
         private string SourceFileName;
         private ProIIEqData ProIIDrum;
         public SourceFile SourceFileInfo;
+
+        private string _ColorImport;
+        public string ColorImport
+        {
+            get
+            {
+                return this._ColorImport;
+            }
+            set
+            {
+                this._ColorImport = value;
+                OnPropertyChanged("ColorImport");
+            }
+        }
         private string _DrumName;
         public string DrumName
         {
@@ -148,12 +163,12 @@ namespace ReliefProMain.ViewModel
                     SourceFileDAL sfdal = new SourceFileDAL();
                     SourceFileinfo = sfdal.GetModel(CurrentDrum.SourceFile, SessionPlant);
                 }
-
+                ColorImport = ColorBorder.blue.ToString();
 
             }
             else
             {
-
+                ColorImport = ColorBorder.red.ToString();
             }
         }
         private ICommand _ImportCommand;
@@ -187,7 +202,7 @@ namespace ReliefProMain.ViewModel
                     DrumName = ProIIDrum.EqName;
                     Duty = (double.Parse(ProIIDrum.DutyCalc) * 3600);
                     Temperature = UnitConvert.Convert("K", "C", double.Parse(ProIIDrum.TempCalc));
-                    Pressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(ProIIDrum.PressCalc)) ;
+                    Pressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(ProIIDrum.PressCalc));
 
                     DrumType = "Flashing Drum";
                     if (Duty == 0)
@@ -219,9 +234,10 @@ namespace ReliefProMain.ViewModel
                         cstream.ProdType = dicProductTypes[i];
                         Products.Add(cstream);
                     }
-
-
+                    ColorImport = ColorBorder.blue.ToString();
+                    
                 }
+                
             }
         }
 
@@ -276,51 +292,65 @@ namespace ReliefProMain.ViewModel
         }
         public void Save(object obj)
         {
+            if (string.IsNullOrEmpty(DrumName))
+            {
+                MessageBox.Show("You must Import Data first.", "Message Box");
+                ColorImport = ColorBorder.red.ToString();
+                return;
+            }
             CustomStreamDAL dbCS = new CustomStreamDAL();
             SourceDAL dbsr = new SourceDAL();
             SinkDAL sinkdal = new SinkDAL();
-            foreach (CustomStream cs in Feeds)
-            {
-                Source sr = new Source();
-                sr.MaxPossiblePressure = cs.Pressure;
-                sr.StreamName = cs.StreamName;
-                sr.SourceType = "Pump(Motor)";
-                sr.SourceName = cs.StreamName + "_Source";
-                dbsr.Add(sr, SessionProtectedSystem);
-                dbCS.Add(cs, SessionProtectedSystem);
-            }
-
-
-            foreach (CustomStream cs in Products)
-            {
-                Sink sink = new Sink();
-                sink.MaxPossiblePressure = cs.Pressure;
-                sink.StreamName = cs.StreamName;
-                sink.SinkName = cs.StreamName + "_Sink";
-                sink.SinkType = "Pump(Motor)";
-                sinkdal.Add(sink, SessionProtectedSystem);
-                dbCS.Add(cs, SessionProtectedSystem);
-            }
-
             DrumDAL dbdrum = new DrumDAL();
-            Drum drum = new Drum();
-            drum.DrumName = DrumName;
-            drum.Duty = Duty;
-            drum.DrumType = DrumType;
-            drum.SourceFile = SourceFileName;
-            drum.Pressure = Pressure;
-            drum.Temperature = Temperature;
-            dbdrum.Add(drum, SessionProtectedSystem);
+            if (CurrentDrum.ID == 0)
+            {
+                foreach (CustomStream cs in Feeds)
+                {
+                    Source sr = new Source();
+                    sr.MaxPossiblePressure = cs.Pressure;
+                    sr.StreamName = cs.StreamName;
+                    sr.SourceType = "Pump(Motor)";
+                    sr.SourceName = cs.StreamName + "_Source";
+                    dbsr.Add(sr, SessionProtectedSystem);
+                    dbCS.Add(cs, SessionProtectedSystem);
+                }
 
-            ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
-            ProtectedSystem ps = new ProtectedSystem();
-            ps.PSType = 2;
-            psDAL.Add(ps, SessionProtectedSystem);
 
-            SourceFileDAL sfdal = new SourceFileDAL();
-            SourceFileInfo = sfdal.GetModel(drum.SourceFile, SessionPlant);
+                foreach (CustomStream cs in Products)
+                {
+                    Sink sink = new Sink();
+                    sink.MaxPossiblePressure = cs.Pressure;
+                    sink.StreamName = cs.StreamName;
+                    sink.SinkName = cs.StreamName + "_Sink";
+                    sink.SinkType = "Pump(Motor)";
+                    sinkdal.Add(sink, SessionProtectedSystem);
+                    dbCS.Add(cs, SessionProtectedSystem);
+                }
 
-            SessionProtectedSystem.Flush();
+                
+                Drum drum = new Drum();
+                drum.DrumName = DrumName;
+                drum.Duty = Duty;
+                drum.DrumType = DrumType;
+                drum.SourceFile = SourceFileName;
+                drum.Pressure = Pressure;
+                drum.Temperature = Temperature;
+                dbdrum.Add(drum, SessionProtectedSystem);
+
+                ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
+                ProtectedSystem ps = new ProtectedSystem();
+                ps.PSType = 2;
+                psDAL.Add(ps, SessionProtectedSystem);
+
+                SourceFileDAL sfdal = new SourceFileDAL();
+                SourceFileInfo = sfdal.GetModel(drum.SourceFile, SessionPlant);
+            }
+            else
+            {
+                CurrentDrum.DrumType = DrumType;
+                dbdrum.Update(CurrentDrum, SessionProtectedSystem);
+                SessionProtectedSystem.Flush();
+            }
 
 
             System.Windows.Window wd = obj as System.Windows.Window;

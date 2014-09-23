@@ -8,6 +8,7 @@ using ReliefProDAL.HXs;
 using ReliefProModel;
 using ReliefProModel.HXs;
 using UOMLib;
+using ReliefProCommon.Enum;
 
 namespace ReliefProBLL
 {
@@ -64,6 +65,7 @@ namespace ReliefProBLL
             Model.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.ReliefLoad);
             Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature);
             Model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);
+            
             return Model;
         }
 
@@ -94,7 +96,19 @@ namespace ReliefProBLL
         {
             var model = dbFire.GetModelByScenarioID(SessionPS, ScenarioID);
             if (model == null)
+            {
                 model = new HXFireSize();
+                model.PipingContingency = 10;
+                model.ExposedToFire = "Shell";
+                model.Type = "Fixed";
+                
+                model.Elevation_Color = ColorBorder.green.ToString();
+                model.ExposedToFire_Color = ColorBorder.green.ToString();
+                model.Length_Color = ColorBorder.green.ToString();
+                model.OD_Color = ColorBorder.green.ToString();
+                model.PipingContingency_Color = ColorBorder.green.ToString();
+                model.Type_Color = ColorBorder.green.ToString();
+            }
             return model;
         }
         public HXFireSize ReadConvertHXFireSizeModel(HXFireSize model)
