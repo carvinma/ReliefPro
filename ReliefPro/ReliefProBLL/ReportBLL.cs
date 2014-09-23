@@ -343,9 +343,14 @@ namespace ReliefProLL
             ProcessUnitReportPath.ForEach(p =>
             {
                 var findSession = lstSession.Find(s => s.Connection.ConnectionString == p);
+                if (findSession != null)
+                { 
+                    findSession.Clear(); 
+                }
                 if (findSession == null)
                 {
                     NHibernateHelper helperProtectedSystem = new NHibernateHelper(p);
+                   
                     findSession = helperProtectedSystem.GetCurrentSession();
                     lstSession.Add(findSession);
 

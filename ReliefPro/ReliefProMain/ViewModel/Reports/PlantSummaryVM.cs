@@ -93,6 +93,7 @@ namespace ReliefProMain.ViewModel.Reports
                 selectedDischargeTo = listDischargeTo.First().FlareName;
                 ChangerDischargeTo(selectedDischargeTo);
             }
+            if (report != null) report.ClearSession();
 
         }
         private void ChangerDischargeTo(string ReportDischargeTo)
@@ -119,6 +120,7 @@ namespace ReliefProMain.ViewModel.Reports
                 listPlantReportDS.Clear();
                 listPlantReportDS.Add(psDS);
             }
+            if (report != null) report.ClearSession();
         }
         private void CreateReport()
         {
