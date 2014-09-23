@@ -282,6 +282,10 @@ namespace ReliefProLL
             if (TreeUnit != null)
             {
                 ProcessUnitName = TreeUnit.PUName;
+                if (string.IsNullOrEmpty(ProcessUnitName))
+                    ProcessUnitName = TreeUnit.UnitName;
+
+
             }
         }
         private void GetPSVInfo(ISession SessionPS)
