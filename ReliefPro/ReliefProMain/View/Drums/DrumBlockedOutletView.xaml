@@ -42,16 +42,16 @@
         <Label Content="{DynamicResource ReliefMW}" Grid.Row="12" Grid.Column="1" />
         <Label Content="{DynamicResource ReliefCp_Cv}" Visibility="Hidden" Grid.Row="13" Grid.Column="1" />
         <Label Content="{DynamicResource ReliefZ}" Visibility="Hidden" Grid.Row="14" Grid.Column="1" />
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.MaxPressure,Mode=TwoWay}"  BorderBrush="{Binding model.MaxPressure_Color}" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="1" />
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.MaxStreamRate}"  BorderBrush="{Binding model.MaxStreamRate_Color}" UnitOrigin="{Binding ElementName=lblStreamRate,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="2"/>
-        <TextBox Text="{Binding Path=model.DrumType}" IsReadOnly="True" Grid.Column="2"  Grid.Row="3" />
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.NormalFlashDuty}"  BorderBrush="{Binding model.NormalFlashDuty_Color}" UnitOrigin="{Binding ElementName=lblFlashingDuty,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="4"/>
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.FDReliefCondition}"  BorderBrush="{Binding model.FDReliefCondition_Color}" UnitOrigin="{Binding ElementName=lblReliefCondition,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="5"/>
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.MaxPressure,Mode=TwoWay}"  BorderBrush="{Binding model.MaxPressure_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="1" />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.MaxStreamRate,Mode=TwoWay}"  BorderBrush="{Binding model.MaxStreamRate_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblStreamRate,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="2"/>
+        <TextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.DrumType,Mode=TwoWay}" IsReadOnly="True" Grid.Column="2"  Grid.Row="3" />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.NormalFlashDuty,Mode=TwoWay}"  BorderBrush="{Binding model.NormalFlashDuty_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblFlashingDuty,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="4"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.FDReliefCondition,Mode=TwoWay}"  BorderBrush="{Binding model.FDReliefCondition_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblReliefCondition,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="5"/>
 
-        <Label x:Name="lblPressure"  Content="{Binding model.PressureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="1" Height="10" Margin="0,10" Width="10" />
-        <Label x:Name="lblStreamRate" Content="{Binding model.StreamRateUnit,Mode=TwoWay}"   Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="2" Height="10" Margin="0,10" Width="10" />
-        <Label x:Name="lblFlashingDuty" Content="{Binding model.FlashingDutyUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="4" Height="10" Margin="0,10" Width="10" />
-        <Label x:Name="lblReliefCondition" Content="{Binding model.ReliefConditionUnit,Mode=TwoWay}"  Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="5" Height="10" Margin="0,10" Width="10" />
+        <Label x:Name="lblPressure"  Content="{Binding model.PressureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="1" />
+        <Label x:Name="lblStreamRate" Content="{Binding model.StreamRateUnit,Mode=TwoWay}"   Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="2"  />
+        <Label x:Name="lblFlashingDuty" Content="{Binding model.FlashingDutyUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="4"  />
+        <Label x:Name="lblReliefCondition" Content="{Binding model.ReliefConditionUnit,Mode=TwoWay}"  Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="5"  />
 
         <CheckBox x:Name="chkFeed" Content="{DynamicResource FeedBtmHX}"  IsChecked="{Binding model.Feed}" HorizontalAlignment="Left"  Grid.Row="6" Grid.Column="1"  />
         <CheckBox x:Name="chkPinch" Content="{DynamicResource ReboilerPinch}"  IsChecked="{Binding model.ReboilerPinch}" Grid.Column="2" HorizontalAlignment="Center" Grid.Row="6"  />

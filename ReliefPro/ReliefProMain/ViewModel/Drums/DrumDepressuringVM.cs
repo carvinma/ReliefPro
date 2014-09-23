@@ -82,6 +82,7 @@ namespace ReliefProMain.ViewModel.Drums
         private ISession SessionPF;
         public DrumDepressuringModel model { get; set; }
         private DrumDepressuringBLL drumBLL;
+        private bool isCalc = false;
         public DrumDepressuringVM(int ScenarioID, ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
@@ -147,6 +148,7 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void Calc(object obj)
         {
+            isCalc = true;
             double tConstant = 0;
             double tRequire = 0;
             double pRequire = 0;
@@ -208,6 +210,8 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void DepressuringCurve(object obj)
         {
+            if (!isCalc)
+                Calc(obj);
             RateCurveView v = new RateCurveView();
 
             v.WtSource = Wt;
@@ -215,7 +219,7 @@ namespace ReliefProMain.ViewModel.Drums
             v.Show();
             PressureCurveView v2 = new PressureCurveView();
             v2.PtSource = Pt;
-            v2.WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;
+            v2.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
             v2.Show();
 
         }

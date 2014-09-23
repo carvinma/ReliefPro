@@ -66,7 +66,7 @@ namespace ReliefProMain.ViewModel.Drums
             ScenarioDAL db = new ScenarioDAL();
             var sModel = db.GetModel(ScenarioID, SessionPS);
 
-            model.Reliefload = sModel.ReliefLoad;
+            model.ReliefLoad = sModel.ReliefLoad;
             model.ReliefPressure = sModel.ReliefPressure;
             model.ReliefTemperature = sModel.ReliefTemperature;
             model.ReliefMW = sModel.ReliefMW;
@@ -82,7 +82,7 @@ namespace ReliefProMain.ViewModel.Drums
             model.dbmodel.ReboilerPinch = model.ReboilerPinch;
             model.dbmodel.Feed = model.Feed;
 
-            model.Reliefload = UnitConvert.Convert(model.ReliefloadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.Reliefload);
+            model.ReliefLoad = UnitConvert.Convert(model.ReliefloadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad);
             model.ReliefTemperature = UnitConvert.Convert(model.ReliefTempUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
             model.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
 
@@ -126,6 +126,12 @@ namespace ReliefProMain.ViewModel.Drums
                         reliefMW = cs.BulkMwOfPhase;
                         reliefT = cs.Temperature;
                         reliefLoad = cs.WeightFlow;
+                        model.ReliefLoad = reliefLoad;
+                        model.ReliefPressure = reliefPressure;
+                        model.ReliefTemperature = reliefT;
+                        model.ReliefMW = reliefMW;
+                        model.ReliefCpCv = cs.BulkCPCVRatio;
+                        model.ReliefZ = cs.VaporZFmKVal;
                     }
                     else
                     {
@@ -142,8 +148,14 @@ namespace ReliefProMain.ViewModel.Drums
             else
             {
                 reliefLoad = 0;
+                model.ReliefLoad = reliefLoad;
+                model.ReliefPressure = reliefPressure;
+                model.ReliefTemperature = reliefT;
+                model.ReliefMW = reliefMW;
+                model.ReliefCpCv = 0;
+                model.ReliefZ = 0;
             }
-
+            
 
         }
 

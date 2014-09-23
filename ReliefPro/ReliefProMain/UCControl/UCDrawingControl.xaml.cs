@@ -599,7 +599,7 @@ namespace ReliefProMain.View
             Visio.Master startMaster = startStencil.Masters.get_ItemU(@"Carrying vessel");
             Visio.Master endMaster = startStencil.Masters.get_ItemU(@"Clarifier");
 
-            int start = 4;
+            int start = 1;
             double multiple = 0.125;
             //double leftmultiple = 1.5;
             int center = 5;
@@ -616,8 +616,25 @@ namespace ReliefProMain.View
                 ConnectShapes(startShp, 2, connector, 1);
                 start = start + 1;
                 startShp.Cells["EventDblClick"].Formula = "=0";
+                if (start >= 8)
+                    start = 1;
             }
+            start = 9;
+            foreach (CustomStream cs in vm.Products)
+            {
+                Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
+                ConnectShapes(shape, start, connector, 1);
+                connector.Text = cs.StreamName;
+                Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 1.8, pinY + 0.35);
+                endShp.get_Cells("Height").ResultIU = endShpHeight;
+                endShp.get_Cells("Width").ResultIU = endShpWidth;
+                endShp.Text = connector.Text + "_Sink";
+                endShp.Cells["EventDblClick"].Formula = "=0";
+                ConnectShapes(endShp, 7, connector, 0);
 
+                if (start >= 14)
+                    start = 9;
+            }
 
 
         }

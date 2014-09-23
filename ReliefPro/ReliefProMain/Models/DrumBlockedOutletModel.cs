@@ -194,14 +194,14 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double reliefload;
-        public double Reliefload
+        private double reliefLoad;
+        public double ReliefLoad
         {
-            get { return reliefload; }
+            get { return reliefLoad; }
             set
             {
-                reliefload = value;
-                this.NotifyPropertyChanged("Reliefload");
+                reliefLoad = value;
+                this.NotifyPropertyChanged("ReliefLoad");
             }
         }
 

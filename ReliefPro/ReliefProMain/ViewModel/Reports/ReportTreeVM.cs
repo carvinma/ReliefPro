@@ -155,13 +155,17 @@ namespace ReliefProMain.ViewModel.Reports
                         if (uvm.IsChecked)
                         {
                             chkedUnit.Add(uvm);
-                            break;
+                            //break;
                         }
-                        foreach (PSVM ps in uvm.PSCollection)
+                        else
                         {
-                            if (ps.IsChecked)
+                            foreach (PSVM ps in uvm.PSCollection)
                             {
-                                chkedUnit.Add(uvm);
+                                if (ps.IsChecked)
+                                {
+                                    chkedUnit.Add(uvm);
+                                    break;
+                                }
                             }
                         }
                     }

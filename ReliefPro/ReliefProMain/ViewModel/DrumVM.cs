@@ -302,7 +302,7 @@ namespace ReliefProMain.ViewModel
             SourceDAL dbsr = new SourceDAL();
             SinkDAL sinkdal = new SinkDAL();
             DrumDAL dbdrum = new DrumDAL();
-            if (CurrentDrum.ID == 0)
+            if (CurrentDrum==null|| CurrentDrum.ID == 0)
             {
                 foreach (CustomStream cs in Feeds)
                 {

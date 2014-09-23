@@ -41,7 +41,7 @@ namespace ReliefProBLL
             sModel.ReliefCpCv = reliefCpCv;
             sModel.ReliefZ = reliefZ;
             db.Update(sModel, SessionPS);
-
+            SessionPS.Flush();
         }
         public DrumBlockedOutlet GetBlockedOutletModel(ISession SessionPS)
         {
