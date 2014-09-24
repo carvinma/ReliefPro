@@ -344,8 +344,8 @@ namespace ReliefProLL
             {
                 var findSession = lstSession.Find(s => s.Connection.ConnectionString == p);
                 if (findSession != null)
-                { 
-                    findSession.Clear(); 
+                {
+                    findSession.Clear();
                 }
                 if (findSession == null)
                 {
