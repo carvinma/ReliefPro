@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
         Title="{DynamicResource AreasViewTitle}" Height="244" Width="421" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
-    <Grid> 
+    <Grid Style="{DynamicResource WinGrid}"> 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="153*"/>
@@ -17,7 +17,7 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <GroupBox Grid.Column="1" Header="{DynamicResource AreaData}" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="92" Width="359">
-            <Grid>
+            <Grid Style="{DynamicResource WinGrid}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="28*"/>
                     <ColumnDefinition Width="100*"/>

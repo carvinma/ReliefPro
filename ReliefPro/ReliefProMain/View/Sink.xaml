@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
         Title="Sink" Height="340.298" Width="526.054" Loaded="MetroWindow_Loaded_1">
     
-        <Grid>
+        <Grid Style="{DynamicResource WinGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="45*"/>
             <RowDefinition Height="45*"/>

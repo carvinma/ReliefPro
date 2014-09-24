@@ -4,7 +4,7 @@
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
         Title="{DynamicResource TubeRuptureViewTitle}" Height="300" Width="650" Name="myWindow">
     <!--这个什么都没有 ？-->
-    <Grid>
+    <Grid Style="{DynamicResource WinGrid}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="32*"/>
             <ColumnDefinition Width="124*"/>

@@ -38,7 +38,7 @@
 
     
     
-    <Style TargetType="{x:Type Grid}">
+    <Style x:Key="WinGrid" TargetType="{x:Type Grid}">
         <Setter Property="Background" Value="{DynamicResource BackBrush}" />
     </Style>
     

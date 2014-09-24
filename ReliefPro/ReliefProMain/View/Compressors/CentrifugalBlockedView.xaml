@@ -4,7 +4,7 @@
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
         Title="{DynamicResource CentrifugalBlockedViewTitle}" Height="370" Width="530" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     
-    <Grid>
+    <Grid Style="{DynamicResource WinGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="18" />
             <RowDefinition Height="30" />
@@ -46,7 +46,7 @@
         <Button Content="{DynamicResource Calculate}" Command="{Binding CalcCMD}" Grid.Column="1"  Grid.Row="5" />
 
         <GroupBox Header="{DynamicResource Output}" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3" Grid.RowSpan="4">
-            <Grid>
+            <Grid Style="{DynamicResource WinGrid}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="99*"/>
                     <ColumnDefinition Width="70*"/>

@@ -40,8 +40,8 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    <Grid>
-        <Grid>
+    <Grid Style="{DynamicResource WinGrid}">
+        <Grid Style="{DynamicResource WinGrid}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="5"></RowDefinition>
                 <RowDefinition Height="30"></RowDefinition>

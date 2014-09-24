@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
         Title="{DynamicResource CustomStreamViewTitle}" Height="340" Width="570" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
-    <Grid>
+    <Grid Style="{DynamicResource WinGrid}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="550*"/>
@@ -17,7 +17,7 @@
             <RowDefinition Height="23" />
         </Grid.RowDefinitions>
         <GroupBox Header="{DynamicResource StreamInfo}" HorizontalAlignment="Center" Grid.Row="1"  Grid.Column="1" Width="538" Margin="2,0">
-            <Grid>
+            <Grid Style="{DynamicResource WinGrid}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="120" />

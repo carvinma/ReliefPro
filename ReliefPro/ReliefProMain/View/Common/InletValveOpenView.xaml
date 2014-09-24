@@ -4,7 +4,7 @@
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
         Title="{DynamicResource InletValveOpenViewTitle}" Height="420" Width="540" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     
-    <Grid>
+    <Grid Style="{DynamicResource WinGrid}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30" />
             <ColumnDefinition Width="178*" />
@@ -27,7 +27,7 @@
             <RowDefinition Height="23"/>
         </Grid.RowDefinitions>
         <GroupBox Header="{DynamicResource UpStreamVessel}"  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" >
-            <Grid>
+            <Grid Style="{DynamicResource WinGrid}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1"/>
                     <ColumnDefinition Width="153*"/>

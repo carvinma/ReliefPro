@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="{DynamicResource DEPRColumnDetailsViewTitle}" Height="285" Width="630" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     
-    <Grid>
+    <Grid Style="{DynamicResource WinGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="18" />
             <RowDefinition Height="30" />

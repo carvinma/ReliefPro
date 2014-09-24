@@ -4,7 +4,7 @@
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
         Title="{DynamicResource ReboilerPinchViewTitle}" Height="662" Width="800" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     
-    <Grid>
+    <Grid Style="{DynamicResource WinGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="18"></RowDefinition>
            <RowDefinition Height="30"></RowDefinition>
@@ -45,7 +45,7 @@
         <CheckBox Content="{DynamicResource HotOilstreaminPROII}" Grid.Column="3"  Grid.Row="2" />
 
         <GroupBox Header="{DynamicResource Input}" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="5" >
-            <Grid>
+            <Grid Style="{DynamicResource WinGrid}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="320"/>
                     <ColumnDefinition Width="130"/>
@@ -108,7 +108,7 @@
         </GroupBox>
     
         <GroupBox Header="{DynamicResource Output}" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="5">
-            <Grid>
+            <Grid Style="{DynamicResource WinGrid}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="320"/>
                     <ColumnDefinition Width="130"/>

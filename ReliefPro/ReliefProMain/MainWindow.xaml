@@ -19,7 +19,7 @@
             </ContextMenu>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
+    <Grid Style="{DynamicResource WinGrid}">
         <s:BusyIndicator x:Name="busyCtrl"/>
         <Grid x:Name="layoutRoot" Grid.Row="1">
             <Grid.RowDefinitions>

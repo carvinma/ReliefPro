@@ -4,7 +4,7 @@
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
         Title="{DynamicResource DrumDepressureViewTitle}" Height="680" Width="740" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
 <!--这个界面还有问题  还需要调整-->
-    <Grid>
+    <Grid Style="{DynamicResource WinGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="18"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
@@ -84,7 +84,7 @@
         </StatusBar>
 
         <GroupBox Header="{DynamicResource Input}" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="7">
-            <Grid>
+            <Grid Style="{DynamicResource WinGrid}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" />
                     <RowDefinition Height="30" />

@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <GroupBox Header="Simulation File Type" HorizontalAlignment="Left" Margin="37,24,0,0" VerticalAlignment="Top" Height="124" Width="558" Grid.Row="0">
-            <Grid>
+            <Grid Style="{DynamicResource WinGrid}">
                 <RadioButton Name="r1" Content="PRO/II" IsChecked="True" GroupName="filetype" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="161" Margin="38,10,0,0"/>
                 <RadioButton Name="r2" IsEnabled="False" Content="Aspen Plus" GroupName="filetype" HorizontalAlignment="Left" Margin="38,39,0,0" VerticalAlignment="Top"/>
                 <RadioButton Name="r3" IsEnabled="False" Content="Hysys" GroupName="filetype" HorizontalAlignment="Left" Margin="38,64,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.811,0.935"/>

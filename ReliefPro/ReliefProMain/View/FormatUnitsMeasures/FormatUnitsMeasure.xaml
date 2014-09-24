@@ -7,7 +7,7 @@
         Height="520" Width="658" Icon="/ReliefProMain;component/Images/app.ico"  
         Style="{DynamicResource WinStyle}">
 	
-	<Grid>
+	<Grid Style="{DynamicResource WinGrid}">
 		<DockPanel>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                 <GroupBox>
@@ -31,7 +31,7 @@
                 </GroupBox>
             </StackPanel>
                     <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center" Width="658" Orientation="Horizontal">
-                <Grid>
+                <Grid Style="{DynamicResource WinGrid}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0"/>
                         <RowDefinition Height="1*"/>

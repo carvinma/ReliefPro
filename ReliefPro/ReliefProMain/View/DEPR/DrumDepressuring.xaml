@@ -31,7 +31,7 @@
             <Setter Property="Control.VerticalAlignment" Value="Center"></Setter>
         </Style>
     </Window.Resources>
-    <Grid>
+    <Grid Style="{DynamicResource WinGrid}">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>

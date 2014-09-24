@@ -24,7 +24,7 @@
         </Grid.ColumnDefinitions>
 
         <GroupBox Header="{DynamicResource SimulationFileType}"  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
-            <Grid>
+            <Grid Style="{DynamicResource WinGrid}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>

@@ -38,7 +38,7 @@
             </HierarchicalDataTemplate>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
+    <Grid Style="{DynamicResource WinGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>
             <RowDefinition Height="77*"/>

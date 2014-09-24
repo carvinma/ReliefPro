@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
         Title="{DynamicResource HXBlockedOutletViewTitle}" Height="473" Width="600" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
-    
-    <Grid>
+
+    <Grid Style="{DynamicResource WinGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="18"></RowDefinition>
             <RowDefinition Height="170"></RowDefinition>
@@ -40,7 +40,7 @@
         </StatusBar>
 
         <GroupBox Header="{DynamicResource Input}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3">
-            <Grid>
+            <Grid Style="{DynamicResource WinGrid}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="220"></ColumnDefinition>
                     <ColumnDefinition Width="130"></ColumnDefinition>
@@ -74,7 +74,7 @@
         </GroupBox>
         <Button Content="{DynamicResource Calculation}" Command="{Binding CalcCMD}" Grid.Column="1" Grid.Row="2"></Button>
         <GroupBox Header="{DynamicResource Output}" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3">
-            <Grid>
+            <Grid Style="{DynamicResource WinGrid}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="220"></ColumnDefinition>
                     <ColumnDefinition Width="130"></ColumnDefinition>

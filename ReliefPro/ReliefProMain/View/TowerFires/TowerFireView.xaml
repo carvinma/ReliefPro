@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
         Title="{DynamicResource TowerFireViewTitle}" Height="550" Width="900" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
-    <Grid>
+    <Grid Style="{DynamicResource WinGrid}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15"/>
             <ColumnDefinition Width="130"/>
@@ -90,7 +90,7 @@
             
         </ListView>
         <GroupBox Grid.Column="1" Header="{DynamicResource Output}" HorizontalAlignment="Stretch"  Grid.Row="4"  Height="180" Grid.ColumnSpan="4" >
-            <Grid>
+            <Grid Style="{DynamicResource WinGrid}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="125"/>
                     <ColumnDefinition Width="130"/>

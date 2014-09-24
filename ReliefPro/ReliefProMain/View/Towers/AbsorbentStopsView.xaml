@@ -9,7 +9,7 @@
             <ColumnDefinition Width="487*"/>
         </Grid.ColumnDefinitions>
         <StackPanel VerticalAlignment="Stretch" Grid.ColumnSpan="2">
-            <Grid>
+            <Grid Style="{DynamicResource WinGrid}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="10*"/>
@@ -24,7 +24,7 @@
                     <RowDefinition Height="23"/>
                 </Grid.RowDefinitions>
                 <GroupBox VerticalAlignment="Stretch" Header="{DynamicResource Input}" Grid.Column="1" Grid.Row="1">
-                    <Grid>
+                    <Grid Style="{DynamicResource WinGrid}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="130"/>
@@ -50,7 +50,7 @@
                 </GroupBox>
                 <Button Content="{DynamicResource Calculation}" Command="{Binding CalculateCommand}" Grid.Column="1" Grid.Row="2"></Button>
                 <GroupBox Header="{DynamicResource Output}" Grid.Column="1" Grid.Row="3">
-                    <Grid>
+                    <Grid Style="{DynamicResource WinGrid}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="130"/>

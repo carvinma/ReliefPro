@@ -5,7 +5,7 @@
         Title="{DynamicResource BlockedVaporOutletViewTitle}" Height="416" Width="550" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     <Grid >
         <StackPanel VerticalAlignment="Stretch">
-            <Grid>
+            <Grid Style="{DynamicResource WinGrid}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="10*"/>
@@ -20,7 +20,7 @@
                     <RowDefinition Height="23"/>
                 </Grid.RowDefinitions>
                 <GroupBox VerticalAlignment="Stretch" Header="Input" Grid.Column="1" Grid.Row="1">
-                    <Grid>
+                    <Grid Style="{DynamicResource WinGrid}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="240"/>
                             <ColumnDefinition Width="130"/>
@@ -50,7 +50,7 @@
                 </GroupBox>
                 <Button Content="Calculate" Command="{Binding CalculateCommand}" Grid.Column="1" Grid.Row="2"></Button>
                 <GroupBox Header="Output" Grid.Column="1" Grid.Row="3">
-                    <Grid>
+                    <Grid Style="{DynamicResource WinGrid}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="240"/>
                             <ColumnDefinition Width="130"/>

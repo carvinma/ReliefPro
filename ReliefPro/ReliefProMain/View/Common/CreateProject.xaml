@@ -6,7 +6,7 @@
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
     </Window.Background>
     
-    <Grid>
+    <Grid Style="{DynamicResource WinGrid}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="34*"/>
             <RowDefinition Height="47*"/>
