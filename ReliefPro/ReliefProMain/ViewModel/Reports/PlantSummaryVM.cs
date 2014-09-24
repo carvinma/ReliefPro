@@ -85,8 +85,8 @@ namespace ReliefProMain.ViewModel.Reports
             ProcessUnitPath = UnitPath;
             listPlantReportDS = new List<PlantSummaryGridDS>();
 
-            //report = new ReportBLL(UnitPath[0].Item1, UnitPath[0].Item2);
-            report = new ReportBLL();
+            report = new ReportBLL(UnitPath[0].Item1, UnitPath[0].Item2);
+            
             listPlantCalc = report.listPlantCalc;
             listDischargeTo = report.GetDisChargeTo();
             if (listDischargeTo.Count > 0)
