@@ -118,10 +118,10 @@ namespace ReliefProMain.ViewModel.Reports
             PlantSummaryGridDS psDS = report.GetPlantReprotDS(listPUReportDS, 0);
             if (psDS != null)
             {
-                listPlantReportDS.Clear();
+              //  listPlantReportDS.Clear();
                 listPlantReportDS.Add(psDS);
             }
-            if (report != null) report.ClearSession();
+          // if (report != null) report.ClearSession();
         }
         private void CreateReport()
         {
