@@ -6,7 +6,7 @@
         xmlns:Loading="clr-namespace:BusyIndicatorCtrl;assembly=BusyIndicatorCtrl"
         Height="366" Width="656" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
 
-    <Grid >
+    <Grid Style="{DynamicResource WinGrid}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30"/>
             <ColumnDefinition Width="125*"/>

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
         Title="{DynamicResource AccumulatorViewTitle}" Height="258" Width="421" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
-    <Grid >
+    <Grid Style="{DynamicResource WinGrid}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="45"/>
             <ColumnDefinition Width="141*"/>

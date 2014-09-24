@@ -4,7 +4,7 @@
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
         Title="{DynamicResource StorageTankViewTitle}" Height="308" Width="565" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
 
-    <Grid Name="grid1">
+    <Grid Style="{DynamicResource WinGrid}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="70"/>
             <ColumnDefinition Width="120"/>

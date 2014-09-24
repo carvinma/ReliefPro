@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
        
         Title="{DynamicResource ImportDataViewTitle}" Height="300" Width="590" Loaded="Window_Loaded_1"  ShowInTaskbar="False" BorderBrush="#FF1D1A1A" BorderThickness="1" Closing="MetroWindow_Closing_1" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
-    
-        <Grid  >
+
+    <Grid Style="{DynamicResource WinGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="18"/>
             <RowDefinition Height="110"/>

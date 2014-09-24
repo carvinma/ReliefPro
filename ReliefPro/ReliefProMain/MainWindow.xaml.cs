@@ -299,7 +299,7 @@ namespace ReliefProMain
                         SavePlant();
                         break;
                     case "Close Plant":
-                        
+                        ClosePlant();
                         break;
                     case "Import Simulation":
                         ImportExtraData();
@@ -495,6 +495,26 @@ namespace ReliefProMain
                 return (treeSelectedItem as TVFileViewModel).tvFile.dbPlantFile;
             }
             return string.Empty;
+        }
+
+        private void ClosePlant()
+        {
+            MessageBoxResult r = MessageBox.Show("Are you sure you want to close all plants?", "", MessageBoxButton.YesNoCancel);
+            if (r == MessageBoxResult.Yes)
+            {
+                var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+                if (firstDocumentPane != null)
+                {
+                    if (firstDocumentPane.Children.Count > 0)
+                    {
+                        MessageBox.Show("Please close all documents first!", "Message Box");
+                        return;
+                    }
+                }
+                SavePlant();
+                ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
+                list.Clear();
+            }
         }
 
         private void SavePlant()
@@ -913,6 +933,9 @@ namespace ReliefProMain
                         break;
                     case "Save Plant":
                         SavePlant();
+                        break;
+                    case "Close Plant":
+                        ClosePlant();
                         break;
                     case "Import Simulation":
                         ImportExtraData();

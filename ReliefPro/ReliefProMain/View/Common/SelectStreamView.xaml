@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         
         Title="{DynamicResource SelectStreamViewTitle}" Height="244" Width="421" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
-    
-        <Grid DockPanel.Dock="Top">
+    <Grid Style="{DynamicResource WinGrid}" DockPanel.Dock="Top">
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="30"/>

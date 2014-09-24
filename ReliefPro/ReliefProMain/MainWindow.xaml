@@ -75,7 +75,7 @@
                         <Button Name="btnOpenPlant" ToolTip="Open Plant" VerticalAlignment="Center" Command="{Binding OpenPlantCommand}">
                             <Image Source="images/openplant.ico"  Height="24" Width="24"></Image>
                         </Button>
-                        <Button Name="btnClosePlant" ToolTip="Close Plant" VerticalAlignment="Center"  Command="{Binding ClosePlantCommand}">
+                        <Button Name="btnClosePlant" ToolTip="Close Plant" VerticalAlignment="Center"  Click="Button_Click">
                             <Image Source="images/closeplant.ico"   Height="24" Width="24"></Image>
                         </Button>
                        
