@@ -99,6 +99,7 @@ namespace ReliefProMain.ViewModel.Reports
         }
         private void ChangerDischargeTo(string ReportDischargeTo)
         {
+            if (listPlantReportDS != null) listPlantReportDS.Clear();
             if (listDischargeTo.Count > 0)
             {
                 ProcessUnitPath.ForEach(p =>
