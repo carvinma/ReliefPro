@@ -44,8 +44,7 @@
                     <MenuItem Header="_Tools(T)">
                         <MenuItem Header="Units Of Measure" Click="OnloadUnitOfMeasure" />
                         <MenuItem Header="Plant Explorer"  Click="OnShowPlantExplorer" />
-                        <MenuItem Header="ICON"  Click="OnShowICON" />
-                       
+                        <!--<MenuItem Header="ICON"  Click="OnShowICON" />-->                       
                     </MenuItem>
                     <MenuItem Header="_Plant(P)" >
                         <MenuItem Header="Import Simulation" Click="MenuItem_Click" />                       
@@ -57,11 +56,9 @@
                     </MenuItem>
                 </Menu>
             
-            <Border Grid.Row="1" BorderThickness="1"  >
-                <Border.Background>
-                    <SolidColorBrush Color="#ffffff"/>
-                </Border.Background>
-                <ToolBarTray  HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="35"  >
+            <ToolBarPanel Grid.Row="1" >
+                
+                <ToolBarTray  HorizontalAlignment="Left" VerticalAlignment="Center" Height="35">
                     <ToolBarTray.Background>
                         <SolidColorBrush Color="#cbdbea"/>
                     </ToolBarTray.Background>
@@ -94,16 +91,38 @@
                             <Image Source="/images/uom.ico" Height="24" Width="24"  ></Image>
                         </Button>
 
-                        
                         <Button Name="btnGlobalDefault" ToolTip="Global Default" VerticalAlignment="Center"  Click="Button_Click">
                             <Image Source="/images/GlobalDefault.ico"   Height="24" Width="24"></Image>
                         </Button>
-                       
+                        <Label Width="30"></Label>
+                        <Separator/>                       
+                        <DockPanel>
+                            <ListView Name="icon1"  AllowDrop="True" Background="#ecf1f6"   Width="160"    BorderThickness="0"  >
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Margin="0,0,0,0"  Orientation="Horizontal" HorizontalAlignment="Center"  ></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Background="#ecf1f6">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                               
+                                            </Grid.RowDefinitions>
 
+                                            <Image Grid.Row="0"  Width="24px" Height="24px"  Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>
+                                            
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </DockPanel>
 
                     </ToolBar>
-                </ToolBarTray>
-            </Border>
+                </ToolBarTray>                
+                
+            </ToolBarPanel>
 
 
 
@@ -171,7 +190,7 @@
                                         </TreeView.Resources>
                                     </TreeView>
                                 </avalonDock:LayoutAnchorable>
-                                <avalonDock:LayoutAnchorable ContentId="toolWindow" Title="ICON" Hiding="OnToolWindow1Hiding"  >
+                                <!--<avalonDock:LayoutAnchorable ContentId="toolWindow" Title="ICON" Hiding="OnToolWindow1Hiding"   >
                                     <Border>
                                         <DockPanel Background="#ecf1f6">
                                             <ListView Name="lvTower"  AllowDrop="True" Background="#ecf1f6"   VerticalAlignment="Stretch"    BorderThickness="0"  >
@@ -197,7 +216,7 @@
                                             </ListView>
                                         </DockPanel>
                                     </Border>
-                                </avalonDock:LayoutAnchorable>
+                                </avalonDock:LayoutAnchorable>-->
                             </avalonDock:LayoutAnchorablePane>
                         </avalonDock:LayoutAnchorablePaneGroup>
 

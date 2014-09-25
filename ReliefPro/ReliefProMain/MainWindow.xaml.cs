@@ -301,6 +301,9 @@ namespace ReliefProMain
                     case "Close Plant":
                         ClosePlant();
                         break;
+                    case "Save As":
+                        SaveAsPlant();
+                        break;
                     case "Import Simulation":
                         ImportExtraData();
                         break;
@@ -403,7 +406,7 @@ namespace ReliefProMain
 
 
 
-        private void initTower()
+        private void initIcon()
         {
             ObservableCollection<ListViewItemData> collections = new ObservableCollection<ListViewItemData>();
             collections.Add(new ListViewItemData { Name = "Tower", Pic = "/images/tower.ico" });
@@ -412,7 +415,8 @@ namespace ReliefProMain
             collections.Add(new ListViewItemData { Name = "Heat Exchanger", Pic = "/images/HeatExchanger.ico" });
             collections.Add(new ListViewItemData { Name = "Reactor Loop", Pic = "/images/ReactorLoop.ico" });
             collections.Add(new ListViewItemData { Name = "Storage Tank", Pic = "/images/StorageTank.ico" });
-            this.lvTower.ItemsSource = collections;
+            //this.lvTower.ItemsSource = collections;
+            this.icon1.ItemsSource = collections;
         }
 
 
@@ -534,9 +538,33 @@ namespace ReliefProMain
             }
         }
 
+        private void SaveAsPlant()
+        {
+            try
+            {
+                Microsoft.Win32.SaveFileDialog dlgSaveDiagram = new Microsoft.Win32.SaveFileDialog();
+                dlgSaveDiagram.Filter = "ReliefPro|*.ref;";
+                dlgSaveDiagram.FileName = string.Empty;
+                if (dlgSaveDiagram.ShowDialog() == true)
+                {
+                    ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
+                    if (list.Count > 0)
+                    {
+                        TVPlantViewModel p = list[0];
+                        string currentPlantWorkFolder = p.tvPlant.FullPath;
+                        string currentPlantFile = p.tvPlant.FullRefPath;
+                        ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, dlgSaveDiagram.FileName);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
         private void MainWindowApp_Loaded(object sender, RoutedEventArgs e)
         {
-            initTower();
+            initIcon();
         }
         private static ManualResetEvent BusinessDone = new ManualResetEvent(false);
         private void NavigationTreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -1047,7 +1075,97 @@ namespace ReliefProMain
             }
         }
 
+        private void Icon_MouseMove(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                Image item = (Image)sender;
+                
+                var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+                if (firstDocumentPane != null)
+                {
+                    if (firstDocumentPane.Children.Count > 0)
+                    {
+                        Visio.Page currentPage = visioControl.Document.Pages[1];
 
+                        if (item.ToolTip.ToString().ToLower().Contains("tower"))
+                        {
+                            Visio.Document myCurrentStencil = visioControl.Document.Application.Documents.OpenEx(System.Environment.CurrentDirectory + @"/Template/Tower.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+                            Visio.Master visioRectMaster = myCurrentStencil.Masters.get_ItemU(@"Dis");
+                            DragDropEffects dde1 = DragDrop.DoDragDrop(item, visioRectMaster, DragDropEffects.All);
+                            myCurrentStencil.Close();
+                            //openProperty();
+                            foreach (Visio.Shape shape in visioControl.Window.Selection)
+                            {
+                                shape.Cells["EventDblClick"].Formula = "=0";
+                            }
+                            visioControl.Window.DeselectAll();
+                        }
+                        if (item.ToolTip.ToString().ToLower().Contains("drum"))
+                        {
+                            Visio.Document currentStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+                            Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Column");
+                            DragDropEffects dde1 = DragDrop.DoDragDrop(item, visioRectMaster, DragDropEffects.All);
+                            foreach (Visio.Shape shape in visioControl.Window.Selection)
+                            {
+                                shape.Cells["EventDblClick"].Formula = "=0";
+                            }
+                            visioControl.Window.DeselectAll();
+                        }
+
+                        if (item.ToolTip.ToString().ToLower().Contains("storagetank"))
+                        {
+                            Visio.Document currentStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+                            Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Tank");
+                            DragDropEffects dde1 = DragDrop.DoDragDrop(item, visioRectMaster, DragDropEffects.All);
+                            foreach (Visio.Shape shape in visioControl.Window.Selection)
+                            {
+                                shape.Cells["EventDblClick"].Formula = "=0";
+                            }
+                            visioControl.Window.DeselectAll();
+                        }
+                        if (item.ToolTip.ToString().ToLower().Contains("hx"))
+                        {
+                            Visio.Document currentStencil = visioControl.Document.Application.Documents.OpenEx("PEHEAT_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+                            Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Heat exchanger2");
+                            DragDropEffects dde1 = DragDrop.DoDragDrop(item, visioRectMaster, DragDropEffects.All);
+                            foreach (Visio.Shape shape in visioControl.Window.Selection)
+                            {
+                                shape.Cells["EventDblClick"].Formula = "=0";
+                            }
+                            visioControl.Window.DeselectAll();
+                        }
+                        if (item.ToolTip.ToString().ToLower().Contains("compressor"))
+                        {
+                            Visio.Document currentStencil = visioControl.Document.Application.Documents.OpenEx("PEPUMP_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+                            Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Selectable Compressor1");
+                            DragDropEffects dde1 = DragDrop.DoDragDrop(item, visioRectMaster, DragDropEffects.All);
+                            foreach (Visio.Shape shape in visioControl.Window.Selection)
+                            {
+                                shape.Cells["EventDblClick"].Formula = "=0";
+                            }
+                            visioControl.Window.DeselectAll();
+                        }
+                        if (item.ToolTip.ToString().ToLower().Contains("reactorloop"))
+                        {
+                            Visio.Document currentStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
+                            Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Reaction vessel");
+                            DragDropEffects dde1 = DragDrop.DoDragDrop(item, visioRectMaster, DragDropEffects.All);
+                            foreach (Visio.Shape shape in visioControl.Window.Selection)
+                            {
+                                shape.Cells["EventDblClick"].Formula = "=0";
+                            }
+                            visioControl.Window.DeselectAll();
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Message Box");
+            }
+        }
     }
 
 
