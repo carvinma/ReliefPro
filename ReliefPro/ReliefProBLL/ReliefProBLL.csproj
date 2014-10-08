@@ -92,8 +92,10 @@
     <Compile Include="PSVBLL.cs" />
     <Compile Include="ReactorLoopBLL.cs" />
     <Compile Include="ReadFromPro.cs" />
+    <Compile Include="ReImportBLL.cs" />
     <Compile Include="ReportBLL.cs" />
     <Compile Include="ReportPlanSession.cs" />
+    <Compile Include="ScenarioBLL.cs" />
     <Compile Include="SourceFileBLL.cs" />
     <Compile Include="SystemUnitInfo.cs" />
     <Compile Include="TowerBLL.cs" />

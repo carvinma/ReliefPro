@@ -44,10 +44,10 @@ namespace ReliefProMain.ViewModel
         }
 
 
-        private ObservableCollection<TowerScenarioStreamModel> GetTowerHXScenarioFeeds()
+        private ObservableCollection<TowerScenarioStreamModel> GetTowerHXScenarioFeeds( bool IsProduct)
         {
             ObservableCollection<TowerScenarioStreamModel> feeds=new ObservableCollection<TowerScenarioStreamModel>();
-             IList<TowerScenarioStream> list = db.GetAllList(SessionProtectedSystem, ScenarioID,false);   
+            IList<TowerScenarioStream> list = db.GetAllList(SessionProtectedSystem, ScenarioID, IsProduct);   
             foreach(TowerScenarioStream s in list)
             {
                 TowerScenarioStreamModel model = ConvertToModel(s);
@@ -56,14 +56,14 @@ namespace ReliefProMain.ViewModel
             return feeds;
         }
 
-        public TowerScenarioFeedVM(int scenarioID,SourceFile sourceFileInfo,  ISession sessionPlant, ISession sessionProtectedSystem)
+        public TowerScenarioFeedVM(int scenarioID,SourceFile sourceFileInfo,  ISession sessionPlant, ISession sessionProtectedSystem,bool IsProduct)
         {
             db = new TowerScenarioStreamDAL();
             ScenarioID=scenarioID;
             SessionPlant = sessionPlant;
             SourceFileInfo = sourceFileInfo; 
             SessionProtectedSystem = sessionProtectedSystem;
-            Feeds = GetTowerHXScenarioFeeds();
+            Feeds = GetTowerHXScenarioFeeds(IsProduct);
         }
 
         private TowerScenarioStreamModel ConvertToModel(TowerScenarioStream m)
@@ -75,6 +75,8 @@ namespace ReliefProMain.ViewModel
             model.StreamName = m.StreamName;
             model.FlowCalcFactor = m.FlowCalcFactor;
             model.FlowStop = m.FlowStop;
+            model.IsNormal = m.IsNormal;
+            model.ReliefNormalFactor = m.ReliefNormalFactor;
             return model;
         }
         private TowerScenarioStream ConvertToDBModel(TowerScenarioStreamModel m, ref TowerScenarioStream model)
@@ -85,6 +87,8 @@ namespace ReliefProMain.ViewModel
             model.StreamName = m.StreamName;
             model.FlowCalcFactor = m.FlowCalcFactor;
             model.FlowStop = m.FlowStop;
+            model.IsNormal = m.IsNormal;
+            model.ReliefNormalFactor = m.ReliefNormalFactor;
             return model;
         }
 

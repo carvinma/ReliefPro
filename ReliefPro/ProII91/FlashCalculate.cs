@@ -35,7 +35,7 @@ namespace ProII91
             sb.Append(arrfileContent[0]).Append("\nSTREAM DATA\n").Append(streamData).Append(arrfileContent[1]).Append(flashData);
             string onlyFileName = dir + @"\" + Guid.NewGuid().ToString().Substring(0, 5);
             string inpFile = onlyFileName + ".inp";
-            File.WriteAllText(inpFile, sb.ToString());
+            File.WriteAllText(inpFile, sb.ToString());            
             CP2ServerClass cp2Srv = new CP2ServerClass();
             cp2Srv.Initialize();
             ImportResult = cp2Srv.Import(inpFile);

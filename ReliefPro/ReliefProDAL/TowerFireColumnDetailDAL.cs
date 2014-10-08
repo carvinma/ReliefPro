@@ -27,6 +27,19 @@ namespace ReliefProDAL
             }
             return list;
         }
-
+        public IList<TowerFireColumnDetail> GetAllList(ISession session)
+        {
+            IList<TowerFireColumnDetail> list = null;
+            try
+            {
+                session.Clear();
+                list = session.CreateCriteria<TowerFireColumnDetail>().List<TowerFireColumnDetail>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
     }
 }

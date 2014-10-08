@@ -449,6 +449,9 @@
     <Compile Include="View\Towers\BlockedVaporOutletView.xaml.cs">
       <DependentUpon>BlockedVaporOutletView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Towers\TowerScenarioProductView.xaml.cs">
+      <DependentUpon>TowerScenarioProductView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Towers\TowerView.xaml.cs">
       <DependentUpon>TowerView.xaml</DependentUpon>
     </Compile>
@@ -762,6 +765,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Towers\BlockedVaporOutletView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Towers\TowerScenarioProductView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

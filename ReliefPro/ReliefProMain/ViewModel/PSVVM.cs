@@ -22,6 +22,7 @@ using ReliefProModel.GlobalDefault;
 using System.Threading;
 using System.Collections.ObjectModel;
 using ReliefProCommon.Enum;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel
 {
@@ -274,10 +275,10 @@ namespace ReliefProMain.ViewModel
                     }
                     else if (psv.ReliefPressureFactor == CurrentModel.ReliefPressureFactor && psv.Pressure == CurrentModel.Pressure)
                     {
-
                         WriteConvert();
                         dbpsv.Update(CurrentModel.dbmodel, SessionProtectedSystem);
-                        SessionProtectedSystem.Flush();
+                        //SessionProtectedSystem.Flush();
+
                     }
                     else
                     {
@@ -289,15 +290,22 @@ namespace ReliefProMain.ViewModel
                         //SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
 
                         //应该是删除所有的和定压相关的表的数据
-
-                        ClearData();
-                        if (EqType == "Tower")
+                        MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
+                        if (r == MessageBoxResult.Yes)
                         {
-                            CreateTowerPSV();
-                        }
+                            ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
+                            scBLL.DeleteSCOther();
+                            scBLL.ClearScenario();
+                            PSVBLL psvbll = new PSVBLL(SessionProtectedSystem);
+                            psvbll.DeletePSVData();
+                            if (EqType == "Tower")
+                            {
+                                CreateTowerPSV();
+                            }
 
-                        WriteConvert();
-                        dbpsv.Add(CurrentModel.dbmodel, SessionProtectedSystem);
+                            WriteConvert();
+                            dbpsv.Add(CurrentModel.dbmodel, SessionProtectedSystem);
+                        }
                     }
                     //Thread.Sleep(3000);
                 }).ContinueWith((t) => { });
@@ -438,11 +446,11 @@ namespace ReliefProMain.ViewModel
                         }
                         else
                         {
-                            MessageBoxResult r = MessageBox.Show("Prz file is error", "Message Box", MessageBoxButton.OKCancel);
-                            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("Explorer.exe", f);
+                            //MessageBoxResult r = MessageBox.Show("Prz file is error", "Message Box", MessageBoxButton.OKCancel);
+                            //System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo("Explorer.exe", f);
 
-                            if (r == MessageBoxResult.Yes)
-                            {
+                            //if (r == MessageBoxResult.Yes)
+                            //{
                                 FlashResult fr = new FlashResult();
                                 fr.LiquidName = liquid;
                                 fr.VaporName = vapor;
@@ -451,15 +459,15 @@ namespace ReliefProMain.ViewModel
                                 fr.Tray = tray;
                                 fr.ProdType = prodtype;
                                 listFlashResult.Add(fr);
-                            }
-                            return;
+                            //}
+                           // return;
                         }
                     }
                     else
                     {
-                        MessageBoxResult r = MessageBox.Show("inp file is error", "Message Box", MessageBoxButton.OKCancel);
-                        if (r == MessageBoxResult.Yes)
-                        {
+                        //MessageBoxResult r = MessageBox.Show("inp file is error", "Message Box", MessageBoxButton.OKCancel);
+                        //if (r == MessageBoxResult.Yes)
+                        //{
                             FlashResult fr = new FlashResult();
                             fr.LiquidName = liquid;
                             fr.VaporName = vapor;
@@ -468,8 +476,8 @@ namespace ReliefProMain.ViewModel
                             fr.Tray = tray;
                             fr.ProdType = prodtype;
                             listFlashResult.Add(fr);
-                        }
-                        return;
+                        //}
+                        //return;
                     }
                 }
             }
@@ -478,15 +486,20 @@ namespace ReliefProMain.ViewModel
             count = listFlashResult.Count;
             for (int i = 1; i <= count; i++)
             {
+                TowerFlashProduct product = new TowerFlashProduct();
                 FlashResult fr = listFlashResult[i - 1];
+                CustomStream cs = null;
                 string prodtype = fr.ProdType;
                 int tray = fr.Tray;
-                if (fr.PrzFile != "")
+                if (fr.PrzFile == "")
                 {
-                    CustomStream cs = null;
+                    cs = dbstream.GetModel(SessionProtectedSystem, fr.StreamName);
+                }
+                else
+                {                   
                     IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(fr.PrzFile);
-                    TowerFlashProduct product = new TowerFlashProduct();
+                    
                     if (prodtype == "4" || (prodtype == "2" && tray == 1) || prodtype == "3" || prodtype == "6")
                     {
                         ProIIStreamData data = reader.GetSteamInfo(fr.VaporName);
@@ -499,15 +512,17 @@ namespace ReliefProMain.ViewModel
 
                     }
                     reader.ReleaseProIIReader();
-                    product.SpEnthalpy = cs.SpEnthalpy;
-                    product.StreamName = fr.StreamName;
-                    product.WeightFlow = cs.WeightFlow;
-                    product.ProdType = fr.ProdType;
-                    product.Tray = tray;
-                    product.Temperature = cs.Temperature;
-
-                    listFlashProduct.Add(product);
                 }
+                
+                product.SpEnthalpy = cs.SpEnthalpy;
+                product.StreamName = fr.StreamName;
+                product.WeightFlow = cs.WeightFlow;
+                product.ProdType = fr.ProdType;
+                product.Tray = tray;
+                product.Temperature = cs.Temperature;
+
+                listFlashProduct.Add(product);
+
             }
 
 
@@ -637,20 +652,7 @@ namespace ReliefProMain.ViewModel
         }
 
 
-        private void ClearData()
-        {
-            LatentDAL ldal = new LatentDAL();
-            ldal.RemoveALL(SessionProtectedSystem);
-
-            LatentProductDAL lpdal = new LatentProductDAL();
-            lpdal.RemoveALL(SessionProtectedSystem);
-
-            PSVDAL psvdal = new PSVDAL();
-            psvdal.RemoveALL(SessionProtectedSystem);
-
-        }
-
-
+        
 
     }
 }

@@ -85,5 +85,46 @@ namespace ReliefProMain.Models
                 NotifyPropertyChanged("FlowStop");
             }
         }
+        private bool _IsNormal;
+        public bool IsNormal
+        {
+            get
+            {
+                return this._IsNormal;
+            }
+            set
+            {
+                this._IsNormal = value;
+                NotifyPropertyChanged("IsNormal");
+            }
+        }
+
+        private string _SinkType;
+        public string SinkType
+        {
+            get
+            {
+                return this._SinkType;
+            }
+            set
+            {
+                this._SinkType = value;
+                NotifyPropertyChanged("SinkType");
+            }
+        }
+
+        private double _ReliefNormalFactor;
+        public double ReliefNormalFactor
+        {
+            get
+            {
+                return this._ReliefNormalFactor;
+            }
+            set
+            {
+                this._ReliefNormalFactor = value;
+                NotifyPropertyChanged("ReliefNormalFactor");
+            }
+        }
     }
 }

@@ -183,7 +183,19 @@ namespace ReliefProMain.ViewModel
             return SteamFreezed;
         }
 
+        private ICommand _ProductCommand;
+        public ICommand ProductCommand
+        {
+            get
+            {
+                if (_ProductCommand == null)
+                {
+                    _ProductCommand = new RelayCommand(Product);
 
+                }
+                return _ProductCommand;
+            }
+        }
 
         private ICommand _FeedCommand;
         public ICommand FeedCommand
@@ -202,7 +214,15 @@ namespace ReliefProMain.ViewModel
         private void Feed(object window)
         {
             TowerScenarioFeedView v = new TowerScenarioFeedView();
-            TowerScenarioFeedVM vm = new TowerScenarioFeedVM(ScenarioID, SourceFileInfo, SessionPlant, SessionProtectedSystem);
+            TowerScenarioFeedVM vm = new TowerScenarioFeedVM(ScenarioID, SourceFileInfo, SessionPlant, SessionProtectedSystem,false);
+            v.DataContext = vm;
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            v.ShowDialog();
+        }
+        private void Product(object window)
+        {
+            TowerScenarioProductView v = new TowerScenarioProductView();
+            TowerScenarioFeedVM vm = new TowerScenarioFeedVM(ScenarioID, SourceFileInfo, SessionPlant, SessionProtectedSystem,true);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.ShowDialog();
@@ -666,12 +686,20 @@ namespace ReliefProMain.ViewModel
                     {
 
                         if (IsSteamFreezed && product.ProdType == "4")
-                        {
-                            ProductTotal = ProductTotal + (s.FlowCalcFactor) * cstream.SpEnthalpy * product.WeightFlow;
+                        {                      
+                            ProductTotal = ProductTotal + (s.FlowCalcFactor) * cstream.SpEnthalpy * product.WeightFlow;                           
                         }
                         else
                         {
-                            ProductTotal = ProductTotal + (s.FlowCalcFactor) * product.SpEnthalpy * product.WeightFlow;
+                            //ProductTotal = ProductTotal + (s.FlowCalcFactor) * product.SpEnthalpy * product.WeightFlow;
+                            if (s.IsNormal)
+                            {
+                                ProductTotal = ProductTotal + (s.FlowCalcFactor) * cstream.SpEnthalpy  * product.WeightFlow;
+                            }
+                            else
+                            {
+                                ProductTotal = ProductTotal + (s.FlowCalcFactor) * cstream.SpEnthalpy * s.ReliefNormalFactor * product.WeightFlow;
+                            }
                         }
                         if (cstream.ProdType == "6")
                         {
@@ -732,8 +760,8 @@ namespace ReliefProMain.ViewModel
             {
                 wRelief = 0;
             }
-            reliefLoad = wAccumulation + waterWeightFlow;
-            reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / latent.ReliefOHWeightFlow + waterWeightFlow / 18);
+            reliefLoad = wRelief + waterWeightFlow;
+            reliefMW = (wRelief + waterWeightFlow) / (wRelief / latent.ReliefOHWeightFlow + waterWeightFlow / 18);
             reliefTemperature = latent.ReliefTemperature;
             reliefPressure = latent.ReliefPressure;
             if (reliefLoad < 0)
@@ -774,8 +802,14 @@ namespace ReliefProMain.ViewModel
                         }
                         else
                         {
-                            ProductTotal = ProductTotal + (s.FlowCalcFactor * product.SpEnthalpy * product.WeightFlow);
-
+                            if (s.IsNormal)
+                            {
+                                ProductTotal = ProductTotal + (s.FlowCalcFactor) * cstream.SpEnthalpy * product.WeightFlow;
+                            }
+                            else
+                            {
+                                ProductTotal = ProductTotal + (s.FlowCalcFactor) * cstream.SpEnthalpy * s.ReliefNormalFactor * product.WeightFlow;
+                            }
                         }
                         if (cstream.ProdType == "4")
                         {
@@ -822,8 +856,8 @@ namespace ReliefProMain.ViewModel
             {
                 wRelief = 0;
             }
-            reliefLoad = wAccumulation + waterWeightFlow;
-            reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / latent.ReliefOHWeightFlow + waterWeightFlow / 18);
+            reliefLoad = wRelief + waterWeightFlow;
+            reliefMW = (wRelief + waterWeightFlow) / (wRelief / latent.ReliefOHWeightFlow + waterWeightFlow / 18);
             reliefTemperature = latent.ReliefTemperature;
             reliefPressure = latent.ReliefPressure;
             if (reliefLoad < 0)

@@ -198,6 +198,7 @@ namespace ReliefProMain.ViewModel
             }
             ProtectedSystem ps = new ProtectedSystem();
             ps.PSType = 3;
+            
             compressorbll.Save(model.dbmodel, model.Feeds, model.Products, ps);
             SourceFileInfo = sourcebll.GetSourceFileInfo(model.SourceFile);
 

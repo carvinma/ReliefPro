@@ -97,7 +97,7 @@
                         <Label Width="30"></Label>
                         <Separator/>                       
                         <DockPanel>
-                            <ListView Name="icon1"  AllowDrop="True" Background="#ecf1f6"   Width="160"    BorderThickness="0"  >
+                            <ListView Name="icon1"   AllowDrop="True" Background="#ecf1f6"   Width="160"    BorderThickness="0"  >
                                 <ListView.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Margin="0,0,0,0"  Orientation="Horizontal" HorizontalAlignment="Center"  ></StackPanel>
@@ -107,12 +107,9 @@
                                     <DataTemplate>
                                         <Grid Background="#ecf1f6">
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                               
+                                                <RowDefinition Height="Auto" />                                               
                                             </Grid.RowDefinitions>
-
-                                            <Image Grid.Row="0"  Width="24px" Height="24px"  Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>
-                                            
+                                            <Image Grid.Row="0"    Width="24px" Height="24px"  Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>                                            
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>

@@ -14,6 +14,8 @@ using UOMLib;
 using NHibernate;
 using ReliefProMain.View;
 using ReliefProMain.Models;
+using System.Windows;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel
 {
@@ -58,13 +60,28 @@ namespace ReliefProMain.ViewModel
             IList<BasicUnit> list = dbBU.GetAllList(SessionPlant);
             BU = list.Where(s => s.IsDefault == 1).Single();
 
-            WriteConvert();
-            MainModel.dbmodel.SinkType_Color = MainModel.SinkType_Color;
-            MainModel.dbmodel.MaxPossiblePressure_Color = MainModel.MaxPossiblePressure_Color;
-            MainModel.dbmodel.SinkType = MainModel.SinkType;
-            db.Update(MainModel.dbmodel, SessionProtectedSystem);
-            SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction
+            bool bEdit = false;
+            if (MainModel.dbmodel.MaxPossiblePressure != UnitConvert.Convert(MainModel.PressureUnit, UOMEnum.Pressure, MainModel.MaxPossiblePressure) || MainModel.dbmodel.SinkType != MainModel.SinkType)
+            {
+                bEdit = true;
+            }
+            if (bEdit)
+            {
+                MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
+                if (r == MessageBoxResult.Yes)
+                {                    
+                    ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
+                    scBLL.DeleteSCOther();
+                    scBLL.ClearScenario();
 
+                    WriteConvert();
+                    MainModel.dbmodel.SinkType_Color = MainModel.SinkType_Color;
+                    MainModel.dbmodel.MaxPossiblePressure_Color = MainModel.MaxPossiblePressure_Color;
+                    MainModel.dbmodel.SinkType = MainModel.SinkType;
+                    db.Update(MainModel.dbmodel, SessionProtectedSystem);
+                    //SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction
+                }
+            }
             System.Windows.Window wd = window as System.Windows.Window;
 
             if (wd != null)
@@ -79,7 +96,7 @@ namespace ReliefProMain.ViewModel
         }
         private void WriteConvert()
         {
-            MainModel.MaxPossiblePressure = UnitConvert.Convert(MainModel.PressureUnit, UOMEnum.Pressure, MainModel.MaxPossiblePressure);
+            MainModel.dbmodel.MaxPossiblePressure = UnitConvert.Convert(MainModel.PressureUnit, UOMEnum.Pressure, MainModel.MaxPossiblePressure);
         }
         private void InitUnit()
         {

@@ -58,17 +58,17 @@
         <ComboBox  ItemsSource="{Binding lstHeatInputModel, Mode=OneWay}" 
 						SelectedItem="{Binding SelectedHeatInputModel,Mode=TwoWay}"
 				   Grid.Column="2"  Grid.Row="2"/>
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.DesignPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblDesignPresses,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="4"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.DesignPressure,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblDesignPresses,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="4"/>
 
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.WettedArea,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblArea,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="6" />
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.LatentHeat,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLatent,Path=Content,Mode=TwoWay}" IsReadOnly="True" Grid.Column="2" Grid.Row="7" />
-        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.CrackingHeat,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblCraking,Path=Content,Mode=TwoWay}" IsEnabled="{Binding Path=model.EnabledCrack,Mode=TwoWay}" Grid.Column="2" Grid.Row="8" />
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}" Text="{Binding Path=model.ReliefLoad,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="10" />
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}" Text="{Binding Path=model.ReliefPressure,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPresses,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="11"  />
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}" Text="{Binding Path=model.ReliefTemperature,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblTemper,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="12" />
-        <TextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.ReliefMW,Mode=TwoWay}" Grid.Column="2" Grid.Row="13"/>
-        <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefCpCv,Mode=TwoWay}" Grid.Column="2" Grid.Row="14"/>
-        <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefZ,Mode=TwoWay}" Grid.Column="2" Grid.Row="14"/>
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.WettedArea,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblArea,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="6" />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.LatentHeat,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblLatent,Path=Content,Mode=TwoWay}" IsReadOnly="True" Grid.Column="2" Grid.Row="7" />
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.CrackingHeat,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblCraking,Path=Content,Mode=TwoWay}" IsEnabled="{Binding Path=model.EnabledCrack,Mode=TwoWay}" Grid.Column="2" Grid.Row="8" />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}" Text="{Binding Path=model.ReliefLoad,Mode=TwoWay,StringFormat='{}{0:N0}'}" UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="10" />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}" Text="{Binding Path=model.ReliefPressure,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblPresses,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="11"  />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}" Text="{Binding Path=model.ReliefTemperature,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblTemper,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="12" />
+        <TextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.ReliefMW,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2" Grid.Row="13"/>
+        <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefCpCv,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2" Grid.Row="14"/>
+        <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefZ,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2" Grid.Row="14"/>
 
         <Grid  Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="5">
             <Grid.ColumnDefinitions>

@@ -17,20 +17,20 @@
         <ListView Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=Feeds}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="{DynamicResource StreamName}" Width="200px"  DisplayMemberBinding="{Binding Path=StreamName}"></GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource FlowSource}" Width="200px"  DisplayMemberBinding="{Binding Path=SourceType}"></GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource StreamName}" Width="200px"  DisplayMemberBinding="{Binding Path=StreamName,Mode=TwoWay}"></GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource FlowSource}" Width="200px"  DisplayMemberBinding="{Binding Path=SourceType,Mode=TwoWay}"></GridViewColumn>
 
                     <GridViewColumn Header="{DynamicResource FlowFactor}" Width="100px">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Path=FlowCalcFactor}"></TextBox>
+                                <TextBox Text="{Binding Path=FlowCalcFactor,Mode=TwoWay,StringFormat='{}{0:N4}'}"></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{DynamicResource Stop}" Width="50px">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=FlowStop}"></CheckBox>
+                                <CheckBox IsChecked="{Binding Path=FlowStop,Mode=TwoWay}"></CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

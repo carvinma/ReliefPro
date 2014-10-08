@@ -49,6 +49,9 @@ namespace ReliefProMain.ViewModel.Compressors
             model.ReliefloadUnit = uomEnum.UserMassRate;
             model.ReliefTempUnit = uomEnum.UserTemperature;
             model.ReliefPressureUnit = uomEnum.UserPressure;
+            model.SurgeLoadUnit = uomEnum.UserMassRate;
+            model.OutletPressureUnit = uomEnum.UserPressure;
+            model.InletLoadUnit = uomEnum.UserMassRate;
         }
         private void WriteConvertModel()
         {
@@ -89,10 +92,22 @@ namespace ReliefProMain.ViewModel.Compressors
 
             if (Ratio <= 1 || Ratio > 2)
             {
+                model.Reliefload = 0;
+                model.ReliefMW = 0;
+                model.ReliefTemperature = 0;
+                model.ReliefPressure = 0;
+                model.ReliefCpCv = 0;
+                model.ReliefZ = 0;
                 return;
             }
             if (QSurgeNormal * 1.1 >= QNormal)
             {
+                model.Reliefload = 0;
+                model.ReliefMW = 0;
+                model.ReliefTemperature = 0;
+                model.ReliefPressure = 0;
+                model.ReliefCpCv = 0;
+                model.ReliefZ = 0;
                 return;
             }
 

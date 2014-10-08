@@ -76,7 +76,7 @@
                     <GridViewColumn Header="{DynamicResource DutyFactor}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox  Text="{Binding DutyFactor, Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" />
+                                <TextBox  Text="{Binding DutyFactor, Mode=TwoWay,StringFormat='{}{0:N4}'}"  HorizontalAlignment="Stretch" Width="150px" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

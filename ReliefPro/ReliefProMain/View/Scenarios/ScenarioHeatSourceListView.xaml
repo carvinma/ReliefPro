@@ -40,14 +40,14 @@
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox IsEnabled="False" Text="{Binding Path=Duty,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                <TextBox IsEnabled="False" Text="{Binding Path=Duty,Mode=TwoWay,StringFormat='{}{0:N4}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{DynamicResource DutyFactor}" Width="100px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox  Text="{Binding Path=DutyFactor,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                <TextBox  Text="{Binding Path=DutyFactor,Mode=TwoWay,StringFormat='{}{0:N4}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

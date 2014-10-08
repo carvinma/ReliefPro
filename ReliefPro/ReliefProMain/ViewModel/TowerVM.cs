@@ -20,6 +20,7 @@ using NHibernate;
 using ReliefProMain.View;
 using UOMLib;
 using ReliefProCommon.Enum;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel
 {
@@ -283,11 +284,7 @@ namespace ReliefProMain.ViewModel
                 op = 0;
                 if (tower!=null && tower.TowerName == vm.SelectedEq && tower.SourceFile == vm.SelectedFile)
                 {
-                    op = 1;//覆盖之前的tower.
-                }
-                else if (tower != null && (tower.TowerName != vm.SelectedEq || tower.SourceFile != vm.SelectedFile))
-                {
-                    op = 2;//重新导入一个新的塔
+                    op = 1;//覆盖之前的eq.
                 }
                 
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
@@ -650,13 +647,38 @@ namespace ReliefProMain.ViewModel
                     wd.DialogResult = true;
                 }
             }
+            else if (op == 1)
+            {
+                MessageBoxResult r = MessageBox.Show("Are you sure to delete all data?", "Message Box", MessageBoxButton.YesNo);
+                if (r == MessageBoxResult.Yes)
+                {
+                    ReImportBLL reimportbll = new ReImportBLL(SessionProtectedSystem);
+                    reimportbll.DeleteAllData();
+                    AddTowerInfo();
+                }
+                System.Windows.Window wd = obj as System.Windows.Window;
+                if (wd != null)
+                {
+                    wd.DialogResult = true;
+                }
+            }
             else
             {
                 Tower tower = dbtower.GetModel(SessionProtectedSystem);
-
-                tower.TowerType = TowerType;
-                dbtower.Update(tower, SessionProtectedSystem);
-                SessionProtectedSystem.Flush();
+                if (tower.TowerType != TowerType)
+                {
+                    MessageBoxResult r = MessageBox.Show("Are you sure for changing tower type,it will delete all scenario?", "Message Box", MessageBoxButton.YesNo);
+                    if (r == MessageBoxResult.Yes)
+                    {
+                        ScenarioBLL scbll = new ScenarioBLL(SessionProtectedSystem);
+                        scbll.DeleteSCOther();
+                        scbll.DeleteScenario();
+                        tower.TowerType = TowerType;
+                        tower.Description = Desciption;
+                        dbtower.Update(tower, SessionProtectedSystem);
+                        //SessionProtectedSystem.Flush();
+                    }
+                }
                 System.Windows.Window wd = obj as System.Windows.Window;
                 if (wd != null)
                 {
@@ -836,6 +858,7 @@ namespace ReliefProMain.ViewModel
                 tower.StageNumber = StageNumber;
                 tower.SourceFile = SourceFileName;
                 tower.TowerType = TowerType;
+                tower.Description = Desciption;
                 tower.TowerType_Color = ColorBorder.green.ToString();
                 dbtower.Add(tower, SessionProtectedSystem);
 

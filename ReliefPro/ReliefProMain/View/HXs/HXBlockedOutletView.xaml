@@ -65,10 +65,10 @@
                 <Label x:Name="lblNormalColdOutletTemperature" Content="{Binding model.NormalColdOutletTemperatureUnit,Mode=TwoWay}" Grid.Column="2" Grid.Row="4"  />
 
                 <TextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.ColdStream}" Grid.Column="1"  Grid.Row="0" />
-                <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.NormalDuty}"  BorderBrush="{Binding model.NormalDuty_Color}" UnitOrigin="{Binding ElementName=lblNormalDuty,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="1"/>
-                <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.NormalHotTemperature}" BorderBrush="{Binding model.NormalHotTemperature_Color}" UnitOrigin="{Binding ElementName=lblNormalHotTemperature,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="2"/>
-                <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.NormalColdInletTemperature}" BorderBrush="{Binding model.NormalColdInletTemperature_Color}" UnitOrigin="{Binding ElementName=lblNormalColdInletTemperature,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="3"/>
-                <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.NormalColdOutletTemperature}" BorderBrush="{Binding model.NormalColdOutletTemperature_Color}" UnitOrigin="{Binding ElementName=lblNormalColdOutletTemperature,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="4"/>
+                <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.NormalDuty,Mode=TwoWay,StringFormat='{}{0:N4}'}"  BorderBrush="{Binding model.NormalDuty_Color}" UnitOrigin="{Binding ElementName=lblNormalDuty,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="1"/>
+                <CustomControl:UnitConvertTextBox  Text="{Binding model.NormalHotTemperature,Mode=TwoWay,StringFormat='{}{0:N4}'}" BorderBrush="{Binding model.NormalHotTemperature_Color}" UnitOrigin="{Binding ElementName=lblNormalHotTemperature,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="2"/>
+                <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.NormalColdInletTemperature,Mode=TwoWay,StringFormat='{}{0:N4}'}" BorderBrush="{Binding model.NormalColdInletTemperature_Color}" UnitOrigin="{Binding ElementName=lblNormalColdInletTemperature,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="3"/>
+                <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.NormalColdOutletTemperature,Mode=TwoWay,StringFormat='{}{0:N4}'}" BorderBrush="{Binding model.NormalColdOutletTemperature_Color}" UnitOrigin="{Binding ElementName=lblNormalColdOutletTemperature,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="4"/>
 
             </Grid>
         </GroupBox>
@@ -98,13 +98,13 @@
                 <Label x:Name="lblReliefTemperature" Content="{Binding model.ReliefTemperatureUnit,Mode=TwoWay}" Grid.Column="2" Grid.Row="3"  />
                 <Label x:Name="lblReliefPressure" Content="{Binding model.ReliefPressureUnit,Mode=TwoWay}" Grid.Column="2" Grid.Row="2"  />
 
-                <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.LatentPoint}" UnitOrigin="{Binding ElementName=lblLatentPoint,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="0"/>
-                <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.ReliefLoad}" UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="1"/>
-                <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.ReliefTemperature}" UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="3"/>
-                <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.ReliefPressure}" UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="2"/>
-                <TextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.ReliefMW}" Grid.Column="1" Grid.Row="4"/>
-                <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefCpCv,Mode=TwoWay}" Grid.Column="2" Grid.Row="4"/>
-                <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefZ,Mode=TwoWay}" Grid.Column="2" Grid.Row="4"/>
+                <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.LatentPoint,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblLatentPoint,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="0"/>
+                <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.ReliefLoad,Mode=TwoWay,StringFormat='{}{0:N0}'}" UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="1"/>
+                <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.ReliefTemperature,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="3"/>
+                <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.ReliefPressure,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="2"/>
+                <TextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.ReliefMW,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="1" Grid.Row="4"/>
+                <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefCpCv,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2" Grid.Row="4"/>
+                <TextBox Visibility="Hidden"  Text="{Binding Path=model.ReliefZ,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2" Grid.Row="4"/>
 
             </Grid>
         </GroupBox>

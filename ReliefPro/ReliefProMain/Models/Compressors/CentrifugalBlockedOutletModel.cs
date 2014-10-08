@@ -9,6 +9,38 @@ namespace ReliefProMain.Models.Compressors
 {
     public class CentrifugalBlockedOutletModel : ModelBase
     {
+        private string _InletLoadUnit;
+        public string InletLoadUnit
+        {
+            get { return _InletLoadUnit; }
+            set
+            {
+                _InletLoadUnit = value;
+                this.NotifyPropertyChanged("InletLoadUnit");
+            }
+        }
+        private string _OutletPressureUnit;
+        public string OutletPressureUnit
+        {
+            get { return _OutletPressureUnit; }
+            set
+            {
+                _OutletPressureUnit = value;
+                this.NotifyPropertyChanged("OutletPressureUnit");
+            }
+        }
+        private string _SurgeLoadUnit;
+        public string SurgeLoadUnit
+        {
+            get { return _SurgeLoadUnit; }
+            set
+            {
+                _SurgeLoadUnit = value;
+                this.NotifyPropertyChanged("SurgeLoadUnit");
+            }
+        }
+
+
         private string reliefloadUnit;
         public string ReliefloadUnit
         {

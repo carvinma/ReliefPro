@@ -16,6 +16,7 @@ using ReliefProMain.View;
 using System.Windows;
 using ReliefProMain.Models;
 using ReliefProCommon.Enum;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel
 {
@@ -66,13 +67,29 @@ namespace ReliefProMain.ViewModel
             BasicUnitDAL dbBU = new BasicUnitDAL();
             IList<BasicUnit> list = dbBU.GetAllList(SessionPlant);
             BU = list.Where(s => s.IsDefault == 1).Single();
-            WriteConvert();
-            model.dbmodel.SourceType_Color = model.SourceType_Color;
-            model.dbmodel.MaxPossiblePressure_Color = model.MaxPossiblePressure_Color;
-            model.dbmodel.SourceType = model.SourceType;
-            sourcedal.Update(model.dbmodel, SessionProtectedSystem);
-            SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction
 
+            bool bEdit = false;
+            if (model.dbmodel.MaxPossiblePressure != UnitConvert.Convert(model.PressureUnit, UOMEnum.Pressure, model.MaxPossiblePressure) || model.dbmodel.SourceType != model.SourceType)
+            {
+                bEdit = true;
+            }
+            if (bEdit)
+            {
+                MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
+                if (r == MessageBoxResult.Yes)
+                {                  
+                    ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
+                    scBLL.DeleteSCOther();
+                    scBLL.ClearScenario();
+
+                    WriteConvert();
+                    model.dbmodel.SourceType_Color = model.SourceType_Color;
+                    model.dbmodel.MaxPossiblePressure_Color = model.MaxPossiblePressure_Color;
+                    model.dbmodel.SourceType = model.SourceType;
+                    sourcedal.Update(model.dbmodel, SessionProtectedSystem);
+                    //SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction
+                }
+            }
             System.Windows.Window wd = window as System.Windows.Window;
 
             if (wd != null)

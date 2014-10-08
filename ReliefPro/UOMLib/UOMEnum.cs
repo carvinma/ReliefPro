@@ -26,8 +26,8 @@ namespace UOMLib
         public const string SpecificEnthalpy = "KJ/kg";
         public const string Density = "kg/m3";
         public const string Area = "m2";
-        public const string ThermalConductivity = "w/m2-C";
-        public const string HeatTransCoeffcient = "w/m-C";
+        public const string ThermalConductivity = "w/m-C";
+        public const string HeatTransCoeffcient = "w/m2-C";
 
         public string UserTemperature { get; private set; }
         //public readonly string UserWeightFlow;

@@ -175,18 +175,57 @@ namespace ReliefProMain.ViewModel
                     return;
                 }
             }
-            WriteConvert();
             IList<HeatSource> list = heatSourceDAL.GetAllList(SessionProtectedSystem, SourceID);
-            for (int i = 0; i < list.Count; i++)
+            bool bEdit = false;
+            if (list.Count != HeatSources.Count)
+                bEdit = true;
+            else
             {
-                heatSourceDAL.Delete(list[i], SessionProtectedSystem);
-            }
+                foreach (HeatSourceModel m in HeatSources)
+                {
+                    if (m.ID == 0)
+                    {
+                        bEdit = true;
+                        break;
+                    }
+                }
+                for (int i = 0; i < list.Count; i++)
+                {
+                    HeatSource detail = list[i];
+                    foreach (HeatSourceModel m in HeatSources)
+                    {
+                        if (m.ID == detail.ID)
+                        {
+                            if (m.HeatSourceType != detail.HeatSourceType || m.Duty != detail.Duty || m.HeatSourceName != detail.HeatSourceName)
+                            {
+                                bEdit = true;
+                                break;
+                            }
+                        }
+                    }
+                }
 
-            foreach (HeatSourceModel m in HeatSources)
-            {
-                heatSourceDAL.Add(m.model, SessionProtectedSystem);
+
             }
-            SessionProtectedSystem.Flush();
+            if (bEdit)
+            {
+                MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
+                if (r == MessageBoxResult.Yes)
+                {
+                    WriteConvert();
+
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        heatSourceDAL.Delete(list[i], SessionProtectedSystem);
+                    }
+
+                    foreach (HeatSourceModel m in HeatSources)
+                    {
+                        heatSourceDAL.Add(m.model, SessionProtectedSystem);
+                    }
+                    //SessionProtectedSystem.Flush();
+                }
+            }
             System.Windows.Window wd = obj as System.Windows.Window;
 
             if (wd != null)

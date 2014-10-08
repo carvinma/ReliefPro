@@ -44,18 +44,18 @@
         <Label Content="{DynamicResource FeedTemperatureRelief}" Grid.Column="1" Grid.Row="12" />
         <Label Content="{DynamicResource FeedSpEnthalpyRelief}" Grid.Column="1" Grid.Row="13" />
 
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedTin,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="1"  Text="{Binding FeedTin}"   />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedTout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="2"  Text="{Binding FeedTout}"   />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedMassRate,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="3"  Text="{Binding FeedMassRate}"   />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedSpEin,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Text="{Binding FeedSpEin}"   Grid.Row="4"   />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedSpEout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Text="{Binding FeedSpEout}"  Grid.Row="5"   />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBottomTin,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="6"  Text="{Binding BottomTin}"    />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBottomTout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="7"  Text="{Binding BottomTout}"    />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBottomReliefTin,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="8"  Text="{Binding BottomReliefTin}"    />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBottomMassRate,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="9" Text="{Binding BottomMassRate}"   />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblDuty,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="10"  Text="{Binding Duty}"   />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedReliefTout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="12"  Text="{Binding FeedReliefTout}"    />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedReliefSpEout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="13"  Text="{Binding FeedReliefSpEout}"    />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedTin,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="1"  Text="{Binding FeedTin,Mode=TwoWay,StringFormat='{}{0:N4}'}"   />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedTout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="2"  Text="{Binding FeedTout,Mode=TwoWay,StringFormat='{}{0:N4}'}"   />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedMassRate,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="3"  Text="{Binding FeedMassRate,Mode=TwoWay,StringFormat='{}{0:N4}'}"   />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedSpEin,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Text="{Binding FeedSpEin,Mode=TwoWay,StringFormat='{}{0:N4}'}"   Grid.Row="4"   />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedSpEout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Text="{Binding FeedSpEout,Mode=TwoWay,StringFormat='{}{0:N4}'}"  Grid.Row="5"   />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBottomTin,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="6"  Text="{Binding BottomTin,Mode=TwoWay,StringFormat='{}{0:N4}'}"    />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBottomTout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="7"  Text="{Binding BottomTout,Mode=TwoWay,StringFormat='{}{0:N4}'}"    />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBottomReliefTin,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="8"  Text="{Binding BottomReliefTin,Mode=TwoWay,StringFormat='{}{0:N4}'}"    />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblBottomMassRate,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="9" Text="{Binding BottomMassRate,Mode=TwoWay,StringFormat='{}{0:N4}'}"   />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblDuty,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="10"  Text="{Binding Duty,Mode=TwoWay,StringFormat='{}{0:N4}'}"   />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedReliefTout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="12"  Text="{Binding FeedReliefTout,Mode=TwoWay,StringFormat='{}{0:N4}'}"    />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblFeedReliefSpEout,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="13"  Text="{Binding FeedReliefSpEout,Mode=TwoWay,StringFormat='{}{0:N4}'}"    />
 
         <Label x:Name="lblFeedTin" Content="{Binding FeedTinUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="1"   />
         <Label x:Name="lblFeedTout" Content="{Binding FeedToutUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="2"   />

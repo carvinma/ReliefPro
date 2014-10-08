@@ -201,9 +201,9 @@ namespace ReliefProMain.ViewModel
             double diameter = 0;
             double liquidlevel = 0;
             double length = 0;
-            if (CurrentAccumulator.Diameter==null)
+            if (CurrentAccumulator.Diameter==0)
             {
-                MessageBox.Show("Accumulator's diameter cann't be empty.","Message Box");
+                MessageBox.Show("Accumulator's diameter cann't be zero.","Message Box");
                 return;
             }
             else
@@ -211,9 +211,9 @@ namespace ReliefProMain.ViewModel
                 diameter = CurrentAccumulator.Diameter;
             }
 
-            if (CurrentAccumulator.NormalLiquidLevel==null)
+            if (CurrentAccumulator.NormalLiquidLevel==0)
             {
-                MessageBox.Show("Accumulator's normal liquid level cann't be empty.", "Message Box");
+                MessageBox.Show("Accumulator's normal liquid level cann't be zero.", "Message Box");
                 return;
             }
             else
@@ -221,9 +221,9 @@ namespace ReliefProMain.ViewModel
                 liquidlevel = CurrentAccumulator.NormalLiquidLevel;
             }
 
-            if (CurrentAccumulator.Length==null)
+            if (CurrentAccumulator.Length==0)
             {
-                MessageBox.Show("Accumulator's length cann't be empty.", "Message Box");
+                MessageBox.Show("Accumulator's length cann't be zero.", "Message Box");
                 return;
             }
             else
@@ -242,8 +242,13 @@ namespace ReliefProMain.ViewModel
 
             }
             double surgeVolume = accumulatorTotalVolume - accumulatorPartialVolume;
-            double dSurgeTime = surgeVolume * 60 / totalVolumeticFlowRate;
-            SurgeTime = dSurgeTime.ToString();
+            if (totalVolumeticFlowRate > 0)
+            {
+                double dSurgeTime = surgeVolume * 60 / totalVolumeticFlowRate;
+                SurgeTime = dSurgeTime.ToString();
+            }
+            else
+                SurgeTime = "0";
         }
 
         private double GetLatent(NHibernate.ISession Session)

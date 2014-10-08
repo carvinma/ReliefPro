@@ -38,5 +38,25 @@ namespace ReliefProDAL
 
             return model;
         }
+
+        public IList<TowerFire> GetAllList(ISession session)
+        {
+            IList<TowerFire> list = null;
+            try
+            {
+                session.Clear();
+                list = session.CreateCriteria<TowerFire>().List<TowerFire>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
+
+        public void DeleteAll(ISession session)
+        {
+
+        }
     }
 }

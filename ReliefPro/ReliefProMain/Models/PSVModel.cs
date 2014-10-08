@@ -23,7 +23,7 @@ namespace ReliefProMain.Models
             this.Description = m.Description;
             this.LocationDescription = m.LocationDescription;
             this.DischargeTo = m.DischargeTo;
-
+            this.CriticalPressure = m.CriticalPressure;            
             this._ReliefPressureFactor_Color = m.ReliefPressureFactor_Color;
             this.Pressure_Color = m.Pressure_Color;
 
@@ -67,7 +67,7 @@ namespace ReliefProMain.Models
                 this._ValveNumber = value;
                 int number = _ValveNumber;
                 if (number == 1)
-                    ReliefPressureFactor = 1.0;
+                    ReliefPressureFactor = 1.1;
                 else
                     ReliefPressureFactor = 1.16;
                 NotifyPropertyChanged("ValveNumber");

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl" 
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        Title="{DynamicResource ScenarioListViewTitle}" Height="500" Width="911" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+        Title="{DynamicResource ScenarioListViewTitle}" Height="500" Width="950" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     <Grid Style="{DynamicResource WinGrid}">
 
         <Grid.RowDefinitions>
@@ -40,7 +40,7 @@
                         </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox IsEnabled="False" Text="{Binding Path=ReliefLoad,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                <TextBox IsEnabled="False" Text="{Binding Path=ReliefLoad,Mode=TwoWay,StringFormat='{}{0:N0}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -53,7 +53,7 @@
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox IsEnabled="False" Text="{Binding Path=ReliefPressure,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                <TextBox IsEnabled="False" Text="{Binding Path=ReliefPressure,Mode=TwoWay,StringFormat='{}{0:N4}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -66,7 +66,7 @@
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox IsEnabled="False" Text="{Binding Path=ReliefTemperature,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                <TextBox IsEnabled="False" Text="{Binding Path=ReliefTemperature,Mode=TwoWay,StringFormat='{}{0:N4}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -74,7 +74,7 @@
                     <GridViewColumn Header="{DynamicResource InnerReliefMW}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox IsEnabled="False" Text="{Binding Path=ReliefMW,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                <TextBox IsEnabled="False" Text="{Binding Path=ReliefMW,Mode=TwoWay,StringFormat='{}{0:N4}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

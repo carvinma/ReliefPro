@@ -15,6 +15,9 @@ namespace ReliefProModel
         public virtual double FlowCalcFactor { get; set; }
         public virtual string SourceType { get; set; }
         public virtual bool IsProduct { get; set; }
+        public virtual bool IsNormal { get; set; }
+        public virtual double ReliefNormalFactor { get; set; }
+
 
         public virtual string ScenarioID_Color { get; set; }
         public virtual string StreamName_Color { get; set; }

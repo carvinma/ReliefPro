@@ -28,13 +28,13 @@ namespace ReliefProDAL.Common
         public virtual void Update(A model, NHibernate.ISession session)
         {
             session.Update(model);
-
+            session.Flush();
         }
 
         public virtual void Delete(A model, NHibernate.ISession session)
         {
             session.Delete(model);
-
+            session.Flush();
         }
 
         public virtual A GetModel(Object mainId, NHibernate.ISession session)
@@ -46,6 +46,7 @@ namespace ReliefProDAL.Common
         public virtual void AddOrUpdate(A model, ISession session)
         {
             session.SaveOrUpdate(model);
+            session.Flush();
         }
 
         public abstract bool reg();

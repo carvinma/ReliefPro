@@ -690,6 +690,7 @@ namespace ReliefProMain.ViewModel
                 {
                     tss.FlowCalcFactor = GetSystemScenarioFactor("4", s.SourceType, ScenarioName);
                     tss.SourceType = s.SourceType;
+                    
                     towerScenarioStreamDAL.Update(tss, Session);
                 }
 
@@ -714,12 +715,16 @@ namespace ReliefProMain.ViewModel
             }
 
             SinkDAL sinkDAL = new SinkDAL();
+            TowerFlashProductDAL tfpDAL = new TowerFlashProductDAL();
+            CustomStreamDAL csDAL = new CustomStreamDAL();
             List<Sink> listSink = sinkDAL.GetAllList(Session).ToList();
             foreach (Sink s in listSink)
             {
                 TowerScenarioStream tss = towerScenarioStreamDAL.GetModel(Session, s.StreamName, ScenarioID);
                 if (tss == null)
                 {
+                    TowerFlashProduct tfp = tfpDAL.GetModel(Session, s.StreamName);
+                    CustomStream cs = csDAL.GetModel(Session, s.StreamName);
                     tss = new TowerScenarioStream();
                     tss.ScenarioID = ScenarioID;
                     tss.StreamName = s.StreamName;
@@ -727,12 +732,14 @@ namespace ReliefProMain.ViewModel
                     tss.FlowStop = false;
                     tss.IsProduct = true;
                     tss.SourceType = s.SinkType;
+                    tss.IsNormal = false;
+                    tss.ReliefNormalFactor = tfp.SpEnthalpy/cs.SpEnthalpy;
                     towerScenarioStreamDAL.Add(tss, Session);
                 }
                 else if (tss.SourceType != s.SinkType)
                 {
                     tss.FlowCalcFactor = GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
-                    tss.SourceType = s.SinkType;
+                    tss.SourceType = s.SinkType;                   
                     towerScenarioStreamDAL.Update(tss, Session);
                 }
             }
@@ -781,7 +788,9 @@ namespace ReliefProMain.ViewModel
                         towerScenarioHXDAL.Update(tsHX, Session);
                     }
                 }
-            }
+            } 
+            Session.Flush();
+
             IList<TowerScenarioHX> tsHXs = towerScenarioHXDAL.GetAllList(Session, ScenarioID);
             int count = tsHXs.Count;
             for (int i = 0; i < count; i++)
@@ -792,6 +801,7 @@ namespace ReliefProMain.ViewModel
                     towerScenarioHXDAL.Delete(tsHXs[i], Session);
                 }
             }
+           
 
         }
 
@@ -820,7 +830,7 @@ namespace ReliefProMain.ViewModel
                 else if (tss.SourceType != s.SourceType)
                 {
                     tss.FlowCalcFactor = GetSystemScenarioFactor("4", s.SourceType, ScenarioName);
-                    tss.SourceType = s.SourceType;
+                    tss.SourceType = s.SourceType;                   
                     towerScenarioStreamDAL.Update(tss, Session);
                 }
 
@@ -857,12 +867,16 @@ namespace ReliefProMain.ViewModel
             }
 
             SinkDAL sinkDAL = new SinkDAL();
+            TowerFlashProductDAL tfpDAL = new TowerFlashProductDAL();
+            CustomStreamDAL csDAL=new CustomStreamDAL();
             List<Sink> listSink = sinkDAL.GetAllList(Session).ToList();
             foreach (Sink s in listSink)
             {
                 TowerScenarioStream tss = towerScenarioStreamDAL.GetModel(Session, s.StreamName, ScenarioID);
                 if (tss == null)
                 {
+                    TowerFlashProduct tfp = tfpDAL.GetModel(Session, s.StreamName);
+                    CustomStream cs=csDAL.GetModel(Session,s.StreamName);
                     tss = new TowerScenarioStream();
                     tss.ScenarioID = ScenarioID;
                     tss.StreamName = s.StreamName;
@@ -870,12 +884,14 @@ namespace ReliefProMain.ViewModel
                     tss.FlowStop = false;
                     tss.IsProduct = true;
                     tss.SourceType = s.SinkType;
+                    tss.IsNormal = false;
+                    tss.ReliefNormalFactor = tfp.SpEnthalpy/cs.SpEnthalpy;
                     towerScenarioStreamDAL.Add(tss, Session);
                 }
                 else if (tss.SourceType != s.SinkType)
                 {
                     tss.FlowCalcFactor = GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
-                    tss.SourceType = s.SinkType;
+                    tss.SourceType = s.SinkType;                   
                     towerScenarioStreamDAL.Update(tss, Session);
                 }
             }
@@ -975,7 +991,7 @@ namespace ReliefProMain.ViewModel
                     abnormalHeaterDetailDAL.Delete(abnormalDetails[i], Session);
                 }
             }
-
+            Session.Flush();
 
 
         }

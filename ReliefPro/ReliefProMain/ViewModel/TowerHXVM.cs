@@ -15,6 +15,8 @@ using ReliefProMain.View;
 using ReliefProMain.Models;
 using NHibernate;
 using UOMLib;
+using System.Windows;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel
 {
@@ -167,24 +169,87 @@ namespace ReliefProMain.ViewModel
 
         public void Save(object obj)
         {
-
             TowerHXDetailDAL db = new TowerHXDetailDAL();
             IList<TowerHXDetail> list = db.GetAllList(SessionProtectedSystem, model.ID);
-            for (int i = 0; i < list.Count; i++)
+
+            //先判断是否有变化，有变化，则需要更新所有的Scenario.
+            bool bEdit=false;
+            if (Details.Count != list.Count)
+                bEdit = true;
+            else
             {
-                db.Delete(list[i], SessionProtectedSystem);
+                foreach (TowerHXDetailModel m in Details)
+                {
+                    if (m.ID == 0)
+                    {
+                        bEdit = true;
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    TowerHXDetail detail = list[i];
+                    foreach (TowerHXDetailModel m in Details)
+                    {
+                        if (m.ID == detail.ID)
+                        {
+                            if (m.Medium != detail.Medium || m.ProcessSideFlowSource != detail.ProcessSideFlowSource || m.MediumSideFlowSource != detail.MediumSideFlowSource || m.DutyPercentage != detail.DutyPercentage)
+                            {
+                                bEdit = true;
+                                break;
+                            }                            
+                        }
+                    }                    
+                }
+
             }
 
-
-            foreach (TowerHXDetailModel m in Details)
+            if (bEdit)
             {
-                TowerHXDetail detail = new TowerHXDetail();
-                detail = ConvertToDBModel(detail, m);
-                db.Add(detail, SessionProtectedSystem);
+                MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
+                if (r == MessageBoxResult.Yes)
+                {                    
+                    ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
+                    scBLL.DeleteSCOther();
+                    scBLL.ClearScenario();
 
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        bool b = false;
+                        TowerHXDetail detail = list[i];
+                        foreach (TowerHXDetailModel m in Details)
+                        {
+                            if (m.ID == detail.ID)
+                            {
+                                b = true;
+                                break;
+                            }
+                        }
+                        if (!b)
+                        {
+                            db.Delete(list[i], SessionProtectedSystem);
+                        }
+                    }
+
+                    foreach (TowerHXDetailModel m in Details)
+                    {
+                        if (m.ID == 0)
+                        {
+                            TowerHXDetail detail = new TowerHXDetail();
+                            detail = ConvertToDBModel(detail, m);
+                            db.Add(detail, SessionProtectedSystem);
+                        }
+                        else
+                        {
+                            TowerHXDetail detail = db.GetModel(SessionProtectedSystem, m.ID);
+                            detail = ConvertToDBModel(detail, m);
+                            db.Update(detail, SessionProtectedSystem);
+                        }
+
+                    }
+                }
             }
-            SessionProtectedSystem.Flush();
-
 
             System.Windows.Window wd = obj as System.Windows.Window;
 
