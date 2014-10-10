@@ -23,7 +23,8 @@ namespace ReliefProMain.Models
             this.Description = m.Description;
             this.LocationDescription = m.LocationDescription;
             this.DischargeTo = m.DischargeTo;
-            this.CriticalPressure = m.CriticalPressure;            
+            this.CriticalPressure = m.CriticalPressure;  
+            
             this._ReliefPressureFactor_Color = m.ReliefPressureFactor_Color;
             this.Pressure_Color = m.Pressure_Color;
 
@@ -231,6 +232,27 @@ namespace ReliefProMain.Models
             }
         }
 
+        private double _CriticalTemperature;
+        public double CriticalTemperature
+        {
+            get { return _CriticalTemperature; }
+            set
+            {
+                _CriticalTemperature = value;
+                NotifyPropertyChanged("CriticalTemperature");
+            }
+        }
+        private double _CriticalTemperature_Color;
+        public double CriticalTemperature_Color
+        {
+            get { return _CriticalTemperature_Color; }
+            set
+            {
+                _CriticalTemperature_Color = value;
+                NotifyPropertyChanged("CriticalTemperature_Color");
+            }
+        }
+
         private string _PSVName_Color;
         public string PSVName_Color
         {
@@ -297,9 +319,6 @@ namespace ReliefProMain.Models
             }
         }
 
-       
-
-
         private string _CriticalPressureUnit;
         public string CriticalPressureUnit
         {
@@ -308,6 +327,18 @@ namespace ReliefProMain.Models
             {
                 _CriticalPressureUnit = value;
                 OnPropertyChanged("CriticalPressureUnit");
+            }
+        }
+
+
+        private string _CriticalTemperatureUnit;
+        public string CriticalTemperatureUnit
+        {
+            get { return _CriticalTemperatureUnit; }
+            set
+            {
+                _CriticalTemperatureUnit = value;
+                OnPropertyChanged("CriticalTemperatureUnit");
             }
         }
     }

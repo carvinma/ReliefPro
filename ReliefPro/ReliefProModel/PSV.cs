@@ -24,8 +24,9 @@ namespace ReliefProModel
         public virtual string dbPath { get; set; }
         public virtual double CriticalPressure { get; set; }
 
-        public virtual string CriticalPressure_Color { get; set; } 
-
+        public virtual string CriticalPressure_Color { get; set; }
+        public virtual double CriticalTemperature { get; set; }
+        public virtual string CriticalTemperature_Color { get; set; } 
 
         //color
         public virtual string PSVName_Color { get; set; }

@@ -133,6 +133,19 @@ namespace ReliefProMain.ViewModel.HXs
             double reliefPressure = pressure * psv.ReliefPressureFactor;
 
             CustomStream stream = normalColdInlet;
+            if (reliefPressure > psv.CriticalPressure)
+            {
+                CustomStream cs = stream;
+                double reliefMW = cs.BulkMwOfPhase;
+                model.ReliefLoad = 116;
+                model.ReliefPressure = reliefPressure;
+                model.ReliefTemperature = psv.CriticalTemperature;
+                model.ReliefMW = reliefMW;
+                model.ReliefCpCv = cs.BulkCPCVRatio;
+                model.ReliefZ = cs.VaporZFmKVal;
+                return;
+            }
+
             string tempdir = DirProtectedSystem + @"\temp\";
             string dirLatent = tempdir + "BlockedOutlet";
             if (!Directory.Exists(dirLatent))

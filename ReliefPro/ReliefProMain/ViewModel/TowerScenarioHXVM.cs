@@ -350,8 +350,8 @@ namespace ReliefProMain.ViewModel
 
         public void Save(object obj)
         {
-            if (HeaterType == 1)
-            {
+            //if (HeaterType == 1)
+            //{
                 if (condenserCalc == null)
                 {
                     condenserCalc = new CondenserCalc();
@@ -372,8 +372,8 @@ namespace ReliefProMain.ViewModel
                     towerScenarioHXDAL.Update(m.model, SessionProtectedSystem);
                 }
 
-                SessionProtectedSystem.Flush();
-            }
+                //SessionProtectedSystem.Flush();
+            //}
             System.Windows.Window wd = obj as System.Windows.Window;
 
             if (wd != null)

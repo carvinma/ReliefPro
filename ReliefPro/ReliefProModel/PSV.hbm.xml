@@ -17,9 +17,9 @@
     <property name="MWAP" column="MWAP" type="String" length="255" />
     <property name="DischargeTo" column="DischargeTo" type="String" length="255" />
     <property name="CriticalPressure" column="CriticalPressure" type="Double"  />
-
     <property name="CriticalPressure_Color" column="CriticalPressure_Color" type="String" length="255"  />
-
+    <property name="CriticalTemperature" column="CriticalTemperature" type="Double"  />
+    <property name="CriticalTemperature_Color" column="CriticalTemperature_Color" type="String" length="255"  />
     <property name="PSVName_Color" column="PSVName_Color" type="String" length="255" />
     <property name="Description_Color" column="Description_Color" type="String" length="255" />
     <property name="ValveNumber_Color" column="ValveNumber_Color" type="String" length="255" />

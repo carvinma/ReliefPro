@@ -370,6 +370,9 @@ namespace ReliefProMain.ViewModel.Drums
                             liquidStream = s;
                         }
                     }
+
+
+
                     //闪蒸计算
                     string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
                     string liquid = "L_" + Guid.NewGuid().ToString().Substring(0, 6);
@@ -384,40 +387,57 @@ namespace ReliefProMain.ViewModel.Drums
                     string content = PROIIFileOperator.getUsableContent(liquidStream.StreamName, dir);
                     IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
                     string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 6, "0.05", liquidStream, vapor, liquid, tempdir, ref ImportResult, ref RunResult);
-                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(f);
-                    ProIIStreamData proIIvapor = reader.GetSteamInfo(vapor);
-                    ProIIStreamData proIIliquid = reader.GetSteamInfo(liquid);
-                    reader.ReleaseProIIReader();
-                    CustomStream csVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
-                    CustomStream csLiquid = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIliquid);
-                    double latent = csVapor.SpEnthalpy - csLiquid.SpEnthalpy;
-
-                    double reliefLoad = Qfire / latent;
-                    double reliefMW = csVapor.BulkMwOfPhase;
-                    double reliefT = csVapor.Temperature;
-                    model.ReliefLoad = reliefLoad;
-                    model.ReliefMW = reliefMW;
-                    model.ReliefPressure = reliefPressure;
-                    model.ReliefTemperature = reliefT;
-                    model.LatentHeat = latent;
-                    if (csVapor.BulkCPCVRatio != null)
+                    if (ImportResult == 1 || ImportResult == 2)
                     {
-                        model.ReliefCpCv = csVapor.BulkCPCVRatio;
+                        if (RunResult == 1 || RunResult == 2)
+                        {
+                            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                            reader.InitProIIReader(f);
+                            ProIIStreamData proIIvapor = reader.GetSteamInfo(vapor);
+                            ProIIStreamData proIIliquid = reader.GetSteamInfo(liquid);
+                            reader.ReleaseProIIReader();
+                            CustomStream csVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
+                            CustomStream csLiquid = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIliquid);
+                            double latent = csVapor.SpEnthalpy - csLiquid.SpEnthalpy;
+
+                            double reliefLoad = Qfire / latent;
+                            double reliefMW = csVapor.BulkMwOfPhase;
+                            double reliefT = csVapor.Temperature;
+                            model.ReliefLoad = reliefLoad;
+                            model.ReliefMW = reliefMW;
+                            model.ReliefPressure = reliefPressure;
+                            model.ReliefTemperature = reliefT;
+                            model.LatentHeat = latent;
+                            if (csVapor.BulkCPCVRatio != null)
+                            {
+                                model.ReliefCpCv = csVapor.BulkCPCVRatio;
+                            }
+                            model.ReliefZ = csVapor.VaporZFmKVal;
+
+
+                            FlashCalcResultDAL flashCalcResultDAL = new FlashCalcResultDAL();
+                            FlashCalcResult flashCalcResult = new FlashCalcResult();
+                            flashCalcResult.ReliefCpCv = model.ReliefCpCv;
+                            flashCalcResult.ReliefMW = model.ReliefMW;
+                            flashCalcResult.ReliefZ = model.ReliefZ;
+                            flashCalcResult.ReliefPressure = model.ReliefPressure;
+                            flashCalcResult.ReliefTemperature = model.ReliefTemperature;
+                            flashCalcResult.Latent = model.LatentHeat;
+                            flashCalcResult.ScenarioID = ScenarioID;
+                            flashCalcResultDAL.Add(flashCalcResult, SessionProtectedSystem);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Prz file is error", "Message Box");
+                            return;
+                        }
                     }
-                    model.ReliefZ = csVapor.VaporZFmKVal;
-
-
-                    FlashCalcResultDAL flashCalcResultDAL = new FlashCalcResultDAL();
-                    FlashCalcResult flashCalcResult = new FlashCalcResult();
-                    flashCalcResult.ReliefCpCv = model.ReliefCpCv;
-                    flashCalcResult.ReliefMW = model.ReliefMW;
-                    flashCalcResult.ReliefZ = model.ReliefZ;
-                    flashCalcResult.ReliefPressure = model.ReliefPressure;
-                    flashCalcResult.ReliefTemperature = model.ReliefTemperature;
-                    flashCalcResult.Latent = model.LatentHeat;
-                    flashCalcResult.ScenarioID = ScenarioID;
-                    flashCalcResultDAL.Add(flashCalcResult, SessionProtectedSystem);
+                    else
+                    {
+                        MessageBox.Show("inp file is error", "Message Box");
+                        return;
+                    }
+                    
                 }
                 else
                 {

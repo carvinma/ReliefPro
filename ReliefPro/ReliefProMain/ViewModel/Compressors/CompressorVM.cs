@@ -30,7 +30,7 @@ namespace ReliefProMain.ViewModel
         public SourceFile SourceFileInfo { set; get; }
         public string FileName { set; get; }
         private ProIIEqData ProIICompressor;
-        public int op;
+        public int op=1;
         public CompressorModel model { set; get; }
         List<string> dicFeeds = new List<string>();
         List<string> dicProducts = new List<string>();
@@ -110,7 +110,10 @@ namespace ReliefProMain.ViewModel
             {
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
                 {
-                    op = 0;
+                    if (op==1)
+                    {
+                        op = 2;
+                    }
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
                     ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
                     FileName = vm.SelectedFile;
@@ -196,9 +199,19 @@ namespace ReliefProMain.ViewModel
                 ColorImport = ColorBorder.red.ToString();
                 return;
             }
+            if (op == 2)
+            {
+                MessageBoxResult r = MessageBox.Show("Are you sure to reimport all data?", "Message Box", MessageBoxButton.YesNo);
+                if (r == MessageBoxResult.Yes)
+                {
+                    ReImportBLL reimportbll = new ReImportBLL(SessionProtectedSystem);
+                    reimportbll.DeleteAllData();
+                }
+            }
+
+
             ProtectedSystem ps = new ProtectedSystem();
-            ps.PSType = 3;
-            
+            ps.PSType = 3;           
             compressorbll.Save(model.dbmodel, model.Feeds, model.Products, ps);
             SourceFileInfo = sourcebll.GetSourceFileInfo(model.SourceFile);
 

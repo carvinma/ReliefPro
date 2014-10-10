@@ -162,6 +162,7 @@ namespace ReliefProMain.ViewModel
                 CurrentModel.Location = eqName;
             }
             CurrentModel.CriticalPressureUnit = uomEnum.UserPressure;
+            CurrentModel.CriticalTemperatureUnit = uomEnum.UserTemperature;
             CurrentModel.PSVPressureUnit = uomEnum.UserPressure;
             CurrentModel.DrumPressureUnit = uomEnum.UserPressure;
             ReadConvert();
@@ -174,12 +175,14 @@ namespace ReliefProMain.ViewModel
             CurrentModel.Pressure = UnitConvert.Convert(UOMEnum.Pressure, CurrentModel.PressureUnit, CurrentModel.Pressure);
             CurrentModel.CriticalPressure = UnitConvert.Convert(UOMEnum.Pressure, CurrentModel.CriticalPressureUnit, CurrentModel.CriticalPressure);
             CurrentModel.DrumPressure = UnitConvert.Convert(UOMEnum.Pressure, CurrentModel.DrumPressureUnit, CurrentModel.DrumPressure);
+            CurrentModel.CriticalTemperature = UnitConvert.Convert(UOMEnum.Temperature, CurrentModel.CriticalTemperatureUnit, CurrentModel.CriticalTemperature);
         }
         private void WriteConvert()
         {
-            CurrentModel.dbmodel.Pressure = UnitConvert.Convert(UOMEnum.Pressure, CurrentModel.PressureUnit, CurrentModel.Pressure);
-            CurrentModel.dbmodel.CriticalPressure = UnitConvert.Convert(UOMEnum.Pressure, CurrentModel.CriticalPressureUnit, CurrentModel.CriticalPressure);
-            CurrentModel.dbmodel.DrumPressure = UnitConvert.Convert(UOMEnum.Pressure, CurrentModel.DrumPressureUnit, CurrentModel.DrumPressure);
+            CurrentModel.dbmodel.Pressure = UnitConvert.Convert(CurrentModel.PressureUnit,UOMEnum.Pressure,  CurrentModel.Pressure);
+            CurrentModel.dbmodel.CriticalPressure = UnitConvert.Convert(CurrentModel.CriticalPressureUnit,UOMEnum.Pressure,  CurrentModel.CriticalPressure);
+            CurrentModel.dbmodel.DrumPressure = UnitConvert.Convert(CurrentModel.DrumPressureUnit,UOMEnum.Pressure,  CurrentModel.DrumPressure);
+            CurrentModel.dbmodel.CriticalTemperature = UnitConvert.Convert(CurrentModel.CriticalTemperatureUnit,UOMEnum.Temperature,  CurrentModel.CriticalTemperature);
         }
 
         private ICommand _SaveCommand;
@@ -252,6 +255,10 @@ namespace ReliefProMain.ViewModel
                                 CreateTowerPSV();
                             }
                         }
+                        else
+                        {
+                            CreateCommonPSV();
+                        }
                         CurrentModel.dbmodel.PSVName = CurrentModel.PSVName;
                         CurrentModel.dbmodel.Pressure = CurrentModel.Pressure;
                         CurrentModel.dbmodel.ReliefPressureFactor = CurrentModel.ReliefPressureFactor;
@@ -300,8 +307,18 @@ namespace ReliefProMain.ViewModel
                             psvbll.DeletePSVData();
                             if (EqType == "Tower")
                             {
-                                CreateTowerPSV();
+                                TowerDAL towerdal = new TowerDAL();
+                                Tower tower = towerdal.GetModel(SessionProtectedSystem);
+                                if (tower.TowerType == "Distillation")
+                                {
+                                    CreateTowerPSV();
+                                }
                             }
+                            else
+                            {
+                                CreateCommonPSV();
+                            }
+
 
                             WriteConvert();
                             dbpsv.Add(CurrentModel.dbmodel, SessionProtectedSystem);
@@ -360,10 +377,12 @@ namespace ReliefProMain.ViewModel
             double ReliefPressure = CurrentModel.ReliefPressureFactor * CurrentModel.Pressure;
 
             double criticalPressure = 0;
-            bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase, ref criticalPressure);
+            double criticalTempressure = 0;
+            bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase, ref criticalPressure, ref criticalTempressure);
             if (b == false)
                 return;
             CurrentModel.CriticalPressure = criticalPressure;
+            CurrentModel.CriticalTemperature = criticalTempressure;
             double latentEnthalpy = 0;
             double ReliefTemperature = 0;
             LatentProduct latentVapor = new LatentProduct();
@@ -546,6 +565,45 @@ namespace ReliefProMain.ViewModel
 
         }
 
+        public void CreateCommonPSV()
+        {
+            //判断压力是否更改，relief pressure 是否更改。  （drum的是否修改，会影响到火灾的计算）
+            string FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
+            string tempdir = DirProtectedSystem + @"\temp\";
+            if (!Directory.Exists(tempdir))
+                Directory.CreateDirectory(tempdir);
+
+            string dirPhase = tempdir + "Phase";
+            if (!Directory.Exists(dirPhase))
+                Directory.CreateDirectory(dirPhase);
+
+            CustomStreamDAL csdal = new CustomStreamDAL();
+            IList<CustomStream> feedlist = csdal.GetAllList(SessionProtectedSystem, false);
+            CustomStream stream = feedlist[0];
+            stream.TotalMolarRate = 0;
+            foreach (CustomStream cs in feedlist)
+            {
+                stream.TotalMolarRate = stream.TotalMolarRate + cs.TotalMolarRate;
+            }
+            double internPressure = UnitConvert.Convert("MPAG", "KPA", stream.Pressure);
+            if (internPressure == 0)
+            {
+                MessageBox.Show("Please Rerun this ProII file and save it.", "Message Box");
+                return;
+            }
+            PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+
+            string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
+            double ReliefPressure = CurrentModel.ReliefPressureFactor * CurrentModel.Pressure;
+
+            double criticalPressure = 0;
+            double criticalTempressure = 0;
+            bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase, ref criticalPressure, ref criticalTempressure);
+            if (b == false)
+                return;
+            CurrentModel.CriticalPressure = criticalPressure;
+            CurrentModel.CriticalTemperature = criticalTempressure;
+        }
 
         private CustomStream CopyTop1Liquid(string copyPrzFile)
         {
@@ -574,14 +632,16 @@ namespace ReliefProMain.ViewModel
 
         }
 
-        private bool CalcCriticalPressure(string content, double ReliefPressure, CustomStream stream, string dirPhase, ref double criticalPressure)
+        private bool CalcCriticalPressure(string content, double ReliefPressure, CustomStream stream, string dirPhase, ref double criticalPressure,ref double criticalTemperature)
         {
             int ImportResult = 0;
             int RunResult = 0;
             criticalPressure = 0;
+            criticalTemperature = 0;
             IPHASECalculate PhaseCalc = ProIIFactory.CreatePHASECalculate(SourceFileInfo.FileVersion);
             string PH = "PH" + Guid.NewGuid().ToString().Substring(0, 4);
             string criticalPress = string.Empty;
+            string criticalTemp = string.Empty;
             string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH, dirPhase, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
@@ -590,9 +650,11 @@ namespace ReliefProMain.ViewModel
                     IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(phasef);
                     criticalPress = reader.GetCriticalPressure(PH);
+                    criticalTemp = reader.GetCriticalTemperature(PH);
                     reader.ReleaseProIIReader();
-                    criticalPress = UnitConvert.Convert("KPA", "MPAG", double.Parse(criticalPress)).ToString();
-                    criticalPressure = double.Parse(criticalPress);
+                    criticalPressure = UnitConvert.Convert("KPA", CurrentModel.CriticalPressureUnit, double.Parse(criticalPress));
+
+                    criticalTemperature = UnitConvert.Convert("C", CurrentModel.CriticalTemperatureUnit, double.Parse(criticalTemp));
                     return true;
                 }
                 else

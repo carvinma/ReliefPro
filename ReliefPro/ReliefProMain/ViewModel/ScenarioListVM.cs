@@ -35,6 +35,9 @@ using ReliefProMain.ViewModel.ReactorLoops;
 using ReliefProMain.View.ReactorLoops;
 using ReliefProMain.View.Towers;
 using UOMLib;
+using ReliefProDAL.GlobalDefault;
+using ReliefProLL;
+using ReliefProModel.GlobalDefault;
 
 namespace ReliefProMain.ViewModel
 {
@@ -746,10 +749,11 @@ namespace ReliefProMain.ViewModel
             TowerHXDetailDAL towerHXDetailDAL = new TowerHXDetailDAL();
             TowerScenarioHXDAL towerScenarioHXDAL = new TowerScenarioHXDAL();
             TowerHXDAL towerHXDAL = new TowerHXDAL();
+            GlobalDefaultBLL globalbll = new GlobalDefaultBLL(SessionPlant);
+            ConditionsSettings conditionsettings =globalbll.GetConditionsSettings();
             IList<TowerHX> tHXs = towerHXDAL.GetAllList(Session);
             foreach (TowerHX hx in tHXs)
             {
-
                 List<TowerHXDetail> listTowerHXDetail = towerHXDetailDAL.GetAllList(Session, hx.ID).ToList();
                 foreach (TowerHXDetail detail in listTowerHXDetail)
                 {
@@ -774,6 +778,10 @@ namespace ReliefProMain.ViewModel
                         {
                             tsHX.DutyLost = true;
                         }
+                        if (ScenarioName == "GeneralElectricPowerFailure" && tsHX.Medium == "Cooling Water" && conditionsettings.CoolingWaterCondition)
+                        {
+                            tsHX.DutyLost = true;
+                        }
                         towerScenarioHXDAL.Add(tsHX, Session);
                     }
                     else if (factor != tsHX.DutyCalcFactor || tsHX.Medium != detail.Medium)
@@ -785,11 +793,15 @@ namespace ReliefProMain.ViewModel
                         {
                             tsHX.DutyLost = true;
                         }
+                        if (ScenarioName == "GeneralElectricPowerFailure" && tsHX.Medium == "Cooling Water" && conditionsettings.CoolingWaterCondition)
+                        {
+                            tsHX.DutyLost = true;
+                        }
                         towerScenarioHXDAL.Update(tsHX, Session);
                     }
                 }
             } 
-            Session.Flush();
+            //Session.Flush();
 
             IList<TowerScenarioHX> tsHXs = towerScenarioHXDAL.GetAllList(Session, ScenarioID);
             int count = tsHXs.Count;
@@ -1103,11 +1115,9 @@ namespace ReliefProMain.ViewModel
 
         private List<SystemScenarioFactor> GetSystemScenarioFactors()
         {
-
             SystemScenarioFactorDAL db = new SystemScenarioFactorDAL();
             IList<SystemScenarioFactor> list = db.GetAllList(SessionProtectedSystem);
             return list.ToList();
-
         }
 
         private double GetSystemScenarioFactor(string category, string categoryvalue, string ScenarioName)

@@ -57,7 +57,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         ProIIStreamDataDAL streamDAL = new ProIIStreamDataDAL();
 
         public List<string> streams = new List<string>();
-        
+        int op = 1;
         private void InitCMD()
         {
             OKCMD = new DelegateCommand<object>(Save);
@@ -224,10 +224,12 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
                 FileName = SourceFileInfo.FileName;
                 InitPage();
+                op = 1;
             }
             else
             {
                 model.ReactorLoopName = "ReactorLoop1";
+                op = 0;
             }
         }
         private void ProcessHXAdd(object obj)
@@ -338,6 +340,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (view.ShowDialog() == true)
             {
+                if (op == 1)
+                    op = 2;
                 FileName = vm.SelectedFile;
                 SourceFileInfo = vm.SourceFileInfo;
                 InitPage();
@@ -486,54 +490,74 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 System.Windows.Window wd = obj as System.Windows.Window;
                 if (wd != null)
                 {
-                    model.SourceFile = FileName;
-                    var allSelectedInfo = new ObservableCollection<ReactorLoopDetail>();
-                    if (model.ObcProcessHX != null)
+                    if (op == 0)
                     {
-                        foreach (var hx in model.ObcProcessHX)
-                        {
-                            hx.ID = 0;
-                            allSelectedInfo.Add(hx);
-                        }
+                        Create();
                     }
-                    if (model.ObcUtilityHX != null)
+                    else if (op == 1)
                     {
-                        foreach (var hx in model.ObcUtilityHX)
-                        {
-                            hx.ID = 0;
-                            allSelectedInfo.Add(hx);
-                        }
-                    }
-                    if (model.ObcNetworkHX != null)
-                    {
-                        foreach (var hx in model.ObcNetworkHX)
-                        {
-                            hx.ID = 0;
-                            allSelectedInfo.Add(hx);
-                        }
-                    }
-                    if (model.ObcMixerSplitter != null)
-                    {
-                        foreach (var hx in model.ObcMixerSplitter)
-                        {
-                            hx.ID = 0;
-                            allSelectedInfo.Add(hx);
-                        }
-                    }
-                    if (allSelectedInfo.Count > 0)
-                        reactorBLL.Save(model.dbModel, allSelectedInfo);
-                    ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
-                    ProtectedSystem ps = new ProtectedSystem();
-                    ps.PSType = 6;
-                    psDAL.Add(ps, SessionPS);
-                    SourceFileDAL sfdal = new SourceFileDAL();
-                    SourceFileInfo = sfdal.GetModel(model.SourceFile, SessionPF);
-                    SessionPS.Flush();
 
+                    }
+                    else
+                    {
+                        MessageBoxResult r = MessageBox.Show("Are you sure to reimport all data?", "Message Box", MessageBoxButton.YesNo);
+                        if (r == MessageBoxResult.Yes)
+                        {
+                            ReImportBLL reimportbll = new ReImportBLL(SessionPS);
+                            reimportbll.DeleteAllData();
+                            Create();
+                        }
+                    }
 
                     wd.DialogResult = true;
                 }
             }
+        }
+        private void Create()
+        {
+            model.SourceFile = FileName;
+            var allSelectedInfo = new ObservableCollection<ReactorLoopDetail>();
+            if (model.ObcProcessHX != null)
+            {
+                foreach (var hx in model.ObcProcessHX)
+                {
+                    hx.ID = 0;
+                    allSelectedInfo.Add(hx);
+                }
+            }
+            if (model.ObcUtilityHX != null)
+            {
+                foreach (var hx in model.ObcUtilityHX)
+                {
+                    hx.ID = 0;
+                    allSelectedInfo.Add(hx);
+                }
+            }
+            if (model.ObcNetworkHX != null)
+            {
+                foreach (var hx in model.ObcNetworkHX)
+                {
+                    hx.ID = 0;
+                    allSelectedInfo.Add(hx);
+                }
+            }
+            if (model.ObcMixerSplitter != null)
+            {
+                foreach (var hx in model.ObcMixerSplitter)
+                {
+                    hx.ID = 0;
+                    allSelectedInfo.Add(hx);
+                }
+            }
+            if (allSelectedInfo.Count > 0)
+                reactorBLL.Save(model.dbModel, allSelectedInfo);
+            ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
+            ProtectedSystem ps = new ProtectedSystem();
+            ps.PSType = 6;
+            psDAL.Add(ps, SessionPS);
+            SourceFileDAL sfdal = new SourceFileDAL();
+            SourceFileInfo = sfdal.GetModel(model.SourceFile, SessionPF);
+            SessionPS.Flush();
         }
 
         public void MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

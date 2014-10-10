@@ -282,9 +282,9 @@ namespace ReliefProMain.ViewModel
             if (v.ShowDialog() == true)
             {
                 op = 0;
-                if (tower!=null && tower.TowerName == vm.SelectedEq && tower.SourceFile == vm.SelectedFile)
+                if (tower!=null )
                 {
-                    op = 1;//覆盖之前的eq.
+                    op = 2;//覆盖之前的eq.
                 }
                 
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
@@ -647,9 +647,9 @@ namespace ReliefProMain.ViewModel
                     wd.DialogResult = true;
                 }
             }
-            else if (op == 1)
+            else if (op == 2)
             {
-                MessageBoxResult r = MessageBox.Show("Are you sure to delete all data?", "Message Box", MessageBoxButton.YesNo);
+                MessageBoxResult r = MessageBox.Show("Are you sure to reimport all data?", "Message Box", MessageBoxButton.YesNo);
                 if (r == MessageBoxResult.Yes)
                 {
                     ReImportBLL reimportbll = new ReImportBLL(SessionProtectedSystem);

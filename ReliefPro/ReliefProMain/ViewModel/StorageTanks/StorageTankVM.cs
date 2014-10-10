@@ -15,6 +15,7 @@ using NHibernate;
 using ReliefProMain.View;
 using ReliefProMain.Models;
 using ReliefProCommon.Enum;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel.StorageTanks
 {
@@ -27,6 +28,7 @@ namespace ReliefProMain.ViewModel.StorageTanks
         public string FileName { set; get; }
         private string DirPlant { set; get; }
         private string DirProtectedSystem { set; get; }
+        int op = 1;
         private CustomStreamModel _CurrentModel;
         public CustomStreamModel CurrentModel
         {
@@ -109,6 +111,14 @@ namespace ReliefProMain.ViewModel.StorageTanks
             {
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
                 {
+                    if (CurrentModel.ID == 0)
+                    {
+                        op = 0;
+                    }
+                    else
+                    {
+                        op = 2;
+                    }
                     ColorImport = ColorBorder.blue.ToString();
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
                     ProIIStreamDataDAL proIIStreamDataDAL = new ProIIStreamDataDAL();
@@ -166,10 +176,10 @@ namespace ReliefProMain.ViewModel.StorageTanks
                 return;
             }
             if (obj != null)
-            {
-                WriteConvert();
-                if (CurrentModel.ID == 0)
+            {                
+                if (op == 0)
                 {
+                    WriteConvert();
                     db.Add(CurrentModel.model, SessionProtectedSystem);
                     StorageTankDAL storageTankDAL = new StorageTankDAL();
                     StorageTank tank = new StorageTank();
@@ -182,8 +192,9 @@ namespace ReliefProMain.ViewModel.StorageTanks
                     ps.PSType = 5;
                     psDAL.Add(ps, SessionProtectedSystem);
                 }
-                else
+                else if (op == 1)
                 {
+                    WriteConvert();
                     db.Update(CurrentModel.model, SessionProtectedSystem);
                     StorageTankDAL storageTankDAL = new StorageTankDAL();
                     StorageTank tank = storageTankDAL.GetModel(SessionProtectedSystem);
@@ -199,7 +210,28 @@ namespace ReliefProMain.ViewModel.StorageTanks
                     SourceFileDAL sfdal = new SourceFileDAL();
                     SourceFileInfo = sfdal.GetModel(tank.SourceFile, SessionPlant);
                 }
+                else if (op == 2)
+                {
+                     MessageBoxResult r = MessageBox.Show("Are you sure to reimport all data?", "Message Box", MessageBoxButton.YesNo);
+                     if (r == MessageBoxResult.Yes)
+                     {
+                         ReImportBLL reimportbll = new ReImportBLL(SessionProtectedSystem);
+                         reimportbll.DeleteAllData();
+                         WriteConvert();
+                         db.Add(CurrentModel.model, SessionProtectedSystem);
+                         StorageTankDAL storageTankDAL = new StorageTankDAL();
+                         StorageTank tank = new StorageTank();
+                         tank.StorageTankName = CurrentModel.model.StreamName;
+                         tank.SourceFile = FileName;
+                         storageTankDAL.Add(tank, SessionProtectedSystem);
 
+                         ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
+                         ProtectedSystem ps = new ProtectedSystem();
+                         ps.PSType = 5;
+                         psDAL.Add(ps, SessionProtectedSystem);
+
+                     }
+                }
 
                 System.Windows.Window wd = obj as System.Windows.Window;
                 if (wd != null)

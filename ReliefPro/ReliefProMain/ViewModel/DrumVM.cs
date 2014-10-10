@@ -16,6 +16,7 @@ using UOMLib;
 using ReliefProModel.Drums;
 using ReliefProDAL.Drums;
 using ReliefProCommon.Enum;
+using ReliefProBLL;
 
 
 namespace ReliefProMain.ViewModel
@@ -30,7 +31,7 @@ namespace ReliefProMain.ViewModel
         private string SourceFileName;
         private ProIIEqData ProIIDrum;
         public SourceFile SourceFileInfo;
-
+        int op = 1;
         private string _ColorImport;
         public string ColorImport
         {
@@ -194,6 +195,14 @@ namespace ReliefProMain.ViewModel
             {
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
                 {
+                    if (string.IsNullOrEmpty(DrumName))
+                    {
+                        op = 0;
+                    }
+                    else
+                    {
+                        op = 2;
+                    }
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
                     SourceFileInfo = vm.SourceFileInfo;
                     ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
@@ -298,58 +307,27 @@ namespace ReliefProMain.ViewModel
                 ColorImport = ColorBorder.red.ToString();
                 return;
             }
-            CustomStreamDAL dbCS = new CustomStreamDAL();
-            SourceDAL dbsr = new SourceDAL();
-            SinkDAL sinkdal = new SinkDAL();
+            
             DrumDAL dbdrum = new DrumDAL();
-            if (CurrentDrum==null|| CurrentDrum.ID == 0)
+            if (op == 0)
             {
-                foreach (CustomStream cs in Feeds)
-                {
-                    Source sr = new Source();
-                    sr.MaxPossiblePressure = cs.Pressure;
-                    sr.StreamName = cs.StreamName;
-                    sr.SourceType = "Pump(Motor)";
-                    sr.SourceName = cs.StreamName + "_Source";
-                    dbsr.Add(sr, SessionProtectedSystem);
-                    dbCS.Add(cs, SessionProtectedSystem);
-                }
-
-
-                foreach (CustomStream cs in Products)
-                {
-                    Sink sink = new Sink();
-                    sink.MaxPossiblePressure = cs.Pressure;
-                    sink.StreamName = cs.StreamName;
-                    sink.SinkName = cs.StreamName + "_Sink";
-                    sink.SinkType = "Pump(Motor)";
-                    sinkdal.Add(sink, SessionProtectedSystem);
-                    dbCS.Add(cs, SessionProtectedSystem);
-                }
-
-                
-                Drum drum = new Drum();
-                drum.DrumName = DrumName;
-                drum.Duty = Duty;
-                drum.DrumType = DrumType;
-                drum.SourceFile = SourceFileName;
-                drum.Pressure = Pressure;
-                drum.Temperature = Temperature;
-                dbdrum.Add(drum, SessionProtectedSystem);
-
-                ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
-                ProtectedSystem ps = new ProtectedSystem();
-                ps.PSType = 2;
-                psDAL.Add(ps, SessionProtectedSystem);
-
-                SourceFileDAL sfdal = new SourceFileDAL();
-                SourceFileInfo = sfdal.GetModel(drum.SourceFile, SessionPlant);
+                Create();
             }
-            else
+            else if (op == 1)
             {
                 CurrentDrum.DrumType = DrumType;
                 dbdrum.Update(CurrentDrum, SessionProtectedSystem);
                 SessionProtectedSystem.Flush();
+            }
+            else
+            {
+                MessageBoxResult r = MessageBox.Show("Are you sure to reimport all data?", "Message Box", MessageBoxButton.YesNo);
+                if (r == MessageBoxResult.Yes)
+                {
+                    ReImportBLL reimportbll = new ReImportBLL(SessionProtectedSystem);
+                    reimportbll.DeleteAllData();
+                    Create();
+                }
             }
 
 
@@ -361,6 +339,55 @@ namespace ReliefProMain.ViewModel
             }
         }
 
+        private void Create()
+        {
+            CustomStreamDAL dbCS = new CustomStreamDAL();
+            SourceDAL dbsr = new SourceDAL();
+            SinkDAL sinkdal = new SinkDAL();
+            DrumDAL dbdrum = new DrumDAL();
+
+            foreach (CustomStream cs in Feeds)
+            {
+                Source sr = new Source();
+                sr.MaxPossiblePressure = cs.Pressure;
+                sr.StreamName = cs.StreamName;
+                sr.SourceType = "Pump(Motor)";
+                sr.SourceName = cs.StreamName + "_Source";
+                dbsr.Add(sr, SessionProtectedSystem);
+                dbCS.Add(cs, SessionProtectedSystem);
+            }
+
+
+            foreach (CustomStream cs in Products)
+            {
+                Sink sink = new Sink();
+                sink.MaxPossiblePressure = cs.Pressure;
+                sink.StreamName = cs.StreamName;
+                sink.SinkName = cs.StreamName + "_Sink";
+                sink.SinkType = "Pump(Motor)";
+                sinkdal.Add(sink, SessionProtectedSystem);
+                dbCS.Add(cs, SessionProtectedSystem);
+            }
+
+
+            Drum drum = new Drum();
+            drum.DrumName = DrumName;
+            drum.Duty = Duty;
+            drum.DrumType = DrumType;
+            drum.SourceFile = SourceFileName;
+            drum.Pressure = Pressure;
+            drum.Temperature = Temperature;
+            dbdrum.Add(drum, SessionProtectedSystem);
+
+            ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
+            ProtectedSystem ps = new ProtectedSystem();
+            ps.PSType = 2;
+            psDAL.Add(ps, SessionProtectedSystem);
+
+            SourceFileDAL sfdal = new SourceFileDAL();
+            SourceFileInfo = sfdal.GetModel(drum.SourceFile, SessionPlant);
+
+        }
        
     }
 }

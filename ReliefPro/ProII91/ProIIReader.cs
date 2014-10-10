@@ -499,6 +499,13 @@ namespace ProII91
             return value.ToString();
         }
 
-
+        public string GetCriticalTemperature(string phaseName)
+        {
+            string otype = "PhaseEnvel";
+            string attr = "CriticalTemp";
+            CP2Object eq = (CP2Object)cp2File.ActivateObject(otype, phaseName);
+            object value = eq.GetAttribute(attr);
+            return value.ToString();
+        }
     }
 }

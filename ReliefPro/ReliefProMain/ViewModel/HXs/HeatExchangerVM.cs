@@ -190,6 +190,10 @@ namespace ReliefProMain.ViewModel
             {
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
                 {
+                    if (op == 1)
+                    {
+                        op = 2;
+                    }
                     //根据设该设备名称来获取对应的物流线信息和其他信息。
                     ProIIEqDataDAL dbEq = new ProIIEqDataDAL();
                     FileName = vm.SelectedFile;
@@ -287,62 +291,28 @@ namespace ReliefProMain.ViewModel
                 ColorImport = ColorBorder.red.ToString();
                 return;
             }
-            CustomStreamDAL dbCS = new CustomStreamDAL();
-            SourceDAL dbsr = new SourceDAL();
-            SinkDAL sinkdal = new SinkDAL();
+           
             HeatExchangerDAL dbHX = new HeatExchangerDAL();
-            ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
             if (op == 0)
-            {     
-                foreach (CustomStream cs in Feeds)
-                {
-                    Source sr = new Source();
-                    sr.MaxPossiblePressure = cs.Pressure;
-                    sr.StreamName = cs.StreamName;
-                    sr.SourceType = "Pump(Motor)";
-                    sr.SourceName = cs.StreamName + "_Source";
-                    dbsr.Add(sr, SessionProtectedSystem);
-
-
-                    dbCS.Add(cs, SessionProtectedSystem);
-                }
-
-
-                foreach (CustomStream cs in Products)
-                {
-                    Sink sink = new Sink();
-                    sink.MaxPossiblePressure = cs.Pressure;
-                    sink.StreamName = cs.StreamName;
-                    sink.SinkName = cs.StreamName + "_Sink";
-                    sink.SinkType = "Pump(Motor)";
-                    sinkdal.Add(sink, SessionProtectedSystem);
-                    dbCS.Add(cs, SessionProtectedSystem);
-                }
-
-                
-                HeatExchanger HX = new HeatExchanger();
-                HX.HXName = HXName;
-                HX.Duty = Duty;
-                HX.HXType = HXType;
-                HX.SourceFile = FileName;
-
-                dbHX.Add(HX, SessionProtectedSystem);
-
-                
-                ProtectedSystem ps = new ProtectedSystem();
-                ps.PSType = 4;
-                psDAL.Add(ps, SessionProtectedSystem);
-
-                SourceFileDAL sfdal = new SourceFileDAL();
-                SourceFileInfo = sfdal.GetModel(HX.SourceFile, SessionPlant);
-                SessionProtectedSystem.Flush();
+            {
+                Create();
             }
-            else
+            else if (op == 1)
             {
                 CurrentHX = dbHX.GetModel(SessionProtectedSystem);
                 CurrentHX.HXType = HXType;
                 dbHX.Update(CurrentHX, SessionProtectedSystem);
                 SessionProtectedSystem.Flush();
+            }
+            else
+            {
+                MessageBoxResult r = MessageBox.Show("Are you sure to reimport all data?", "Message Box", MessageBoxButton.YesNo);
+                if (r == MessageBoxResult.Yes)
+                {
+                    ReImportBLL reimportbll = new ReImportBLL(SessionProtectedSystem);
+                    reimportbll.DeleteAllData();
+                    Create();
+                }
             }
 
             System.Windows.Window wd = obj as System.Windows.Window;
@@ -352,7 +322,56 @@ namespace ReliefProMain.ViewModel
                 wd.DialogResult = true;
             }
         }
+        private void Create()
+        {
+            CustomStreamDAL dbCS = new CustomStreamDAL();
+            SourceDAL dbsr = new SourceDAL();
+            SinkDAL sinkdal = new SinkDAL();
+            HeatExchangerDAL dbHX = new HeatExchangerDAL();
+            ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
+            foreach (CustomStream cs in Feeds)
+            {
+                Source sr = new Source();
+                sr.MaxPossiblePressure = cs.Pressure;
+                sr.StreamName = cs.StreamName;
+                sr.SourceType = "Pump(Motor)";
+                sr.SourceName = cs.StreamName + "_Source";
+                dbsr.Add(sr, SessionProtectedSystem);
 
+
+                dbCS.Add(cs, SessionProtectedSystem);
+            }
+
+
+            foreach (CustomStream cs in Products)
+            {
+                Sink sink = new Sink();
+                sink.MaxPossiblePressure = cs.Pressure;
+                sink.StreamName = cs.StreamName;
+                sink.SinkName = cs.StreamName + "_Sink";
+                sink.SinkType = "Pump(Motor)";
+                sinkdal.Add(sink, SessionProtectedSystem);
+                dbCS.Add(cs, SessionProtectedSystem);
+            }
+
+
+            HeatExchanger HX = new HeatExchanger();
+            HX.HXName = HXName;
+            HX.Duty = Duty;
+            HX.HXType = HXType;
+            HX.SourceFile = FileName;
+
+            dbHX.Add(HX, SessionProtectedSystem);
+
+
+            ProtectedSystem ps = new ProtectedSystem();
+            ps.PSType = 4;
+            psDAL.Add(ps, SessionProtectedSystem);
+
+            SourceFileDAL sfdal = new SourceFileDAL();
+            SourceFileInfo = sfdal.GetModel(HX.SourceFile, SessionPlant);
+            SessionProtectedSystem.Flush();
+        }
         private ObservableCollection<string> GetHXTypes()
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
