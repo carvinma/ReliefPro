@@ -309,11 +309,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             if (model.SelectedNetworkHXModel != null)
             {
                 model.ObcNetworkHXSource.Add(model.SelectedNetworkHXModel);
+                model.ObcUtilityHXSource.Add(model.SelectedNetworkHXModel);
+                model.ObcProcessHXSource.Add(model.SelectedNetworkHXModel);
+
                 var find = model.ObcUtilityHX.FirstOrDefault(p => p.DetailInfo == model.SelectedNetworkHXModel.DetailInfo && p.ReactorType == 3);
                 model.ObcNetworkHX.Remove(find);
-
-
-
             }
         }
 

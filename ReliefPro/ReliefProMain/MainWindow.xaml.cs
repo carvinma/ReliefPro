@@ -277,11 +277,7 @@ namespace ReliefProMain
 
         private void OnloadUnitOfMeasure(object sender, RoutedEventArgs e)
         {
-            FormatUnitsMeasure fum = new FormatUnitsMeasure();
-            if (fum.ShowDialog() == true)
-            {
-
-            }
+            OpenUOM();
         }
 
 
@@ -518,6 +514,10 @@ namespace ReliefProMain
                 SavePlant();
                 ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
                 list.Clear();
+                btnReport.IsEnabled = false;
+                btnUOM.IsEnabled = false;
+                itemUOM.IsEnabled = false;
+                
             }
         }
 

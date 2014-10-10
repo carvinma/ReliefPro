@@ -42,7 +42,7 @@
                         <MenuItem Click="MenuItem_Click" Header="Exit"/>
                     </MenuItem> 
                     <MenuItem Header="_Tools(T)">
-                        <MenuItem Header="Units Of Measure" Click="OnloadUnitOfMeasure" />
+                    <MenuItem Name="itemUOM" Header="Units Of Measure" Click="OnloadUnitOfMeasure" IsEnabled="{Binding IsOpenPlant}"  />
                         <MenuItem Header="Plant Explorer"  Click="OnShowPlantExplorer" />
                         <!--<MenuItem Header="ICON"  Click="OnShowICON" />-->                       
                     </MenuItem>
@@ -83,11 +83,11 @@
                         <Button  ToolTip="Import Simulation" VerticalAlignment="Center"  Click="Button_Click">
                             <Image Source="images/ImportSimulation.ico"   Height="24" Width="24"></Image>
                         </Button>
-                        <Button Name="btnReport" ToolTip="Report" VerticalAlignment="Center"  Click="Button_Click">
+                        <Button Name="btnReport" ToolTip="Report" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
                             <Image Source="/images/Report.ico"   Height="24" Width="24"></Image>
                         </Button>
                         <Separator/>
-                        <Button Name="btnUOM" ToolTip="UOM" VerticalAlignment="Center" Click="Button_Click" >
+                        <Button Name="btnUOM" ToolTip="UOM" VerticalAlignment="Center" Click="Button_Click" IsEnabled="{Binding IsOpenPlant}"  >
                             <Image Source="/images/uom.ico" Height="24" Width="24"  ></Image>
                         </Button>
 

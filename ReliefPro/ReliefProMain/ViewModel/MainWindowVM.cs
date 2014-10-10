@@ -65,6 +65,16 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("Plants");
             }
         }
+        private bool _IsOpenPlant;
+        public bool IsOpenPlant
+        {
+            get { return _IsOpenPlant; }
+            set
+            {
+                _IsOpenPlant = value;
+                OnPropertyChanged("IsOpenPlant");
+            }
+        }
         public ICommand NewPlantCommand { get; set; }
         public ICommand OpenPlantCommand { get; set; }
 
@@ -74,6 +84,7 @@ namespace ReliefProMain.ViewModel
 
         public MainWindowVM()
         {
+            IsOpenPlant = false;
             NewPlantCommand = new DelegateCommand<object>(CreatePlant);
 
             OpenPlantCommand = new DelegateCommand<object>(OpenPlant);
@@ -148,7 +159,7 @@ namespace ReliefProMain.ViewModel
                     TVPlantViewModel m1 = new TVPlantViewModel(p);
                     Plants.Add(m1);
                     SavePlant();
-
+                    IsOpenPlant = true;
                     if (!UOMSingle.UomEnums.Exists(uom => uom.SessionDBPath == dbPlant_target))
                     {
                         UOMEnum uomEnum = new UOMEnum(SessionPlant);
@@ -194,7 +205,7 @@ namespace ReliefProMain.ViewModel
                     p.Name = currentPlantName;
                     TVPlantViewModel m1 = new TVPlantViewModel(p);
                     Plants.Add(m1);
-
+                    IsOpenPlant = true;
                     if (!UOMSingle.UomEnums.Exists(uom => uom.SessionDBPath == dbPlant_target))
                     {
                         NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlant_target);
