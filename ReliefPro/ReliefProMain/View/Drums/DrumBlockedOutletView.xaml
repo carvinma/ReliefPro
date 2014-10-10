@@ -61,7 +61,7 @@
         <Label x:Name="lblTemper" Content="{Binding model.ReliefTempUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="11"  Style="{StaticResource LabelLeftStyle}" />
         <Label x:Name="lblPresses" Content="{Binding model.ReliefPressureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="10"  Style="{StaticResource LabelLeftStyle}"  />
 
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.ReliefLoad,Mode=TwoWay,StringFormat='{}{0:N0}'}" UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="9" HorizontalAlignment="Stretch" Margin="0,0,5,0" Width="Auto"/>
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.ReliefLoad,Mode=TwoWay,StringFormat='{}{0:F0}'}" UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}"  Grid.Column="2"  Grid.Row="9" HorizontalAlignment="Stretch" Margin="0,0,5,0" Width="Auto"/>
         <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.ReliefPressure,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblPresses,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="10"/>
         <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.ReliefTemperature,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblTemper,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="11"/>
         <TextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.ReliefMW,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2"  Grid.Row="12"/>

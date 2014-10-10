@@ -237,10 +237,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             if (model.SelectedHXModel != null)
             {
                 model.ObcProcessHX.Add(model.SelectedHXModel);
-                var find = model.ObcProcessHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 0);
+                string str = model.SelectedHXModel.DetailInfo;
+                var find = model.ObcProcessHXSource.FirstOrDefault(p => p.DetailInfo == str && p.ReactorType == 0);
                 model.ObcProcessHXSource.Remove(find);
 
-                var find2 = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 3);
+                var find2 = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == str && p.ReactorType == 3);
                 model.ObcNetworkHXSource.Remove(find2);
             }
         }
@@ -248,11 +249,13 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         {
             if (model.SelectedHXModel != null)
             {
+                ReactorLoopDetail shxmodel = model.SelectedHXModel;
                 model.ObcProcessHXSource.Add(model.SelectedHXModel);
-                var find = model.ObcProcessHX.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 0);
+                string str = model.SelectedHXModel.DetailInfo;
+                var find = model.ObcProcessHX.FirstOrDefault(p => p.DetailInfo == str && p.ReactorType == 0);
                 model.ObcProcessHX.Remove(find);
 
-                model.ObcNetworkHXSource.Add(model.SelectedHXModel);
+                model.ObcNetworkHXSource.Add(shxmodel);
             }
         }
         private void UtilityHXAdd(object obj)
@@ -284,15 +287,16 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             if (model.SelectedNetworkHXModel != null)
             {
                 model.ObcNetworkHX.Add(model.SelectedNetworkHXModel);
-                var find = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedNetworkHXModel.DetailInfo && p.ReactorType == 3);
+                string str = model.SelectedNetworkHXModel.DetailInfo;
+                var find = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == str && p.ReactorType == 3);
                 model.ObcNetworkHXSource.Remove(find);
 
-                var find2 = model.ObcUtilityHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 1);
+                var find2 = model.ObcUtilityHXSource.FirstOrDefault(p => p.DetailInfo == str && p.ReactorType == 1);
                 if (find2 != null)
                 {
                     model.ObcUtilityHXSource.Remove(find2);
                 }
-                var find3 = model.ObcProcessHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 0);
+                var find3 = model.ObcProcessHXSource.FirstOrDefault(p => p.DetailInfo == str && p.ReactorType == 0);
                 if (find3 != null)
                 {
                     model.ObcProcessHXSource.Remove(find3);

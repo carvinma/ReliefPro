@@ -53,7 +53,7 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="15"/>
             </Grid.ColumnDefinitions>
-            <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}" TextWrapping="Wrap" Text="{Binding ReliefLoad,Mode=TwoWay,StringFormat='{}{0}'}" Grid.Column="2" Grid.Row="0"  />
+            <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}" TextWrapping="Wrap" Text="{Binding ReliefLoad,Mode=TwoWay,StringFormat='{}{0:F0}'}" Grid.Column="2" Grid.Row="0"  />
             <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}"  UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}"  Grid.Row="1" TextWrapping="Wrap" Text="{Binding ReliefTemperature,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2" />
             <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}"  UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}"  Grid.Row="2" TextWrapping="Wrap" Text="{Binding ReliefPressure,Mode=TwoWay,StringFormat='{}{0:N4}'}"  Grid.Column="2"/>
             <TextBox Style="{DynamicResource TextBoxReadOnly}"   Name="txtReliefMW" Grid.Row="3" TextWrapping="Wrap" Text="{Binding ReliefMW,Mode=TwoWay,StringFormat='{}{0:N4}'}"  Grid.Column="2"/>

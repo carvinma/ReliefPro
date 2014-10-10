@@ -557,13 +557,16 @@ namespace ReliefProMain.ViewModel
 
                 AccumulatorDAL dbaccumulator = new AccumulatorDAL();
                 Accumulator accumulator = dbaccumulator.GetModel(Session);
-                eq = new TowerFireEq();
-                eq.EqName = accumulator.AccumulatorName;
-                eq.Type = "Drum";
-                eq.FFactor = 1;
-                eq.FireZone = true;
-                eq.FireID = tf.ID;
-                dbtfeq.Add(eq, Session);
+                if (accumulator != null)
+                {
+                    eq = new TowerFireEq();
+                    eq.EqName = accumulator.AccumulatorName;
+                    eq.Type = "Drum";
+                    eq.FFactor = 1;
+                    eq.FireZone = true;
+                    eq.FireID = tf.ID;
+                    dbtfeq.Add(eq, Session);
+                }
 
                 //eq = new TowerFireEq();
                 //eq.EqName = "Other";
@@ -778,7 +781,7 @@ namespace ReliefProMain.ViewModel
                         {
                             tsHX.DutyLost = true;
                         }
-                        if (ScenarioName == "GeneralElectricPowerFailure" && tsHX.Medium == "Cooling Water" && conditionsettings.CoolingWaterCondition)
+                        if (ScenarioName == "GeneralElectricPowerFailure" && tsHX.Medium == "Cooling Water" &&conditionsettings!=null && conditionsettings.CoolingWaterCondition)
                         {
                             tsHX.DutyLost = true;
                         }
@@ -793,7 +796,7 @@ namespace ReliefProMain.ViewModel
                         {
                             tsHX.DutyLost = true;
                         }
-                        if (ScenarioName == "GeneralElectricPowerFailure" && tsHX.Medium == "Cooling Water" && conditionsettings.CoolingWaterCondition)
+                        if (ScenarioName == "GeneralElectricPowerFailure" && tsHX.Medium == "Cooling Water" && conditionsettings != null && conditionsettings.CoolingWaterCondition)
                         {
                             tsHX.DutyLost = true;
                         }

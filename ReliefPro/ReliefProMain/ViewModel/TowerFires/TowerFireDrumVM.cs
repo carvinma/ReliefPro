@@ -36,6 +36,8 @@ namespace ReliefProMain.ViewModel.TowerFires
             Orientations = getOrientations();
             HeadTypes = getHeadTypes();
 
+            AccumulatorDAL accumulatordal = new AccumulatorDAL();
+            Accumulator ac = accumulatordal.GetModel(sessionProtectedSystem);
             TowerFireDrumDAL db = new TowerFireDrumDAL();
             TowerFireDrum sizemodel = db.GetModel(SessionProtectedSystem, EqID);
             if (sizemodel == null)
@@ -45,6 +47,16 @@ namespace ReliefProMain.ViewModel.TowerFires
                 sizemodel.PipingContingency = 10;
                 sizemodel.Orientation = "Horizon";
                 sizemodel.HeadType = "Eclipse";
+                if (ac != null)
+                {
+                    sizemodel.Diameter = ac.Diameter;
+                    sizemodel.Elevation = ac.NormalLiquidLevel;
+                    sizemodel.Length = ac.Length;
+                    if (ac.Orientation)
+                        sizemodel.Orientation = "Horizon";
+                    else
+                        sizemodel.Orientation = "Vertical";
+                }
                 sizemodel.BootDiameter_Color = ColorBorder.green.ToString();
                 sizemodel.BootHeight_Color = ColorBorder.green.ToString();
                 sizemodel.Diameter_Color = ColorBorder.green.ToString();

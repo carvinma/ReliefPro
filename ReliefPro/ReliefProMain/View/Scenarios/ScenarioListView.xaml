@@ -40,7 +40,7 @@
                         </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox IsEnabled="False" Text="{Binding Path=ReliefLoad,Mode=TwoWay,StringFormat='{}{0:N0}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                <TextBox IsEnabled="False" Text="{Binding Path=ReliefLoad,Mode=TwoWay,StringFormat='{}{0:F0}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

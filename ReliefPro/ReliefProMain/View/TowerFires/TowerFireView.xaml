@@ -112,7 +112,7 @@
                 <TextBlock Visibility="Hidden"  Text="{DynamicResource ReliefCp_Cv}" Grid.Column="0" Grid.Row="4"/>
                 <TextBlock Visibility="Hidden"   Text="{DynamicResource ReliefZ}" Grid.Column="0" Grid.Row="5" />
 
-                <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}"    TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefLoad,Mode=TwoWay,StringFormat='{}{0:N0}'}"  Grid.Column="1" Grid.Row="1"/>
+                <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblLoad,Path=Content,Mode=TwoWay}"    TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefLoad,Mode=TwoWay,StringFormat='{}{0:F0}'}"  Grid.Column="1" Grid.Row="1"/>
                 <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefPressure,Mode=TwoWay,StringFormat='{}{0:N4}'}"   Grid.Column="1" Grid.Row="2"/>
                 <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblTemperature,Path=Content,Mode=TwoWay}" TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefTemperature,Mode=TwoWay,StringFormat='{}{0:N4}'}"   Grid.Column="1" Grid.Row="3"/>
                 <TextBox Style="{DynamicResource TextBoxReadOnly}"  TextWrapping="Wrap" Text="{Binding Path=MainModel.ReliefMW,Mode=TwoWay,StringFormat='{}{0:N4}'}"  Grid.Column="1" Grid.Row="4"/>
