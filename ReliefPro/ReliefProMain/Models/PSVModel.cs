@@ -12,6 +12,7 @@ namespace ReliefProMain.Models
         public PSVModel(PSV m)
         {
             dbmodel= m;
+            this.ID = m.ID;
             this.PSVName = m.PSVName;
             this.Pressure = m.Pressure;
             this.ReliefPressureFactor = m.ReliefPressureFactor;

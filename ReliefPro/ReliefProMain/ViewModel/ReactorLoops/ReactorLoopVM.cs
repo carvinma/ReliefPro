@@ -262,11 +262,12 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         {
             if (model.SelectedUtilityHXModel != null)
             {
+                string str = model.SelectedUtilityHXModel.DetailInfo;
                 model.ObcUtilityHX.Add(model.SelectedUtilityHXModel);
                 var find = model.ObcUtilityHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedUtilityHXModel.DetailInfo && p.ReactorType == 1);
                 model.ObcUtilityHXSource.Remove(find);
-
-                var find2 = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == model.SelectedHXModel.DetailInfo && p.ReactorType == 3);
+               
+                var find2 = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == str && p.ReactorType == 3);
                 model.ObcNetworkHXSource.Remove(find2);
             }
         }
