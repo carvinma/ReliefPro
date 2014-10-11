@@ -147,6 +147,8 @@ namespace ReliefProMain.ViewModel.Compressors
                 model.ReliefPressure = PDesign;
                 model.ReliefCpCv = cs.BulkCPCVRatio;
                 model.ReliefZ = cs.VaporZFmKVal;
+                if (model.Reliefload < 0)
+                    model.Reliefload = 0;                
             }
 
 

@@ -63,6 +63,10 @@ namespace ReliefProMain.ViewModel.Compressors
                 model.ReliefPressure = cs.Pressure;
                 model.Reliefload = cs.WeightFlow * model.RatedCapacity;
                 model.ReliefTemperature = cs.Temperature;
+                if (model.Reliefload < 0)
+                    model.Reliefload = 0;
+                model.ReliefCpCv = cs.BulkCPCVRatio;
+                model.ReliefZ = cs.VaporZFmKVal;
             }
         }
         private void Save(object obj)

@@ -19,6 +19,20 @@ namespace ReliefProMain.Models
             _SourceType = m.SourceType;
             _SourceType_Color = m.SourceType_Color;
             _SourceTypes = GetSourceTypes();
+            _IsEnabledSourceType = !m.IsSteam;
+        }
+        private bool _IsEnabledSourceType;
+        public bool IsEnabledSourceType
+        {
+            get
+            {
+                return _IsEnabledSourceType;
+            }
+            set
+            {
+                _IsEnabledSourceType = value;
+                OnPropertyChanged("IsEnabledSourceType");
+            }
         }
         public int ID
         {
@@ -68,7 +82,7 @@ namespace ReliefProMain.Models
                 {
                     SourceType_Color = ColorBorder.blue.ToString();
                 }
-                _SourceType = value;
+                _SourceType = value;                
                 NotifyPropertyChanged("SourceType");
             }
         }
@@ -159,6 +173,11 @@ namespace ReliefProMain.Models
                 {
                     dbmodel.IsSteam = value;
                 }
+                if (dbmodel.IsSteam)
+                {
+                    SourceType = "Supply Header";
+                }
+                IsEnabledSourceType = !value;
                 OnPropertyChanged("IsSteam");
 
             }
@@ -228,6 +247,7 @@ namespace ReliefProMain.Models
             list.Add("Pump(Steam Turbine Driven)");
             list.Add("Pump(Motor)");
             list.Add("Pressurized Vessel");
+            list.Add("Supply Header");
             return list;
         }
     }

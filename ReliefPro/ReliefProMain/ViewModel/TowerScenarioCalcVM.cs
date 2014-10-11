@@ -160,6 +160,7 @@ namespace ReliefProMain.ViewModel
         private int CheckSteamFreezed()
         {
             int SteamFreezed = 0;
+            TowerHXDetailDAL detaildal = new TowerHXDetailDAL();
 
             IList<TowerScenarioHX> list = towerScenarioHXDAL.GetAllList(SessionProtectedSystem, ScenarioID, 1);
             if (list.Count == 0)
@@ -167,9 +168,10 @@ namespace ReliefProMain.ViewModel
             double sumDutyFactor = 0;
             foreach (TowerScenarioHX shx in list)
             {
+                TowerHXDetail detail = detaildal.GetModel(SessionProtectedSystem, shx.DetailID);
                 if (!shx.DutyLost)
                 {
-                    sumDutyFactor = sumDutyFactor + shx.DutyCalcFactor;
+                    sumDutyFactor = sumDutyFactor + shx.DutyCalcFactor*detail.DutyPercentage;
                 }
             }
             if (sumDutyFactor == 0)
@@ -524,6 +526,7 @@ namespace ReliefProMain.ViewModel
 
         private void CalcRegenerator()
         {
+            LatentDAL ltdal = new LatentDAL();
             TowerScenarioHXDAL dbTSHX = new TowerScenarioHXDAL();
             TowerHXDetailDAL dbDetail = new TowerHXDetailDAL();
             ReboilerPinchDAL reboilerPinchDAL = new ReboilerPinchDAL();
@@ -552,24 +555,25 @@ namespace ReliefProMain.ViewModel
                         CondenserLost = false;
                 }
             }
+            Latent lt=ltdal.GetModel(SessionProtectedSystem);
             if (rduty < 0)
             {
-                ReliefMW = 0;
-                ReliefPressure = 0;
-                ReliefTemperature = 0;
-                ReliefCpCv = 0;
-                ReliefZ = 0;
+                ReliefMW = lt.ReliefOHWeightFlow;
+                ReliefPressure = lt.ReliefPressure;
+                ReliefTemperature = lt.ReliefTemperature;
+                ReliefCpCv = lt.ReliefCpCv;
+                ReliefZ = lt.ReliefZ;
                 return;
             }
             if (ScenarioName == "Blocked outlet" || ScenarioName == "Reflux failure")
             {
                 if (!CondenserLost)
                 {
-                    ReliefMW = 0;
-                    ReliefPressure = 0;
-                    ReliefTemperature = 0;
-                    ReliefCpCv = 0;
-                    ReliefZ = 0;
+                    ReliefMW = lt.ReliefOHWeightFlow;
+                    ReliefPressure = lt.ReliefPressure;
+                    ReliefTemperature = lt.ReliefTemperature;
+                    ReliefCpCv = lt.ReliefCpCv;
+                    ReliefZ = lt.ReliefZ;
                     return;
                 }
             }
@@ -579,8 +583,7 @@ namespace ReliefProMain.ViewModel
         }
 
         private void CalRegSC(double duty)
-        {
-            Latent lt = new Latent();
+        {            
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionProtectedSystem);
             double pressure = psv.Pressure;
@@ -626,7 +629,6 @@ namespace ReliefProMain.ViewModel
                     ReliefTemperature = vaporFire.Temperature;
                     ReliefCpCv = vaporFire.BulkCPCVRatio;
                     ReliefZ = vaporFire.VaporZFmKVal;
-
                 }
 
                 else
@@ -761,9 +763,20 @@ namespace ReliefProMain.ViewModel
                 wRelief = 0;
             }
             reliefLoad = wRelief + waterWeightFlow;
-            reliefMW = (wRelief + waterWeightFlow) / (wRelief / latent.ReliefOHWeightFlow + waterWeightFlow / 18);
+            double r= wRelief / latent.ReliefOHWeightFlow + waterWeightFlow / 18;
+            if (r == 0)
+            {
+                reliefMW = latent.ReliefOHWeightFlow;
+            }
+            else
+            {
+                reliefMW = (wRelief + waterWeightFlow) / r;
+            }
             reliefTemperature = latent.ReliefTemperature;
             reliefPressure = latent.ReliefPressure;
+            ReliefCpCv = latent.ReliefCpCv;
+            ReliefZ = latent.ReliefZ;
+
             if (reliefLoad < 0)
                 reliefLoad = 0;
         }
@@ -857,13 +870,21 @@ namespace ReliefProMain.ViewModel
                 wRelief = 0;
             }
             reliefLoad = wRelief + waterWeightFlow;
-            reliefMW = (wRelief + waterWeightFlow) / (wRelief / latent.ReliefOHWeightFlow + waterWeightFlow / 18);
+            double r = wRelief / latent.ReliefOHWeightFlow + waterWeightFlow / 18;
+            if (r == 0)
+            {
+                reliefMW = latent.ReliefOHWeightFlow;
+            }
+            else
+            {
+                reliefMW = (wRelief + waterWeightFlow) / r;
+            }
             reliefTemperature = latent.ReliefTemperature;
             reliefPressure = latent.ReliefPressure;
+            ReliefCpCv = latent.ReliefCpCv;
+            ReliefZ = latent.ReliefZ;
             if (reliefLoad < 0)
-                reliefLoad = 0;
-
-            
+                reliefLoad = 0;           
         }
 
 

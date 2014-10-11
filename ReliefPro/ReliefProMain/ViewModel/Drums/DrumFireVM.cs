@@ -133,6 +133,8 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void WriteConvertModel()
         {
+            if (model.ReliefLoad < 0)
+                model.ReliefLoad = 0;
             model.dbmodel.WettedArea = UnitConvert.Convert(model.WettedAreaUnit, UOMLib.UOMEnum.Area.ToString(), model.WettedArea);
             model.dbmodel.LatentHeat = UnitConvert.Convert(model.LatentHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.LatentHeat);
             model.dbmodel.CrackingHeat = UnitConvert.Convert(model.CrackingHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.CrackingHeat);
@@ -298,6 +300,9 @@ namespace ReliefProMain.ViewModel.Drums
                 model.ReliefMW = reliefMW;
                 model.ReliefTemperature = relieftT;
                 model.ReliefPressure = reliefPressure;
+
+                model.ReliefCpCv = 1.12;
+                model.ReliefZ = 0.723;
             }
         }
         private void CalcDrum()
@@ -332,6 +337,8 @@ namespace ReliefProMain.ViewModel.Drums
                 model.ReliefLoad = Qfire / L;
                 model.ReliefMW = 114;
                 model.ReliefTemperature = 400;
+                model.ReliefCpCv = 1.12;
+                model.ReliefZ = 0.723;
             }
             else if (model.AllGas)
             {
@@ -353,6 +360,8 @@ namespace ReliefProMain.ViewModel.Drums
                 model.ReliefMW = mw;
                 model.ReliefTemperature = UnitConvert.Convert("R", "C", t1); ;
 
+                model.ReliefCpCv = 1.12;
+                model.ReliefZ = 0.723;
             }
             else
             {
@@ -408,10 +417,7 @@ namespace ReliefProMain.ViewModel.Drums
                             model.ReliefPressure = reliefPressure;
                             model.ReliefTemperature = reliefT;
                             model.LatentHeat = latent;
-                            if (csVapor.BulkCPCVRatio != null)
-                            {
-                                model.ReliefCpCv = csVapor.BulkCPCVRatio;
-                            }
+                            model.ReliefCpCv = csVapor.BulkCPCVRatio;                            
                             model.ReliefZ = csVapor.VaporZFmKVal;
 
 
@@ -773,11 +779,13 @@ namespace ReliefProMain.ViewModel.Drums
                                 double latent = vaporFire.SpEnthalpy - liquidFire.SpEnthalpy;
                                 model.LatentHeat = latent;
                                 model.ReliefLoad = Q / latent;
+                                if (model.ReliefLoad < 0)
+                                    model.ReliefLoad = 0;
                                 model.ReliefMW = vaporFire.BulkMwOfPhase;
                                 model.ReliefPressure = reliefFirePressure;
                                 model.ReliefTemperature = vaporFire.Temperature;
-                                //model.ReliefCpCv = double.Parse(vaporFire.BulkCPCVRatio);
-                                //model.ReliefZ = double.Parse(vaporFire.VaporZFmKVal);
+                                model.ReliefCpCv = vaporFire.BulkCPCVRatio;
+                                model.ReliefZ = vaporFire.VaporZFmKVal;
 
                             }
 

@@ -29,45 +29,41 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60"></ColumnDefinition>
             <ColumnDefinition Width="200"></ColumnDefinition>
-            <ColumnDefinition Width="170"></ColumnDefinition>
-            <ColumnDefinition Width="20"></ColumnDefinition>
-            <ColumnDefinition Width="130"></ColumnDefinition>
+            <ColumnDefinition Width="128"></ColumnDefinition>
+            <ColumnDefinition Width="42"/>
+            <ColumnDefinition Width="38"></ColumnDefinition>
+            <ColumnDefinition Width="112"></ColumnDefinition>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
        
         <Label Content="{DynamicResource InitialDepressuringrate}" Grid.Column="1" Grid.Row="12" Height="25" Width="130"/>
         <Label Content="{DynamicResource Timespecify}" Grid.Column="1" Grid.Row="13" Height="25" Width="81"/>
         <Label Content="{DynamicResource Calculatedvesselpressure}" Grid.Column="1" Grid.Row="14" Height="25" Width="142"/>
-        <Label x:Name="lblInitialPressure" Content="{Binding model.InitialPressureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="3"  Style="{StaticResource LabelLeftStyle}" Height="10" Margin="0,14,0,15" Width="10"/>
-        <Label x:Name="lblVaporDensity" Content="{Binding model.VaporDensityUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="4"  Style="{StaticResource LabelLeftStyle}" Height="10" Margin="0,15,0,14" Width="10"/>
-        <Label x:Name="lblTotalVaporVolume" Content="{Binding model.TotalVaporVolumeUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="5"  Style="{StaticResource LabelLeftStyle}" Height="10" Margin="0,14,0,15" Width="10"/>
-        <Label x:Name="lblVesseldesignpressure" Content="{Binding model.VesseldesignpressureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="6"  Style="{StaticResource LabelLeftStyle}" Height="10" Margin="0,15,0,14" Width="10"/>
-        <Label x:Name="lblTotalWettedArea" Content="{Binding model.TotalWettedAreaUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="8"  Style="{StaticResource LabelLeftStyle}" Height="10" Margin="0,15,0,14" Width="10"/>
-        <Label x:Name="lblInitialDepressuringRate" Content="{Binding model.InitialDepressuringRateUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="12"  Style="{StaticResource LabelLeftStyle}" Height="10" Margin="0,15,0,14" Width="10"/>
-        <Label x:Name="lblTimespecify" Content="{Binding model.TimespecifyUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="13"  Style="{StaticResource LabelLeftStyle}" Height="10" Margin="0,14,0,15" Width="10"/>
-        <Label x:Name="lblCalculatedVesselPressure" Content="{Binding model.CalculatedVesselPressureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="14"  Style="{StaticResource LabelLeftStyle}" Height="10" Margin="0,15" Width="10"/>
-        <Label x:Name="lblCalculatedDepressuringRate" Content="{Binding model.CalculatedDepressuringRateUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="15"  Style="{StaticResource LabelLeftStyle}" Height="10" Margin="0,15,0,14" Width="10"/>
-        <Label x:Name="lblDetailP" Content="{Binding model.DetailPUnit,Mode=TwoWay}" Grid.Column="5" Grid.Row="6"  Style="{StaticResource LabelLeftStyle}" Height="10" Margin="0,15,0,14" Width="10"/>
-        <Label Visibility="Hidden" Content="{DynamicResource in}" Grid.Column="5" Grid.Row="6"  Style="{StaticResource LabelLeftStyle}" Margin="45,7,0,6" Height="26" Width="23"/>
-        <Label x:Name="lblDetailPTime" Content="{Binding model.DetailPTimeUnit,Mode=TwoWay}" Grid.Column="5" Grid.Row="7"  Style="{StaticResource LabelLeftStyle}" Height="10" Margin="0,14,0,15" Width="10"/>
-        <Label x:Name="lblTimeStep" Content="{Binding model.TimeStepUnit,Mode=TwoWay}" Grid.Column="5" Grid.Row="6"  VerticalAlignment="Center" HorizontalAlignment="Right" Height="10" Margin="0,15,0,14" Width="10"/>
+       <Label x:Name="lblInitialDepressuringRate" Content="{Binding model.InitialDepressuringRateUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="12"  Style="{StaticResource LabelLeftStyle}" Margin="0,0,0,29"   />
+        <Label x:Name="lblTimespecify" Content="{Binding model.TimespecifyUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="13"  Style="{StaticResource LabelLeftStyle}" Margin="0,8,0,21"   />
+        <Label x:Name="lblCalculatedVesselPressure" Content="{Binding model.CalculatedVesselPressureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="14"  Style="{StaticResource LabelLeftStyle}" Margin="2,0,0,30" Height="10" Width="10" />
+        <Label x:Name="lblCalculatedDepressuringRate" Content="{Binding model.CalculatedDepressuringRateUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="15"  Style="{StaticResource LabelLeftStyle}" Margin="0,8,30,21" Height="10" Width="10" HorizontalAlignment="Right" RenderTransformOrigin="0.6,-0.8" />
+        <Label x:Name="lblDetailP" Content="{Binding model.DetailPUnit,Mode=TwoWay}" Grid.Column="6" Grid.Row="6"  Style="{StaticResource LabelLeftStyle}" Margin="0,15,0,14" Height="10" Width="10" />
+        <Label Visibility="Hidden" Content="{DynamicResource in}" Grid.Column="6" Grid.Row="6"  Style="{StaticResource LabelLeftStyle}" Margin="0,7,0,6" Height="26" Width="23" />
+        <Label x:Name="lblDetailPTime" Content="{Binding model.DetailPTimeUnit,Mode=TwoWay}" Grid.Column="6" Grid.Row="7"  Style="{StaticResource LabelLeftStyle}" Margin="0,14,0,15" Height="10" Width="10" />
+        <Label x:Name="lblTimeStep" Content="{Binding model.TimeStepUnit,Mode=TwoWay}" Grid.Column="6" Grid.Row="6"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,15,0,14" Height="10" Width="10"/>
 
-        <Label Visibility="Hidden" Content="{DynamicResource DeltaP}" Grid.Column="4" Grid.Row="6"  Style="{StaticResource LabelLeftStyle}" Height="26" Margin="0,7,0,6" Width="54"/>
-        <Label Visibility="Hidden" Content="{DynamicResource TimeStep}" Grid.Column="4" Grid.Row="7"  Style="{StaticResource LabelLeftStyle}" Height="26" Margin="0,6,0,7" Width="70"/>
+        <Label Visibility="Hidden" Content="{DynamicResource DeltaP}" Grid.Column="5" Grid.Row="6"  Style="{StaticResource LabelLeftStyle}" Height="26" Margin="0,7,0,6" Width="54"/>
+        <Label Visibility="Hidden" Content="{DynamicResource TimeStep}" Grid.Column="5" Grid.Row="7"  Style="{StaticResource LabelLeftStyle}" Height="26" Margin="0,6,0,7" Width="70"/>
 
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.InitialDepressuringRate,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblInitialDepressuringRate,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="12"/>
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.Timespecify,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblTimespecify,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="13"/>
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.CalculatedVesselPressure,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblCalculatedVesselPressure,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="14"/>
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.CalculatedDepressuringRate,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblCalculatedDepressuringRate,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="15"/>
-        <CustomControl:UnitConvertTextBox Visibility="Hidden" Text="{Binding Path=model.DetailP,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblDetailP,Path=Content,Mode=TwoWay}" Grid.Column="4" HorizontalAlignment="Right" Width="60" Grid.Row="6"/>
-        <CustomControl:UnitConvertTextBox Visibility="Hidden" Text="{Binding Path=model.DetailPTime,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblDetailPTime,Path=Content,Mode=TwoWay}" Grid.Column="4" HorizontalAlignment="Right" Width="60" Grid.Row="7"/>
-        <CustomControl:UnitConvertTextBox Visibility="Hidden" Text="{Binding Path=model.TimeStep,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblTimeStep,Path=Content,Mode=TwoWay}"  Grid.Column="5"  Grid.Row="6"/>
-        <Button IsEnabled="False" Command="{Binding DetailedCMD}" Content="{DynamicResource Detailed}" Grid.Column="4" Grid.Row="5" Width="100" Margin="15,8,15,9" />
+        <CustomControl:UnitConvertTextBox Visibility="Hidden" Text="{Binding Path=model.DetailP,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblDetailP,Path=Content,Mode=TwoWay}" Grid.Column="5" HorizontalAlignment="Right" Width="60" Grid.Row="6"/>
+        <CustomControl:UnitConvertTextBox Visibility="Hidden" Text="{Binding Path=model.DetailPTime,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblDetailPTime,Path=Content,Mode=TwoWay}" Grid.Column="5" HorizontalAlignment="Right" Width="60" Grid.Row="7"/>
+        <CustomControl:UnitConvertTextBox Visibility="Hidden" Text="{Binding Path=model.TimeStep,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblTimeStep,Path=Content,Mode=TwoWay}"  Grid.Column="6"  Grid.Row="6"/>
+        <Button IsEnabled="False" Command="{Binding DetailedCMD}" Content="{DynamicResource Detailed}" Grid.Column="5" Grid.Row="5" Width="100" Margin="6,8,6,9" />
         <ComboBox ItemsSource="{Binding lstShortCut}" SelectedItem="{Binding SelectedShotCut}" Grid.Column="1" Grid.Row="1" />
         <Label Content="{DynamicResource CalculatedDepressuringRate}" Grid.Column="1" Grid.Row="15" Height="25" Width="156"/>
         <CheckBox IsEnabled="{Binding isEnableFireHeatInput}" Content="{DynamicResource FireHeatInput}" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center" Height="14" Margin="0,8" Width="90"/>
         
-        <Grid HorizontalAlignment="Stretch"  Grid.Row="17" VerticalAlignment="Stretch" Grid.ColumnSpan="6" Margin="0,4,0,5">
+        <Grid HorizontalAlignment="Stretch"  Grid.Row="17" VerticalAlignment="Stretch" Grid.ColumnSpan="7" Margin="0,4,0,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -79,11 +75,11 @@
             <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="3"/>
         </Grid>
 
-        <StatusBar HorizontalAlignment="Stretch" Height="Auto" Grid.Row="18" VerticalAlignment="Stretch" Grid.ColumnSpan="6" Margin="0,0,0,-5" >
+        <StatusBar HorizontalAlignment="Stretch" Height="Auto" Grid.Row="18" VerticalAlignment="Stretch" Grid.ColumnSpan="7" Margin="0,0,0,-5" >
             <Label Content="{DynamicResource DeprCurveViewStatusBar}"></Label>
         </StatusBar>
 
-        <GroupBox Header="{DynamicResource Input}" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="7">
+        <GroupBox Header="{DynamicResource Input}" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="7">
             <Grid Style="{DynamicResource WinGrid}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" />
@@ -117,13 +113,19 @@
                 <ComboBox ItemsSource="{Binding lstDeprRqe}" SelectedItem="{Binding SelectedDeprRqe}" Grid.Column="1" Grid.Row="4"/>
                 <CustomControl:UnitConvertTextBox Text="{Binding Path=model.TotalWettedArea,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblTotalWettedArea,Path=Content,Mode=TwoWay}" Grid.Column="1" Grid.Row="5" IsEnabled="{Binding isEnableFireHeatInput}"/>
                 <ComboBox ItemsSource="{Binding lstHeatInput}" SelectedItem="{Binding SelectedHeatInput}" Grid.Column="1" Grid.Row="6" IsEnabled="{Binding isEnableFireHeatInput}"/>
-                <TextBox Text="500"   Grid.Column="1" Grid.Row="7"  IsReadOnly="True"/>
+                <TextBox Text="500"   Grid.Column="1" Grid.Row="7"  Style="{DynamicResource TextBoxReadOnly}"/>
 
-               
+                <Label x:Name="lblInitialPressure" Content="{Binding model.InitialPressureUnit,Mode=TwoWay}" Grid.Column="2" Grid.Row="0"  Style="{StaticResource LabelLeftStyle}" Height="10"  />
+                <Label x:Name="lblVaporDensity" Content="{Binding model.VaporDensityUnit,Mode=TwoWay}" Grid.Column="2" Grid.Row="1"  Style="{StaticResource LabelLeftStyle}"  />
+                <Label x:Name="lblTotalVaporVolume" Content="{Binding model.TotalVaporVolumeUnit,Mode=TwoWay}" Grid.Column="2" Grid.Row="2"  Style="{StaticResource LabelLeftStyle}"   />
+                <Label x:Name="lblVesseldesignpressure" Content="{Binding model.VesseldesignpressureUnit,Mode=TwoWay}" Grid.Column="2" Grid.Row="3"  Style="{StaticResource LabelLeftStyle}" />
+                <Label x:Name="lblTotalWettedArea" Content="{Binding model.TotalWettedAreaUnit,Mode=TwoWay}" Grid.Column="2" Grid.Row="5"  Style="{StaticResource LabelLeftStyle}"   />
+
+
             </Grid>
         </GroupBox>
         <Button Command="{Binding CalcCMD}" Content="{DynamicResource RunCalculation}" Grid.Column="1" Grid.Row="10" Width="120" Margin="40,9,40,8" />
-        <Button Command="{Binding DepressuringCurveCMD}" Content="{DynamicResource DepressuringCurve}" Grid.Column="2" Grid.Row="10" Width="120" Margin="25,9,25,8" />
+        <Button Command="{Binding DepressuringCurveCMD}" Content="{DynamicResource DepressuringCurve}" Grid.Column="2" Grid.Row="10" Width="120" Margin="19,9,31,8" Grid.ColumnSpan="2" />
 
     </Grid>
 </Window>

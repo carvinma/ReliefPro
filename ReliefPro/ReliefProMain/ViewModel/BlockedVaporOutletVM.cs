@@ -143,7 +143,8 @@ namespace ReliefProMain.ViewModel
                 }
                 
             }
-
+            if (model.ReliefLoad < 0)
+                model.ReliefLoad = 0;
 
         }
         private void Save(object obj)

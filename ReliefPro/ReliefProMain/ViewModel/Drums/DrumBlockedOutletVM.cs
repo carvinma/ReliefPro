@@ -114,6 +114,8 @@ namespace ReliefProMain.ViewModel.Drums
                     model.ReliefMW = reliefMW;
                     model.ReliefCpCv = cs.BulkCPCVRatio;
                     model.ReliefZ = cs.VaporZFmKVal;
+                    if (model.ReliefLoad < 0)
+                        model.ReliefLoad = 0;
                 }
                 else
                 {
@@ -146,6 +148,8 @@ namespace ReliefProMain.ViewModel.Drums
                             model.ReliefMW = reliefMW;
                             model.ReliefCpCv = cs.BulkCPCVRatio;
                             model.ReliefZ = cs.VaporZFmKVal;
+                            if (model.ReliefLoad < 0)
+                                model.ReliefLoad = 0;
                         }
                         else
                         {

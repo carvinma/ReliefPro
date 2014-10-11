@@ -555,6 +555,8 @@ namespace ReliefProMain.ViewModel
             latent.ReliefTemperature = ReliefTemperature;
             latent.ReliefOHWeightFlow = latentVapor.BulkMwOfPhase;
             latent.ReliefPressure = CurrentModel.Pressure * CurrentModel.ReliefPressureFactor;
+            latent.ReliefCpCv = latentVapor.BulkCPCVRatio;
+            latent.ReliefZ = latentVapor.VaporZFmKVal;
             dblatent.Add(latent, SessionProtectedSystem);
 
             foreach (TowerFlashProduct p in listFlashProduct)
