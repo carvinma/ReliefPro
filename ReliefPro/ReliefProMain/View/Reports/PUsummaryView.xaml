@@ -47,6 +47,7 @@
         <TextBox Margin="150,0,0,0" Text="{Binding model.ProcessUnitName,Mode=TwoWay}" Width="180" Grid.Row="1"/>
         <TextBox Margin="480,0,0,0" Text="{Binding model.Description,Mode=TwoWay}" Width="250" Height="50" Grid.Row="0" Grid.RowSpan="2"/>
         <Button Content="{DynamicResource ExportExcel}" Command="{Binding ExportExcelCMD}" Margin="762,8,0,2" Width="138" HorizontalAlignment="Left"/>
+        <Button Content="{DynamicResource NextUnit}" Command="{Binding NextUnitCMD}" Margin="930,8,0,2" Width="80" HorizontalAlignment="Left"/>
         <ComboBox ItemsSource="{Binding listDischargeTo, Mode=OneWay}" DisplayMemberPath="FlareName"  
                   SelectedValuePath="FlareName"
                   SelectedValue="{Binding SelectedDischargeTo,Mode=TwoWay}"

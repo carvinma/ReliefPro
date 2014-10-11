@@ -30,6 +30,7 @@ namespace ReliefProMain.ViewModel.Trees
                 OnPropertyChanged("PlantName");
             }
         }
+        public string PlantDir;
         private bool _IsChecked;
         public bool IsChecked
         {
@@ -68,6 +69,7 @@ namespace ReliefProMain.ViewModel.Trees
         {
             UnitCollection = new ObservableCollection<UnitVM>();
             string dbPlant_target = dirPlant + @"\plant.mdb";
+            PlantDir = dirPlant;
             NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlant_target);
             ISession SessionPlant = helperProtectedSystem.GetCurrentSession();
             PlantName = plantName;

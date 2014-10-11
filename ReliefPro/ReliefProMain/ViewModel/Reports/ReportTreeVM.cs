@@ -59,35 +59,36 @@ namespace ReliefProMain.ViewModel.Reports
         }
         private void PlantSummary(object obj)
         {
-            string dbPlantFile = CurrentPlantPath + @"\plant.mdb";
-            List<Tuple<int, List<string>>> UnitPath = new List<Tuple<int, List<string>>>();
-            List<UnitVM> list = GetCheckedUnits();
-            if (list.Count > 0)
-            {
-                foreach (UnitVM uvm in list)
-                {
-                    List<string> ReportPath = new List<string>();
-                    ReportPath.Add(dbPlantFile);
-                    string dirUnit = CurrentPlantPath + @"\" + uvm.UnitName;
-                    foreach (PSVM p in uvm.PSCollection)
-                    {
-                        if (p.IsChecked)
-                        {
-                            ReportPath.Add(dirUnit + @"\" + p.PSName + @"\protectedsystem.mdb");
-                        }
-                    }
-                    Tuple<int, List<string>> t = new Tuple<int, List<string>>(uvm.ID, ReportPath);
-                    UnitPath.Add(t);
+            PlantSummaryVM vm = new PlantSummaryVM(PlantCollection);
+            //string dbPlantFile = CurrentPlantPath + @"\plant.mdb";
+            //List<Tuple<int, List<string>>> UnitPath = new List<Tuple<int, List<string>>>();
+            //List<UnitVM> list = GetCheckedUnits();
+            //if (list.Count > 0)
+            //{
+            //    foreach (UnitVM uvm in list)
+            //    {
+            //        List<string> ReportPath = new List<string>();
+            //        ReportPath.Add(dbPlantFile);
+            //        string dirUnit = CurrentPlantPath + @"\" + uvm.UnitName;
+            //        foreach (PSVM p in uvm.PSCollection)
+            //        {
+            //            if (p.IsChecked)
+            //            {
+            //                ReportPath.Add(dirUnit + @"\" + p.PSName + @"\protectedsystem.mdb");
+            //            }
+            //        }
+            //        Tuple<int, List<string>> t = new Tuple<int, List<string>>(uvm.ID, ReportPath);
+            //        UnitPath.Add(t);
 
-                }
+            //    }
 
-                PlantSummaryView view = new PlantSummaryView();
-                PlantSummaryVM vm = new PlantSummaryVM(UnitPath);
-                view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                view.WindowState = WindowState.Maximized;
-                view.DataContext = vm;
-                view.ShowDialog();
-            }
+            //    PlantSummaryView view = new PlantSummaryView();
+            //    PlantSummaryVM vm = new PlantSummaryVM(UnitPath);
+            //    view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            //    view.WindowState = WindowState.Maximized;
+            //    view.DataContext = vm;
+            //    view.ShowDialog();
+            //}
         }
         private ICommand _UnitSummaryCommand;
         public ICommand UnitSummaryCommand
@@ -103,26 +104,29 @@ namespace ReliefProMain.ViewModel.Reports
         }
         private void UnitSummary(object obj)
         {
-            string dbPlantFile = CurrentPlantPath + @"\plant.mdb";
-            UnitVM uvm = GetSingleCheckedUnit();
-            if (uvm != null)
-            {
-                List<string> ReportPath = new List<string>();
-                ReportPath.Add(dbPlantFile);
-                string unitPath = CurrentPlantPath + @"\" + uvm.UnitName;
-                foreach (PSVM p in uvm.PSCollection)
-                {
-                    if (p.IsChecked)
-                    {
-                        ReportPath.Add(unitPath + @"\" + p.PSName + @"\protectedsystem.mdb");
-                    }
-                }
-                PUsummaryView view = new PUsummaryView();
-                PUsummaryVM vm = new PUsummaryVM(uvm.ID, ReportPath);
-                view.WindowState = WindowState.Maximized;
-                view.DataContext = vm;
-                view.ShowDialog();
-            }
+            PUsummaryVM vm = new PUsummaryVM(PlantCollection);
+
+            //string dbPlantFile = CurrentPlantPath + @"\plant.mdb";
+            //UnitVM uvm = GetSingleCheckedUnit();
+            //if (uvm != null)
+            //{
+            //    List<string> ReportPath = new List<string>();
+            //    ReportPath.Add(dbPlantFile);
+            //    string unitPath = CurrentPlantPath + @"\" + uvm.UnitName;
+            //    foreach (PSVM p in uvm.PSCollection)
+            //    {
+            //        if (p.IsChecked)
+            //        {
+            //            ReportPath.Add(unitPath + @"\" + p.PSName + @"\protectedsystem.mdb");
+            //        }
+            //    }
+               
+                //PUsummaryView view = new PUsummaryView();
+                //PUsummaryVM vm = new PUsummaryVM(uvm.ID, ReportPath);
+                //view.WindowState = WindowState.Maximized;
+                //view.DataContext = vm;
+                //view.ShowDialog();
+            //}
         }
 
         private ICommand _PSSummaryCommand;

@@ -431,6 +431,7 @@
     <!--PlantSummaryView.xaml-->
     <s:String x:Key="PlantSummaryViewTitle">PlantSummaryView</s:String>
     <s:String x:Key="DesignTotalPlantFlareLoadSummation">Design Total Plant Flare Load Summation:</s:String>
+    <s:String x:Key="NextPlant">Next Plant</s:String>
     <s:String x:Key="PlantSummaryViewStatusBar">...</s:String>
     <!--PUsummaryView.xaml-->
     <s:String x:Key="PUsummaryViewTitle">PU Summary Report:</s:String>
@@ -439,6 +440,7 @@
     <s:String x:Key="Notes">Notes:</s:String>
     <s:String x:Key="#">#:</s:String>
     <s:String x:Key="ExportExcel">Export Excel</s:String>
+    <s:String x:Key="NextUnit">Next Unit</s:String>
     <s:String x:Key="PUsummaryViewStatusBar">...</s:String>
 
     <!--FeedBottomHXView.xaml-->

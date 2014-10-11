@@ -45,6 +45,7 @@
                   SelectedValuePath="FlareName"
 						SelectedValue="{Binding SelectedDischargeTo,Mode=TwoWay}" 
                    Grid.Row="0" Grid.Column="0" Height="26" Width="150" Margin="456,2,190,2" />
+        <Button  Grid.Row="0" Grid.Column="0" Content="{DynamicResource NextPlant}" Command="{Binding NextPlantCMD}" Height="26" Width="80" Margin="625,2,87,2"/>
         <Rpt:ReportViewer ReportName="{Binding ReportName,Mode=TwoWay}" bRefresh="{Binding ReportFresh,Mode=TwoWay}" Grid.Row="1" />
     </Grid>
 

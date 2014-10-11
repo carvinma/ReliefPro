@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -13,6 +14,8 @@ using ReliefProBLL;
 using ReliefProLL;
 using ReliefProMain.Commands;
 using ReliefProMain.Models.Reports;
+using ReliefProMain.View.Reports;
+using ReliefProMain.ViewModel.Trees;
 using ReliefProModel;
 using ReliefProModel.GlobalDefault;
 using ReliefProModel.Reports;
@@ -28,6 +31,7 @@ namespace ReliefProMain.ViewModel.Reports
         public ICommand OKCMD { get; set; }
         public ICommand BtnReportCMD { get; set; }
         public ICommand ExportExcelCMD { get; set; }
+        public ICommand NextUnitCMD { get; set; }
         public PUsummaryModel model { get; set; }
         private string selectedDischargeTo;
         public string SelectedDischargeTo
@@ -83,12 +87,79 @@ namespace ReliefProMain.ViewModel.Reports
                 this.OnPropertyChanged("ReportFresh");
             }
         }
+        private ObservableCollection<PlantVM> PlantCollection;
+        private List<UnitVM> PlantList;
+        private PUsummaryView view;
+        public PUsummaryVM(ObservableCollection<PlantVM> plantCollection)
+        {
+            PlantList = new List<UnitVM>();
+            if (plantCollection.Count > 0)
+            {
+                PlantCollection = plantCollection;
+                string dbPlantFile = string.Empty;
+                string unitPath = string.Empty;
+                List<string> ReportPath = new List<string>();
+
+                foreach (PlantVM plantvm in PlantCollection)
+                {
+                    dbPlantFile = plantvm.PlantDir + @"\plant.mdb";
+                    foreach (UnitVM uvm in plantvm.UnitCollection)
+                    {
+                        ReportPath.Clear();
+                        if (!PlantList.Contains(uvm))
+                        {
+                            PlantList.Add(uvm);
+                            unitPath = plantvm.PlantDir + @"\" + uvm.UnitName;
+                            ReportPath.Add(dbPlantFile);
+                            foreach (PSVM p in uvm.PSCollection)
+                            {
+                                ReportPath.Add(unitPath + @"\" + p.PSName + @"\protectedsystem.mdb");
+                            }
+                            view = new PUsummaryView();
+                            //PUsummaryVM vm = new PUsummaryVM(uvm.ID, ReportPath);
+                            this.LoadSingleUnit(uvm.ID, ReportPath);
+                            view.WindowState = WindowState.Maximized;
+                            view.DataContext = this;
+                            view.ShowDialog();  
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        private void LoadSingleUnit(int UnitID, List<string> ReportPath)
+        {
+            StackpanelDraw = new StackPanel();
+            OKCMD = new DelegateCommand<object>(Save);
+            BtnReportCMD = new DelegateCommand<object>(BtnReprotClick);
+            ExportExcelCMD = new DelegateCommand<object>(BtnExportExcel);
+            NextUnitCMD = new DelegateCommand<object>(BtnNextUnit);
+            reportBLL = new ReportBLL(UnitID, ReportPath);
+            listDischargeTo = reportBLL.GetDisChargeTo();
+            if (listDischargeTo != null)
+            {
+                FlareSystem fs = new FlareSystem();
+                fs.FlareName = "ALL";
+                listDischargeTo.Insert(0, fs);
+                this.selectedDischargeTo = "ALL";
+            }
+            PUsummary PU = reportBLL.GetPUsummaryModel(UnitID);
+            if (PU == null) { PU = new PUsummary(); PU.UnitID = UnitID; }
+            CreateControl(listDischargeTo);
+
+            reportBLL.ClearSession();
+            model = new PUsummaryModel(PU);
+            model.listGrid = new List<PUsummaryGridDS>();
+            InitModel("ALL");
+            CreateReport();
+        }
         public PUsummaryVM(int UnitID, List<string> ReportPath)
         {
             StackpanelDraw = new StackPanel();
             OKCMD = new DelegateCommand<object>(Save);
             BtnReportCMD = new DelegateCommand<object>(BtnReprotClick);
             ExportExcelCMD = new DelegateCommand<object>(BtnExportExcel);
+            NextUnitCMD = new DelegateCommand<object>(BtnNextUnit);
             reportBLL = new ReportBLL(UnitID, ReportPath);
             listDischargeTo = reportBLL.GetDisChargeTo();
             if (listDischargeTo != null)
@@ -194,6 +265,37 @@ namespace ReliefProMain.ViewModel.Reports
         {
             ExportLib.ExportExcel export = new ExportLib.ExportExcel();
             export.ExportToExcelPUsummary(model.listGrid, "PUsummary.xlsx");
+        }
+        private void BtnNextUnit(object obj)
+        {
+            if (PlantCollection.Count > 0)
+            {
+                string dbPlantFile = string.Empty;
+                string unitPath = string.Empty;
+                List<string> ReportPath = new List<string>();
+
+                foreach (PlantVM plantvm in PlantCollection)
+                {
+                    dbPlantFile = plantvm.PlantDir + @"\plant.mdb";
+                    foreach (UnitVM uvm in plantvm.UnitCollection)
+                    {
+                        ReportPath.Clear();
+                        if (!PlantList.Contains(uvm))
+                        {
+                            PlantList.Add(uvm);
+                            unitPath = plantvm.PlantDir + @"\" + uvm.UnitName;
+                            ReportPath.Add(dbPlantFile);
+                            foreach (PSVM p in uvm.PSCollection)
+                            {
+                                ReportPath.Add(unitPath + @"\" + p.PSName + @"\protectedsystem.mdb");
+                            }
+                            this.LoadSingleUnit(uvm.ID, ReportPath);
+                            break;
+                        }
+                       
+                    }
+                }
+            }
         }
         private void CreateControl(List<FlareSystem> lstFlareSystem)
         {

@@ -6,10 +6,14 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms.Integration;
+using System.Windows.Input;
 using System.Windows.Media;
+using Microsoft.Practices.Prism.Commands;
 using Microsoft.Reporting.WinForms;
 using ReliefProLL;
 using ReliefProMain.Models.Reports;
+using ReliefProMain.View.Reports;
+using ReliefProMain.ViewModel.Trees;
 using ReliefProModel;
 using ReliefProModel.GlobalDefault;
 using ReliefProModel.Reports;
@@ -77,16 +81,76 @@ namespace ReliefProMain.ViewModel.Reports
                 this.OnPropertyChanged("ReportFresh");
             }
         }
-
+        public ICommand NextPlantCMD { get; set; }
 
         private ReportBLL reportBLL;
+        private PlantSummaryView view;
+        private List<PlantVM> PlantList;
+        private ObservableCollection<PlantVM> PlantCollection;
+        private void LoadSingPlant(List<Tuple<int, List<string>>> UnitPath)
+        {
+            ProcessUnitPath = UnitPath;
+            listPlantReportDS = new List<PlantSummaryGridDS>();
+            NextPlantCMD = new DelegateCommand<object>(BtnNextPlant);
+            report = new ReportBLL(UnitPath[0].Item1, UnitPath[0].Item2);
+
+            listPlantCalc = report.listPlantCalc;
+            listDischargeTo = report.GetDisChargeTo();
+            if (listDischargeTo.Count > 0)
+            {
+                selectedDischargeTo = listDischargeTo.First().FlareName;
+                ChangerDischargeTo(selectedDischargeTo);
+            }
+            if (report != null) report.ClearSession();
+        }
+        public PlantSummaryVM(ObservableCollection<PlantVM> plantCollection)
+        {
+            PlantList = new List<PlantVM>();
+            List<Tuple<int, List<string>>> UnitPath = new List<Tuple<int, List<string>>>();
+            if (plantCollection.Count > 0)
+            {
+                PlantCollection = plantCollection;
+                string dbPlantFile = string.Empty;
+                string unitPath = string.Empty;
+                List<string> ReportPath = new List<string>();
+
+                foreach (PlantVM plantvm in PlantCollection)
+                {
+                    dbPlantFile = plantvm.PlantDir + @"\plant.mdb";
+                    if (!PlantList.Contains(plantvm))
+                    {
+                        PlantList.Add(plantvm);
+
+                        foreach (UnitVM uvm in plantvm.UnitCollection)
+                        {
+                            ReportPath.Clear();
+                            unitPath = plantvm.PlantDir + @"\" + uvm.UnitName;
+                            ReportPath.Add(dbPlantFile);
+                            foreach (PSVM p in uvm.PSCollection)
+                            {
+                                ReportPath.Add(unitPath + @"\" + p.PSName + @"\protectedsystem.mdb");
+                            }
+                            Tuple<int, List<string>> t = new Tuple<int, List<string>>(uvm.ID, ReportPath);
+                            UnitPath.Add(t);
+                        }
+                        view = new PlantSummaryView();
+                        this.LoadSingPlant(UnitPath);
+                        view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                        view.WindowState = WindowState.Maximized;
+                        view.DataContext = this;
+                        view.ShowDialog();
+                        break;
+                    }
+                }
+            }
+        }
         public PlantSummaryVM(List<Tuple<int, List<string>>> UnitPath)
         {
             ProcessUnitPath = UnitPath;
             listPlantReportDS = new List<PlantSummaryGridDS>();
-
+            NextPlantCMD = new DelegateCommand<object>(BtnNextPlant);
             report = new ReportBLL(UnitPath[0].Item1, UnitPath[0].Item2);
-            
+
             listPlantCalc = report.listPlantCalc;
             listDischargeTo = report.GetDisChargeTo();
             if (listDischargeTo.Count > 0)
@@ -119,10 +183,10 @@ namespace ReliefProMain.ViewModel.Reports
             PlantSummaryGridDS psDS = report.GetPlantReprotDS(listPUReportDS, 0);
             if (psDS != null)
             {
-              //  listPlantReportDS.Clear();
+                //  listPlantReportDS.Clear();
                 listPlantReportDS.Add(psDS);
             }
-          // if (report != null) report.ClearSession();
+            // if (report != null) report.ClearSession();
         }
         private void CreateReport()
         {
@@ -249,6 +313,41 @@ namespace ReliefProMain.ViewModel.Reports
                 lsitCalc.Add(effectMach);
             }
             return lsitCalc;
+        }
+
+        private void BtnNextPlant(object obj)
+        {
+            List<Tuple<int, List<string>>> UnitPath = new List<Tuple<int, List<string>>>();
+            if (PlantCollection.Count > 0)
+            {
+                string dbPlantFile = string.Empty;
+                string unitPath = string.Empty;
+                List<string> ReportPath = new List<string>();
+
+                foreach (PlantVM plantvm in PlantCollection)
+                {
+                    dbPlantFile = plantvm.PlantDir + @"\plant.mdb";
+                    if (!PlantList.Contains(plantvm))
+                    {
+                        PlantList.Add(plantvm);
+
+                        foreach (UnitVM uvm in plantvm.UnitCollection)
+                        {
+                            ReportPath.Clear();
+                            unitPath = plantvm.PlantDir + @"\" + uvm.UnitName;
+                            ReportPath.Add(dbPlantFile);
+                            foreach (PSVM p in uvm.PSCollection)
+                            {
+                                ReportPath.Add(unitPath + @"\" + p.PSName + @"\protectedsystem.mdb");
+                            }
+                            Tuple<int, List<string>> t = new Tuple<int, List<string>>(uvm.ID, ReportPath);
+                            UnitPath.Add(t);
+                        }
+                        this.LoadSingPlant(UnitPath);
+                        break;
+                    }
+                }
+            }
         }
 
 
