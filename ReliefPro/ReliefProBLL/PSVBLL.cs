@@ -26,7 +26,7 @@ namespace ReliefProBLL
 
             sql = " from ReliefProModel.FlashCalcResult ";
             SessionProtectedSystem.Delete(sql);
-
+            SessionProtectedSystem.Flush();
         }
     }
 }

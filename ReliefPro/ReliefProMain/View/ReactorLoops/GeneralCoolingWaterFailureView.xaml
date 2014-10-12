@@ -43,10 +43,12 @@
         <Label x:Name="lblReliefTemperature" Content="{Binding Path=model.ReliefTemperatureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="12" />
         <Label x:Name="lblReliefPressure" Content="{Binding Path=model.ReliefPressureUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="3" Grid.Row="13" />
 
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}" Text="{Binding Path=model.ReliefLoad,Mode=TwoWay}" Grid.Column="2" Grid.Row="11"  />
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}" Text="{Binding Path=model.ReliefTemperature,Mode=TwoWay}" Grid.Column="2" Grid.Row="12" />
-        <TextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.ReliefMW,Mode=TwoWay}" Grid.Column="2" Grid.Row="14"  />
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}" Text="{Binding Path=model.ReliefPressure,Mode=TwoWay}" Grid.Column="2" Grid.Row="13" />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}" Text="{Binding Path=model.ReliefLoad,Mode=TwoWay,StringFormat='{}{0:F0}'}" Grid.Column="2" Grid.Row="11"  />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}" Text="{Binding Path=model.ReliefTemperature,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2" Grid.Row="12" />
+        <TextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.ReliefMW,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2" Grid.Row="14"  />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}" Text="{Binding Path=model.ReliefPressure,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2" Grid.Row="13" />
+        <TextBox Visibility="Hidden"  HorizontalAlignment="Center" Text="{Binding Path=model.ReliefCpCv,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2"  Grid.Row="13"/>
+        <TextBox Visibility="Hidden"  HorizontalAlignment="Center" Text="{Binding Path=model.ReliefZ,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2"  Grid.Row="14"/>
 
         <Button Content="{DynamicResource RunCaseSimulation}" Command="{Binding CoolingRunCaseSimulationCMD}" Grid.Column="1" Grid.Row="9" Width="130"  />
         <Button Content="{DynamicResource LaunchSimulator}" Command="{Binding CoolingLaunchSimulatorCMD}" Grid.Column="2"  Grid.Row="9" Width="130" />

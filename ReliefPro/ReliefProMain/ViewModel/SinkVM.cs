@@ -67,20 +67,24 @@ namespace ReliefProMain.ViewModel
             }
             if (bEdit)
             {
-                MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
-                if (r == MessageBoxResult.Yes)
-                {                    
-                    ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
-                    scBLL.DeleteSCOther();
-                    scBLL.ClearScenario();
-
-                    WriteConvert();
-                    MainModel.dbmodel.SinkType_Color = MainModel.SinkType_Color;
-                    MainModel.dbmodel.MaxPossiblePressure_Color = MainModel.MaxPossiblePressure_Color;
-                    MainModel.dbmodel.SinkType = MainModel.SinkType;
-                    db.Update(MainModel.dbmodel, SessionProtectedSystem);
-                    //SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction
+                ScenarioDAL scdal = new ScenarioDAL();
+                IList<Scenario> scList = scdal.GetAllList(SessionProtectedSystem);
+                if (scList.Count > 0)
+                {
+                    MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
+                    if (r == MessageBoxResult.Yes)
+                    {
+                        ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
+                        scBLL.DeleteSCOther();
+                        scBLL.ClearScenario();
+                    }
                 }
+                WriteConvert();
+                MainModel.dbmodel.SinkType_Color = MainModel.SinkType_Color;
+                MainModel.dbmodel.MaxPossiblePressure_Color = MainModel.MaxPossiblePressure_Color;
+                MainModel.dbmodel.SinkType = MainModel.SinkType;
+                db.Update(MainModel.dbmodel, SessionProtectedSystem);
+                //SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction
             }
             System.Windows.Window wd = window as System.Windows.Window;
 

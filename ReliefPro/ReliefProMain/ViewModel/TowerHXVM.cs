@@ -207,48 +207,53 @@ namespace ReliefProMain.ViewModel
 
             if (bEdit)
             {
-                MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
-                if (r == MessageBoxResult.Yes)
-                {                    
-                    ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
-                    scBLL.DeleteSCOther();
-                    scBLL.ClearScenario();
-
-                    for (int i = 0; i < list.Count; i++)
+                ScenarioDAL scdal = new ScenarioDAL();
+                IList<Scenario> scList = scdal.GetAllList(SessionProtectedSystem);
+                if (scList.Count > 0)
+                {
+                    MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
+                    if (r == MessageBoxResult.Yes)
                     {
-                        bool b = false;
-                        TowerHXDetail detail = list[i];
-                        foreach (TowerHXDetailModel m in Details)
-                        {
-                            if (m.ID == detail.ID)
-                            {
-                                b = true;
-                                break;
-                            }
-                        }
-                        if (!b)
-                        {
-                            db.Delete(list[i], SessionProtectedSystem);
-                        }
-                    }
-
-                    foreach (TowerHXDetailModel m in Details)
-                    {
-                        if (m.ID == 0)
-                        {
-                            TowerHXDetail detail = new TowerHXDetail();
-                            detail = ConvertToDBModel(detail, m);
-                            db.Add(detail, SessionProtectedSystem);
-                        }
-                        else
-                        {
-                            TowerHXDetail detail = db.GetModel(SessionProtectedSystem, m.ID);
-                            detail = ConvertToDBModel(detail, m);
-                            db.Update(detail, SessionProtectedSystem);
-                        }
-
+                        ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
+                        scBLL.DeleteSCOther();
+                        scBLL.ClearScenario();
                     }
                 }
+                for (int i = 0; i < list.Count; i++)
+                {
+                    bool b = false;
+                    TowerHXDetail detail = list[i];
+                    foreach (TowerHXDetailModel m in Details)
+                    {
+                        if (m.ID == detail.ID)
+                        {
+                            b = true;
+                            break;
+                        }
+                    }
+                    if (!b)
+                    {
+                        db.Delete(list[i], SessionProtectedSystem);
+                    }
+                }
+
+                foreach (TowerHXDetailModel m in Details)
+                {
+                    if (m.ID == 0)
+                    {
+                        TowerHXDetail detail = new TowerHXDetail();
+                        detail = ConvertToDBModel(detail, m);
+                        db.Add(detail, SessionProtectedSystem);
+                    }
+                    else
+                    {
+                        TowerHXDetail detail = db.GetModel(SessionProtectedSystem, m.ID);
+                        detail = ConvertToDBModel(detail, m);
+                        db.Update(detail, SessionProtectedSystem);
+                    }
+
+                }
+
             }
 
             System.Windows.Window wd = obj as System.Windows.Window;

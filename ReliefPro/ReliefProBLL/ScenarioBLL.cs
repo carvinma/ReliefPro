@@ -36,7 +36,7 @@ namespace ReliefProBLL
         {
             var sql = " from ReliefProModel.Scenario ";
             SessionProtectedSystem.Delete(sql);
-            //SessionProtectedSystem.Flush();
+            SessionProtectedSystem.Flush();
         }
 
         //删除所有相关ICON的表，同时，清空tbScenario

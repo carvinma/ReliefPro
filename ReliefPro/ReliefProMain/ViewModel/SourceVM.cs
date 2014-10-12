@@ -75,13 +75,17 @@ namespace ReliefProMain.ViewModel
             }
             if (bEdit)
             {
-                MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
-                if (r == MessageBoxResult.Yes)
-                {                  
-                    ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
-                    scBLL.DeleteSCOther();
-                    scBLL.ClearScenario();
-
+                ScenarioDAL scdal = new ScenarioDAL();
+                IList<Scenario> scList = scdal.GetAllList(SessionProtectedSystem);
+                if (scList.Count > 0)
+                {
+                    MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
+                    if (r == MessageBoxResult.Yes)
+                    {
+                        ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
+                        scBLL.DeleteSCOther();
+                        scBLL.ClearScenario();
+                    }
                     WriteConvert();
                     model.dbmodel.SourceType_Color = model.SourceType_Color;
                     model.dbmodel.MaxPossiblePressure_Color = model.MaxPossiblePressure_Color;

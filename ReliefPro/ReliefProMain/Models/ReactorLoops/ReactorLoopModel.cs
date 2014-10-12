@@ -156,6 +156,17 @@ namespace ReliefProMain.Models.ReactorLoops
             }
         }
 
+        private ReactorLoopDetail selectedHXSourceModel;
+        public ReactorLoopDetail SelectedHXSourceModel
+        {
+            get { return selectedHXSourceModel; }
+            set
+            {
+                selectedHXSourceModel = value;
+                this.NotifyPropertyChanged("SelectedHXSourceModel");
+            }
+        }
+
         private ReactorLoopDetail selectedUtilityHXModel;
         public ReactorLoopDetail SelectedUtilityHXModel
         {
@@ -166,6 +177,16 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("SelectedUtilityHXModel");
             }
         }
+        private ReactorLoopDetail selectedUtilityHXSourceModel;
+        public ReactorLoopDetail SelectedUtilityHXSourceModel
+        {
+            get { return selectedUtilityHXSourceModel; }
+            set
+            {
+                selectedUtilityHXSourceModel = value;
+                this.NotifyPropertyChanged("SelectedUtilityHXSourceModel");
+            }
+        }
         private ReactorLoopDetail selectedNetworkHXModel;
         public ReactorLoopDetail SelectedNetworkHXModel
         {
@@ -174,6 +195,16 @@ namespace ReliefProMain.Models.ReactorLoops
             {
                 selectedNetworkHXModel = value;
                 this.NotifyPropertyChanged("SelectedNetworkHXModel");
+            }
+        }
+        private ReactorLoopDetail selectedNetworkHXSourceModel;
+        public ReactorLoopDetail SelectedNetworkHXSourceModel
+        {
+            get { return selectedNetworkHXSourceModel; }
+            set
+            {
+                selectedNetworkHXSourceModel = value;
+                this.NotifyPropertyChanged("SelectedNetworkHXSourceModel");
             }
         }
 
@@ -187,7 +218,16 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("SelectedMixerModel");
             }
         }
-
+        private ReactorLoopDetail selectedMixerSourceModel;
+        public ReactorLoopDetail SelectedMixerSourceModel
+        {
+            get { return selectedMixerSourceModel; }
+            set
+            {
+                selectedMixerSourceModel = value;
+                this.NotifyPropertyChanged("SelectedMixerSourceModel");
+            }
+        }
         private ObservableCollection<ReactorLoopDetail> obcProcessHX;
         public ObservableCollection<ReactorLoopDetail> ObcProcessHX
         {

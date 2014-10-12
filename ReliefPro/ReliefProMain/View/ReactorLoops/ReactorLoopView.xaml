@@ -100,48 +100,48 @@
             <GroupBox Header="{DynamicResource ProcessHX}" HorizontalAlignment="Left"  Grid.Row="7" Grid.RowSpan="5" Width="150" Grid.Column="1" Margin="0,5">
                 <ListBox  Background="{x:Null}" BorderBrush="{x:Null}" 
                         ItemsSource="{Binding model.ObcProcessHX,Mode=TwoWay}"  
-                        SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}"/>
+                        SelectedItem="{Binding Path=model.SelectedHXModel,Mode=TwoWay}"/>
             </GroupBox>
             <GroupBox Header="{DynamicResource ProcessHX}" HorizontalAlignment="Left"   Grid.Row="7" Grid.RowSpan="5" Width="150" Grid.Column="3" Margin="0,5">
                 <ListBox Background="{x:Null}" BorderBrush="{x:Null}" 
                          ItemsSource="{Binding model.ObcProcessHXSource,Mode=TwoWay}"  
-                         SelectedItem="{Binding Path=model.SelectedHXModel,Mode=OneWayToSource}"/>
+                         SelectedItem="{Binding Path=model.SelectedHXSourceModel,Mode=TwoWay}"/>
             </GroupBox>
 
             <GroupBox Header="{DynamicResource UtilityHX}" HorizontalAlignment="Left"  Grid.Row="12" Grid.RowSpan="5" Width="150" Grid.Column="1" Margin="0,6">
                 <ListBox Background="{x:Null}" BorderBrush="{x:Null}" 
                          ItemsSource="{Binding model.ObcUtilityHX,Mode=TwoWay}"  
-                         SelectedItem="{Binding Path=model.SelectedUtilityHXModel,Mode=OneWayToSource}"/>
+                         SelectedItem="{Binding Path=model.SelectedUtilityHXModel,Mode=TwoWay}"/>
             </GroupBox>
             <GroupBox Header="{DynamicResource UtilityHX}" HorizontalAlignment="Left"  Grid.Row="12" Grid.RowSpan="5" Width="150" Grid.Column="3" Margin="0,6">
                 <ListBox  
                          Background="{x:Null}" BorderBrush="{x:Null}" 
                          ItemsSource="{Binding model.ObcUtilityHXSource,Mode=TwoWay}"  
-                         SelectedItem="{Binding Path=model.SelectedUtilityHXModel,Mode=OneWayToSource}"/>
+                         SelectedItem="{Binding Path=model.SelectedUtilityHXSourceModel,Mode=TwoWay}"/>
             </GroupBox>
 
             <GroupBox Header="{DynamicResource Mixer_Splitter}" HorizontalAlignment="Left"  Grid.Row="12" Grid.RowSpan="5" Width="150" Grid.Column="4" Margin="10,6,0,6">
                 <ListBox  
                          Background="{x:Null}" BorderBrush="{x:Null}" 
                          ItemsSource="{Binding model.ObcMixerSplitter,Mode=TwoWay}"  
-                         SelectedItem="{Binding Path=model.SelectedMixerModel,Mode=OneWayToSource}"/>
+                         SelectedItem="{Binding Path=model.SelectedMixerModel,Mode=TwoWay}"/>
             </GroupBox>
             <GroupBox Header="{DynamicResource Mixer_Splitter}" HorizontalAlignment="Left"  Grid.Row="12" Grid.RowSpan="5" Width="150" Grid.Column="6" Margin="24,6,-131,6">
                 <ListBox  
                          Background="{x:Null}" BorderBrush="{x:Null}" 
                          ItemsSource="{Binding model.ObcMixerSplitterSource,Mode=TwoWay}"  
-                         SelectedItem="{Binding Path=model.SelectedMixerModel,Mode=OneWayToSource}"/>
+                         SelectedItem="{Binding Path=model.SelectedMixerSourceModel,Mode=TwoWay}"/>
             </GroupBox>
 
             <GroupBox Header="{DynamicResource NetworkHX}" HorizontalAlignment="Left"  Grid.Row="7" Grid.RowSpan="5" Width="254" Grid.Column="4" Margin="0,5" >
                 <ListBox  Background="{x:Null}" BorderBrush="{x:Null}" 
             		ItemsSource="{Binding model.ObcNetworkHX, Mode=TwoWay}"  
-            		SelectedItem="{Binding model.SelectedNetworkHXModel, Mode=OneWayToSource}" Margin="0,0,88,0"/>
+            		SelectedItem="{Binding model.SelectedNetworkHXModel, Mode=TwoWay}" Margin="0,0,88,0"/>
             </GroupBox>
             <GroupBox Header="{DynamicResource NetworkHX}" HorizontalAlignment="Left"   Grid.Row="7" Grid.RowSpan="5" Width="264" Grid.Column="6" Margin="0,5,-221,5" >
                 <ListBox Background="{x:Null}" BorderBrush="{x:Null}" 
             		ItemsSource="{Binding model.ObcNetworkHXSource, Mode=TwoWay}"  
-            		SelectedItem="{Binding model.SelectedNetworkHXModel, Mode=OneWayToSource}"/>
+            		SelectedItem="{Binding model.SelectedNetworkHXSourceModel, Mode=TwoWay}"/>
             </GroupBox>
 
 
