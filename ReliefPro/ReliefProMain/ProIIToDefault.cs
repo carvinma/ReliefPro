@@ -283,7 +283,41 @@ namespace ReliefProMain
 
         }
 
-
+        public static LatentProduct ConvertCustomStreamToLatentProduct(CustomStream s)
+        {
+            LatentProduct cs = new LatentProduct();
+            cs.StreamName = s.StreamName;
+            cs.BulkCP = s.BulkCP;            
+            cs.BulkCPCVRatio = cs.BulkCPCVRatio;
+            cs.BulkDensityAct = s.BulkDensityAct;
+            cs.BulkMwOfPhase = s.BulkMwOfPhase;
+            cs.BulkSurfTension = s.BulkSurfTension;
+            cs.BulkThermalCond = s.BulkThermalCond;
+            cs.BulkViscosity = s.BulkViscosity;            
+            cs.ProdType = s.ProdType;
+            cs.CompIn = s.CompIn;
+            cs.Componentid = s.Componentid;
+            cs.PrintNumber = s.PrintNumber;
+            cs.InertWeightEnthalpy = s.InertWeightEnthalpy;
+            cs.InertWeightRate = s.InertWeightRate;
+            cs.Pressure = s.Pressure;
+            cs.Temperature = s.Temperature;
+            cs.ProdType = s.ProdType;
+            cs.TotalComposition = s.TotalComposition;
+            cs.TotalMolarEnthalpy = s.TotalMolarEnthalpy;
+            cs.TotalMolarRate = s.TotalMolarRate;
+            cs.Tray = s.Tray;
+            cs.VaporFraction = s.VaporFraction;
+            cs.VaporZFmKVal = s.VaporZFmKVal;
+            cs.WeightFlow = s.WeightFlow;
+            cs.SpEnthalpy = s.SpEnthalpy;
+            cs.TotalMolarRate = s.TotalMolarRate;
+            cs.BulkMwOfPhase = s.BulkMwOfPhase;
+            cs.TotalMolarEnthalpy = s.TotalMolarEnthalpy;
+            cs.InertWeightEnthalpy = s.InertWeightEnthalpy;
+            cs.InertWeightRate = s.InertWeightRate;
+            return cs;
+        }
          
     }
 }
