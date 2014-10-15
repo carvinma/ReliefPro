@@ -673,6 +673,7 @@ namespace ReliefProMain.ViewModel
         private void CreateTowerScenarioCalcData(int ScenarioID, string ScenarioName, NHibernate.ISession Session)
         {
             GlobalDefaultBLL globalbll = new GlobalDefaultBLL(SessionPlant);
+            ConditionsSettings conditionsettings = globalbll.GetConditionsSettings();
             SourceDAL dbSource = new SourceDAL();
             HeatSourceDAL dbhs = new HeatSourceDAL();
             ScenarioHeatSourceDAL scenarioHeatSourceDAL = new ScenarioHeatSourceDAL();
@@ -688,7 +689,7 @@ namespace ReliefProMain.ViewModel
                     tss.StreamName = s.StreamName;
                     tss.FlowCalcFactor = GetSystemScenarioFactor("4", s.SourceType, ScenarioName);
                     tss.FlowStop = false;
-                    if ((s.SourceType.Contains("Stream") || s.IsSteam) && ScenarioName == "GeneralElectricPowerFailure")
+                    if ((s.SourceType.Contains("Stream") || s.IsSteam) && ScenarioName == "GeneralElectricPowerFailure" && conditionsettings.SteamCondition)
                     {
                         tss.FlowStop = true;
                     }
@@ -700,7 +701,7 @@ namespace ReliefProMain.ViewModel
                 {
                     tss.FlowCalcFactor = GetSystemScenarioFactor("4", s.SourceType, ScenarioName);
                     tss.SourceType = s.SourceType;
-                    if ((s.SourceType.Contains("Stream")||s.IsSteam) && ScenarioName == "GeneralElectricPowerFailure")
+                    if ((s.SourceType.Contains("Stream") || s.IsSteam) && ScenarioName == "GeneralElectricPowerFailure" && conditionsettings.SteamCondition)
                     {
                         tss.FlowStop = true;
                     }
@@ -743,7 +744,7 @@ namespace ReliefProMain.ViewModel
                     tss.StreamName = s.StreamName;
                     tss.FlowCalcFactor = 1;// GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
                     tss.FlowStop = false;
-                    if (s.SinkType.Contains("Stream") && ScenarioName == "GeneralElectricPowerFailure")
+                    if (s.SinkType.Contains("Stream") && ScenarioName == "GeneralElectricPowerFailure" && conditionsettings.SteamCondition)
                     {
                         tss.FlowStop = true;
                     }
@@ -757,7 +758,7 @@ namespace ReliefProMain.ViewModel
                 {
                     tss.FlowCalcFactor = GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
                     tss.SourceType = s.SinkType;
-                    if (s.SinkType.Contains("Stream") && ScenarioName == "GeneralElectricPowerFailure")
+                    if (s.SinkType.Contains("Stream") && ScenarioName == "GeneralElectricPowerFailure" && conditionsettings.SteamCondition)
                     {
                         tss.FlowStop = true;
                     }
@@ -768,7 +769,7 @@ namespace ReliefProMain.ViewModel
             TowerScenarioHXDAL towerScenarioHXDAL = new TowerScenarioHXDAL();
             TowerHXDAL towerHXDAL = new TowerHXDAL();
             
-            ConditionsSettings conditionsettings =globalbll.GetConditionsSettings();
+            
             IList<TowerHX> tHXs = towerHXDAL.GetAllList(Session);
             foreach (TowerHX hx in tHXs)
             {
@@ -801,7 +802,7 @@ namespace ReliefProMain.ViewModel
                             tsHX.DutyLost = true;
                         }
 
-                        if (ScenarioName == "GeneralElectricPowerFailure" && (detail.Medium == "Steam" || detail.MediumSideFlowSource=="Pump(Turbine)"))
+                        if (ScenarioName == "GeneralElectricPowerFailure" && conditionsettings.SteamCondition && (detail.Medium == "Steam" || detail.MediumSideFlowSource == "Pump(Turbine)"))
                         {
                             tsHX.DutyLost = true;
                         }
