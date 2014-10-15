@@ -57,12 +57,12 @@ namespace ProII92
         {
             StringBuilder data1 = new StringBuilder();
             string streamName = stream.StreamName;
-            data1.Append("\tPROP STRM=").Append(streamName.ToUpper()).Append(",&\n");
+            data1.Append("\tPROPERTY STREAM=").Append(streamName.ToUpper()).Append(",&\n");
             data1.Append("\t PRESSURE(MPAG)=").Append(stream.Pressure).Append(",&\n");
             data1.Append("\t TEMPERATURE(C)=").Append(stream.Temperature).Append(",&\n");
             double rate = stream.TotalMolarRate;
             if (rate == 0)
-                rate = 1;
+                rate = 1e-8;
             data1.Append("\t RATE(KGM/S)=").Append(rate).Append(",&\n");
             string com = stream.TotalComposition;
             string Componentid = stream.Componentid;
