@@ -640,6 +640,9 @@ namespace ReliefProMain.ViewModel
             }
             if (op == 0)
             {
+                ReImportBLL reimportbll = new ReImportBLL(SessionProtectedSystem);
+                reimportbll.DeleteAllData();
+
                 AddTowerInfo();
                 System.Windows.Window wd = obj as System.Windows.Window;
                 if (wd != null)
@@ -827,9 +830,17 @@ namespace ReliefProMain.ViewModel
                     sr.MaxPossiblePressure = cs.Pressure;
                     sr.StreamName = cs.StreamName;
                     sr.SourceName = cs.StreamName + "_Source";
-                    sr.SourceType = "Pump(Motor)";
+                    
                     sr.StreamName = cs.StreamName;
                     sr.IsSteam = IsSteam(cs);
+                    if (sr.IsSteam)
+                    {
+                        sr.SourceType = "Supply Header";
+                    }
+                    else
+                    {
+                        sr.SourceType = "Pump(Motor)";
+                    }
                     sr.IsHeatSource = false;
                     sr.MaxPossiblePressure_Color = ColorBorder.green.ToString();
                     sr.SourceType_Color = ColorBorder.green.ToString();

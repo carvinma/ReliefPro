@@ -199,7 +199,12 @@ namespace ReliefProMain.ViewModel
                 ColorImport = ColorBorder.red.ToString();
                 return;
             }
-            if (op == 2)
+            if (op == 0)
+            {
+                ReImportBLL reimportbll = new ReImportBLL(SessionProtectedSystem);
+                reimportbll.DeleteAllData();
+            }
+            else if (op == 2)
             {
                 MessageBoxResult r = MessageBox.Show("Are you sure to reimport all data?", "Message Box", MessageBoxButton.YesNo);
                 if (r == MessageBoxResult.Yes)

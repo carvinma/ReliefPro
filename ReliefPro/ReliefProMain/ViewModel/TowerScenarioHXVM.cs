@@ -15,6 +15,7 @@ using ReliefProMain.Service;
 using ReliefProMain.View;
 using NHibernate;
 using ReliefProMain.Models;
+using ProII;
 
 namespace ReliefProMain.ViewModel
 {
@@ -28,6 +29,8 @@ namespace ReliefProMain.ViewModel
         public CondenserCalcDAL condenserCalcDAL;
         private Dictionary<int, TowerScenarioHXModel> dicHXs;
         TowerScenarioHXDAL towerScenarioHXDAL ;
+        ScenarioDAL scDAL;
+        Scenario sc;
         public double ScenarioCondenserDuty = 0;
         public Accumulator CurrentAccumulator { get; set; }
         
@@ -153,7 +156,7 @@ namespace ReliefProMain.ViewModel
                 SurgeTime = condenserCalc.SurgeTime;
                 IsSurgeTime = condenserCalc.IsSurgeTime;    
             }
-           
+            Scenario sc = scDAL.GetModel(scenarioID,SessionProtectedSystem);
         }
         internal ObservableCollection<TowerScenarioHXModel> GetTowerHXScenarioDetails()
         {
@@ -179,7 +182,7 @@ namespace ReliefProMain.ViewModel
 
 
         private void CalculateSurgeTime(object win)
-        {
+        {            
             AccumulatorDAL dbaccumulator = new AccumulatorDAL();
             CurrentAccumulator = dbaccumulator.GetModel(SessionProtectedSystem);
             
@@ -189,8 +192,20 @@ namespace ReliefProMain.ViewModel
             double refluxFlowStops = 0;
             double refluxFlow = 0;
             double ohProductFlowStops = 0;
-            double ohProductFlow = GetOHProductFlow(SessionProtectedSystem);
-
+            if (CurrentAccumulator != null && (sc.ScenarioName.Contains("Electric Power Failure") || sc.ScenarioName.Contains("Reflux Failure")))
+            {
+                refluxFlowStops = 1;
+                LatentProductDAL lpdal = new LatentProductDAL();
+                LatentProduct latentStream = lpdal.GetModel(SessionProtectedSystem, "-1");
+                refluxFlow=latentStream.WeightFlow/latentStream.BulkDensityAct;
+            }
+            double ohProductFlow = 0;
+            if (sc.ScenarioName.Contains("Electric Power Failure"))
+            {
+                ohProductFlowStops = 1;
+                ohProductFlow = GetOHProductFlow(SessionProtectedSystem);
+            }
+             
             double density = GetLatentLiquidDensity(SessionProtectedSystem);
             double totalCondenserDuty = Math.Abs(ScenarioCondenserDuty);
             double latent = GetLatent(SessionProtectedSystem);
@@ -201,45 +216,47 @@ namespace ReliefProMain.ViewModel
             double diameter = 0;
             double liquidlevel = 0;
             double length = 0;
-            if (CurrentAccumulator.Diameter==0)
+            if (CurrentAccumulator != null)
             {
-                MessageBox.Show("Accumulator's diameter cann't be zero.","Message Box");
-                return;
-            }
-            else
-            {
-                diameter = CurrentAccumulator.Diameter;
-            }
+                if (CurrentAccumulator.Diameter == 0)
+                {
+                    MessageBox.Show("Accumulator's diameter cann't be zero.", "Message Box");
+                    return;
+                }
+                else
+                {
+                    diameter = CurrentAccumulator.Diameter;
+                }
 
-            if (CurrentAccumulator.NormalLiquidLevel==0)
-            {
-                MessageBox.Show("Accumulator's normal liquid level cann't be zero.", "Message Box");
-                return;
-            }
-            else
-            {
-                liquidlevel = CurrentAccumulator.NormalLiquidLevel;
-            }
+                if (CurrentAccumulator.NormalLiquidLevel == 0)
+                {
+                    MessageBox.Show("Accumulator's normal liquid level cann't be zero.", "Message Box");
+                    return;
+                }
+                else
+                {
+                    liquidlevel = CurrentAccumulator.NormalLiquidLevel;
+                }
 
-            if (CurrentAccumulator.Length==0)
-            {
-                MessageBox.Show("Accumulator's length cann't be zero.", "Message Box");
-                return;
-            }
-            else
-            {
-                length = CurrentAccumulator.Length;
-            }
+                if (CurrentAccumulator.Length == 0)
+                {
+                    MessageBox.Show("Accumulator's length cann't be zero.", "Message Box");
+                    return;
+                }
+                else
+                {
+                    length = CurrentAccumulator.Length;
+                }
 
-            accumulatorTotalVolume = 3.14159 * Math.Pow(diameter, 2) * length / 4 + 3.14159 * Math.Pow(diameter, 3) / 12;
-            if (CurrentAccumulator.Orientation)
-            {
-                accumulatorPartialVolume = 3.14159 * Math.Pow(diameter, 2) * liquidlevel / 4 + 3.14159 * Math.Pow(diameter, 3) / 24;
-            }
-            else
-            {
-                accumulatorPartialVolume = liquidlevel * accumulatorTotalVolume / diameter;
-
+                accumulatorTotalVolume = 3.14159 * Math.Pow(diameter, 2) * length / 4 + 3.14159 * Math.Pow(diameter, 3) / 12;
+                if (CurrentAccumulator.Orientation)
+                {
+                    accumulatorPartialVolume = 3.14159 * Math.Pow(diameter, 2) * liquidlevel / 4 + 3.14159 * Math.Pow(diameter, 3) / 24;
+                }
+                else
+                {
+                    accumulatorPartialVolume = liquidlevel * accumulatorTotalVolume / diameter;
+                }
             }
             double surgeVolume = accumulatorTotalVolume - accumulatorPartialVolume;
             if (totalVolumeticFlowRate > 0)
@@ -327,10 +344,7 @@ namespace ReliefProMain.ViewModel
             if (v.ShowDialog() == true)
             {
                 SelectedHX.IsPinch = vm.IsPinch;
-                if (vm.Factor != null)
-                {
-                    SelectedHX.PinchFactor = vm.Factor;
-                }
+                SelectedHX.PinchFactor = vm.Factor;                
             }
         }
 

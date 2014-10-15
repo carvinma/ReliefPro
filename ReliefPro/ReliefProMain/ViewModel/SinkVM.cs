@@ -65,6 +65,7 @@ namespace ReliefProMain.ViewModel
             {
                 bEdit = true;
             }
+            System.Windows.Window wd = window as System.Windows.Window;
             if (bEdit)
             {
                 ScenarioDAL scdal = new ScenarioDAL();
@@ -78,6 +79,13 @@ namespace ReliefProMain.ViewModel
                         scBLL.DeleteSCOther();
                         scBLL.ClearScenario();
                     }
+                    else
+                    {
+                        if (wd != null)
+                        {
+                            wd.Close();
+                        }
+                    }
                 }
                 WriteConvert();
                 MainModel.dbmodel.SinkType_Color = MainModel.SinkType_Color;
@@ -86,7 +94,7 @@ namespace ReliefProMain.ViewModel
                 db.Update(MainModel.dbmodel, SessionProtectedSystem);
                 //SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction
             }
-            System.Windows.Window wd = window as System.Windows.Window;
+            
 
             if (wd != null)
             {

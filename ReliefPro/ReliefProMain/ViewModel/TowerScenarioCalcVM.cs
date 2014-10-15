@@ -482,7 +482,7 @@ namespace ReliefProMain.ViewModel
                     }
                 }
             }
-            SessionProtectedSystem.Flush();
+            //SessionProtectedSystem.Flush();
 
 
         }

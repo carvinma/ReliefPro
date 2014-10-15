@@ -146,7 +146,6 @@ namespace ReliefProMain.ViewModel
 
         public void Add()
         {
-
             ScenarioDAL db = new ScenarioDAL();
             Scenario s = new Scenario();
             db.Add(s, SessionProtectedSystem);
@@ -673,6 +672,7 @@ namespace ReliefProMain.ViewModel
 
         private void CreateTowerScenarioCalcData(int ScenarioID, string ScenarioName, NHibernate.ISession Session)
         {
+            GlobalDefaultBLL globalbll = new GlobalDefaultBLL(SessionPlant);
             SourceDAL dbSource = new SourceDAL();
             HeatSourceDAL dbhs = new HeatSourceDAL();
             ScenarioHeatSourceDAL scenarioHeatSourceDAL = new ScenarioHeatSourceDAL();
@@ -688,6 +688,10 @@ namespace ReliefProMain.ViewModel
                     tss.StreamName = s.StreamName;
                     tss.FlowCalcFactor = GetSystemScenarioFactor("4", s.SourceType, ScenarioName);
                     tss.FlowStop = false;
+                    if ((s.SourceType.Contains("Stream") || s.IsSteam) && ScenarioName == "GeneralElectricPowerFailure")
+                    {
+                        tss.FlowStop = true;
+                    }
                     tss.SourceType = s.SourceType;
                     tss.IsProduct = false;
                     towerScenarioStreamDAL.Add(tss, Session);
@@ -696,7 +700,10 @@ namespace ReliefProMain.ViewModel
                 {
                     tss.FlowCalcFactor = GetSystemScenarioFactor("4", s.SourceType, ScenarioName);
                     tss.SourceType = s.SourceType;
-                    
+                    if ((s.SourceType.Contains("Stream")||s.IsSteam) && ScenarioName == "GeneralElectricPowerFailure")
+                    {
+                        tss.FlowStop = true;
+                    }
                     towerScenarioStreamDAL.Update(tss, Session);
                 }
 
@@ -736,6 +743,10 @@ namespace ReliefProMain.ViewModel
                     tss.StreamName = s.StreamName;
                     tss.FlowCalcFactor = 1;// GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
                     tss.FlowStop = false;
+                    if (s.SinkType.Contains("Stream") && ScenarioName == "GeneralElectricPowerFailure")
+                    {
+                        tss.FlowStop = true;
+                    }
                     tss.IsProduct = true;
                     tss.SourceType = s.SinkType;
                     tss.IsNormal = false;
@@ -745,14 +756,18 @@ namespace ReliefProMain.ViewModel
                 else if (tss.SourceType != s.SinkType)
                 {
                     tss.FlowCalcFactor = GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
-                    tss.SourceType = s.SinkType;                   
+                    tss.SourceType = s.SinkType;
+                    if (s.SinkType.Contains("Stream") && ScenarioName == "GeneralElectricPowerFailure")
+                    {
+                        tss.FlowStop = true;
+                    }
                     towerScenarioStreamDAL.Update(tss, Session);
                 }
             }
             TowerHXDetailDAL towerHXDetailDAL = new TowerHXDetailDAL();
             TowerScenarioHXDAL towerScenarioHXDAL = new TowerScenarioHXDAL();
             TowerHXDAL towerHXDAL = new TowerHXDAL();
-            GlobalDefaultBLL globalbll = new GlobalDefaultBLL(SessionPlant);
+            
             ConditionsSettings conditionsettings =globalbll.GetConditionsSettings();
             IList<TowerHX> tHXs = towerHXDAL.GetAllList(Session);
             foreach (TowerHX hx in tHXs)
@@ -785,6 +800,12 @@ namespace ReliefProMain.ViewModel
                         {
                             tsHX.DutyLost = true;
                         }
+
+                        if (ScenarioName == "GeneralElectricPowerFailure" && (detail.Medium == "Steam" || detail.MediumSideFlowSource=="Pump(Turbine)"))
+                        {
+                            tsHX.DutyLost = true;
+                        }
+                        
                         towerScenarioHXDAL.Add(tsHX, Session);
                     }
                     else if (factor != tsHX.DutyCalcFactor || tsHX.Medium != detail.Medium)
@@ -797,6 +818,10 @@ namespace ReliefProMain.ViewModel
                             tsHX.DutyLost = true;
                         }
                         if (ScenarioName == "GeneralElectricPowerFailure" && tsHX.Medium == "Cooling Water" && conditionsettings != null && conditionsettings.CoolingWaterCondition)
+                        {
+                            tsHX.DutyLost = true;
+                        }
+                        if (ScenarioName == "GeneralElectricPowerFailure" && (detail.Medium == "Steam" || detail.MediumSideFlowSource == "Pump(Turbine)"))
                         {
                             tsHX.DutyLost = true;
                         }
@@ -1038,14 +1063,19 @@ namespace ReliefProMain.ViewModel
             List<string> list = new List<string>();
             if (eqType == "Tower")
             {
+                AccumulatorDAL dbaccumulator = new AccumulatorDAL();
+                Accumulator ac = dbaccumulator.GetModel(SessionProtectedSystem);
                 if (towerType == "Distillation")
                 {
                     list.Add("Blocked Outlet");
-                    list.Add("Reflux Failure");
+                    if (ac != null)
+                    {
+                        list.Add("Reflux Failure");
+                    }
                     list.Add("General Electric Power Failure");
                     list.Add("Partial Electric Power Failure");
                     list.Add("General Cooling Water Failure");
-                    list.Add("Refrigerant Failure");
+                    list.Add("Refrigerant Failure");                    
                     list.Add("PumpAround Failure");
                     list.Add("Abnormal Heat Input");
                     list.Add("Cold Feed Stops");
@@ -1063,7 +1093,10 @@ namespace ReliefProMain.ViewModel
                 else
                 {
                     list.Add("Blocked Outlet");
-                    list.Add("Reflux Failure");
+                    if (ac != null)
+                    {
+                        list.Add("Reflux Failure");
+                    }
                     list.Add("General Electric Power Failure");
                     list.Add("Partial Electric Power Failure");
                     list.Add("General Cooling Water Failure");

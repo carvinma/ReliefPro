@@ -120,6 +120,9 @@ namespace ReliefProMain.ViewModel
             d.SeqNumber = Details.Count - 1;
             d.DetailName = model.HeaterName + "_" + (Details.Count + 1).ToString();
             d.Parent = model;
+            d.ProcessSideFlowSource = d.ProcessSideFlowSources[0]; ;
+            d.Medium = d.Mediums[0];
+            d.MediumSideFlowSource = d.MediumSideFlowSources[0];
             Details.Add(d);
         }
 
@@ -217,6 +220,10 @@ namespace ReliefProMain.ViewModel
                         ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
                         scBLL.DeleteSCOther();
                         scBLL.ClearScenario();
+                    }
+                    else
+                    {
+                        return;
                     }
                 }
                 for (int i = 0; i < list.Count; i++)

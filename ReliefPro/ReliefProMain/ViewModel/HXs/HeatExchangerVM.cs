@@ -295,6 +295,8 @@ namespace ReliefProMain.ViewModel
             HeatExchangerDAL dbHX = new HeatExchangerDAL();
             if (op == 0)
             {
+                ReImportBLL reimportbll = new ReImportBLL(SessionProtectedSystem);
+                reimportbll.DeleteAllData();
                 Create();
             }
             else if (op == 1)

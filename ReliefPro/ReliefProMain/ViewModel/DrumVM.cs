@@ -311,6 +311,8 @@ namespace ReliefProMain.ViewModel
             DrumDAL dbdrum = new DrumDAL();
             if (op == 0)
             {
+                ReImportBLL reimportbll = new ReImportBLL(SessionProtectedSystem);
+                reimportbll.DeleteAllData();
                 Create();
             }
             else if (op == 1)

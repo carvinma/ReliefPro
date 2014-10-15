@@ -289,6 +289,7 @@ namespace ReliefProMain.ViewModel
                     db.Update(CurrentAccumulator, SessionProtectedSystem);
                     //SessionProtectedSystem.Flush();
                 }
+                
             }
 
             System.Windows.Window wd = window as System.Windows.Window;

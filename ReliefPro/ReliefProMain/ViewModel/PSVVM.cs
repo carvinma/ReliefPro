@@ -697,6 +697,9 @@ namespace ReliefProMain.ViewModel
                     latentLiquid = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIILiquid);
                     latentVapor.ProdType = "2";
 
+                    LatentProduct latentStream = ProIIToDefault.ConvertCustomStreamToLatentProduct(stream);
+                    latentStream.ProdType = "-1";
+                    dblp.Add(latentStream, SessionProtectedSystem);
                     dblp.Add(latentVapor, SessionProtectedSystem);
                     dblp.Add(latentLiquid, SessionProtectedSystem);
                     return true;

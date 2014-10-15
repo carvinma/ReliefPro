@@ -510,6 +510,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 {
                     if (op == 0)
                     {
+                        ReImportBLL reimportbll = new ReImportBLL(SessionPS);
+                        reimportbll.DeleteAllData();
                         Create();
                     }
                     else if (op == 1)
