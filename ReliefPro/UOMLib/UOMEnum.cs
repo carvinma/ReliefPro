@@ -13,35 +13,53 @@ namespace UOMLib
     {
         public const string Temperature = "C";
         public const string Pressure = "MPag";
+        public const string Weight = "kg";
+        public const string Molar = "kg-mol";
+        public const string StandardVolumeRate = "nm3";
         public const string Viscosity = "cP";
+       
         public const string HeatCapacity = "kJ/kg-K";
+        public const string ThermalConductivity = "w/m-C";
+        public const string HeatTransCoeffcient = "w/m2-C";
+        public const string VolumeRate = "m3/hr";
+        public const string MassRate = "Kg/hr";
+        public const string Density = "kg/m3";
+
         public const string SurfaceTension = "N/m";
         public const string Volume = "m3";
         public const string Length = "m";
         public const string Time = "min";
         public const string FlowConductance = "(kg/sec)/sqrt(kPa-kg/m3)";
         public const string FineLength = "in";
-        public const string MassRate = "Kg/hr";
+       
         public const string EnthalpyDuty = "KJ/hr";
         public const string SpecificEnthalpy = "KJ/kg";
-        public const string Density = "kg/m3";
         public const string Area = "m2";
-        public const string ThermalConductivity = "w/m-C";
-        public const string HeatTransCoeffcient = "w/m2-C";
+        
+       
 
         public string UserTemperature { get; private set; }
-        //public readonly string UserWeightFlow;
         public string UserPressure { get; private set; }
-        public string UserEnthalpyDuty { get; private set; }
+        public string UserWeight { get; private set; }
+        public string UserMolar { get; private set; }
+        public string UserStandardVolumeRate { get; private set; }
+        public string UserViscosity { get; private set; }
+
+        public string UserHeatCapacity { get; private set; }
+        public string UserThermalConductivity { get; private set; }
+        public string UserHeatTransCoeffcient { get; private set; }
+        public string UserVolumeRate { get; private set; }
         public string UserMassRate { get; private set; }
+        public string UserDensity { get; private set; }
+
+        public string UserEnthalpyDuty { get; private set; }
         public string UserArea { get; private set; }
         public string UserSpecificEnthalpy { get; private set; }
-        public string UserDensity { get; private set; }
+        
         public string UserVolume { get; private set; }
         public string UserTime { get; private set; }
         public string UserLength { get; private set; }
-        public string UserThermalConductivity { get; private set; }
-        public string UserHeatTransCoeffcient { get; private set; }
+       
 
         public string SessionDBPath;
 
@@ -59,16 +77,26 @@ namespace UOMLib
 
             UserTemperature = GetUnit(UnitTypeEnum.Temperature);
             UserPressure = GetUnit(UnitTypeEnum.Pressure);
-            UserEnthalpyDuty = GetUnit(UnitTypeEnum.EnthalpyDuty);
+            UserWeight = GetUnit(UnitTypeEnum.Weight);
+            UserMolar = GetUnit(UnitTypeEnum.Molar);
+            UserStandardVolumeRate = GetUnit(UnitTypeEnum.StandardVolumeRate);
+            UserViscosity = GetUnit(UnitTypeEnum.Viscosity);
+
+            UserHeatCapacity = GetUnit(UnitTypeEnum.HeatCapacity);
+            UserThermalConductivity = GetUnit(UnitTypeEnum.ThermalConductivity);
+            UserHeatTransCoeffcient = GetUnit(UnitTypeEnum.HeatTransCoeffcient);
+            UserVolumeRate = GetUnit(UnitTypeEnum.VolumeRate);
             UserMassRate = GetUnit(UnitTypeEnum.MassRate);
+            UserDensity = GetUnit(UnitTypeEnum.Density);
+
+            UserEnthalpyDuty = GetUnit(UnitTypeEnum.EnthalpyDuty);
             UserArea = GetUnit(UnitTypeEnum.Aera);
             UserSpecificEnthalpy = GetUnit(UnitTypeEnum.SpecificEnthalpy);
-            UserDensity = GetUnit(UnitTypeEnum.Density);
+          
             UserVolume = GetUnit(UnitTypeEnum.Volume);
             UserTime = GetUnit(UnitTypeEnum.Time);
             UserLength = GetUnit(UnitTypeEnum.Length);
-            UserThermalConductivity = GetUnit(UnitTypeEnum.ThermalConductivity);
-            UserHeatTransCoeffcient = GetUnit(UnitTypeEnum.HeatTransCoeffcient);
+           
         }
         private string GetUnit(UnitTypeEnum unitTypeEnum)
         {
