@@ -26,17 +26,17 @@ namespace UOMLib
         public const string Density = "kg/m3";
 
         public const string SurfaceTension = "N/m";
+        public const string FineLength = "in";
+        public const string MachineSpeed = "rpm";
         public const string Volume = "m3";
         public const string Length = "m";
+        public const string Area = "m2";
+
+        public const string Energy = "kJ";
         public const string Time = "min";
         public const string FlowConductance = "(kg/sec)/sqrt(kPa-kg/m3)";
-        public const string FineLength = "in";
-       
-        public const string EnthalpyDuty = "KJ/hr";
         public const string SpecificEnthalpy = "KJ/kg";
-        public const string Area = "m2";
-        
-       
+        public const string EnthalpyDuty = "KJ/hr";
 
         public string UserTemperature { get; private set; }
         public string UserPressure { get; private set; }
@@ -52,15 +52,19 @@ namespace UOMLib
         public string UserMassRate { get; private set; }
         public string UserDensity { get; private set; }
 
-        public string UserEnthalpyDuty { get; private set; }
-        public string UserArea { get; private set; }
-        public string UserSpecificEnthalpy { get; private set; }
-        
+        public string UserSurfaceTension { get; private set; }
+        public string UserFineLength { get; private set; }
+        public string UserMachineSpeed { get; private set; }
         public string UserVolume { get; private set; }
-        public string UserTime { get; private set; }
         public string UserLength { get; private set; }
-       
+        public string UserArea { get; private set; }
 
+        public string UserEnergy { get; private set; }
+        public string UserTime { get; private set; }
+        public string UserFlowConductance { get;private set; }
+        public string UserSpecificEnthalpy { get; private set; }
+        public string UserEnthalpyDuty { get; private set; }
+        
         public string SessionDBPath;
 
         public IList<BasicUnitDefault> lstBasicUnitDefault;
@@ -89,14 +93,18 @@ namespace UOMLib
             UserMassRate = GetUnit(UnitTypeEnum.MassRate);
             UserDensity = GetUnit(UnitTypeEnum.Density);
 
-            UserEnthalpyDuty = GetUnit(UnitTypeEnum.EnthalpyDuty);
-            UserArea = GetUnit(UnitTypeEnum.Aera);
-            UserSpecificEnthalpy = GetUnit(UnitTypeEnum.SpecificEnthalpy);
-          
+            UserSurfaceTension = GetUnit(UnitTypeEnum.SurfaceTension);
+            UserFineLength = GetUnit(UnitTypeEnum.FineLength);
+            UserMachineSpeed = GetUnit(UnitTypeEnum.MachineSpeed);
             UserVolume = GetUnit(UnitTypeEnum.Volume);
-            UserTime = GetUnit(UnitTypeEnum.Time);
             UserLength = GetUnit(UnitTypeEnum.Length);
-           
+            UserArea = GetUnit(UnitTypeEnum.Aera);
+
+            UserEnergy = GetUnit(UnitTypeEnum.Energy);
+            UserTime = GetUnit(UnitTypeEnum.Time);
+            UserFlowConductance = GetUnit(UnitTypeEnum.FlowConductance);
+            UserSpecificEnthalpy = GetUnit(UnitTypeEnum.SpecificEnthalpy);
+            UserEnthalpyDuty = GetUnit(UnitTypeEnum.EnthalpyDuty);
         }
         private string GetUnit(UnitTypeEnum unitTypeEnum)
         {
