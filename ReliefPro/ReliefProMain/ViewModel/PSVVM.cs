@@ -239,13 +239,83 @@ namespace ReliefProMain.ViewModel
             try
             {
 
-                this.IsBusy = true;
-                var t1 = Task.Factory.StartNew(() =>
-                {
-                    //Thread.Sleep(3000);
+                // this.IsBusy = true;
+                //  var t1 = Task.Factory.StartNew(() =>
+                //  {
+                //Thread.Sleep(3000);
 
-                    if (CurrentModel.ID == 0)
+                if (CurrentModel.ID == 0)
+                {
+                    SplashScreenManager.Show();
+                    SplashScreenManager.SentMsgToScreen("Creating PSV");
+
+                    if (EqType == "Tower")
                     {
+                        TowerDAL towerdal = new TowerDAL();
+                        Tower tower = towerdal.GetModel(SessionProtectedSystem);
+                        if (tower.TowerType == "Distillation")
+                        {
+                            CreateTowerPSV();
+                        }
+                    }
+                    else
+                    {
+                        CreateCommonPSV();
+                    }
+                    CurrentModel.dbmodel.PSVName = CurrentModel.PSVName;
+                    CurrentModel.dbmodel.Pressure = CurrentModel.Pressure;
+                    CurrentModel.dbmodel.ReliefPressureFactor = CurrentModel.ReliefPressureFactor;
+                    CurrentModel.dbmodel.ValveNumber = CurrentModel.ValveNumber;
+                    CurrentModel.dbmodel.ValveType = CurrentModel.ValveType;
+                    CurrentModel.dbmodel.DrumPSVName = CurrentModel.DrumPSVName;
+                    CurrentModel.dbmodel.Location = CurrentModel.Location;
+                    CurrentModel.dbmodel.DrumPressure = CurrentModel.DrumPressure;
+                    CurrentModel.dbmodel.CriticalPressure = CurrentModel.CriticalPressure;
+                    CurrentModel.dbmodel.Description = CurrentModel.Description;
+                    CurrentModel.dbmodel.LocationDescription = CurrentModel.LocationDescription;
+                    CurrentModel.dbmodel.DischargeTo = CurrentModel.DischargeTo;
+
+                    CurrentModel.dbmodel.PSVName_Color = CurrentModel.PSVName_Color;
+                    CurrentModel.dbmodel.Pressure_Color = CurrentModel.Pressure_Color;
+                    CurrentModel.dbmodel.DrumPressure_Color = CurrentModel.DrumPressure_Color;
+                    SplashScreenManager.SentMsgToScreen("Converting Unit");
+                    WriteConvert();
+                    SplashScreenManager.SentMsgToScreen("Saving Data");
+                    dbpsv.Add(CurrentModel.dbmodel, SessionProtectedSystem);
+                    SplashScreenManager.SentMsgToScreen("Done");
+                }
+                else if (psv.ReliefPressureFactor == CurrentModel.ReliefPressureFactor && psv.Pressure == CurrentModel.Pressure)
+                {
+                    SplashScreenManager.Show();
+                    SplashScreenManager.SentMsgToScreen("Converting Unit");
+                    WriteConvert();
+                    SplashScreenManager.SentMsgToScreen("Saving Data");
+                    dbpsv.Update(CurrentModel.dbmodel, SessionProtectedSystem);
+                    SplashScreenManager.SentMsgToScreen("Done");
+                    //SessionProtectedSystem.Flush();
+
+                }
+                else
+                {
+                    //需要重新复制一份ProtectedSystem.mdb，相当于重新分析。----error
+                    //string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
+                    //string dbProtectedSystem_target = DirProtectedSystem + @"\protectedsystem.mdb";
+                    //System.IO.File.Copy(dbProtectedSystem, dbProtectedSystem_target, true);
+                    //NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystem_target);
+                    //SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
+
+                    //应该是删除所有的和定压相关的表的数据
+                    MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
+                    if (r == MessageBoxResult.Yes)
+                    {
+                        SplashScreenManager.Show();
+                        SplashScreenManager.SentMsgToScreen("Editing data");
+                        ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
+                        scBLL.DeleteSCOther();
+                        scBLL.ClearScenario();
+                        PSVBLL psvbll = new PSVBLL(SessionProtectedSystem);
+                        psvbll.DeletePSVData();
+                        SplashScreenManager.SentMsgToScreen("Creating PSV");
                         if (EqType == "Tower")
                         {
                             TowerDAL towerdal = new TowerDAL();
@@ -259,76 +329,19 @@ namespace ReliefProMain.ViewModel
                         {
                             CreateCommonPSV();
                         }
-                        CurrentModel.dbmodel.PSVName = CurrentModel.PSVName;
-                        CurrentModel.dbmodel.Pressure = CurrentModel.Pressure;
-                        CurrentModel.dbmodel.ReliefPressureFactor = CurrentModel.ReliefPressureFactor;
-                        CurrentModel.dbmodel.ValveNumber = CurrentModel.ValveNumber;
-                        CurrentModel.dbmodel.ValveType = CurrentModel.ValveType;
-                        CurrentModel.dbmodel.DrumPSVName = CurrentModel.DrumPSVName;
-                        CurrentModel.dbmodel.Location = CurrentModel.Location;
-                        CurrentModel.dbmodel.DrumPressure = CurrentModel.DrumPressure;
-                        CurrentModel.dbmodel.CriticalPressure =  CurrentModel.CriticalPressure;
-                        CurrentModel.dbmodel.Description = CurrentModel.Description;
-                        CurrentModel.dbmodel.LocationDescription = CurrentModel.LocationDescription;
-                        CurrentModel.dbmodel.DischargeTo = CurrentModel.DischargeTo;
 
-                        CurrentModel.dbmodel.PSVName_Color = CurrentModel.PSVName_Color;
-                        CurrentModel.dbmodel.Pressure_Color = CurrentModel.Pressure_Color;
-                        CurrentModel.dbmodel.DrumPressure_Color = CurrentModel.DrumPressure_Color;
-                        
-
+                        SplashScreenManager.SentMsgToScreen("Converting Unit");
                         WriteConvert();
+                        SplashScreenManager.SentMsgToScreen("Saving Data");
                         dbpsv.Add(CurrentModel.dbmodel, SessionProtectedSystem);
+                        SplashScreenManager.SentMsgToScreen("Done");
                     }
-                    else if (psv.ReliefPressureFactor == CurrentModel.ReliefPressureFactor && psv.Pressure == CurrentModel.Pressure)
-                    {
-                        WriteConvert();
-                        dbpsv.Update(CurrentModel.dbmodel, SessionProtectedSystem);
-                        //SessionProtectedSystem.Flush();
+                }
+                //Thread.Sleep(3000);
+                //}).ContinueWith((t) => { });
 
-                    }
-                    else
-                    {
-                        //需要重新复制一份ProtectedSystem.mdb，相当于重新分析。----error
-                        //string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
-                        //string dbProtectedSystem_target = DirProtectedSystem + @"\protectedsystem.mdb";
-                        //System.IO.File.Copy(dbProtectedSystem, dbProtectedSystem_target, true);
-                        //NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystem_target);
-                        //SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
-
-                        //应该是删除所有的和定压相关的表的数据
-                        MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
-                        if (r == MessageBoxResult.Yes)
-                        {
-                            ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
-                            scBLL.DeleteSCOther();
-                            scBLL.ClearScenario();
-                            PSVBLL psvbll = new PSVBLL(SessionProtectedSystem);
-                            psvbll.DeletePSVData();
-                            if (EqType == "Tower")
-                            {
-                                TowerDAL towerdal = new TowerDAL();
-                                Tower tower = towerdal.GetModel(SessionProtectedSystem);
-                                if (tower.TowerType == "Distillation")
-                                {
-                                    CreateTowerPSV();
-                                }
-                            }
-                            else
-                            {
-                                CreateCommonPSV();
-                            }
-
-
-                            WriteConvert();
-                            dbpsv.Add(CurrentModel.dbmodel, SessionProtectedSystem);
-                        }
-                    }
-                    //Thread.Sleep(3000);
-                }).ContinueWith((t) => { });
-
-                Task.WaitAll(t1);
-                this.IsBusy = false;
+                //Task.WaitAll(t1);
+                //this.IsBusy = false;
 
                 System.Windows.Window wd = window as System.Windows.Window;
                 if (wd != null)
@@ -341,7 +354,10 @@ namespace ReliefProMain.ViewModel
             {
                 MessageBox.Show(ex.ToString());
             }
-
+            finally
+            {
+                SplashScreenManager.Close();
+            }
 
         }
         public void CreateTowerPSV()

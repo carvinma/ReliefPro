@@ -252,6 +252,10 @@
     <Compile Include="ProIIToDefault.cs" />
     <Compile Include="Service\ServiceProvider.cs" />
     <Compile Include="Service\UnityServiceLocator.cs" />
+    <Compile Include="SplashScreen.xaml.cs">
+      <DependentUpon>SplashScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SplashScreenManager.cs" />
     <Compile Include="Util\ErrorMsg.cs" />
     <Compile Include="Util\LanguageHelper.cs" />
     <Compile Include="ViewModel\BlockedVaporOutletVM.cs" />
@@ -580,6 +584,10 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Page Include="SplashScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Expression.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
