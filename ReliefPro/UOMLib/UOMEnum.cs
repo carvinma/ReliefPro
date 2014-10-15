@@ -19,8 +19,8 @@ namespace UOMLib
         public const string Viscosity = "cP";
        
         public const string HeatCapacity = "kJ/kg-K";
-        public const string ThermalConductivity = "w/m-C";
-        public const string HeatTransCoeffcient = "w/m2-C";
+        public const string ThermalConductivity = "W/m-K";
+        public const string HeatTransCoeffcient = "W/m2-C";
         public const string VolumeRate = "m3/hr";
         public const string MassRate = "Kg/hr";
         public const string Density = "kg/m3";
