@@ -421,8 +421,9 @@ namespace ReliefProMain
             string PlantPath = GetPlantPath();
             if (!string.IsNullOrEmpty(PlantPath))
             {
+                string DirPlant = System.IO.Path.GetDirectoryName(PlantPath);
                 ReliefProMain.View.GlobalDefault.GlobalDefaultView view = new View.GlobalDefault.GlobalDefaultView();
-                GlobalDefaultVM vm = new GlobalDefaultVM(UOMLib.UOMSingle.UomEnums.First(p => p.SessionDBPath.Contains(PlantPath)).SessionPlant);
+                GlobalDefaultVM vm = new GlobalDefaultVM(UOMLib.UOMSingle.UomEnums.First(p => p.SessionDBPath.Contains(PlantPath)).SessionPlant, DirPlant);
                 view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 view.DataContext = vm;
                 view.ShowDialog();
@@ -494,6 +495,9 @@ namespace ReliefProMain
             {
                 return (treeSelectedItem as TVFileViewModel).tvFile.dbPlantFile;
             }
+            ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
+            if (list.Count > 0)
+                return list[0].tvPlant.dbPlantFile;
             return string.Empty;
         }
 

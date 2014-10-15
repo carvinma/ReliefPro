@@ -1064,6 +1064,8 @@ namespace ReliefProMain.ViewModel
             List<string> list = new List<string>();
             if (eqType == "Tower")
             {
+                GlobalDefaultBLL globalbll = new GlobalDefaultBLL(SessionPlant);
+                ConditionsSettings conditionsettings = globalbll.GetConditionsSettings();
                 AccumulatorDAL dbaccumulator = new AccumulatorDAL();
                 Accumulator ac = dbaccumulator.GetModel(SessionProtectedSystem);
                 if (towerType == "Distillation")
@@ -1083,7 +1085,10 @@ namespace ReliefProMain.ViewModel
                     list.Add("Inlet Valve Fails Open");
                     list.Add("Fire");
                     list.Add("Steam Failure");
-                    list.Add("Automatic Controls Failure");
+                    if (conditionsettings.AirCondition)
+                    {
+                        list.Add("General Instrument Air Failure");
+                    }
                 }
                 else if (towerType == "Absorber")
                 {
@@ -1201,7 +1206,7 @@ namespace ReliefProMain.ViewModel
                 case "SteamFailure":
                     factor = model.SteamFailure;
                     break;
-                case "AutomaticControlsFailure":
+                case "GeneralInstrumentAirFailure":
                     factor = model.AutomaticControlsFailure;
                     break;
             }

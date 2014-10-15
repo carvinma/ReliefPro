@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using NHibernate;
@@ -13,6 +12,11 @@ using ReliefProMain.Models;
 using ReliefProMain.Util;
 using ReliefProModel.GlobalDefault;
 using UOMLib;
+using System.Windows;
+using ReliefProDAL;
+using ReliefProModel;
+using ReliefProBLL.Common;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel
 {
@@ -27,14 +31,15 @@ namespace ReliefProMain.ViewModel
         public UOMLib.UOMEnum uomEnum { get; set; }
         private string TargetUnit;
         private ISession SessionPlant;
-        public GlobalDefaultVM(ISession sessionPlant)
+        private string DirPlant;
+        public GlobalDefaultVM(ISession sessionPlant,string DirPlant)
         {
             SessionPlant = sessionPlant;
+            this.DirPlant = DirPlant;
             uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             OKCMD = new DelegateCommand<object>(Save);
             DelCMD = new DelegateCommand<object>(DelRow);
             AddCMD = new DelegateCommand<object>(AddRow);
-
             model = new GlobalDefaultModel();
             globalDefaultBLL = new GlobalDefaultBLL(SessionPlant);
             var lstFlareSystem = globalDefaultBLL.GetFlareSystem();
@@ -108,13 +113,59 @@ namespace ReliefProMain.ViewModel
                 System.Windows.Window wd = obj as System.Windows.Window;
                 if (wd != null)
                 {
+                    bool IsEdit = IsChange();                   
                     if (CheckFlareData())
                     {
-                        WriteConvertModel();
+                        if (IsEdit)
+                        {
+                            bool IsExistSC=false;
+                            TreeUnitDAL unitdal=new TreeUnitDAL();
+                            IList<TreeUnit>unitlist=unitdal.GetAllList(SessionPlant);
+                            foreach (TreeUnit unit in unitlist)
+                            {
+                                TreePSDAL psdal = new TreePSDAL();
+                                IList<TreePS> list = psdal.GetAllList(unit.ID, SessionPlant);
+                                foreach (TreePS ps in list)
+                                {
+                                    string dbPath = DirPlant + @"\" + unit.UnitName + @"\" + ps.PSName + @"\protectedsystem.mdb";                                   
+                                    using (var helper = new NHibernateHelper(dbPath))
+                                    {
+                                        ISession Session = helper.GetCurrentSession();
+                                        ScenarioDAL scdal = new ScenarioDAL();
+                                        IList<Scenario> scList = scdal.GetAllList(Session);
+                                        if (scList.Count > 0)
+                                        {
+                                            IsExistSC = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (IsExistSC)
+                                    break;
+                            }
 
-                        globalDefaultBLL.Save(model.lstFlareSystem.Select(p => p.dbmodel).ToList(), model.conditSetModel);
-                        wd.DialogResult = true;
+                            if (IsExistSC)
+                            {
+                                MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it will delete all Scenario", "Message Box", MessageBoxButton.YesNo);
+                                if (r == MessageBoxResult.Yes)
+                                {
+                                    //ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
+                                    //scBLL.DeleteSCOther();
+                                    //scBLL.DeleteScenario();
+                                    WriteConvertModel();
+                                    globalDefaultBLL.Save(model.lstFlareSystem.Select(p => p.dbmodel).ToList(), model.conditSetModel);
+                                }                               
+                            }
+                            else
+                            {
+                                WriteConvertModel();
+                                globalDefaultBLL.Save(model.lstFlareSystem.Select(p => p.dbmodel).ToList(), model.conditSetModel);
+                            }
+                            wd.DialogResult = true;
+                        }
                     }
+                    
+                    
                 }
             }
         }
@@ -139,6 +190,23 @@ namespace ReliefProMain.ViewModel
                     t.DesignBackPressure = UnitConvert.Convert(OrigionUnit.ToString(), TargetUnit.ToString(), t.DesignBackPressure);
                 }
             }
+        }
+
+        public bool IsChange()
+        {
+            bool b = false;
+            ConditionsSettings cs= globalDefaultBLL.GetConditionsSettings();
+            if (model.SteamCondition != cs.SteamCondition || model.AirCondition != cs.AirCondition || model.CoolingWaterCondition != cs.CoolingWaterCondition)
+            {
+                return true;
+            }
+            if (model.DrumSurgeTimeSettings != cs.DrumSurgeTimeSettings || model.LatentHeatSettings != cs.LatentHeatSettings)
+            {
+                return true;
+            }
+
+
+            return b;
         }
     }
 }
