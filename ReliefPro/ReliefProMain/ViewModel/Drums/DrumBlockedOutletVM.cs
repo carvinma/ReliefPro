@@ -89,90 +89,106 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void CalcResult(object obj)
         {
-            if (!model.CheckData()) return;
-            reliefPressure = drum.ScenarioReliefPressure(SessionPS);
-            string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
-            string liquid = "L_" + Guid.NewGuid().ToString().Substring(0, 6);
-            string tempdir = DirProtectedSystem + @"\BlockedOutlet";
-            if (!Directory.Exists(tempdir))
+            try
             {
-                Directory.CreateDirectory(tempdir);
-            }
-            string duty = "0";
-            double feedupPress = model.MaxPressure;
-            double setPress = drum.PSet(SessionPS);
-            if (feedupPress > setPress)
-            {
-                PSVDAL psvdal = new PSVDAL();
-                PSV psv = psvdal.GetModel(SessionPS);
-                if (reliefPressure > psv.CriticalPressure)
+                SplashScreenManager.Show();
+                if (!model.CheckData()) return;
+                SplashScreenManager.SentMsgToScreen("Getting Relief Pressure");
+                reliefPressure = drum.ScenarioReliefPressure(SessionPS);
+                string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
+                string liquid = "L_" + Guid.NewGuid().ToString().Substring(0, 6);
+                string tempdir = DirProtectedSystem + @"\BlockedOutlet";
+                if (!Directory.Exists(tempdir))
                 {
-                    CustomStream cs = drum.Feeds[0];                   
-                    model.ReliefLoad = 116;
-                    model.ReliefPressure = reliefPressure;
-                    model.ReliefTemperature = psv.CriticalTemperature;
-                    model.ReliefMW = reliefMW;
-                    model.ReliefCpCv = cs.BulkCPCVRatio;
-                    model.ReliefZ = cs.VaporZFmKVal;
-                    if (model.ReliefLoad < 0)
-                        model.ReliefLoad = 0;
+                    Directory.CreateDirectory(tempdir);
                 }
-                else
+                string duty = "0";
+                double feedupPress = model.MaxPressure;
+                double setPress = drum.PSet(SessionPS);
+                if (feedupPress > setPress)
                 {
-                    string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
-                    string content = PROIIFileOperator.getUsableContent(drum.Feeds[0].StreamName, dir);
-                    if (model.DrumType == "Flashing Drum")
+                    SplashScreenManager.SentMsgToScreen("Getting PSV Data");
+                    PSVDAL psvdal = new PSVDAL();
+                    PSV psv = psvdal.GetModel(SessionPS);
+                    if (reliefPressure > psv.CriticalPressure)
                     {
-                        duty = (model.NormalFlashDuty / Math.Pow(10, 6)).ToString();
-                    }
-                    IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-                    int ImportResult = 0;
-                    int RunResult = 0;
-                    string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, drum.Feeds[0], vapor, liquid, tempdir, ref ImportResult, ref RunResult);
-                    if (ImportResult == 1 || ImportResult == 2)
-                    {
-                        if (RunResult == 1 || RunResult == 2)
-                        {
-                            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                            reader.InitProIIReader(f);
-                            ProIIStreamData proIIvapor = reader.GetSteamInfo(vapor);
-                            reader.ReleaseProIIReader();
-                            CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
-
-                            reliefMW = cs.BulkMwOfPhase;
-                            reliefT = cs.Temperature;
-                            reliefLoad = cs.WeightFlow;
-                            model.ReliefLoad = reliefLoad;
-                            model.ReliefPressure = reliefPressure;
-                            model.ReliefTemperature = reliefT;
-                            model.ReliefMW = reliefMW;
-                            model.ReliefCpCv = cs.BulkCPCVRatio;
-                            model.ReliefZ = cs.VaporZFmKVal;
-                            if (model.ReliefLoad < 0)
-                                model.ReliefLoad = 0;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Prz file is error", "Message Box");
-                            return;
-                        }
+                        SplashScreenManager.SentMsgToScreen("Calculating");
+                        CustomStream cs = drum.Feeds[0];
+                        model.ReliefLoad = 116;
+                        model.ReliefPressure = reliefPressure;
+                        model.ReliefTemperature = psv.CriticalTemperature;
+                        model.ReliefMW = reliefMW;
+                        model.ReliefCpCv = cs.BulkCPCVRatio;
+                        model.ReliefZ = cs.VaporZFmKVal;
+                        if (model.ReliefLoad < 0)
+                            model.ReliefLoad = 0;
                     }
                     else
                     {
-                        MessageBox.Show("inp file is error", "Message Box");
-                        return;
+                        string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
+                        SplashScreenManager.SentMsgToScreen("Getting Usable Content");
+                        string content = PROIIFileOperator.getUsableContent(drum.Feeds[0].StreamName, dir);
+                        if (model.DrumType == "Flashing Drum")
+                        {
+                            duty = (model.NormalFlashDuty / Math.Pow(10, 6)).ToString();
+                        }
+                        SplashScreenManager.SentMsgToScreen("Calculating");
+                        IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+                        int ImportResult = 0;
+                        int RunResult = 0;
+                        string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, drum.Feeds[0], vapor, liquid, tempdir, ref ImportResult, ref RunResult);
+                        if (ImportResult == 1 || ImportResult == 2)
+                        {
+                            if (RunResult == 1 || RunResult == 2)
+                            {
+                                IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                                reader.InitProIIReader(f);
+                                ProIIStreamData proIIvapor = reader.GetSteamInfo(vapor);
+                                reader.ReleaseProIIReader();
+                                CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
+
+                                reliefMW = cs.BulkMwOfPhase;
+                                reliefT = cs.Temperature;
+                                reliefLoad = cs.WeightFlow;
+                                model.ReliefLoad = reliefLoad;
+                                model.ReliefPressure = reliefPressure;
+                                model.ReliefTemperature = reliefT;
+                                model.ReliefMW = reliefMW;
+                                model.ReliefCpCv = cs.BulkCPCVRatio;
+                                model.ReliefZ = cs.VaporZFmKVal;
+                                if (model.ReliefLoad < 0)
+                                    model.ReliefLoad = 0;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Prz file is error", "Message Box");
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("inp file is error", "Message Box");
+                            return;
+                        }
                     }
                 }
+                else
+                {
+                    reliefLoad = 0;
+                    model.ReliefLoad = reliefLoad;
+                    model.ReliefPressure = reliefPressure;
+                    model.ReliefTemperature = reliefT;
+                    model.ReliefMW = reliefMW;
+                    model.ReliefCpCv = 0;
+                    model.ReliefZ = 0;
+                }
+                SplashScreenManager.SentMsgToScreen("Done");
             }
-            else
+            catch
+            { }
+            finally
             {
-                reliefLoad = 0;
-                model.ReliefLoad = reliefLoad;
-                model.ReliefPressure = reliefPressure;
-                model.ReliefTemperature = reliefT;
-                model.ReliefMW = reliefMW;
-                model.ReliefCpCv = 0;
-                model.ReliefZ = 0;
+                SplashScreenManager.Close();
             }
             
 
