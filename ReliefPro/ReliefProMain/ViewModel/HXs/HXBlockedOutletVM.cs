@@ -121,81 +121,93 @@ namespace ReliefProMain.ViewModel.HXs
         private void CalcResult(object obj)
         {
             //if (!model.CheckData()) return; 
-            double Q = model.NormalDuty;
-
-
-            double tAvg = 0.5 * (normalColdInlet.Temperature + normalColdOutlet.Temperature);
-
-            PSVDAL psvDAL = new PSVDAL();
-            PSV psv = psvDAL.GetModel(SessionPS);
-            double pressure = psv.Pressure;
-
-            double reliefPressure = pressure * psv.ReliefPressureFactor;
-
-            CustomStream stream = normalColdInlet;
-            if (reliefPressure > psv.CriticalPressure)
+            try
             {
-                CustomStream cs = stream;
-                double reliefMW = cs.BulkMwOfPhase;
-                model.ReliefLoad = 116;
-                model.ReliefPressure = reliefPressure;
-                model.ReliefTemperature = psv.CriticalTemperature;
-                model.ReliefMW = reliefMW;
-                model.ReliefCpCv = cs.BulkCPCVRatio;
-                model.ReliefZ = cs.VaporZFmKVal;
-                return;
-            }
+                SplashScreenManager.Show();
+                SplashScreenManager.SentMsgToScreen("Getting PSV Data");
+                double Q = model.NormalDuty;
+                double tAvg = 0.5 * (normalColdInlet.Temperature + normalColdOutlet.Temperature);
 
-            string tempdir = DirProtectedSystem + @"\temp\";
-            string dirLatent = tempdir + "BlockedOutlet";
-            if (!Directory.Exists(dirLatent))
-                Directory.CreateDirectory(dirLatent);
-            string gd = Guid.NewGuid().ToString();
-            string vapor = "S_" + gd.Substring(0, 5).ToUpper();
-            string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
-            int ImportResult = 0;
-            int RunResult = 0;
-            PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
-            string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 3, "0", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
-            if (ImportResult == 1 || ImportResult == 2)
-            {
-                if (RunResult == 1 || RunResult == 2)
+                PSVDAL psvDAL = new PSVDAL();
+                PSV psv = psvDAL.GetModel(SessionPS);
+                double pressure = psv.Pressure;
+
+                double reliefPressure = pressure * psv.ReliefPressureFactor;
+
+                CustomStream stream = normalColdInlet;
+                if (reliefPressure > psv.CriticalPressure)
                 {
-                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(tray1_f);
-                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
-                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
-                    ProIIEqData flash = reader.GetEqInfo("Flash", "F_1");
-                    reader.ReleaseProIIReader();
-                    CustomStream liquidcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
-                    CustomStream vaporcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
-                    double latent = vaporcs.SpEnthalpy - liquidcs.SpEnthalpy;
-                    //double tcoldbprelief =  double.Parse(flash.TempCalc);//转换单位
-
-                    double tcoldbprelief = UnitConvert.Convert("K", "C", double.Parse(flash.TempCalc));
-                    model.LatentPoint = latent;
-                    model.ReliefLoad = Q / latent * (model.NormalHotTemperature - tcoldbprelief) / (model.NormalHotTemperature - tAvg);
-                    if (model.ReliefLoad < 0 || tcoldbprelief > model.NormalHotTemperature)
-                        model.ReliefLoad = 0;
-                    model.ReliefMW = vaporcs.BulkMwOfPhase;
+                    CustomStream cs = stream;
+                    double reliefMW = cs.BulkMwOfPhase;
+                    model.ReliefLoad = 116;
                     model.ReliefPressure = reliefPressure;
-                    model.ReliefTemperature = vaporcs.Temperature;
-
+                    model.ReliefTemperature = psv.CriticalTemperature;
+                    model.ReliefMW = reliefMW;
+                    model.ReliefCpCv = cs.BulkCPCVRatio;
+                    model.ReliefZ = cs.VaporZFmKVal;
+                    return;
                 }
+                SplashScreenManager.SentMsgToScreen("Decompressing ProII File");
+                string tempdir = DirProtectedSystem + @"\temp\";
+                string dirLatent = tempdir + "BlockedOutlet";
+                if (!Directory.Exists(dirLatent))
+                    Directory.CreateDirectory(dirLatent);
+                string gd = Guid.NewGuid().ToString();
+                string vapor = "S_" + gd.Substring(0, 5).ToUpper();
+                string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
+                int ImportResult = 0;
+                int RunResult = 0;
+                PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+                SplashScreenManager.SentMsgToScreen("Getting Usable Content");
+                string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
+                SplashScreenManager.SentMsgToScreen("Calculating");
+                IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+                string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 3, "0", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+                if (ImportResult == 1 || ImportResult == 2)
+                {
+                    if (RunResult == 1 || RunResult == 2)
+                    {
+                        IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                        reader.InitProIIReader(tray1_f);
+                        ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                        ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                        ProIIEqData flash = reader.GetEqInfo("Flash", "F_1");
+                        reader.ReleaseProIIReader();
+                        CustomStream liquidcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
+                        CustomStream vaporcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
+                        double latent = vaporcs.SpEnthalpy - liquidcs.SpEnthalpy;
+                        //double tcoldbprelief =  double.Parse(flash.TempCalc);//转换单位
 
+                        double tcoldbprelief = UnitConvert.Convert("K", "C", double.Parse(flash.TempCalc));
+                        model.LatentPoint = latent;
+                        model.ReliefLoad = Q / latent * (model.NormalHotTemperature - tcoldbprelief) / (model.NormalHotTemperature - tAvg);
+                        if (model.ReliefLoad < 0 || tcoldbprelief > model.NormalHotTemperature)
+                            model.ReliefLoad = 0;
+                        model.ReliefMW = vaporcs.BulkMwOfPhase;
+                        model.ReliefPressure = reliefPressure;
+                        model.ReliefTemperature = vaporcs.Temperature;
+
+                    }
+
+                    else
+                    {
+                        MessageBox.Show("Prz file is error", "Message Box");
+                    }
+                }
                 else
                 {
-                    MessageBox.Show("Prz file is error", "Message Box");
+                    MessageBox.Show("inp file is error", "Message Box");
+
                 }
+                SplashScreenManager.SentMsgToScreen("Done");
+
             }
-            else
+            catch (Exception ex)
+            { }
+            finally
             {
-                MessageBox.Show("inp file is error", "Message Box");
-
+                SplashScreenManager.Close();
             }
-
         }
         private void Save(object obj)
         {
