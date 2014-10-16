@@ -193,29 +193,38 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private void Run(object obj)
         {
-            double reliefload = 0;
-            foreach (TowerFireEqModel eqm in EqList)
+            try
             {
-                if (eqm.FireZone)
+                SplashScreenManager.Show();
+                double reliefload = 0;
+                foreach (TowerFireEqModel eqm in EqList)
                 {
-                    reliefload = reliefload + eqm.ReliefLoad;
+                    if (eqm.FireZone)
+                    {
+                        reliefload = reliefload + eqm.ReliefLoad;
+                    }
                 }
-            }
-            MainModel.ReliefLoad = reliefload;
+                MainModel.ReliefLoad = reliefload;
 
-            if (TowerInfo.TowerType == "Distillation")
-            {
-                CalDisReliefOther();
+                if (TowerInfo.TowerType == "Distillation")
+                {
+                    CalDisReliefOther();
+                }
+                else if (TowerInfo.TowerType == "Absorber")
+                {
+                    //求latent 时已经计算过了
+                }
+                else
+                {
+                    //求latent 时已经计算过了
+                }
+                SplashScreenManager.SentMsgToScreen("Done");
             }
-            else if (TowerInfo.TowerType == "Absorber")
+            catch { }
+            finally
             {
-                //求latent 时已经计算过了
+                SplashScreenManager.Close();
             }
-            else
-            {
-                //求latent 时已经计算过了
-            }
-
 
         }
 
@@ -418,6 +427,7 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private void CalDisReliefOther()
         {
+            SplashScreenManager.SentMsgToScreen("Getting PSV Data");
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionProtectedSystem);
             double pressure = psv.Pressure;
@@ -428,6 +438,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             if (!Directory.Exists(dirLatent))
                 Directory.CreateDirectory(dirLatent);
 
+            SplashScreenManager.SentMsgToScreen("Getting Data From ProII Files");
             IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
             reader.InitProIIReader(FileFullPath);
             ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 1, 2, 1);
@@ -440,9 +451,11 @@ namespace ReliefProMain.ViewModel.TowerFires
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
             int ImportResult = 0;
             int RunResult = 0;
+            SplashScreenManager.SentMsgToScreen("Decompressing ProII Files");
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+            SplashScreenManager.SentMsgToScreen("Calculating");
             string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 4, "", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
