@@ -340,17 +340,27 @@ namespace ReliefProMain.ViewModel
 
         private void Calc(object window)
         {
-            TowerDAL towerdal = new TowerDAL();
-            tower = towerdal.GetModel(SessionProtectedSystem);
-            if (tower.TowerType == "Distillation")
+            try
             {
-                CalcDistillation();
+                SplashScreenManager.Show();
+                TowerDAL towerdal = new TowerDAL();
+                tower = towerdal.GetModel(SessionProtectedSystem);
+                if (tower.TowerType == "Distillation")
+                {
+                    SplashScreenManager.SentMsgToScreen("Calculating Distillation");
+                    CalcDistillation();
+                }
+                else if (tower.TowerType == "Absorbent Regenerator")
+                {
+                    SplashScreenManager.SentMsgToScreen("Calculating Absorbent Regenerator");
+                    CalcRegenerator();
+                }
+                SplashScreenManager.SentMsgToScreen("Done");
             }
-            else if (tower.TowerType == "Absorbent Regenerator")
-            {
-                CalcRegenerator();
+            catch { }
+            finally {
+                SplashScreenManager.Close();
             }
-
         }
 
         private void Balance()
@@ -495,10 +505,12 @@ namespace ReliefProMain.ViewModel
             double reliefPressure = 0;
             if (SteamFreezed == 0)
             {
+                SplashScreenManager.SentMsgToScreen("Calculating Steam Not Freezed Data");
                 SteamNotFreezedMethod(ref  reliefLoad, ref  reliefMW, ref  reliefTemperature, ref  reliefPressure);
             }
             else if (SteamFreezed == 1)
             {
+                SplashScreenManager.SentMsgToScreen("Calculating Steam Freezed Data");
                 SteamFreezedMethod(ref  reliefLoad, ref  reliefMW, ref  reliefTemperature, ref  reliefPressure);
             }
             else
@@ -507,7 +519,9 @@ namespace ReliefProMain.ViewModel
                 double reliefMW1 = 0;
                 double reliefTemperature1 = 0;
                 double reliefPressure1 = 0;
+                SplashScreenManager.SentMsgToScreen("Calculating Steam Not Freezed Data");
                 SteamNotFreezedMethod(ref  reliefLoad, ref  reliefMW, ref  reliefTemperature, ref  reliefPressure);
+                SplashScreenManager.SentMsgToScreen("Calculating Steam Freezed Data");
                 SteamFreezedMethod(ref  reliefLoad1, ref  reliefMW1, ref  reliefTemperature1, ref  reliefPressure1);
                 if (reliefLoad < reliefLoad1)
                 {
@@ -526,6 +540,7 @@ namespace ReliefProMain.ViewModel
 
         private void CalcRegenerator()
         {
+            SplashScreenManager.SentMsgToScreen("Getting Usable Data");
             LatentDAL ltdal = new LatentDAL();
             TowerScenarioHXDAL dbTSHX = new TowerScenarioHXDAL();
             TowerHXDetailDAL dbDetail = new TowerHXDetailDAL();
@@ -583,7 +598,8 @@ namespace ReliefProMain.ViewModel
         }
 
         private void CalRegSC(double duty)
-        {            
+        {
+            SplashScreenManager.SentMsgToScreen("Getting Data From ProII Files");
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionProtectedSystem);
             double pressure = psv.Pressure;
@@ -609,7 +625,7 @@ namespace ReliefProMain.ViewModel
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-
+            SplashScreenManager.SentMsgToScreen("Calculating");
             //除以10的6次方
             string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 5, (duty / Math.Pow(10, 6)).ToString(), stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
