@@ -86,11 +86,15 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private void RunSimulation(object obj)
         {
             //run prz file ,then compare hx duty
+            SplashScreenManager.Show();
+            SplashScreenManager.SentMsgToScreen("Reading Data From ProII Files");
             double diff = 1;
             bool b = true;
             ProIIEqDataDAL dal = new ProIIEqDataDAL();
             IProIIReader reader = ProIIFactory.CreateReader(przVersion);
             reader.InitProIIReader(newPrzFile);
+            SplashScreenManager.SentMsgToScreen("Done");
+            SplashScreenManager.Close();
             foreach (string s in hxs)
             {
                 ProIIEqData eq1 = dal.GetModel(SessionPlant, przFileName, s);
