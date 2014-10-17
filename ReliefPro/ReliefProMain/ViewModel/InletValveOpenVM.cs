@@ -68,17 +68,7 @@ namespace ReliefProMain.ViewModel
 
                 if (!string.IsNullOrEmpty(SelectedVessel))
                 {
-                    UpVesselType = dicEqData[SelectedVessel].EqType;
-                    if (UpVesselType == "Column")
-                    {
-                        UpStreamNames = GetTowerProducts(dicEqData[SelectedVessel]);
-                        MaxOperatingPressure = UpStreamVaporData.Pressure;
-                    }
-                    else
-                    {
-                        UpStreamNames = GetFlashProducts(dicEqData[SelectedVessel]);
-                        MaxOperatingPressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(dicEqData[_SelectedVessel].PressCalc));
-                    }
+                    UpVesselType = dicEqData[SelectedVessel].EqType;                    
                 }
 
                 OnPropertyChanged("SelectedVessel");
@@ -187,7 +177,6 @@ namespace ReliefProMain.ViewModel
         UOMLib.UOMEnum uomEnum;
         public InletValveOpenVM(int scenarioID, string eqName, string eqType, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
-
             SessionPlant = sessionPlant;
             uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             InitUnit();
@@ -265,7 +254,38 @@ namespace ReliefProMain.ViewModel
                 return _SaveCommand;
             }
         }
+        private ICommand _CalculatePressureCommand;
+        public ICommand CalculatePressureCommand
+        {
+            get
+            {
+                if (_CalculatePressureCommand == null)
+                {
+                    _CalculatePressureCommand = new RelayCommand(CalculatePressure);
 
+                }
+                return _CalculatePressureCommand;
+            }
+        }
+
+        private void CalculatePressure(object o)
+        {
+            SplashScreenManager.Show();
+            SplashScreenManager.SentMsgToScreen("Loading Data is in progress, please wait…");
+            if (UpVesselType == "Column")
+            {
+                UpStreamNames = GetTowerProducts(dicEqData[SelectedVessel]);
+                MaxOperatingPressure = UpStreamVaporData.Pressure;
+            }
+            else
+            {
+                UpStreamNames = GetFlashProducts(dicEqData[SelectedVessel]);
+                MaxOperatingPressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(dicEqData[_SelectedVessel].PressCalc));
+            }
+            SplashScreenManager.SentMsgToScreen("Loading finished");
+            SplashScreenManager.Close();
+        }
+        
         private void Save(object window)
         {
 
@@ -442,6 +462,7 @@ namespace ReliefProMain.ViewModel
 
         private void LiquidFlashing(double Rmass, double Cv, double UPStreamPressure, double DownStreamPressure, ref double FLReliefLoad, ref double FLReliefMW, ref double FLReliefTemperature)
         {
+            SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             string rMass = string.Empty;
 
             string dirInletValveOpen = tempdir + "InletValveOpen";
@@ -552,53 +573,66 @@ namespace ReliefProMain.ViewModel
                 MessageBox.Show("Max Operating Pressure can't be empty.", "Message Box");
                 return;
             }
-            double flReliefLoad = 0;
-            double flReliefMW = 0;
-            double flReliefTemperature = 0;
-            if (UpStreamLiquidData != null)
+            try
             {
-                rMass = UpStreamLiquidData.BulkDensityAct;
-                if (rMass != 0)
+                SplashScreenManager.Show();
+                SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
+                double flReliefLoad = 0;
+                double flReliefMW = 0;
+                double flReliefTemperature = 0;
+                if (UpStreamLiquidData != null)
                 {
-                    LiquidFlashing(rMass, CV, MaxOperatingPressure, ReliefPressure, ref flReliefLoad, ref flReliefMW, ref flReliefTemperature);
-                }
+                    rMass = UpStreamLiquidData.BulkDensityAct;
+                    if (rMass != 0)
+                    {
+                        LiquidFlashing(rMass, CV, MaxOperatingPressure, ReliefPressure, ref flReliefLoad, ref flReliefMW, ref flReliefTemperature);
+                    }
 
-            }
-            if (SelectedOperatingPhase == "Full Liquid")
-            {
-                ReliefLoad = flReliefLoad;
-                ReliefMW = flReliefMW;
-                ReliefTemperature = flReliefTemperature;
-            }
-            else
-            {
-                if (UpStreamVaporData == null)
+                }
+                if (SelectedOperatingPhase == "Full Liquid")
                 {
-                    ReliefLoad = 0;
+                    ReliefLoad = flReliefLoad;
+                    ReliefMW = flReliefMW;
+                    ReliefTemperature = flReliefTemperature;
                 }
                 else
                 {
-                    double vbReliefLoad = 0;
-                    double vbReliefMW = 0;
-                    double vbReliefTemperature = 0;
-                    rMass = UpStreamVaporData.BulkDensityAct;
-                    VaporBreakthrough(ref vbReliefLoad, ref vbReliefMW, ref vbReliefTemperature);
-                    if (vbReliefLoad > flReliefLoad)
+                    if (UpStreamVaporData == null)
                     {
-                        ReliefLoad = vbReliefLoad;
-                        ReliefMW = vbReliefMW;
-                        ReliefTemperature = vbReliefTemperature;
+                        ReliefLoad = 0;
                     }
                     else
                     {
-                        ReliefLoad = flReliefLoad;
-                        ReliefMW = flReliefMW;
-                        ReliefTemperature = flReliefTemperature;
+                        double vbReliefLoad = 0;
+                        double vbReliefMW = 0;
+                        double vbReliefTemperature = 0;
+                        rMass = UpStreamVaporData.BulkDensityAct;
+                        VaporBreakthrough(ref vbReliefLoad, ref vbReliefMW, ref vbReliefTemperature);
+                        if (vbReliefLoad > flReliefLoad)
+                        {
+                            ReliefLoad = vbReliefLoad;
+                            ReliefMW = vbReliefMW;
+                            ReliefTemperature = vbReliefTemperature;
+                        }
+                        else
+                        {
+                            ReliefLoad = flReliefLoad;
+                            ReliefMW = flReliefMW;
+                            ReliefTemperature = flReliefTemperature;
+                        }
+
+
                     }
 
-
                 }
+            }
+            catch (Exception ex)
+            {
 
+            }
+            finally
+            {
+                SplashScreenManager.Close();
             }
 
         }

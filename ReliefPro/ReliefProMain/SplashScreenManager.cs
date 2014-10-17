@@ -69,6 +69,8 @@ namespace ReliefProMain
                 splashScreen.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     splashScreen.Close();
+                    splashScreen = null;
+
                 }));
             }
         }

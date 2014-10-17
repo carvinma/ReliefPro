@@ -93,7 +93,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             ProIIEqDataDAL dal = new ProIIEqDataDAL();
             IProIIReader reader = ProIIFactory.CreateReader(przVersion);
             reader.InitProIIReader(newPrzFile);
-            SplashScreenManager.SentMsgToScreen("Done");
+            SplashScreenManager.SentMsgToScreen("Calculation finished");
             SplashScreenManager.Close();
             foreach (string s in hxs)
             {

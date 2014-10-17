@@ -196,6 +196,10 @@ namespace ReliefProMain.ViewModel
         {
             bool b = false;
             ConditionsSettings cs= globalDefaultBLL.GetConditionsSettings();
+            if (model != null && cs == null)
+            {
+                return true;
+            }
             if (model.SteamCondition != cs.SteamCondition || model.AirCondition != cs.AirCondition || model.CoolingWaterCondition != cs.CoolingWaterCondition)
             {
                 return true;

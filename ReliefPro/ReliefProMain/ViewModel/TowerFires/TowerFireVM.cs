@@ -88,6 +88,8 @@ namespace ReliefProMain.ViewModel.TowerFires
             TowerDAL towerdal = new TowerDAL();
             TowerInfo = towerdal.GetModel(SessionProtectedSystem);
 
+            SplashScreenManager.Show();
+            SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             if (TowerInfo.TowerType == "Distillation")
             {
                 LatentDAL dblatent = new LatentDAL();
@@ -101,7 +103,8 @@ namespace ReliefProMain.ViewModel.TowerFires
             {
                 latent = GetRegeneratorLatent();
             }
-
+            SplashScreenManager.SentMsgToScreen("Calculation finished");
+            SplashScreenManager.Close();
         }
 
         private ICommand _SaveCommand;
@@ -218,7 +221,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                 {
                     //求latent 时已经计算过了
                 }
-                SplashScreenManager.SentMsgToScreen("Done");
+                SplashScreenManager.SentMsgToScreen("Calculation finished");
             }
             catch { }
             finally
@@ -427,7 +430,7 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private void CalDisReliefOther()
         {
-            SplashScreenManager.SentMsgToScreen("Getting PSV Data");
+            SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionProtectedSystem);
             double pressure = psv.Pressure;
@@ -438,7 +441,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             if (!Directory.Exists(dirLatent))
                 Directory.CreateDirectory(dirLatent);
 
-            SplashScreenManager.SentMsgToScreen("Getting Data From ProII Files");
+            SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
             reader.InitProIIReader(FileFullPath);
             ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 1, 2, 1);
@@ -451,11 +454,11 @@ namespace ReliefProMain.ViewModel.TowerFires
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
             int ImportResult = 0;
             int RunResult = 0;
-            SplashScreenManager.SentMsgToScreen("Decompressing ProII Files");
+            SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            SplashScreenManager.SentMsgToScreen("Calculating");
+            SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 4, "", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
@@ -493,6 +496,7 @@ namespace ReliefProMain.ViewModel.TowerFires
         {
             if (MainModel.ReliefMW == 0)
             {
+
                 Latent lt = new Latent();
                 PSVDAL psvDAL = new PSVDAL();
                 PSV psv = psvDAL.GetModel(SessionProtectedSystem);
@@ -504,6 +508,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                 if (!Directory.Exists(dirLatent))
                     Directory.CreateDirectory(dirLatent);
 
+                SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
                 IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                 reader.InitProIIReader(FileFullPath);
                 ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, TowerInfo.StageNumber, 2, 1);
@@ -552,6 +557,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                     MessageBox.Show("inp file is error", "Message Box");
                     return null;
                 }
+
             }
             return null;
         }

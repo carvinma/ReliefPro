@@ -93,7 +93,7 @@ namespace ReliefProMain.ViewModel.Drums
             {
                 SplashScreenManager.Show();
                 if (!model.CheckData()) return;
-                SplashScreenManager.SentMsgToScreen("Getting Relief Pressure");
+                SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
                 reliefPressure = drum.ScenarioReliefPressure(SessionPS);
                 string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
                 string liquid = "L_" + Guid.NewGuid().ToString().Substring(0, 6);
@@ -107,12 +107,12 @@ namespace ReliefProMain.ViewModel.Drums
                 double setPress = drum.PSet(SessionPS);
                 if (feedupPress > setPress)
                 {
-                    SplashScreenManager.SentMsgToScreen("Getting PSV Data");
+                    SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
                     PSVDAL psvdal = new PSVDAL();
                     PSV psv = psvdal.GetModel(SessionPS);
                     if (reliefPressure > psv.CriticalPressure)
                     {
-                        SplashScreenManager.SentMsgToScreen("Calculating");
+                        SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
                         CustomStream cs = drum.Feeds[0];
                         model.ReliefLoad = 116;
                         model.ReliefPressure = reliefPressure;
@@ -126,13 +126,13 @@ namespace ReliefProMain.ViewModel.Drums
                     else
                     {
                         string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
-                        SplashScreenManager.SentMsgToScreen("Getting Usable Content");
+                        SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
                         string content = PROIIFileOperator.getUsableContent(drum.Feeds[0].StreamName, dir);
                         if (model.DrumType == "Flashing Drum")
                         {
                             duty = (model.NormalFlashDuty / Math.Pow(10, 6)).ToString();
                         }
-                        SplashScreenManager.SentMsgToScreen("Calculating");
+                        SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
                         IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
                         int ImportResult = 0;
                         int RunResult = 0;
@@ -182,7 +182,7 @@ namespace ReliefProMain.ViewModel.Drums
                     model.ReliefCpCv = 0;
                     model.ReliefZ = 0;
                 }
-                SplashScreenManager.SentMsgToScreen("Done");
+                SplashScreenManager.SentMsgToScreen("Calculation finished");
             }
             catch
             { }

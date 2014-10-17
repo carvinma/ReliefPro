@@ -40,6 +40,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
         public ICommand NetworkHXAddCMD { get; set; }
         public ICommand NetworkHXDelCMD { get; set; }
+
         
         private ISession SessionPS;
         private ISession SessionPF;
@@ -134,7 +135,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         select s;
             foreach (ProIIEqData eq in query.ToList())
             {
-                if (reactorType == 0)
+                if (reactorType == 0 || reactorType == 3)
                 {
                     string[] arr1 = eq.FeedData.Split(',');
                     string[] arr2 = eq.ProductData.Split(',');
@@ -143,10 +144,12 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         ReactorLoopDetail d = new ReactorLoopDetail();
                         d.DetailInfo = eq.EqName;
                         d.ReactorType = reactorType;
+                        d.ReactorLoopID_Color = "0";
                         rlt.Add(d);
                     }
                 }
-                else if (reactorType == 1)
+                
+                if (reactorType == 1 || reactorType == 3)
                 {
                     string[] arr1 = eq.FeedData.Split(',');
                     string[] arr2 = eq.ProductData.Split(',');
@@ -155,16 +158,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         ReactorLoopDetail d = new ReactorLoopDetail();
                         d.DetailInfo = eq.EqName;
                         d.ReactorType = reactorType;
+                        d.ReactorLoopID_Color = "1";
                         rlt.Add(d);
                     }
                 }
-                else
-                {
-                    ReactorLoopDetail d = new ReactorLoopDetail();
-                    d.DetailInfo = eq.EqName;
-                    d.ReactorType = reactorType;
-                    rlt.Add(d);
-                }
+                
             }
             return rlt;
         }
@@ -239,7 +237,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 string str = model.SelectedHXSourceModel.DetailInfo;
                 model.ObcProcessHX.Add(model.SelectedHXSourceModel);
                 
-                var find2 = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == str && p.ReactorType == 3);
+                var find2 = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == str );
                 model.ObcNetworkHXSource.Remove(find2);
 
                 model.ObcProcessHXSource.Remove(model.SelectedHXSourceModel);
@@ -252,12 +250,12 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 string str = model.SelectedHXModel.DetailInfo;
                 model.ObcProcessHXSource.Add(model.SelectedHXModel);
-
                 ReactorLoopDetail detail3 = model.SelectedHXModel;
+
                 detail3.ReactorType = 3;
                 model.ObcNetworkHXSource.Add(detail3);
 
-                var find = model.ObcProcessHX.FirstOrDefault(p => p.DetailInfo == str && p.ReactorType == 0);
+                var find = model.ObcProcessHX.FirstOrDefault(p => p.DetailInfo == str);
                 model.ObcProcessHX.Remove(find);
             }
         }
@@ -270,7 +268,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
                 model.ObcUtilityHXSource.Remove(model.SelectedUtilityHXSourceModel);
                
-                var find2 = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == str && p.ReactorType == 3);
+                var find2 = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == str );
                 model.ObcNetworkHXSource.Remove(find2);
             }
         }
@@ -285,7 +283,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 network.ReactorType = 3;
                 model.ObcNetworkHXSource.Add(network);
 
-                var find = model.ObcUtilityHX.FirstOrDefault(p => p.DetailInfo == str && p.ReactorType == 2);
+                var find = model.ObcUtilityHX.FirstOrDefault(p => p.DetailInfo == str);
                 model.ObcUtilityHX.Remove(find);
 
             }
@@ -298,12 +296,12 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 string str = model.SelectedNetworkHXSourceModel.DetailInfo;
                 model.ObcNetworkHX.Add(model.SelectedNetworkHXSourceModel);
                                 
-                var find2 = model.ObcUtilityHXSource.FirstOrDefault(p => p.DetailInfo == str && p.ReactorType == 1);
+                var find2 = model.ObcUtilityHXSource.FirstOrDefault(p => p.DetailInfo == str );
                 if (find2 != null)
                 {
                     model.ObcUtilityHXSource.Remove(find2);
                 }
-                var find3 = model.ObcProcessHXSource.FirstOrDefault(p => p.DetailInfo == str && p.ReactorType == 0);
+                var find3 = model.ObcProcessHXSource.FirstOrDefault(p => p.DetailInfo == str );
                 if (find3 != null)
                 {
                     model.ObcProcessHXSource.Remove(find3);
@@ -318,15 +316,19 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 string str = model.SelectedNetworkHXModel.DetailInfo;
                 model.ObcNetworkHXSource.Add(model.SelectedNetworkHXModel);
 
-                ReactorLoopDetail detail3 = model.SelectedNetworkHXModel;
-                detail3.ReactorType = 1;
-                model.ObcUtilityHXSource.Add(detail3);
-
-                ReactorLoopDetail detail0 = model.SelectedNetworkHXModel;
-                detail0.ReactorType = 0;
-                model.ObcProcessHXSource.Add(detail0);
-
-                var find = model.ObcNetworkHX.FirstOrDefault(p => p.DetailInfo == str && p.ReactorType == 0);
+                if (model.SelectedNetworkHXModel.ReactorLoopID_Color == "1")
+                {
+                    ReactorLoopDetail detail3 = model.SelectedNetworkHXModel;
+                    detail3.ReactorType = 1;
+                    model.ObcUtilityHXSource.Add(detail3);
+                }
+                else
+                {
+                    ReactorLoopDetail detail0 = model.SelectedNetworkHXModel;
+                    detail0.ReactorType = 0;
+                    model.ObcProcessHXSource.Add(detail0);
+                }
+                var find = model.ObcNetworkHX.FirstOrDefault(p => p.DetailInfo == str );
                 model.ObcNetworkHX.Remove(find);
             }
         }
@@ -337,7 +339,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             if (model.SelectedMixerModel != null)
             {
                 model.ObcMixerSplitter.Add(model.SelectedMixerModel);
-                var find = model.ObcMixerSplitterSource.FirstOrDefault(p => p.DetailInfo == model.SelectedMixerModel.DetailInfo && p.ReactorType == 2);
+                var find = model.ObcMixerSplitterSource.FirstOrDefault(p => p.DetailInfo == model.SelectedMixerModel.DetailInfo );
                 model.ObcMixerSplitterSource.Remove(find);
             }
         }
@@ -346,7 +348,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             if (model.SelectedMixerSourceModel != null)
             {
                 model.ObcMixerSplitterSource.Add(model.SelectedMixerSourceModel);
-                var find = model.ObcMixerSplitter.FirstOrDefault(p => p.DetailInfo == model.SelectedMixerSourceModel.DetailInfo && p.ReactorType == 2);
+                var find = model.ObcMixerSplitter.FirstOrDefault(p => p.DetailInfo == model.SelectedMixerSourceModel.DetailInfo );
                 model.ObcMixerSplitter.Remove(model.SelectedMixerSourceModel);
             }
         }

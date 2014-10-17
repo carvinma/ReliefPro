@@ -124,7 +124,7 @@ namespace ReliefProMain.ViewModel.HXs
             try
             {
                 SplashScreenManager.Show();
-                SplashScreenManager.SentMsgToScreen("Getting PSV Data");
+                SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
                 double Q = model.NormalDuty;
                 double tAvg = 0.5 * (normalColdInlet.Temperature + normalColdOutlet.Temperature);
 
@@ -147,7 +147,7 @@ namespace ReliefProMain.ViewModel.HXs
                     model.ReliefZ = cs.VaporZFmKVal;
                     return;
                 }
-                SplashScreenManager.SentMsgToScreen("Decompressing ProII File");
+                SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
                 string tempdir = DirProtectedSystem + @"\temp\";
                 string dirLatent = tempdir + "BlockedOutlet";
                 if (!Directory.Exists(dirLatent))
@@ -158,9 +158,9 @@ namespace ReliefProMain.ViewModel.HXs
                 int ImportResult = 0;
                 int RunResult = 0;
                 PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
-                SplashScreenManager.SentMsgToScreen("Getting Usable Content");
+                SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
                 string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-                SplashScreenManager.SentMsgToScreen("Calculating");
+                SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
                 IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
                 string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 3, "0", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
                 if (ImportResult == 1 || ImportResult == 2)
@@ -199,7 +199,7 @@ namespace ReliefProMain.ViewModel.HXs
                     MessageBox.Show("inp file is error", "Message Box");
 
                 }
-                SplashScreenManager.SentMsgToScreen("Done");
+                SplashScreenManager.SentMsgToScreen("Calculation finished");
 
             }
             catch (Exception ex)

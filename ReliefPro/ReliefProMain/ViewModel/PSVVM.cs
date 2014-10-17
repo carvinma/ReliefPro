@@ -282,7 +282,7 @@ namespace ReliefProMain.ViewModel
                     WriteConvert();
                     SplashScreenManager.SentMsgToScreen("Saving Data");
                     dbpsv.Add(CurrentModel.dbmodel, SessionProtectedSystem);
-                    SplashScreenManager.SentMsgToScreen("Done");
+                    SplashScreenManager.SentMsgToScreen("Calculation finished");
                 }
                 else if (psv.ReliefPressureFactor == CurrentModel.ReliefPressureFactor && psv.Pressure == CurrentModel.Pressure)
                 {
@@ -291,7 +291,7 @@ namespace ReliefProMain.ViewModel
                     WriteConvert();
                     SplashScreenManager.SentMsgToScreen("Saving Data");
                     dbpsv.Update(CurrentModel.dbmodel, SessionProtectedSystem);
-                    SplashScreenManager.SentMsgToScreen("Done");
+                    SplashScreenManager.SentMsgToScreen("Calculation finished");
                     //SessionProtectedSystem.Flush();
 
                 }
@@ -334,7 +334,7 @@ namespace ReliefProMain.ViewModel
                         WriteConvert();
                         SplashScreenManager.SentMsgToScreen("Saving Data");
                         dbpsv.Add(CurrentModel.dbmodel, SessionProtectedSystem);
-                        SplashScreenManager.SentMsgToScreen("Done");
+                        SplashScreenManager.SentMsgToScreen("Calculation finished");
                     }
                 }
                 //Thread.Sleep(3000);

@@ -355,7 +355,7 @@ namespace ReliefProMain.ViewModel
                     SplashScreenManager.SentMsgToScreen("Calculating Absorbent Regenerator");
                     CalcRegenerator();
                 }
-                SplashScreenManager.SentMsgToScreen("Done");
+                SplashScreenManager.SentMsgToScreen("Calculation finished");
             }
             catch { }
             finally {
