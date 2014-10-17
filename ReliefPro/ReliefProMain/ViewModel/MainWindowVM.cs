@@ -135,7 +135,7 @@ namespace ReliefProMain.ViewModel
                            {
                                isBusy = true;
                            }), null);
-
+                           Thread.Sleep(1000);
                        }).ContinueWith((t) =>
                        {
                            Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -225,7 +225,7 @@ namespace ReliefProMain.ViewModel
                             {
                                 isBusy = true;
                             }), null);
-
+                            Thread.Sleep(1000);
                         }).ContinueWith((t) =>
                         {
                             Application.Current.Dispatcher.Invoke(new Action(() =>
