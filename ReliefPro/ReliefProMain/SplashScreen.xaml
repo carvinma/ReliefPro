@@ -13,7 +13,7 @@
             <StackPanel Grid.Row="1" Orientation="Vertical">
                 <ProgressBar x:Name="progress" Maximum="5" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="6" Value="{Binding ProgressValue}" Height="6" Width="350">
                 </ProgressBar>
-                <Label  x:Name="txtInfo"  Content="{Binding Message}"  HorizontalAlignment="Center" Width="100" Margin="6"></Label>
+                <Label  x:Name="txtInfo"  Content="{Binding Message}"  HorizontalAlignment="Center" Width="300" Margin="6"></Label>
             </StackPanel>
         </Grid>
     </Grid>
