@@ -134,7 +134,6 @@ namespace ReliefProMain.ViewModel
                            Application.Current.Dispatcher.Invoke(new Action(() =>
                            {
                                isBusy = true;
-
                            }), null);
 
                        }).ContinueWith((t) =>
@@ -225,7 +224,6 @@ namespace ReliefProMain.ViewModel
                             Application.Current.Dispatcher.Invoke(new Action(() =>
                             {
                                 isBusy = true;
-
                             }), null);
 
                         }).ContinueWith((t) =>
