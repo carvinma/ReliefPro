@@ -270,25 +270,26 @@ namespace ReliefProMain.ViewModel
                     ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
                     scBLL.DeleteSCOther();
                     scBLL.ClearScenario();
-                    WriteConvert();
-                    AccumulatorDAL db = new AccumulatorDAL();
-
-                    CurrentAccumulator.AccumulatorName = AccumulatorName;
-                    CurrentAccumulator.Diameter = Diameter;
-                    CurrentAccumulator.Length = Length;
-                    CurrentAccumulator.NormalLiquidLevel = NormalLiquidLevel;
-                    CurrentAccumulator.AccumulatorName_Color = accumulatorName_Color;
-                    CurrentAccumulator.Diameter_Color = Diameter_Color;
-                    CurrentAccumulator.Length_Color = Length_Color;
-                    CurrentAccumulator.NormalLiquidLevel_Color = NormalLiquidLevel_Color;
-
-                    if (Horiz)
-                        CurrentAccumulator.Orientation = true;
-                    else
-                        CurrentAccumulator.Orientation = false;
-                    db.Update(CurrentAccumulator, SessionProtectedSystem);
+                    
                     //SessionProtectedSystem.Flush();
                 }
+                WriteConvert();
+                AccumulatorDAL db = new AccumulatorDAL();
+
+                CurrentAccumulator.AccumulatorName = AccumulatorName;
+                CurrentAccumulator.Diameter = Diameter;
+                CurrentAccumulator.Length = Length;
+                CurrentAccumulator.NormalLiquidLevel = NormalLiquidLevel;
+                CurrentAccumulator.AccumulatorName_Color = accumulatorName_Color;
+                CurrentAccumulator.Diameter_Color = Diameter_Color;
+                CurrentAccumulator.Length_Color = Length_Color;
+                CurrentAccumulator.NormalLiquidLevel_Color = NormalLiquidLevel_Color;
+
+                if (Horiz)
+                    CurrentAccumulator.Orientation = true;
+                else
+                    CurrentAccumulator.Orientation = false;
+                db.Update(CurrentAccumulator, SessionProtectedSystem);
                 
             }
 

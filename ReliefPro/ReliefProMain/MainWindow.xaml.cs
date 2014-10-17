@@ -503,25 +503,38 @@ namespace ReliefProMain
 
         private void ClosePlant()
         {
-            MessageBoxResult r = MessageBox.Show("Are you sure you want to close all plants?", "", MessageBoxButton.YesNoCancel);
-            if (r == MessageBoxResult.Yes)
+            ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
+            if (list.Count > 0)
             {
-                var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
-                if (firstDocumentPane != null)
+                MessageBoxResult r = MessageBox.Show("Are you sure you want to close all plants?", "", MessageBoxButton.YesNoCancel);
+                if (r == MessageBoxResult.Yes)
                 {
-                    if (firstDocumentPane.Children.Count > 0)
+                    var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+                    if (firstDocumentPane != null)
                     {
-                        MessageBox.Show("Please close all documents first!", "Message Box");
-                        return;
+                        if (firstDocumentPane.Children.Count > 0)
+                        {
+                            MessageBox.Show("Please close all documents first!", "Message Box");
+                            return;
+                        }
                     }
+                    SavePlant();
+
+                    list.Clear();
+                    btnReport.IsEnabled = false;
+                    btnUOM.IsEnabled = false;
+                    btnClosePlant.IsEnabled = false;
+                    btnGlobalDefault.IsEnabled = false;
+                    btnImport.IsEnabled = false;
+                    btnSavePlant.IsEnabled = false;
+
+                    itemClosePlant.IsEnabled = false;
+                    itemImport.IsEnabled = false;
+                    itemSavePlant.IsEnabled = false;
+                    itemSavePlantAs.IsEnabled = false;
+                    itemUOM.IsEnabled = false;
+
                 }
-                SavePlant();
-                ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
-                list.Clear();
-                btnReport.IsEnabled = false;
-                btnUOM.IsEnabled = false;
-                itemUOM.IsEnabled = false;
-                
             }
         }
 

@@ -34,10 +34,10 @@
                         <Separator />
                         <MenuItem Command="{Binding OpenPlantCommand}" Header="Open Plant" />
                         <Separator/>
-                        <MenuItem Click="MenuItem_Click" Header="Save Plant" />
-                        <MenuItem Click="MenuItem_Click" Header="Save As" />
+                    <MenuItem Name="itemSavePlant" Click="MenuItem_Click" Header="Save Plant" IsEnabled="{Binding IsOpenPlant}"/>
+                    <MenuItem Name="itemSavePlantAs" Click="MenuItem_Click" Header="Save As" IsEnabled="{Binding IsOpenPlant}"/>
                         <Separator/>
-                        <MenuItem Click="MenuItem_Click" Header="Close Plant"/>
+                    <MenuItem Name="itemClosePlant" Click="MenuItem_Click" Header="Close Plant" IsEnabled="{Binding IsOpenPlant}"/>
                         <Separator/>
                         <MenuItem Click="MenuItem_Click" Header="Exit"/>
                     </MenuItem> 
@@ -47,7 +47,7 @@
                         <!--<MenuItem Header="ICON"  Click="OnShowICON" />-->                       
                     </MenuItem>
                     <MenuItem Header="_Plant(P)" >
-                        <MenuItem Header="Import Simulation" Click="MenuItem_Click" />                       
+                    <MenuItem Name="itemImport" Header="Import Simulation" Click="MenuItem_Click" IsEnabled="{Binding IsOpenPlant}"/>                       
                     </MenuItem>
 
                     <MenuItem Header="Help(H)" >
@@ -72,15 +72,15 @@
                         <Button Name="btnOpenPlant" ToolTip="Open Plant" VerticalAlignment="Center" Command="{Binding OpenPlantCommand}">
                             <Image Source="images/openplant.ico"  Height="24" Width="24"></Image>
                         </Button>
-                        <Button Name="btnClosePlant" ToolTip="Close Plant" VerticalAlignment="Center"  Click="Button_Click">
+                        <Button Name="btnClosePlant" ToolTip="Close Plant" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
                             <Image Source="images/closeplant.ico"   Height="24" Width="24"></Image>
                         </Button>
-                       
-                        <Button Name="btnSaveProject" ToolTip="Save Plant" VerticalAlignment="Center"  Click="Button_Click">
+
+                        <Button Name="btnSavePlant" ToolTip="Save Plant" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
                             <Image Source="images/save.ico"   Height="24" Width="24"></Image>
                         </Button>
                         <Separator/>
-                        <Button  ToolTip="Import Simulation" VerticalAlignment="Center"  Click="Button_Click">
+                        <Button Name="btnImport" ToolTip="Import Simulation" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
                             <Image Source="images/ImportSimulation.ico"   Height="24" Width="24"></Image>
                         </Button>
                         <Button Name="btnReport" ToolTip="Report" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
@@ -91,7 +91,7 @@
                             <Image Source="/images/uom.ico" Height="24" Width="24"  ></Image>
                         </Button>
 
-                        <Button Name="btnGlobalDefault" ToolTip="Global Default" VerticalAlignment="Center"  Click="Button_Click">
+                        <Button Name="btnGlobalDefault" ToolTip="Global Default" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
                             <Image Source="/images/GlobalDefault.ico"   Height="24" Width="24"></Image>
                         </Button>
                         <Label Width="30"></Label>
