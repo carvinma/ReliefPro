@@ -15,7 +15,7 @@ namespace ReliefProMain
         /// <summary>
         /// 显示启动界面
         /// </summary>
-        public static void Show()
+        public static void Show(double maxValue=5)
         {
             if (splashScreen == null)
             {
@@ -23,7 +23,7 @@ namespace ReliefProMain
                 {
                     Thread t = new Thread(new ThreadStart(() =>
                     {
-                        CreateSplashScreen();
+                        CreateSplashScreen(maxValue);
                     }));
                     t.SetApartmentState(ApartmentState.STA);
                     t.Start();
@@ -35,9 +35,10 @@ namespace ReliefProMain
         /// <summary>
         ///实例化启动界面并显示
         /// </summary>
-        private static void CreateSplashScreen()
+        private static void CreateSplashScreen(double maxValue)
         {
             splashScreen = new SplashScreen();
+            splashScreen.SProgressValue = maxValue;
             splashScreen.Show();
             ManualRestEvent.Set();
             Dispatcher.Run();
