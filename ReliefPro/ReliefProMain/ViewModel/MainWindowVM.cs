@@ -43,6 +43,8 @@ using ReliefProMain.Models;
 using NHibernate;
 using ReliefProMain.Commands;
 using UOMLib;
+using System.Threading.Tasks;
+using System.Threading;
 namespace ReliefProMain.ViewModel
 {
     public class MainWindowVM : ViewModelBase
@@ -80,6 +82,19 @@ namespace ReliefProMain.ViewModel
 
         public ICommand ClosePlantCommand { get; set; }
 
+        private bool busy;
+        public bool isBusy
+        {
+            get
+            {
+                return busy;
+            }
+            set
+            {
+                busy = value;
+                this.NotifyPropertyChanged("isBusy");
+            }
+        }
 
 
         public MainWindowVM()
@@ -114,58 +129,79 @@ namespace ReliefProMain.ViewModel
                 saveFileDialog1.InitialDirectory = defaultReliefProDir;
                 if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    currentPlantFile = saveFileDialog1.FileName;
-                    currentPlantName = System.IO.Path.GetFileNameWithoutExtension(currentPlantFile);
-                    currentPlantWorkFolder = tempReliefProWorkDir + @"\" + currentPlantName;
-                    if (Directory.Exists(currentPlantWorkFolder))
-                    {
-                        Directory.Delete(currentPlantWorkFolder, true);
-                    }
-                    Directory.CreateDirectory(currentPlantWorkFolder);
-                    string dbPlant = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\plant.mdb";
-                    string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
-                    System.IO.File.Copy(dbPlant, dbPlant_target, true);
+                    Task.Factory.StartNew(() =>
+                       {
+                           Application.Current.Dispatcher.Invoke(new Action(() =>
+                           {
+                               isBusy = true;
 
-                    string unit1 = currentPlantWorkFolder + @"\Unit1";
-                    Directory.CreateDirectory(unit1);
-                    string protectedsystem1 = unit1 + @"\ProtectedSystem1";
-                    Directory.CreateDirectory(protectedsystem1);
-                    string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
-                    string dbProtectedSystem_target = protectedsystem1 + @"\protectedsystem.mdb";
-                    System.IO.File.Copy(dbProtectedSystem, dbProtectedSystem_target, true);
-                    string visioProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.vsd";
-                    string visioProtectedSystem_target = protectedsystem1 + @"\design.vsd";
-                    System.IO.File.Copy(visioProtectedSystem, visioProtectedSystem_target, true);
+                           }), null);
+
+                       }).ContinueWith((t) =>
+                       {
+                           Application.Current.Dispatcher.Invoke(new Action(() =>
+                          {
+                              currentPlantFile = saveFileDialog1.FileName;
+                              currentPlantName = System.IO.Path.GetFileNameWithoutExtension(currentPlantFile);
+                              currentPlantWorkFolder = tempReliefProWorkDir + @"\" + currentPlantName;
+                              if (Directory.Exists(currentPlantWorkFolder))
+                              {
+                                  Directory.Delete(currentPlantWorkFolder, true);
+                              }
+                              Directory.CreateDirectory(currentPlantWorkFolder);
+                              string dbPlant = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\plant.mdb";
+                              string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
+                              System.IO.File.Copy(dbPlant, dbPlant_target, true);
+
+                              string unit1 = currentPlantWorkFolder + @"\Unit1";
+                              Directory.CreateDirectory(unit1);
+                              string protectedsystem1 = unit1 + @"\ProtectedSystem1";
+                              Directory.CreateDirectory(protectedsystem1);
+                              string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
+                              string dbProtectedSystem_target = protectedsystem1 + @"\protectedsystem.mdb";
+                              System.IO.File.Copy(dbProtectedSystem, dbProtectedSystem_target, true);
+                              string visioProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.vsd";
+                              string visioProtectedSystem_target = protectedsystem1 + @"\design.vsd";
+                              System.IO.File.Copy(visioProtectedSystem, visioProtectedSystem_target, true);
 
 
-                    ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
-                    NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlant_target);
-                    ISession SessionPlant = helperProtectedSystem.GetCurrentSession();
-                    TreeUnitDAL treeUnitDAL = new TreeUnitDAL();
-                    TreeUnit treeUnit = new TreeUnit();
-                    treeUnit.UnitName = "Unit1";
-                    treeUnitDAL.Add(treeUnit, SessionPlant);
+                              ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
+                              NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlant_target);
+                              ISession SessionPlant = helperProtectedSystem.GetCurrentSession();
+                              TreeUnitDAL treeUnitDAL = new TreeUnitDAL();
+                              TreeUnit treeUnit = new TreeUnit();
+                              treeUnit.UnitName = "Unit1";
+                              treeUnitDAL.Add(treeUnit, SessionPlant);
 
-                    TreePSDAL treePSDAL = new TreePSDAL();
-                    TreePS treePS = new TreePS();
-                    treePS.PSName = "ProtectedSystem1";
-                    treePS.UnitID = treeUnit.ID;
-                    treePSDAL.Add(treePS, SessionPlant);
+                              TreePSDAL treePSDAL = new TreePSDAL();
+                              TreePS treePS = new TreePS();
+                              treePS.PSName = "ProtectedSystem1";
+                              treePS.UnitID = treeUnit.ID;
+                              treePSDAL.Add(treePS, SessionPlant);
 
-                    TVPlant p = new TVPlant();
-                    p.FullPath = currentPlantWorkFolder;
-                    p.FullRefPath = currentPlantFile;
-                    p.Name = currentPlantName;
-                    TVPlantViewModel m1 = new TVPlantViewModel(p);
-                    Plants.Add(m1);
-                    SavePlant();
-                    IsOpenPlant = true;
-                    if (!UOMSingle.UomEnums.Exists(uom => uom.SessionDBPath == dbPlant_target))
-                    {
-                        UOMEnum uomEnum = new UOMEnum(SessionPlant);
-                        UOMSingle.UomEnums.Add(uomEnum);
-                    }
+                              TVPlant p = new TVPlant();
+                              p.FullPath = currentPlantWorkFolder;
+                              p.FullRefPath = currentPlantFile;
+                              p.Name = currentPlantName;
+                              TVPlantViewModel m1 = new TVPlantViewModel(p);
+                              Plants.Add(m1);
+                              SavePlant();
+                              IsOpenPlant = true;
+                              if (!UOMSingle.UomEnums.Exists(uom => uom.SessionDBPath == dbPlant_target))
+                              {
+                                  UOMEnum uomEnum = new UOMEnum(SessionPlant);
+                                  UOMSingle.UomEnums.Add(uomEnum);
+                              }
+                          }), null);
+                       }).ContinueWith((t) =>
+                       {
+                           Application.Current.Dispatcher.Invoke(new Action(() =>
+                           {
+                               isBusy = false;
+                           }), null);
+                       });
                 }
+
             }
             catch (Exception ex)
             {
@@ -183,36 +219,59 @@ namespace ReliefProMain.ViewModel
                 dlgOpenDiagram.Filter = "Relief(*.ref) |*.ref";
                 if (dlgOpenDiagram.ShowDialog() == true)
                 {
-                    currentPlantFile = dlgOpenDiagram.FileName;
-                    currentPlantName = System.IO.Path.GetFileNameWithoutExtension(currentPlantFile);
-                    currentPlantWorkFolder = tempReliefProWorkDir + @"\" + currentPlantName;
-                    if (IsSamePlantOpen(currentPlantName))
-                    {
-                        MessageBox.Show("Same Plant is Opened!", "Message Box");
-                        return;
-                    }
-                    if (Directory.Exists(currentPlantWorkFolder))
-                    {
-                        Directory.Delete(currentPlantWorkFolder, true);
-                    }
 
-                    ReliefProCommon.CommonLib.CSharpZip.ExtractZipFile(currentPlantFile, "1", currentPlantWorkFolder);
-                    string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
+                    Task.Factory.StartNew(() =>
+                        {
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                isBusy = true;
 
-                    TVPlant p = new TVPlant();
-                    p.FullPath = currentPlantWorkFolder;
-                    p.FullRefPath = currentPlantFile;
-                    p.Name = currentPlantName;
-                    TVPlantViewModel m1 = new TVPlantViewModel(p);
-                    Plants.Add(m1);
-                    IsOpenPlant = true;
-                    if (!UOMSingle.UomEnums.Exists(uom => uom.SessionDBPath == dbPlant_target))
-                    {
-                        NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlant_target);
-                        ISession SessionPlant = helperProtectedSystem.GetCurrentSession();
-                        UOMEnum uomEnum = new UOMEnum(SessionPlant);
-                        UOMSingle.UomEnums.Add(uomEnum);
-                    }
+                            }), null);
+
+                        }).ContinueWith((t) =>
+                        {
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                currentPlantFile = dlgOpenDiagram.FileName;
+                                currentPlantName = System.IO.Path.GetFileNameWithoutExtension(currentPlantFile);
+                                currentPlantWorkFolder = tempReliefProWorkDir + @"\" + currentPlantName;
+                                if (IsSamePlantOpen(currentPlantName))
+                                {
+                                    MessageBox.Show("Same Plant is Opened!", "Message Box");
+                                    return;
+                                }
+                                if (Directory.Exists(currentPlantWorkFolder))
+                                {
+                                    Directory.Delete(currentPlantWorkFolder, true);
+                                }
+
+                                ReliefProCommon.CommonLib.CSharpZip.ExtractZipFile(currentPlantFile, "1", currentPlantWorkFolder);
+                                string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
+
+                                TVPlant p = new TVPlant();
+                                p.FullPath = currentPlantWorkFolder;
+                                p.FullRefPath = currentPlantFile;
+                                p.Name = currentPlantName;
+                                TVPlantViewModel m1 = new TVPlantViewModel(p);
+                                Plants.Add(m1);
+                                IsOpenPlant = true;
+                                if (!UOMSingle.UomEnums.Exists(uom => uom.SessionDBPath == dbPlant_target))
+                                {
+                                    NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlant_target);
+                                    ISession SessionPlant = helperProtectedSystem.GetCurrentSession();
+                                    UOMEnum uomEnum = new UOMEnum(SessionPlant);
+                                    UOMSingle.UomEnums.Add(uomEnum);
+                                }
+                            }), null);
+
+                        }).ContinueWith((t) =>
+                        {
+                            Application.Current.Dispatcher.Invoke(new Action(() =>
+                            {
+                                isBusy = false;
+                            }), null);
+                        });
+
                 }
             }
             catch (Exception ex)

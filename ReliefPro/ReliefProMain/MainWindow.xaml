@@ -20,7 +20,7 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid Style="{DynamicResource WinGrid}">
-        <s:BusyIndicator x:Name="busyCtrl"/>
+        <s:BusyIndicator x:Name="busyCtrl" IsBusy="{Binding isBusy}" />
         <Grid x:Name="layoutRoot" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
