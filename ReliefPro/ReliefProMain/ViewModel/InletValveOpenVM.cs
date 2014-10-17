@@ -68,7 +68,21 @@ namespace ReliefProMain.ViewModel
 
                 if (!string.IsNullOrEmpty(SelectedVessel))
                 {
-                    UpVesselType = dicEqData[SelectedVessel].EqType;                    
+                    UpVesselType = dicEqData[SelectedVessel].EqType;
+                    SplashScreenManager.Show();
+                    SplashScreenManager.SentMsgToScreen("Loading Data is in progress, please wait…");
+                    if (UpVesselType == "Column")
+                    {
+                        UpStreamNames = GetTowerProducts(dicEqData[SelectedVessel]);
+                        MaxOperatingPressure = UpStreamVaporData.Pressure;
+                    }
+                    else
+                    {
+                        UpStreamNames = GetFlashProducts(dicEqData[SelectedVessel]);
+                        MaxOperatingPressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(dicEqData[_SelectedVessel].PressCalc));
+                    }
+                    SplashScreenManager.SentMsgToScreen("Loading finished");
+                    SplashScreenManager.Close();
                 }
 
                 OnPropertyChanged("SelectedVessel");
@@ -270,20 +284,7 @@ namespace ReliefProMain.ViewModel
 
         private void CalculatePressure(object o)
         {
-            SplashScreenManager.Show();
-            SplashScreenManager.SentMsgToScreen("Loading Data is in progress, please wait…");
-            if (UpVesselType == "Column")
-            {
-                UpStreamNames = GetTowerProducts(dicEqData[SelectedVessel]);
-                MaxOperatingPressure = UpStreamVaporData.Pressure;
-            }
-            else
-            {
-                UpStreamNames = GetFlashProducts(dicEqData[SelectedVessel]);
-                MaxOperatingPressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(dicEqData[_SelectedVessel].PressCalc));
-            }
-            SplashScreenManager.SentMsgToScreen("Loading finished");
-            SplashScreenManager.Close();
+           
         }
         
         private void Save(object window)
