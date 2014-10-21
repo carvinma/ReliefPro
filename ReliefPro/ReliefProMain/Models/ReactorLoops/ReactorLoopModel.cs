@@ -42,7 +42,15 @@ namespace ReliefProMain.Models.ReactorLoops
                 NotifyPropertyChanged("HXNetworkColdStreamSource");
             }
         }
-        
+        public int ID
+        {
+            get { return dbModel.ID; }
+            set
+            {
+                dbModel.ID = value;
+                NotifyPropertyChanged("ID");
+            }
+        }
 
         public string EffluentStream
         {

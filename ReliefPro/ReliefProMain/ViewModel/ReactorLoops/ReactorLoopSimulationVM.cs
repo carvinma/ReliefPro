@@ -18,7 +18,7 @@ using ProII;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
-    public class ReactorLoopSimulationVM
+    public class ReactorLoopSimulationVM:ViewModelBase
     {
         public ICommand OKCommand { get; set; }
         public ICommand CheckDataCommand { get; set; }
@@ -30,8 +30,18 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private string przFile;
         private string przFileName;
         private List<string> hxs;
+        private int ReactorLoopID;
         ISession SessionPlant;
-
+        private ObservableCollection<ReactorLoopEqDiffModel> _eqDiff;
+        public ObservableCollection<ReactorLoopEqDiffModel> EqDiff
+        {
+            get { return _eqDiff; }
+            set
+            {
+                _eqDiff = value;
+                this.NotifyPropertyChanged("EqDiff");
+            }
+        }
         private void InitCMD()
         {
             OKCommand = new DelegateCommand<object>(OK);
@@ -40,7 +50,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             RunSimulationCommand = new DelegateCommand<object>(RunSimulation);
         }
         
-        public ReactorLoopSimulationVM(string newInpFile,string sourcePrzFile,string sourcePrzVersion,List<string> hxNames,ISession sessionPlant)
+        public ReactorLoopSimulationVM(int ReactorLoopID,string newInpFile,string sourcePrzFile,string sourcePrzVersion,List<string> hxNames,ISession sessionPlant)
         {
             InitCMD();
             przVersion = sourcePrzVersion;
@@ -49,6 +59,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             SessionPlant = sessionPlant;
             przFile = sourcePrzFile;
             przFileName = System.IO.Path.GetFileName(sourcePrzFile);
+            this.ReactorLoopID=ReactorLoopID;
+            if (ReactorLoopID > 0)
+            {
+                
+            }
         }
 
         private void CheckData(object obj)

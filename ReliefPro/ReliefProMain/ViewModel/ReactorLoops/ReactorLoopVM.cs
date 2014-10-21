@@ -497,7 +497,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 }
             }
             ReactorLoopSimulationView v = new ReactorLoopSimulationView();
-            ReactorLoopSimulationVM vm = new ReactorLoopSimulationVM(newInpFile,sourcePrzFile,SourceFileInfo.FileVersion,processHxList,SessionPF);
+
+            
+            ReactorLoopSimulationVM vm = new ReactorLoopSimulationVM(reactorLoopID,newInpFile,sourcePrzFile,SourceFileInfo.FileVersion,processHxList,SessionPF);
             v.DataContext = vm;
             v.ShowDialog();
 

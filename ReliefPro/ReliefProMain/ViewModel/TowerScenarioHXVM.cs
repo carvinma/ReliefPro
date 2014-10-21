@@ -149,13 +149,14 @@ namespace ReliefProMain.ViewModel
             dicHXs = new Dictionary<int, TowerScenarioHXModel>();
             Details = GetTowerHXScenarioDetails();
             condenserCalcDAL = new CondenserCalcDAL();
-            condenserCalc = condenserCalcDAL.GetModel(1, this.SessionProtectedSystem);
+            condenserCalc = condenserCalcDAL.GetModel( this.SessionProtectedSystem,ScenarioID);
             if (condenserCalc != null)
             {
                 IsFlooding = condenserCalc.Flooding;
                 SurgeTime = condenserCalc.SurgeTime;
                 IsSurgeTime = condenserCalc.IsSurgeTime;    
             }
+            scDAL = new ScenarioDAL();
             Scenario sc = scDAL.GetModel(scenarioID,SessionProtectedSystem);
         }
         internal ObservableCollection<TowerScenarioHXModel> GetTowerHXScenarioDetails()
@@ -372,6 +373,7 @@ namespace ReliefProMain.ViewModel
                     condenserCalc.Flooding = IsFlooding;
                     condenserCalc.IsSurgeTime = IsSurgeTime;
                     condenserCalc.SurgeTime = SurgeTime;
+                    condenserCalc.ScenarioID = ScenarioID;
                     condenserCalcDAL.Add(condenserCalc, SessionProtectedSystem);
                 }
                 else
@@ -379,6 +381,7 @@ namespace ReliefProMain.ViewModel
                     condenserCalc.Flooding = IsFlooding;
                     condenserCalc.IsSurgeTime = IsSurgeTime;
                     condenserCalc.SurgeTime = SurgeTime;
+                    condenserCalc.ScenarioID = ScenarioID;
                     condenserCalcDAL.Update(condenserCalc, SessionProtectedSystem);
                 }
                 foreach (TowerScenarioHXModel m in Details)

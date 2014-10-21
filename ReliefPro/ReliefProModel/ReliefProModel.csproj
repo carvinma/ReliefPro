@@ -77,6 +77,7 @@
     <Compile Include="GlobalDefault\FlareSystem.cs" />
     <Compile Include="HXs\HeatExchanger.cs" />
     <Compile Include="HXs\TubeRupture.cs" />
+    <Compile Include="ReactorLoops\ReactorLoopEqDiff.cs" />
     <Compile Include="Reports\PlantSummaryGridDS.cs" />
     <Compile Include="Reports\PUsummary.cs" />
     <Compile Include="Reports\PUsummaryGridDS.cs" />
@@ -162,6 +163,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ReactorLoops\ReactorLoopEqDiff.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="BasicUnitCurrent.hbm.xml" />
     <EmbeddedResource Include="SourceFile.hbm.xml" />
     <EmbeddedResource Include="Towers\BlockedVaporOutlet.hbm.xml" />

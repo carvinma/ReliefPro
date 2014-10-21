@@ -226,6 +226,7 @@
     <Compile Include="Models\ReactorLoops\GeneralFailureCommonModel.cs" />
     <Compile Include="Models\ReactorLoops\ReactorLoopCommonModel.cs" />
     <Compile Include="Models\ReactorLoops\ReactorLoopModel.cs" />
+    <Compile Include="Models\ReactorLoops\ReactorLoopEqDiffModel.cs" />
     <Compile Include="Models\Reports\EffectFactorModel.cs" />
     <Compile Include="Models\Reports\PlantReprotHead.cs" />
     <Compile Include="Models\Reports\PlantSummaryModel.cs" />

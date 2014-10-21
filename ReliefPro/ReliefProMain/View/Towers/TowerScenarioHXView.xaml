@@ -26,8 +26,14 @@
                 <GridView>
                     <GridViewColumn Header="{DynamicResource InnerName}" Width="200px"  DisplayMemberBinding="{Binding Path=DetailName,Mode=TwoWay}"></GridViewColumn>
                     <GridViewColumn Header="{DynamicResource HeatMedium}" Width="200px"  DisplayMemberBinding="{Binding Path=Medium,Mode=TwoWay}"></GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource DutyFactor}" Width="100px"  DisplayMemberBinding="{Binding Path=DutyCalcFactor,Mode=TwoWay,StringFormat='{}{0:N4}'}"></GridViewColumn>
-
+                    <!--<GridViewColumn Header="{DynamicResource DutyFactor}" Width="100px"  DisplayMemberBinding="{Binding Path=DutyCalcFactor,Mode=TwoWay,StringFormat='{}{0:N4}'}"></GridViewColumn>-->
+                    <GridViewColumn Header="{DynamicResource DutyFactor}" Width="100px">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Path=DutyCalcFactor,Mode=TwoWay,StringFormat='{}{0:N4}'}"></TextBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="{DynamicResource Stop}" Width="50px">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
