@@ -45,6 +45,7 @@ using ReliefProMain.Models;
 using NHibernate;
 using System.Threading.Tasks;
 using System.Threading;
+using ReliefProCommon.Logging;
 
 namespace ReliefProMain
 {
@@ -1027,6 +1028,7 @@ namespace ReliefProMain
             }
             catch (Exception ex)
             {
+                Logging.Debug(ex.Message);
                 MessageBox.Show(ex.ToString());
             }
             finally
