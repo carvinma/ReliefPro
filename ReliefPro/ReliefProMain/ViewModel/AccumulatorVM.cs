@@ -256,6 +256,7 @@ namespace ReliefProMain.ViewModel
             {
                 //throw new ArgumentException("Please type in a name for the Accumulator.");
                 MessageBox.Show("Please type in a name for the Accumulator.", "Message Box");
+                return;
             }
             bool bEdit = false;
             if (CurrentAccumulator.Orientation != Horiz || CurrentAccumulator.Diameter != Diameter || CurrentAccumulator.Length != Length || CurrentAccumulator.NormalLiquidLevel != NormalLiquidLevel)
@@ -264,32 +265,37 @@ namespace ReliefProMain.ViewModel
             }
             if (bEdit)
             {
-                MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
-                if (r == MessageBoxResult.Yes)
+                ScenarioDAL scdal = new ScenarioDAL();
+                IList<Scenario> scList = scdal.GetAllList(SessionProtectedSystem);
+                if (scList.Count > 0)
                 {
-                    ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
-                    scBLL.DeleteSCOther();
-                    scBLL.ClearScenario();
-                    
-                    //SessionProtectedSystem.Flush();
+                    MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
+                    if (r == MessageBoxResult.Yes)
+                    {
+                        ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
+                        scBLL.DeleteSCOther();
+                        scBLL.ClearScenario();
+
+                        //SessionProtectedSystem.Flush();
+                    }
+                    WriteConvert();
+                    AccumulatorDAL db = new AccumulatorDAL();
+
+                    CurrentAccumulator.AccumulatorName = AccumulatorName;
+                    CurrentAccumulator.Diameter = Diameter;
+                    CurrentAccumulator.Length = Length;
+                    CurrentAccumulator.NormalLiquidLevel = NormalLiquidLevel;
+                    CurrentAccumulator.AccumulatorName_Color = accumulatorName_Color;
+                    CurrentAccumulator.Diameter_Color = Diameter_Color;
+                    CurrentAccumulator.Length_Color = Length_Color;
+                    CurrentAccumulator.NormalLiquidLevel_Color = NormalLiquidLevel_Color;
+
+                    if (Horiz)
+                        CurrentAccumulator.Orientation = true;
+                    else
+                        CurrentAccumulator.Orientation = false;
+                    db.Update(CurrentAccumulator, SessionProtectedSystem);
                 }
-                WriteConvert();
-                AccumulatorDAL db = new AccumulatorDAL();
-
-                CurrentAccumulator.AccumulatorName = AccumulatorName;
-                CurrentAccumulator.Diameter = Diameter;
-                CurrentAccumulator.Length = Length;
-                CurrentAccumulator.NormalLiquidLevel = NormalLiquidLevel;
-                CurrentAccumulator.AccumulatorName_Color = accumulatorName_Color;
-                CurrentAccumulator.Diameter_Color = Diameter_Color;
-                CurrentAccumulator.Length_Color = Length_Color;
-                CurrentAccumulator.NormalLiquidLevel_Color = NormalLiquidLevel_Color;
-
-                if (Horiz)
-                    CurrentAccumulator.Orientation = true;
-                else
-                    CurrentAccumulator.Orientation = false;
-                db.Update(CurrentAccumulator, SessionProtectedSystem);
                 
             }
 

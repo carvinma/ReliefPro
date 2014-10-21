@@ -730,7 +730,7 @@ namespace ReliefProMain.ViewModel
                         }
                         if (cstream.ProdType == "6")
                         {
-                            waterWeightFlow =  cstream.WeightFlow;
+                            waterWeightFlow = s.FlowCalcFactor * cstream.WeightFlow;
                         }
                         if (cstream.ProdType == "4")
                         {
