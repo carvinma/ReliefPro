@@ -1033,7 +1033,10 @@ namespace ReliefProMain
             }
             finally
             {
-                Application.Current.Shutdown();
+                if (!e.Cancel)
+                {
+                    Application.Current.Shutdown();
+                }
             }
 
         }
