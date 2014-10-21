@@ -721,11 +721,11 @@ namespace ReliefProMain.ViewModel
                         }
                         if (cstream.ProdType == "6")
                         {
-                            waterWeightFlow = cstream.WeightFlow;
+                            waterWeightFlow =  cstream.WeightFlow;
                         }
                         if (cstream.ProdType == "4")
                         {
-                            overHeadWeightFlow = cstream.WeightFlow;
+                            overHeadWeightFlow = s.FlowCalcFactor * cstream.WeightFlow;
                         }
                     }
                 }
@@ -842,7 +842,7 @@ namespace ReliefProMain.ViewModel
                         }
                         if (cstream.ProdType == "4")
                         {
-                            overHeadWeightFlow = cstream.WeightFlow;
+                            overHeadWeightFlow = s.FlowCalcFactor * cstream.WeightFlow;
                         }
                     }
                 }

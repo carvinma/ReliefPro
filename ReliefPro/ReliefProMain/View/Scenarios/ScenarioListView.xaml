@@ -105,8 +105,8 @@
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Button Content="{DynamicResource OK}" IsCancel="True" Grid.Column="1"/>
-            <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="2"/>
+            
+            <Button Content="{DynamicResource OK}" IsCancel="True" Grid.Column="2"/>
         </Grid>
 
         <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="4"  Grid.ColumnSpan="5" >

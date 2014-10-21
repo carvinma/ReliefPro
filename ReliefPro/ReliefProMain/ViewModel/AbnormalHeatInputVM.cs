@@ -227,7 +227,7 @@ namespace ReliefProMain.ViewModel
                         }
                         if (cstream.ProdType == "4")
                         {
-                            overHeadWeightFlow = cstream.WeightFlow;
+                            overHeadWeightFlow = s.FlowCalcFactor * cstream.WeightFlow;
                         }
                     }
                 }

@@ -552,6 +552,7 @@ namespace ReliefProMain
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -996,37 +997,43 @@ namespace ReliefProMain
 
         private void MainWindowApp_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
-            if (list.Count == 0)
+            try
             {
-                Application.Current.Shutdown();
-                return;
-            }
-             MessageBoxResult r=MessageBox.Show("Are you sure you want to save all plants?", "", MessageBoxButton.YesNoCancel);
-            if ( r== MessageBoxResult.Yes)
-            {
-                var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
-                if (firstDocumentPane != null)
+                ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
+                if (list.Count == 0)
                 {
-                    if (firstDocumentPane.Children.Count > 0)
+                    Application.Current.Shutdown();
+                }
+                else
+                {
+                    MessageBoxResult r = MessageBox.Show("Are you sure you want to save all plants?", "", MessageBoxButton.YesNoCancel);
+                    if (r == MessageBoxResult.Yes)
                     {
-                        MessageBox.Show("Please close all documents first!", "Message Box");
+                        var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+                        if (firstDocumentPane != null)
+                        {
+                            if (firstDocumentPane.Children.Count > 0)
+                            {
+                                MessageBox.Show("Please close all documents first!", "Message Box");
+                                e.Cancel = true;
+                                return;
+                            }
+                        }
+                        SavePlant();
+                    }
+                    else if (r == MessageBoxResult.Cancel)
+                    {
                         e.Cancel = true;
                         return;
                     }
                 }
-                SavePlant();
+                Application.Current.Shutdown();
             }
-            else if (r == MessageBoxResult.Cancel)
+            catch (Exception ex)
             {
-                e.Cancel = true;
-                return;
+                MessageBox.Show(ex.ToString());
             }
 
-
-
-            Application.Current.Shutdown();
-            //Environment.Exit(0);
         }
 
         private TVPlantViewModel GetCurrentPlant()

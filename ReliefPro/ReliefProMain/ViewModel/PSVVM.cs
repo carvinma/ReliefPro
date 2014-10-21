@@ -711,7 +711,7 @@ namespace ReliefProMain.ViewModel
                     latentVapor = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIIVapor);
                     latentVapor.ProdType = "1";
                     latentLiquid = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIILiquid);
-                    latentVapor.ProdType = "2";
+                    latentLiquid.ProdType = "2";
 
                     LatentProduct latentStream = ProIIToDefault.ConvertCustomStreamToLatentProduct(stream);
                     latentStream.ProdType = "-1";

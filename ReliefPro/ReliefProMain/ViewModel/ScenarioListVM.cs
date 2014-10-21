@@ -212,8 +212,11 @@ namespace ReliefProMain.ViewModel
             SelectedScenario = (from s in Scenarios
                                 where s.ID == ScenarioID
                                 select s).Single();
-            if (!string.IsNullOrEmpty(SelectedScenario.ScenarioName))
+            if (string.IsNullOrEmpty(SelectedScenario.ScenarioName))
             {
+                MessageBox.Show("You must select Scenario Name first.", "Message Box");
+                return;
+            }
                 ScenarioDAL db = new ScenarioDAL();
                 Scenario sce = db.GetModel(ScenarioID, SessionProtectedSystem);
                 sce.ScenarioName = SelectedScenario.ScenarioName;
@@ -498,7 +501,7 @@ namespace ReliefProMain.ViewModel
                         }
                     }
                 }
-            }
+            
         }
         private void CreateBlockedVaporOutlet(int ScenarioID, int OutletType)
         {

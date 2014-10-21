@@ -157,7 +157,7 @@ namespace ReliefProMain.ViewModel
                 IsSurgeTime = condenserCalc.IsSurgeTime;    
             }
             scDAL = new ScenarioDAL();
-            Scenario sc = scDAL.GetModel(scenarioID,SessionProtectedSystem);
+            sc = scDAL.GetModel(scenarioID,SessionProtectedSystem);
         }
         internal ObservableCollection<TowerScenarioHXModel> GetTowerHXScenarioDetails()
         {
@@ -190,21 +190,21 @@ namespace ReliefProMain.ViewModel
             ScenarioDAL dbTS = new ScenarioDAL();
             Scenario ts = dbTS.GetModel(ScenarioID, SessionProtectedSystem);
 
-            double refluxFlowStops = 0;
+            double refluxFlowStops = 1;
             double refluxFlow = 0;
-            double ohProductFlowStops = 0;
+            double ohProductFlowStops = 1;
             if (CurrentAccumulator != null && (sc.ScenarioName.Contains("Electric Power Failure") || sc.ScenarioName.Contains("Reflux Failure")))
             {
-                refluxFlowStops = 1;
+                refluxFlowStops = 0;
                 LatentProductDAL lpdal = new LatentProductDAL();
                 LatentProduct latentStream = lpdal.GetModel(SessionProtectedSystem, "-1");
                 refluxFlow=latentStream.WeightFlow/latentStream.BulkDensityAct;
             }
-            double ohProductFlow = 0;
+            double ohProductFlow = GetOHProductFlow(SessionProtectedSystem);
             if (sc.ScenarioName.Contains("Electric Power Failure"))
             {
-                ohProductFlowStops = 1;
-                ohProductFlow = GetOHProductFlow(SessionProtectedSystem);
+                ohProductFlowStops = 0;
+                
             }
              
             double density = GetLatentLiquidDensity(SessionProtectedSystem);
@@ -252,11 +252,11 @@ namespace ReliefProMain.ViewModel
                 accumulatorTotalVolume = 3.14159 * Math.Pow(diameter, 2) * length / 4 + 3.14159 * Math.Pow(diameter, 3) / 12;
                 if (CurrentAccumulator.Orientation)
                 {
-                    accumulatorPartialVolume = 3.14159 * Math.Pow(diameter, 2) * liquidlevel / 4 + 3.14159 * Math.Pow(diameter, 3) / 24;
+                    accumulatorPartialVolume = liquidlevel * accumulatorTotalVolume / diameter;                    
                 }
                 else
                 {
-                    accumulatorPartialVolume = liquidlevel * accumulatorTotalVolume / diameter;
+                    accumulatorPartialVolume = 3.14159 * Math.Pow(diameter, 2) * liquidlevel / 4 + 3.14159 * Math.Pow(diameter, 3) / 24;
                 }
             }
             double surgeVolume = accumulatorTotalVolume - accumulatorPartialVolume;
@@ -303,6 +303,11 @@ namespace ReliefProMain.ViewModel
             return r;
         }
 
+        /// <summary>
+        /// 获取顶部液相和水
+        /// </summary>
+        /// <param name="Session"></param>
+        /// <returns></returns>
         private double GetOHProductFlow(NHibernate.ISession Session)
         {
             double r = 0;
@@ -316,7 +321,7 @@ namespace ReliefProMain.ViewModel
                     {
                         double weightflow = s.WeightFlow;
                         double bulkdensityact = s.BulkDensityAct;
-                        if (s.ProdType == "2" || s.ProdType == "6")
+                        if (s.ProdType == "2" || s.ProdType == "4" || s.ProdType == "6")
                         {
                             r = r + weightflow / bulkdensityact;
                         }
@@ -324,7 +329,8 @@ namespace ReliefProMain.ViewModel
 
                 }
             }
-            return r*3600;
+            //return r * 3600;
+            return r;
         }
 
         private ICommand _PinchCalcCommand;
