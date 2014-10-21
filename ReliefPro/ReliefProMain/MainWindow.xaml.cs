@@ -1000,11 +1000,7 @@ namespace ReliefProMain
             try
             {
                 ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
-                if (list.Count == 0)
-                {
-                    Application.Current.Shutdown();
-                }
-                else
+                if (list.Count > 0)
                 {
                     MessageBoxResult r = MessageBox.Show("Are you sure you want to save all plants?", "", MessageBoxButton.YesNoCancel);
                     if (r == MessageBoxResult.Yes)
@@ -1027,11 +1023,15 @@ namespace ReliefProMain
                         return;
                     }
                 }
-                Application.Current.Shutdown();
+                
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                Application.Current.Shutdown();
             }
 
         }

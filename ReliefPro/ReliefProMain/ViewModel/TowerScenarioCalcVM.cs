@@ -389,7 +389,16 @@ namespace ReliefProMain.ViewModel
                 }
             }
             diffTotal = Total - currentTotal;
-
+            if (diffTotal == 0)
+            {
+                for (int i = 0; i < products.Count; i++)
+                {
+                    TowerScenarioStream s = products[i];
+                    s.FlowCalcFactor = 1;
+                    db.Update(s, SessionProtectedSystem);
+                }
+                return;
+            }
             int count = 0;
             IList<TowerFlashProduct> listP = dbtfp.GetAllList(SessionProtectedSystem);
 

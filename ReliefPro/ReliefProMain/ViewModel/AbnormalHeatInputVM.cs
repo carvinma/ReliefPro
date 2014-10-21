@@ -295,7 +295,16 @@ namespace ReliefProMain.ViewModel
                 }
             }
             diffTotal = Total - currentTotal;
-
+            if (diffTotal == 0)
+            {
+                for (int i = 0; i < products.Count; i++)
+                {
+                    TowerScenarioStream s = products[i];
+                    s.FlowCalcFactor = 1;
+                    towerScenarioStreamDAL.Update(s, SessionProtectedSystem);
+                }
+                return;
+            }
             IList<TowerFlashProduct> listP = dbtfp.GetAllList(SessionProtectedSystem);
 
             IList<TowerFlashProduct> listP1 = (from p in listP
