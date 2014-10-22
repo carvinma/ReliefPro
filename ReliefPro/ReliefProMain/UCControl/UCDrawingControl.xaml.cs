@@ -98,7 +98,7 @@ namespace ReliefProMain.View
 
             firstClick = DateTime.Now;
         }
-        private void ShapeDoubleClick()
+        public void ShapeDoubleClick()
         {
             AxDrawingControl dc = this.visioControl;
             foreach (Visio.Shape shp in this.visioControl.Window.Selection)
