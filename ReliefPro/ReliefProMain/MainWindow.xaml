@@ -96,8 +96,8 @@
                         </Button>
                         <Label Width="30"></Label>
                         <Separator/>                       
-                        <DockPanel>
-                            <ListView Name="icon1"   AllowDrop="True" Background="#ecf1f6"   Width="300"    BorderThickness="0"  >
+                        <DockPanel Width="35">
+                            <ListView Name="icon1"    AllowDrop="True" Background="#ecf1f6"   Width="30"    BorderThickness="1"  >
                                 <ListView.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Margin="0,0,0,0"   Orientation="Horizontal" HorizontalAlignment="Center"  ></StackPanel>
@@ -109,13 +109,107 @@
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />                                               
                                             </Grid.RowDefinitions>
-                                            <Image Grid.Row="0" Margin="20,0,0,0"   Width="24px" Height="24px"  Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>                                            
+                                            <Image Grid.Row="0" Margin="0,0,0,0"   Width="24px" Height="24px"  Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>                                            
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>                           
+                        </DockPanel>
+                        <DockPanel  Width="35">
+                            <ListView Name="icon2"    AllowDrop="True" Background="#ecf1f6"   Width="30"    BorderThickness="1"  >
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Margin="0,0,0,0"   Orientation="Horizontal" HorizontalAlignment="Center"  ></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Background="#ecf1f6">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Margin="0,0,0,0"   Width="24px" Height="24px"  Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
                         </DockPanel>
-
+                        <DockPanel  Width="35">
+                            <ListView Name="icon3"    AllowDrop="True" Background="#ecf1f6"   Width="30"    BorderThickness="1"  >
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Margin="0,0,0,0"   Orientation="Horizontal" HorizontalAlignment="Center"  ></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Background="#ecf1f6">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Margin="0,0,0,0"   Width="24px" Height="24px"  Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </DockPanel>
+                        <DockPanel  Width="35">
+                            <ListView Name="icon4"    AllowDrop="True" Background="#ecf1f6"   Width="30"    BorderThickness="1"  >
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Margin="0,0,0,0"   Orientation="Horizontal" HorizontalAlignment="Center"  ></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Background="#ecf1f6">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Margin="0,0,0,0"   Width="24px" Height="24px"  Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </DockPanel>
+                        <DockPanel  Width="35">
+                            <ListView Name="icon5"    AllowDrop="True" Background="#ecf1f6"   Width="30"    BorderThickness="1"  >
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Margin="0,0,0,0"   Orientation="Horizontal" HorizontalAlignment="Center"  ></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Background="#ecf1f6">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Margin="0,0,0,0"   Width="24px" Height="24px"  Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </DockPanel>
+                        <DockPanel  Width="35">
+                            <ListView Name="icon6"    AllowDrop="True" Background="#ecf1f6"   Width="30"    BorderThickness="1"  >
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Margin="0,0,0,0"   Orientation="Horizontal" HorizontalAlignment="Center"  ></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Background="#ecf1f6">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Margin="0,0,0,0"   Width="24px" Height="24px"  Source="{Binding Pic}" MouseMove="lvGeneral_MouseMove"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </DockPanel>
                     </ToolBar>
                 </ToolBarTray>                
                 

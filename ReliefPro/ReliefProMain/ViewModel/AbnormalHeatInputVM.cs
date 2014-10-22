@@ -225,7 +225,7 @@ namespace ReliefProMain.ViewModel
                         {
                             waterWeightFlow = cstream.WeightFlow;
                         }
-                        if (cstream.ProdType == "4")
+                        if (cstream.ProdType == "4" || (cstream.ProdType == "2" && cstream.Tray == 1))
                         {
                             overHeadWeightFlow = s.FlowCalcFactor * cstream.WeightFlow;
                         }

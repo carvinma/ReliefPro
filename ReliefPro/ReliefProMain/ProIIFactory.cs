@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using ReliefProCommon.CommonLib;
-using ProII91;
 using ProII;
 using ReliefProModel;
 
@@ -16,9 +15,21 @@ namespace ReliefProMain
         public static string GetProIIVerison(string przFile, string rootDir)
         {
             PROIIFileOperator.DecompressProIIFile(przFile, rootDir);
-            string inpFile = przFile.Substring(0, przFile.Length - 4) + "_backup.inp";
-            //string[] files = Directory.GetFiles(rootDir, inp);
-            //string inpFile = files[0];
+            //string inpFile = przFile.Substring(0, przFile.Length - 4) + "_backup.inp";
+            string[] files = Directory.GetFiles(rootDir,".inp");
+            string inpFile = string.Empty;
+            if (files.Length == 1)
+                inpFile = files[0];
+            else
+            {
+                foreach (string f in files)
+                {
+                    if (f.Length > 11 || f.Contains("_backup.inp"))
+                    {
+                        inpFile = files[0];
+                    }
+                }
+            }
             string version = PROIIFileOperator.CheckProIIVersion(inpFile);
             return version;
         }
@@ -46,6 +57,10 @@ namespace ReliefProMain
             {
                 reader = new ProII92.ProIIReader();
             }
+            else if (version == "9.3")
+            {
+                reader = new ProII93.ProIIReader();
+            }
             return reader;
         }
         
@@ -59,6 +74,10 @@ namespace ReliefProMain
             else if (version == "9.2")
             {
                 calc = new ProII92.FlashCalculate();
+            }
+            else if (version == "9.3")
+            {
+                calc = new ProII93.FlashCalculate();
             }
             return calc;
         }
@@ -86,6 +105,10 @@ namespace ReliefProMain
             {
                 calc = new ProII92.PHASECalculate();
             }
+            else if (version == "9.3")
+            {
+                calc = new ProII93.PHASECalculate();
+            }
             return calc;
         }
 
@@ -99,6 +122,14 @@ namespace ReliefProMain
             else if (version == "9.2")
             {
                 impt = new ProII92.ProIIImport();
+            }
+            if (version == "9.1")
+            {
+                impt = new ProII92.ProIIImport();
+            }
+            else if (version == "9.3")
+            {
+                impt = new ProII93.ProIIImport();
             }
             return impt;
         }

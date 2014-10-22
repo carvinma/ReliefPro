@@ -64,6 +64,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReliefProUnitTest", "Relief
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusyIndicatorCtrl", "BusyIndicatorCtrl\BusyIndicatorCtrl.csproj", "{AA5978AE-F64D-4288-9E5C-896C959BF3B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProII93", "ProII93\ProII93.csproj", "{E093A9F6-9256-48FA-B701-CB4279FBE032}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -204,6 +206,16 @@ Global
 		{AA5978AE-F64D-4288-9E5C-896C959BF3B0}.Release|Mixed Platforms.Build.0 = Release|x86
 		{AA5978AE-F64D-4288-9E5C-896C959BF3B0}.Release|x86.ActiveCfg = Release|x86
 		{AA5978AE-F64D-4288-9E5C-896C959BF3B0}.Release|x86.Build.0 = Release|x86
+		{E093A9F6-9256-48FA-B701-CB4279FBE032}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E093A9F6-9256-48FA-B701-CB4279FBE032}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E093A9F6-9256-48FA-B701-CB4279FBE032}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E093A9F6-9256-48FA-B701-CB4279FBE032}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E093A9F6-9256-48FA-B701-CB4279FBE032}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E093A9F6-9256-48FA-B701-CB4279FBE032}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E093A9F6-9256-48FA-B701-CB4279FBE032}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E093A9F6-9256-48FA-B701-CB4279FBE032}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E093A9F6-9256-48FA-B701-CB4279FBE032}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E093A9F6-9256-48FA-B701-CB4279FBE032}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

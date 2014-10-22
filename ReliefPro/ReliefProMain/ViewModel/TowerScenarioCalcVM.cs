@@ -732,7 +732,7 @@ namespace ReliefProMain.ViewModel
                         {
                             waterWeightFlow = s.FlowCalcFactor * cstream.WeightFlow;
                         }
-                        if (cstream.ProdType == "4")
+                        if (cstream.ProdType == "4" ||(cstream.ProdType == "2" && cstream.Tray == 1))
                         {
                             overHeadWeightFlow = s.FlowCalcFactor * cstream.WeightFlow;
                         }
@@ -849,7 +849,7 @@ namespace ReliefProMain.ViewModel
                                 ProductTotal = ProductTotal + (s.FlowCalcFactor) * cstream.SpEnthalpy * s.ReliefNormalFactor * product.WeightFlow;
                             }
                         }
-                        if (cstream.ProdType == "4")
+                        if (cstream.ProdType == "4" || (cstream.ProdType == "2" && cstream.Tray == 1))
                         {
                             overHeadWeightFlow = s.FlowCalcFactor * cstream.WeightFlow;
                         }

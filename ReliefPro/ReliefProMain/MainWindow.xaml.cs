@@ -405,15 +405,30 @@ namespace ReliefProMain
 
         private void initIcon()
         {
-            ObservableCollection<ListViewItemData> collections = new ObservableCollection<ListViewItemData>();
-            collections.Add(new ListViewItemData { Name = "Tower", Pic = "/images/tower.ico" });
-            collections.Add(new ListViewItemData { Name = "Drum", Pic = "/images/drum.ico" });
-            collections.Add(new ListViewItemData { Name = "Compressor", Pic = "/images/compressor.ico" });
-            collections.Add(new ListViewItemData { Name = "Heat Exchanger", Pic = "/images/HeatExchanger.ico" });
-            collections.Add(new ListViewItemData { Name = "Reactor Loop", Pic = "/images/ReactorLoop.ico" });
-            collections.Add(new ListViewItemData { Name = "Storage Tank", Pic = "/images/StorageTank.ico" });
+            ObservableCollection<ListViewItemData> collections1 = new ObservableCollection<ListViewItemData>();
+            collections1.Add(new ListViewItemData { Name = "Tower", Pic = "/images/tower.ico" });
+
+            ObservableCollection<ListViewItemData> collections2 = new ObservableCollection<ListViewItemData>();
+            collections2.Add(new ListViewItemData { Name = "Drum", Pic = "/images/drum.ico" });
+
+            ObservableCollection<ListViewItemData> collections3 = new ObservableCollection<ListViewItemData>();
+            collections3.Add(new ListViewItemData { Name = "Compressor", Pic = "/images/compressor.ico" });
+
+            ObservableCollection<ListViewItemData> collections4 = new ObservableCollection<ListViewItemData>();
+            collections4.Add(new ListViewItemData { Name = "Heat Exchanger", Pic = "/images/HeatExchanger.ico" });
+
+            ObservableCollection<ListViewItemData> collections5 = new ObservableCollection<ListViewItemData>();
+            collections5.Add(new ListViewItemData { Name = "Reactor Loop", Pic = "/images/ReactorLoop.ico" });
+
+            ObservableCollection<ListViewItemData> collections6 = new ObservableCollection<ListViewItemData>();
+            collections6.Add(new ListViewItemData { Name = "Storage Tank", Pic = "/images/StorageTank.ico" });
             //this.lvTower.ItemsSource = collections;
-            this.icon1.ItemsSource = collections;
+            this.icon1.ItemsSource = collections1;
+            this.icon2.ItemsSource = collections2;
+            this.icon3.ItemsSource = collections3;
+            this.icon4.ItemsSource = collections4;
+            this.icon5.ItemsSource = collections5;
+            this.icon6.ItemsSource = collections6;
         }
 
 

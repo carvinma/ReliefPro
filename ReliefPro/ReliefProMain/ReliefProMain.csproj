@@ -1010,6 +1010,10 @@
       <Project>{bf7b294a-541b-4de7-be79-1e5c7455b940}</Project>
       <Name>ExportLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ProII93\ProII93.csproj">
+      <Project>{e093a9f6-9256-48fa-b701-cb4279fbe032}</Project>
+      <Name>ProII93</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ReliefProCommon\ReliefProCommon.csproj">
       <Project>{5442dadc-acf1-4668-90e5-f27070b95cfd}</Project>
       <Name>ReliefProCommon</Name>
