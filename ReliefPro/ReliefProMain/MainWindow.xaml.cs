@@ -336,7 +336,6 @@ namespace ReliefProMain
                             {
                                 shape.Cells["EventDblClick"].Formula = "=0";
                             }
-                            visioControl.Window.DeselectAll();
                         }
                         if (lvi.Source.ToString().ToLower().Contains("drum"))
                         {
@@ -347,7 +346,6 @@ namespace ReliefProMain
                             {
                                 shape.Cells["EventDblClick"].Formula = "=0";
                             }
-                            visioControl.Window.DeselectAll();
                         }
 
                         if (lvi.Source.ToString().ToLower().Contains("storagetank"))
@@ -359,7 +357,6 @@ namespace ReliefProMain
                             {
                                 shape.Cells["EventDblClick"].Formula = "=0";
                             }
-                            visioControl.Window.DeselectAll();
                         }
                         if (lvi.Source.ToString().ToLower().Contains("heatexchanger"))
                         {
@@ -370,7 +367,6 @@ namespace ReliefProMain
                             {
                                 shape.Cells["EventDblClick"].Formula = "=0";
                             }
-                            visioControl.Window.DeselectAll();
                         }
                         if (lvi.Source.ToString().ToLower().Contains("compressor"))
                         {
@@ -381,7 +377,6 @@ namespace ReliefProMain
                             {
                                 shape.Cells["EventDblClick"].Formula = "=0";
                             }
-                            visioControl.Window.DeselectAll();
                         }
                         if (lvi.Source.ToString().ToLower().Contains("reactorloop"))
                         {
@@ -392,8 +387,13 @@ namespace ReliefProMain
                             {
                                 shape.Cells["EventDblClick"].Formula = "=0";
                             }
-                            visioControl.Window.DeselectAll();
                         }
+                        foreach (LayoutDocument doc in firstDocumentPane.Children)
+                        {
+                            UCDrawingControl uc = doc.Content as UCDrawingControl;
+                            uc.ShapeDoubleClick();
+                        }
+                        visioControl.Window.DeselectAll();
                     }
                 }
 
