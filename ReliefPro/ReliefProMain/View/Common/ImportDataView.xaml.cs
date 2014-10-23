@@ -102,10 +102,8 @@ namespace ReliefProMain.View
                 System.IO.File.Copy(selectedFile, curprzFile, true);
                 if (System.IO.File.Exists(dbPlantFile) == true)
                 {
-                    version = ProIIFactory.GetProIIVerison(curprzFile, dir);
-                    //IProIIRunCalcSave cs = ProIIFactory.CreateRunCalcSave(version);
-                    //bool b=cs.CalcSave(curprzFile);
-
+                    //version = ProIIFactory.GetProIIVerison(curprzFile, dir);
+                    version = ProIIFactory.GetProIIhs2Verison(curprzFile, dir);
                     using (var helper = new NHibernateHelper(dbPlantFile))
                     {
                         ISession Session = helper.GetCurrentSession();

@@ -254,6 +254,48 @@ namespace ReliefProMain.Models
             }
         }
 
+        private double _CricondenbarPress;
+        public double CricondenbarPress
+        {
+            get { return _CricondenbarPress; }
+            set
+            {
+                _CricondenbarPress = value;
+                NotifyPropertyChanged("CricondenbarPress");
+            }
+        }
+        private double _CricondenbarPress_Color;
+        public double CricondenbarPress_Color
+        {
+            get { return _CricondenbarPress_Color; }
+            set
+            {
+                _CricondenbarPress_Color = value;
+                NotifyPropertyChanged("CricondenbarPress_Color");
+            }
+        }
+
+        private double _CricondenbarTemp;
+        public double CricondenbarTemp
+        {
+            get { return _CricondenbarTemp; }
+            set
+            {
+                _CricondenbarTemp = value;
+                NotifyPropertyChanged("CricondenbarTemp");
+            }
+        }
+        private double _CricondenbarTemp_Color;
+        public double CricondenbarTemp_Color
+        {
+            get { return _CricondenbarTemp_Color; }
+            set
+            {
+                _CricondenbarTemp_Color = value;
+                NotifyPropertyChanged("CricondenbarTemp_Color");
+            }
+        }
+
         private string _PSVName_Color;
         public string PSVName_Color
         {
@@ -340,6 +382,29 @@ namespace ReliefProMain.Models
             {
                 _CriticalTemperatureUnit = value;
                 OnPropertyChanged("CriticalTemperatureUnit");
+            }
+        }
+
+        private string _CricondenbarPressUnit;
+        public string CricondenbarPressUnit
+        {
+            get { return _CricondenbarPressUnit; }
+            set
+            {
+                _CricondenbarPressUnit = value;
+                OnPropertyChanged("CricondenbarPressUnit");
+            }
+        }
+
+
+        private string _CricondenbarTempUnit;
+        public string CricondenbarTempUnit
+        {
+            get { return _CricondenbarTempUnit; }
+            set
+            {
+                _CricondenbarTempUnit = value;
+                OnPropertyChanged("CricondenbarTempUnit");
             }
         }
     }

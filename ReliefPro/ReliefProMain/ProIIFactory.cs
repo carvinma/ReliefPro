@@ -16,7 +16,7 @@ namespace ReliefProMain
         {
             PROIIFileOperator.DecompressProIIFile(przFile, rootDir);
             //string inpFile = przFile.Substring(0, przFile.Length - 4) + "_backup.inp";
-            string[] files = Directory.GetFiles(rootDir,".inp");
+            string[] files = Directory.GetFiles(rootDir,"*.inp");
             string inpFile = string.Empty;
             if (files.Length == 1)
                 inpFile = files[0];
@@ -31,6 +31,15 @@ namespace ReliefProMain
                 }
             }
             string version = PROIIFileOperator.CheckProIIVersion(inpFile);
+            return version;
+        }
+        public static string GetProIIhs2Verison(string przFile, string rootDir)
+        {
+            PROIIFileOperator.DecompressProIIFile(przFile, rootDir);
+            //string inpFile = przFile.Substring(0, przFile.Length - 4) + "_backup.inp";
+            string[] files = Directory.GetFiles(rootDir, "*.hs2");
+            string hs2file = files[0];
+            string version = PROIIFileOperator.CheckProIIhs2Version(hs2file);
             return version;
         }
         public static IProIIRunCalcSave CreateRunCalcSave(string version)

@@ -23,10 +23,14 @@ namespace ReliefProModel
         public virtual string DischargeTo { get; set; }
         public virtual string dbPath { get; set; }
         public virtual double CriticalPressure { get; set; }
-
         public virtual string CriticalPressure_Color { get; set; }
         public virtual double CriticalTemperature { get; set; }
-        public virtual string CriticalTemperature_Color { get; set; } 
+        public virtual string CriticalTemperature_Color { get; set; }
+
+        public virtual double CricondenbarPress { get; set; }
+        public virtual string CricondenbarPress_Color { get; set; }
+        public virtual double CricondenbarTemp { get; set; }
+        public virtual string CricondenbarTemp_Color { get; set; } 
 
         //color
         public virtual string PSVName_Color { get; set; }

@@ -41,7 +41,34 @@ namespace ReliefProCommon.CommonLib
                 {
                     version = "9.2";
                 }
+                else if (firstLineText.Contains("9.3"))
+                {
+                    version = "9.3";
+                }
+            }
+            return version;
+        }
 
+        public static string CheckProIIhs2Version(string hs2File)
+        {
+            string version = string.Empty;
+            using (var file = System.IO.File.OpenText(hs2File))
+            {
+                string firstLineText = file.ReadLine();
+                string secondLineText = file.ReadLine();
+                string thirdLineText = file.ReadLine();
+                if (thirdLineText.Contains("VERSION 9.1"))
+                {
+                    version = "9.1";
+                }
+                else if (thirdLineText.Contains("VERSION 9.2"))
+                {
+                    version = "9.2";
+                }
+                else if (thirdLineText.Contains("VERSION 9.3"))
+                {
+                    version = "9.3";
+                }
             }
             return version;
         }

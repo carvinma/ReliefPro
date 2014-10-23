@@ -36,8 +36,10 @@ namespace ReliefProMain.ViewModel
         public string EqName { get; set; }
         public string EqType { get; set; }
         public string FileFullPath { get; set; }
-       
-        
+        double criticalPressure = 0;
+        double criticalTemperature = 0;
+        double cricondenbarPressure = 0;
+        double cricondenbarTemperature = 0;
         private string _ReflexDrumVisible;
         public string ReflexDrumVisible
         {
@@ -176,6 +178,9 @@ namespace ReliefProMain.ViewModel
             CurrentModel.CriticalPressure = UnitConvert.Convert(UOMEnum.Pressure, CurrentModel.CriticalPressureUnit, CurrentModel.CriticalPressure);
             CurrentModel.DrumPressure = UnitConvert.Convert(UOMEnum.Pressure, CurrentModel.DrumPressureUnit, CurrentModel.DrumPressure);
             CurrentModel.CriticalTemperature = UnitConvert.Convert(UOMEnum.Temperature, CurrentModel.CriticalTemperatureUnit, CurrentModel.CriticalTemperature);
+
+            CurrentModel.CricondenbarPress = UnitConvert.Convert(UOMEnum.Pressure, CurrentModel.CricondenbarPressUnit, CurrentModel.CricondenbarPress);
+            CurrentModel.CricondenbarTemp = UnitConvert.Convert(UOMEnum.Temperature, CurrentModel.CricondenbarTempUnit, CurrentModel.CricondenbarTemp);
         }
         private void WriteConvert()
         {
@@ -183,6 +188,10 @@ namespace ReliefProMain.ViewModel
             CurrentModel.dbmodel.CriticalPressure = UnitConvert.Convert(CurrentModel.CriticalPressureUnit,UOMEnum.Pressure,  CurrentModel.CriticalPressure);
             CurrentModel.dbmodel.DrumPressure = UnitConvert.Convert(CurrentModel.DrumPressureUnit,UOMEnum.Pressure,  CurrentModel.DrumPressure);
             CurrentModel.dbmodel.CriticalTemperature = UnitConvert.Convert(CurrentModel.CriticalTemperatureUnit,UOMEnum.Temperature,  CurrentModel.CriticalTemperature);
+
+
+            CurrentModel.dbmodel.CricondenbarPress = UnitConvert.Convert(CurrentModel.CricondenbarPressUnit, UOMEnum.Pressure, CurrentModel.CricondenbarPress);
+            CurrentModel.dbmodel.CricondenbarTemp = UnitConvert.Convert(CurrentModel.CricondenbarTempUnit, UOMEnum.Temperature, CurrentModel.CricondenbarTemp);
         }
 
         private ICommand _SaveCommand;
@@ -392,13 +401,14 @@ namespace ReliefProMain.ViewModel
             string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
             double ReliefPressure = CurrentModel.ReliefPressureFactor * CurrentModel.Pressure;
 
-            double criticalPressure = 0;
-            double criticalTempressure = 0;
-            bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase, ref criticalPressure, ref criticalTempressure);
+            
+            bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase);
             if (b == false)
                 return;
             CurrentModel.CriticalPressure = criticalPressure;
-            CurrentModel.CriticalTemperature = criticalTempressure;
+            CurrentModel.CriticalTemperature = criticalTemperature;
+            CurrentModel.CricondenbarPress = cricondenbarPressure;
+            CurrentModel.CricondenbarTemp = cricondenbarTemperature;
             double latentEnthalpy = 0;
             double ReliefTemperature = 0;
             LatentProduct latentVapor = new LatentProduct();
@@ -614,13 +624,14 @@ namespace ReliefProMain.ViewModel
             string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
             double ReliefPressure = CurrentModel.ReliefPressureFactor * CurrentModel.Pressure;
 
-            double criticalPressure = 0;
-            double criticalTempressure = 0;
-            bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase, ref criticalPressure, ref criticalTempressure);
+            
+            bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase);
             if (b == false)
                 return;
             CurrentModel.CriticalPressure = criticalPressure;
-            CurrentModel.CriticalTemperature = criticalTempressure;
+            CurrentModel.CriticalTemperature = criticalTemperature;
+            CurrentModel.CricondenbarPress = cricondenbarPressure;
+            CurrentModel.CricondenbarTemp = cricondenbarTemperature;
         }
 
         private CustomStream CopyTop1Liquid(string copyPrzFile)
@@ -650,7 +661,7 @@ namespace ReliefProMain.ViewModel
 
         }
 
-        private bool CalcCriticalPressure(string content, double ReliefPressure, CustomStream stream, string dirPhase, ref double criticalPressure,ref double criticalTemperature)
+        private bool CalcCriticalPressure(string content, double ReliefPressure, CustomStream stream, string dirPhase)
         {
             int ImportResult = 0;
             int RunResult = 0;
@@ -660,6 +671,8 @@ namespace ReliefProMain.ViewModel
             string PH = "PH" + Guid.NewGuid().ToString().Substring(0, 4);
             string criticalPress = string.Empty;
             string criticalTemp = string.Empty;
+            string cricondenbarPress = string.Empty;
+            string cricondenbarTemp = string.Empty;
             string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH, dirPhase, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
@@ -669,10 +682,15 @@ namespace ReliefProMain.ViewModel
                     reader.InitProIIReader(phasef);
                     criticalPress = reader.GetCriticalPressure(PH);
                     criticalTemp = reader.GetCriticalTemperature(PH);
+                    cricondenbarPress = reader.GetCricondenbarPress(PH);
+                    cricondenbarTemp = reader.GetCricondenbarTemp(PH);
                     reader.ReleaseProIIReader();
-                    criticalPressure = UnitConvert.Convert("KPA", CurrentModel.CriticalPressureUnit, double.Parse(criticalPress));
 
+                    criticalPressure = UnitConvert.Convert("KPA", CurrentModel.CriticalPressureUnit, double.Parse(criticalPress));
                     criticalTemperature = UnitConvert.Convert("C", CurrentModel.CriticalTemperatureUnit, double.Parse(criticalTemp));
+                    cricondenbarPressure = UnitConvert.Convert("C", CurrentModel.CricondenbarPressUnit, double.Parse(cricondenbarPress));
+                    cricondenbarTemperature = UnitConvert.Convert("KPA", CurrentModel.CricondenbarTempUnit, double.Parse(cricondenbarTemp));
+                   
                     return true;
                 }
                 else

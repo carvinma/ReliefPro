@@ -507,5 +507,23 @@ namespace ProII91
             object value = eq.GetAttribute(attr);
             return value.ToString();
         }
+
+        public string GetCricondenbarPress(string phaseName)
+        {
+            string otype = "PhaseEnvel";
+            string attr = "CricondenbarPress";
+            CP2Object eq = (CP2Object)cp2File.ActivateObject(otype, phaseName);
+            object value = eq.GetAttribute(attr);
+            return value.ToString();
+        }
+
+        public string GetCricondenbarTemp(string phaseName)
+        {
+            string otype = "PhaseEnvel";
+            string attr = "CricondenbarTemp";
+            CP2Object eq = (CP2Object)cp2File.ActivateObject(otype, phaseName);
+            object value = eq.GetAttribute(attr);
+            return value.ToString();
+        }
     }
 }
