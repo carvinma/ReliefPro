@@ -216,6 +216,7 @@ namespace ReliefProMain.ViewModel
             {
                 Microsoft.Win32.OpenFileDialog dlgOpenDiagram = new Microsoft.Win32.OpenFileDialog();
                 dlgOpenDiagram.Filter = "Relief(*.ref) |*.ref";
+                dlgOpenDiagram.InitialDirectory = defaultReliefProDir;
                 if (dlgOpenDiagram.ShowDialog() == true)
                 {
 
