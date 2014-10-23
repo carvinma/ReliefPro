@@ -370,28 +370,28 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
         private void Simulation(object obj)
         {
-            string proiiVersion = "9.2";
-            string proiiFilePath = "D:\\92.prz";
-            ProcessStartInfo psInfo = new ProcessStartInfo();
-            //HKEY_LOCAL_MACHINE\SOFTWARE\SIMSCI\PRO/II
-            RegistryKey rk = Registry.LocalMachine;
-            RegistryKey softWare = rk.OpenSubKey("Software");
-            RegistryKey simsci = softWare.OpenSubKey("SIMSCI");
-            if (simsci != null && simsci.SubKeyCount != 0)
-            {
-                RegistryKey proii = simsci.OpenSubKey("PRO/II");
-                if (proii != null && proii.SubKeyCount != 0)
-                {
-                    RegistryKey version = proii.OpenSubKey(proiiVersion);
-                    if (version.SubKeyCount != 0)
-                    {
-                        psInfo.FileName = version.GetValue("SecDir").ToString() + @"\PROII.exe";
-                        psInfo.Arguments = string.Format("/I='{0}' {1}", version.GetValue("SecIni").ToString(), proiiFilePath);
-                        Process pro = Process.Start(psInfo);
-                        return;
-                    }
-                }
-            }
+            //string proiiVersion = "9.2";
+            //string proiiFilePath = "D:\\92.prz";
+            //ProcessStartInfo psInfo = new ProcessStartInfo();
+            ////HKEY_LOCAL_MACHINE\SOFTWARE\SIMSCI\PRO/II
+            //RegistryKey rk = Registry.LocalMachine;
+            //RegistryKey softWare = rk.OpenSubKey("Software");
+            //RegistryKey simsci = softWare.OpenSubKey("SIMSCI");
+            //if (simsci != null && simsci.SubKeyCount != 0)
+            //{
+            //    RegistryKey proii = simsci.OpenSubKey("PRO/II");
+            //    if (proii != null && proii.SubKeyCount != 0)
+            //    {
+            //        RegistryKey version = proii.OpenSubKey(proiiVersion);
+            //        if (version.SubKeyCount != 0)
+            //        {
+            //            psInfo.FileName = version.GetValue("SecDir").ToString() + @"\PROII.exe";
+            //            psInfo.Arguments = string.Format("/I='{0}' {1}", version.GetValue("SecIni").ToString(), proiiFilePath);
+            //            Process pro = Process.Start(psInfo);
+            //            return;
+            //        }
+            //    }
+            //}
            
           
 
