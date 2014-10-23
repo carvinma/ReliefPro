@@ -387,11 +387,13 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     {
                         psInfo.FileName = version.GetValue("SecDir").ToString() + @"\PROII.exe";
                         psInfo.Arguments = string.Format("/I='{0}' {1}", version.GetValue("SecIni").ToString(), proiiFilePath);
+                        Process pro = Process.Start(psInfo);
+                        return;
                     }
                 }
             }
-            Process pro = Process.Start(psInfo); 
-            return;
+           
+          
 
 
             streams.Clear();

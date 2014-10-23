@@ -15,6 +15,8 @@ using ReliefProModel;
 using ReliefProMain.View;
 using System.IO;
 using ProII;
+using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -96,7 +98,27 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private void LaunchSimulator(object obj)
         {
             //open prz 文件
-
+            string proiiFilePath = "D:\\92.prz";
+            ProcessStartInfo psInfo = new ProcessStartInfo();
+            //HKEY_LOCAL_MACHINE\SOFTWARE\SIMSCI\PRO/II
+            RegistryKey rk = Registry.LocalMachine;
+            RegistryKey softWare = rk.OpenSubKey("Software");
+            RegistryKey simsci = softWare.OpenSubKey("SIMSCI");
+            if (simsci != null && simsci.SubKeyCount != 0)
+            {
+                RegistryKey proii = simsci.OpenSubKey("PRO/II");
+                if (proii != null && proii.SubKeyCount != 0)
+                {
+                    RegistryKey version = proii.OpenSubKey(przVersion);
+                    if (version.SubKeyCount != 0)
+                    {
+                        psInfo.FileName = version.GetValue("SecDir").ToString() + @"\PROII.exe";
+                        psInfo.Arguments = string.Format("/I='{0}' {1}", version.GetValue("SecIni").ToString(), proiiFilePath);
+                        Process pro = Process.Start(psInfo);
+                    }
+                }
+            }
+            
         }
         private void RunSimulation(object obj)
         {
