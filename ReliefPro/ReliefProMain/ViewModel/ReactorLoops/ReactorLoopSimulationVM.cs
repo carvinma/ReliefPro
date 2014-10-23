@@ -110,7 +110,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 if (proii != null && proii.SubKeyCount != 0)
                 {
                     RegistryKey version = proii.OpenSubKey(przVersion);
-                    if (version.SubKeyCount != 0)
+                    if (version!=null&&version.SubKeyCount != 0)
                     {
                         psInfo.FileName = version.GetValue("SecDir").ToString() + @"\PROII.exe";
                         psInfo.Arguments = string.Format("/I='{0}' {1}", version.GetValue("SecIni").ToString(), proiiFilePath);
