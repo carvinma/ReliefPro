@@ -30,10 +30,10 @@
         <Label Grid.Column="1"  Grid.Row="6" Content="{DynamicResource PipingContingency}" />
         <Label Content="{DynamicResource Elevation}" Grid.Column="1" Grid.Row="5" />
 
-        <CustomControl:UnitConvertTextBox BorderBrush="{Binding model.OD_Color}" UnitOrigin="{Binding ElementName=lblOD,Path=Content,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2" Grid.Row="3" Text="{Binding Path=model.OD}" />
-        <CustomControl:UnitConvertTextBox BorderBrush="{Binding model.Length_Color}" UnitOrigin="{Binding ElementName=lblLength,Path=Content,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2" Grid.Row="4" Text="{Binding model.Length}" />
-        <CustomControl:UnitConvertTextBox BorderBrush="{Binding model.Elevation_Color}" UnitOrigin="{Binding ElementName=lblElevation,Path=Content,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2" Grid.Row="5" Text="{Binding model.Elevation}" />
-        <TextBox Grid.Column="2" Grid.Row="6" Text="{Binding Path=model.PipingContingency,Mode=TwoWay,StringFormat='{}{0:N4}'}" />
+        <CustomControl:UnitConvertTextBox BorderBrush="{Binding model.OD_Color}" UnitOrigin="{Binding ElementName=lblOD,Path=Content,Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2" Grid.Row="3" Text="{Binding Path=model.OD}" />
+        <CustomControl:UnitConvertTextBox BorderBrush="{Binding model.Length_Color}" UnitOrigin="{Binding ElementName=lblLength,Path=Content,Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2" Grid.Row="4" Text="{Binding model.Length}" />
+        <CustomControl:UnitConvertTextBox BorderBrush="{Binding model.Elevation_Color}" UnitOrigin="{Binding ElementName=lblElevation,Path=Content,Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2" Grid.Row="5" Text="{Binding model.Elevation}" />
+        <TextBox Grid.Column="2" Grid.Row="6" Text="{Binding Path=model.PipingContingency,Mode=TwoWay,StringFormat='{}{0:F4}'}" />
 
         <Label x:Name="lblOD" Grid.Column="3" HorizontalAlignment="Left"  Margin="5,0,0,0" Grid.Row="3" Content="{Binding ODUnit,Mode=TwoWay}"/>
         <Label x:Name="lblLength" Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0"  Grid.Row="4" Content="{Binding LengthUnit,Mode=TwoWay}"/>

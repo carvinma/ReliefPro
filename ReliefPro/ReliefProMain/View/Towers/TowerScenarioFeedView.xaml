@@ -23,7 +23,7 @@
                     <GridViewColumn Header="{DynamicResource FlowFactor}" Width="100px">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Path=FlowCalcFactor,Mode=TwoWay,StringFormat='{}{0:N4}'}"></TextBox>
+                                <TextBox Text="{Binding Path=FlowCalcFactor,Mode=TwoWay,StringFormat='{}{0:F4}'}"></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

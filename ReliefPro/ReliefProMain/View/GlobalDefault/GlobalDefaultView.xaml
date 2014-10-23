@@ -98,8 +98,8 @@
                     <Label Content="{DynamicResource DrumSurgeTimeThreshold}"   Grid.Row="1"/>
                     <Label x:Name="lblLatentHeatSettings" Content="{Binding model.LatentHeatSettingsUnit,Mode=TwoWay}"  Grid.Row="0" Grid.Column="2"/>
                     <Label x:Name="lblDrumSurgeTimeSettings" Content="{Binding model.DrumSurgeTimeSettingsUnit,Mode=TwoWay}"   Grid.Row="1"  Grid.Column="2"/>
-                    <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLatentHeatSettings,Path=Content,Mode=TwoWay,StringFormat='{}{0:N4}'}" Text="{Binding model.LatentHeatSettings,Mode=TwoWay}" Grid.Row="0" Grid.Column="1" />
-                    <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblDrumSurgeTimeSettings,Path=Content,Mode=TwoWay,StringFormat='{}{0:N4}'}" Text="{Binding model.DrumSurgeTimeSettings,Mode=TwoWay}" Grid.Row="1" Grid.Column="1" />
+                    <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLatentHeatSettings,Path=Content,Mode=TwoWay,StringFormat='{}{0:F4}'}" Text="{Binding model.LatentHeatSettings,Mode=TwoWay}" Grid.Row="0" Grid.Column="1" />
+                    <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblDrumSurgeTimeSettings,Path=Content,Mode=TwoWay,StringFormat='{}{0:F4}'}" Text="{Binding model.DrumSurgeTimeSettings,Mode=TwoWay}" Grid.Row="1" Grid.Column="1" />
                 </Grid>
             </GroupBox>
           <StackPanel Orientation="Horizontal"  HorizontalAlignment="Stretch">

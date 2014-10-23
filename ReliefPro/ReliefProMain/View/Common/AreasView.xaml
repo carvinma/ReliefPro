@@ -29,10 +29,10 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="1*"/>
                  </Grid.RowDefinitions>
-                <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblArea,Path=Content,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2"   Grid.Row="1"  Text="{Binding Path=model.WettedArea,Mode=TwoWay}" BorderBrush="{Binding model.WettedArea_Color}"/>
+                <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblArea,Path=Content,Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2"   Grid.Row="1"  Text="{Binding Path=model.WettedArea,Mode=TwoWay}" BorderBrush="{Binding model.WettedArea_Color}"/>
                 <Label Grid.Column="1"   Grid.Row="0"  Content="{DynamicResource WettedArea}" Margin="0,0,0,5" VerticalAlignment="Stretch" />
                 <Label Grid.Column="1"  Grid.Row="1"  Content="{DynamicResource PipingContingency}" />
-                <TextBox Grid.Column="2"   Grid.Row="0" TextWrapping="NoWrap" Text="{Binding Path=model.PipingContingency,Mode=TwoWay,StringFormat='{}{0:N4}'}" BorderBrush="{Binding model.PipingContingency_Color}" />
+                <TextBox Grid.Column="2"   Grid.Row="0" TextWrapping="NoWrap" Text="{Binding Path=model.PipingContingency,Mode=TwoWay,StringFormat='{}{0:F4}'}" BorderBrush="{Binding model.PipingContingency_Color}" />
                 <Label x:Name="lblArea" Content="{Binding WetteAreaUnit,Mode=TwoWay}" Grid.Column="3"  Grid.Row="0"/>
                 <Label Content="%" Grid.Column="3"  Grid.Row="1" VerticalAlignment="Top" />
             

@@ -75,7 +75,7 @@
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Height,Mode=TwoWay,StringFormat='{}{0:N4}',UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                <TextBox Text="{Binding Height,Mode=TwoWay,StringFormat='{}{0:F4}',UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -93,7 +93,7 @@
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Diameter,Mode=TwoWay,StringFormat='{}{0:N4}',UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                <TextBox Text="{Binding Diameter,Mode=TwoWay,StringFormat='{}{0:F4}',UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -119,9 +119,9 @@
             <Label Grid.Column="1" Grid.Row="1"  Content="{DynamicResource BottomNormalLiquidLevel}" />
             <Label Grid.Column="1" Grid.Row="2"  Content="{DynamicResource PipingContingency}" />
 
-            <CustomControl:UnitConvertTextBox  Grid.Row="0" Grid.Column="2" UnitOrigin="{Binding ElementName=lblElevation,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Text="{Binding model.Elevation,Mode=TwoWay,StringFormat='{}{0:N4}'}"  BorderBrush="{Binding model.Elevation_Color,Mode=TwoWay}"/>
-            <CustomControl:UnitConvertTextBox  Grid.Row="1" Grid.Column="2" UnitOrigin="{Binding ElementName=lblLevel,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Text="{Binding model.BNLL,Mode=TwoWay,StringFormat='{}{0:N4}'}"  BorderBrush="{Binding model.BNLL_Color,Mode=TwoWay}"/>
-            <TextBox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Text="{Binding model.PipingContingency,Mode=TwoWay,StringFormat='{}{0:N4}'}"  BorderBrush="{Binding model.PipingContingency_Color,Mode=TwoWay}"/>
+            <CustomControl:UnitConvertTextBox  Grid.Row="0" Grid.Column="2" UnitOrigin="{Binding ElementName=lblElevation,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Text="{Binding model.Elevation,Mode=TwoWay,StringFormat='{}{0:F4}'}"  BorderBrush="{Binding model.Elevation_Color,Mode=TwoWay}"/>
+            <CustomControl:UnitConvertTextBox  Grid.Row="1" Grid.Column="2" UnitOrigin="{Binding ElementName=lblLevel,Path=Content,Mode=TwoWay}" HorizontalAlignment="Left" Text="{Binding model.BNLL,Mode=TwoWay,StringFormat='{}{0:F4}'}"  BorderBrush="{Binding model.BNLL_Color,Mode=TwoWay}"/>
+            <TextBox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Text="{Binding model.PipingContingency,Mode=TwoWay,StringFormat='{}{0:F4}'}"  BorderBrush="{Binding model.PipingContingency_Color,Mode=TwoWay}"/>
 
             <Label x:Name="lblElevation" Content="{Binding ElevationUnit,Mode=TwoWay}" Margin="0,0,0,0" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="0"/>
             <Label x:Name="lblLevel" Content="{Binding LevelUnit,Mode=TwoWay}" Margin="0,0,0,0" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="1"/>

@@ -30,9 +30,9 @@
         <TextBox  Text="{Binding AccumulatorName,Mode=TwoWay}"  BorderBrush="{Binding AccumulatorName_Color,Mode=TwoWay}" Grid.Row="1" Grid.Column="2" />
         <RadioButton Name="voH" IsChecked="{Binding Horiz,Mode=TwoWay}" GroupName="orientation" Content="{DynamicResource Horiz}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="2" Grid.Column="2"  />
         <RadioButton Name="voV" IsChecked="{Binding Vertical,Mode=TwoWay}" GroupName="orientation" Content="{DynamicResource Vert}" HorizontalAlignment="Right"  VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblDiameter,Path=Content,Mode=TwoWay}"  Text="{Binding Diameter,Mode=TwoWay,StringFormat='{}{0:N4}'}"  BorderBrush="{Binding Diameter_Color,Mode=TwoWay}" Grid.Row="3" Grid.Column="2"   />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLength,Path=Content,Mode=TwoWay}" Text="{Binding Length,Mode=TwoWay,StringFormat='{}{0:N4}'}" BorderBrush="{Binding Length_Color,Mode=TwoWay}"  Grid.Row="4" Grid.Column="2"  />
-        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblNormalLiquidLevel,Path=Content,Mode=TwoWay}"  Text="{Binding NormalLiquidLevel,Mode=TwoWay,StringFormat='{}{0:N4}'}" BorderBrush="{Binding NormalLiquidLevel_Color,Mode=TwoWay}" Grid.Row="5" Grid.Column="2"  />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblDiameter,Path=Content,Mode=TwoWay}"  Text="{Binding Diameter,Mode=TwoWay,StringFormat='{}{0:F4}'}"  BorderBrush="{Binding Diameter_Color,Mode=TwoWay}" Grid.Row="3" Grid.Column="2"   />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblLength,Path=Content,Mode=TwoWay}" Text="{Binding Length,Mode=TwoWay,StringFormat='{}{0:F4}'}" BorderBrush="{Binding Length_Color,Mode=TwoWay}"  Grid.Row="4" Grid.Column="2"  />
+        <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblNormalLiquidLevel,Path=Content,Mode=TwoWay}"  Text="{Binding NormalLiquidLevel,Mode=TwoWay,StringFormat='{}{0:F4}'}" BorderBrush="{Binding NormalLiquidLevel_Color,Mode=TwoWay}" Grid.Row="5" Grid.Column="2"  />
 
         <Label x:Name="lblDiameter" Grid.Column="3" Grid.Row="3" Content="{Binding DiameterUnit,Mode=TwoWay}"   />
         <Label x:Name="lblLength" Grid.Column="3" Grid.Row="4" Content="{Binding LengthUnit,Mode=TwoWay}"  />

@@ -49,14 +49,14 @@
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox IsEnabled="False" Text="{Binding Path=Duty,Mode=TwoWay,StringFormat='{}{0:N4}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                <TextBox IsEnabled="False" Text="{Binding Path=Duty,Mode=TwoWay,StringFormat='{}{0:F4}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{DynamicResource DutyFactor}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox  Text="{Binding DutyFactor, Mode=TwoWay,StringFormat='{}{0:N4}'}"  HorizontalAlignment="Stretch" Width="150px" />
+                                <TextBox  Text="{Binding DutyFactor, Mode=TwoWay,StringFormat='{}{0:F4}'}"  HorizontalAlignment="Stretch" Width="150px" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -73,11 +73,11 @@
         <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit,Mode=TwoWay}"  Grid.Row="6" Grid.Column="3" />
 
         <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}"  UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay,StringFormat='{}{0:F0}'}"  Grid.Column="2"  Grid.Row="3"  Text="{Binding ReliefLoad,Mode=TwoWay}"   />
-        <TextBox Grid.Column="2" Style="{DynamicResource TextBoxReadOnly}"   Grid.Row="4" Text="{Binding ReliefMW,Mode=TwoWay,StringFormat='{}{0:N4}'}"  />
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}"  UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay,StringFormat='{}{0:N4}'}"  Grid.Column="2"  Grid.Row="5"  Text="{Binding ReliefPressure,Mode=TwoWay}"  />
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}"  UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay,StringFormat='{}{0:N4}'}"  Grid.Column="2"  Grid.Row="6"  Text="{Binding ReliefTemperature,Mode=TwoWay}" />
-        <TextBox Visibility="Hidden"  HorizontalAlignment="Center" Text="{Binding Path=ReliefCpCv,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2"  Grid.Row="13"/>
-        <TextBox Visibility="Hidden"  HorizontalAlignment="Center" Text="{Binding Path=ReliefZ,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2"  Grid.Row="14"/>
+        <TextBox Grid.Column="2" Style="{DynamicResource TextBoxReadOnly}"   Grid.Row="4" Text="{Binding ReliefMW,Mode=TwoWay,StringFormat='{}{0:F4}'}"  />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}"  UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay,StringFormat='{}{0:F4}'}"  Grid.Column="2"  Grid.Row="5"  Text="{Binding ReliefPressure,Mode=TwoWay}"  />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}"  UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay,StringFormat='{}{0:F4}'}"  Grid.Column="2"  Grid.Row="6"  Text="{Binding ReliefTemperature,Mode=TwoWay}" />
+        <TextBox Visibility="Hidden"  HorizontalAlignment="Center" Text="{Binding Path=ReliefCpCv,Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2"  Grid.Row="13"/>
+        <TextBox Visibility="Hidden"  HorizontalAlignment="Center" Text="{Binding Path=ReliefZ,Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2"  Grid.Row="14"/>
         <Button Content="{DynamicResource Calculate}" Command="{Binding CalculateCommand}" Grid.Column="2"  Grid.Row="2"  />
 
         <Grid  Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="6">

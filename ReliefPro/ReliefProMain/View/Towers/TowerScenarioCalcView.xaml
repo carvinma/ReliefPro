@@ -54,11 +54,11 @@
                 <ColumnDefinition Width="15"/>
             </Grid.ColumnDefinitions>
             <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}" TextWrapping="Wrap" Text="{Binding ReliefLoad,Mode=TwoWay,StringFormat='{}{0:F0}'}" Grid.Column="2" Grid.Row="0"  />
-            <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}"  UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}"  Grid.Row="1" TextWrapping="Wrap" Text="{Binding ReliefTemperature,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2" />
-            <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}"  UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}"  Grid.Row="2" TextWrapping="Wrap" Text="{Binding ReliefPressure,Mode=TwoWay,StringFormat='{}{0:N4}'}"  Grid.Column="2"/>
-            <TextBox Style="{DynamicResource TextBoxReadOnly}"   Name="txtReliefMW" Grid.Row="3" TextWrapping="Wrap" Text="{Binding ReliefMW,Mode=TwoWay,StringFormat='{}{0:N4}'}"  Grid.Column="2"/>
-            <TextBox Visibility="Hidden"  HorizontalAlignment="Center" Text="{Binding Path=ReliefCpCv,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2"  Grid.Row="13"/>
-            <TextBox Visibility="Hidden"  HorizontalAlignment="Center" Text="{Binding Path=ReliefZ,Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2"  Grid.Row="14"/>
+            <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}"  UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}"  Grid.Row="1" TextWrapping="Wrap" Text="{Binding ReliefTemperature,Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2" />
+            <CustomControl:UnitConvertTextBox Style="{DynamicResource UCTextBoxReadOnly}"  UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}"  Grid.Row="2" TextWrapping="Wrap" Text="{Binding ReliefPressure,Mode=TwoWay,StringFormat='{}{0:F4}'}"  Grid.Column="2"/>
+            <TextBox Style="{DynamicResource TextBoxReadOnly}"   Name="txtReliefMW" Grid.Row="3" TextWrapping="Wrap" Text="{Binding ReliefMW,Mode=TwoWay,StringFormat='{}{0:F4}'}"  Grid.Column="2"/>
+            <TextBox Visibility="Hidden"  HorizontalAlignment="Center" Text="{Binding Path=ReliefCpCv,Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2"  Grid.Row="13"/>
+            <TextBox Visibility="Hidden"  HorizontalAlignment="Center" Text="{Binding Path=ReliefZ,Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2"  Grid.Row="14"/>
             <Label x:Name="lblReliefLoad" Content="{Binding ReliefLoadUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="0"  />
             <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="1"  />
             <Label x:Name="lblReliefPressure" Content="{Binding ReliefPressureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="2" />

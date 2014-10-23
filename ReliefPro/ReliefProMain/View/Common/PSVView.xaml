@@ -43,10 +43,10 @@
         <TextBox Name="txtName"  Text="{Binding CurrentModel.PSVName,Mode=TwoWay}" Grid.Row="1" Grid.Column="2" />
         <TextBox Name="txtValveNumber"  Text="{Binding CurrentModel.ValveNumber,Mode=TwoWay}"   Grid.Row="3" Grid.Column="6" />
         <ComboBox Name="cbxValueType"  ItemsSource="{Binding ValveTypes}" SelectedItem="{Binding CurrentModel.ValveType,Mode=TwoWay}"   Grid.Row="2" Grid.Column="6" />
-        <CustomControl:UnitConvertTextBox BorderBrush="{Binding CurrentModel.Pressure_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}"  Text="{Binding CurrentModel.Pressure,StringFormat='{}{0:N4}',Mode=TwoWay}" Grid.Row="3" Grid.Column="2"   />
+        <CustomControl:UnitConvertTextBox BorderBrush="{Binding CurrentModel.Pressure_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}"  Text="{Binding CurrentModel.Pressure,StringFormat='{}{0:F4}',Mode=TwoWay}" Grid.Row="3" Grid.Column="2"   />
         <TextBox Name="txtLocationDescription"  Text="{Binding CurrentModel.LocationDescription}"   Grid.Row="5" Grid.Column="6"  />
-        <TextBox Name="txtPrelief" BorderBrush="{Binding CurrentModel.ReliefPressureFactor_Color,Mode=TwoWay}"  Text="{Binding CurrentModel.ReliefPressureFactor,Mode=TwoWay,StringFormat='{}{0:N4}'}"   Grid.Row="4" Grid.Column="2"  />
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblCriticalPressure,Path=Content,Mode=TwoWay}"  Text="{Binding CurrentModel.CriticalPressure,StringFormat='{}{0:N4}',Mode=TwoWay}"  Grid.Column="2" Grid.Row="5" HorizontalAlignment="Stretch"  Width="Auto"   />
+        <TextBox Name="txtPrelief" BorderBrush="{Binding CurrentModel.ReliefPressureFactor_Color,Mode=TwoWay}"  Text="{Binding CurrentModel.ReliefPressureFactor,Mode=TwoWay,StringFormat='{}{0:F4}'}"   Grid.Row="4" Grid.Column="2"  />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblCriticalPressure,Path=Content,Mode=TwoWay}"  Text="{Binding CurrentModel.CriticalPressure,StringFormat='{}{0:F4}',Mode=TwoWay}"  Grid.Column="2" Grid.Row="5" HorizontalAlignment="Stretch"  Width="Auto"   />
         <TextBox Text="{Binding CurrentModel.Description}"  Grid.Column="6" Grid.Row="1" />
         <Label Content="{DynamicResource Location}"  Grid.Row="4"  Grid.Column="5" Height="25" Width="55"     />
         <ComboBox x:Name="location"  ItemsSource="{Binding Locations}" SelectedItem="{Binding CurrentModel.Location}"   Grid.Row="4" Grid.Column="6" />
@@ -71,7 +71,7 @@
                 <Label Content="{DynamicResource PSVName}"    Grid.Column="0" Grid.Row="1"  />
                 <TextBox Name="txtDrumPSVName"     Text="{Binding CurrentModel.DrumPSVName}"  Grid.Column="1" Grid.Row="1"  />
                 <Label Content="{DynamicResource SetPressure}"    Grid.Column="0" Grid.Row="2"  />
-                <CustomControl:UnitConvertTextBox  UnitOrigin="{Binding ElementName=lblDrumPressure,Path=Content,Mode=TwoWay}" Text="{Binding CurrentModel.DrumPressure,Mode=TwoWay,StringFormat='{}{0:N4}'}"  Grid.Column="1" Grid.Row="2" />
+                <CustomControl:UnitConvertTextBox  UnitOrigin="{Binding ElementName=lblDrumPressure,Path=Content,Mode=TwoWay}" Text="{Binding CurrentModel.DrumPressure,Mode=TwoWay,StringFormat='{}{0:F4}'}"  Grid.Column="1" Grid.Row="2" />
                 <Label x:Name="lblDrumPressure" Content="{Binding CurrentModel.DrumPressureUnit}"  Grid.Column="2" Grid.Row="2"  />
             </Grid>
         </GroupBox>

@@ -30,7 +30,7 @@
                     <GridViewColumn Header="{DynamicResource ReliefNormalFactor}" Width="150px">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Path=ReliefNormalFactor,Mode=TwoWay,StringFormat='{}{0:N4}'}"></TextBox>
+                                <TextBox Text="{Binding Path=ReliefNormalFactor,Mode=TwoWay,StringFormat='{}{0:F4}'}"></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

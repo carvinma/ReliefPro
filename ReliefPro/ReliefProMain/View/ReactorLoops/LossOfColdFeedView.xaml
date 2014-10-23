@@ -37,12 +37,12 @@
         <Label x:Name="lblReliefPressure" Content="{Binding model.ReliefPressureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="7"  />
 
         <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.ReliefLoad, Mode=TwoWay,StringFormat='{}{0:F0}'}" UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="5"/>
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.ReliefTemperature, Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="6"/>
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.ReliefPressure, Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="7"/>
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.ReliefTemperature, Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="6"/>
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding model.ReliefPressure, Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="7"/>
 
-        <TextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.ReliefMW, Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2" Grid.Row="8"/>
-        <TextBox Visibility="Hidden" Text="{Binding Path=model.ReliefCpCv, Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2" Grid.Row="8"/>
-        <TextBox Visibility="Hidden" Text="{Binding Path=model.ReliefZ, Mode=TwoWay,StringFormat='{}{0:N4}'}" Grid.Column="2" Grid.Row="9"/>
+        <TextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.ReliefMW, Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2" Grid.Row="8"/>
+        <TextBox Visibility="Hidden" Text="{Binding Path=model.ReliefCpCv, Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2" Grid.Row="8"/>
+        <TextBox Visibility="Hidden" Text="{Binding Path=model.ReliefZ, Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2" Grid.Row="9"/>
 
         <Button Content="{DynamicResource RunCaseSimulation}" Command="{Binding RunCaseSimulationCMD}" Grid.Column="1"  Grid.Row="2" Width="130" Margin="15,4" />
         <Button Content="{DynamicResource LaunchSimulator}" Command="{Binding LaunchSimulatorCMD}" Grid.Column="2" Grid.Row="2" Width="130" Margin="0,4" />
@@ -86,7 +86,7 @@
                     <GridViewColumn Header="{DynamicResource DutyFactor}" Width="150px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox  Text="{Binding DutyFactor, Mode=TwoWay,StringFormat='{}{0:N4}'}"  HorizontalAlignment="Stretch" Width="150px" />
+                                <TextBox  Text="{Binding DutyFactor, Mode=TwoWay,StringFormat='{}{0:F4}'}"  HorizontalAlignment="Stretch" Width="150px" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

@@ -91,18 +91,18 @@
                 <Label x:Name="lblDuty" Content="{Binding DutyUnit}" Grid.Column="3" Grid.Row="11"  Style="{StaticResource LabelLeftStyle}"/>
 
 
-                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="0" Text="{Binding Coldtin,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblColdtin,Path=Content,Mode=TwoWay}"/>
-                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="1" Text="{Binding Coldtout,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblColdtout,Path=Content,Mode=TwoWay}"/>
-                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="2" Text="{Binding HeatTin,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblHeatTin,Path=Content,Mode=TwoWay}"/>
-                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="3" Text="{Binding HeatTout,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblHeatTout,Path=Content,Mode=TwoWay}"/>
-                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="4" Text="{Binding UDesign,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblUDesign,Path=Content,Mode=TwoWay}" Style="{DynamicResource TextBoxReadOnly}"/>
-                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="5" Text="{Binding UClean,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblUClean,Path=Content,Mode=TwoWay}"/>
-                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="6" Text="{Binding Area,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblArea,Path=Content,Mode=TwoWay}"/>
-                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="7" Text="{Binding UDesignArea,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblUDesignArea,Path=Content,Mode=TwoWay}" Style="{DynamicResource TextBoxReadOnly}"/>
-                <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding UCD,Mode=TwoWay,StringFormat='{}{0:N4}'}" Style="{DynamicResource TextBoxReadOnly}"/>
-                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="9" Text="{Binding ReliefColdtout,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblReliefColdtout,Path=Content,Mode=TwoWay}"/>
-                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="10" Text="{Binding ReliefHeatTin,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblReliefHeatTin,Path=Content,Mode=TwoWay}"/>
-                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="11" Text="{Binding Duty,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblDuty,Path=Content,Mode=TwoWay}"/>
+                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="0" Text="{Binding Coldtin,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblColdtin,Path=Content,Mode=TwoWay}"/>
+                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="1" Text="{Binding Coldtout,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblColdtout,Path=Content,Mode=TwoWay}"/>
+                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="2" Text="{Binding HeatTin,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblHeatTin,Path=Content,Mode=TwoWay}"/>
+                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="3" Text="{Binding HeatTout,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblHeatTout,Path=Content,Mode=TwoWay}"/>
+                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="4" Text="{Binding UDesign,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblUDesign,Path=Content,Mode=TwoWay}" Style="{DynamicResource TextBoxReadOnly}"/>
+                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="5" Text="{Binding UClean,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblUClean,Path=Content,Mode=TwoWay}"/>
+                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="6" Text="{Binding Area,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblArea,Path=Content,Mode=TwoWay}"/>
+                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="7" Text="{Binding UDesignArea,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblUDesignArea,Path=Content,Mode=TwoWay}" Style="{DynamicResource TextBoxReadOnly}"/>
+                <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding UCD,Mode=TwoWay,StringFormat='{}{0:F4}'}" Style="{DynamicResource TextBoxReadOnly}"/>
+                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="9" Text="{Binding ReliefColdtout,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblReliefColdtout,Path=Content,Mode=TwoWay}"/>
+                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="10" Text="{Binding ReliefHeatTin,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblReliefHeatTin,Path=Content,Mode=TwoWay}"/>
+                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="11" Text="{Binding Duty,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblDuty,Path=Content,Mode=TwoWay}"/>
 
             </Grid>
         </GroupBox>
@@ -124,8 +124,8 @@
 
                 <Label x:Name="lblReliefDuty" Content="{Binding ReliefDutyUnit}" Grid.Column="3" Grid.Row="0"/>
 
-                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="0" Text="{Binding ReliefDuty,Mode=TwoWay,StringFormat='{}{0:N4}'}" UnitOrigin="{Binding ElementName=lblReliefDuty,Path=Content,Mode=TwoWay}"/>
-                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="1" Text="{Binding Factor,Mode=TwoWay,StringFormat='{}{0:N4}'}"/>
+                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="0" Text="{Binding ReliefDuty,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblReliefDuty,Path=Content,Mode=TwoWay}"/>
+                <CustomControl:UnitConvertTextBox Grid.Column="1" Grid.Row="1" Text="{Binding Factor,Mode=TwoWay,StringFormat='{}{0:F4}'}"/>
 
             </Grid>
             
