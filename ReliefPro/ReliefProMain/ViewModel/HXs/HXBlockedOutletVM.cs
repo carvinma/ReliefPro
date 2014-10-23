@@ -139,6 +139,7 @@ namespace ReliefProMain.ViewModel.HXs
                 if (normalColdInlet.VaporFraction == 1)
                 {
                     // gas expansion
+                    MethodGasExp4();
                 }
                 else
                 {
@@ -148,12 +149,16 @@ namespace ReliefProMain.ViewModel.HXs
                         if (normalColdInlet.VaporFraction == 0)
                         {
                             //liquid  and flash Prelief ,bubble
-
+                           bool b= MethodBubble1();
+                           if (!b)
+                           {
+                               MethodBubbleFail();                              
+                           }
                         }
                         else
                         {
                             //vapor--liquid and flash prelief tuty=qnormal
-
+                            MethodDuty2();
                         }
                     }
                     else
@@ -161,13 +166,28 @@ namespace ReliefProMain.ViewModel.HXs
                         if (reliefPressure < psv.CriticalPressure)
                         {
                             //flash bubble
-                            MethodBubble1();
+                           bool b= MethodBubble1();
+                           if (!b)
+                           {
+                               if (normalColdInlet.VaporFraction == 0)
+                               {
+                                   MethodBubbleFail();
+                               }
+                               else
+                               {
+                                   MethodDuty2();
+                               }
+                           }
                         }
                         else
                         {
                             if (reliefPressure < psv.CricondenbarPress && psv.CriticalTemperature > psv.CricondenbarTemp)
                             {
-                                MethodBubble1();
+                               bool b= MethodBubble1();
+                               if (!b)
+                               {
+                                   MethodBubbleFail();
+                               }
                             }
                             else
                             {
@@ -189,7 +209,7 @@ namespace ReliefProMain.ViewModel.HXs
             }
         }
 
-        private void MethodBubble1()
+        private bool MethodBubble1()
         {
             double tAvg = 0.5 * (normalColdInlet.Temperature + normalColdOutlet.Temperature);
             CustomStream stream = normalColdInlet;
@@ -227,12 +247,96 @@ namespace ReliefProMain.ViewModel.HXs
 
                     double tcoldbprelief = UnitConvert.Convert("K", "C", double.Parse(flash.TempCalc));
                     model.LatentPoint = latent;
-                    model.ReliefLoad = Q / latent * (model.NormalHotTemperature - tcoldbprelief) / (model.NormalHotTemperature - tAvg);
-                    if (model.ReliefLoad < 0 || tcoldbprelief > model.NormalHotTemperature)
+                    if (latent > 0)
+                    {
+                        model.ReliefLoad = Q / latent * (model.NormalHotTemperature - tcoldbprelief) / (model.NormalHotTemperature - tAvg);
+                        if (model.ReliefLoad < 0 || tcoldbprelief > model.NormalHotTemperature)
+                            model.ReliefLoad = 0;
+                        model.ReliefMW = vaporcs.BulkMwOfPhase;
+                        model.ReliefPressure = reliefPressure;
+                        model.ReliefTemperature = vaporcs.Temperature;
+                        model.ReliefCpCv = vaporcs.BulkCPCVRatio;
+                        model.ReliefZ = vaporcs.VaporZFmKVal;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    
+                }
+
+                else
+                {
+                    MessageBox.Show("Prz file is error", "Message Box");
+                    return false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("inp file is error", "Message Box");
+                return false;
+
+            }
+        }
+
+        private void MethodDuty2()
+        {
+            double tAvg = 0.5 * (normalColdInlet.Temperature + normalColdOutlet.Temperature);
+            CustomStream stream = normalColdInlet;
+            double Q = model.NormalDuty;
+            SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
+            string tempdir = DirProtectedSystem + @"\temp\";
+            string dirLatent = tempdir + "BlockedOutlet";
+            if (!Directory.Exists(dirLatent))
+                Directory.CreateDirectory(dirLatent);
+            string gd = Guid.NewGuid().ToString();
+            string vapor = "S_" + gd.Substring(0, 5).ToUpper();
+            string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
+            int ImportResult = 0;
+            int RunResult = 0;
+            PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+            SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
+            string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
+            SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
+            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+
+            double normalduty=UnitConvert.Convert(model.NormalDutyUnit,"KJ/hr",model.NormalDuty);
+            normalduty = normalduty / Math.Pow(10, 6);
+            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 5, normalduty.ToString(), stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                if (RunResult == 1 || RunResult == 2)
+                {
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    reader.InitProIIReader(tray1_f);
+                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                    ProIIEqData flash = reader.GetEqInfo("Flash", "F_1");
+                    reader.ReleaseProIIReader();
+                    CustomStream liquidcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
+                    CustomStream vaporcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
+                    double latent = vaporcs.SpEnthalpy - liquidcs.SpEnthalpy;
+                    //double tcoldbprelief =  double.Parse(flash.TempCalc);//转换单位
+
+                    double tcoldbprelief = UnitConvert.Convert("K", "C", double.Parse(flash.TempCalc));
+                    model.LatentPoint = latent;
+                    if (latent > 0)
+                    {
+                        model.ReliefLoad = vaporcs.WeightFlow;
+                        if (model.ReliefLoad < 0 )
+                            model.ReliefLoad = 0;
+                        model.ReliefMW = vaporcs.BulkMwOfPhase;
+                        model.ReliefPressure = reliefPressure;
+                        model.ReliefTemperature = vaporcs.Temperature;
+                        model.ReliefCpCv = vaporcs.BulkCPCVRatio;
+                        model.ReliefZ = vaporcs.VaporZFmKVal;
+                    }
+                    else
+                    {
                         model.ReliefLoad = 0;
-                    model.ReliefMW = vaporcs.BulkMwOfPhase;
-                    model.ReliefPressure = reliefPressure;
-                    model.ReliefTemperature = vaporcs.Temperature;
+                        MessageBox.Show("Flash Calculation failed", "Message Box");
+                    }
 
                 }
 
@@ -246,11 +350,6 @@ namespace ReliefProMain.ViewModel.HXs
                 MessageBox.Show("inp file is error", "Message Box");
 
             }
-        }
-
-        private void MethodDuty2()
-        {
-
         }
 
         private void MethodCritical3()
@@ -270,8 +369,100 @@ namespace ReliefProMain.ViewModel.HXs
 
         private void MethodGasExp4()
         {
+            double tAvg = 0.5 * (normalColdInlet.Temperature + normalColdOutlet.Temperature);
+            CustomStream stream = normalColdInlet;
+            double Q = model.NormalDuty;
+            SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
+            string tempdir = DirProtectedSystem + @"\temp\";
+            string dirLatent = tempdir + "BlockedInlet_GasExp";
+            if (!Directory.Exists(dirLatent))
+                Directory.CreateDirectory(dirLatent);
+            string gd = Guid.NewGuid().ToString();
+            string vapor = "S_" + gd.Substring(0, 5).ToUpper();
+            string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
+            int ImportResult = 0;
+            int RunResult = 0;
+            PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+            SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
+            string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
+            SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
+            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
 
+            double temp = UnitConvert.Convert(model.NormalHotTemperatureUnit, "C", model.NormalHotTemperature);
+            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 2, temp.ToString(), stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                if (RunResult == 1 || RunResult == 2)
+                {
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    reader.InitProIIReader(tray1_f);
+                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                    ProIIEqData flash = reader.GetEqInfo("Flash", "F_1");
+                    reader.ReleaseProIIReader();
+                    CustomStream liquidcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
+                    CustomStream vaporcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
+                    double latent = vaporcs.SpEnthalpy - liquidcs.SpEnthalpy;
+                    //double tcoldbprelief =  double.Parse(flash.TempCalc);//转换单位
+
+                    double tcoldbprelief = UnitConvert.Convert("K", "C", double.Parse(flash.TempCalc));
+                    model.LatentPoint = latent;
+                    if (latent > 0)
+                    {
+                        model.ReliefLoad = Q / latent * (model.NormalHotTemperature - tcoldbprelief) / (model.NormalHotTemperature - tAvg);
+                        if (model.ReliefLoad < 0 || tcoldbprelief > model.NormalHotTemperature)
+                            model.ReliefLoad = 0;
+                        model.ReliefMW = vaporcs.BulkMwOfPhase;
+                        model.ReliefPressure = reliefPressure;
+                        model.ReliefTemperature = vaporcs.Temperature;
+                        model.ReliefCpCv = vaporcs.BulkCPCVRatio;
+                        model.ReliefZ = vaporcs.VaporZFmKVal;
+                    }
+                    else
+                    {
+                        model.ReliefLoad = 0;
+                        MessageBox.Show("Flash Calculation failed", "Message Box");
+                    }
+
+                }
+
+                else
+                {
+                    MessageBox.Show("Prz file is error", "Message Box");
+                }
+            }
+            else
+            {
+                MessageBox.Show("inp file is error", "Message Box");
+
+            }
         }
+
+        private void MethodBubbleFail()
+        {
+            //cold_out
+            CustomStreamBLL csbll=new CustomStreamBLL(SessionPF,SessionPS);
+            IList<CustomStream> list = csbll.GetStreams(SessionPS, true);
+            CustomStream coldout=list[0];
+            if(list.Count==2)
+            {
+                if (coldout.Temperature > list[1].Temperature)
+                {
+                    coldout = list[1];
+                }
+            }
+
+            double frac = coldout.VaporFraction;
+            if (frac > 0)
+            {
+                MethodCritical3();
+            }
+            else
+            {
+                model.ReliefLoad = 0;
+            }
+        }
+
 
         private void Save(object obj)
         {

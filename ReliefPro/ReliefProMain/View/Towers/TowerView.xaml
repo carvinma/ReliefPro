@@ -31,7 +31,7 @@
         <Label Content="{DynamicResource StageNumber}" Grid.Row="2" Grid.Column="2" />
         <Label Content="{DynamicResource TowerType}" Grid.Row="3" Grid.Column="2" />
         <TextBox IsEnabled="False" Name="txtStageNumber"  TextWrapping="Wrap" Text="{Binding StageNumber}" Grid.Column="3" Grid.Row="2"/>
-        <ComboBox  ItemsSource="{Binding TowerTypes}" SelectedItem ="{Binding TowerType,Mode=TwoWay}" Grid.Column="3"   Grid.Row="3"   />
+        <ComboBox  ItemsSource="{Binding TowerTypes}" BorderBrush="{Binding TowerType_Color,Mode=TwoWay}" SelectedItem ="{Binding TowerType,Mode=TwoWay}" Grid.Column="3"   Grid.Row="3"   />
         <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="4">
 
             <TabItem Header="{DynamicResource Feed}">

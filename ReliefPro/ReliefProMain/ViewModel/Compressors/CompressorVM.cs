@@ -83,6 +83,7 @@ namespace ReliefProMain.ViewModel
                 ObservableCollection<CustomStream> Products = new ObservableCollection<CustomStream>();
                 Compressor compressor = new Compressor();
                 compressor.CompressorType = "Centrifugal";
+                compressor.CompressorType_Color = ColorBorder.green.ToString();
                 model = new CompressorModel(compressor, Feeds, Products);
                 op = 0;
             }

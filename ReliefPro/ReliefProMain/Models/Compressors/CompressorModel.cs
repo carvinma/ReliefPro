@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ReliefProModel;
 using System.Collections.ObjectModel;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.Models.Compressors
 {
@@ -63,11 +64,26 @@ namespace ReliefProMain.Models.Compressors
             {
                 this._CompressorType = value;
                 dbmodel.CompressorType = value;
+                this.CompressorType_Color = ColorBorder.blue.ToString();
                 OnPropertyChanged("CompressorType");
             }
         }
-        
-        
+
+        private string _CompressorType_Color;
+        public string CompressorType_Color
+        {
+            get
+            {
+                return this._CompressorType_Color;
+            }
+            set
+            {
+                this._CompressorType_Color = value;
+                dbmodel.CompressorType_Color = value;
+
+                OnPropertyChanged("CompressorType_Color");
+            }
+        }
 
 
         private ObservableCollection<CustomStream> _Feeds;
@@ -99,6 +115,7 @@ namespace ReliefProMain.Models.Compressors
             this.CompressorName = compressor.CompressorName;
             this.CompressorTypes = GetCompressorTypes();          
             this.CompressorType = compressor.CompressorType;
+            this.CompressorType_Color = compressor.CompressorType_Color;
             this.Feeds = Feeds;
             this.Products = Products;
             this.CompressorName = compressor.CompressorName;

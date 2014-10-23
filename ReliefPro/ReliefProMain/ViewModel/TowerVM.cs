@@ -55,6 +55,7 @@ namespace ReliefProMain.ViewModel
             set
             {
                 this._TowerType = value;
+                TowerType_Color = ColorBorder.blue.ToString();
                 OnPropertyChanged("TowerType");
             }
         }
@@ -153,12 +154,19 @@ namespace ReliefProMain.ViewModel
                 Desciption = tower.Description;
                 StageNumber = tower.StageNumber;
                 TowerType = tower.TowerType;
+                TowerType_Color = tower.TowerType_Color;
                 Feeds = GetStreams(SessionProtectedSystem, false);
                 Products = GetStreams(SessionProtectedSystem, true);
                 Condensers = GetHeaters(SessionProtectedSystem, 1);
                 HxCondensers = GetHeaters(SessionProtectedSystem, 2);
                 Reboilers = GetHeaters(SessionProtectedSystem, 3);
                 HxReboilers = GetHeaters(SessionProtectedSystem, 4);
+                ColorImport = ColorBorder.blue.ToString();
+            }
+            else
+            {
+                TowerType_Color = ColorBorder.green.ToString();
+                ColorImport = ColorBorder.red.ToString();
             }
 
         }
@@ -289,6 +297,8 @@ namespace ReliefProMain.ViewModel
                 
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
                 {
+                    ColorImport = ColorBorder.blue.ToString();
+                    TowerType_Color = ColorBorder.green.ToString();
                     SideColumnList.Clear();
                     SideColumns.Clear();
                     sideColumnProdType.Clear();
@@ -678,6 +688,7 @@ namespace ReliefProMain.ViewModel
                         scbll.DeleteScenario();
                         tower.TowerType = TowerType;
                         tower.Description = Desciption;
+                        tower.TowerType_Color = TowerType_Color;
                         dbtower.Update(tower, SessionProtectedSystem);
                         //SessionProtectedSystem.Flush();
                     }

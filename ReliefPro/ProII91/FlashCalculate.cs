@@ -19,7 +19,7 @@ namespace ProII91
         /// <param name="fileContent"></param>
         /// <param name="iFirst">1:Pressure 2:Temperature</param>
         /// <param name="firstValue">表示压力或温度值</param>
-        /// <param name="iSecond">1：温度 2：压力 3：泡点 4：露点 5 duty</param>
+        /// <param name="iSecond">1：压力 2：温度 3：泡点 4：露点 5 duty</param>
         /// <param name="secondValue">表示iSecond 的对应的值</param>
         /// <param name="stream"></param>
         /// <param name="vapor"></param>

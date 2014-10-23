@@ -608,6 +608,17 @@ namespace ReliefProMain.ViewModel
             CustomStreamDAL csdal = new CustomStreamDAL();
             IList<CustomStream> feedlist = csdal.GetAllList(SessionProtectedSystem, false);
             CustomStream stream = feedlist[0];
+            if (EqType == "HX")
+            {
+                if (feedlist.Count == 2)
+                {
+                    CustomStream stream2 = feedlist[1];
+                    if (stream.Temperature > stream2.Temperature)
+                    {
+                        stream = stream2;
+                    }
+                }
+            }
             stream.TotalMolarRate = 0;
             foreach (CustomStream cs in feedlist)
             {

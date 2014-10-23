@@ -66,32 +66,32 @@
                         <ToolBar.Background>
                             <SolidColorBrush Color="#cbdbea"/>
                         </ToolBar.Background>
-                        <Button Name="btnNewPlant" ToolTip="New Plant" VerticalAlignment="Center" Command="{Binding NewPlantCommand}" >
+                        <Button BorderBrush="Black" Name="btnNewPlant" ToolTip="New Plant" VerticalAlignment="Center" Command="{Binding NewPlantCommand}" >
                             <Image Source="images/newplant.ico"  Height="24" Width="24"></Image>
                         </Button>
-                        <Button Name="btnOpenPlant" ToolTip="Open Plant" VerticalAlignment="Center" Command="{Binding OpenPlantCommand}">
+                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnOpenPlant" ToolTip="Open Plant" VerticalAlignment="Center" Command="{Binding OpenPlantCommand}">
                             <Image Source="images/openplant.ico"  Height="24" Width="24"></Image>
                         </Button>
-                        <Button Name="btnClosePlant" ToolTip="Close Plant" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
+                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnClosePlant" ToolTip="Close Plant" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
                             <Image Source="images/closeplant.ico"   Height="24" Width="24"></Image>
                         </Button>
 
-                        <Button Name="btnSavePlant" ToolTip="Save Plant" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
+                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnSavePlant" ToolTip="Save Plant" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
                             <Image Source="images/save.ico"   Height="24" Width="24"></Image>
                         </Button>
                         <Separator/>
-                        <Button Name="btnImport" ToolTip="Import Simulation" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
+                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnImport" ToolTip="Import Simulation" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
                             <Image Source="images/ImportSimulation.ico"   Height="24" Width="24"></Image>
                         </Button>
-                        <Button Name="btnReport" ToolTip="Report" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
+                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnReport" ToolTip="Report" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
                             <Image Source="/images/Report.ico"   Height="24" Width="24"></Image>
                         </Button>
                         <Separator/>
-                        <Button Name="btnUOM" ToolTip="UOM" VerticalAlignment="Center" Click="Button_Click" IsEnabled="{Binding IsOpenPlant}"  >
+                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnUOM" ToolTip="UOM" VerticalAlignment="Center" Click="Button_Click" IsEnabled="{Binding IsOpenPlant}"  >
                             <Image Source="/images/uom.ico" Height="24" Width="24"  ></Image>
                         </Button>
 
-                        <Button Name="btnGlobalDefault" ToolTip="Global Default" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
+                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnGlobalDefault" ToolTip="Global Default" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
                             <Image Source="/images/GlobalDefault.ico"   Height="24" Width="24"></Image>
                         </Button>
                         <Label Width="30"></Label>
