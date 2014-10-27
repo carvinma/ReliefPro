@@ -258,6 +258,8 @@ namespace ReliefProMain.ViewModel
                     SplashScreenManager.Show();
                     SplashScreenManager.SentMsgToScreen("Creating PSV");
 
+                   
+
                     if (EqType == "Tower")
                     {
                         TowerDAL towerdal = new TowerDAL();
@@ -280,6 +282,9 @@ namespace ReliefProMain.ViewModel
                     CurrentModel.dbmodel.Location = CurrentModel.Location;
                     CurrentModel.dbmodel.DrumPressure = CurrentModel.DrumPressure;
                     CurrentModel.dbmodel.CriticalPressure = CurrentModel.CriticalPressure;
+                    CurrentModel.dbmodel.CriticalTemperature = CurrentModel.CriticalTemperature;
+                    CurrentModel.dbmodel.CricondenbarTemp = CurrentModel.CricondenbarTemp;
+                    CurrentModel.dbmodel.CricondenbarPress = CurrentModel.CricondenbarPress;
                     CurrentModel.dbmodel.Description = CurrentModel.Description;
                     CurrentModel.dbmodel.LocationDescription = CurrentModel.LocationDescription;
                     CurrentModel.dbmodel.DischargeTo = CurrentModel.DischargeTo;
@@ -338,7 +343,25 @@ namespace ReliefProMain.ViewModel
                         {
                             CreateCommonPSV();
                         }
+                        CurrentModel.dbmodel.PSVName = CurrentModel.PSVName;
+                        CurrentModel.dbmodel.Pressure = CurrentModel.Pressure;
+                        CurrentModel.dbmodel.ReliefPressureFactor = CurrentModel.ReliefPressureFactor;
+                        CurrentModel.dbmodel.ValveNumber = CurrentModel.ValveNumber;
+                        CurrentModel.dbmodel.ValveType = CurrentModel.ValveType;
+                        CurrentModel.dbmodel.DrumPSVName = CurrentModel.DrumPSVName;
+                        CurrentModel.dbmodel.Location = CurrentModel.Location;
+                        CurrentModel.dbmodel.DrumPressure = CurrentModel.DrumPressure;
+                        CurrentModel.dbmodel.CriticalPressure = CurrentModel.CriticalPressure;
+                        CurrentModel.dbmodel.CriticalTemperature = CurrentModel.CriticalTemperature;
+                        CurrentModel.dbmodel.CricondenbarTemp = CurrentModel.CricondenbarTemp;
+                        CurrentModel.dbmodel.CricondenbarPress = CurrentModel.CricondenbarPress;
+                        CurrentModel.dbmodel.Description = CurrentModel.Description;
+                        CurrentModel.dbmodel.LocationDescription = CurrentModel.LocationDescription;
+                        CurrentModel.dbmodel.DischargeTo = CurrentModel.DischargeTo;
 
+                        CurrentModel.dbmodel.PSVName_Color = CurrentModel.PSVName_Color;
+                        CurrentModel.dbmodel.Pressure_Color = CurrentModel.Pressure_Color;
+                        CurrentModel.dbmodel.DrumPressure_Color = CurrentModel.DrumPressure_Color;
                         SplashScreenManager.SentMsgToScreen("Converting Unit");
                         WriteConvert();
                         SplashScreenManager.SentMsgToScreen("Saving Data");
@@ -619,11 +642,29 @@ namespace ReliefProMain.ViewModel
                     }
                 }
             }
-            stream.TotalMolarRate = 0;
+            
+            string[] streamComps = stream.TotalComposition.Split(',');
+            int len = streamComps.Length;
+            double[] streamCompValues = new double[len];
+            double sumTotalMolarRate=0;
             foreach (CustomStream cs in feedlist)
             {
-                stream.TotalMolarRate = stream.TotalMolarRate + cs.TotalMolarRate;
+                sumTotalMolarRate=sumTotalMolarRate+cs.TotalMolarRate;
             }
+            foreach (CustomStream cs in feedlist)
+            {
+                string[] comps=cs.TotalComposition.Split(',');
+                for(int i=0;i<len;i++)
+                {
+                    streamCompValues[i] = streamCompValues[i] + double.Parse(comps[i]) * cs.TotalMolarRate/sumTotalMolarRate;
+                }
+            }
+            StringBuilder  sumComposition =new StringBuilder();
+            foreach(double comp in streamCompValues)
+            {
+                sumComposition.Append(",").Append(comp.ToString());
+            }
+            stream.TotalComposition = sumComposition.ToString().Substring(1);
             double internPressure = UnitConvert.Convert("MPAG", "KPA", stream.Pressure);
             if (internPressure == 0)
             {

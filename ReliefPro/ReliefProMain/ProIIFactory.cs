@@ -51,7 +51,7 @@ namespace ReliefProMain
             }
             else if (version == "9.2")
             {
-                r = new ProII92.ProIIRunCalcSave();
+                //r = new ProII92.ProIIRunCalcSave();
             }
             return r;
         }

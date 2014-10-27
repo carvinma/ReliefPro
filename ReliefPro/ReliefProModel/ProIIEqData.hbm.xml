@@ -53,5 +53,9 @@
     <property name="Type" column="DrumType" type="String" length="255" />
     <property name="ProductStoreData" column="ProductStoreData" type="String" length="255" />
 
+    <property name="FirstFeed" column="FirstFeed" type="String" length="255" />
+    <property name="FirstProduct" column="FirstProduct" type="String" length="255" />
+    <property name="LastFeed" column="LastFeed" type="String" length="255" />
+    <property name="LastProduct" column="LastProduct" type="String" length="255" />
   </class>
 </hibernate-mapping>

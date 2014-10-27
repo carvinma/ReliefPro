@@ -27,7 +27,7 @@ namespace ProII91
         string[] arrColumnAttributes = { "PressureDrop", "Duty", "NumberOfTrays", "HeaterNames", "HeaterDuties", "HeaterNumber", "HeaterPANumberfo", "HeaterRegOrPAFlag", "HeaterTrayLoc", "HeaterTrayNumber" };
         string[] arrColumnInAttributes = { "ProdType", "FeedTrays", "ProdTrays", "FeedData", "ProductData" };
         string[] arrFlashAttributes = { "FeedData", "ProductData", "PressCalc", "TempCalc", "DutyCalc", "Type", "ProductStoreData" };
-        string[] arrHxAttributes = { "FeedData", "ProductData", "DutyCalc", "ProductStoreData", "LmtdCalc", "LmtdFactorCalc" };
+        string[] arrHxAttributes = { "FeedData", "ProductData", "DutyCalc", "ProductStoreData", "LmtdCalc", "LmtdFactorCalc", "FirstFeed", "FirstProduct", "LastFeed", "LastProduct", };
         string[] arrCompressorAttributes = { "FeedData", "ProductData", "ProductStoreData" };
         string[] arrMixerAttributes = { "FeedData", "ProductData" };
         string[] arrSplitterAttributes = { "FeedData", "ProductData" };
@@ -308,6 +308,18 @@ namespace ProII91
                             break;
                         case "ProductStoreData":
                             data.ProductStoreData = value;
+                            break;
+                        case "FirstFeed":
+                            data.FirstFeed = value;
+                            break;
+                        case "LastFeed":
+                            data.LastFeed = value;
+                            break;
+                        case "FirstProduct":
+                            data.FirstProduct = value;
+                            break;
+                        case "LastProduct":
+                            data.LastProduct = value;
                             break;
                     }
                 }

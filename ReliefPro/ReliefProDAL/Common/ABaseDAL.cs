@@ -15,6 +15,7 @@ namespace ReliefProDAL.Common
 
         public virtual Object Add(A model, NHibernate.ISession session)
         {
+            session.Clear();
             using (ITransaction transaction = session.BeginTransaction())
             {
 
@@ -22,17 +23,19 @@ namespace ReliefProDAL.Common
                 transaction.Commit();
                 return o;
             }
-
+           
         }
 
         public virtual void Update(A model, NHibernate.ISession session)
         {
+            session.Clear();
             session.Update(model);
             session.Flush();
         }
 
         public virtual void Delete(A model, NHibernate.ISession session)
         {
+            session.Clear();
             session.Delete(model);
             session.Flush();
         }
@@ -45,6 +48,7 @@ namespace ReliefProDAL.Common
 
         public virtual void AddOrUpdate(A model, ISession session)
         {
+            session.Clear();
             session.SaveOrUpdate(model);
             session.Flush();
         }

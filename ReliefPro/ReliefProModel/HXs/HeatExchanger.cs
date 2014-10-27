@@ -18,5 +18,14 @@ namespace ReliefProModel.HXs
         public virtual string HXType_Color { get; set; }
         public virtual string Duty_Color { get; set; }
         public virtual string SourceFile_Color { get; set; }
+
+
+        public virtual double Pressure { get; set; }
+        public virtual double Temperature { get; set; }
+        public virtual string FirstFeed { get; set; }
+        public virtual string FirstProduct { get; set; }
+        public virtual string LastFeed { get; set; }
+        public virtual string LastProduct { get; set; }
+
     }
 }

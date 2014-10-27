@@ -47,7 +47,6 @@
     <Compile Include="PHASECalculate.cs" />
     <Compile Include="ProIIImport.cs" />
     <Compile Include="ProIIReader.cs" />
-    <Compile Include="ProIIRunCalcSave.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

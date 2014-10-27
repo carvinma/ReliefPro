@@ -50,5 +50,10 @@ namespace ReliefProModel
         public virtual string TempCalc { get; set; }
         public virtual string Type { get; set; }
         public virtual string ProductStoreData{ get; set; }
+
+        public virtual string FirstFeed { get; set; }
+        public virtual string FirstProduct { get; set; }
+        public virtual string LastFeed { get; set; }
+        public virtual string LastProduct { get; set; }
     }
 }

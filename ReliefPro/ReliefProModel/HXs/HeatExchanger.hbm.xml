@@ -14,5 +14,12 @@
   <property name="HXType_Color" column="HXType_Color" type="String" length="255"/>
   <property name="Duty_Color" column="Duty_Color" type="String" length="255"/>
   <property name="SourceFile_Color" column="SourceFile_Color" type="String" length="255"/>
+
+  <property name="FirstFeed" column="FirstFeed" type="String" length="255" />
+  <property name="FirstProduct" column="FirstProduct" type="String" length="255" />
+  <property name="LastFeed" column="LastFeed" type="String" length="255" />
+  <property name="LastProduct" column="LastProduct" type="String" length="255" />
+  <property name="Pressure" column="Pressure" type="Double"/>
+  <property name="Temperature" column="Temperature" type="Double"/>
 </class>
 </hibernate-mapping>
