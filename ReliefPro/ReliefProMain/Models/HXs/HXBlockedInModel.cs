@@ -6,7 +6,7 @@ using ReliefProModel.HXs;
 
 namespace ReliefProMain.Models.HXs
 {
-    public class HXBlockedOutletModel : ModelBase
+    public class HXBlockedInModel : ModelBase
     {
         private string normalDutyUnit;
         public string NormalDutyUnit
@@ -96,8 +96,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        public HXBlockedInlet dbmodel { get; set; }
-        public HXBlockedOutletModel(HXBlockedInlet model)
+        public HXBlockedIn dbmodel { get; set; }
+        public HXBlockedInModel(HXBlockedIn model)
         {
             dbmodel = model;
             this.coldStream = model.ColdStream;
