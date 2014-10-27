@@ -351,8 +351,8 @@ namespace ReliefProMain.ViewModel
                     {
                         if (ScenarioName.Contains("BlockedInlet"))
                         {
-                            HXBlockedInletView v = new HXBlockedInletView();
-                            HXBlockedInletVM vm = new HXBlockedInletVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
+                            HXBlockedInView v = new HXBlockedInView();
+                            HXBlockedInVM vm = new HXBlockedInVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {

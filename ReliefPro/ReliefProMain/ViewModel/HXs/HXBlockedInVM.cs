@@ -20,7 +20,7 @@ using ReliefProModel.HXs;
 
 namespace ReliefProMain.ViewModel.HXs
 {
-    public class HXBlockedInletVM : ViewModelBase
+    public class HXBlockedInVM : ViewModelBase
     {
         public ICommand CalcCMD { get; set; }
         public ICommand OKCMD { get; set; }
@@ -30,7 +30,7 @@ namespace ReliefProMain.ViewModel.HXs
         private string DirProtectedSystem;
         public SourceFile SourceFileInfo { get; set; }
         public string FileFullPath { get; set; }
-        public HXBlockedOutletModel model { get; set; }
+        public HXBlockedInModel model { get; set; }
         private HXBLL hxBLL;
         CustomStream normalHotInlet = null;
         CustomStream normalColdInlet = new CustomStream();
@@ -38,7 +38,7 @@ namespace ReliefProMain.ViewModel.HXs
         PSVDAL psvDAL ;
         PSV psv;
         double reliefPressure;
-        public HXBlockedInletVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
+        public HXBlockedInVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
@@ -57,7 +57,7 @@ namespace ReliefProMain.ViewModel.HXs
             var blockModel = hxBLL.GetHXBlockedOutletModel(ScenarioID);
             blockModel = hxBLL.ReadConvertHXBlockedOutletModel(blockModel);
 
-            model = new HXBlockedOutletModel(blockModel);
+            model = new HXBlockedInModel(blockModel);
             model.dbmodel.ScenarioID = ScenarioID;
 
             //判断冷测进出，

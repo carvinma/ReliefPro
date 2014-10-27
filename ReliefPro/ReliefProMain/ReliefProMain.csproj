@@ -218,7 +218,7 @@
     <Compile Include="Models\HeatSourceModel.cs" />
     <Compile Include="Models\HXs\AirCooledHXFireSizeModel.cs" />
     <Compile Include="Models\HXs\HeatExchangerModel.cs" />
-    <Compile Include="Models\HXs\HXBlockedOutletModel.cs" />
+    <Compile Include="Models\HXs\HXBlockedInModel.cs" />
     <Compile Include="Models\HXs\HXFireSizeModel.cs" />
     <Compile Include="Models\HXs\TubeRuptureModel.cs" />
     <Compile Include="Models\ModelBase.cs" />
@@ -279,7 +279,7 @@
     <Compile Include="ViewModel\HeatSourceListVM.cs" />
     <Compile Include="ViewModel\HXs\AirCooledHXFireSizeVM.cs" />
     <Compile Include="ViewModel\HXs\HeatExchangerVM.cs" />
-    <Compile Include="ViewModel\HXs\HXBlockedInletVM.cs" />
+    <Compile Include="ViewModel\HXs\HXBlockedInVM.cs" />
     <Compile Include="ViewModel\HXs\HXFireSizeVM.cs" />
     <Compile Include="ViewModel\HXs\TubeRuptureVM.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
@@ -497,8 +497,8 @@
     <Compile Include="View\DrumFires\DrumFireFluidView.xaml.cs">
       <DependentUpon>DrumFireFluidView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\HXs\HXBlockedOutletView.xaml.cs">
-      <DependentUpon>HXBlockedOutletView.xaml</DependentUpon>
+    <Compile Include="View\HXs\HXBlockedInView.xaml.cs">
+      <DependentUpon>HXBlockedInView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ReactorLoops\ReactorLoopBlockedOutletView.xaml.cs">
       <DependentUpon>ReactorLoopBlockedOutletView.xaml</DependentUpon>
@@ -833,7 +833,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\HXs\HXBlockedOutletView.xaml">
+    <Page Include="View\HXs\HXBlockedInView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
