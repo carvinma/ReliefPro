@@ -85,7 +85,7 @@ namespace ReliefProBLL
 
             sql = " from ReliefProModel.HXs.AirCooledHXFireSize ";
             SessionProtectedSystem.Delete(sql);
-            sql = " from ReliefProModel.HXs.HXBlockedOutlet ";
+            sql = " from ReliefProModel.HXs.HXBlockedIn ";
             SessionProtectedSystem.Delete(sql);
             sql = " from ReliefProModel.HXs.HXFireSize ";
             SessionProtectedSystem.Delete(sql);
