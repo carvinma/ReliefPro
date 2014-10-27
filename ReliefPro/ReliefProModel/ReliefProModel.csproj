@@ -92,7 +92,7 @@
     <Compile Include="Drums\DrumSize.cs" />
     <Compile Include="FeedBottomHX.cs" />
     <Compile Include="HXs\AirCooledHXFireSize.cs" />
-    <Compile Include="HXs\HXBlockedInlet.cs" />
+    <Compile Include="HXs\HXBlockedIn.cs" />
     <Compile Include="HXs\HXFireSize.cs" />
     <Compile Include="InletValveOpen.cs" />
     <Compile Include="IScenario.cs" />
@@ -243,7 +243,7 @@
     <EmbeddedResource Include="Drums\Drum.hbm.xml" />
     <EmbeddedResource Include="Drums\DrumDepressuring.hbm.xml" />
     <EmbeddedResource Include="Compressor.hbm.xml" />
-    <EmbeddedResource Include="HXs\HXBlockedInlet.hbm.xml">
+    <EmbeddedResource Include="HXs\HXBlockedIn.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="HXs\AirCooledHXFireSize.hbm.xml">
