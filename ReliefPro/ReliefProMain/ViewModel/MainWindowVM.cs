@@ -239,9 +239,17 @@ namespace ReliefProMain.ViewModel
                                     MessageBox.Show("Same Plant is Opened!", "Message Box");
                                     return;
                                 }
-                                if (Directory.Exists(currentPlantWorkFolder))
+                                try
                                 {
-                                    Directory.Delete(currentPlantWorkFolder, true);
+                                    if (Directory.Exists(currentPlantWorkFolder))
+                                    {
+                                        Directory.Delete(currentPlantWorkFolder, true);
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show("Current Folder is opened,close it and try again.", "Message Box");
+                                    return;
                                 }
 
                                 ReliefProCommon.CommonLib.CSharpZip.ExtractZipFile(currentPlantFile, "1", currentPlantWorkFolder);

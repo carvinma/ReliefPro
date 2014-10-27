@@ -258,8 +258,6 @@ namespace ReliefProMain.ViewModel
                     SplashScreenManager.Show();
                     SplashScreenManager.SentMsgToScreen("Creating PSV");
 
-                   
-
                     if (EqType == "Tower")
                     {
                         TowerDAL towerdal = new TowerDAL();
@@ -628,30 +626,37 @@ namespace ReliefProMain.ViewModel
             if (!Directory.Exists(dirPhase))
                 Directory.CreateDirectory(dirPhase);
 
+            List<CustomStream> arrFeeds = new List<CustomStream>();
             CustomStreamDAL csdal = new CustomStreamDAL();
-            IList<CustomStream> feedlist = csdal.GetAllList(SessionProtectedSystem, false);
+            List<CustomStream> feedlist = csdal.GetAllList(SessionProtectedSystem, false).ToList();
             CustomStream stream = feedlist[0];
             if (EqType == "HX")
             {
-                if (feedlist.Count == 2)
+                ProIIEqDataDAL proiieqdal = new ProIIEqDataDAL();
+                ProIIEqData proiihx = proiieqdal.GetModel(SessionPlant, SourceFileInfo.FileName, EqName);
+                string[] firstfeeds = proiihx.FirstFeed.Split(',');
+                string[] lastfeeds = proiihx.LastFeed.Split(',');
+
+                int start = int.Parse(firstfeeds[0]);
+                int end = int.Parse(lastfeeds[0]);
+                for (int i = start; i <= end; i++)
                 {
-                    CustomStream stream2 = feedlist[1];
-                    if (stream.Temperature > stream2.Temperature)
-                    {
-                        stream = stream2;
-                    }
+                    arrFeeds.Add(feedlist[i - 1]);
                 }
             }
-            
+            else
+            {
+                arrFeeds = feedlist;
+            }
             string[] streamComps = stream.TotalComposition.Split(',');
             int len = streamComps.Length;
             double[] streamCompValues = new double[len];
             double sumTotalMolarRate=0;
-            foreach (CustomStream cs in feedlist)
+            foreach (CustomStream cs in arrFeeds)
             {
                 sumTotalMolarRate=sumTotalMolarRate+cs.TotalMolarRate;
             }
-            foreach (CustomStream cs in feedlist)
+            foreach (CustomStream cs in arrFeeds)
             {
                 string[] comps=cs.TotalComposition.Split(',');
                 for(int i=0;i<len;i++)
