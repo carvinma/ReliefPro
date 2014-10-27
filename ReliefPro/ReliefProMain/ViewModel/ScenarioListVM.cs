@@ -349,7 +349,7 @@ namespace ReliefProMain.ViewModel
                     HeatExchanger hx = hxDAL.GetModel(SessionProtectedSystem);
                     if (hx.HXType == "Shell-Tube")
                     {
-                        if (ScenarioName.Contains("BlockedInlet"))
+                        if (ScenarioName.Contains("BlockedIn"))
                         {
                             HXBlockedInView v = new HXBlockedInView();
                             HXBlockedInVM vm = new HXBlockedInVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
@@ -1137,7 +1137,7 @@ namespace ReliefProMain.ViewModel
                 HeatExchanger hx = hxDAL.GetModel(SessionProtectedSystem);
                 if (hx.HXType == "Shell-Tube")
                 {
-                    list.Add("Blocked Inlet");
+                    list.Add("Blocked In");
                     list.Add("Tube Rupture");
                 }
 

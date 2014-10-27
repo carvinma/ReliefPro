@@ -11,6 +11,7 @@ using ReliefProDAL;
 using ReliefProModel;
 using System.Windows;
 using ReliefProMain.Models;
+using ReliefProMain.View;
 
 namespace ReliefProMain.ViewModel
 {
@@ -57,6 +58,7 @@ namespace ReliefProMain.ViewModel
 
         public CreateUnitVM(ISession SessionPlant,string dir )
         {
+            UnitName = "Unit1";
             this.SessionPlant = SessionPlant;
             dirPlant = dir;
         }
@@ -78,7 +80,25 @@ namespace ReliefProMain.ViewModel
         private void Save(object window)
         {
             if (!CheckData()) return;
-
+            if (string.IsNullOrEmpty(UnitName))
+            {
+                MessageBox.Show("Unit Name could not be empty!", "Message Box");
+                return;
+            }
+            string dirUnit = dirPlant + @"\" + UnitName;
+            try
+            {
+                if (Directory.Exists(dirUnit))
+                {
+                    Directory.Delete(dirUnit, true);
+                }
+                Directory.CreateDirectory(dirUnit);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Current plant folder is opened,close it and try again.or Unit Name is not legal.", "Message Box");
+                return;
+            }
 
             TreeUnitDAL tudal = new TreeUnitDAL();
             TreeUnit tu = tudal.GetModel(SessionPlant, UnitName);
@@ -93,30 +113,36 @@ namespace ReliefProMain.ViewModel
             treeUnit.UnitName = UnitName;
             treeUnitDAL.Add(treeUnit, SessionPlant);
 
-            TreePSDAL treePSDAL = new TreePSDAL();
-            TreePS treePS = new TreePS();
-            treePS.PSName = "ProtectedSystem1";
-            treePS.UnitID = treeUnit.ID;
-            treePSDAL.Add(treePS, SessionPlant);
+            //TreePSDAL treePSDAL = new TreePSDAL();
+            //TreePS treePS = new TreePS();
+            //treePS.PSName = "ProtectedSystem1";
+            //treePS.UnitID = treeUnit.ID;
+            //treePSDAL.Add(treePS, SessionPlant);
 
-            string dirUnit = dirPlant + @"\" + UnitName;
-            Directory.CreateDirectory(dirUnit);
-            string protectedsystem1 = dirUnit + @"\ProtectedSystem1";
-            Directory.CreateDirectory(protectedsystem1);
-            string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
-            string dbProtectedSystem_target = protectedsystem1 + @"\protectedsystem.mdb";
-            System.IO.File.Copy(dbProtectedSystem, dbProtectedSystem_target, true);
-            string visioProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.vsd";
-            string visioProtectedSystem_target = protectedsystem1 + @"\design.vsd";
-            System.IO.File.Copy(visioProtectedSystem, visioProtectedSystem_target, true);
-            dirProtectedSystem = protectedsystem1;
-            visioProtectedSystem = visioProtectedSystem_target;
-            dbProtectedSystemFile = dbProtectedSystem_target;
-
+            
             tvUnit = new TVUnit();
             tvUnit.ID = treeUnit.ID;
             tvUnit.Name = UnitName;
             tvUnit.FullPath = dirUnit;
+
+            CreateProtectedSystemView psView = new CreateProtectedSystemView();
+            CreateProtectedSystemVM psVM = new CreateProtectedSystemVM(SessionPlant,tvUnit.ID,dirUnit);
+            psView.DataContext = psVM;
+            psView.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            
+            //string protectedsystem1 = dirUnit + @"\ProtectedSystem1";
+            //Directory.CreateDirectory(protectedsystem1);
+            //string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
+            //string dbProtectedSystem_target = protectedsystem1 + @"\protectedsystem.mdb";
+            //System.IO.File.Copy(dbProtectedSystem, dbProtectedSystem_target, true);
+            //string visioProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.vsd";
+            //string visioProtectedSystem_target = protectedsystem1 + @"\design.vsd";
+            //System.IO.File.Copy(visioProtectedSystem, visioProtectedSystem_target, true);
+            //dirProtectedSystem = protectedsystem1;
+            //visioProtectedSystem = visioProtectedSystem_target;
+            //dbProtectedSystemFile = dbProtectedSystem_target;
+
+           
             
             
             System.Windows.Window wd = window as System.Windows.Window;

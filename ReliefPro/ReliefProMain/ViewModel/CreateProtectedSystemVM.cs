@@ -58,6 +58,7 @@ namespace ReliefProMain.ViewModel
             this.SessionPlant = SessionPlant;
             this.UnitID = UnitID;
             dirUnit = dir;
+            ProtectedSystemName = "ProtectedSystem1";
         }
 
         private ICommand _SaveCommand;
@@ -77,7 +78,11 @@ namespace ReliefProMain.ViewModel
         private void Save(object window)
         {
             if (!CheckData()) return;
-
+            if (string.IsNullOrEmpty(ProtectedSystemName))
+            {
+                MessageBox.Show("Unit Name could not be empty!", "Message Box");
+                return;
+            }
             TreePSDAL tpsdal = new TreePSDAL();
             TreePS tps = tpsdal.GetModel(SessionPlant, UnitID, ProtectedSystemName);
             if (tps != null)
@@ -85,14 +90,26 @@ namespace ReliefProMain.ViewModel
                 MessageBox.Show("this Protected System is exist!", "Message Box");
                 return;
             }
+            dirProtectedSystem = dirUnit + @"\" + ProtectedSystemName;
+            try
+            {
+
+                if (Directory.Exists(dirProtectedSystem))
+                {
+                    Directory.Delete(dirProtectedSystem, true);
+                }
+                Directory.CreateDirectory(dirProtectedSystem);
+            }
+            catch (Exception ex)
+            {
+            }
             TreePSDAL treePSDAL = new TreePSDAL();
             TreePS treePS = new TreePS();
             treePS.PSName = ProtectedSystemName;
             treePS.UnitID = UnitID;
             treePSDAL.Add(treePS, SessionPlant);
 
-            dirProtectedSystem = dirUnit + @"\" + ProtectedSystemName;
-            Directory.CreateDirectory(dirProtectedSystem);
+            
             string protectedsystem1 = dirProtectedSystem;
             string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
             string dbProtectedSystem_target = protectedsystem1 + @"\protectedsystem.mdb";

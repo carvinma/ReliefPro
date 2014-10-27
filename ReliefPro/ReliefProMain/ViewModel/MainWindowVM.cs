@@ -151,32 +151,37 @@ namespace ReliefProMain.ViewModel
                               string dbPlant = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\plant.mdb";
                               string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
                               System.IO.File.Copy(dbPlant, dbPlant_target, true);
-
-                              string unit1 = currentPlantWorkFolder + @"\Unit1";
-                              Directory.CreateDirectory(unit1);
-                              string protectedsystem1 = unit1 + @"\ProtectedSystem1";
-                              Directory.CreateDirectory(protectedsystem1);
-                              string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
-                              string dbProtectedSystem_target = protectedsystem1 + @"\protectedsystem.mdb";
-                              System.IO.File.Copy(dbProtectedSystem, dbProtectedSystem_target, true);
-                              string visioProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.vsd";
-                              string visioProtectedSystem_target = protectedsystem1 + @"\design.vsd";
-                              System.IO.File.Copy(visioProtectedSystem, visioProtectedSystem_target, true);
-
-
-                              ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
                               NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbPlant_target);
                               ISession SessionPlant = helperProtectedSystem.GetCurrentSession();
-                              TreeUnitDAL treeUnitDAL = new TreeUnitDAL();
-                              TreeUnit treeUnit = new TreeUnit();
-                              treeUnit.UnitName = "Unit1";
-                              treeUnitDAL.Add(treeUnit, SessionPlant);
+                              CreateUnitView unitView = new CreateUnitView();
+                              CreateUnitVM unitVM = new CreateUnitVM(SessionPlant, currentPlantWorkFolder);
+                              unitView.DataContext = unitVM;
+                              unitView.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                              
+                              //string unit1 = currentPlantWorkFolder + @"\Unit1";
+                              //Directory.CreateDirectory(unit1);
+                              //string protectedsystem1 = unit1 + @"\ProtectedSystem1";
+                              //Directory.CreateDirectory(protectedsystem1);
+                              //string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";
+                              //string dbProtectedSystem_target = protectedsystem1 + @"\protectedsystem.mdb";
+                              //System.IO.File.Copy(dbProtectedSystem, dbProtectedSystem_target, true);
+                              //string visioProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.vsd";
+                              //string visioProtectedSystem_target = protectedsystem1 + @"\design.vsd";
+                              //System.IO.File.Copy(visioProtectedSystem, visioProtectedSystem_target, true);
 
-                              TreePSDAL treePSDAL = new TreePSDAL();
-                              TreePS treePS = new TreePS();
-                              treePS.PSName = "ProtectedSystem1";
-                              treePS.UnitID = treeUnit.ID;
-                              treePSDAL.Add(treePS, SessionPlant);
+
+                              //ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
+                              
+                              //TreeUnitDAL treeUnitDAL = new TreeUnitDAL();
+                              //TreeUnit treeUnit = new TreeUnit();
+                              //treeUnit.UnitName = "Unit1";
+                              //treeUnitDAL.Add(treeUnit, SessionPlant);
+
+                              //TreePSDAL treePSDAL = new TreePSDAL();
+                              //TreePS treePS = new TreePS();
+                              //treePS.PSName = "ProtectedSystem1";
+                              //treePS.UnitID = treeUnit.ID;
+                              //treePSDAL.Add(treePS, SessionPlant);
 
                               TVPlant p = new TVPlant();
                               p.FullPath = currentPlantWorkFolder;
@@ -245,10 +250,11 @@ namespace ReliefProMain.ViewModel
                                     {
                                         Directory.Delete(currentPlantWorkFolder, true);
                                     }
+                                    Directory.CreateDirectory(currentPlantWorkFolder);
                                 }
                                 catch (Exception ex)
                                 {
-                                    MessageBox.Show("Current Folder is opened,close it and try again.", "Message Box");
+                                    MessageBox.Show("Current plant folder is opened,close it and try again.or plant Name is not legal.", "Message Box");
                                     return;
                                 }
 
