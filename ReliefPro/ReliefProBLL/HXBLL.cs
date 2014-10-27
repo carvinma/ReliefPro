@@ -16,7 +16,7 @@ namespace ReliefProBLL
     {
         private ISession SessionPS;
         private ISession SessionPF;
-        private HXBlockedInletDAL dbBlock = new HXBlockedInletDAL();
+        private HXBlockedInDAL dbBlock = new HXBlockedInDAL();
         private AirCooledHXFireSizeDAL dbAir = new AirCooledHXFireSizeDAL();
         private HXFireSizeDAL dbFire = new HXFireSizeDAL();
         private ScenarioDAL dbScenario = new ScenarioDAL();
@@ -25,12 +25,12 @@ namespace ReliefProBLL
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
         }
-        public HXBlockedInlet GetHXBlockedOutletModel(int ScenarioID)
+        public HXBlockedIn GetHXBlockedOutletModel(int ScenarioID)
         {
             var model = dbBlock.GetModelByScenarioID(SessionPS, ScenarioID);
             var sModel = dbScenario.GetModel(ScenarioID, SessionPS);
             if (model == null)
-                model = new HXBlockedInlet();
+                model = new HXBlockedIn();
             else
             {
                 if (sModel != null)
@@ -45,7 +45,7 @@ namespace ReliefProBLL
             }
             return model;
         }
-        public HXBlockedInlet ReadConvertHXBlockedOutletModel(HXBlockedInlet model)
+        public HXBlockedIn ReadConvertHXBlockedOutletModel(HXBlockedIn model)
         {
             UnitInfo unitInfo = new UnitInfo();
             BasicUnit basicUnit = unitInfo.GetBasicUnitUOM(this.SessionPF);
@@ -53,7 +53,7 @@ namespace ReliefProBLL
             {
                 return model;
             }
-            HXBlockedInlet Model = new HXBlockedInlet();
+            HXBlockedIn Model = new HXBlockedIn();
             Model = model;
             UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
             Model.NormalDuty = UnitConvert.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(), uomEnum.UserEnthalpyDuty, Model.NormalDuty);
@@ -142,7 +142,7 @@ namespace ReliefProBLL
 
         public void SaveHXBlockedOutlet(IScenarioModel model)
         {
-            dbBlock.Save(SessionPS, model as HXBlockedInlet);
+            dbBlock.Save(SessionPS, model as HXBlockedIn);
             SaveScenario(model);
         }
         public void SaveAirCooledHXFireSize(IScenarioModel model)
