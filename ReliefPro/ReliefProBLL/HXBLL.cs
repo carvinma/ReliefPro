@@ -16,7 +16,7 @@ namespace ReliefProBLL
     {
         private ISession SessionPS;
         private ISession SessionPF;
-        private HXBlockedOutletDAL dbBlock = new HXBlockedOutletDAL();
+        private HXBlockedInletDAL dbBlock = new HXBlockedInletDAL();
         private AirCooledHXFireSizeDAL dbAir = new AirCooledHXFireSizeDAL();
         private HXFireSizeDAL dbFire = new HXFireSizeDAL();
         private ScenarioDAL dbScenario = new ScenarioDAL();
