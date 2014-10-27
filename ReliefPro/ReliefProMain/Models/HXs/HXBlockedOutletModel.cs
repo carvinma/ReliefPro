@@ -96,8 +96,8 @@ namespace ReliefProMain.Models.HXs
             }
         }
 
-        public HXBlockedOutlet dbmodel { get; set; }
-        public HXBlockedOutletModel(HXBlockedOutlet model)
+        public HXBlockedInlet dbmodel { get; set; }
+        public HXBlockedOutletModel(HXBlockedInlet model)
         {
             dbmodel = model;
             this.coldStream = model.ColdStream;

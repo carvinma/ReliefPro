@@ -25,12 +25,12 @@ namespace ReliefProBLL
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
         }
-        public HXBlockedOutlet GetHXBlockedOutletModel(int ScenarioID)
+        public HXBlockedInlet GetHXBlockedOutletModel(int ScenarioID)
         {
             var model = dbBlock.GetModelByScenarioID(SessionPS, ScenarioID);
             var sModel = dbScenario.GetModel(ScenarioID, SessionPS);
             if (model == null)
-                model = new HXBlockedOutlet();
+                model = new HXBlockedInlet();
             else
             {
                 if (sModel != null)
@@ -45,7 +45,7 @@ namespace ReliefProBLL
             }
             return model;
         }
-        public HXBlockedOutlet ReadConvertHXBlockedOutletModel(HXBlockedOutlet model)
+        public HXBlockedInlet ReadConvertHXBlockedOutletModel(HXBlockedInlet model)
         {
             UnitInfo unitInfo = new UnitInfo();
             BasicUnit basicUnit = unitInfo.GetBasicUnitUOM(this.SessionPF);
@@ -53,7 +53,7 @@ namespace ReliefProBLL
             {
                 return model;
             }
-            HXBlockedOutlet Model = new HXBlockedOutlet();
+            HXBlockedInlet Model = new HXBlockedInlet();
             Model = model;
             UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
             Model.NormalDuty = UnitConvert.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(), uomEnum.UserEnthalpyDuty, Model.NormalDuty);
@@ -142,7 +142,7 @@ namespace ReliefProBLL
 
         public void SaveHXBlockedOutlet(IScenarioModel model)
         {
-            dbBlock.Save(SessionPS, model as HXBlockedOutlet);
+            dbBlock.Save(SessionPS, model as HXBlockedInlet);
             SaveScenario(model);
         }
         public void SaveAirCooledHXFireSize(IScenarioModel model)

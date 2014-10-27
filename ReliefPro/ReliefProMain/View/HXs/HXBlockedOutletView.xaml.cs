@@ -17,9 +17,9 @@ namespace ReliefProMain.View.HXs
     /// <summary>
     /// StorageTank2.xaml 的交互逻辑
     /// </summary>
-    public partial class HXBlockedOutletView : Window
+    public partial class HXBlockedInletView : Window
     {
-        public HXBlockedOutletView()
+        public HXBlockedInletView()
         {
             InitializeComponent();
         }

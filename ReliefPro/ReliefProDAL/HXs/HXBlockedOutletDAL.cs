@@ -9,15 +9,15 @@ using ReliefProModel.HXs;
 
 namespace ReliefProDAL.HXs
 {
-    public class HXBlockedOutletDAL : IBaseDAL<HXBlockedOutlet>
+    public class HXBlockedOutletDAL : IBaseDAL<HXBlockedInlet>
     {
-        public IList<HXBlockedOutlet> GetAllList(ISession session)
+        public IList<HXBlockedInlet> GetAllList(ISession session)
         {
-            IList<HXBlockedOutlet> list = null;
+            IList<HXBlockedInlet> list = null;
             try
             {
                 session.Clear();
-                list = session.CreateCriteria<HXBlockedOutlet>().List<HXBlockedOutlet>();
+                list = session.CreateCriteria<HXBlockedInlet>().List<HXBlockedInlet>();
             }
             catch (Exception ex)
             {
@@ -25,17 +25,17 @@ namespace ReliefProDAL.HXs
             }
             return list;
         }
-        public HXBlockedOutlet GetModelByScenarioID(ISession session, int ScenarioID)
+        public HXBlockedInlet GetModelByScenarioID(ISession session, int ScenarioID)
         {
             session.Clear();
-            var list = session.CreateCriteria<HXBlockedOutlet>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<HXBlockedOutlet>();
+            var list = session.CreateCriteria<HXBlockedInlet>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<HXBlockedInlet>();
             if (list.Count() > 0)
             {
                 return list[0];
             }
             return null;
         }
-        public void Save(ISession session, HXBlockedOutlet model)
+        public void Save(ISession session, HXBlockedInlet model)
         {
             using (ITransaction tx = session.BeginTransaction())
             {

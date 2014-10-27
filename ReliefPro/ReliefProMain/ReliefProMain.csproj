@@ -279,7 +279,7 @@
     <Compile Include="ViewModel\HeatSourceListVM.cs" />
     <Compile Include="ViewModel\HXs\AirCooledHXFireSizeVM.cs" />
     <Compile Include="ViewModel\HXs\HeatExchangerVM.cs" />
-    <Compile Include="ViewModel\HXs\HXBlockedOutletVM.cs" />
+    <Compile Include="ViewModel\HXs\HXBlockedInletVM.cs" />
     <Compile Include="ViewModel\HXs\HXFireSizeVM.cs" />
     <Compile Include="ViewModel\HXs\TubeRuptureVM.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
