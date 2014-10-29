@@ -641,8 +641,8 @@ namespace ReliefProMain.View
 
         private void DrawHX(Visio.Shape shape, HeatExchangerVM vm)
         {
-            shape.get_Cells("Height").ResultIU = 1;
-
+            shape.get_Cells("Height").ResultIU = 0.6;
+            shape.get_Cells("Width").ResultIU = 0.6;
             double width = shape.get_Cells("Width").ResultIU;
             double height = shape.get_Cells("Height").ResultIU;
             double pinX = shape.get_Cells("PinX").ResultIU;

@@ -558,6 +558,19 @@ namespace ReliefProMain
         {
             try
             {
+                var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+                if (firstDocumentPane != null)
+                {
+                    if (firstDocumentPane.Children.Count > 0)
+                    {
+                        foreach (LayoutContent c in firstDocumentPane.Children)
+                        {
+                            UCDrawingControl uc = c.Content as UCDrawingControl;
+                            uc.visioControl.Document.SaveAs(uc.visioControl.Src);
+                        }
+                    }
+                }
+
                 ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
                 foreach (TVPlantViewModel p in list)
                 {                    
@@ -578,6 +591,18 @@ namespace ReliefProMain
         {
             try
             {
+                var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+                if (firstDocumentPane != null)
+                {
+                    if (firstDocumentPane.Children.Count > 0)
+                    {
+                        foreach (LayoutContent c in firstDocumentPane.Children)
+                        {
+                            UCDrawingControl uc = c.Content as UCDrawingControl;
+                            uc.visioControl.Document.SaveAs(uc.visioControl.Src);
+                        }
+                    }
+                }
                 Microsoft.Win32.SaveFileDialog dlgSaveDiagram = new Microsoft.Win32.SaveFileDialog();
                 dlgSaveDiagram.Filter = "ReliefPro|*.ref;";
                 dlgSaveDiagram.FileName = string.Empty;
@@ -1024,17 +1049,7 @@ namespace ReliefProMain
                 {
                     MessageBoxResult r = MessageBox.Show("Are you sure you want to save all plants?", "", MessageBoxButton.YesNoCancel);
                     if (r == MessageBoxResult.Yes)
-                    {
-                        var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
-                        if (firstDocumentPane != null)
-                        {
-                            if (firstDocumentPane.Children.Count > 0)
-                            {
-                                MessageBox.Show("Please close all documents first!", "Message Box");
-                                e.Cancel = true;
-                                return;
-                            }
-                        }
+                    {                        
                         SavePlant();
                     }
                     else if (r == MessageBoxResult.Cancel)
@@ -1052,10 +1067,9 @@ namespace ReliefProMain
             }
             finally
             {
-                if (!e.Cancel)
-                {
-                    Application.Current.Shutdown();
-                }
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+                //Application.Current.Shutdown(-1);    
+                //Environment.Exit(0);
             }
 
         }
