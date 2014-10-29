@@ -311,6 +311,7 @@ namespace ReliefProMain.ViewModel
         private void SavePlant()
         {
             //ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
+            File.Delete(currentPlantFile);
             ZipFile.CreateFromDirectory(currentPlantWorkFolder, currentPlantFile);
         }
 

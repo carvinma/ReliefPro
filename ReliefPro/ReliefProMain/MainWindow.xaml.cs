@@ -564,6 +564,7 @@ namespace ReliefProMain
                     string currentPlantWorkFolder = p.tvPlant.FullPath;
                     string currentPlantFile = p.tvPlant.FullRefPath;
                     //ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
+                    File.Delete(currentPlantFile);
                     ZipFile.CreateFromDirectory(currentPlantWorkFolder, currentPlantFile);
                 }
             }
@@ -589,6 +590,7 @@ namespace ReliefProMain
                         string currentPlantWorkFolder = p.tvPlant.FullPath;
                         string currentPlantFile = p.tvPlant.FullRefPath;
                         //ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, dlgSaveDiagram.FileName);
+                        File.Delete(currentPlantFile);
                         ZipFile.CreateFromDirectory(currentPlantWorkFolder, currentPlantFile);
                     }
                 }

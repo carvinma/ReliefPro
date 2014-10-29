@@ -104,6 +104,11 @@ namespace ReliefProMain.View
                 {
                     //version = ProIIFactory.GetProIIVerison(curprzFile, dir);
                     version = ProIIFactory.GetProIIhs2Verison(curprzFile, dir);
+                    if (version != "9.1" && version != "9.2")
+                    {
+                        MessageBox.Show("This version is not supported!", "Message Box");
+                        return;
+                    }
                     using (var helper = new NHibernateHelper(dbPlantFile))
                     {
                         ISession Session = helper.GetCurrentSession();
