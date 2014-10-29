@@ -62,18 +62,7 @@ namespace ReliefProMain.ViewModel.HXs
 
             //判断冷测进出，
             CustomStreamBLL csbll = new CustomStreamBLL(SessionPF, SessionPS);
-            ObservableCollection<CustomStream> feeds = csbll.GetStreams(SessionPS, false);
-
-            normalColdInlet = feeds[0];
-            if (feeds.Count > 1)
-            {
-                normalHotInlet = feeds[1];
-                if (normalColdInlet.Temperature > feeds[1].Temperature)
-                {
-                    normalColdInlet = feeds[1];
-                    normalHotInlet = feeds[0];
-                }
-            }
+            
             ObservableCollection<CustomStream> products = csbll.GetStreams(SessionPS, true);
             normalColdOutlet = products[0];
             if (products.Count > 1)
@@ -83,6 +72,40 @@ namespace ReliefProMain.ViewModel.HXs
                     normalColdOutlet = products[1];
                 }
             }
+
+            HeatExchangerDAL heatexdal=new HeatExchangerDAL();
+            HeatExchanger heathx=heatexdal.GetModel(SessionPS);
+            ObservableCollection<CustomStream> feeds = csbll.GetStreams(SessionPS, false);
+            if (feeds.Count == 1)
+            {
+                normalColdInlet = feeds[0];
+            }
+            else if(feeds.Count > 1)
+            {
+                ProIIEqDataDAL proiieqdal = new ProIIEqDataDAL();
+                ProIIEqData proiihx = proiieqdal.GetModel(SessionPF, SourceFileInfo.FileName,heathx.HXName);
+                string[] firstfeeds = proiihx.FirstFeed.Split(',');
+                string[] lastfeeds = proiihx.LastFeed.Split(',');
+
+                List<CustomStream> arrFeeds2 = new List<CustomStream>();
+                if (firstfeeds.Length > 1 && !string.IsNullOrEmpty(firstfeeds[1]))
+                {
+                    int start2 = int.Parse(firstfeeds[1]);
+                    int end2 = int.Parse(lastfeeds[1]);
+                    for (int i = start2; i <= end2; i++)
+                    {
+                        arrFeeds2.Add(feeds[i - 1]);
+                    }
+                    if (arrFeeds2.Count > 0)
+                    {
+                        if (arrFeeds2[0].Temperature > products[0].Temperature)
+                        {
+                            normalHotInlet = arrFeeds2[0];
+                        }
+                    }
+                }
+            }
+            
 
 
             HeatExchangerDAL heatdal = new HeatExchangerDAL();
@@ -129,17 +152,14 @@ namespace ReliefProMain.ViewModel.HXs
             {
                 SplashScreenManager.Show();
                 SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
-                
-                
-
-                
+ 
                 double pressure = psv.Pressure;
                 reliefPressure = pressure * psv.ReliefPressureFactor;
 
                 if (normalColdInlet.VaporFraction == 1)
                 {
                     // gas expansion
-                    MethodGasExp4();
+                    MethodGasExp();
                 }
                 else
                 {
@@ -355,7 +375,6 @@ namespace ReliefProMain.ViewModel.HXs
         private void MethodCritical3()
         {           
             double pressure = psv.Pressure;
-
             double reliefPressure = pressure * psv.ReliefPressureFactor;
             CustomStream cs = normalColdInlet;
             double reliefMW = cs.BulkMwOfPhase;
@@ -367,7 +386,7 @@ namespace ReliefProMain.ViewModel.HXs
             model.ReliefZ = cs.VaporZFmKVal;
         }
 
-        private void MethodGasExp4()
+        private void MethodGasExp()
         {
             double tAvg = 0.5 * (normalColdInlet.Temperature + normalColdOutlet.Temperature);
             CustomStream stream = normalColdInlet;
@@ -409,8 +428,8 @@ namespace ReliefProMain.ViewModel.HXs
                     model.LatentPoint = latent;
                     if (latent > 0)
                     {
-                        model.ReliefLoad = Q / latent * (model.NormalHotTemperature - tcoldbprelief) / (model.NormalHotTemperature - tAvg);
-                        if (model.ReliefLoad < 0 || tcoldbprelief > model.NormalHotTemperature)
+                        model.ReliefLoad = vaporcs.WeightFlow;
+                        if (model.ReliefLoad < 0 )
                             model.ReliefLoad = 0;
                         model.ReliefMW = vaporcs.BulkMwOfPhase;
                         model.ReliefPressure = reliefPressure;

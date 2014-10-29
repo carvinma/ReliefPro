@@ -16,6 +16,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using System.IO;
+using System.IO.Compression;
 using System.Xml;
 using System.Resources;
 using System.Collections;
@@ -23,7 +24,6 @@ using System.Configuration;
 using System.Collections.ObjectModel;
 using Microsoft.Win32;
 using System.Runtime.InteropServices;
-
 using Xceed.Wpf.AvalonDock.Layout;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using Xceed.Wpf.AvalonDock;
@@ -563,7 +563,8 @@ namespace ReliefProMain
                 {                    
                     string currentPlantWorkFolder = p.tvPlant.FullPath;
                     string currentPlantFile = p.tvPlant.FullRefPath;
-                    ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
+                    //ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
+                    ZipFile.CreateFromDirectory(currentPlantWorkFolder, currentPlantFile);
                 }
             }
             catch (Exception ex)
@@ -587,7 +588,8 @@ namespace ReliefProMain
                         TVPlantViewModel p = list[0];
                         string currentPlantWorkFolder = p.tvPlant.FullPath;
                         string currentPlantFile = p.tvPlant.FullRefPath;
-                        ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, dlgSaveDiagram.FileName);
+                        //ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, dlgSaveDiagram.FileName);
+                        ZipFile.CreateFromDirectory(currentPlantWorkFolder, currentPlantFile);
                     }
                 }
             }

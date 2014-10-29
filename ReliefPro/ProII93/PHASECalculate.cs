@@ -40,6 +40,7 @@ namespace ProII93
             string onlyFileName = dir + @"\" + Guid.NewGuid().ToString().Substring(0, 5);
             string inpFile = onlyFileName + ".inp";
             File.WriteAllText(inpFile, sb.ToString());
+            cp2Srv.Initialize();
             ImportResult = cp2Srv.Import(inpFile);
             string przFile = string.Empty;
             if (ImportResult == 1 || ImportResult == 2)

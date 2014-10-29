@@ -632,6 +632,8 @@ namespace ReliefProMain.ViewModel
             CustomStream stream = feedlist[0];
             if (EqType == "HX")
             {
+                IList<CustomStream> productlist = csdal.GetAllList(SessionProtectedSystem, true);
+                CustomStream product = productlist[0];
                 ProIIEqDataDAL proiieqdal = new ProIIEqDataDAL();
                 ProIIEqData proiihx = proiieqdal.GetModel(SessionPlant, SourceFileInfo.FileName, EqName);
                 string[] firstfeeds = proiihx.FirstFeed.Split(',');
@@ -643,6 +645,21 @@ namespace ReliefProMain.ViewModel
                 {
                     arrFeeds.Add(feedlist[i - 1]);
                 }
+                List<CustomStream> arrFeeds2 = new List<CustomStream>();
+                if (firstfeeds.Length > 1 && !string.IsNullOrEmpty(firstfeeds[1]))
+                {
+                    int start2 = int.Parse(firstfeeds[1]);
+                    int end2 = int.Parse(lastfeeds[1]);
+                    for (int i = start2; i <= end2; i++)
+                    {
+                        arrFeeds2.Add(feedlist[i - 1]);
+                    }
+                }
+                if (arrFeeds2.Count == 1 && arrFeeds2[0].Temperature < product.Temperature)
+                {
+                    arrFeeds = arrFeeds2;
+                }
+
             }
             else
             {

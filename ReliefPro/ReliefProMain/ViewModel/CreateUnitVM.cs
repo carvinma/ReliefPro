@@ -129,7 +129,7 @@ namespace ReliefProMain.ViewModel
             CreateProtectedSystemVM psVM = new CreateProtectedSystemVM(SessionPlant,tvUnit.ID,dirUnit);
             psView.DataContext = psVM;
             psView.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            
+            psView.ShowDialog();
             //string protectedsystem1 = dirUnit + @"\ProtectedSystem1";
             //Directory.CreateDirectory(protectedsystem1);
             //string dbProtectedSystem = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\protectedsystem.mdb";

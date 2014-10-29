@@ -194,7 +194,8 @@ namespace ReliefProMain.ViewModel.Drums
                 Pt[i] = new KeyValuePair<int, double>(i, tmpPt);
             }
             model.InitialDepressuringRate = wInitDepr;
-            model.Timespecify = (int)(tConstant * 60);
+            //model.Timespecify = (int)(tConstant * 60);
+            model.Timespecify = 15;//15分钟的数据
             model.CalculatedDepressuringRate = wInitDepr * Math.Exp(-1);
             model.CalculatedVesselPressure = model.InitialPressure * Math.Exp(-1);
 

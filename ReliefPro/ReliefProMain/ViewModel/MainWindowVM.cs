@@ -16,6 +16,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using System.IO;
+using System.IO.Compression;
 using System.Xml;
 using System.Resources;
 using System.Collections;
@@ -157,7 +158,7 @@ namespace ReliefProMain.ViewModel
                               CreateUnitVM unitVM = new CreateUnitVM(SessionPlant, currentPlantWorkFolder);
                               unitView.DataContext = unitVM;
                               unitView.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                              
+                              unitView.ShowDialog();
                               //string unit1 = currentPlantWorkFolder + @"\Unit1";
                               //Directory.CreateDirectory(unit1);
                               //string protectedsystem1 = unit1 + @"\ProtectedSystem1";
@@ -258,7 +259,8 @@ namespace ReliefProMain.ViewModel
                                     return;
                                 }
 
-                                ReliefProCommon.CommonLib.CSharpZip.ExtractZipFile(currentPlantFile, "1", currentPlantWorkFolder);
+                                //ReliefProCommon.CommonLib.CSharpZip.ExtractZipFile(currentPlantFile, "1", currentPlantWorkFolder);
+                                ZipFile.ExtractToDirectory(currentPlantFile, currentPlantWorkFolder);
                                 string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
 
                                 TVPlant p = new TVPlant();
@@ -308,7 +310,8 @@ namespace ReliefProMain.ViewModel
 
         private void SavePlant()
         {
-            ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
+            //ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
+            ZipFile.CreateFromDirectory(currentPlantWorkFolder, currentPlantFile);
         }
 
         private void ClosePlant(object obj)

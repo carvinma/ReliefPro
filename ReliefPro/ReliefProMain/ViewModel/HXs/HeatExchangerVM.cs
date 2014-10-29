@@ -339,8 +339,6 @@ namespace ReliefProMain.ViewModel
                 sr.SourceType = "Pump(Motor)";
                 sr.SourceName = cs.StreamName + "_Source";
                 dbsr.Add(sr, SessionProtectedSystem);
-
-
                 dbCS.Add(cs, SessionProtectedSystem);
             }
 
