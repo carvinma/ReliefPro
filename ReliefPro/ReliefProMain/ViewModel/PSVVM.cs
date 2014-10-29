@@ -296,6 +296,13 @@ namespace ReliefProMain.ViewModel
                     CurrentModel.dbmodel.PSVName_Color = CurrentModel.PSVName_Color;
                     CurrentModel.dbmodel.Pressure_Color = CurrentModel.Pressure_Color;
                     CurrentModel.dbmodel.DrumPressure_Color = CurrentModel.DrumPressure_Color;
+                    CurrentModel.dbmodel.DischargeTo_Color = CurrentModel.DischargeTo_Color; 
+                    CurrentModel.dbmodel.ReliefPressureFactor_Color=CurrentModel.ReliefPressureFactor_Color;
+                    CurrentModel.dbmodel.ValveNumber_Color = CurrentModel.ValveNumber_Color;
+                    CurrentModel.dbmodel.ValveType_Color = CurrentModel.ValveType_Color;
+                    CurrentModel.dbmodel.Location_Color = CurrentModel.Location_Color;
+                    CurrentModel.dbmodel.DrumPSVName_Color = CurrentModel.DrumPSVName_Color;
+
                     SplashScreenManager.SentMsgToScreen("Converting Unit");
                     WriteConvert();
                     SplashScreenManager.SentMsgToScreen("Saving Data");
@@ -366,6 +373,13 @@ namespace ReliefProMain.ViewModel
                         CurrentModel.dbmodel.PSVName_Color = CurrentModel.PSVName_Color;
                         CurrentModel.dbmodel.Pressure_Color = CurrentModel.Pressure_Color;
                         CurrentModel.dbmodel.DrumPressure_Color = CurrentModel.DrumPressure_Color;
+                        CurrentModel.dbmodel.DischargeTo_Color = CurrentModel.DischargeTo_Color;
+                        CurrentModel.dbmodel.ReliefPressureFactor_Color = CurrentModel.ReliefPressureFactor_Color;
+                        CurrentModel.dbmodel.ValveNumber_Color = CurrentModel.ValveNumber_Color;
+                        CurrentModel.dbmodel.ValveType_Color = CurrentModel.ValveType_Color;
+                        CurrentModel.dbmodel.Location_Color = CurrentModel.Location_Color;
+                        CurrentModel.dbmodel.DrumPSVName_Color = CurrentModel.DrumPSVName_Color;
+
                         SplashScreenManager.SentMsgToScreen("Converting Unit");
                         WriteConvert();
                         SplashScreenManager.SentMsgToScreen("Saving Data");
