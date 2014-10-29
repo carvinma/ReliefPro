@@ -144,9 +144,15 @@ namespace ReliefProMain.ViewModel
                 psv = new PSV();
                 psv.PSVName = "PSV1";
                 psv.ValveNumber = 2;
+                psv.PSVName_Color = ColorBorder.green.ToString();
+                psv.ValveNumber_Color = ColorBorder.green.ToString();
                 psv.Pressure_Color = ColorBorder.green.ToString();
                 psv.ReliefPressureFactor_Color = ColorBorder.green.ToString();
                 psv.DrumPressure_Color = ColorBorder.green.ToString();
+                psv.DrumPressure_Color = ColorBorder.green.ToString();
+                psv.DischargeTo_Color = ColorBorder.green.ToString();
+                psv.ValveType_Color = ColorBorder.green.ToString();
+                psv.Location_Color = ColorBorder.green.ToString();
             }
             CurrentModel = new PSVModel(psv);
             CurrentModel.ValveType = ValveTypes[0];

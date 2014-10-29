@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ReliefProCommon.Enum;
 using ReliefProModel;
 
 namespace ReliefProMain.Models
@@ -24,10 +25,19 @@ namespace ReliefProMain.Models
             this.Description = m.Description;
             this.LocationDescription = m.LocationDescription;
             this.DischargeTo = m.DischargeTo;
-            this.CriticalPressure = m.CriticalPressure;  
-            
+            this.CriticalPressure = m.CriticalPressure;
+
+            this.PSVName_Color = m.PSVName_Color;
+            this.ValveNumber_Color = m.ValveNumber_Color;
+            this.DrumPSVName_Color = m.DrumPSVName_Color;
+            this.DrumPressure_Color = m.DrumPressure_Color;
+
             this._ReliefPressureFactor_Color = m.ReliefPressureFactor_Color;
             this.Pressure_Color = m.Pressure_Color;
+
+            this.DischargeTo_Color = m.DischargeTo_Color;
+            this.ValveType_Color = m.ValveType_Color;
+            this.Location_Color = m.Location_Color;
 
         }
         private string _PSVName;
@@ -39,6 +49,10 @@ namespace ReliefProMain.Models
             }
             set
             {
+                if (this._PSVName != value)
+                {
+                    PSVName_Color = ColorBorder.blue.ToString();
+                }
                 this._PSVName = value;
                 NotifyPropertyChanged("PSVName");
             }
@@ -66,6 +80,10 @@ namespace ReliefProMain.Models
             }
             set
             {
+                if(this._ValveNumber != value)
+                {
+                    ValveNumber_Color=ColorBorder.blue.ToString();
+                }
                 this._ValveNumber = value;
                 int number = _ValveNumber;
                 if (number == 1)
@@ -85,6 +103,10 @@ namespace ReliefProMain.Models
             }
             set
             {
+                if (this._ValveType != value)
+                {
+                    this.ValveType_Color = ColorBorder.blue.ToString();
+                }
                 this._ValveType = value;
                 NotifyPropertyChanged("ValveType");
             }
@@ -98,6 +120,10 @@ namespace ReliefProMain.Models
             }
             set
             {
+                if (this._DischargeTo != value)
+                {
+                    this.DischargeTo_Color = ColorBorder.blue.ToString();
+                }
                 this._DischargeTo = value;
                 NotifyPropertyChanged("DischargeTo");
             }
@@ -137,7 +163,12 @@ namespace ReliefProMain.Models
             }
             set
             {
+                if (this._ReliefPressureFactor != value)
+                {
+                    ReliefPressureFactor_Color = ColorBorder.blue.ToString();
+                }
                 this._ReliefPressureFactor = value;
+                 
                 NotifyPropertyChanged("ReliefPressureFactor");
             }
         }
@@ -150,6 +181,10 @@ namespace ReliefProMain.Models
             }
             set
             {
+                if (this._DrumPSVName != value)
+                {
+                    DrumPSVName_Color = ColorBorder.blue.ToString();
+                }
                 this._DrumPSVName = value;
                 NotifyPropertyChanged("DrumPSVName");
             }
@@ -163,6 +198,10 @@ namespace ReliefProMain.Models
             }
             set
             {
+                if (this._DrumPressure != value)
+                {
+                    DrumPressure_Color = ColorBorder.blue.ToString();
+                }
                 this._DrumPressure = value;
                 NotifyPropertyChanged("DrumPressure");
             }
@@ -207,7 +246,12 @@ namespace ReliefProMain.Models
             get { return location; }
             set
             {
+                if (location != value)
+                {
+                    Location_Color = ColorBorder.blue.ToString();
+                }
                 location = value;
+
                 NotifyPropertyChanged("Location");
             }
         }
@@ -305,6 +349,7 @@ namespace ReliefProMain.Models
             }
             set
             {
+               
                 this._PSVName_Color = value;
                 NotifyPropertyChanged("PSVName_Color");
             }
@@ -405,6 +450,79 @@ namespace ReliefProMain.Models
             {
                 _CricondenbarTempUnit = value;
                 OnPropertyChanged("CricondenbarTempUnit");
+            }
+        }
+
+        private string _ValveNumber_Color;
+        public string ValveNumber_Color
+        {
+            get
+            {
+                return this._ValveNumber_Color;
+            }
+            set
+            {
+                this._ValveNumber_Color = value;
+                NotifyPropertyChanged("ValveNumber_Color");
+            }
+        }
+
+        private string _DrumPSVName_Color;
+        public string DrumPSVName_Color
+        {
+            get
+            {
+                return this._DrumPSVName_Color;
+            }
+            set
+            {
+                this._DrumPSVName_Color = value;
+                NotifyPropertyChanged("DrumPSVName_Color");
+            }
+        }
+
+
+        private string _DischargeTo_Color;
+        public string DischargeTo_Color
+        {
+            get
+            {
+                return this._DischargeTo_Color;
+            }
+            set
+            {
+                this._DischargeTo_Color = value;
+                NotifyPropertyChanged("DischargeTo_Color");
+            }
+        }
+
+        private string _ValveType_Color;
+        public string ValveType_Color
+        {
+            get
+            {
+                return this._ValveType_Color;
+            }
+            set
+            {
+                this._ValveType_Color = value;
+                NotifyPropertyChanged("ValveType_Color");
+            }
+        }
+
+
+
+        private string _Location_Color;
+        public string Location_Color
+        {
+            get
+            {
+                return this._Location_Color;
+            }
+            set
+            {
+                this._Location_Color = value;
+                NotifyPropertyChanged("Location_Color");
             }
         }
     }
