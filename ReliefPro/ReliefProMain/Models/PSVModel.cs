@@ -103,7 +103,7 @@ namespace ReliefProMain.Models
             }
             set
             {
-                if (this._ValveType != value)
+                if (this._ValveType != value && value != null)
                 {
                     this.ValveType_Color = ColorBorder.blue.ToString();
                 }
@@ -120,10 +120,11 @@ namespace ReliefProMain.Models
             }
             set
             {
-                if (this._DischargeTo != value)
+                if (this._DischargeTo != value && value!=null)
                 {
                     this.DischargeTo_Color = ColorBorder.blue.ToString();
                 }
+
                 this._DischargeTo = value;
                 NotifyPropertyChanged("DischargeTo");
             }
@@ -246,7 +247,7 @@ namespace ReliefProMain.Models
             get { return location; }
             set
             {
-                if (location != value)
+                if (location != value && value != null)
                 {
                     Location_Color = ColorBorder.blue.ToString();
                 }
