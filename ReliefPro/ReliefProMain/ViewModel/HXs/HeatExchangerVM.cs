@@ -122,7 +122,10 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ColorImport");
             }
         }
-
+        public string ColdInlet;
+        public string HotInlet;
+        public string ColdOutlet;
+        public string HotOutlet;
         List<string> dicFeeds = new List<string>();
         List<string> dicProducts = new List<string>();
         List<string> dicProductTypes = new List<string>();
@@ -360,8 +363,8 @@ namespace ReliefProMain.ViewModel
             HX.Duty = Duty;
             HX.HXType = HXType;
             HX.SourceFile = FileName;
-            HX.Temperature = UnitConvert.Convert("K", "C", double.Parse(ProIIHX.TempCalc)); 
-            HX.Pressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(ProIIHX.PressCalc)); 
+            //HX.Temperature = UnitConvert.Convert("K", "C", double.Parse(ProIIHX.TempCalc)); 
+            //HX.Pressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(ProIIHX.PressCalc)); 
             HX.FirstFeed = ProIIHX.FirstFeed;
             HX.FirstProduct = ProIIHX.FirstProduct;
             HX.LastFeed = ProIIHX.LastFeed;
@@ -376,7 +379,7 @@ namespace ReliefProMain.ViewModel
             string[] firstproducts = this.ProIIHX.FirstProduct.Split(',');
             string[] lastproducts = this.ProIIHX.LastProduct.Split(',');
 
-            if (firstfeeds.Length == 1)
+            if (Products.Count == 1)
             {
                 //说明单侧进单侧出
                 HX.ColdInlet = this.ProIIHX.FeedData;
@@ -478,7 +481,10 @@ namespace ReliefProMain.ViewModel
                 }
 
             }
-            
+            ColdInlet = HX.ColdInlet;
+            ColdOutlet = HX.ColdOutlet;
+            HotInlet = HX.HotInlet;
+            HotOutlet = HX.HotOutlet;
 
             dbHX.Add(HX, SessionProtectedSystem);
 

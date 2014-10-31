@@ -669,63 +669,76 @@ namespace ReliefProMain.View
             int center = 5;
             //2,3 入
             int feedcount = vm.Feeds.Count;
-            if (feedcount > 0)
+            int productcount = vm.Products.Count;
+
+            //coldinlet
+            if (!string.IsNullOrEmpty(vm.ColdInlet))
             {
-                CustomStream cs = vm.Feeds[0];
-                Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
-                ConnectShapes(shape, 2, connector, 0);
-                connector.Text = cs.StreamName;
-
-                Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY);
-                startShp.get_Cells("Height").ResultIU = 0.1;
-                startShp.get_Cells("Width").ResultIU = 0.2;
-                startShp.Text = connector.Text + "_Source";
-                ConnectShapes(startShp, 2, connector, 1);
-                startShp.Cells["EventDblClick"].Formula = "=0";
-
-                if (feedcount > 1)
+                string[] coldinlets = vm.ColdInlet.Split(',');
+                for (int i = 0; i < coldinlets.Length; i++)
                 {
-                    CustomStream cs2 = vm.Feeds[1];
-                    Visio.Shape connector2 = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
-                    ConnectShapes(shape, 3, connector2, 0);
-                    connector2.Text = cs2.StreamName;
+                    if (coldinlets[i] != string.Empty)
+                    {
+                        Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
+                        ConnectShapes(shape, 2, connector, 0);
+                        connector.Text = coldinlets[i];
 
-                    Visio.Shape startShp2 = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY + 0.2);
-                    startShp2.get_Cells("Height").ResultIU = 0.1;
-                    startShp2.get_Cells("Width").ResultIU = 0.2;
-                    startShp2.Text = connector2.Text + "_Source";
-                    ConnectShapes(startShp2, 2, connector2, 1);
-                    startShp2.Cells["EventDblClick"].Formula = "=0";
+                        Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY - i );
+                        startShp.get_Cells("Height").ResultIU = 0.1;
+                        startShp.get_Cells("Width").ResultIU = 0.2;
+                        startShp.Text = connector.Text + "_Source";
+                        ConnectShapes(startShp, 2, connector, 1);
+                        startShp.Cells["EventDblClick"].Formula = "=0";
+                    }
+                }
+            }
+            if (!string.IsNullOrEmpty(vm.HotInlet))
+            {
+                string[] hotinlets = vm.HotInlet.Split(',');
+                for (int i = 0; i < hotinlets.Length; i++)
+                {
+                    if (hotinlets[i] != string.Empty)
+                    {
+                        Visio.Shape connector2 = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
+                        ConnectShapes(shape, 3, connector2, 0);
+                        connector2.Text = hotinlets[i];
+
+                        Visio.Shape startShp2 = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2+i, pinY + 0.2);
+                        startShp2.get_Cells("Height").ResultIU = 0.1;
+                        startShp2.get_Cells("Width").ResultIU = 0.2;
+                        startShp2.Text = connector2.Text + "_Source";
+                        ConnectShapes(startShp2, 2, connector2, 1);
+                        startShp2.Cells["EventDblClick"].Formula = "=0";
+                    }
                 }
             }
 
+
             //1,4出
-            int productcount = vm.Products.Count;
-            if (productcount > 0)
+
+            if (!string.IsNullOrEmpty(vm.ColdOutlet))
             {
-                CustomStream cs = vm.Products[0];
                 Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
                 ConnectShapes(shape, 1, connector, 1);
-                connector.Text = cs.StreamName;
+                connector.Text = vm.ColdOutlet;
                 Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 1.8, pinY + 0.35);
                 endShp.get_Cells("Height").ResultIU = endShpHeight;
                 endShp.get_Cells("Width").ResultIU = endShpWidth;
                 endShp.Text = connector.Text + "_Sink";
                 endShp.Cells["EventDblClick"].Formula = "=0";
                 ConnectShapes(endShp, 7, connector, 0);
-                if (productcount > 1)
-                {
-                    CustomStream cs2 = vm.Products[1];
-                    Visio.Shape connector2 = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
-                    ConnectShapes(shape, 4, connector2, 1);
-                    connector2.Text = cs2.StreamName;
-                    Visio.Shape endShp2 = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 1.8, pinY - 0.6);
-                    endShp2.get_Cells("Height").ResultIU = endShpHeight;
-                    endShp2.get_Cells("Width").ResultIU = endShpWidth;
-                    endShp2.Text = connector2.Text + "_Sink";
-                    endShp2.Cells["EventDblClick"].Formula = "=0";
-                    ConnectShapes(endShp2, 7, connector2, 0);
-                }
+            }
+            if (!string.IsNullOrEmpty(vm.HotOutlet))
+            {
+                Visio.Shape connector2 = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
+                ConnectShapes(shape, 4, connector2, 1);
+                connector2.Text = vm.HotOutlet;
+                Visio.Shape endShp2 = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 1.8, pinY - 0.6);
+                endShp2.get_Cells("Height").ResultIU = endShpHeight;
+                endShp2.get_Cells("Width").ResultIU = endShpWidth;
+                endShp2.Text = connector2.Text + "_Sink";
+                endShp2.Cells["EventDblClick"].Formula = "=0";
+                ConnectShapes(endShp2, 7, connector2, 0);
             }
 
         }
