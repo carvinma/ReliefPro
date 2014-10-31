@@ -48,6 +48,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PHASECalculate.cs" />
+    <Compile Include="MixCalculate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReliefProCommon\ReliefProCommon.csproj">
