@@ -64,7 +64,9 @@ namespace ReliefProMain.ViewModel.TowerFires
                 sizemodel.HeadNumber_Color = ColorBorder.green.ToString();
                 sizemodel.Length_Color = ColorBorder.green.ToString();
                 sizemodel.NormalLiquidLevel_Color = ColorBorder.green.ToString();
-                sizemodel.PipingContingency_Color = ColorBorder.green.ToString(); 
+                sizemodel.PipingContingency_Color = ColorBorder.green.ToString();
+                sizemodel.Orientation_Color = ColorBorder.green.ToString();
+                sizemodel.HeadType_Color = ColorBorder.green.ToString();
                
                 db.Add(sizemodel, SessionProtectedSystem);                
             }

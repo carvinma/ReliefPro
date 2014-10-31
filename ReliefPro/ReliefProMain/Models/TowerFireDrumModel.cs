@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.Models
 {
@@ -96,6 +97,7 @@ namespace ReliefProMain.Models
             this.normalLiquidLevel_Color = sizemodel.NormalLiquidLevel_Color;
             this.bootDiameter_Color = sizemodel.BootDiameter_Color;
             this.bootHeight_Color = sizemodel.BootHeight_Color;
+            this.pipingContingency_Color = sizemodel.PipingContingency_Color;
         }
         private double elevation;
         [ReliefProMain.Util.Required(ErrorMessage = "ElevationWarning")]
@@ -176,6 +178,10 @@ namespace ReliefProMain.Models
             get { return orientation; }
             set
             {
+                if (orientation != value)
+                {
+                    Orientation_Color = ColorBorder.blue.ToString();
+                }
                 orientation = value;
                 this.NotifyPropertyChanged("Orientation");
             }
@@ -198,6 +204,10 @@ namespace ReliefProMain.Models
             get { return headType; }
             set
             {
+                if (headType != value)
+                {
+                    HeadType_Color = ColorBorder.blue.ToString();
+                }
                 headType = value;
                 this.NotifyPropertyChanged("HeadType");
             }
@@ -213,6 +223,10 @@ namespace ReliefProMain.Models
             }
             set
             {
+                if (this._PipingContingency != value)
+                {
+                    PipingContingency_Color = ColorBorder.blue.ToString();
+                }
                 this._PipingContingency = value;
                 NotifyPropertyChanged("PipingContingency");
             }

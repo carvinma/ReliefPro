@@ -16,6 +16,7 @@ using UOMLib;
 using NHibernate;
 using System.Windows;
 using ReliefProMain.CustomControl;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.ViewModel.TowerFires
 {
@@ -48,6 +49,10 @@ namespace ReliefProMain.ViewModel.TowerFires
                 c.NumberOfSegment = 0;
                 c.EqID = EqID;
                 c.PipingContingency = 10;
+                c.NumberOfSegment_Color = ColorBorder.green.ToString();
+                c.Elevation_Color = ColorBorder.green.ToString();
+                c.BNLL_Color = ColorBorder.green.ToString();
+                c.PipingContingency_Color = ColorBorder.green.ToString();
                 model = new TowerFireColumnModel(c);
                 try
                 {

@@ -8,6 +8,7 @@ using ReliefProModel;
 using NHibernate;
 using ReliefProBLL.Common;
 using ReliefProDAL;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.Models
 {
@@ -38,6 +39,10 @@ namespace ReliefProMain.Models
             }
             set
             {
+                if (_NumberOfSegment != value)
+                {
+                    NumberOfSegment_Color = ColorBorder.blue.ToString();
+                }
                 _NumberOfSegment = value;
                 if (_NumberOfSegment > _Details.Count)
                 {
@@ -107,6 +112,10 @@ namespace ReliefProMain.Models
             }
             set
             {
+                if (_PipingContingency != value)
+                {
+                    PipingContingency_Color = ColorBorder.blue.ToString();
+                }
                 this._PipingContingency = value;
                 NotifyPropertyChanged("PipingContingency");
             }
