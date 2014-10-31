@@ -682,8 +682,16 @@ namespace ReliefProMain.View
                         Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
                         ConnectShapes(shape, 2, connector, 0);
                         connector.Text = coldinlets[i];
-
-                        Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY - i );
+                        int diff = 0;
+                        if (i % 2 == 0)
+                        {
+                            diff = i ;
+                        }
+                        else
+                        {
+                            diff = -1 * i ;
+                        }
+                        Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY - diff );
                         startShp.get_Cells("Height").ResultIU = 0.1;
                         startShp.get_Cells("Width").ResultIU = 0.2;
                         startShp.Text = connector.Text + "_Source";
@@ -703,7 +711,16 @@ namespace ReliefProMain.View
                         ConnectShapes(shape, 3, connector2, 0);
                         connector2.Text = hotinlets[i];
 
-                        Visio.Shape startShp2 = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2+i, pinY + 0.2);
+                        int diff = 0;
+                        if (i % 2 == 0)
+                        {
+                            diff = i ;
+                        }
+                        else
+                        {
+                            diff = -1 * i ;
+                        }
+                        Visio.Shape startShp2 = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2+diff, pinY + 0.2);
                         startShp2.get_Cells("Height").ResultIU = 0.1;
                         startShp2.get_Cells("Width").ResultIU = 0.2;
                         startShp2.Text = connector2.Text + "_Source";

@@ -585,14 +585,14 @@ namespace ReliefProMain.ViewModel.TowerFires
                 int ImportResult = 0;
                 int RunResult = 0;
                 PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
-                StringBuilder sbcontent = new StringBuilder();
+                List<string> coldList = new List<string>();
                 foreach (CustomStream cs in feedlist)
                 {
-                    string content = PROIIFileOperator.getUsableContent(cs.StreamName, tempdir);
-                    sbcontent.Append(content).Append("\n");
+                    coldList.Add(cs.StreamName);
                 }
+                string content = PROIIFileOperator.getUsableContent(coldList, tempdir);
                 IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-                string tray1_f = fcalc.Calculate(sbcontent.ToString(), 1, reliefFirePressure.ToString(), 6, "0.05", feedlist, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+                string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, "0.05", feedlist, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
                 if (ImportResult == 1 || ImportResult == 2)
                 {
                     if (RunResult == 1 || RunResult == 2)
