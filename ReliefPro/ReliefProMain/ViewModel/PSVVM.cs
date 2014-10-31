@@ -23,6 +23,8 @@ using System.Threading;
 using System.Collections.ObjectModel;
 using ReliefProCommon.Enum;
 using ReliefProBLL;
+using ReliefProDAL.HXs;
+using ReliefProModel.HXs;
 
 namespace ReliefProMain.ViewModel
 {
@@ -649,36 +651,18 @@ namespace ReliefProMain.ViewModel
             List<CustomStream> arrFeeds = new List<CustomStream>();
             CustomStreamDAL csdal = new CustomStreamDAL();
             List<CustomStream> feedlist = csdal.GetAllList(SessionProtectedSystem, false).ToList();
+            IList<CustomStream> productlist = csdal.GetAllList(SessionProtectedSystem, true);
             CustomStream stream = feedlist[0];
             if (EqType == "HX")
             {
-                IList<CustomStream> productlist = csdal.GetAllList(SessionProtectedSystem, true);
-                CustomStream product = productlist[0];
-                ProIIEqDataDAL proiieqdal = new ProIIEqDataDAL();
-                ProIIEqData proiihx = proiieqdal.GetModel(SessionPlant, SourceFileInfo.FileName, EqName);
-                string[] firstfeeds = proiihx.FirstFeed.Split(',');
-                string[] lastfeeds = proiihx.LastFeed.Split(',');
-
-                int start = int.Parse(firstfeeds[0]);
-                int end = int.Parse(lastfeeds[0]);
-                for (int i = start; i <= end; i++)
+                HeatExchangerDAL hxdal = new HeatExchangerDAL();
+                HeatExchanger hx = hxdal.GetModel(SessionProtectedSystem);
+                string[] coldefeeds = hx.ColdInlet.Split(',');
+                foreach(string cold in coldefeeds)
                 {
-                    arrFeeds.Add(feedlist[i - 1]);
-                }
-                List<CustomStream> arrFeeds2 = new List<CustomStream>();
-                if (firstfeeds.Length > 1 && !string.IsNullOrEmpty(firstfeeds[1]))
-                {
-                    int start2 = int.Parse(firstfeeds[1]);
-                    int end2 = int.Parse(lastfeeds[1]);
-                    for (int i = start2; i <= end2; i++)
-                    {
-                        arrFeeds2.Add(feedlist[i - 1]);
-                    }
-                }
-                if (arrFeeds2.Count == 1 && arrFeeds2[0].Temperature < product.Temperature)
-                {
-                    arrFeeds = arrFeeds2;
-                }
+                    CustomStream cs = csdal.GetModel(SessionProtectedSystem, cold);
+                    arrFeeds.Add(cs);
+                }                
 
             }
             else

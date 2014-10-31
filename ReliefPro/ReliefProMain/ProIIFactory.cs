@@ -72,7 +72,23 @@ namespace ReliefProMain
             }
             return reader;
         }
-        
+        public static IMixCalculate CreateMixCalculate(string version)
+        {
+            IMixCalculate calc = null;
+            if (version == "9.1")
+            {
+                calc = new ProII91.MixCalculate();
+            }
+            else if (version == "9.2")
+            {
+                calc = new ProII92.MixCalculate();
+            }
+            else if (version == "9.3")
+            {
+                //calc = new ProII93.MixCalculate();
+            }
+            return calc;
+        }
         public static IFlashCalculate CreateFlashCalculate(string version)
         {
             IFlashCalculate calc = null;            

@@ -33,7 +33,8 @@ namespace ReliefProMain.ViewModel.HXs
         public HXBlockedInModel model { get; set; }
         private HXBLL hxBLL;
         CustomStream normalHotInlet = null;
-        CustomStream normalColdInlet = new CustomStream();
+        CustomStream normalColdInlet = new CustomStream();//单个
+        List<CustomStream> normalColdInletList = new List<CustomStream>();
         CustomStream normalColdOutlet = new CustomStream();
         PSVDAL psvDAL ;
         PSV psv;
@@ -61,52 +62,49 @@ namespace ReliefProMain.ViewModel.HXs
             model.dbmodel.ScenarioID = ScenarioID;
 
             //判断冷测进出，
-            CustomStreamBLL csbll = new CustomStreamBLL(SessionPF, SessionPS);
+            CustomStreamDAL csdal = new CustomStreamDAL();
             
-            ObservableCollection<CustomStream> products = csbll.GetStreams(SessionPS, true);
-            normalColdOutlet = products[0];
-            if (products.Count > 1)
-            {
-                if (normalColdOutlet.Temperature > products[1].Temperature)
-                {
-                    normalColdOutlet = products[1];
-                }
-            }
-
+           
             HeatExchangerDAL heatexdal=new HeatExchangerDAL();
             HeatExchanger heathx=heatexdal.GetModel(SessionPS);
-            ObservableCollection<CustomStream> feeds = csbll.GetStreams(SessionPS, false);
-            if (feeds.Count == 1)
+            if (heathx.ColdInlet.Contains(","))
             {
-                normalColdInlet = feeds[0];
-            }
-            else if(feeds.Count > 1)
-            {
-                ProIIEqDataDAL proiieqdal = new ProIIEqDataDAL();
-                ProIIEqData proiihx = proiieqdal.GetModel(SessionPF, SourceFileInfo.FileName,heathx.HXName);
-                string[] firstfeeds = proiihx.FirstFeed.Split(',');
-                string[] lastfeeds = proiihx.LastFeed.Split(',');
-
-                List<CustomStream> arrFeeds2 = new List<CustomStream>();
-                if (firstfeeds.Length > 1 && !string.IsNullOrEmpty(firstfeeds[1]))
+                //需要做mixer
+                int ImportResult = 0;
+                int RunResult = 0;
+                string tempdir = DirProtectedSystem + @"\temp\";
+                string dirMix = tempdir + "BlockedInlet_Mix";
+                string[] coldfeeds = heathx.ColdInlet.Split(',');
+                StringBuilder sbcontent = new StringBuilder();               
+                foreach (string cold in coldfeeds)
                 {
-                    int start2 = int.Parse(firstfeeds[1]);
-                    int end2 = int.Parse(lastfeeds[1]);
-                    for (int i = start2; i <= end2; i++)
+                    CustomStream cs = csdal.GetModel(SessionPS, cold);
+                    string content = PROIIFileOperator.getUsableContent(cs.StreamName, tempdir);
+                    sbcontent.Append(content).Append("\n");
+                    normalColdInletList.Add(cs);
+                }
+                IMixCalculate mixcalc = ProIIFactory.CreateMixCalculate(SourceFileInfo.FileVersion);
+                string mixProduct = Guid.NewGuid().ToString().Substring(0, 6);
+                string tray1_f = mixcalc.Calculate(sbcontent.ToString(), normalColdInletList, mixProduct, dirMix, ref ImportResult, ref RunResult);
+                if (ImportResult == 1 || ImportResult == 2)
+                {
+                    if (RunResult == 1 || RunResult == 2)
                     {
-                        arrFeeds2.Add(feeds[i - 1]);
-                    }
-                    if (arrFeeds2.Count > 0)
-                    {
-                        if (arrFeeds2[0].Temperature > products[0].Temperature)
-                        {
-                            normalHotInlet = arrFeeds2[0];
-                        }
+                        IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                        reader.InitProIIReader(tray1_f);
+                        ProIIStreamData proIIProduct = reader.GetSteamInfo(mixProduct);
+                        normalColdInlet = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIProduct);
+                        reader.ReleaseProIIReader();
                     }
                 }
             }
-            
-
+            else
+            {
+                normalColdInlet = csdal.GetModel(SessionPS,heathx.ColdInlet);
+                
+            }
+            normalColdOutlet= csdal.GetModel(SessionPS,heathx.ColdOutlet);
+            normalHotInlet = csdal.GetModel(SessionPS, heathx.HotInlet);
 
             HeatExchangerDAL heatdal = new HeatExchangerDAL();
             HeatExchanger heat = heatdal.GetModel(SessionPS);
@@ -117,7 +115,7 @@ namespace ReliefProMain.ViewModel.HXs
             {
                 model.NormalHotTemperature = normalHotInlet.Temperature;
             }
-            model.ColdStream = normalColdInlet.StreamName;
+            model.ColdStream = heathx.ColdInlet;
 
 
             UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
@@ -236,7 +234,7 @@ namespace ReliefProMain.ViewModel.HXs
             double Q = model.NormalDuty;
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             string tempdir = DirProtectedSystem + @"\temp\";
-            string dirLatent = tempdir + "BlockedOutlet";
+            string dirLatent = tempdir + "BlockedIn";
             if (!Directory.Exists(dirLatent))
                 Directory.CreateDirectory(dirLatent);
             string gd = Guid.NewGuid().ToString();
@@ -300,14 +298,17 @@ namespace ReliefProMain.ViewModel.HXs
             }
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
         private void MethodDuty2()
         {
-            double tAvg = 0.5 * (normalColdInlet.Temperature + normalColdOutlet.Temperature);
-            CustomStream stream = normalColdInlet;
+            double tAvg = 0.5 * (normalColdInlet.Temperature + normalColdOutlet.Temperature);            
             double Q = model.NormalDuty;
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             string tempdir = DirProtectedSystem + @"\temp\";
-            string dirLatent = tempdir + "BlockedOutlet";
+            string dirLatent = tempdir + "BlockedIn";
             if (!Directory.Exists(dirLatent))
                 Directory.CreateDirectory(dirLatent);
             string gd = Guid.NewGuid().ToString();
@@ -317,13 +318,18 @@ namespace ReliefProMain.ViewModel.HXs
             int RunResult = 0;
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
-            string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
+            StringBuilder sbcontent = new StringBuilder();
+            foreach (CustomStream cs in normalColdInletList)
+            {
+                string content = PROIIFileOperator.getUsableContent(cs.StreamName, tempdir);
+                sbcontent.Append(content).Append("\n");
+            }
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
 
             double normalduty=UnitConvert.Convert(model.NormalDutyUnit,"KJ/hr",model.NormalDuty);
             normalduty = normalduty / Math.Pow(10, 6);
-            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 5, normalduty.ToString(), stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(sbcontent.ToString(), 1, reliefPressure.ToString(), 5, normalduty.ToString(), normalColdInletList, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -373,12 +379,15 @@ namespace ReliefProMain.ViewModel.HXs
         }
 
         private void MethodCritical3()
-        {           
+        {
+             double tAvg = 0.5 * (normalColdInlet.Temperature + normalColdOutlet.Temperature);
+            double Q = model.NormalDuty;
             double pressure = psv.Pressure;
             double reliefPressure = pressure * psv.ReliefPressureFactor;
             CustomStream cs = normalColdInlet;
             double reliefMW = cs.BulkMwOfPhase;
-            model.ReliefLoad = 116;
+            double latent = 116;
+            model.ReliefLoad = Q/latent+(model.NormalHotTemperature-psv.CriticalTemperature)/(model.NormalHotTemperature-tAvg);
             model.ReliefPressure = reliefPressure;
             model.ReliefTemperature = psv.CriticalTemperature;
             model.ReliefMW = reliefMW;
@@ -386,10 +395,12 @@ namespace ReliefProMain.ViewModel.HXs
             model.ReliefZ = cs.VaporZFmKVal;
         }
 
+        /// <summary>
+        /// Coldoutlet 做闪蒸
+        /// </summary>
         private void MethodGasExp()
-        {
-            double tAvg = 0.5 * (normalColdInlet.Temperature + normalColdOutlet.Temperature);
-            CustomStream stream = normalColdInlet;
+        {            
+            CustomStream stream = normalColdOutlet;
             double Q = model.NormalDuty;
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             string tempdir = DirProtectedSystem + @"\temp\";
