@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IFlashCalculate.cs" />
+    <Compile Include="IMixCalculate.cs" />
     <Compile Include="IPHASECalculate.cs" />
     <Compile Include="IProIIImport.cs" />
     <Compile Include="IProIIReader.cs" />
