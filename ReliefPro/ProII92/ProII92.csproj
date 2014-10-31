@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FlashCalculate.cs" />
+    <Compile Include="MixCalculate.cs" />
     <Compile Include="PHASECalculate.cs" />
     <Compile Include="ProIIImport.cs" />
     <Compile Include="ProIIReader.cs" />
