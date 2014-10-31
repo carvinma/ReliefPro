@@ -21,5 +21,12 @@
   <property name="LastProduct" column="LastProduct" type="String" length="255" />
   <property name="Pressure" column="Pressure" type="Double"/>
   <property name="Temperature" column="Temperature" type="Double"/>
+
+  <property name="ColdInlet" column="ColdInlet" type="String" length="255" />
+  <property name="ColdOutlet" column="ColdOutlet" type="String" length="255" />
+  <property name="HotInlet" column="HotInlet" type="String" length="255" />
+  <property name="HotOutlet" column="HotOutlet" type="String" length="255" />
+  
+  
 </class>
 </hibernate-mapping>

@@ -27,5 +27,10 @@ namespace ReliefProModel.HXs
         public virtual string LastFeed { get; set; }
         public virtual string LastProduct { get; set; }
 
+        public virtual string ColdInlet { get; set; }
+        public virtual string ColdOutlet { get; set; }
+        public virtual string HotInlet { get; set; }
+        public virtual string HotOutlet { get; set; }
+
     }
 }
