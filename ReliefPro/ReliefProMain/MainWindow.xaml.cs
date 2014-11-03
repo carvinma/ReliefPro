@@ -1052,7 +1052,7 @@ namespace ReliefProMain
                     {                        
                         SavePlant();
                     }
-                    else if (r == MessageBoxResult.Cancel)
+                    else if (r == MessageBoxResult.Cancel) 
                     {
                         e.Cancel = true;
                         return;

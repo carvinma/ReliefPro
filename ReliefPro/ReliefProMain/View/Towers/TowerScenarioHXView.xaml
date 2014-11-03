@@ -37,7 +37,7 @@
                     <GridViewColumn Header="{DynamicResource Stop}" Width="50px">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=DutyLost}"></CheckBox>
+                                <CheckBox IsChecked="{Binding Path=DutyLost,Mode=TwoWay}"></CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

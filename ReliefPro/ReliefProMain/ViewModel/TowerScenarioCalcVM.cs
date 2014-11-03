@@ -438,7 +438,7 @@ namespace ReliefProMain.ViewModel
             if (diffTotal > 0)
             {
                 IList<TowerFlashProduct> listP1 = (from p in listP
-                                                   where (p.ProdType != "3" || p.ProdType != "4" || p.ProdType != "6")
+                                                   where (p.ProdType != "3" || p.ProdType != "4" || p.ProdType != "6" ||!(p.Tray==1 && p.ProdType=="2"))
                                                    orderby p.SpEnthalpy descending
                                                    select p).ToList();
 
@@ -471,7 +471,7 @@ namespace ReliefProMain.ViewModel
             if (diffTotal > 0)
             {
                 IList<TowerFlashProduct> listP2 = (from p in listP
-                                                   where (p.ProdType == "3" || p.ProdType == "4")
+                                                   where (p.ProdType == "3" || p.ProdType == "4" || (p.Tray == 1 && p.ProdType == "2"))
                                                    orderby p.SpEnthalpy descending
                                                    select p).ToList();
 

@@ -448,7 +448,7 @@ namespace ReliefProMain.View
 
             start = 3;
             center = 5;
-            int topcount = 1;
+            //int topcount = 1;
             int bottomcount = 1;
             foreach (CustomStream cs in vm.Products)
             {
@@ -472,24 +472,23 @@ namespace ReliefProMain.View
                     }
                     else
                     {
-                        if (topcount == 1) //开放3，6，7
+                        if (cs.ProdType=="1" || cs.ProdType=="3") //开放visio 里的4，7，8  对应程序里的3，6，7。  3 water， 6气相  7液相
                         {
                             Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
-                            ConnectShapes(condenserVessel, 3, connector, 1);
+                            ConnectShapes(condenserVessel, 6, connector, 1);
                             connector.Text = cs.StreamName;
 
-                            Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, tpinX + 1.5, tpinY - 0.35);
+                            Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, tpinX + 2.5, tpinY - 0.35);
                             endShp.get_Cells("Height").ResultIU = endShpHeight;
                             endShp.get_Cells("Width").ResultIU = endShpWidth;
                             endShp.Text = connector.Text + "_Sink";
                             endShp.Cells["EventDblClick"].Formula = "=0";
                             ConnectShapes(endShp, 7, connector, 0);
-                            topcount++;
                         }
-                        else if (topcount == 2)
+                        else if (cs.ProdType == "2" || cs.ProdType == "4")
                         {
                             Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
-                            ConnectShapes(condenserVessel, 6, connector, 1);
+                            ConnectShapes(condenserVessel, 7, connector, 1);
                             connector.Text = cs.StreamName;
 
                             Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, tpinX + 2.1, tpinY - 0.35);
@@ -498,12 +497,12 @@ namespace ReliefProMain.View
                             endShp.Text = connector.Text + "_Sink";
                             endShp.Cells["EventDblClick"].Formula = "=0";
                             ConnectShapes(endShp, 7, connector, 0);
-                            topcount++;
+                            
                         }
                         else
                         {
                             Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
-                            ConnectShapes(condenserVessel, 7, connector, 1);
+                            ConnectShapes(condenserVessel,3, connector, 1);
                             connector.Text = cs.StreamName;
                             Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, tpinX + 1.8, tpinY - 0.35);
                             endShp.get_Cells("Height").ResultIU = endShpHeight;
@@ -511,7 +510,7 @@ namespace ReliefProMain.View
                             endShp.Text = connector.Text + "_Sink";
                             endShp.Cells["EventDblClick"].Formula = "=0";
                             ConnectShapes(endShp, 7, connector, 0);
-                            topcount++;
+                            
                         }
                     }
 
