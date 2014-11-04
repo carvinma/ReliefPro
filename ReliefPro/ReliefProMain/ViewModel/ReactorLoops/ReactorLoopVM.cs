@@ -22,6 +22,7 @@ using ReliefProBLL;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using Microsoft.Win32;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -199,6 +200,17 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         public ReactorLoopVM( ISession SessionPF, ISession SessionPS, string dirPlant, string dirProtectedSystem)
         {
             model = new ReactorLoopModel();
+            model.ReactorLoopName_Color = ColorBorder.red.ToString();
+            model.EffluentStream_Color = ColorBorder.red.ToString();
+            model.EffluentStream2_Color = ColorBorder.red.ToString();
+            model.ColdReactorFeedStream_Color = ColorBorder.red.ToString();
+            model.ColdReactorFeedStream2_Color = ColorBorder.red.ToString();
+            model.HotHighPressureSeparator_Color = ColorBorder.red.ToString();
+            model.ColdHighPressureSeparator_Color = ColorBorder.red.ToString();
+            model.HXNetworkColdStream_Color = ColorBorder.red.ToString();
+            model.InjectionWaterStream_Color = ColorBorder.red.ToString();
+            model.CompressorH2Stream_Color = ColorBorder.red.ToString();
+
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
             DirPlant = dirPlant;
