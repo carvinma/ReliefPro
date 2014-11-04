@@ -525,17 +525,17 @@ namespace ReliefProMain.ViewModel
             if (!Directory.Exists(dirInletValveOpen))
                 Directory.CreateDirectory(dirInletValveOpen);
             double reliefLoad = Darcy(rMass, CV, MaxOperatingPressure, ReliefPressure);
+            double wf = 0;
             if (CurrentEqNormalVapor != null)
-            {
-                double wf = 0;
+            {               
                 if (CurrentEqNormalVapor.WeightFlow != null)
                 {
                     wf = CurrentEqNormalVapor.WeightFlow;
-                }
-                VBReliefLoad = (reliefLoad - wf);
-                VBReliefMW = this.UpStreamVaporData.BulkMwOfPhase;
-                VBReliefTemperature = UpStreamVaporData.Temperature;
+                }               
             }
+            VBReliefLoad = (reliefLoad - wf);
+            VBReliefMW = this.UpStreamVaporData.BulkMwOfPhase;
+            VBReliefTemperature = UpStreamVaporData.Temperature;
         }
 
 

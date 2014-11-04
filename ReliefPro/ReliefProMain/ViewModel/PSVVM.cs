@@ -442,7 +442,7 @@ namespace ReliefProMain.ViewModel
             double internPressure = UnitConvert.Convert("MPAG", "KPA", stream.Pressure);
             if (internPressure == 0)
             {
-                MessageBox.Show("Please Rerun this ProII file and save it.", "Message Box");
+                MessageBox.Show("Tray 1 Pressure is zero,Please Rerun this ProII file and save it.", "Message Box");
                 return;
             }
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
