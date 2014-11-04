@@ -66,6 +66,19 @@ namespace ReliefProMain.Models.ReactorLoops
                 NotifyPropertyChanged("EffluentStream");
             }
         }
+        public string EffluentStream2
+        {
+            get { return dbModel.EffluentStream2; }
+            set
+            {
+                if (dbModel.EffluentStream2 != value)
+                {
+                    EffluentStream2_Color = ColorBorder.blue.ToString();
+                }
+                dbModel.EffluentStream2 = value;
+                NotifyPropertyChanged("EffluentStream2");
+            }
+        }
         public string ColdReactorFeedStream
         {
             get { return dbModel.ColdReactorFeedStream; }
