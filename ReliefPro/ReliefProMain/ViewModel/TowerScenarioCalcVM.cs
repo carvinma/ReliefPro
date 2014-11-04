@@ -155,6 +155,8 @@ namespace ReliefProMain.ViewModel
             ReliefZ = CurrentScenario.ReliefZ;
             SteamFreezed = CheckSteamFreezed();
             ReadConvert();
+            TowerDAL towerdal = new TowerDAL();
+            tower = towerdal.GetModel(SessionProtectedSystem);
 
         }
         private int CheckSteamFreezed()
@@ -343,8 +345,7 @@ namespace ReliefProMain.ViewModel
             try
             {
                 SplashScreenManager.Show();
-                TowerDAL towerdal = new TowerDAL();
-                tower = towerdal.GetModel(SessionProtectedSystem);
+                
                 if (tower.TowerType == "Distillation")
                 {
                     SplashScreenManager.SentMsgToScreen("Calculating Distillation");

@@ -29,7 +29,7 @@
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
             <Label Grid.Column="1" Grid.Row="0"  Content="{DynamicResource Numberofsegment}" />
-            <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding Path=model.NumberOfSegment,Mode=TwoWay}"  BorderBrush="{Binding model.NumberOfSegment_Color}"/>
+            <TextBox Name="txtNumberOfSegment" Grid.Column="2" Grid.Row="0" Text="{Binding Path=model.NumberOfSegment,Mode=TwoWay}" KeyDown="OnKeyDownHandler"            BorderBrush="{Binding model.NumberOfSegment_Color}"/>
         </Grid>
 
         <ListView Grid.Column="1" HorizontalAlignment="Stretch" Height="175"  Grid.Row="2"  Grid.ColumnSpan="2" ItemsSource="{Binding model.Details}" >

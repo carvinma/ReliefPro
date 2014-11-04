@@ -44,26 +44,6 @@ namespace ReliefProMain.Models
                     NumberOfSegment_Color = ColorBorder.blue.ToString();
                 }
                 _NumberOfSegment = value;
-                if (_NumberOfSegment > _Details.Count)
-                {
-                    for (int i = _Details.Count; i < _NumberOfSegment; i++)
-                    {
-                        TowerFireColumnDetail d = new TowerFireColumnDetail();
-                        TowerFireColumnDetailModel detail = new TowerFireColumnDetailModel(d);
-                        detail.Segment = i + 1;
-                        detail.Internal = "Trayed";
-                        detail.ColumnID = dbmodel.ID;
-                        Details.Add(detail);
-                    }
-                }
-                else
-                {
-                    int count = _Details.Count;
-                    for (int i =count-1 ; i>=_NumberOfSegment; i--)
-                    {
-                        Details.RemoveAt(i);
-                    }
-                }
                 
                 NotifyPropertyChanged("NumberOfSegment");                
             }

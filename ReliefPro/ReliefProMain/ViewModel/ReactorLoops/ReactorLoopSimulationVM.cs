@@ -98,7 +98,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private void LaunchSimulator(object obj)
         {
             //open prz 文件
-            string proiiFilePath = "D:\\92.prz";
+            string proiiFilePath = newPrzFile;
             ProcessStartInfo psInfo = new ProcessStartInfo();
             //HKEY_LOCAL_MACHINE\SOFTWARE\SIMSCI\PRO/II
             RegistryKey rk = Registry.LocalMachine;

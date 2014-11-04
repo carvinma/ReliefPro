@@ -78,6 +78,8 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         }
 
+
+        
         private ICommand _OKClick;
         public ICommand OKClick
         {
@@ -91,6 +93,8 @@ namespace ReliefProMain.ViewModel.TowerFires
                 return _OKClick;
             }
         }
+
+        
 
         private void Update(object window)
         {
