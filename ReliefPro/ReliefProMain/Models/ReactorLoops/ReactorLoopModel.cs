@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using ReliefProCommon.Enum;
 using ReliefProModel.ReactorLoops;
 
 namespace ReliefProMain.Models.ReactorLoops
@@ -57,6 +58,10 @@ namespace ReliefProMain.Models.ReactorLoops
             get { return dbModel.EffluentStream; }
             set
             {
+                if (dbModel.EffluentStream != value)
+                {
+                    this.EffluentStream_Color = ColorBorder.blue.ToString();
+                }
                 dbModel.EffluentStream = value;
                 NotifyPropertyChanged("EffluentStream");
             }
@@ -66,17 +71,12 @@ namespace ReliefProMain.Models.ReactorLoops
             get { return dbModel.ColdReactorFeedStream; }
             set
             {
+                if (dbModel.ColdReactorFeedStream != value)
+                {
+                    this.ColdReactorFeedStream_Color = ColorBorder.blue.ToString();
+                }
                 dbModel.ColdReactorFeedStream = value;
                 NotifyPropertyChanged("ColdReactorFeedStream");
-            }
-        }
-        public string EffluentStream2
-        {
-            get { return dbModel.EffluentStream2; }
-            set
-            {
-                dbModel.EffluentStream2 = value;
-                NotifyPropertyChanged("EffluentStream2");
             }
         }
         public string ColdReactorFeedStream2
@@ -84,6 +84,10 @@ namespace ReliefProMain.Models.ReactorLoops
             get { return dbModel.ColdReactorFeedStream2; }
             set
             {
+                if (dbModel.ColdReactorFeedStream2 != value)
+                {
+                    this.ColdReactorFeedStream2_Color = ColorBorder.blue.ToString();
+                }
                 dbModel.ColdReactorFeedStream2 = value;
                 NotifyPropertyChanged("ColdReactorFeedStream2");
             }
@@ -93,6 +97,10 @@ namespace ReliefProMain.Models.ReactorLoops
             get { return dbModel.HotHighPressureSeparator; }
             set
             {
+                if (dbModel.HotHighPressureSeparator != value)
+                {
+                    HotHighPressureSeparator_Color = ColorBorder.blue.ToString();
+                }
                 dbModel.HotHighPressureSeparator = value;
                 NotifyPropertyChanged("HotHighPressureSeparator");
             }
@@ -102,6 +110,10 @@ namespace ReliefProMain.Models.ReactorLoops
             get { return dbModel.ColdHighPressureSeparator; }
             set
             {
+                if (dbModel.ColdHighPressureSeparator != value)
+                {
+                    this.ColdHighPressureSeparator_Color = ColorBorder.blue.ToString();
+                }
                 dbModel.ColdHighPressureSeparator = value;
                 NotifyPropertyChanged("ColdHighPressureSeparator");
             }
@@ -111,6 +123,10 @@ namespace ReliefProMain.Models.ReactorLoops
             get { return dbModel.HXNetworkColdStream; }
             set
             {
+                if (dbModel.HXNetworkColdStream != value)
+                {
+                    this.HXNetworkColdStream_Color = ColorBorder.blue.ToString();
+                }
                 dbModel.HXNetworkColdStream = value;
                 NotifyPropertyChanged("HXNetworkColdStream");
             }
@@ -120,6 +136,10 @@ namespace ReliefProMain.Models.ReactorLoops
             get { return dbModel.InjectionWaterStream; }
             set
             {
+                if (dbModel.InjectionWaterStream != value)
+                {
+                    this.InjectionWaterStream_Color = ColorBorder.blue.ToString();
+                }
                 dbModel.InjectionWaterStream = value;
                 NotifyPropertyChanged("InjectionWaterStream");
             }
@@ -129,6 +149,10 @@ namespace ReliefProMain.Models.ReactorLoops
             get { return dbModel.CompressorH2Stream; }
             set
             {
+                if (dbModel.CompressorH2Stream != value)
+                {
+                    this.CompressorH2Stream_Color = ColorBorder.blue.ToString();
+                }
                 dbModel.CompressorH2Stream = value;
                 NotifyPropertyChanged("CompressorH2Stream");
             }
@@ -149,6 +173,10 @@ namespace ReliefProMain.Models.ReactorLoops
             get { return dbModel.ReactorLoopName; }
             set
             {
+                if (dbModel.ReactorLoopName != value)
+                {
+                    this.ReactorLoopName_Color = ColorBorder.blue.ToString();
+                }
                 dbModel.ReactorLoopName = value;
                 NotifyPropertyChanged("ReactorLoopName");
             }
@@ -321,5 +349,105 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("ObcMixerSplitterSource");
             }
         }
+
+        #region Color
+        public string ReactorLoopName_Color { 
+            get { return dbModel.ReactorLoopName_Color; }
+            set {
+                dbModel.ReactorLoopName_Color = value;
+                this.NotifyPropertyChanged("ReactorLoopName_Color");
+            }
+        }
+
+        public string EffluentStream_Color
+        {
+            get { return dbModel.EffluentStream_Color; }
+            set
+            {
+                dbModel.EffluentStream_Color = value;
+                this.NotifyPropertyChanged("EffluentStream_Color");
+            }
+        }
+
+        public string ColdReactorFeedStream_Color
+        {
+            get { return dbModel.ColdReactorFeedStream_Color; }
+            set
+            {
+                dbModel.ColdReactorFeedStream_Color = value;
+                this.NotifyPropertyChanged("ColdReactorFeedStream_Color");
+            }
+        }
+
+        public string EffluentStream2_Color
+        {
+            get { return dbModel.EffluentStream2_Color; }
+            set
+            {
+                dbModel.EffluentStream2_Color = value;
+                this.NotifyPropertyChanged("EffluentStream2_Color");
+            }
+        }
+
+        public string ColdReactorFeedStream2_Color
+        {
+            get { return dbModel.ColdReactorFeedStream2_Color; }
+            set
+            {
+                dbModel.ColdReactorFeedStream2_Color = value;
+                this.NotifyPropertyChanged("ColdReactorFeedStream2_Color");
+            }
+        }
+
+        public string HotHighPressureSeparator_Color
+        {
+            get { return dbModel.HotHighPressureSeparator_Color; }
+            set
+            {
+                dbModel.HotHighPressureSeparator_Color = value;
+                this.NotifyPropertyChanged("HotHighPressureSeparator_Color");
+            }
+        }
+
+        public string ColdHighPressureSeparator_Color
+        {
+            get { return dbModel.ColdHighPressureSeparator_Color; }
+            set
+            {
+                dbModel.ColdHighPressureSeparator_Color = value;
+                this.NotifyPropertyChanged("ColdHighPressureSeparator_Color");
+            }
+        }
+
+        public string HXNetworkColdStream_Color
+        {
+            get { return dbModel.HXNetworkColdStream_Color; }
+            set
+            {
+                dbModel.HXNetworkColdStream_Color = value;
+                this.NotifyPropertyChanged("HXNetworkColdStream_Color");
+            }
+        }
+
+        public string InjectionWaterStream_Color
+        {
+            get { return dbModel.InjectionWaterStream_Color; }
+            set
+            {
+                dbModel.InjectionWaterStream_Color = value;
+                this.NotifyPropertyChanged("InjectionWaterStream_Color");
+            }
+        }
+
+        public string CompressorH2Stream_Color
+        {
+            get { return dbModel.CompressorH2Stream_Color; }
+            set
+            {
+                dbModel.CompressorH2Stream_Color = value;
+                this.NotifyPropertyChanged("CompressorH2Stream_Color");
+            }
+        }
+        #endregion
     }
 }
