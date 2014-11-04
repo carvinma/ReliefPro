@@ -140,7 +140,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 {
                     string[] arr1 = eq.FeedData.Split(',');
                     string[] arr2 = eq.ProductData.Split(',');
-                    if (arr1.Length == 2 && arr2.Length == 2)
+                    if (arr2.Length == 2)
                     {
                         ReactorLoopDetail d = new ReactorLoopDetail();
                         d.DetailInfo = eq.EqName;
@@ -366,6 +366,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 FileName = vm.SelectedFile;
                 SourceFileInfo = vm.SourceFileInfo;
                 InitPage();
+                model.ObcNetworkHX.Clear();
+                model.ObcProcessHX.Clear();
+                model.ObcUtilityHX.Clear();
+                model.ObcMixerSplitter.Clear();
             }
         }
         private void Simulation(object obj)

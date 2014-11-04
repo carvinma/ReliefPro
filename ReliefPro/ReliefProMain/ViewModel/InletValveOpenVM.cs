@@ -479,8 +479,8 @@ namespace ReliefProMain.ViewModel
             string content = PROIIFileOperator.getUsableContent(UpStreamLiquidData.StreamName, dir);
             int ImportResult = 0;
             int RunResult = 0;
-            Wliquidvalve = Wliquidvalve / 10e6;
-            string f = flashCalc.Calculate(content, 1, DownStreamPressure.ToString(), 5, Wliquidvalve.ToString(), UpStreamLiquidData, vapor, liquid, dirInletValveOpen, ref ImportResult, ref RunResult);
+            UpStreamLiquidData.TotalMolarRate = Wliquidvalve/UpStreamLiquidData.BulkMwOfPhase/3600; //单位是kgm/s
+            string f = flashCalc.Calculate(content, 1, DownStreamPressure.ToString(), 5, "0", UpStreamLiquidData, vapor, liquid, dirInletValveOpen, ref ImportResult, ref RunResult);
             ProIIStreamData proIIStreamData;
             if (ImportResult == 1 || ImportResult == 2)
             {
