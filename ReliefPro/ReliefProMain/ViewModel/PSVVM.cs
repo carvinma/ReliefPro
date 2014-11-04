@@ -163,7 +163,7 @@ namespace ReliefProMain.ViewModel
                 CurrentModel.DischargeTo = DischargeTos[0];
             }
 
-            if (eqType == "StorageTank")
+            if (eqType == "StorageTank" || EqType=="ReactorLoop")
             {
                 CurrentModel.Location = Locations[0]; ;
             }
@@ -275,6 +275,9 @@ namespace ReliefProMain.ViewModel
                             CreateTowerPSV();
                         }
                     }
+                    else if (EqType == "ReactorLoop")
+                    {
+                    }
                     else
                     {
                         CreateCommonPSV();
@@ -351,6 +354,9 @@ namespace ReliefProMain.ViewModel
                             {
                                 CreateTowerPSV();
                             }
+                        }
+                        else if (EqType == "ReactorLoop")
+                        {
                         }
                         else
                         {

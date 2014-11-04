@@ -337,20 +337,20 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
         private void MixerSplitterAdd(object obj)
         {
-            if (model.SelectedMixerModel != null)
+            if (model.SelectedMixerSourceModel != null)
             {
-                model.ObcMixerSplitter.Add(model.SelectedMixerModel);
-                var find = model.ObcMixerSplitterSource.FirstOrDefault(p => p.DetailInfo == model.SelectedMixerModel.DetailInfo );
+                model.ObcMixerSplitter.Add(model.SelectedMixerSourceModel);
+                var find = model.ObcMixerSplitterSource.FirstOrDefault(p => p.DetailInfo == model.SelectedMixerSourceModel.DetailInfo );
                 model.ObcMixerSplitterSource.Remove(find);
             }
         }
         private void MixerSplitterDel(object obj)
         {
-            if (model.SelectedMixerSourceModel != null)
+            if (model.SelectedMixerModel != null)
             {
-                model.ObcMixerSplitterSource.Add(model.SelectedMixerSourceModel);
-                var find = model.ObcMixerSplitter.FirstOrDefault(p => p.DetailInfo == model.SelectedMixerSourceModel.DetailInfo );
-                model.ObcMixerSplitter.Remove(model.SelectedMixerSourceModel);
+                model.ObcMixerSplitterSource.Add(model.SelectedMixerModel);
+                var find = model.ObcMixerSplitter.FirstOrDefault(p => p.DetailInfo == model.SelectedMixerModel.DetailInfo );
+                model.ObcMixerSplitter.Remove(find);
             }
         }
         private void Import(object obj)
