@@ -113,7 +113,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     if (version!=null&&version.SubKeyCount != 0)
                     {
                         psInfo.FileName = version.GetValue("SecDir").ToString() + @"\PROII.exe";
-                        psInfo.Arguments = string.Format("/I='{0}' {1}", version.GetValue("SecIni").ToString(), proiiFilePath);
+                        psInfo.Arguments = string.Format("/I=\"{0}\" \"{1}\"", version.GetValue("SecIni").ToString(), proiiFilePath);
                         Process pro = Process.Start(psInfo);
                     }
                 }
