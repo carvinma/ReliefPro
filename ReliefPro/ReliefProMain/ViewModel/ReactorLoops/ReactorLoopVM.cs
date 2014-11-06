@@ -525,23 +525,16 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     ProcessStartInfo procInfo = new System.Diagnostics.ProcessStartInfo();
                     //设置要调用的外部程序名
                     procInfo.FileName = "notepad.exe";
-
                     //设置外部程序的启动参数（命令行参数）为1.txt
                     procInfo.Arguments = newInpFile;
 
                     //设置外部程序工作目录为 C:\
                     //procInfo.WorkingDirectory = "C:\\";
-
                     System.Diagnostics.Process.Start(procInfo);
-
-                    
-
                 }
             }
-            ReactorLoopSimulationView v = new ReactorLoopSimulationView();
-
-            
-            ReactorLoopSimulationVM vm = new ReactorLoopSimulationVM(reactorLoopID,newInpFile,sourcePrzFile,SourceFileInfo.FileVersion,processHxList,SessionPF);
+            ReactorLoopSimulationView v = new ReactorLoopSimulationView();           
+            ReactorLoopSimulationVM vm = new ReactorLoopSimulationVM(reactorLoopID,newInpFile,sourcePrzFile,SourceFileInfo.FileVersion,processHxList,SessionPS,SessionPF);
             v.DataContext = vm;
             v.ShowDialog();
 

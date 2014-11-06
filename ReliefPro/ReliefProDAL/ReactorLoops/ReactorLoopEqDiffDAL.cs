@@ -19,7 +19,7 @@ namespace ReliefProDAL.ReactorLoops
                 .List<ReactorLoopEqDiff>();
             return list;
         }
-        public void Save(ISession session,int ReactorLoopID, IList<ReactorLoopEqDiff> lst)
+        public void Save(ISession session,int ReactorLoopID, List<ReactorLoopEqDiff> lst)
         {
             using (ITransaction tx = session.BeginTransaction())
             {

@@ -17,6 +17,7 @@ using System.IO;
 using ProII;
 using System.Diagnostics;
 using Microsoft.Win32;
+using ReliefProDAL.ReactorLoops;
 using ReliefProCommon.CommonLib;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
@@ -34,15 +35,18 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private string przFileName;
         private List<string> hxs;
         private int ReactorLoopID;
-        ISession SessionPlant;
-        private ObservableCollection<ReactorLoopEqDiffModel> _eqDiff;
-        public ObservableCollection<ReactorLoopEqDiffModel> EqDiff
+        private ISession SessionPlant;
+        private ISession SessionProtectedSystem;
+        ReactorLoopEqDiffDAL eqDiffDAL;
+        private List<ReactorLoopEqDiff> lst;
+        private ObservableCollection<ReactorLoopEqDiffModel> _eqDiffs;
+        public ObservableCollection<ReactorLoopEqDiffModel> EqDiffs
         {
-            get { return _eqDiff; }
+            get { return _eqDiffs; }
             set
             {
-                _eqDiff = value;
-                this.NotifyPropertyChanged("EqDiff");
+                _eqDiffs = value;
+                this.NotifyPropertyChanged("EqDiffs");
             }
         }
         private void InitCMD()
@@ -53,19 +57,28 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             RunSimulationCommand = new DelegateCommand<object>(RunSimulation);
         }
         
-        public ReactorLoopSimulationVM(int ReactorLoopID,string newInpFile,string sourcePrzFile,string sourcePrzVersion,List<string> hxNames,ISession sessionPlant)
+        public ReactorLoopSimulationVM(int ReactorLoopID,string newInpFile,string sourcePrzFile,string sourcePrzVersion,List<string> hxNames,ISession sessionProtectedSystem,ISession sessionPlant)
         {
             InitCMD();
+            lst = new List<ReactorLoopEqDiff>();
+            EqDiffs = new ObservableCollection<ReactorLoopEqDiffModel>();
             przVersion = sourcePrzVersion;
             this.newInpFile = newInpFile;
             hxs = hxNames;
             SessionPlant = sessionPlant;
+            SessionProtectedSystem=sessionProtectedSystem;
             przFile = sourcePrzFile;
             przFileName = System.IO.Path.GetFileName(sourcePrzFile);
             this.ReactorLoopID=ReactorLoopID;
+            eqDiffDAL = new ReactorLoopEqDiffDAL();
             if (ReactorLoopID > 0)
-            {
-                
+            {                
+                IList<ReactorLoopEqDiff> list= eqDiffDAL.GetList(SessionProtectedSystem, ReactorLoopID);
+                foreach (ReactorLoopEqDiff diff in list)
+                {
+                    ReactorLoopEqDiffModel m = new ReactorLoopEqDiffModel(diff);
+                    EqDiffs.Add(m);
+                }
             }
         }
 
@@ -103,6 +116,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private void RunSimulation(object obj)
         {
             //run prz file ,then compare hx duty
+            EqDiffs.Clear();
+            lst.Clear();
             SplashScreenManager.Show();
             SplashScreenManager.SentMsgToScreen("Reading Data From ProII Files");
             double diff = 1;
@@ -117,31 +132,26 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 ProIIEqData eq1 = dal.GetModel(SessionPlant, przFileName, s);
                 ProIIEqData eq2 = reader.GetEqInfo("Hx", s);
                 double d = Math.Abs(double.Parse(eq1.DutyCalc) - double.Parse(eq2.DutyCalc));
-                if (d > diff)
-                {
-                    b = false;
-                    break;
-                }
-
-                if (b)
-                {
-                    MessageBox.Show("OK", "Message Box");
-                }
-                else
-                {
-                    MessageBox.Show("Diff", "Message Box");
-                }
+                ReactorLoopEqDiff eqdiff = new ReactorLoopEqDiff();
+                eqdiff.CurrentDuty = double.Parse(eq2.DutyCalc);
+                eqdiff.Diff = d;
+                eqdiff.EqName = s;
+                eqdiff.EqType = "HX";
+                eqdiff.OrginDuty = double.Parse(eq1.DutyCalc);
+                ReactorLoopEqDiffModel m = new ReactorLoopEqDiffModel(eqdiff);
+                EqDiffs.Add(m);
+                lst.Add(eqdiff);
             }
+            
             reader.ReleaseProIIReader();
         }
         private void OK(object obj)
         {
             if (obj != null)
-            {
+            {                
+                eqDiffDAL.Save(SessionProtectedSystem,ReactorLoopID,lst);
                 System.Windows.Window wd = obj as System.Windows.Window;
-
                 wd.DialogResult = true;
-
             }
         }
 
