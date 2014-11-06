@@ -725,7 +725,7 @@ namespace ReliefProMain.ViewModel
             reader.InitProIIReader(copyPrzFile);
             ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 1, 2, 1);
             reader.ReleaseProIIReader();
-            cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
+             cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
             return cs;
         }
 

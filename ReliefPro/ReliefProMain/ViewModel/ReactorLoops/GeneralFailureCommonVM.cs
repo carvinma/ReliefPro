@@ -87,7 +87,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 commonModel = generalBLL.GetGeneralCoolingWaterFailureModel(ScenarioID);
             else if (GeneralType == 1)
                 commonModel = generalBLL.GetGeneralElectricPowerFailureModel(ScenarioID);
-
+            else if (GeneralType == 2)
+                commonModel = generalBLL.GetLossofLiquidFeedModel(ScenarioID);
+            commonModel.ScenarioID = ScenarioID;
+            commonModel.GeneralType = GeneralType;
             model.dbmodel = generalBLL.ReadConvert(commonModel);
             if (commonModel.ID > 0)
             {
@@ -384,7 +387,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         ReactorType = p.ReactorType
                     }).ToList();
 
-                    lstCommonDetail.Union(lstCommonDetail2);
+                    lstCommonDetail=lstCommonDetail.Union(lstCommonDetail2).ToList();
                     generalBLL.Save(model.dbmodel, lstCommonDetail);
                     wd.DialogResult = true;
                 }
@@ -423,7 +426,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 string line = lines[i];
                 string key = "HX   UID=" + hxName.ToUpper();
-                if (line.Contains(key))
+                if ((line+",").Contains(key+","))
                 {
                     spi.start = i;
                     break;
@@ -493,7 +496,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 string line = lines[i];
                 string key = "PROPERTY STREAM=" + streamName.ToUpper();
-                if (line.Contains(key))
+                if (line.Contains(key+","))
                 {
                     spi.start = i;
                     break;
@@ -508,7 +511,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 string key1 = "PROPERTY STREAM=";
                 string key2 = "UNIT OPERATIONS";
                 string key = "PROPERTY STREAM=" + streamName.ToUpper();
-                if ((line.Contains(key1) || line.Contains(key2)) && !line.Contains(key))
+                if ((line.Contains(key1) || line.Contains(key2)) && !line.Contains(key+","))
                 {
                     spi.end = i - 1;
                     if (!b)

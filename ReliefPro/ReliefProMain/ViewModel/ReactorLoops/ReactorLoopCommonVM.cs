@@ -64,7 +64,16 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
             model = new ReactorLoopCommonModel(blockModel);
             model.dbmodel.ScenarioID = ScenarioID;
-            
+            if (model.dbmodel.ID == 0)
+            {
+                ReactorLoopDAL rldal=new ReactorLoopDAL();
+                ReactorLoop rl=rldal.GetModel(SessionPS);
+                CustomStreamDAL csdal=new CustomStreamDAL();
+                CustomStream cset1=csdal.GetModel(SessionPS,rl.EffluentStream);
+                CustomStream cset2 = csdal.GetModel(SessionPS, rl.EffluentStream2);
+                model.EffluentTemperature = cset1.Temperature;
+                model.EffluentTemperature2 = cset2.Temperature;
+            }
             UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
             model.EffluentTemperatureUnit = uomEnum.UserTemperature;
             model.EffluentTemperature2Unit = uomEnum.UserTemperature;
@@ -140,7 +149,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private void CalcBlocket()
         {
             model.ReliefLoad = model.TotalPurgeRate - model.MaxGasRate;
-
+            if (model.ReliefLoad < 0)
+                model.ReliefLoad = 0;
         }
 
         private void CalcLossOfReactorQuench()
@@ -195,6 +205,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(newPrzFile);
                     ProIIStreamData proiiStream = reader.GetSteamInfo(coldVaporStream);
+                    reader.ReleaseProIIReader();
                     CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proiiStream);
                     model.ReliefLoad = 1.1*cs.BulkDensityAct*(cs.WeightFlow/cs.BulkDensityAct-compressorH2Stream.WeightFlow/compressorH2Stream.BulkDensityAct);
                     model.ReliefMW = cs.BulkMwOfPhase;
@@ -202,8 +213,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     model.ReliefPressure = cs.Pressure;
                     model.ReliefCpCv = cs.BulkCPCVRatio;
                     model.ReliefZ = cs.VaporZFmKVal;
-
-                    reader.ReleaseProIIReader();
+                    if (model.ReliefLoad < 0)
+                        model.ReliefLoad = 0;
+                    
                 }
 
                 else

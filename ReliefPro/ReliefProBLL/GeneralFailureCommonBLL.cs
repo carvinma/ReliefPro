@@ -36,7 +36,13 @@ namespace ReliefProLL
                 model = new GeneralFailureCommon();
             return model;
         }
-
+        public GeneralFailureCommon GetLossofLiquidFeedModel(int ScenarioID)
+        {
+            var model = generalDAL.GetModelByScenarioID(SessionPS, ScenarioID, 2);
+            if (model == null)
+                model = new GeneralFailureCommon();
+            return model;
+        }
         public GeneralFailureCommon ReadConvert(GeneralFailureCommon model)
         {
             UnitInfo unitInfo = new UnitInfo();
@@ -59,15 +65,21 @@ namespace ReliefProLL
         public void Save(GeneralFailureCommon model, IList<GeneralFailureCommonDetail> lstDetail)
         {
             ScenarioDAL db = new ScenarioDAL();
-            generalDAL.Save(SessionPS, model, lstDetail);
-            var sModel = db.GetModel(model.ScenarioID, SessionPS);
+           
+            Scenario sModel;
+            if(model.ScenarioID==0)
+             sModel=new Scenario();
+            else 
+              sModel= db.GetModel(model.ScenarioID, SessionPS);            
             sModel.ReliefLoad = model.ReliefLoad;
             sModel.ReliefTemperature = model.ReliefTemperature;
             sModel.ReliefMW = model.ReliefMW;
             sModel.ReliefPressure = model.ReliefPressure;
             sModel.ReliefCpCv = model.ReliefCpCv;
             sModel.ReliefZ = model.ReliefZ;
-            db.Update(sModel, SessionPS);
+            db.AddOrUpdate(sModel, SessionPS);
+            model.ScenarioID = sModel.ID;
+            generalDAL.Save(SessionPS, model, lstDetail);
         }
     }
 }

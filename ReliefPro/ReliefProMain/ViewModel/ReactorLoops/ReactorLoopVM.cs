@@ -200,6 +200,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         public ReactorLoopVM( ISession SessionPF, ISession SessionPS, string dirPlant, string dirProtectedSystem)
         {
             model = new ReactorLoopModel();
+            reactorBLL = new ReactorLoopBLL(SessionPS, SessionPF);
+            var RLModel = reactorBLL.GetReactorLoopModel();
+            model.dbModel = RLModel;
             model.ReactorLoopName_Color = ColorBorder.red.ToString();
             model.EffluentStream_Color = ColorBorder.red.ToString();
             model.EffluentStream2_Color = ColorBorder.red.ToString();
@@ -219,10 +222,6 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             InitCMD();
             InitPage();
 
-            reactorBLL = new ReactorLoopBLL(SessionPS, SessionPF);
-            var RLModel = reactorBLL.GetReactorLoopModel();
-
-            model.dbModel = RLModel;
             if (RLModel.ID > 0)
             {
                 reactorLoopID = RLModel.ID;
@@ -764,7 +763,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             while (i < lines.Length)
             {
                 string line = lines[i];
-                if (line.Contains(PropStream))
+                if (line.Contains(PropStream+","))
                 {
                     i++;
                     break;
@@ -843,7 +842,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             while (i < lines.Length)
             {
                 string line = lines[i];
-                if (line.Contains(EqInfo))
+                if ((line+",").Contains(EqInfo+","))
                 {
                     i++;
                     sb.Append(line).Append("\r\n");
@@ -881,7 +880,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             while (i < lines.Length)
             {
                 string line = lines[i];
-                if (line.Contains(EqInfo))
+                if ((line+",").Contains(EqInfo+","))
                 {
                     string eqInfo = GetNewHXInfo(lines, i, eqName, ref errorTag);
                     sb.Append(eqInfo);
@@ -904,7 +903,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             while (i < lines.Length)
             {
                 string line = lines[i];
-                if (line.Contains(EqInfo))
+                if (line.Trim() == EqInfo)
                 {
                     string eqInfo = GetNewOtherHXInfo(lines, i, eqName, ref errorTag);
                     sb.Append(eqInfo);
@@ -1237,7 +1236,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 line = lines[i];
                 string key1 = "UID=";
                 string key2 = "END";
-                if (line.Contains(key1) || line.Contains(key2))
+                if (line.Contains(key1) || line.Trim()==key2)
                 {
                     
                     if (!b)
@@ -1275,7 +1274,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             while (i < lines.Length)
             {
                 string line = lines[i];
-                if (line.Contains(key) && line.Contains(temperKey))
+                if ((line+",").Contains(key+",") && line.Contains(temperKey))
                 {
                     string oldValue=string.Empty;
                     string newValue=temperKey+temp;

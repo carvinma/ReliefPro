@@ -477,7 +477,7 @@ namespace ReliefProMain.ViewModel
                     else if (ScenarioName.Contains("GeneralElectricPowerFailure"))
                     {
                         GeneralElectricPowerFailureView v = new GeneralElectricPowerFailureView();
-                        GeneralFailureCommonVM vm = new GeneralFailureCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 2);
+                        GeneralFailureCommonVM vm = new GeneralFailureCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 1);
                         v.DataContext = vm;
                         if (v.ShowDialog() == true)
                         {
@@ -490,7 +490,7 @@ namespace ReliefProMain.ViewModel
                     else if (ScenarioName.Contains("GeneralCoolingWaterFailure"))
                     {
                         GeneralCoolingWaterFailureView v = new GeneralCoolingWaterFailureView();
-                        GeneralFailureCommonVM vm = new GeneralFailureCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 2);
+                        GeneralFailureCommonVM vm = new GeneralFailureCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 0);
                         v.DataContext = vm;
                         if (v.ShowDialog() == true)
                         {

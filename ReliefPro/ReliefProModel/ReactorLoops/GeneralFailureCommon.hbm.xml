@@ -7,7 +7,7 @@
   <property name="ScenarioID" column="ScenarioID" type="Int32"/>
   <property name="GeneralType" column="GeneralType" type="Int32"/>
 
-  <property name="RecycleCompressorFailure" column="RecycleCompressorFailure" type="Double"/>
+  <property name="RecycleCompressorFailure" column="RecycleCompressorFailure" type="Boolean"/>
   <property name="CalcInjectionWaterStream" column="CalcInjectionWaterStream" type="Boolean"/>
   <property name="InjectionWaterStream" column="InjectionWaterStream" type="Double"/>
   
