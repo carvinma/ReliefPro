@@ -85,6 +85,11 @@ namespace ReliefProMain.ViewModel
                 MessageBox.Show("Unit Name could not be empty!", "Message Box");
                 return;
             }
+            else if (UnitName.Trim().Contains(" "))
+            {
+                MessageBox.Show("Unit Name could not contain space", "Message Box");
+                return;
+            }
             string dirUnit = dirPlant + @"\" + UnitName;
             try
             {

@@ -608,6 +608,11 @@ namespace ReliefProMain
                 dlgSaveDiagram.FileName = string.Empty;
                 if (dlgSaveDiagram.ShowDialog() == true)
                 {
+                    if (dlgSaveDiagram.FileName.Trim().Contains(" "))
+                    {
+                        MessageBox.Show("Plant Name could not contain space", "Message Box");
+                        return;
+                    }
                     ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
                     if (list.Count > 0)
                     {

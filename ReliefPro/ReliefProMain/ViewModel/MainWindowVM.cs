@@ -130,6 +130,11 @@ namespace ReliefProMain.ViewModel
                 saveFileDialog1.InitialDirectory = defaultReliefProDir;
                 if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
+                    if (saveFileDialog1.FileName.Trim().Contains(" "))
+                    {
+                        MessageBox.Show("Plant Name could not contain space", "Message Box");
+                        return;
+                    }
                     Task.Factory.StartNew(() =>
                        {
                            Application.Current.Dispatcher.Invoke(new Action(() =>

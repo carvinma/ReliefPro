@@ -80,7 +80,12 @@ namespace ReliefProMain.ViewModel
             if (!CheckData()) return;
             if (string.IsNullOrEmpty(ProtectedSystemName))
             {
-                MessageBox.Show("Unit Name could not be empty!", "Message Box");
+                MessageBox.Show("ProtectedSystem Name could not be empty!", "Message Box");
+                return;
+            }
+            else if (ProtectedSystemName.Trim().Contains(" "))
+            {
+                MessageBox.Show("ProtectedSystem Name could not contain space", "Message Box");
                 return;
             }
             TreePSDAL tpsdal = new TreePSDAL();

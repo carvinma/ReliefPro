@@ -152,6 +152,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     MessageBox.Show("Diff", "Message Box");
                 }
             }
+            reader.ReleaseProIIReader();
         }
         private void OK(object obj)
         {
