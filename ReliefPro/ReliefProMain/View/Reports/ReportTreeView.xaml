@@ -40,19 +40,28 @@
     </Window.Resources>
     <Grid Style="{DynamicResource WinGrid}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="77*"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="0"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <TreeView ScrollViewer.VerticalScrollBarVisibility="Auto"
-                  
+        <GroupBox Grid.Row="1" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <TreeView Grid.Row="0" ScrollViewer.VerticalScrollBarVisibility="Auto"
                           BorderThickness="0"
                           Background="#FFF"                          
                           ItemsSource="{Binding PlantCollection}"
-                          ItemTemplate="{DynamicResource PlantTemplate}" Margin="0,0,0,144" Grid.Row="1"  />
-        <Grid HorizontalAlignment="Stretch"  Grid.Row="2" VerticalAlignment="Stretch"   >
+                          ItemTemplate="{DynamicResource PlantTemplate}" Margin="0,0,0,144"  />
+                <Button Grid.Row="1" Content="{DynamicResource ReliefDeviceDatasheet}" Command="{Binding PSSummaryCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right"  Width="150" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="0" >
+        <Grid HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"   >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="19*"/>
                 <ColumnDefinition Width="80*"/>
@@ -62,14 +71,13 @@
             </Grid.ColumnDefinitions>
             <Button Content="{DynamicResource PlantSummary}" Command="{Binding PlantSummaryCommand}"   Width="100" Grid.Column="1" />
             <Button Content="{DynamicResource ProcessUnitLoadSummary}" Command="{Binding UnitSummaryCommand}" Grid.Column="2"  Width="177"  />
-            <Button Content="{DynamicResource ReliefDeviceDatasheet}" Command="{Binding PSSummaryCommand}" Grid.Column="3"   Width="150" />
         </Grid>
+        </GroupBox>
         <StatusBar HorizontalAlignment="Stretch" Height="23"  Grid.Row="4" VerticalAlignment="Stretch">
             <DockPanel>
                 <TextBlock DockPanel.Dock="Bottom" Text="{DynamicResource ReportTreeViewStatusBar}"></TextBlock>
             </DockPanel>
         </StatusBar>
-
 
     </Grid>
 </Window>
