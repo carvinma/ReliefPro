@@ -203,17 +203,6 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             reactorBLL = new ReactorLoopBLL(SessionPS, SessionPF);
             var RLModel = reactorBLL.GetReactorLoopModel();
             model.dbModel = RLModel;
-            model.ReactorLoopName_Color = ColorBorder.red.ToString();
-            model.EffluentStream_Color = ColorBorder.red.ToString();
-            model.EffluentStream2_Color = ColorBorder.red.ToString();
-            model.ColdReactorFeedStream_Color = ColorBorder.red.ToString();
-            model.ColdReactorFeedStream2_Color = ColorBorder.red.ToString();
-            model.HotHighPressureSeparator_Color = ColorBorder.red.ToString();
-            model.ColdHighPressureSeparator_Color = ColorBorder.red.ToString();
-            model.HXNetworkColdStream_Color = ColorBorder.red.ToString();
-            model.InjectionWaterStream_Color = ColorBorder.red.ToString();
-            model.CompressorH2Stream_Color = ColorBorder.red.ToString();
-
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
             DirPlant = dirPlant;
@@ -238,6 +227,16 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
             else
             {
+                model.ReactorLoopName_Color = ColorBorder.blue.ToString();
+                model.EffluentStream_Color = ColorBorder.red.ToString();
+                model.EffluentStream2_Color = ColorBorder.green.ToString();
+                model.ColdReactorFeedStream_Color = ColorBorder.red.ToString();
+                model.ColdReactorFeedStream2_Color = ColorBorder.red.ToString();
+                model.HotHighPressureSeparator_Color = ColorBorder.red.ToString();
+                model.ColdHighPressureSeparator_Color = ColorBorder.red.ToString();
+                model.HXNetworkColdStream_Color = ColorBorder.red.ToString();
+                model.InjectionWaterStream_Color = ColorBorder.red.ToString();
+                model.CompressorH2Stream_Color = ColorBorder.red.ToString();
                 model.ReactorLoopName = "ReactorLoop1";
                 op = 0;
             }
@@ -383,34 +382,12 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcMixerSplitter.Clear();
             }
         }
+        /// <summary>
+        /// 模拟ReactorLoop，生成ProII的keyword 文件。
+        /// </summary>
+        /// <param name="obj"></param>
         private void Simulation(object obj)
-        {
-            //string proiiVersion = "9.2";
-            //string proiiFilePath = "D:\\92.prz";
-            //ProcessStartInfo psInfo = new ProcessStartInfo();
-            ////HKEY_LOCAL_MACHINE\SOFTWARE\SIMSCI\PRO/II
-            //RegistryKey rk = Registry.LocalMachine;
-            //RegistryKey softWare = rk.OpenSubKey("Software");
-            //RegistryKey simsci = softWare.OpenSubKey("SIMSCI");
-            //if (simsci != null && simsci.SubKeyCount != 0)
-            //{
-            //    RegistryKey proii = simsci.OpenSubKey("PRO/II");
-            //    if (proii != null && proii.SubKeyCount != 0)
-            //    {
-            //        RegistryKey version = proii.OpenSubKey(proiiVersion);
-            //        if (version.SubKeyCount != 0)
-            //        {
-            //            psInfo.FileName = version.GetValue("SecDir").ToString() + @"\PROII.exe";
-            //            psInfo.Arguments = string.Format("/I='{0}' {1}", version.GetValue("SecIni").ToString(), proiiFilePath);
-            //            Process pro = Process.Start(psInfo);
-            //            return;
-            //        }
-            //    }
-            //}
-           
-          
-
-
+        {            
             streams.Clear();
             List<CustomStream> csList = new List<CustomStream>();
             List<string> eqList = new List<string>();

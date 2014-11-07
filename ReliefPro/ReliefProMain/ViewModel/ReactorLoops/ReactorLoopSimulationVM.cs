@@ -131,13 +131,13 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 ProIIEqData eq1 = dal.GetModel(SessionPlant, przFileName, s);
                 ProIIEqData eq2 = reader.GetEqInfo("Hx", s);
-                double d = Math.Abs(double.Parse(eq1.DutyCalc) - double.Parse(eq2.DutyCalc));
+                double d = Math.Abs(double.Parse(eq1.DutyCalc) - double.Parse(eq2.DutyCalc)) / double.Parse(eq1.DutyCalc);
                 ReactorLoopEqDiff eqdiff = new ReactorLoopEqDiff();
-                eqdiff.CurrentDuty = double.Parse(eq2.DutyCalc);
-                eqdiff.Diff = d;
+                eqdiff.CurrentDuty = double.Parse(eq2.DutyCalc) * 3600;
+                eqdiff.Diff = d*100;
                 eqdiff.EqName = s;
                 eqdiff.EqType = "HX";
-                eqdiff.OrginDuty = double.Parse(eq1.DutyCalc);
+                eqdiff.OrginDuty = double.Parse(eq1.DutyCalc) * 3600;
                 ReactorLoopEqDiffModel m = new ReactorLoopEqDiffModel(eqdiff);
                 EqDiffs.Add(m);
                 lst.Add(eqdiff);

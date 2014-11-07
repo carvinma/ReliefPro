@@ -326,7 +326,7 @@ namespace ReliefProMain.ViewModel.TowerFires
 
                     eqm.dbmodel.WettedArea = eqm.WettedArea;
                     eqm.dbmodel.HeatInput = eqm.HeatInput;
-                    eqm.dbmodel.ReliefLoad = eqm.HeatInput;
+                    eqm.dbmodel.ReliefLoad = eqm.ReliefLoad;
                     eqm.dbmodel.FFactor = eqm.FFactor;
                     eqm.dbmodel.FireZone = eqm.FireZone;
                     eqm.dbmodel.Elevation = eqm.Elevation;

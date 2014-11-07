@@ -28,6 +28,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         public ICommand ElectricRunCaseSimulationCMD { get; set; }
         public ICommand ElectricLaunchSimulatorCMD { get; set; }
 
+        public ICommand LossOfColdFeedRunCaseSimulationCMD { get; set; }
+        public ICommand LossOfColdFeedLaunchSimulatorCMD { get; set; }
+
         private ISession SessionPS;
         private ISession SessionPF;
         private SourceFile SourceFileInfo;
@@ -37,6 +40,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private CustomStream compressorH2Stream;
         public GeneralFailureCommonModel model { get; set; }
         private GeneralFailureCommonBLL generalBLL;
+        private string newPrzFile;
+        private string newInpFile;
+        private int GeneralType;
         private void InitCMD()
         {
             OKCMD = new DelegateCommand<object>(Save);
@@ -45,6 +51,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
             ElectricRunCaseSimulationCMD = new DelegateCommand<object>(ElectricRunCaseSimulation);
             ElectricLaunchSimulatorCMD = new DelegateCommand<object>(ElectricLaunchSimulator);
+
+            LossOfColdFeedRunCaseSimulationCMD = new DelegateCommand<object>(LossOfColdFeedRunCaseSimulation);
+            LossOfColdFeedLaunchSimulatorCMD = new DelegateCommand<object>(LossOfColdFeedLaunchSimulator);
         }
         private void InitPage()
         {
@@ -80,7 +89,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             ProIIStreamDataDAL streamDataDAL = new ProIIStreamDataDAL();
             ProIIStreamData streamData = streamDataDAL.GetModel(SessionPF, rl.CompressorH2Stream, SourceFileInfo.FileName);
             compressorH2Stream = ProIIToDefault.ConvertProIIStreamToCustomStream(streamData);
-
+            this.GeneralType = GeneralType;
             generalBLL = new GeneralFailureCommonBLL(SessionPS, SessionPF);
             GeneralFailureCommon commonModel = new GeneralFailureCommon();
             if (GeneralType == 0)
@@ -202,14 +211,14 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 Directory.CreateDirectory(newInpDir);
             }
-            string newInpFile = newInpDir + @"\a.inp";
+            newInpFile = newInpDir + @"\a.inp";
             File.Create(newInpFile).Close();
             File.WriteAllText(newInpFile, sb.ToString());
             //导入后，生成prz文件。
             IProIIImport import = ProIIFactory.CreateProIIImport(SourceFileInfo.FileVersion);
             int ImportResult = -1;
             int RunResult = -1;
-            string newPrzFile = import.ImportProIIINP(newInpFile, out ImportResult, out RunResult);
+            newPrzFile = import.ImportProIIINP(newInpFile, out ImportResult, out RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -249,8 +258,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
         }
         private void CoolingLaunchSimulator(object obj)
-        { 
+        {
+            ProIIHelper.Run(SourceFileInfo.FileVersion, newPrzFile);
         }
+        
         private void ElectricRunCaseSimulation(object obj)
         {
 
@@ -309,14 +320,14 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 Directory.CreateDirectory(newInpDir);
             }
-            string newInpFile = newInpDir + @"\a.inp";
+            newInpFile = newInpDir + @"\a.inp";
             File.Create(newInpFile).Close();
             File.WriteAllText(newInpFile, sb.ToString());
             //导入后，生成prz文件。
             IProIIImport import = ProIIFactory.CreateProIIImport(SourceFileInfo.FileVersion);
             int ImportResult = -1;
             int RunResult = -1;
-            string newPrzFile = import.ImportProIIINP(newInpFile, out ImportResult, out RunResult);
+            newPrzFile = import.ImportProIIINP(newInpFile, out ImportResult, out RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -354,8 +365,108 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
         }
         private void ElectricLaunchSimulator(object obj)
-        { 
+        {
+            ProIIHelper.Run(SourceFileInfo.FileVersion, newPrzFile);
         }
+
+        private void LossOfColdFeedRunCaseSimulation(object obj)
+        {
+
+            string rpPrzFile = DirProtectedSystem + @"\myrp\myrp.prz";
+            string rpInpDir = DirProtectedSystem + @"\myrp";
+            string caseDir = DirProtectedSystem + @"\LossOfColdFeed";
+            PROIIFileOperator.DecompressProIIFile(rpPrzFile, rpInpDir);
+            string inpFile = rpInpDir + @"\myrp.inp";
+            string[] lines = System.IO.File.ReadAllLines(inpFile);
+            StringBuilder sb = new StringBuilder();
+            ProIIEqDataDAL eqdatadal = new ProIIEqDataDAL();
+            List<InpPosInfo> list = new List<InpPosInfo>();
+            
+            foreach (GeneralFailureHXModel m in model.lstUtilityHX)
+            {
+                if (m.Stop)
+                {
+                    ProIIEqData eqdata = eqdatadal.GetModel(SessionPF, SourceFileInfo.FileName, m.HXName.ToUpper());
+                    double duty = double.Parse(eqdata.DutyCalc) * m.DutyFactor;//不需要转换单位了。因为它将用于proii文件中
+                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty=", (duty / 10e6).ToString());
+                    list.Add(spi);
+                }
+            }
+            for (int i = 0; i < lines.Length; i++)
+            {
+                bool b = false;
+                foreach (InpPosInfo spi in list)
+                {
+                    if (spi != null && i == spi.start)
+                    {
+                        sb.Append(spi.NewInfo);
+                        i = spi.end;
+                        b = true;
+                        break;
+                    }
+                }
+                if (!b)
+                {
+                    string line = lines[i];
+                    sb.Append(line).Append("\r\n");
+                }
+            }
+
+            //保存inpdata 到文件。
+            string newInpDir = DirProtectedSystem + @"\LossOfColdFeed";
+            if (!Directory.Exists(newInpDir))
+            {
+                Directory.CreateDirectory(newInpDir);
+            }
+            newInpFile = newInpDir + @"\a.inp";
+            File.Create(newInpFile).Close();
+            File.WriteAllText(newInpFile, sb.ToString());
+            //导入后，生成prz文件。
+            IProIIImport import = ProIIFactory.CreateProIIImport(SourceFileInfo.FileVersion);
+            int ImportResult = -1;
+            int RunResult = -1;
+            newPrzFile = import.ImportProIIINP(newInpFile, out ImportResult, out RunResult);
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                if (RunResult == 1 || RunResult == 2)
+                {
+                    ReactorLoopDAL rldal = new ReactorLoopDAL();
+                    ReactorLoop rl = rldal.GetModel(SessionPS);
+
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    reader.InitProIIReader(newPrzFile);
+
+                    ProIIStreamData proiiStream = reader.GetSteamInfo(coldVaporStream);
+                    CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proiiStream);
+                    double v1 = cs.WeightFlow / cs.BulkDensityAct;
+                    double v2 = compressorH2Stream.WeightFlow / compressorH2Stream.BulkDensityAct;
+                    model.ReliefLoad = 1.1 * cs.BulkDensityAct * (v1 - v2);
+                    model.ReliefMW = cs.BulkMwOfPhase;
+                    model.ReliefTemperature = cs.Temperature;
+                    model.ReliefPressure = cs.Pressure;
+                    model.ReliefCpCv = cs.BulkCPCVRatio;
+                    model.ReliefZ = cs.VaporZFmKVal;
+
+                    reader.ReleaseProIIReader();
+                }
+
+                else
+                {
+                    MessageBox.Show("Prz file is error!", "Message Box");
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("inp file is error!", "Message Box");
+                return;
+            }
+        }
+        private void LossOfColdFeedLaunchSimulator(object obj)
+        {
+            ProIIHelper.Run(SourceFileInfo.FileVersion, newPrzFile);
+        }
+
         private void WriteConvert()
         {
             model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMEnum.MassRate, model.ReliefLoad);
@@ -386,8 +497,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         DutyFactor = p.DutyFactor,
                         ReactorType = p.ReactorType
                     }).ToList();
-
-                    lstCommonDetail=lstCommonDetail.Union(lstCommonDetail2).ToList();
+                    if (GeneralType != 2)
+                    {
+                        lstCommonDetail = lstCommonDetail.Union(lstCommonDetail2).ToList();
+                    }
                     generalBLL.Save(model.dbmodel, lstCommonDetail);
                     wd.DialogResult = true;
                 }

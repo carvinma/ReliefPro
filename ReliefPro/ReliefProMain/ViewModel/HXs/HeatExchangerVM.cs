@@ -412,7 +412,7 @@ namespace ReliefProMain.ViewModel
                     {
                         CustomStream feed1 = Feeds[0];
                         CustomStream product1 = Products[0];
-                        if (feed1.Temperature > product1.Temperature)
+                        if (feed1.Temperature < product1.Temperature)
                         {
                             //冷侧进
                             HX.ColdInlet = feed1.StreamName;
@@ -447,7 +447,7 @@ namespace ReliefProMain.ViewModel
                     {
                         CustomStream feed2 = Feeds[Feeds.Count-1];
                         CustomStream product2 = Products[1];
-                        if (feed2.Temperature > product2.Temperature)
+                        if (feed2.Temperature < product2.Temperature)
                         {
                             //冷侧进
                             HX.ColdInlet = feed2.StreamName;

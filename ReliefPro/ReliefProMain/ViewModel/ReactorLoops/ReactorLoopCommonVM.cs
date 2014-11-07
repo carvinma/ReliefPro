@@ -38,6 +38,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         ReactorLoop rl;
         private string coldVaporStream;
         private CustomStream compressorH2Stream;
+        private string newPrzFile;
+        private string newInpFile;
         /// <summary>
         /// 0-ReactorLoopBlockedOutlet,1-LossOfReactorQuench,2-LossOfColdFeed
         /// </summary>
@@ -71,8 +73,15 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 CustomStreamDAL csdal=new CustomStreamDAL();
                 CustomStream cset1=csdal.GetModel(SessionPS,rl.EffluentStream);
                 CustomStream cset2 = csdal.GetModel(SessionPS, rl.EffluentStream2);
-                model.EffluentTemperature = cset1.Temperature;
-                model.EffluentTemperature2 = cset2.Temperature;
+                model.EffluentTemperature = 0;
+                if (cset1 != null)
+                {
+                    model.EffluentTemperature = cset1.Temperature;
+                }
+                if (cset2 != null)
+                {
+                    model.EffluentTemperature2 = cset2.Temperature;
+                }
             }
             UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
             model.EffluentTemperatureUnit = uomEnum.UserTemperature;
@@ -115,7 +124,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
         private void LaunchSimulator(object obj)
         {
-
+            ProIIHelper.Run(SourceFileInfo.FileVersion, newPrzFile);
         }
         private void CalcResult(object obj)
         {
@@ -190,14 +199,14 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 Directory.CreateDirectory(newInpDir);
             }
-            string newInpFile = newInpDir + @"\a.inp";
+            newInpFile = newInpDir + @"\a.inp";
             File.Create(newInpFile).Close();
             File.WriteAllText(newInpFile, sb.ToString());
             //导入后，生成prz文件。
             IProIIImport import = ProIIFactory.CreateProIIImport(SourceFileInfo.FileVersion);
             int ImportResult = -1;
             int RunResult = -1;
-            string newPrzFile = import.ImportProIIINP(newInpFile, out ImportResult, out RunResult);
+            newPrzFile = import.ImportProIIINP(newInpFile, out ImportResult, out RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
