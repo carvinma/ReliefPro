@@ -30,13 +30,13 @@
         <Button Content="{DynamicResource CheckData}" Command="{Binding CheckDataCommand}" Grid.Column="1"  Grid.Row="1" Width="100" />
         <Button Content="{DynamicResource LaunchSimulator}"  Command="{Binding LaunchSimulatorCommand}" Grid.Column="2"  Grid.Row="1" Width="125" />
         <Button Content="{DynamicResource RunSimulation}" Command="{Binding RunSimulationCommand}" Grid.Column="1"  Grid.Row="2" Width="100" />
-        <DataGrid   Grid.Row="8"  Grid.Column="1" Grid.ColumnSpan="2" IsReadOnly="True" AutoGenerateColumns="False">
+        <DataGrid   Grid.Row="8"  Grid.Column="1" Grid.ColumnSpan="2" IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding Path=EqDiffs,Mode=TwoWay}">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Unit}"/>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Type}"/>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource OriginalModel}"/>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Basecase}"/>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Diff}"/>
+                <DataGridTextColumn Binding="{Binding Path=EqName,Mode=TwoWay}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Unit}"/>
+                <DataGridTextColumn Binding="{Binding Path=EqType,Mode=TwoWay}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Type}"/>
+                <DataGridTextColumn Binding="{Binding Path=OrginDuty,Mode=TwoWay}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource OriginalModel}"/>
+                <DataGridTextColumn Binding="{Binding Path=CurrentDuty,Mode=TwoWay}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Basecase}"/>
+                <DataGridTextColumn Binding="{Binding Path=Diff,Mode=TwoWay}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Diff}"/>
             </DataGrid.Columns>
         </DataGrid>
 

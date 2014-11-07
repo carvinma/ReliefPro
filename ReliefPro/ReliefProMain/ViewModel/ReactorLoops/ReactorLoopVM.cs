@@ -227,6 +227,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
             else
             {
+                model.ObcProcessHX = new ObservableCollection<ReactorLoopDetail>();
+                model.ObcUtilityHX = new ObservableCollection<ReactorLoopDetail>();
+                model.ObcNetworkHX = new ObservableCollection<ReactorLoopDetail>();
+                model.ObcMixerSplitter = new ObservableCollection<ReactorLoopDetail>();
                 model.ReactorLoopName_Color = ColorBorder.blue.ToString();
                 model.EffluentStream_Color = ColorBorder.red.ToString();
                 model.EffluentStream2_Color = ColorBorder.green.ToString();

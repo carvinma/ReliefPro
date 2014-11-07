@@ -130,6 +130,7 @@ namespace ReliefProMain.ViewModel
         private string ScenarioName;
         private string EqName;
         Tower tower;
+        CondenserCalc condenserCalc;
         public TowerScenarioCalcVM(string EqName, string ScenarioName, int scenarioID, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string DirPlant, string DirProtectedSystem)
         {
             SessionPlant = sessionPlant;
@@ -157,7 +158,8 @@ namespace ReliefProMain.ViewModel
             ReadConvert();
             TowerDAL towerdal = new TowerDAL();
             tower = towerdal.GetModel(SessionProtectedSystem);
-
+            CondenserCalcDAL condenserCalcDAL = new CondenserCalcDAL();
+            condenserCalc = condenserCalcDAL.GetModel(this.SessionProtectedSystem, ScenarioID);
         }
         private int CheckSteamFreezed()
         {
@@ -763,9 +765,31 @@ namespace ReliefProMain.ViewModel
             TowerHXDetailDAL dbDetail = new TowerHXDetailDAL();
             ReboilerPinchDAL reboilerPinchDAL = new ReboilerPinchDAL();
             IList<TowerScenarioHX> list = dbTSHX.GetAllList(SessionProtectedSystem, ScenarioID);
+            
+            int condenserFactor = 1;
+            if (condenserCalc!=null&& condenserCalc.Flooding)
+            {
+                condenserFactor = 0;
+            }
             foreach (TowerScenarioHX shx in list)
             {
-                if (!shx.DutyLost)
+                if (shx.HeaterType == 1 && condenserFactor == 1)
+                {
+                    if (!shx.DutyLost)
+                    {
+                        if (shx.IsPinch == true)
+                        {
+                            ReboilerPinch detail = reboilerPinchDAL.GetModel(SessionProtectedSystem, shx.ID);
+                            HeatTotal = HeatTotal + shx.PinchFactor * detail.ReliefDuty * condenserFactor;
+                        }
+                        else
+                        {
+                            TowerHXDetail detail = dbDetail.GetModel(SessionProtectedSystem, shx.DetailID);
+                            HeatTotal = HeatTotal + shx.DutyCalcFactor * detail.Duty * condenserFactor;
+                        }
+                    }
+                }
+                else if (!shx.DutyLost)
                 {
                     if (shx.IsPinch == true)
                     {
@@ -870,9 +894,30 @@ namespace ReliefProMain.ViewModel
             TowerHXDetailDAL dbDetail = new TowerHXDetailDAL();
             ReboilerPinchDAL reboilerPinchDAL = new ReboilerPinchDAL();
             IList<TowerScenarioHX> list = dbTSHX.GetAllList(SessionProtectedSystem, ScenarioID);
+            int condenserFactor = 1;
+            if (condenserCalc != null && condenserCalc.Flooding)
+            {
+                condenserFactor = 0;
+            }
             foreach (TowerScenarioHX shx in list)
             {
-                if (!shx.DutyLost)
+                if (shx.HeaterType == 1 && condenserFactor == 1)
+                {
+                    if (!shx.DutyLost)
+                    {
+                        if (shx.IsPinch == true)
+                        {
+                            ReboilerPinch detail = reboilerPinchDAL.GetModel(SessionProtectedSystem, shx.ID);
+                            HeatTotal = HeatTotal + shx.PinchFactor * detail.ReliefDuty * condenserFactor;
+                        }
+                        else
+                        {
+                            TowerHXDetail detail = dbDetail.GetModel(SessionProtectedSystem, shx.DetailID);
+                            HeatTotal = HeatTotal + shx.DutyCalcFactor * detail.Duty * condenserFactor;
+                        }
+                    }
+                }
+                else if (!shx.DutyLost)
                 {
                     if (shx.IsPinch == true)
                     {

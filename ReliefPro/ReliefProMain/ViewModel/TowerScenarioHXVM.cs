@@ -75,11 +75,11 @@ namespace ReliefProMain.ViewModel
                 if (_IsFlooding)
                 {
                     IsSurgeTime = false;
-                    for(int i=0;i<Details.Count;i++)
-                    {
-                        TowerScenarioHXModel detail =Details[i];
-                        detail.DutyLost = true;
-                    }
+                    //for(int i=0;i<Details.Count;i++)
+                    //{
+                    //    TowerScenarioHXModel detail =Details[i];
+                    //    detail.DutyLost = true;
+                    //}
                 }
 
                 OnPropertyChanged("IsFlooding");
