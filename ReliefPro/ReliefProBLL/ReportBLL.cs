@@ -374,10 +374,10 @@ namespace ReliefProLL
 
         public void ClearSession()
         {
-            foreach (ISession session in lstSession)
+            foreach (var session in lstSession)
             {
-                session.Close();
-                session.Dispose();
+                session.Item2.Close();
+                session.Item2.Dispose();
             }
         }
         #endregion
