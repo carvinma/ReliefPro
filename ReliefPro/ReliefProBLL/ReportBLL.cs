@@ -23,7 +23,7 @@ namespace ReliefProLL
         private GlobalDefaultDAL globalDefaultDAL = new GlobalDefaultDAL();
         private PSVDAL psvDAL = new PSVDAL();
         private ISession SessionPlant;
-        private volatile List<ISession> lstSession;
+        private volatile List<Tuple<string, ISession>> lstSession;
         private ScenarioDAL scenarioDAL = new ScenarioDAL();
         public ConcurrentBag<PSV> PSVBag;
         public ConcurrentBag<Scenario> ScenarioBag;
@@ -41,11 +41,11 @@ namespace ReliefProLL
         List<double?> tmpResult = new List<double?>();
         public ReportBLL()
         {
-            lstSession = new List<ISession>();
+            lstSession = new List<Tuple<string, ISession>>();
         }
         public ReportBLL(int UnitID, List<string> ProcessUnitReportPath)
         {
-            lstSession = new List<ISession>();
+            lstSession = new List<Tuple<string, ISession>>();
             this.UnitID = UnitID;
             PSVBag = new ConcurrentBag<PSV>();
             ScenarioBag = new ConcurrentBag<Scenario>();
@@ -342,24 +342,23 @@ namespace ReliefProLL
         {
             ProcessUnitReportPath.ForEach(p =>
             {
-                var findSession = lstSession.Find(s => s.Connection.ConnectionString == p);
-                if (findSession != null)
+                ISession findSession=null;
+                var findReslut = lstSession.Find(s => s.Item1 == p);
+                if (findReslut != null)
                 {
-                    findSession.Clear();
+                    findSession = findReslut.Item2;
+                    findReslut.Item2.Clear();
                 }
                 if (findSession == null)
                 {
                     NHibernateHelper helperProtectedSystem = new NHibernateHelper(p);
                    
                     findSession = helperProtectedSystem.GetCurrentSession();
-                    lstSession.Add(findSession);
-
+                    lstSession.Add(Tuple.Create(p, findSession));
                     if (p.Contains("plant.mdb"))
                     {
-                        
                             SessionPlant = findSession;
                             GetProcessUnitName(findSession);
-                        
                     }
                     else
                     {
