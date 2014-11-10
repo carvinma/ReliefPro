@@ -70,7 +70,19 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("HXType");
             }
         }
-        public HeatExchanger CurrentHX { get; set; }
+        private string _HXType_Color;
+        public string HXType_Color
+        {
+            get
+            {
+                return this._HXType_Color;
+            }
+            set
+            {
+                this._HXType_Color = value;
+                OnPropertyChanged("HXType_Color");
+            }
+        }
         private double _Duty;
         public double Duty
         {
@@ -84,8 +96,94 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("Duty");
             }
         }
-
-       
+        private string _TubeFeedStreams;
+        public string TubeFeedStreams
+        {
+            get
+            {
+                return this._TubeFeedStreams;
+            }
+            set
+            {
+                this._TubeFeedStreams = value;
+                if (value == _ShellFeedStreams && !string.IsNullOrEmpty(value))
+                {
+                    if (FeedStreams[1] == value)
+                    {
+                        if (FeedStreams.Count == 2)
+                        {
+                            ShellFeedStreams = string.Empty;
+                        }
+                        else
+                        {
+                            ShellFeedStreams = FeedStreams[2];
+                        }
+                    }
+                    else
+                    {
+                        ShellFeedStreams = FeedStreams[1];
+                    }
+                }
+                OnPropertyChanged("TubeFeedStreams");
+            }
+        }
+        private string _ShellFeedStreams;
+        public string ShellFeedStreams
+        {
+            get
+            {
+                return this._ShellFeedStreams;
+            }
+            set
+            {
+                this._ShellFeedStreams = value;
+                if (value == _TubeFeedStreams && !string.IsNullOrEmpty(value))
+                {
+                    if (FeedStreams[1] == value)
+                    {
+                        if (FeedStreams.Count == 2)
+                        {
+                            TubeFeedStreams = string.Empty;
+                        }
+                        else
+                        {
+                            TubeFeedStreams = FeedStreams[2];
+                        }
+                    }
+                    else
+                    {
+                        TubeFeedStreams = FeedStreams[1];
+                    }
+                }
+                OnPropertyChanged("ShellFeedStreams");
+            }
+        }
+        private string _TubeFeedStreams_Color;
+        public string TubeFeedStreams_Color
+        {
+            get
+            {
+                return this._TubeFeedStreams_Color;
+            }
+            set
+            {
+                this._TubeFeedStreams_Color = value;
+                OnPropertyChanged("TubeFeedStreams_Color");
+            }
+        }
+        private string _ShellFeedStreams_Color;
+        public string ShellFeedStreams_Color
+        {
+            get
+            {
+                return this._ShellFeedStreams_Color;
+            }
+            set
+            {
+                this._ShellFeedStreams_Color = value;
+                OnPropertyChanged("ShellFeedStreams_Color");
+            }
+        }
         
 
         private ObservableCollection<CustomStream> _Feeds;
@@ -109,6 +207,19 @@ namespace ReliefProMain.ViewModel
             }
         }
 
+        private ObservableCollection<string> _FeedStreams;
+        public ObservableCollection<string> FeedStreams
+        {
+            get { return _FeedStreams; }
+            set
+            {
+                _FeedStreams = value;
+                OnPropertyChanged("FeedStreams");
+            }
+        }
+       
+
+
         private string _ColorImport;
         public string ColorImport
         {
@@ -122,6 +233,7 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ColorImport");
             }
         }
+        public HeatExchanger CurrentHX { get; set; }
         public string ColdInlet;
         public string HotInlet;
         public string ColdOutlet;
@@ -154,6 +266,13 @@ namespace ReliefProMain.ViewModel
                     HXType = CurrentHX.HXType;
                     SourceFileBLL sfbll=new SourceFileBLL(sessionPlant);
                     SourceFileInfo = sfbll.GetSourceFileInfo(CurrentHX.SourceFile);
+                    ColdInlet = CurrentHX.ColdInlet;
+                    ColdOutlet = CurrentHX.ColdOutlet;
+                    HotInlet = CurrentHX.HotInlet;
+                    HotOutlet = CurrentHX.HotOutlet;
+                    FeedStreams = GetFeedStreams();
+                    TubeFeedStreams = CurrentHX.TubeFeedStreams;
+                    ShellFeedStreams = CurrentHX.ShellFeedStreams;
                 }
             }
             else
@@ -211,7 +330,7 @@ namespace ReliefProMain.ViewModel
                     Products = new ObservableCollection<CustomStream>();
                     GetEqFeedProduct(ProIIHX, ref dicFeeds, ref dicProducts, ref dicProductTypes);
                     ProIIStreamDataDAL dbStreamData = new ProIIStreamDataDAL();
-
+                   
                     foreach (string k in dicFeeds)
                     {
                         ProIIStreamData d = dbStreamData.GetModel(SessionPlant, k, FileName);
@@ -228,11 +347,12 @@ namespace ReliefProMain.ViewModel
                         cstream.ProdType = dicProductTypes[i];
                         Products.Add(cstream);
                     }
+                    //计算hx的coldinlet,hotinlet,coldoutlet,hotoutlet
+                    GetColdHotStream();
+                    FeedStreams = GetFeedStreams();
                     ColorImport = ColorBorder.blue.ToString();
                     op = 0;
-                }
-                
-
+                }               
             }
             
         }
@@ -345,7 +465,6 @@ namespace ReliefProMain.ViewModel
                 dbCS.Add(cs, SessionProtectedSystem);
             }
 
-
             foreach (CustomStream cs in Products)
             {
                 Sink sink = new Sink();
@@ -369,10 +488,58 @@ namespace ReliefProMain.ViewModel
             HX.FirstProduct = ProIIHX.FirstProduct;
             HX.LastFeed = ProIIHX.LastFeed;
             HX.LastProduct = ProIIHX.LastProduct;
+           
+            HX.ColdInlet= ColdInlet;
+            HX.ColdOutlet =ColdOutlet;
+            HX.HotInlet=HotInlet;
+            HX.HotOutlet=HotOutlet;
+           
+            HX.TubeFeedStreams = TubeFeedStreams;
+            HX.ShellFeedStreams = ShellFeedStreams;
+            dbHX.Add(HX, SessionProtectedSystem);
 
-            //计算hx的coldinlet,hotinlet,coldoutlet,hotoutlet
-             
+            ProtectedSystem ps = new ProtectedSystem();
+            ps.PSType = 4;
+            psDAL.Add(ps, SessionProtectedSystem);
 
+            if (FeedStreams.Count == 1)
+            {
+                TubeFeedStreams = FeedStreams[0];
+            }
+            if (FeedStreams.Count > 1)
+            {
+                TubeFeedStreams = FeedStreams[0];
+                ShellFeedStreams = FeedStreams[1];
+            }
+
+            SourceFileDAL sfdal = new SourceFileDAL();
+            SourceFileInfo = sfdal.GetModel(HX.SourceFile, SessionPlant);
+            SessionProtectedSystem.Flush();
+        }
+        private ObservableCollection<string> GetHXTypes()
+        {
+            ObservableCollection<string> list = new ObservableCollection<string>();
+            list.Add("Shell-Tube");
+            list.Add("Air cooled");
+            return list;
+        }
+        private ObservableCollection<string> GetFeedStreams()
+        {
+            ObservableCollection<string> list = new ObservableCollection<string>();
+            list.Add("");
+            if (!string.IsNullOrEmpty(ColdInlet))
+            {
+                list.Add(ColdInlet);
+            }
+            if (!string.IsNullOrEmpty(HotInlet))
+            {
+                list.Add(HotInlet);
+            }
+            return list;
+        }
+
+        private void GetColdHotStream()
+        {
             string[] firstfeeds = this.ProIIHX.FirstFeed.Split(',');
             string[] lastfeeds = this.ProIIHX.LastFeed.Split(',');
 
@@ -382,8 +549,8 @@ namespace ReliefProMain.ViewModel
             if (Products.Count == 1)
             {
                 //说明单侧进单侧出
-                HX.ColdInlet = this.ProIIHX.FeedData;
-                HX.ColdOutlet = this.ProIIHX.ProductData;
+                ColdInlet = this.ProIIHX.FeedData;
+                ColdOutlet = this.ProIIHX.ProductData;
             }
             else
             {
@@ -400,8 +567,8 @@ namespace ReliefProMain.ViewModel
                 if (startfeed2 > endfeed2)
                 {
                     //说明也是单侧进单侧出
-                    HX.ColdInlet = this.ProIIHX.FeedData;
-                    HX.ColdOutlet = this.ProIIHX.ProductData;
+                    ColdInlet = this.ProIIHX.FeedData;
+                    ColdOutlet = this.ProIIHX.ProductData;
                 }
                 else
                 {
@@ -415,8 +582,8 @@ namespace ReliefProMain.ViewModel
                         if (feed1.Temperature < product1.Temperature)
                         {
                             //冷侧进
-                            HX.ColdInlet = feed1.StreamName;
-                            HX.ColdOutlet = product1.StreamName;
+                            ColdInlet = feed1.StreamName;
+                            ColdOutlet = product1.StreamName;
 
                             //热侧
                             StringBuilder sb = new StringBuilder();
@@ -424,42 +591,42 @@ namespace ReliefProMain.ViewModel
                             {
                                 sb.Append(",").Append(Feeds[i - 1].StreamName);
                             }
-                            HX.HotInlet = sb.ToString().Substring(1);
-                            HX.HotOutlet = Products[1].StreamName;
+                            HotInlet = sb.ToString().Substring(1);
+                            HotOutlet = Products[1].StreamName;
                         }
                         else
-                        {                            
+                        {
                             //冷测
                             StringBuilder sb = new StringBuilder();
                             for (int i = startfeed2; i <= endfeed2; i++)
                             {
                                 sb.Append(",").Append(Feeds[i - 1].StreamName);
                             }
-                            HX.ColdInlet = sb.ToString().Substring(1);
-                            HX.ColdOutlet = Products[1].StreamName;
+                            ColdInlet = sb.ToString().Substring(1);
+                            ColdOutlet = Products[1].StreamName;
 
                             //热侧进
-                            HX.HotInlet = feed1.StreamName;
-                            HX.HotOutlet = product1.StreamName;
+                            HotInlet = feed1.StreamName;
+                            HotOutlet = product1.StreamName;
                         }
                     }
-                    else if(feed2count==1)
+                    else if (feed2count == 1)
                     {
-                        CustomStream feed2 = Feeds[Feeds.Count-1];
+                        CustomStream feed2 = Feeds[Feeds.Count - 1];
                         CustomStream product2 = Products[1];
                         if (feed2.Temperature < product2.Temperature)
                         {
                             //冷侧进
-                            HX.ColdInlet = feed2.StreamName;
-                            HX.ColdOutlet = product2.StreamName;
+                            ColdInlet = feed2.StreamName;
+                            ColdOutlet = product2.StreamName;
 
                             StringBuilder sb = new StringBuilder();
                             for (int i = startfeed1; i <= endfeed1; i++)
                             {
                                 sb.Append(",").Append(Feeds[i - 1].StreamName);
                             }
-                            HX.HotInlet = sb.ToString().Substring(1);
-                            HX.HotOutlet = Products[0].StreamName;
+                            HotInlet = sb.ToString().Substring(1);
+                            HotOutlet = Products[0].StreamName;
                         }
                         else
                         {
@@ -470,39 +637,18 @@ namespace ReliefProMain.ViewModel
                             {
                                 sb.Append(",").Append(Feeds[i - 1].StreamName);
                             }
-                            HX.ColdInlet = sb.ToString().Substring(1);
-                            HX.ColdOutlet = Products[0].StreamName;
+                            ColdInlet = sb.ToString().Substring(1);
+                            ColdOutlet = Products[0].StreamName;
 
-                            HX.HotInlet = feed2.StreamName;
-                            HX.HotOutlet = product2.StreamName;
+                            HotInlet = feed2.StreamName;
+                            HotOutlet = product2.StreamName;
                         }
                     }
 
                 }
 
             }
-            ColdInlet = HX.ColdInlet;
-            ColdOutlet = HX.ColdOutlet;
-            HotInlet = HX.HotInlet;
-            HotOutlet = HX.HotOutlet;
-
-            dbHX.Add(HX, SessionProtectedSystem);
-
-
-            ProtectedSystem ps = new ProtectedSystem();
-            ps.PSType = 4;
-            psDAL.Add(ps, SessionProtectedSystem);
-
-            SourceFileDAL sfdal = new SourceFileDAL();
-            SourceFileInfo = sfdal.GetModel(HX.SourceFile, SessionPlant);
-            SessionProtectedSystem.Flush();
         }
-        private ObservableCollection<string> GetHXTypes()
-        {
-            ObservableCollection<string> list = new ObservableCollection<string>();
-            list.Add("Shell-Tube");
-            list.Add("Air cooled");
-            return list;
-        }
+
     }
 }

@@ -69,7 +69,7 @@ namespace ReliefProMain.ViewModel
             BU = list.Where(s => s.IsDefault == 1).Single();
 
             bool bEdit = false;
-            if (model.dbmodel.MaxPossiblePressure != UnitConvert.Convert(model.PressureUnit, UOMEnum.Pressure, model.MaxPossiblePressure) || model.dbmodel.SourceType != model.SourceType)
+            if (model.dbmodel.IsSteam!=model.IsSteam||model.dbmodel.MaxPossiblePressure != UnitConvert.Convert(model.PressureUnit, UOMEnum.Pressure, model.MaxPossiblePressure) || model.dbmodel.SourceType != model.SourceType ||model.dbmodel.IsHeatSource!=model.IsHeatSource)
             {
                 bEdit = true;
             }
@@ -92,6 +92,7 @@ namespace ReliefProMain.ViewModel
                         if (wd != null)
                         {
                             wd.Close();
+                            return;
                         }
                     }
 
@@ -101,6 +102,9 @@ namespace ReliefProMain.ViewModel
                 model.dbmodel.SourceType_Color = model.SourceType_Color;
                 model.dbmodel.MaxPossiblePressure_Color = model.MaxPossiblePressure_Color;
                 model.dbmodel.SourceType = model.SourceType;
+                model.dbmodel.IsSteam = model.IsSteam;
+                model.dbmodel.IsHeatSource = model.IsHeatSource;
+                model.dbmodel.Description = model.Description;
                 sourcedal.Update(model.dbmodel, SessionProtectedSystem);
             }
             

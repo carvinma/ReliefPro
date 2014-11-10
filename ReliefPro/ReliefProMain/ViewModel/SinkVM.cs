@@ -84,6 +84,7 @@ namespace ReliefProMain.ViewModel
                         if (wd != null)
                         {
                             wd.Close();
+                            return;
                         }
                     }
                 }
@@ -91,7 +92,8 @@ namespace ReliefProMain.ViewModel
                 MainModel.dbmodel.SinkType_Color = MainModel.SinkType_Color;
                 MainModel.dbmodel.MaxPossiblePressure_Color = MainModel.MaxPossiblePressure_Color;
                 MainModel.dbmodel.SinkType = MainModel.SinkType;
-                db.Update(MainModel.dbmodel, SessionProtectedSystem);
+                MainModel.dbmodel.Description = MainModel.Description;
+                db.Update(MainModel.dbmodel, SessionProtectedSystem);               
                 //SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction
             }
             

@@ -20,6 +20,9 @@ namespace ReliefProMain.Models
             _SourceType_Color = m.SourceType_Color;
             _SourceTypes = GetSourceTypes();
             _IsEnabledSourceType = !m.IsSteam;
+            _IsHeatSource = m.IsHeatSource;
+            _IsSteam = m.IsSteam;
+            _Description = m.Description;
         }
         private bool _IsEnabledSourceType;
         public bool IsEnabledSourceType
@@ -87,15 +90,16 @@ namespace ReliefProMain.Models
             }
         }
 
+        private string _Description;
         public string Description
         {
             get
             {
-                return dbmodel.Description;
+                return _Description;
             }
             set
             {
-                if (dbmodel.Description != value)
+                if (_Description != value)
                 {
                     dbmodel.Description = value;
                     NotifyPropertyChanged("Description");
@@ -161,6 +165,8 @@ namespace ReliefProMain.Models
                 this.NotifyPropertyChanged("SourceTypes");
             }
         }
+
+        private bool _IsSteam;
         public bool IsSteam
         {
             get
@@ -169,11 +175,11 @@ namespace ReliefProMain.Models
             }
             set
             {
-                if (dbmodel.IsSteam != value)
+                if (_IsSteam != value)
                 {
-                    dbmodel.IsSteam = value;
+                    _IsSteam = value;
                 }
-                if (dbmodel.IsSteam)
+                if (_IsSteam)
                 {
                     SourceType = "Supply Header";
                 }
@@ -183,15 +189,16 @@ namespace ReliefProMain.Models
             }
         }
 
+        private bool _IsHeatSource;
         public bool IsHeatSource
         {
             get
             {
-                return dbmodel.IsHeatSource;
+                return _IsHeatSource;
             }
             set
             {
-                dbmodel.IsHeatSource = value;
+                _IsHeatSource = value;
                 OnPropertyChanged("IsHeatSource");
             }
         }

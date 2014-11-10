@@ -20,7 +20,7 @@
                         <Image Source="/images/Scenario.ico" x:Name="btnScenario1" ></Image>
                     </Button>
                     <Separator/>
-                    <Button Name="btnPSVSizing" ToolTip="Scenario" VerticalAlignment="Center"  Click="ToolbarButton_Click" >
+                    <Button Name="btnPSVSizing" ToolTip="Scenario" VerticalAlignment="Center" IsEnabled="False" Click="ToolbarButton_Click" >
                         <Image Source="/images/PSVSizing.ico" x:Name="btnPSVSizing1" ></Image>
                     </Button>
                 </ToolBar>

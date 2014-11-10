@@ -443,6 +443,16 @@ namespace ReliefProMain.View
                 reboiler.Text = vm.Reboilers[0].HeaterName;
                 reboiler.Cells["EventDblClick"].Formula = "=0";
             }
+            for (int i = 1; i <= vm.HxReboilers.Count; i++)
+            {
+                reboiler = visioControl.Window.Application.ActivePage.Drop(condenserMaster, pinX, pinY + height / 2 - i * 0.4);
+                //condenserVessel = visioControl.Window.Application.ActivePage.Drop(condenserVesselMaster, pinX + 1.5, pinY + height / 2 + 0.1);
+                //condenserVessel.get_Cells("Height").ResultIU = 0.2;
+                reboiler.get_Cells("Height").ResultIU = 0.2;
+                reboiler.get_Cells("Width").ResultIU = 0.2;
+                reboiler.Text = vm.HxReboilers[i - 1].HeaterName;
+                reboiler.Cells["EventDblClick"].Formula = "=0";
+            }
 
 
 

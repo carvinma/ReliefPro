@@ -297,6 +297,12 @@ namespace ReliefProMain.ViewModel
                 
                 if (!string.IsNullOrEmpty(vm.SelectedEq))
                 {
+                    Feeds = new ObservableCollection<CustomStream>();
+                    Products = new ObservableCollection<CustomStream>();
+                    Reboilers = new ObservableCollection<TowerHX>();
+                    HxReboilers = new ObservableCollection<TowerHX>();
+                    Condensers = new ObservableCollection<TowerHX>();
+                    HxCondensers = new ObservableCollection<TowerHX>();
                     ColorImport = ColorBorder.blue.ToString();
                     TowerType_Color = ColorBorder.green.ToString();
                     SideColumnList.Clear();
@@ -321,18 +327,12 @@ namespace ReliefProMain.ViewModel
                         {
                             SideColumn sc = new SideColumn();
                             sc.EqName = d.EqName;
-                            SideColumns.Add(sc);
-
+                            SideColumns.Add(sc);                            
                             SideColumnList.Add(d);
+                            GetSideColumnHeaters(d);
                         }
                     }
-
-                    Feeds = new ObservableCollection<CustomStream>();
-                    Products = new ObservableCollection<CustomStream>();
-                    Reboilers = new ObservableCollection<TowerHX>();
-                    HxReboilers = new ObservableCollection<TowerHX>();
-                    Condensers = new ObservableCollection<TowerHX>();
-                    HxCondensers = new ObservableCollection<TowerHX>();
+                    
                     GetHeaters(CurrentTower);
                     GetMaincolumnRealFeedProduct(ref dicFeeds, ref dicProducts);
                     ProIIStreamDataDAL dbStreamData = new ProIIStreamDataDAL();
@@ -368,7 +368,10 @@ namespace ReliefProMain.ViewModel
 
 
 
-
+        /// <summary>
+        /// 获取主塔的
+        /// </summary>
+        /// <param name="data"></param>
         private void GetHeaters(ProIIEqData data)
         {
             string heaterNames = data.HeaterNames;
@@ -442,6 +445,41 @@ namespace ReliefProMain.ViewModel
                 }
             }
         }
+
+        private void GetSideColumnHeaters(ProIIEqData data)
+        {
+            string heaterNames = data.HeaterNames;
+            string heaterDuties = data.HeaterDuties;
+            string heaterTrayLoc = data.HeaterTrayLoc;
+            string[] arrHeaterNames = heaterNames.Split(',');
+            string[] arrHeaterDuties = heaterDuties.Split(',');
+            string[] arrHeaterTrayLoc = heaterTrayLoc.Split(',');
+            for (int i = 0; i < arrHeaterNames.Length; i++)
+            {
+                if (!string.IsNullOrEmpty(arrHeaterNames[i]))
+                {
+                    double duty = double.Parse(arrHeaterDuties[i]) * 3600;  //KJ/hr
+                    if (duty <= 0)
+                    {
+                            TowerHX hx = new TowerHX();
+                            hx.HeaterName = arrHeaterNames[i]+"_Condenser";
+                            hx.HeaterDuty = duty;
+                            hx.HeaterType = 2;
+                            HxCondensers.Add(hx);                        
+                    }
+                    else if (duty > 0 )
+                    {
+                        
+                            TowerHX hx = new TowerHX();
+                            hx.HeaterName = arrHeaterNames[i] + "_Reboiler";
+                            hx.HeaterDuty = duty;
+                            hx.HeaterType = 4;
+                            HxReboilers.Add(hx);                       
+                    }
+                }
+            }
+        }
+
 
         public void GetEqFeedProduct(ProIIEqData data, ref Dictionary<string, string> cFeeds, ref Dictionary<string, string> cProducts, ref Dictionary<string, string> cProdTypes)
         {
