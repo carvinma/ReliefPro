@@ -6,11 +6,12 @@ using System.Windows.Input;
 using System.Windows;
 
 using NHibernate;
-using ReliefProLL;
+
 using ReliefProMain.Commands;
 using ReliefProMain.Models;
 using UOMLib;
 using ReliefProMain.View.DrumDepressures;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel.Drums
 {

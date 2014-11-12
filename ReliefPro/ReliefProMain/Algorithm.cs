@@ -36,7 +36,7 @@ namespace ReliefProMain
                 Area = 0;
             return Area;
         }
-        public static double GetHXArea(string ExposedToFire, string Type, double Length, double OD)
+        public static double GetHXArea(string ExposedToFire, string Type, double Length, double Length2, double OD)
         {
             double Area = 0;
             double D = OD;
@@ -59,7 +59,7 @@ namespace ReliefProMain
             {
                 if (Type == "Fixed")
                 {
-                    Area = 3.14159 * Length * D;
+                    Area = 3.14159 * (Length+Length2+0.8D) * D;
                 }
                 else if (Type == "U-Tube")
                 {

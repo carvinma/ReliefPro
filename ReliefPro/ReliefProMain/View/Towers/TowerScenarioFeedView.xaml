@@ -36,14 +36,20 @@
                     </GridViewColumn>
 
 
-                    <GridViewColumn Header="{DynamicResource HeatSource}">
+                    <GridViewColumn Header="{DynamicResource HeatSource}" Width="80px">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="{DynamicResource HeatSource}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.CalculateCommand}" CommandParameter="{Binding ID}" ></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-
+                    <GridViewColumn Header="{DynamicResource ResidualCalc}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="{DynamicResource ResidualCalc}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.Calculate2Command}" CommandParameter="{Binding ID}" ></Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

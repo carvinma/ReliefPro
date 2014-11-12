@@ -6,7 +6,6 @@ using System.Text;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using NHibernate;
-using ReliefProLL;
 using ReliefProMain.CustomControl;
 using ReliefProMain.Models;
 using ReliefProMain.Util;
@@ -149,12 +148,26 @@ namespace ReliefProMain.ViewModel
                                 MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it will delete all Scenario", "Message Box", MessageBoxButton.YesNo);
                                 if (r == MessageBoxResult.Yes)
                                 {
-                                    //ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
-                                    //scBLL.DeleteSCOther();
-                                    //scBLL.DeleteScenario();
+                                    foreach (TreeUnit unit in unitlist)
+                                    {
+                                        TreePSDAL psdal = new TreePSDAL();
+                                        IList<TreePS> list = psdal.GetAllList(unit.ID, SessionPlant);
+                                        foreach (TreePS ps in list)
+                                        {
+                                            string dbPath = DirPlant + @"\" + unit.UnitName + @"\" + ps.PSName + @"\protectedsystem.mdb";
+                                            using (var helper = new NHibernateHelper(dbPath))
+                                            {
+                                                ISession Session = helper.GetCurrentSession();
+                                                ScenarioBLL scBLL = new ScenarioBLL(Session);
+                                                scBLL.DeleteSCOther();
+                                                scBLL.ClearScenario();
+                                            }
+                                        }
+                                    }
                                     WriteConvertModel();
                                     globalDefaultBLL.Save(model.lstFlareSystem.Select(p => p.dbmodel).ToList(), model.conditSetModel);
-                                }                               
+
+                                }                              
                             }
                             else
                             {

@@ -9,7 +9,7 @@ using ReliefProModel.ReactorLoops;
 using UOMLib;
 using ReliefProDAL;
 
-namespace ReliefProLL
+namespace ReliefProBLL
 {
     public class GeneralFailureCommonBLL
     {

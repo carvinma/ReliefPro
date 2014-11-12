@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Reporting.WinForms;
 using ReliefProBLL;
-using ReliefProLL;
+
 using ReliefProMain.Commands;
 using ReliefProMain.Models.Reports;
 using ReliefProMain.View.Reports;

@@ -158,8 +158,7 @@ namespace ReliefProMain.ViewModel
             ReadConvert();
             TowerDAL towerdal = new TowerDAL();
             tower = towerdal.GetModel(SessionProtectedSystem);
-            CondenserCalcDAL condenserCalcDAL = new CondenserCalcDAL();
-            condenserCalc = condenserCalcDAL.GetModel(this.SessionProtectedSystem, ScenarioID);
+           
         }
         private int CheckSteamFreezed()
         {
@@ -347,7 +346,8 @@ namespace ReliefProMain.ViewModel
             try
             {
                 SplashScreenManager.Show();
-                
+                CondenserCalcDAL condenserCalcDAL = new CondenserCalcDAL();
+                condenserCalc = condenserCalcDAL.GetModel(this.SessionProtectedSystem, ScenarioID);
                 if (tower.TowerType == "Distillation")
                 {
                     SplashScreenManager.SentMsgToScreen("Calculating Distillation");
@@ -773,9 +773,9 @@ namespace ReliefProMain.ViewModel
             }
             foreach (TowerScenarioHX shx in list)
             {
-                if (shx.HeaterType == 1 && condenserFactor == 1)
+                if (shx.HeaterType == 1)
                 {
-                    if (!shx.DutyLost)
+                    if (!shx.DutyLost && condenserFactor == 1)
                     {
                         if (shx.IsPinch == true)
                         {
@@ -901,9 +901,9 @@ namespace ReliefProMain.ViewModel
             }
             foreach (TowerScenarioHX shx in list)
             {
-                if (shx.HeaterType == 1 && condenserFactor == 1)
+                if (shx.HeaterType == 1 )
                 {
-                    if (!shx.DutyLost)
+                    if (!shx.DutyLost && condenserFactor == 1)
                     {
                         if (shx.IsPinch == true)
                         {

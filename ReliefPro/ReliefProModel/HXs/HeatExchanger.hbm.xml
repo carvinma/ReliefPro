@@ -9,12 +9,15 @@
   <property name="HXType" column="HXType" type="String" length="255"/>
   <property name="Duty" column="Duty" type="Double"/>
   <property name="SourceFile" column="SourceFile" type="String" length="255"/>
-
+  <property name="TubeFeedStreams" column="TubeFeedStreams" type="String" length="255"/>
+  <property name="ShellFeedStreams" column="ShellFeedStreams" type="String" length="255"/>
   <property name="HXName_Color" column="HXName_Color" type="String" length="255"/>
   <property name="HXType_Color" column="HXType_Color" type="String" length="255"/>
   <property name="Duty_Color" column="Duty_Color" type="String" length="255"/>
   <property name="SourceFile_Color" column="SourceFile_Color" type="String" length="255"/>
-
+  <property name="TubeFeedStreams_Color" column="TubeFeedStreams_Color" type="String" length="255"/>
+  <property name="ShellFeedStreams_Color" column="ShellFeedStreams_Color" type="String" length="255"/>
+  
   <property name="FirstFeed" column="FirstFeed" type="String" length="255" />
   <property name="FirstProduct" column="FirstProduct" type="String" length="255" />
   <property name="LastFeed" column="LastFeed" type="String" length="255" />

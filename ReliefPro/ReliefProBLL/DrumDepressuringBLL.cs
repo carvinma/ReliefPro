@@ -9,7 +9,7 @@ using ReliefProModel;
 using ReliefProModel.Drums;
 using UOMLib;
 
-namespace ReliefProLL
+namespace ReliefProBLL
 {
     public class DrumDepressuringBLL
     {

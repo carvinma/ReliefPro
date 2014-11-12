@@ -13,12 +13,14 @@ namespace ReliefProModel.HXs
         public virtual string HXType { get; set; }
         public virtual double Duty { get; set; }
         public virtual string SourceFile { get; set; }
-
+        public virtual string TubeFeedStreams { get; set; }
+        public virtual string ShellFeedStreams { get; set; }
         public virtual string HXName_Color { get; set; }
         public virtual string HXType_Color { get; set; }
         public virtual string Duty_Color { get; set; }
         public virtual string SourceFile_Color { get; set; }
-
+        public virtual string TubeFeedStreams_Color { get; set; }
+        public virtual string ShellFeedStreams_Color { get; set; }
 
         public virtual double Pressure { get; set; }
         public virtual double Temperature { get; set; }

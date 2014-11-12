@@ -50,7 +50,8 @@ namespace ReliefProMain.ViewModel.TowerFires
                 if (ac != null)
                 {
                     sizemodel.Diameter = ac.Diameter;
-                    sizemodel.Elevation = ac.NormalLiquidLevel;
+                    sizemodel.NormalLiquidLevel = ac.NormalLiquidLevel;
+                    sizemodel.Length = 0;
                     sizemodel.Length = ac.Length;
                     if (ac.Orientation)
                         sizemodel.Orientation = "Horizon";

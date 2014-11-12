@@ -423,6 +423,9 @@
     <Compile Include="View\Common\InletValveOpenView.xaml.cs">
       <DependentUpon>InletValveOpenView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Scenarios\ScenarioResidualListView.xaml.cs">
+      <DependentUpon>ScenarioResidualListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\StorageTanks\StorageTankView.xaml.cs">
       <DependentUpon>StorageTankView.xaml</DependentUpon>
     </Compile>
@@ -734,6 +737,10 @@
     <Page Include="View\Common\InletValveOpenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Scenarios\ScenarioResidualListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\StorageTanks\StorageTankView.xaml">
       <SubType>Designer</SubType>

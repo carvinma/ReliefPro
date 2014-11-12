@@ -10,7 +10,7 @@ using ReliefProModel.Drums;
 using UOMLib;
 using ReliefProCommon.Enum;
 
-namespace ReliefProLL
+namespace ReliefProBLL
 {
     public class DrumSizeBLL
     {

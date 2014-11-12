@@ -5,12 +5,12 @@ using System.Text;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using NHibernate;
-using ReliefProLL;
 using ReliefProMain.Models;
 using ReliefProModel.Towers;
 using UOMLib;
 using ReliefProDAL;
 using ReliefProModel;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel
 {

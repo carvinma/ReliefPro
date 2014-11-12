@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Reporting.WinForms;
-using ReliefProLL;
+
 using ReliefProMain.Models.Reports;
 using ReliefProMain.View.Reports;
 using ReliefProMain.ViewModel.Trees;
@@ -18,6 +18,7 @@ using ReliefProModel;
 using ReliefProModel.GlobalDefault;
 using ReliefProModel.Reports;
 using UOMLib;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel.Reports
 {

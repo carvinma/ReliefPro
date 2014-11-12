@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using NHibernate;
 
-namespace ReliefProLL
+namespace ReliefProBLL
 {
     public class ReportPlanSession
     {

@@ -69,9 +69,9 @@
         </ListView>
 
         <Button Content="{DynamicResource OK}" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}" IsCancel="True" Grid.Row="2" Grid.Column="6"/>
-        <Button IsEnabled="{Binding IsSurgeTime}"  Visibility="{Binding IsDisplay}" Content="{DynamicResource RefluxDrumSurgeTime}"  Command="{Binding CalculateSurgeTimeClick}" Grid.Row="2" Grid.Column="3" Width="170"/>
+        <Button IsEnabled="{Binding IsSurgeTime}"   Content="{DynamicResource RefluxDrumSurgeTime}"  Command="{Binding CalculateSurgeTimeClick}" Grid.Row="2" Grid.Column="3" Width="170"/>
         <TextBlock  Grid.Row="2" TextWrapping="Wrap" />
-        <CheckBox IsChecked="{Binding IsFlooding}"  Content="{DynamicResource Flooding}" Visibility="{Binding IsDisplay}"  Grid.Row="2" Grid.Column="1"/>
+        <CheckBox IsEnabled="{Binding IsEnableFlooding}" IsChecked="{Binding IsFlooding}"  Content="{DynamicResource Flooding}" Visibility="{Binding IsDisplay}"  Grid.Row="2" Grid.Column="1"/>
         <CheckBox IsChecked="{Binding IsSurgeTime}" Visibility="{Binding IsDisplay}" Content="" Grid.Row="2" Grid.Column="2"/>
         <TextBox IsEnabled="{Binding IsSurgeTime}" Visibility="{Binding IsDisplay}" Grid.Row="2" TextWrapping="Wrap" Text="{Binding SurgeTime,Mode=TwoWay,StringFormat='{}{0:F4}'}" VerticalAlignment="Center"  Grid.Column="4"/>
         <Label Visibility="{Binding IsDisplay}"  Content="{DynamicResource min}" VerticalAlignment="Center"  Grid.Row="2"  Grid.Column="5"/>

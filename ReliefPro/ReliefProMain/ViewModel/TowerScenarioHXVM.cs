@@ -16,7 +16,8 @@ using ReliefProMain.View;
 using NHibernate;
 using ReliefProMain.Models;
 using ProII;
-
+using ReliefProModel.GlobalDefault;
+using ReliefProBLL;
 namespace ReliefProMain.ViewModel
 {
     public class TowerScenarioHXVM : ViewModelBase
@@ -86,6 +87,22 @@ namespace ReliefProMain.ViewModel
             }
         }
 
+        private bool _IsEnableFlooding;
+        public bool IsEnableFlooding
+        {
+            get
+            {
+                return this._IsEnableFlooding;
+            }
+            set
+            {
+                this._IsEnableFlooding = value;
+                OnPropertyChanged("IsEnableFlooding");
+            }
+             
+        }
+
+
         private bool _IsSurgeTime;
         public bool IsSurgeTime
         {
@@ -98,12 +115,12 @@ namespace ReliefProMain.ViewModel
                 this._IsSurgeTime = value;
                 if (_IsSurgeTime)
                 {
+                    IsEnableFlooding = false;
                     IsFlooding = false;
-
                 }
                 else
                 {
-
+                    IsEnableFlooding = true;
                 }
                 OnPropertyChanged("IsSurgeTime");
             }
@@ -259,14 +276,27 @@ namespace ReliefProMain.ViewModel
                     accumulatorPartialVolume = 3.14159 * Math.Pow(diameter, 2) * liquidlevel / 4 + 3.14159 * Math.Pow(diameter, 3) / 24;
                 }
             }
+            GlobalDefaultBLL gdbll=new GlobalDefaultBLL(SessionPlant);
+            ConditionsSettings condition=gdbll.GetConditionsSettings();
             double surgeVolume = accumulatorTotalVolume - accumulatorPartialVolume;
             if (totalVolumeticFlowRate > 0)
             {
                 double dSurgeTime = surgeVolume * 60 / totalVolumeticFlowRate;
                 SurgeTime = dSurgeTime.ToString();
+                if (dSurgeTime <=condition.DrumSurgeTimeSettings)
+                {
+                    IsFlooding = true;
+                }
+                else
+                {
+                    IsFlooding = false;
+                }
             }
             else
-                SurgeTime = "0";
+            {
+                SurgeTime = "11";
+                IsFlooding = false;
+            }
         }
 
         private double GetLatent(NHibernate.ISession Session)

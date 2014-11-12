@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using NHibernate;
-using ReliefProLL;
+
 using ReliefProMain.Commands;
 using ReliefProMain.Models.Compressors;
 using UOMLib;
 using ReliefProDAL;
 using ReliefProModel;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel.Compressors
 {

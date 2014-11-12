@@ -6,7 +6,7 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using NHibernate;
 using ReliefProCommon.CommonLib;
-using ReliefProLL;
+
 using ReliefProMain.Models.ReactorLoops;
 using ReliefProModel.ReactorLoops;
 using ReliefProDAL.ReactorLoops;
@@ -16,6 +16,7 @@ using System.IO;
 using ProII;
 using System.Windows;
 using ReliefProDAL;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {

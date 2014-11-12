@@ -51,7 +51,15 @@ namespace ReliefProMain.ViewModel
 
         public UOMLib.UOMEnum uomEnum { get; set; }
 
-        public ScenarioHeatSourceListVM(int ScenarioStreamID, SourceFile sourceFileInfo, ISession SessionPlant, ISession SessionProtectedSystem)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ScenarioStreamID"></param>
+        /// <param name="sourceFileInfo"></param>
+        /// <param name="SessionPlant"></param>
+        /// <param name="SessionProtectedSystem"></param>
+        /// <param name="HeatSourceType">1:FB 2Fired Heater</param>
+        public ScenarioHeatSourceListVM(int ScenarioStreamID, SourceFile sourceFileInfo, ISession SessionPlant, ISession SessionProtectedSystem,string HeatSourceType)
         {
             this.SessionPlant = SessionPlant;
             uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
@@ -61,7 +69,7 @@ namespace ReliefProMain.ViewModel
             SourceFileInfo = sourceFileInfo;
             db = new ScenarioHeatSourceDAL();
             dbHS = new HeatSourceDAL();
-            HeatSources = GetHeatSources(ScenarioStreamID);
+            HeatSources = GetHeatSources(ScenarioStreamID,HeatSourceType);
             if (HeatSources.Count > 0)
                 SelectedHeatSource = HeatSources[0];
         }
@@ -113,14 +121,7 @@ namespace ReliefProMain.ViewModel
         }
 
         public void Save(object obj)
-        {
-            // IList<ScenarioHeatSource> list = db.GetScenarioStreamList(SessionProtectedSystem, ScenarioStreamID);
-            // for (int i = 0; i < list.Count; i++)
-            // {
-            //     db.Delete(list[i], SessionProtectedSystem);
-            //  }
-
-
+        {            
             foreach (ScenarioHeatSourceModel m in HeatSources)
             {
                 db.Update(m.model, SessionProtectedSystem);
@@ -134,10 +135,10 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private ObservableCollection<ScenarioHeatSourceModel> GetHeatSources(int ScenarioStreamID)
+        private ObservableCollection<ScenarioHeatSourceModel> GetHeatSources(int ScenarioStreamID,string HeatSourceType)
         {
             ObservableCollection<ScenarioHeatSourceModel> list = new ObservableCollection<ScenarioHeatSourceModel>();
-            IList<ScenarioHeatSource> eqs = db.GetScenarioStreamList(SessionProtectedSystem, ScenarioStreamID);
+            IList<ScenarioHeatSource> eqs = db.GetScenarioStreamList(SessionProtectedSystem, ScenarioStreamID, HeatSourceType);
             foreach (ScenarioHeatSource eq in eqs)
             {
                 HeatSource hs = dbHS.GetModel(eq.HeatSourceID, SessionProtectedSystem);

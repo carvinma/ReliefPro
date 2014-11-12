@@ -133,9 +133,9 @@ namespace ReliefProMain.ViewModel
 
         private void Calculate(object obj)
         {
-            int SourceID = int.Parse(obj.ToString());
+            int SCStreamID = int.Parse(obj.ToString());
             ScenarioHeatSourceListView v = new ScenarioHeatSourceListView();
-            ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SourceID,SourceFileInfo, SessionPlant, SessionProtectedSystem);
+            ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SCStreamID, SourceFileInfo, SessionPlant, SessionProtectedSystem, "Feed/Bottom HX");
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (v.ShowDialog() == true)
@@ -143,5 +143,52 @@ namespace ReliefProMain.ViewModel
 
             }
         }
+
+        private ICommand _Calculate2Command;
+        public ICommand Calculate2Command
+        {
+            get
+            {
+                if (_Calculate2Command == null)
+                {
+                    _Calculate2Command = new RelayCommand(Calculate2);
+
+                }
+                return _Calculate2Command;
+            }
+        }
+
+        private void Calculate2(object obj)
+        {
+            int SCStreamID = int.Parse(obj.ToString());
+            TowerScenarioStream scs = db.GetModel(SCStreamID, SessionProtectedSystem);
+            if (scs.FlowStop || scs.FlowCalcFactor == 0)
+            {
+                ScenarioHeatSourceListView v = new ScenarioHeatSourceListView();
+                ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SCStreamID, SourceFileInfo, SessionPlant, SessionProtectedSystem, "Fired Heater");
+                v.DataContext = vm;
+                v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                if (v.ShowDialog() == true)
+                {
+
+                }
+            }
+            else
+            {
+                if (MessageBox.Show("Are you sure to edit it?", "Message Box", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    ScenarioHeatSourceListView v = new ScenarioHeatSourceListView();
+                    ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SCStreamID, SourceFileInfo, SessionPlant, SessionProtectedSystem, "Fired Heater");
+                    v.DataContext = vm;
+                    v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    if (v.ShowDialog() == true)
+                    {
+
+                    }
+                }
+            }
+            
+        }
+    
     }
 }

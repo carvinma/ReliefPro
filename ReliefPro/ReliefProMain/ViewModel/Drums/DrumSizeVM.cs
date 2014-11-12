@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using NHibernate;
-using ReliefProLL;
+
 using ReliefProMain.Commands;
 using ReliefProMain.Models;
 using UOMLib;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel.Drums
 {

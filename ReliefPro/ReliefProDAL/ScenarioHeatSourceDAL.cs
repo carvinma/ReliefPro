@@ -11,13 +11,13 @@ namespace ReliefProDAL
     public class ScenarioHeatSourceDAL : IBaseDAL<ScenarioHeatSource>
     {
 
-        public IList<ScenarioHeatSource> GetScenarioStreamList(ISession session, int ScenarioStreamID)
+        public IList<ScenarioHeatSource> GetScenarioStreamList(ISession session, int ScenarioStreamID, string HeatSourceType)
         {
             IList<ScenarioHeatSource> list = null;
             try
             {
                 session.Clear();
-                list = session.CreateCriteria<ScenarioHeatSource>().Add(Expression.Eq("ScenarioStreamID", ScenarioStreamID)).List<ScenarioHeatSource>();
+                list = session.CreateCriteria<ScenarioHeatSource>().Add(Expression.Eq("ScenarioStreamID", ScenarioStreamID)).Add(Expression.Eq("HeatSourceType", HeatSourceType)).List<ScenarioHeatSource>();
             }
             catch (Exception ex)
             {

@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows;
 using System.IO;
 using NHibernate;
-using ReliefProLL;
+
 using ReliefProMain.Commands;
 using ReliefProMain.Models;
 using ReliefProMain.View;
@@ -23,6 +23,7 @@ using ReliefProMain.View.HXs;
 using ReliefProMain.ViewModel.HXs;
 using ReliefProModel.HXs;
 using ReliefProDAL.HXs;
+using ReliefProBLL;
 
 namespace ReliefProMain.ViewModel.Drums
 {
@@ -217,7 +218,7 @@ namespace ReliefProMain.ViewModel.Drums
 
                     }
                     if (hxFireSize != null)
-                        Area = Algorithm.GetHXArea(hxFireSize.ExposedToFire, hxFireSize.Type, hxFireSize.Length, hxFireSize.OD);
+                        Area = Algorithm.GetHXArea(hxFireSize.ExposedToFire, hxFireSize.Type, hxFireSize.Length,hxFireSize.Elevation, hxFireSize.OD);
                     model.WettedArea = Area;
                 }
             }

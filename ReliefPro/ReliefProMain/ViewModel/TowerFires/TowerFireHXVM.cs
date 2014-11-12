@@ -81,7 +81,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             double length = model.dbmodel.Length;
             double pipingContingency = model.dbmodel.PipingContingency;
             double od = model.dbmodel.OD;
-            Area = Algorithm.GetHXArea(model.ExposedToFire, model.Type, length, od);
+            Area = Algorithm.GetHXArea(model.ExposedToFire, model.Type, length,model.Elevation, od);
             Area = Area + Area * model.PipingContingency / 100;
 
 

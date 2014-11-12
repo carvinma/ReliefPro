@@ -16,7 +16,7 @@ using ReliefProModel.GlobalDefault;
 using ReliefProModel.Reports;
 using UOMLib;
 
-namespace ReliefProLL
+namespace ReliefProBLL
 {
     public class ReportBLL
     {

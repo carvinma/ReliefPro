@@ -9,7 +9,7 @@ using ReliefProModel;
 using ReliefProModel.Compressors;
 using UOMLib;
 
-namespace ReliefProLL
+namespace ReliefProBLL
 {
     public class CompressorBlockedBLL
     {

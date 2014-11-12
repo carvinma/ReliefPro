@@ -9,7 +9,7 @@ using ReliefProModel;
 using ReliefProModel.Towers;
 using UOMLib;
 
-namespace ReliefProLL
+namespace ReliefProBLL
 {
     public class BlockedVaporOutletBLL
     {

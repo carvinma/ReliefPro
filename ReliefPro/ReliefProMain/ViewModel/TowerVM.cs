@@ -462,7 +462,7 @@ namespace ReliefProMain.ViewModel
                     if (duty <= 0)
                     {
                             TowerHX hx = new TowerHX();
-                            hx.HeaterName = arrHeaterNames[i]+"_Condenser";
+                            hx.HeaterName = data.EqName+"_"+arrHeaterNames[i];
                             hx.HeaterDuty = duty;
                             hx.HeaterType = 2;
                             HxCondensers.Add(hx);                        
@@ -471,7 +471,7 @@ namespace ReliefProMain.ViewModel
                     {
                         
                             TowerHX hx = new TowerHX();
-                            hx.HeaterName = arrHeaterNames[i] + "_Reboiler";
+                            hx.HeaterName = data.EqName + "_" + arrHeaterNames[i];
                             hx.HeaterDuty = duty;
                             hx.HeaterType = 4;
                             HxReboilers.Add(hx);                       
