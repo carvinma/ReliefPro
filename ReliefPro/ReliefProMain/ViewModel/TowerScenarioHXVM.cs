@@ -321,7 +321,7 @@ namespace ReliefProMain.ViewModel
             }
             else
             {
-                SurgeTime = (condition.DrumSurgeTimeSettings + 1).ToString();
+                SurgeTime = "0";
                 IsFlooding = false;
             }
         }
@@ -428,8 +428,9 @@ namespace ReliefProMain.ViewModel
 
         public void Save(object obj)
         {
-            //if (HeaterType == 1)
-            //{
+            //只在condenser 下才做flooding
+            if (HeaterType == 1)
+            {
                 if (condenserCalc == null)
                 {
                     condenserCalc = new CondenserCalc();
@@ -447,13 +448,13 @@ namespace ReliefProMain.ViewModel
                     condenserCalc.ScenarioID = ScenarioID;
                     condenserCalcDAL.Update(condenserCalc, SessionProtectedSystem);
                 }
-                foreach (TowerScenarioHXModel m in Details)
-                {
-                    towerScenarioHXDAL.Update(m.model, SessionProtectedSystem);
-                }
+            }
+            foreach (TowerScenarioHXModel m in Details)
+            {
+                towerScenarioHXDAL.Update(m.model, SessionProtectedSystem);
+            }
 
-                //SessionProtectedSystem.Flush();
-            //}
+
             System.Windows.Window wd = obj as System.Windows.Window;
 
             if (wd != null)
