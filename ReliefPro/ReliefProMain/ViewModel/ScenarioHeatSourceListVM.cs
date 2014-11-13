@@ -138,7 +138,7 @@ namespace ReliefProMain.ViewModel
         private ObservableCollection<ScenarioHeatSourceModel> GetHeatSources(int ScenarioStreamID,string HeatSourceType)
         {
             ObservableCollection<ScenarioHeatSourceModel> list = new ObservableCollection<ScenarioHeatSourceModel>();
-            IList<ScenarioHeatSource> eqs = db.GetScenarioStreamList(SessionProtectedSystem, ScenarioStreamID, HeatSourceType);
+            IList<ScenarioHeatSource> eqs = db.GetScenarioStreamHeatSourceList(SessionProtectedSystem, ScenarioStreamID, HeatSourceType);
             foreach (ScenarioHeatSource eq in eqs)
             {
                 HeatSource hs = dbHS.GetModel(eq.HeatSourceID, SessionProtectedSystem);
