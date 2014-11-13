@@ -25,7 +25,7 @@ namespace ReliefProMain.ViewModel
         public ISession SessionPlant { set; get; }
         public ISession SessionProtectedSystem { set; get; }
         private int ScenarioID;
-
+        public SourceFile SourceFileInfo { get; set; }
         private AbnormalHeaterDetailDAL abnormalHeaterDetailDAL;
         private ScenarioDAL scenarioDAL;
         private PSVDAL psvDAL;
@@ -137,9 +137,10 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        public AbnormalHeatInputVM(int ScenarioID, ISession SessionPlant, ISession SessionProtectedSystem)
+        public AbnormalHeatInputVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPlant, ISession SessionProtectedSystem)
         {
             this.SessionPlant = SessionPlant;
+            this.SourceFileInfo = sourceFileInfo;
             uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             InitUnit();
             this.ScenarioID = ScenarioID;
@@ -271,6 +272,30 @@ namespace ReliefProMain.ViewModel
             ReliefMW = reliefMW;
            
         }
+
+        private ICommand _ProductCommand;
+        public ICommand ProductCommand
+        {
+            get
+            {
+                if (_ProductCommand == null)
+                {
+                    _ProductCommand = new RelayCommand(Product);
+
+                }
+                return _ProductCommand;
+            }
+        }
+        private void Product(object window)
+        {
+            TowerScenarioProductView v = new TowerScenarioProductView();
+            TowerScenarioFeedVM vm = new TowerScenarioFeedVM(ScenarioID, SourceFileInfo, SessionPlant, SessionProtectedSystem, true);
+            v.DataContext = vm;
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            v.ShowDialog();
+        }
+        
+
 
         private void Balance()
         {

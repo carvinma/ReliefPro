@@ -161,7 +161,15 @@ namespace ReliefProMain.ViewModel
         private void Calculate2(object obj)
         {
             int SCStreamID = int.Parse(obj.ToString());
-            TowerScenarioStream scs = db.GetModel(SCStreamID, SessionProtectedSystem);
+            TowerScenarioStreamModel scs=new TowerScenarioStreamModel();
+            foreach (TowerScenarioStreamModel tssm in Feeds)
+            {
+                if (tssm.ID == SCStreamID)
+                {
+                    scs = tssm;
+                    break;
+                }
+            }
             if (scs.FlowStop || scs.FlowCalcFactor == 0)
             {
                 ScenarioHeatSourceListView v = new ScenarioHeatSourceListView();

@@ -849,7 +849,8 @@ namespace ReliefProMain.ViewModel
             TowerScenarioStreamDAL db = new TowerScenarioStreamDAL();
             TowerFlashProductDAL dbFlashP = new TowerFlashProductDAL();
             IList<TowerScenarioStream> listStream = db.GetAllList(SessionProtectedSystem, ScenarioID);
-
+           ScenarioHeatSourceDAL  scheatsourcedal = new ScenarioHeatSourceDAL();
+            HeatSourceDAL hsdal=new HeatSourceDAL();
             overHeadWeightFlow = 0;
             foreach (TowerScenarioStream s in listStream)
             {
@@ -882,6 +883,16 @@ namespace ReliefProMain.ViewModel
                 }
                 else
                 {
+                    if (s.FlowCalcFactor == 0 || s.FlowStop)
+                    {
+                        //取Residual
+                        IList<ScenarioHeatSource> shslist = scheatsourcedal.GetScenarioStreamHeatSourceList(SessionProtectedSystem,s.ID,"Fired Heater");
+                        foreach (ScenarioHeatSource shs in shslist)
+                        {
+                            HeatSource hs=hsdal.GetModel(shs.HeatSourceID,SessionProtectedSystem);
+                            FeedTotal = FeedTotal + shs.DutyFactor*hs.Duty;
+                        }
+                    }
                     if (!s.FlowStop)
                     {
                         FeedTotal = FeedTotal + (s.FlowCalcFactor * cstream.SpEnthalpy * cstream.WeightFlow);

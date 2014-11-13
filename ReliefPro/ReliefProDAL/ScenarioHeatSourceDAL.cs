@@ -11,7 +11,7 @@ namespace ReliefProDAL
     public class ScenarioHeatSourceDAL : IBaseDAL<ScenarioHeatSource>
     {
 
-        public IList<ScenarioHeatSource> GetScenarioStreamList(ISession session, int ScenarioStreamID, string HeatSourceType)
+        public IList<ScenarioHeatSource> GetScenarioStreamHeatSourceList(ISession session, int ScenarioStreamID, string HeatSourceType)
         {
             IList<ScenarioHeatSource> list = null;
             try

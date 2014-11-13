@@ -184,6 +184,27 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("UpStreamNames");
             }
         }
+        private double _ReliefCpCv;
+        public double ReliefCpCv
+        {
+            get { return _ReliefCpCv; }
+            set
+            {
+                _ReliefCpCv = value;
+                this.NotifyPropertyChanged("ReliefCpCv");
+            }
+        }
+
+        private double _ReliefZ;
+        public double ReliefZ
+        {
+            get { return _ReliefZ; }
+            set
+            {
+                _ReliefZ = value;
+                this.NotifyPropertyChanged("ReliefZ");
+            }
+        }
 
         InletValveOpen model;
         InletValveOpenDAL dbinlet;

@@ -34,7 +34,8 @@ namespace ReliefProMain.ViewModel
         Scenario sc;
         public double ScenarioCondenserDuty = 0;
         public Accumulator CurrentAccumulator { get; set; }
-        
+        ConditionsSettings condition;
+
         private string _IsDisplay;
         public string IsDisplay
         {
@@ -73,21 +74,25 @@ namespace ReliefProMain.ViewModel
             set
             {
                 this._IsFlooding = value;
-                if (_IsFlooding)
+                if (_IsFlooding && _IsEnableFlooding)
                 {
-                    IsSurgeTime = false;
+                    IsEnableSurgeTime = false;
                     //for(int i=0;i<Details.Count;i++)
                     //{
                     //    TowerScenarioHXModel detail =Details[i];
                     //    detail.DutyLost = true;
                     //}
                 }
+                else
+                {
+                    IsEnableSurgeTime = true;
+                }
 
                 OnPropertyChanged("IsFlooding");
             }
         }
 
-        private bool _IsEnableFlooding;
+        private bool _IsEnableFlooding=true;
         public bool IsEnableFlooding
         {
             get
@@ -102,7 +107,21 @@ namespace ReliefProMain.ViewModel
              
         }
 
-
+        private bool _IsEnableSurgeTime=true;
+        public bool IsEnableSurgeTime
+        {
+            get
+            {
+                return this._IsEnableSurgeTime;
+            }
+            set
+            {
+                this._IsEnableSurgeTime = value;
+                OnPropertyChanged("IsEnableSurgeTime");
+            }
+            
+        }
+        
         private bool _IsSurgeTime;
         public bool IsSurgeTime
         {
@@ -116,7 +135,6 @@ namespace ReliefProMain.ViewModel
                 if (_IsSurgeTime)
                 {
                     IsEnableFlooding = false;
-                    IsFlooding = false;
                 }
                 else
                 {
@@ -165,16 +183,26 @@ namespace ReliefProMain.ViewModel
             towerScenarioHXDAL = new TowerScenarioHXDAL();
             dicHXs = new Dictionary<int, TowerScenarioHXModel>();
             Details = GetTowerHXScenarioDetails();
+            GlobalDefaultBLL gdbll = new GlobalDefaultBLL(SessionPlant);
+            condition = gdbll.GetConditionsSettings();
             condenserCalcDAL = new CondenserCalcDAL();
             condenserCalc = condenserCalcDAL.GetModel( this.SessionProtectedSystem,ScenarioID);
             if (condenserCalc != null)
-            {
-                IsFlooding = condenserCalc.Flooding;
+            {                
                 SurgeTime = condenserCalc.SurgeTime;
-                IsSurgeTime = condenserCalc.IsSurgeTime;    
+                IsSurgeTime = condenserCalc.IsSurgeTime;
+                if (!string.IsNullOrEmpty(SurgeTime))
+                {
+                    double dSurgeTime = double.Parse(SurgeTime);
+                }
+                if (IsSurgeTime)
+                    IsEnableFlooding = false;
+                IsFlooding = condenserCalc.Flooding;
+
             }
             scDAL = new ScenarioDAL();
             sc = scDAL.GetModel(scenarioID,SessionProtectedSystem);
+
         }
         internal ObservableCollection<TowerScenarioHXModel> GetTowerHXScenarioDetails()
         {
@@ -276,8 +304,7 @@ namespace ReliefProMain.ViewModel
                     accumulatorPartialVolume = 3.14159 * Math.Pow(diameter, 2) * liquidlevel / 4 + 3.14159 * Math.Pow(diameter, 3) / 24;
                 }
             }
-            GlobalDefaultBLL gdbll=new GlobalDefaultBLL(SessionPlant);
-            ConditionsSettings condition=gdbll.GetConditionsSettings();
+           
             double surgeVolume = accumulatorTotalVolume - accumulatorPartialVolume;
             if (totalVolumeticFlowRate > 0)
             {
@@ -294,7 +321,7 @@ namespace ReliefProMain.ViewModel
             }
             else
             {
-                SurgeTime = "11";
+                SurgeTime = (condition.DrumSurgeTimeSettings + 1).ToString();
                 IsFlooding = false;
             }
         }

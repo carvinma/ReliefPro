@@ -235,7 +235,8 @@ namespace ReliefProMain.ViewModel.Reports
             ScenarioDAL scdal = new ScenarioDAL();
             IList<Scenario> list = scdal.GetAllList(SessionProtectedSystem);
 
-
+            PSVDAL psvdal = new PSVDAL();
+            PSV psv = psvdal.GetModel(SessionProtectedSystem);
 
             string dirPS = System.IO.Path.GetDirectoryName(dbProtectedSystemFile);
             string filePath = dirPS + @"\ps.xlsx";
@@ -247,14 +248,42 @@ namespace ReliefProMain.ViewModel.Reports
                 Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
                 Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             Microsoft.Office.Interop.Excel.Worksheet xlWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkBook.Sheets.get_Item(1);
-            //xlWorkSheet.Cells[5][15] = "test";
-            int count = 0;
+            DirectoryInfo di=new DirectoryInfo(CurrentPlantPath);
+
+            xlWorkSheet.Cells[4][6] = di.Name;
+            xlWorkSheet.Cells[4][7] = tunit.UnitName;
+            xlWorkSheet.Cells[4][9] = tps.PSName;
+
+            xlWorkSheet.Cells[13][6] = psv.ValveNumber;
+            xlWorkSheet.Cells[10][11] = psv.Pressure;
+
+            int count = list.Count;
             int row1 = 14;
             int note1 = 42;
             int row2 = 74;
             int note2 = 102;
             int row3 = 134;
             int note3 = 162;
+            if (count >= 5 && count <= 9)
+            {
+                xlWorkSheet.Cells[4][66] = di.Name;
+                xlWorkSheet.Cells[4][67] = tunit.UnitName;
+                xlWorkSheet.Cells[4][69] = tps.PSName;
+
+                xlWorkSheet.Cells[13][66] = psv.ValveNumber;
+                xlWorkSheet.Cells[10][71] = psv.Pressure;
+
+            }
+            else if (count > 9)
+            {
+                xlWorkSheet.Cells[4][126] = di.Name;
+                xlWorkSheet.Cells[4][127] = tunit.UnitName;
+                xlWorkSheet.Cells[4][129] = tps.PSName;
+
+                xlWorkSheet.Cells[13][126] = psv.ValveNumber;
+                xlWorkSheet.Cells[10][131] = psv.Pressure;
+
+            }
             string Compressibility = string.Empty;
             for (int i = 1; i <=list.Count; i++)
             {
@@ -272,7 +301,7 @@ namespace ReliefProMain.ViewModel.Reports
                         xlWorkSheet.Cells[5 + col * 2][row1 + 3] = sc.ReliefTemperature;
                         xlWorkSheet.Cells[5 + col * 2][row1 + 4] = sc.ReliefLoad;
                         xlWorkSheet.Cells[5 + col * 2][row1 + 5] = sc.ReliefMW;
-                        xlWorkSheet.Cells[5 + col * 2][row1 + 6] = Compressibility;
+                        xlWorkSheet.Cells[5 + col * 2][row1 + 6] = sc.ReliefZ;
                         xlWorkSheet.Cells[5 + col * 2][row1 + 7] = sc.ReliefCpCv;
                         xlWorkSheet.Cells[3][note1 + count] = "";
                         xlWorkSheet.Cells[3][note2 + count] = "";
@@ -290,7 +319,7 @@ namespace ReliefProMain.ViewModel.Reports
                         xlWorkSheet.Cells[5 + col * 2][row2 + 3] = sc.ReliefTemperature;
                         xlWorkSheet.Cells[5 + col * 2][row2 + 4] = sc.ReliefLoad;
                         xlWorkSheet.Cells[5 + col * 2][row2 + 5] = sc.ReliefMW;
-                        xlWorkSheet.Cells[5 + col * 2][row2 + 6] = Compressibility;
+                        xlWorkSheet.Cells[5 + col * 2][row2 + 6] = sc.ReliefZ;
                         xlWorkSheet.Cells[5 + col * 2][row2 + 7] = sc.ReliefCpCv;
                         xlWorkSheet.Cells[3][note1 + count] = "";
                         xlWorkSheet.Cells[3][note2 + count] = "";
@@ -308,7 +337,7 @@ namespace ReliefProMain.ViewModel.Reports
                         xlWorkSheet.Cells[5 + col * 2][row3 + 3] = sc.ReliefTemperature;
                         xlWorkSheet.Cells[5 + col * 2][row3 + 4] = sc.ReliefLoad;
                         xlWorkSheet.Cells[5 + col * 2][row3 + 5] = sc.ReliefMW;
-                        xlWorkSheet.Cells[5 + col * 2][row3 + 6] = Compressibility;
+                        xlWorkSheet.Cells[5 + col * 2][row3 + 6] = sc.ReliefZ;
                         xlWorkSheet.Cells[5 + col * 2][row3 + 7] = sc.ReliefCpCv;
                         xlWorkSheet.Cells[3][note1 + count] = "";
                         xlWorkSheet.Cells[3][note2 + count] = "";

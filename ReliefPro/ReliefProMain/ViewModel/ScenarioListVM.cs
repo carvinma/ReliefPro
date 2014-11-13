@@ -661,7 +661,7 @@ namespace ReliefProMain.ViewModel
         {
             CreateTowerAbnormalHeatInputData(ScenarioID, ScenarioName, Session);
             AbnormalHeatInputView v = new AbnormalHeatInputView();
-            AbnormalHeatInputVM vm = new AbnormalHeatInputVM(ScenarioID, SessionPlant, SessionProtectedSystem);
+            AbnormalHeatInputVM vm = new AbnormalHeatInputVM(ScenarioID, SourceFileInfo, SessionPlant, SessionProtectedSystem);
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.DataContext = vm;
             if (v.ShowDialog() == true)
@@ -718,13 +718,14 @@ namespace ReliefProMain.ViewModel
                     ScenarioHeatSource shs = scenarioHeatSourceDAL.GetModel(Session, hs.ID, ScenarioID);
                     if (shs == null)
                     {
-                        if (hs.HeatSourceType == "Feed/Bottom HX")
+                        if (hs.HeatSourceType == "Feed/Bottom HX" || hs.HeatSourceType == "Fired Heater")
                         {
                             shs = new ScenarioHeatSource();
                             shs.HeatSourceID = hs.ID;
                             shs.DutyFactor = 1;
                             shs.ScenarioStreamID = tss.ID;
                             shs.ScenarioID = ScenarioID;
+                            shs.HeatSourceType = hs.HeatSourceType;
                             scenarioHeatSourceDAL.Add(shs, SessionProtectedSystem);
                         }
                     }
