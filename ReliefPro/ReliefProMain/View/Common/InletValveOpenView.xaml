@@ -30,8 +30,8 @@
         <GroupBox Header="{DynamicResource UpStreamVessel}"  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" >
             <Grid Style="{DynamicResource WinGrid}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20"/>
-                    <ColumnDefinition Width="167*"/>
+                    <ColumnDefinition Width="2"/>
+                    <ColumnDefinition Width="185*"/>
                     <ColumnDefinition Width="130"/>
                     <ColumnDefinition Width="146*"/>
                 </Grid.ColumnDefinitions>
@@ -45,15 +45,15 @@
                 <ComboBox ItemsSource="{Binding Vessels}" SelectedItem="{Binding SelectedVessel}"  Grid.Column="2"/>
                 <Label Content="{DynamicResource OperatingPhase}" Grid.Column="1"  Grid.Row="1" Height="25" Width="93" />
                 <ComboBox ItemsSource="{Binding OperatingPhases}" SelectedItem="{Binding SelectedOperatingPhase}" Grid.Column="2"   Grid.Row="1" />
-                <Label Content="{DynamicResource MaxOperatingPressure}" Grid.Column="1"   Grid.Row="2" Height="25" Width="130"  />
+                <Label Content="{DynamicResource UpStreamCpCv}" Grid.Column="1"   Grid.Row="2" Height="25" Width="130" Grid.RowSpan="2"  />
                 <CustomControl:UnitConvertTextBox UnitOrigin="{Binding ElementName=lblMaxOperatingPressure,Path=Content,Mode=TwoWay}" Grid.Column="2"  Grid.Row="2" Text="{Binding MaxOperatingPressure,Mode=TwoWay,StringFormat='{}{0:F4}'}"/>
                 <Label x:Name="lblMaxOperatingPressure" Content="{Binding MaxOperatingPressureUnit}" Grid.Column="3"   Grid.Row="2" Height="10" Width="10" />
-                <Label Content="{DynamicResource MaxOperatingPressure}" Grid.Column="1"   Grid.Row="3"  Width="130"  />
+                <Label Content="{DynamicResource MaxOperatingPressure}" Grid.Column="1"   Grid.Row="3"  Width="130" Height="24"  />
                 <TextBox  Grid.Row="3" Grid.Column="2"  Text="{Binding CPCV}"  />
             </Grid>
         </GroupBox>
         <Label Content="{DynamicResource InletValveTotalCv}" Grid.Row="3"  Grid.Column="1"/>
-        <Label Content="{DynamicResource InletValveTotalCv}" Grid.Row="4"  Grid.Column="1"/>
+        <Label Content="{DynamicResource XT}" Grid.Row="4"  Grid.Column="1"/>
         <TextBox  Grid.Row="3" Grid.Column="2"  Text="{Binding CV}"  />
         <TextBox  Grid.Row="4" Grid.Column="2"  Text="{Binding XT}"  />
         <Button Content="{DynamicResource Calculate}" Command="{Binding CalculateCommand}"  Grid.Column="1"  Grid.Row="5" Margin="46,4" />

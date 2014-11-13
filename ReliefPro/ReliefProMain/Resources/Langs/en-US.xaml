@@ -73,8 +73,10 @@
     <s:String x:Key="UpStreamVessel">UpStream Vessel</s:String>
     <s:String x:Key="Name">Name:</s:String>
     <s:String x:Key="OperatingPhase">Operating Phase:</s:String>
+    <s:String x:Key="UpStreamCpCv">UpStream CpCv:</s:String>
     <s:String x:Key="MaxOperatingPressure">Max Operating Pressure:</s:String>
     <s:String x:Key="InletValveTotalCv">Inlet Valve Total Cv:</s:String>
+    <s:String x:Key="XT">XT:</s:String>
     <s:String x:Key="Calculate">Calculate</s:String>
     <s:String x:Key="CalculatePressure">Calculate Pressure</s:String>
     <s:String x:Key="InletValveOpenViewStatusBar">Exist the window after saving all data</s:String>

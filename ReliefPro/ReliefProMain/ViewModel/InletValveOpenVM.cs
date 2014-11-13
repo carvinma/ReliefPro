@@ -90,7 +90,7 @@ namespace ReliefProMain.ViewModel
         }
 
 
-        private double _ReliefTemperature { get; set; }
+        private double _ReliefTemperature;
         public double ReliefTemperature
         {
             get { return _ReliefTemperature; }
@@ -100,7 +100,7 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefTemperature");
             }
         }
-        private double _ReliefPressure { get; set; }
+        private double _ReliefPressure;
         public double ReliefPressure
         {
             get { return _ReliefPressure; }
@@ -110,7 +110,7 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefPressure");
             }
         }
-        private double _ReliefLoad { get; set; }
+        private double _ReliefLoad;
         public double ReliefLoad
         {
             get { return _ReliefLoad; }
@@ -120,7 +120,7 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReliefLoad");
             }
         }
-        private double _ReliefMW { get; set; }
+        private double _ReliefMW;
         public double ReliefMW
         {
             get { return _ReliefMW; }
@@ -131,7 +131,7 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double _MaxOperatingPressure { get; set; }
+        private double _MaxOperatingPressure;
         public double MaxOperatingPressure
         {
             get { return _MaxOperatingPressure; }
@@ -142,8 +142,29 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("MaxOperatingPressure");
             }
         }
+        private double _UpStreamCpCv;
+        public double UpStreamCpCv
+        {
+            get { return _UpStreamCpCv; }
+            set
+            {
+                _UpStreamCpCv = value;
 
-        private double _CV { get; set; }
+                OnPropertyChanged("UpStreamCpCv");
+            }
+        }
+        private double _XT=0.7;
+        public double XT
+        {
+            get { return _XT; }
+            set
+            {
+                _XT = value;
+
+                OnPropertyChanged("XT");
+            }
+        }
+        private double _CV;
         public double CV
         {
             get { return _CV; }
@@ -156,7 +177,7 @@ namespace ReliefProMain.ViewModel
         }
         int ScenarioID { get; set; }
 
-        private ObservableCollection<string> _Vessels { get; set; }
+        private ObservableCollection<string> _Vessels;
         public ObservableCollection<string> Vessels
         {
             get { return _Vessels; }
@@ -174,7 +195,7 @@ namespace ReliefProMain.ViewModel
             return list;
         }
 
-        private ObservableCollection<string> _UpStreamNames { get; set; }
+        private ObservableCollection<string> _UpStreamNames;
         public ObservableCollection<string> UpStreamNames
         {
             get { return _UpStreamNames; }
@@ -270,6 +291,8 @@ namespace ReliefProMain.ViewModel
                 SelectedOperatingPhase = model.OperatingPhase;
                 MaxOperatingPressure = model.MaxOperatingPressure;
                 CV = model.CV;
+                XT = model.XT;
+                UpStreamCpCv = model.UpSteamCpCv;
             }
             ReadConvert();
         }
@@ -482,6 +505,27 @@ namespace ReliefProMain.ViewModel
             }
         }
 
+        private double VaporMethod(double Rmass, double Cv, double UPStreamPressure, double DownStreamPressure)
+        {
+            double w = 0;
+            double dUPStreamPressure = UPStreamPressure;
+            double dDownStreamPressure = DownStreamPressure;
+            double detaP = dUPStreamPressure - dDownStreamPressure;
+
+            double x = detaP / UPStreamPressure;
+            double fr = Cv / 1.4;
+            if (x >= fr)
+            {
+                w = Cv * 2.73 * 0.667 * Math.Pow(fr * XT * dUPStreamPressure * Rmass, 0.5);
+            }
+            else
+            {
+                double y = 1 - x / 3 * fr * XT;
+                w = Cv * 2.73 * y * Math.Pow(detaP * Rmass, 0.5);
+            }
+            return w;
+        }
+
         private void LiquidFlashing(double Rmass, double Cv, double UPStreamPressure, double DownStreamPressure, ref double FLReliefLoad, ref double FLReliefMW, ref double FLReliefTemperature)
         {
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
@@ -530,12 +574,16 @@ namespace ReliefProMain.ViewModel
                 FLReliefLoad = vaporStream.WeightFlow - CurrentEqNormalVapor.WeightFlow;
                 FLReliefMW = vaporStream.BulkMwOfPhase;
                 FLReliefTemperature = vaporStream.Temperature;
+                ReliefCpCv = vaporStream.BulkCPCVRatio;
+                ReliefZ = vaporStream.VaporFraction;
             }
             else
             {
                 FLReliefLoad = 0;
                 FLReliefMW = 0;
                 FLReliefTemperature = 0;
+                ReliefCpCv = 0;
+                ReliefZ = 0;
             }
 
         }
@@ -545,7 +593,8 @@ namespace ReliefProMain.ViewModel
             string dirInletValveOpen = tempdir + "InletValveOpen";
             if (!Directory.Exists(dirInletValveOpen))
                 Directory.CreateDirectory(dirInletValveOpen);
-            double reliefLoad = Darcy(rMass, CV, MaxOperatingPressure, ReliefPressure);
+            //double reliefLoad = Darcy(rMass, CV, MaxOperatingPressure, ReliefPressure);
+            double reliefLoad = VaporMethod(rMass, CV, MaxOperatingPressure, ReliefPressure);
             double wf = 0;
             if (CurrentEqNormalVapor != null)
             {               
@@ -557,6 +606,8 @@ namespace ReliefProMain.ViewModel
             VBReliefLoad = (reliefLoad - wf);
             VBReliefMW = this.UpStreamVaporData.BulkMwOfPhase;
             VBReliefTemperature = UpStreamVaporData.Temperature;
+            ReliefCpCv = UpStreamCpCv;
+            ReliefZ = UpStreamVaporData.VaporFraction;
         }
 
 
@@ -586,15 +637,28 @@ namespace ReliefProMain.ViewModel
                 MessageBox.Show("Please Select Operating Phase.", "Message Box");
                 return;
             }
-            if (CV == null)
+            if (CV == 0)
             {
                 MessageBox.Show("Please Input CV.", "Message Box");
                 return;
             }
-            if (MaxOperatingPressure == null)
+            if (MaxOperatingPressure == 0)
             {
                 MessageBox.Show("Max Operating Pressure can't be empty.", "Message Box");
                 return;
+            }
+            if (SelectedOperatingPhase != "Full Liquid")
+            {
+                if (XT == 0)
+                {
+                    MessageBox.Show("Please Input XT.", "Message Box");
+                    return;
+                }
+                if (UpStreamCpCv == 0)
+                {
+                    MessageBox.Show("Please Input UpStream CpCv.", "Message Box");
+                    return;
+                }
             }
             try
             {

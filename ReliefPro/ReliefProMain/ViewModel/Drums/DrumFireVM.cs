@@ -130,7 +130,7 @@ namespace ReliefProMain.ViewModel.Drums
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
             model.NoneAllGas = !model.AllGas;
 
-            reliefPressure = ScenarioReliefPressure(SessionPS);
+            reliefPressure = ScenarioFireReliefPressure(SessionPS);
         }
         private void WriteConvertModel()
         {
@@ -877,7 +877,16 @@ namespace ReliefProMain.ViewModel.Drums
             return 0;
         }
 
-
+        public double ScenarioFireReliefPressure(ISession SessionPS)
+        {
+            PSVDAL psv = new PSVDAL();
+            var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
+            if (psvModel != null)
+            {
+                return psvModel.Pressure * 1.21;
+            }
+            return 0;
+        }
         private CustomStream getFlashCalcLiquidStreamVF0(CustomStream stream)
         {
             string tempdir = DirProtectedSystem + @"\temp\";
