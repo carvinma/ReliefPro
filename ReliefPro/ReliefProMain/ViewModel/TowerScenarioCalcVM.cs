@@ -154,7 +154,7 @@ namespace ReliefProMain.ViewModel
             ReliefTemperature = CurrentScenario.ReliefTemperature;
             ReliefCpCv = CurrentScenario.ReliefCpCv;
             ReliefZ = CurrentScenario.ReliefZ;
-            SteamFreezed = CheckSteamFreezed();
+            
             ReadConvert();
             TowerDAL towerdal = new TowerDAL();
             tower = towerdal.GetModel(SessionProtectedSystem);
@@ -174,8 +174,12 @@ namespace ReliefProMain.ViewModel
                 TowerHXDetail detail = detaildal.GetModel(SessionProtectedSystem, shx.DetailID);
                 if (!shx.DutyLost)
                 {
-                    sumDutyFactor = sumDutyFactor + shx.DutyCalcFactor*detail.DutyPercentage;
+                    sumDutyFactor = sumDutyFactor + shx.DutyCalcFactor*detail.DutyPercentage/100;
                 }
+            }
+            if (condenserCalc.Flooding)
+            {
+                sumDutyFactor = 0;
             }
             if (sumDutyFactor == 0)
                 SteamFreezed = 0;
@@ -345,9 +349,10 @@ namespace ReliefProMain.ViewModel
         {
             try
             {
-                SplashScreenManager.Show();
+                SplashScreenManager.Show();               
                 CondenserCalcDAL condenserCalcDAL = new CondenserCalcDAL();
                 condenserCalc = condenserCalcDAL.GetModel(this.SessionProtectedSystem, ScenarioID);
+                SteamFreezed = CheckSteamFreezed();
                 if (tower.TowerType == "Distillation")
                 {
                     SplashScreenManager.SentMsgToScreen("Calculating Distillation");
