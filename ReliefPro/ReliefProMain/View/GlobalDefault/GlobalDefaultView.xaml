@@ -43,7 +43,7 @@
                                     <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                             <Grid Height="21">
-                                                <TextBox Text="{Binding Path=DesignBackPressure,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  BorderBrush="Transparent"
+                                                <TextBox Text="{Binding Path=DesignBackPressure,Mode=TwoWay}"  BorderBrush="Transparent"
                                          BorderThickness="0" Width="197"/>
                                             </Grid>
                                         </DataTemplate>
