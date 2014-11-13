@@ -1,0 +1,69 @@
+﻿<Window x:Class="ReliefProMain.View.ScenarioResidualListView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{DynamicResource ScenarioResidualListViewTitle}" Height="260" Width="633" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+    <Grid Style="{DynamicResource WinGrid}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="18"/>
+            <RowDefinition Height="58*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="23"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=HeatSources,Mode=TwoWay}" SelectedItem="{Binding SelectedHeatSource,Mode=TwoWay}" Grid.Column="1" Grid.Row="1" >
+            <ListView.View>
+                <GridView >
+                    <GridViewColumn Header="{DynamicResource Type}" Width="150">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox IsEnabled="False" Text="{Binding Path=HeatSourceType,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource HeatSourceListViewName}" Width="150px" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox IsEnabled="False" Text="{Binding Path=HeatSourceName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150px" >
+                        <GridViewColumn.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{DynamicResource NormalDutyKJhr}"/>
+                                <TextBlock Text="{Binding uomEnum.UserEnthalpyDuty}"/>
+                            </StackPanel>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox IsEnabled="False" Text="{Binding Path=Duty,Mode=TwoWay,StringFormat='{}{0:F4}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource ResidualDutyFactor}" Width="150px" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox  Text="{Binding Path=DutyFactor,Mode=TwoWay,StringFormat='{}{0:F4}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    
+                    
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
+        <Button Content="{DynamicResource OK}" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  Grid.Row="2" Grid.Column="1" Margin="432,0,75,0"/>
+
+        <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="3"  Grid.ColumnSpan="3" >
+            <StatusBarItem>
+                <TextBlock Text="{DynamicResource ScenarioHeatSourceListViewStatusBar}"></TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+        
+    </Grid>
+</Window>
