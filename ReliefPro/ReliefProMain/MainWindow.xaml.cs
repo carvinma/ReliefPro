@@ -680,6 +680,7 @@ namespace ReliefProMain
                                 doc.Description = tvi.tvFile.FullPath;
                                 doc.IsActive = true;
                                 UCDrawingControl ucDrawingControl = new UCDrawingControl();
+                                ucDrawingControl.ownerWindow = this;
                                 doc.Content = ucDrawingControl;
                                 ucDrawingControl.Tag = tvi;
 

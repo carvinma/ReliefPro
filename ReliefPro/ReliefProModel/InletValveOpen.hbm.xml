@@ -17,10 +17,10 @@
     <property name="ReliefZ" column="ReliefZ" type="Double"  />
     <property name="ReliefCpCv" column="ReliefCpCv" type="Double"  />
     <property name="XT" column="XT" type="Double"  />
-    <property name="UpSteamCpCv" column="UpSteamCpCv" type="Double"  />
+    <property name="UpStreamCpCv" column="UpStreamCpCv" type="Double"  />
   
     <property name="VesselName_Color" column="VesselName_Color" type="String" length="255" />    
-    <property name="UpStameName_Color" column="UpStameName_Color" type="String" length="255" />
+    <property name="UpStreamName_Color" column="UpStameName_Color" type="String" length="255" />
     <property name="OperatingPhase_Color" column="OperatingPhase_Color" type="String" length="255" />
     <property name="MaxOperatingPressure_Color" column="MaxOperatingPressure_Color" type="String" length="255"/>
     <property name="DownStreamName_Color" column="DownStreamName_Color" type="String" length="255" />

@@ -40,6 +40,8 @@ using ReliefProDAL.ReactorLoops;
 using ReliefProMain.View.ReactorLoops;
 using ReliefProMain.ViewModel.ReactorLoops;
 using ReliefProModel.ReactorLoops;
+using Xceed.Wpf.AvalonDock;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace ReliefProMain.View
 {
@@ -48,6 +50,7 @@ namespace ReliefProMain.View
     /// </summary>
     public partial class UCDrawingControl : UserControl
     {
+        public Window ownerWindow;
         private string dbPlantFile { set; get; }
         private string dbProtectedSystemFile { set; get; }
         private ISession SessionPlant { set; get; }
@@ -963,6 +966,7 @@ namespace ReliefProMain.View
                 PSVView v = new PSVView();
                 PSVVM vm = new PSVVM(EqName, EqType, SourceFileInfo, SessionPlant, SessionProtectedSystem, DirPlant, DirProtectedSystem);
                 v.DataContext = vm;
+                v.Owner = ownerWindow;
                 v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 v.ShowDialog();
             }

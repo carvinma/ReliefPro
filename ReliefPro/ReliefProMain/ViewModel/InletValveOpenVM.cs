@@ -75,10 +75,12 @@ namespace ReliefProMain.ViewModel
                     {
                         UpStreamNames = GetTowerProducts(dicEqData[SelectedVessel]);
                         MaxOperatingPressure = UpStreamVaporData.Pressure;
+                        UpStreamCpCv = UpStreamVaporData.BulkCPCVRatio;
                     }
                     else
                     {
                         UpStreamNames = GetFlashProducts(dicEqData[SelectedVessel]);
+                        UpStreamCpCv = UpStreamVaporData.BulkCPCVRatio;
                         MaxOperatingPressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(dicEqData[_SelectedVessel].PressCalc));
                     }
                     SplashScreenManager.SentMsgToScreen("Loading finished");
@@ -292,7 +294,7 @@ namespace ReliefProMain.ViewModel
                 MaxOperatingPressure = model.MaxOperatingPressure;
                 CV = model.CV;
                 XT = model.XT;
-                UpStreamCpCv = model.UpSteamCpCv;
+                UpStreamCpCv = model.UpStreamCpCv;
             }
             ReadConvert();
         }

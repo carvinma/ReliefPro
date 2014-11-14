@@ -13,7 +13,7 @@ namespace ReliefProModel
         public virtual string UpStreamName { get; set; }
         public virtual string OperatingPhase { get; set; }
         public virtual double MaxOperatingPressure { get; set; }
-        public virtual double UpSteamCpCv { get; set; }
+        public virtual double UpStreamCpCv { get; set; }
         public virtual string DownStreamName { get; set; }
         public virtual double CV { get; set; }
         public virtual double XT { get; set; }
@@ -25,7 +25,7 @@ namespace ReliefProModel
         public virtual double ReliefCpCv { get; set; }
 
         public virtual string VesselName_Color { get; set; }
-        public virtual string UpStameName_Color { get; set; }
+        public virtual string UpStreamName_Color { get; set; }
         public virtual string OperatingPhase_Color { get; set; }
         public virtual string MaxOperatingPressure_Color { get; set; }
         public virtual string DownStreamName_Color { get; set; }
