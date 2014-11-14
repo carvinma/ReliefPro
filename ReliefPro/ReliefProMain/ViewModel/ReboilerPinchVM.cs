@@ -499,7 +499,7 @@ namespace ReliefProMain.ViewModel
                 iterateSum = iterateSum + 1;
                 if (curErrorRate > MaxErrorRate)
                 {
-                    nextQaenGuess = QRQN * (1 + 0.5 * uQAQR);
+                    nextQaenGuess = QRQN * (1 + 0.1 * uQAQR);
                 }
 
             }

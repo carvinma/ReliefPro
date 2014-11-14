@@ -701,16 +701,16 @@ namespace ReliefProMain.ViewModel
                     tss.IsProduct = false;
                     towerScenarioStreamDAL.Add(tss, Session);
                 }
-                else if (tss.SourceType != s.SourceType)
-                {
-                    tss.FlowCalcFactor = GetSystemScenarioFactor("4", s.SourceType, ScenarioName);
-                    tss.SourceType = s.SourceType;
-                    if ((s.SourceType.Contains("Stream") || s.IsSteam) && ScenarioName == "GeneralElectricPowerFailure" && conditionsettings.SteamCondition)
-                    {
-                        tss.FlowStop = true;
-                    }
-                    towerScenarioStreamDAL.Update(tss, Session);
-                }
+                //else if (tss.SourceType != s.SourceType)
+                //{
+                //    tss.FlowCalcFactor = GetSystemScenarioFactor("4", s.SourceType, ScenarioName);
+                //    tss.SourceType = s.SourceType;
+                //    if ((s.SourceType.Contains("Stream") || s.IsSteam) && ScenarioName == "GeneralElectricPowerFailure" && conditionsettings.SteamCondition)
+                //    {
+                //        tss.FlowStop = true;
+                //    }
+                //    towerScenarioStreamDAL.Update(tss, Session);
+                //}
 
                 IList<HeatSource> listHeatSource = dbhs.GetAllList(Session, s.ID);
                 foreach (HeatSource hs in listHeatSource)
@@ -759,16 +759,16 @@ namespace ReliefProMain.ViewModel
                     tss.ReliefNormalFactor = tfp.SpEnthalpy/cs.SpEnthalpy;
                     towerScenarioStreamDAL.Add(tss, Session);
                 }
-                else if (tss.SourceType != s.SinkType)
-                {
-                    tss.FlowCalcFactor = GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
-                    tss.SourceType = s.SinkType;
-                    if (s.SinkType.Contains("Stream") && ScenarioName == "GeneralElectricPowerFailure" && conditionsettings.SteamCondition)
-                    {
-                        tss.FlowStop = true;
-                    }
-                    towerScenarioStreamDAL.Update(tss, Session);
-                }
+                //else if (tss.SourceType != s.SinkType)
+                //{
+                //    tss.FlowCalcFactor = GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
+                //    tss.SourceType = s.SinkType;
+                //    if (s.SinkType.Contains("Stream") && ScenarioName == "GeneralElectricPowerFailure" && conditionsettings.SteamCondition)
+                //    {
+                //        tss.FlowStop = true;
+                //    }
+                //    towerScenarioStreamDAL.Update(tss, Session);
+                //}
             }
             TowerHXDetailDAL towerHXDetailDAL = new TowerHXDetailDAL();
             TowerScenarioHXDAL towerScenarioHXDAL = new TowerScenarioHXDAL();
@@ -802,7 +802,7 @@ namespace ReliefProMain.ViewModel
                         {
                             tsHX.DutyLost = true;
                         }
-                        if (ScenarioName == "GeneralElectricPowerFailure" && tsHX.Medium == "Cooling Water" &&conditionsettings!=null && conditionsettings.CoolingWaterCondition)
+                        if (ScenarioName == "GeneralElectricPowerFailure" && tsHX.Medium == "Cooling Water" && conditionsettings != null && conditionsettings.CoolingWaterCondition)
                         {
                             tsHX.DutyLost = true;
                         }
@@ -811,28 +811,28 @@ namespace ReliefProMain.ViewModel
                         {
                             tsHX.DutyLost = true;
                         }
-                        
+
                         towerScenarioHXDAL.Add(tsHX, Session);
-                    }
-                    else if (factor != tsHX.DutyCalcFactor || tsHX.Medium != detail.Medium)
-                    {
-                        tsHX.DutyCalcFactor = factor;
-                        tsHX.DetailName = detail.DetailName;
-                        tsHX.Medium = detail.Medium;
-                        if (ScenarioName == "BlockedOutlet" && detail.Duty < 0)
-                        {
-                            tsHX.DutyLost = true;
-                        }
-                        if (ScenarioName == "GeneralElectricPowerFailure" && tsHX.Medium == "Cooling Water" && conditionsettings != null && conditionsettings.CoolingWaterCondition)
-                        {
-                            tsHX.DutyLost = true;
-                        }
-                        if (ScenarioName == "GeneralElectricPowerFailure" && (detail.Medium == "Steam" || detail.MediumSideFlowSource == "Pump(Turbine)"))
-                        {
-                            tsHX.DutyLost = true;
-                        }
-                        towerScenarioHXDAL.Update(tsHX, Session);
-                    }
+                    }                    
+                    //else if (factor != tsHX.DutyCalcFactor || tsHX.Medium != detail.Medium)
+                    //{
+                    //    tsHX.DutyCalcFactor = factor;
+                    //    tsHX.DetailName = detail.DetailName;
+                    //    tsHX.Medium = detail.Medium;
+                    //    if (ScenarioName == "BlockedOutlet" && detail.Duty < 0)
+                    //    {
+                    //        tsHX.DutyLost = true;
+                    //    }
+                    //    if (ScenarioName == "GeneralElectricPowerFailure" && tsHX.Medium == "Cooling Water" && conditionsettings != null && conditionsettings.CoolingWaterCondition)
+                    //    {
+                    //        tsHX.DutyLost = true;
+                    //    }
+                    //    if (ScenarioName == "GeneralElectricPowerFailure" && (detail.Medium == "Steam" || detail.MediumSideFlowSource == "Pump(Turbine)"))
+                    //    {
+                    //        tsHX.DutyLost = true;
+                    //    }
+                    //    towerScenarioHXDAL.Update(tsHX, Session);
+                    //}
                 }
             } 
             //Session.Flush();
@@ -873,12 +873,12 @@ namespace ReliefProMain.ViewModel
                     tss.IsProduct = false;
                     towerScenarioStreamDAL.Add(tss, Session);
                 }
-                else if (tss.SourceType != s.SourceType)
-                {
-                    tss.FlowCalcFactor = GetSystemScenarioFactor("4", s.SourceType, ScenarioName);
-                    tss.SourceType = s.SourceType;                   
-                    towerScenarioStreamDAL.Update(tss, Session);
-                }
+                //else if (tss.SourceType != s.SourceType)
+                //{
+                //    tss.FlowCalcFactor = GetSystemScenarioFactor("4", s.SourceType, ScenarioName);
+                //    tss.SourceType = s.SourceType;                   
+                //    towerScenarioStreamDAL.Update(tss, Session);
+                //}
 
                 IList<HeatSource> listHeatSource = dbhs.GetAllList(Session, s.ID);
                 foreach (HeatSource hs in listHeatSource)
@@ -899,13 +899,13 @@ namespace ReliefProMain.ViewModel
                             d.ScenarioID = ScenarioID;
                             abnormalHeaterDetailDAL.Add(d, Session);
                         }
-                        else
-                        {
-                            d.Duty = hs.Duty;
-                            d.HeaterName = hs.HeatSourceName;
-                            abnormalHeaterDetailDAL.Update(d, Session);
-                            Session.Flush();
-                        }
+                        //else
+                        //{
+                        //    d.Duty = hs.Duty;
+                        //    d.HeaterName = hs.HeatSourceName;
+                        //    abnormalHeaterDetailDAL.Update(d, Session);
+                        //    Session.Flush();
+                        //}
                     }
 
                 }
@@ -934,12 +934,12 @@ namespace ReliefProMain.ViewModel
                     tss.ReliefNormalFactor = tfp.SpEnthalpy/cs.SpEnthalpy;
                     towerScenarioStreamDAL.Add(tss, Session);
                 }
-                else if (tss.SourceType != s.SinkType)
-                {
-                    tss.FlowCalcFactor = GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
-                    tss.SourceType = s.SinkType;                   
-                    towerScenarioStreamDAL.Update(tss, Session);
-                }
+                //else if (tss.SourceType != s.SinkType)
+                //{
+                //    tss.FlowCalcFactor = GetSystemScenarioFactor("5", s.SinkType, ScenarioName);
+                //    tss.SourceType = s.SinkType;                   
+                //    towerScenarioStreamDAL.Update(tss, Session);
+                //}
             }
             TowerHXDetailDAL towerHXDetailDAL = new TowerHXDetailDAL();
             TowerScenarioHXDAL towerScenarioHXDAL = new TowerScenarioHXDAL();
@@ -990,29 +990,29 @@ namespace ReliefProMain.ViewModel
                         }
 
                     }
-                    else if (factor != tsHX.DutyCalcFactor || tsHX.Medium != detail.Medium)
-                    {
-                        tsHX.DutyCalcFactor = factor;
-                        tsHX.DetailName = detail.DetailName;
-                        tsHX.Medium = detail.Medium;
-                        if (ScenarioName == "BlockedOutlet" && detail.Duty < 0)
-                        {
-                            tsHX.DutyLost = true;
-                        }
-                        towerScenarioHXDAL.Update(tsHX, Session);
+                    //else if (factor != tsHX.DutyCalcFactor || tsHX.Medium != detail.Medium)
+                    //{
+                    //    tsHX.DutyCalcFactor = factor;
+                    //    tsHX.DetailName = detail.DetailName;
+                    //    tsHX.Medium = detail.Medium;
+                    //    if (ScenarioName == "BlockedOutlet" && detail.Duty < 0)
+                    //    {
+                    //        tsHX.DutyLost = true;
+                    //    }
+                    //    towerScenarioHXDAL.Update(tsHX, Session);
 
-                        if (tsHX.HeaterType == 3 || tsHX.HeaterType == 4)
-                        {
-                            AbnormalHeaterDetail d = abnormalHeaterDetailDAL.GetModel(Session, ScenarioID, tsHX.ID, 2);
-                            d.Duty = hx.HeaterDuty * tsHX.DutyCalcFactor;
-                            d.HeaterName = detail.DetailName;
-                            d.HeaterType = detail.Medium;
-                            abnormalHeaterDetailDAL.Update(d, Session);
-                            Session.Flush();
-                        }
+                    //    if (tsHX.HeaterType == 3 || tsHX.HeaterType == 4)
+                    //    {
+                    //        AbnormalHeaterDetail d = abnormalHeaterDetailDAL.GetModel(Session, ScenarioID, tsHX.ID, 2);
+                    //        d.Duty = hx.HeaterDuty * tsHX.DutyCalcFactor;
+                    //        d.HeaterName = detail.DetailName;
+                    //        d.HeaterType = detail.Medium;
+                    //        abnormalHeaterDetailDAL.Update(d, Session);
+                    //        Session.Flush();
+                    //    }
 
 
-                    }
+                    //}
                 }
             }
 
