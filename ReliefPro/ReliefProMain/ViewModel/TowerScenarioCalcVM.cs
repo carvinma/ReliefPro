@@ -165,10 +165,10 @@ namespace ReliefProMain.ViewModel
             int SteamFreezed = 0;
             TowerHXDetailDAL detaildal = new TowerHXDetailDAL();
 
-            IList<TowerScenarioHX> list = towerScenarioHXDAL.GetAllList(SessionProtectedSystem, ScenarioID, 1);
-            if (list.Count == 0)
-                SteamFreezed = 0;
+            IList<TowerScenarioHX> list = towerScenarioHXDAL.GetAllList(SessionProtectedSystem, ScenarioID, 1);            
+            IList<TowerScenarioHX> list2 = towerScenarioHXDAL.GetAllList(SessionProtectedSystem, ScenarioID, 2);
             double sumDutyFactor = 0;
+            double sumDutyFactor2 = 0;
             foreach (TowerScenarioHX shx in list)
             {
                 TowerHXDetail detail = detaildal.GetModel(SessionProtectedSystem, shx.DetailID);
@@ -177,16 +177,22 @@ namespace ReliefProMain.ViewModel
                     sumDutyFactor = sumDutyFactor + shx.DutyCalcFactor*detail.DutyPercentage/100;
                 }
             }
+            foreach (TowerScenarioHX shx in list2)
+            {
+                TowerHXDetail detail = detaildal.GetModel(SessionProtectedSystem, shx.DetailID);
+                if (!shx.DutyLost)
+                {
+                    sumDutyFactor2 = sumDutyFactor2 + shx.DutyCalcFactor * detail.DutyPercentage / 100;
+                }
+            }
             if (condenserCalc.Flooding)
             {
                 sumDutyFactor = 0;
             }
-            if (sumDutyFactor == 0)
+            if (sumDutyFactor < 1 || sumDutyFactor2<1)
                 SteamFreezed = 0;
-            else if (sumDutyFactor == 1)
-                SteamFreezed = 1;
             else
-                SteamFreezed = 2;
+                SteamFreezed = 1;
 
 
             return SteamFreezed;
@@ -520,35 +526,36 @@ namespace ReliefProMain.ViewModel
             double reliefMW = 0;
             double reliefTemperature = 0;
             double reliefPressure = 0;
-            if (SteamFreezed == 0)
-            {
-                SplashScreenManager.SentMsgToScreen("Calculating Steam Not Freezed Data");
-                SteamNotFreezedMethod(ref  reliefLoad, ref  reliefMW, ref  reliefTemperature, ref  reliefPressure);
-            }
-            else if (SteamFreezed == 1)
+            if (SteamFreezed == 1)
             {
                 SplashScreenManager.SentMsgToScreen("Calculating Steam Freezed Data");
                 SteamFreezedMethod(ref  reliefLoad, ref  reliefMW, ref  reliefTemperature, ref  reliefPressure);
             }
-            else
+            else //if (SteamFreezed == 0)
             {
-                double reliefLoad1 = 0;
-                double reliefMW1 = 0;
-                double reliefTemperature1 = 0;
-                double reliefPressure1 = 0;
                 SplashScreenManager.SentMsgToScreen("Calculating Steam Not Freezed Data");
                 SteamNotFreezedMethod(ref  reliefLoad, ref  reliefMW, ref  reliefTemperature, ref  reliefPressure);
-                SplashScreenManager.SentMsgToScreen("Calculating Steam Freezed Data");
-                SteamFreezedMethod(ref  reliefLoad1, ref  reliefMW1, ref  reliefTemperature1, ref  reliefPressure1);
-                if (reliefLoad < reliefLoad1)
-                {
-                    reliefLoad = reliefLoad1;
-                    reliefMW = reliefMW1;
-                    reliefTemperature = reliefTemperature1;
-                    reliefPressure = reliefPressure1;
-                }
-
             }
+             
+            //else
+            //{
+            //    double reliefLoad1 = 0;
+            //    double reliefMW1 = 0;
+            //    double reliefTemperature1 = 0;
+            //    double reliefPressure1 = 0;
+            //    SplashScreenManager.SentMsgToScreen("Calculating Steam Not Freezed Data");
+            //    SteamNotFreezedMethod(ref  reliefLoad, ref  reliefMW, ref  reliefTemperature, ref  reliefPressure);
+            //    SplashScreenManager.SentMsgToScreen("Calculating Steam Freezed Data");
+            //    SteamFreezedMethod(ref  reliefLoad1, ref  reliefMW1, ref  reliefTemperature1, ref  reliefPressure1);
+            //    if (reliefLoad < reliefLoad1)
+            //    {
+            //        reliefLoad = reliefLoad1;
+            //        reliefMW = reliefMW1;
+            //        reliefTemperature = reliefTemperature1;
+            //        reliefPressure = reliefPressure1;
+            //    }
+
+            //}
             ReliefTemperature = reliefTemperature;
             ReliefPressure = reliefPressure;
             ReliefLoad = reliefLoad;
