@@ -20,7 +20,7 @@
     <property name="UpStreamCpCv" column="UpStreamCpCv" type="Double"  />
   
     <property name="VesselName_Color" column="VesselName_Color" type="String" length="255" />    
-    <property name="UpStreamName_Color" column="UpStameName_Color" type="String" length="255" />
+    <property name="UpStreamName_Color" column="UpStreamName_Color" type="String" length="255" />
     <property name="OperatingPhase_Color" column="OperatingPhase_Color" type="String" length="255" />
     <property name="MaxOperatingPressure_Color" column="MaxOperatingPressure_Color" type="String" length="255"/>
     <property name="DownStreamName_Color" column="DownStreamName_Color" type="String" length="255" />
