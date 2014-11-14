@@ -349,6 +349,8 @@ namespace ReliefProMain.ViewModel
                 model.ReliefPressure = ReliefPressure;
                 model.ReliefTemperature = _ReliefTemperature;
                 model.VesselName = SelectedVessel;
+                model.XT = XT;
+                model.UpStreamCpCv = UpStreamCpCv;
                 dbinlet.Add(model, SessionProtectedSystem);
             }
             else
@@ -361,6 +363,8 @@ namespace ReliefProMain.ViewModel
                 model.ReliefPressure = ReliefPressure;
                 model.ReliefTemperature = _ReliefTemperature;
                 model.VesselName = SelectedVessel;
+                model.XT = XT;
+                model.UpStreamCpCv = UpStreamCpCv;
                 dbinlet.Update(model, SessionProtectedSystem);
             }
             Scenario sc = dbsc.GetModel(ScenarioID, SessionProtectedSystem);

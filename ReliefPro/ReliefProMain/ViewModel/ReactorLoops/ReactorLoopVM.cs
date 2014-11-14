@@ -677,7 +677,13 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     break;
                 }
                 else
+                {
                     i = end;
+                    if (i < lines.Length)
+                    {
+                        i++;
+                    }
+                }
                 
             }
 
