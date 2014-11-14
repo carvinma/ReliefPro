@@ -423,7 +423,7 @@
     <s:String x:Key="ReactorLoopName">Reactor Loop Name:</s:String>
     <s:String x:Key="EffluentStream">Effluent Stream:</s:String>
     <s:String x:Key="EffluentStream2">Effluent Stream2:</s:String>
-    <s:String x:Key="CompressorH2Stream">Compressor H2 Stream:</s:String> 
+    <s:String x:Key="CompressorH2Stream">Recycel H2 Compressor Outlet Stream:</s:String> 
     <s:String x:Key="ColdReactorFeedStream">Cold Reactor Feed Stream:</s:String>
     <s:String x:Key="ColdReactorFeedStream2">Cold Reactor Feed Stream2:</s:String>
     <s:String x:Key="HotHighPressureSeparator">Hot High Pressure Separator:</s:String>
