@@ -26,7 +26,7 @@ namespace ReliefProMain.ViewModel
         private ISession SessionPlant { set; get; }
         private ISession SessionProtectedSystem { set; get; }
         public TowerHXModel model { set; get; }
-        UOMLib.UOMEnum uomEnum;
+        public UOMLib.UOMEnum uomEnum { get; set; }
 
         private ObservableCollection<TowerHXDetailModel> _Details = null;
         public ObservableCollection<TowerHXDetailModel> Details
