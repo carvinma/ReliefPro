@@ -54,9 +54,9 @@ namespace ReliefProBLL
             Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature);
             Model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);
 
-            Model.InletLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.InletLoad);
-            Model.OutletPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.OutletPressure);
-            Model.SurgeLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.SurgeLoad);
+            Model.InletLoad = UnitConvert.Convert(UOMLib.UOMEnum.VolumeRate.ToString(), uomEnum.UserVolumeRate, Model.InletLoad);
+            Model.OutletPressure = UnitConvert.Convert(UOMLib.UOMEnum.VolumeRate.ToString(), uomEnum.UserPressure, Model.OutletPressure);
+            Model.SurgeLoad = UnitConvert.Convert(UOMLib.UOMEnum.VolumeRate.ToString(), uomEnum.UserVolumeRate, Model.SurgeLoad);
             return Model;
         }
         public PistonBlockedOutlet ReadConvertPistonModel(PistonBlockedOutlet model)
