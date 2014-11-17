@@ -652,12 +652,13 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 }
             }
 
-            string assayLVs = GetAssayLVStreamInfo(lines, i);
+            List<string> lvStreams = new List<string>();
+            string assayLVs = GetAssayLVStreamInfo(lines, i,ref lvStreams);
             sb.Append(assayLVs);
             
             foreach (CustomStream cs in csList)
             {
-                if (cs != null)
+                if (cs != null && !lvStreams.Contains(cs.StreamName))
                 {
                    string s= getStreamData(cs);
                    sb.Append(s);
@@ -779,7 +780,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             return newLines;
         }
 
-        public string GetAssayLVStreamInfo(string[] lines,int start)
+        public string GetAssayLVStreamInfo(string[] lines,int start,ref List<string> lvStreams)
         {
             StringBuilder sb = new StringBuilder();
             int i = start;
@@ -789,6 +790,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 string line2 = lines[i + 1];
                 if (line.Contains(" STREAM=") && line2.Contains("ASSAY=LV"))
                 {
+                    int sbegin = line.IndexOf("=");
+                    int send = line.IndexOf(",");
+                    string streamName = line.Substring(sbegin + 1, send - sbegin-1);
+                    lvStreams.Add(streamName);
                     sb.Append(line).Append("\r\n");
                     sb.Append(line2).Append("\r\n");
                     i = i + 2;
