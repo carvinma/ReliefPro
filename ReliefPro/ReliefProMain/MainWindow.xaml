@@ -34,20 +34,20 @@
                         <Separator />
                         <MenuItem Command="{Binding OpenPlantCommand}" Header="Open Plant" />
                         <Separator/>
-                    <MenuItem Name="itemSavePlant" Click="MenuItem_Click" Header="Save Plant" IsEnabled="{Binding IsOpenPlant}"/>
-                    <MenuItem Name="itemSavePlantAs" Click="MenuItem_Click" Header="Save As" IsEnabled="{Binding IsOpenPlant}"/>
+                    <MenuItem Name="itemSavePlant" Click="MenuItem_Click" Header="Save Plant" IsEnabled="{Binding IsOpenPlant,Mode=TwoWay}"/>
+                    <MenuItem Name="itemSavePlantAs" Click="MenuItem_Click" Header="Save As" IsEnabled="{Binding IsOpenPlant,Mode=TwoWay}"/>
                         <Separator/>
-                    <MenuItem Name="itemClosePlant" Click="MenuItem_Click" Header="Close Plant" IsEnabled="{Binding IsOpenPlant}"/>
+                    <MenuItem Name="itemClosePlant" Click="MenuItem_Click" Header="Close Plant" IsEnabled="{Binding IsOpenPlant,Mode=TwoWay}"/>
                         <Separator/>
                         <MenuItem Click="MenuItem_Click" Header="Exit"/>
                     </MenuItem> 
                     <MenuItem Header="_Tools(T)">
-                    <MenuItem Name="itemUOM" Header="Units Of Measure" Click="OnloadUnitOfMeasure" IsEnabled="{Binding IsOpenPlant}"  />
+                    <MenuItem Name="itemUOM" Header="Units Of Measure" Click="OnloadUnitOfMeasure" IsEnabled="{Binding IsOpenPlant,Mode=TwoWay}"  />
                         <MenuItem Header="Plant Explorer"  Click="OnShowPlantExplorer" />
                         <!--<MenuItem Header="ICON"  Click="OnShowICON" />-->                       
                     </MenuItem>
                     <MenuItem Header="_Plant(P)" >
-                    <MenuItem Name="itemImport" Header="Import Simulation" Click="MenuItem_Click" IsEnabled="{Binding IsOpenPlant}"/>                       
+                    <MenuItem Name="itemImport" Header="Import Simulation" Click="MenuItem_Click" IsEnabled="{Binding IsOpenPlant,Mode=TwoWay}"/>                       
                     </MenuItem>
 
                     <MenuItem Header="Help(H)" >
@@ -72,26 +72,26 @@
                         <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnOpenPlant" ToolTip="Open Plant" VerticalAlignment="Center" Command="{Binding OpenPlantCommand}">
                             <Image Source="images/openplant.ico"  Height="24" Width="24"></Image>
                         </Button>
-                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnClosePlant" ToolTip="Close Plant" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
+                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnClosePlant" ToolTip="Close Plant" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant,Mode=TwoWay}">
                             <Image Source="images/closeplant.ico"   Height="24" Width="24"></Image>
                         </Button>
 
-                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnSavePlant" ToolTip="Save Plant" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
+                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnSavePlant" ToolTip="Save Plant" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant,Mode=TwoWay}">
                             <Image Source="images/save.ico"   Height="24" Width="24"></Image>
                         </Button>
                         <Separator/>
-                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnImport" ToolTip="Import Simulation" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
+                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnImport" ToolTip="Import Simulation" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant,Mode=TwoWay}">
                             <Image Source="images/ImportSimulation.ico"   Height="24" Width="24"></Image>
                         </Button>
-                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnReport" ToolTip="Report" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
+                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnReport" ToolTip="Report" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant,Mode=TwoWay}">
                             <Image Source="/images/Report.ico"   Height="24" Width="24"></Image>
                         </Button>
                         <Separator/>
-                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnUOM" ToolTip="UOM" VerticalAlignment="Center" Click="Button_Click" IsEnabled="{Binding IsOpenPlant}"  >
+                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnUOM" ToolTip="UOM" VerticalAlignment="Center" Click="Button_Click" IsEnabled="{Binding IsOpenPlant,Mode=TwoWay}"  >
                             <Image Source="/images/uom.ico" Height="24" Width="24"  ></Image>
                         </Button>
 
-                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnGlobalDefault" ToolTip="Global Default" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant}">
+                        <Button Margin="5,0,0,0" BorderBrush="Black" Name="btnGlobalDefault" ToolTip="Global Default" VerticalAlignment="Center"  Click="Button_Click" IsEnabled="{Binding IsOpenPlant,Mode=TwoWay}">
                             <Image Source="/images/GlobalDefault.ico"   Height="24" Width="24"></Image>
                         </Button>
                         <Label Width="30"></Label>

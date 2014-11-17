@@ -155,7 +155,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 {
                     string[] arr1 = eq.FeedData.Split(',');
                     string[] arr2 = eq.ProductData.Split(',');
-                    if (arr1.Length == 1 && arr2.Length == 1)
+                    if (arr2.Length == 1)
                     {
                         ReactorLoopDetail d = new ReactorLoopDetail();
                         d.DetailInfo = eq.EqName;
@@ -903,7 +903,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             StringBuilder data1 = new StringBuilder();
             string streamName = stream.StreamName;
             data1.Append("\tPROPERTY STREAM=").Append(streamName.ToUpper()).Append(",&\r\n");
+            if (stream.Pressure < 0)
+                stream.Pressure = 1e-6;
             data1.Append("\t PRESSURE(MPAG)=").Append(stream.Pressure).Append(",&\r\n");
+            if (stream.Temperature < 0)
+                stream.Temperature = 1e-6;
             data1.Append("\t TEMPERATURE(C)=").Append(stream.Temperature).Append(",&\r\n");
             double rate = stream.TotalMolarRate;
             if (rate == 0)
@@ -939,11 +943,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             int end = start;
             int i = start;
             bool b = false;
-            int len = tag.Length;
+            int len = tag.Trim().Length;
             while (i < lines.Length)
             {
                 string line = lines[i];
-                if (line.Contains(tag) && line.Substring(0,len)==tag)
+                if (line.Contains(tag) && line.Trim().Substring(0,len)==tag.Trim())
                 {
                     b = true;
                     break;
@@ -965,7 +969,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     }
                     else
                     {
-                        end = i+1;
+                        end = i;
                         break;
                     }
 
@@ -1024,24 +1028,24 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         }
                     }
                 }
-                string productdata = eqData.ProductData;
-                if (!string.IsNullOrEmpty(productdata))
-                {
-                    string[] products = productdata.Split(',');
-                    foreach (string s in products)
-                    {
-                        if (!streams.Contains(s) && !string.IsNullOrEmpty(s))
-                        {
-                            streams.Add(s);
-                            ProIIStreamData piis = streamdal.GetModel(SessionPF, s, SourceFileInfo.FileName);
-                            CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(piis);
-                            if (cs != null)
-                            {
-                                list.Add(cs);
-                            }
-                        }
-                    }
-                }
+                //string productdata = eqData.ProductData;
+                //if (!string.IsNullOrEmpty(productdata))
+                //{
+                //    string[] products = productdata.Split(',');
+                //    foreach (string s in products)
+                //    {
+                //        if (!streams.Contains(s) && !string.IsNullOrEmpty(s))
+                //        {
+                //            streams.Add(s);
+                //            ProIIStreamData piis = streamdal.GetModel(SessionPF, s, SourceFileInfo.FileName);
+                //            CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(piis);
+                //            if (cs != null)
+                //            {
+                //                list.Add(cs);
+                //            }
+                //        }
+                //    }
+                //}
             }
             return list;
         }

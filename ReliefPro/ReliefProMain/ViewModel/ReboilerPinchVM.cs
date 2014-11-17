@@ -533,7 +533,7 @@ namespace ReliefProMain.ViewModel
         private void PinchCalc(object obj)
         {
             double factor = 1;
-            int iterateNumber = 50;
+            int iterateNumber = 150;
             double MaxErrorRate = 0.005;
 
             double productTin = Coldtin;

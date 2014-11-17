@@ -135,6 +135,7 @@ namespace ReliefProMain.ViewModel
                         MessageBox.Show("Plant Name could not contain space", "Message Box");
                         return;
                     }
+                    
                     Task.Factory.StartNew(() =>
                        {
                            Application.Current.Dispatcher.Invoke(new Action(() =>
@@ -151,8 +152,17 @@ namespace ReliefProMain.ViewModel
                               currentPlantWorkFolder = tempReliefProWorkDir + @"\" + currentPlantName;
                               if (Directory.Exists(currentPlantWorkFolder))
                               {
-                                  Directory.Delete(currentPlantWorkFolder, true);
+                                  try
+                                  {
+                                      Directory.Delete(currentPlantWorkFolder, true);
+                                  }
+                                  catch (Exception ex)
+                                  {
+                                      MessageBox.Show("The Plant Folder or one file of this folder is open,please close it.","Message Box");
+                                      return;
+                                  }
                               }
+                              //IsOpenPlant = true;
                               Directory.CreateDirectory(currentPlantWorkFolder);
                               string dbPlant = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\plant.mdb";
                               string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";

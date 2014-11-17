@@ -426,7 +426,7 @@ namespace ReliefProMain.ViewModel
                 iterateSum = iterateSum + 1;
                 if (curErrorRate > MaxErrorRate)
                 {
-                    nextQaenGuess = nextQaenGuess * (1 + 0.5 * uQAQR);
+                    nextQaenGuess = nextQaenGuess * (1 + 0.1 * uQAQR);
                 }
             }
             if (curErrorRate < MaxErrorRate)
@@ -434,8 +434,8 @@ namespace ReliefProMain.ViewModel
                 isConverged = true;
                 double QRQN = calculatedQR / duty;
                 factor = QRQN;
-                if (QRQN > 1.5)
-                    factor = 1.5;
+                //if (QRQN > 1.5)
+                //    factor = 1.5;
             }
             else
                 factor = 1;
@@ -479,7 +479,7 @@ namespace ReliefProMain.ViewModel
         {
             double factor = 1;
             bool isConverged = false;
-            int iterateNumber = 50;
+            int iterateNumber = 150;
             double MaxErrorRate = 0.005;
 
             double feedTin = FeedTin;
