@@ -50,9 +50,9 @@ namespace ReliefProMain.ViewModel.Compressors
             model.ReliefloadUnit = uomEnum.UserMassRate;
             model.ReliefTempUnit = uomEnum.UserTemperature;
             model.ReliefPressureUnit = uomEnum.UserPressure;
-            model.SurgeLoadUnit = uomEnum.UserMassRate;
+            model.SurgeLoadUnit = uomEnum.UserVolumeRate;
             model.OutletPressureUnit = uomEnum.UserPressure;
-            model.InletLoadUnit = uomEnum.UserMassRate;
+            model.InletLoadUnit = uomEnum.UserVolumeRate;
         }
         private void WriteConvertModel()
         {
@@ -61,9 +61,9 @@ namespace ReliefProMain.ViewModel.Compressors
             model.dbmodel.Reliefload = UnitConvert.Convert(model.ReliefloadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.Reliefload);
             model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTempUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
             model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
-            model.dbmodel.InletLoad = model.InletLoad;
+            model.dbmodel.InletLoad = UnitConvert.Convert(model.InletLoadUnit, UOMLib.UOMEnum.VolumeRate.ToString(), model.InletLoad);
             model.dbmodel.OutletPressure = model.OutletPressure;
-            model.dbmodel.SurgeLoad = model.SurgeLoad;
+            model.dbmodel.SurgeLoad = UnitConvert.Convert(model.SurgeLoadUnit, UOMLib.UOMEnum.VolumeRate.ToString(), model.SurgeLoad);
             model.dbmodel.ReliefCpCv = model.ReliefCpCv;
             model.dbmodel.ReliefZ = model.ReliefZ;
             //model.dbmodel.InletLoad = UnitConvert.Convert(model.InletLoad, UOMLib.UOMEnum.Viscosity.ToString(), model.ReliefPressure);
