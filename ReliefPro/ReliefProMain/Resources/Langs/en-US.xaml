@@ -387,7 +387,7 @@
     <s:String x:Key="GeneralElectricPowerFailureViewTitle">General Electric Power Failure</s:String>
     <s:String x:Key="HXnetworkcoldstream">HX Network Cold Stream</s:String>
     <s:String x:Key="GeneralElectricPowerFailureViewStatusBar">...</s:String>
-
+    <s:String x:Key="SetDutyFactor">Set Duty Factor</s:String>
     <!--LossOfColdFeedView.xaml-->
     <s:String x:Key="LossOfColdFeedViewTitle">Loss Of Cold Feed</s:String>
     <s:String x:Key="LossOfColdFeedViewStatusBar">...</s:String>
@@ -434,7 +434,6 @@
     <s:String x:Key="SplitterName">Splitter Name:</s:String>
     <s:String x:Key="Simulation">Simulation:</s:String>
     <s:String x:Key="ReactorLoopViewStatusBar">...</s:String>
-
     <!--PlantSummaryView.xaml-->
     <s:String x:Key="PlantSummaryViewTitle">PlantSummaryView</s:String>
     <s:String x:Key="DesignTotalPlantFlareLoadSummation">Design Total Plant Flare Load Summation:</s:String>

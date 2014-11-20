@@ -158,9 +158,40 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
         private void CalcBlocket()
         {
-            model.ReliefLoad = model.TotalPurgeRate - model.MaxGasRate;
+            model.ReliefLoad = model.MaxGasRate-model.TotalPurgeRate;
             if (model.ReliefLoad < 0)
                 model.ReliefLoad = 0;
+            ReactorLoopDAL rldal = new ReactorLoopDAL();
+            rl = rldal.GetModel(SessionPS);
+           PSVDAL psvdal=new PSVDAL();
+            PSV psv=psvdal.GetModel(SessionPS);
+
+            double reliefPressure = psv.ReliefPressureFactor * psv.Pressure; 
+            CustomStream highvaporstream=new CustomStream();
+            IProIIReader reader=ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+            string przFile=DirProtectedSystem+@"\myrp\myrp.prz";
+            reader.InitProIIReader(przFile);
+            ProIIEqData eq=reader.GetEqInfo("Flash",rl.ColdHighPressureSeparator);
+            string[] products=eq.ProductData.Split(',');
+            foreach(string p in products)
+            {
+                if(!string.IsNullOrEmpty(p))
+                {
+                    ProIIStreamData ps=reader.GetSteamInfo(p);
+                    if(double.Parse(ps.VaporFraction)==1)
+                    {
+                        highvaporstream=ProIIToDefault.ConvertProIIStreamToCustomStream(ps);
+                        break;
+                    }
+                }
+            }
+            reader.ReleaseProIIReader();
+
+            model.ReliefMW = highvaporstream.BulkMwOfPhase;
+            model.ReliefTemperature = highvaporstream.Temperature;
+            model.ReliefPressure = reliefPressure;
+            model.ReliefCpCv = highvaporstream.BulkCPCVRatio;
+            model.ReliefZ = highvaporstream.VaporZFmKVal;
         }
 
         private void CalcLossOfReactorQuench()
@@ -389,7 +420,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     model.ReliefTemperature = cs.Pressure;
                     model.ReliefCpCv = cs.BulkCPCVRatio;
                     model.ReliefZ = cs.VaporZFmKVal;
-
+                    if (model.ReliefLoad < 0)
+                        model.ReliefLoad = 0;
                     reader.ReleaseProIIReader();
                 }
 

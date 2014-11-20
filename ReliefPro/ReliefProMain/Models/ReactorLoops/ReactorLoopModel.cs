@@ -66,6 +66,7 @@ namespace ReliefProMain.Models.ReactorLoops
                 NotifyPropertyChanged("EffluentStream");
             }
         }
+        
         public string EffluentStream2
         {
             get { return dbModel.EffluentStream2; }
@@ -171,6 +172,7 @@ namespace ReliefProMain.Models.ReactorLoops
             }
         }
         
+
         
         public string SourceFile
         {
@@ -194,6 +196,9 @@ namespace ReliefProMain.Models.ReactorLoops
                 NotifyPropertyChanged("ReactorLoopName");
             }
         }
+
+        
+
         private ReactorLoopDetail selectedHXModel;
         public ReactorLoopDetail SelectedHXModel
         {
@@ -352,6 +357,71 @@ namespace ReliefProMain.Models.ReactorLoops
             }
         }
 
+        private SourceModel _EffluentStreamSource;
+        public SourceModel EffluentStreamSource
+        {
+            get { return _EffluentStreamSource; }
+            set
+            {
+                _EffluentStreamSource = value;
+                this.NotifyPropertyChanged("EffluentStreamSource");
+            }
+        }
+
+        private SourceModel _EffluentStream2Source;
+        public SourceModel EffluentStream2Source
+        {
+            get { return _EffluentStream2Source; }
+            set
+            {
+                _EffluentStream2Source = value;
+                this.NotifyPropertyChanged("EffluentStream2Source");
+            }
+        }
+
+        private SourceModel _CompressorH2StreamSource;
+        public SourceModel CompressorH2StreamSource
+        {
+            get { return _CompressorH2StreamSource; }
+            set
+            {
+                _CompressorH2StreamSource = value;
+                this.NotifyPropertyChanged("CompressorH2StreamSource");
+            }
+        }
+
+        private SourceModel _ColdReactorFeedStreamSource;
+        public SourceModel ColdReactorFeedStreamSource
+        {
+            get { return _ColdReactorFeedStreamSource; }
+            set
+            {
+                _ColdReactorFeedStreamSource = value;
+                this.NotifyPropertyChanged("ColdReactorFeedStreamSource");
+            }
+        }
+        private SourceModel _ColdReactorFeedStream2Source;
+        public SourceModel ColdReactorFeedStream2Source
+        {
+            get { return _ColdReactorFeedStream2Source; }
+            set
+            {
+                _ColdReactorFeedStream2Source = value;
+                this.NotifyPropertyChanged("ColdReactorFeedStreamSource");
+            }
+        }
+        private SourceModel _InjectionWaterStreamSource;
+        public SourceModel InjectionWaterStreamSource
+        {
+            get { return _InjectionWaterStreamSource; }
+            set
+            {
+                _InjectionWaterStreamSource = value;
+                this.NotifyPropertyChanged("InjectionWaterStreamSource");
+            }
+        }
+
+        
         private ObservableCollection<ReactorLoopDetail> obcMixerSplitterSource;
         public ObservableCollection<ReactorLoopDetail> ObcMixerSplitterSource
         {

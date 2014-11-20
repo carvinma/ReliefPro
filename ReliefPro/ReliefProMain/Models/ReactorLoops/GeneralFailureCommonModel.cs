@@ -42,7 +42,7 @@ namespace ReliefProMain.Models.ReactorLoops
 
         public List<GeneralFailureHXModel> lstNetworkHX { get; set; }
         public List<GeneralFailureHXModel> lstUtilityHX { get; set; }
-
+        public List<GeneralFailureHXModel> lstProcessHX { get; set; }
         public bool RecycleCompressorFailure
         {
             get { return dbmodel.RecycleCompressorFailure; }

@@ -291,6 +291,7 @@
     <Compile Include="ViewModel\ReactorLoops\ReactorLoopCommonVM.cs" />
     <Compile Include="ViewModel\ReactorLoops\ReactorLoopVM.cs" />
     <Compile Include="ViewModel\ReactorLoops\ReactorLoopSimulationVM.cs" />
+    <Compile Include="ViewModel\ReactorLoops\ReactorLoopSourceVM.cs" />
     <Compile Include="ViewModel\Reports\PlantSummaryVM.cs" />
     <Compile Include="ViewModel\Reports\PUsummaryVM.cs" />
     <Compile Include="ViewModel\Reports\ReportTreeVM.cs" />
@@ -374,6 +375,9 @@
     </Compile>
     <Compile Include="View\HXs\AirCooledHXFireView.xaml.cs">
       <DependentUpon>AirCooledHXFireView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ReactorLoops\ReactorLoopSourceView.xaml.cs">
+      <DependentUpon>ReactorLoopSourceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Reports\PlantSummaryView.xaml.cs">
       <DependentUpon>PlantSummaryView.xaml</DependentUpon>
@@ -671,6 +675,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\HXs\AirCooledHXFireView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ReactorLoops\ReactorLoopSourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

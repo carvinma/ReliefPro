@@ -49,6 +49,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 this.NotifyPropertyChanged("EqDiffs");
             }
         }
+
+        
+
         private void InitCMD()
         {
             OKCommand = new DelegateCommand<object>(OK);
@@ -111,10 +114,20 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
         private void LaunchSimulator(object obj)
         {
+            if (string.IsNullOrEmpty(newPrzFile))
+            {
+                MessageBox.Show("Please Check Data first.", "Message Box");
+                return;
+            }
             ProIIHelper.Run(przVersion, newPrzFile);
         }
         private void RunSimulation(object obj)
         {
+            if (string.IsNullOrEmpty(newPrzFile))
+            {
+                MessageBox.Show("Please Check Data first.","Message Box");
+                return;
+            }
             //run prz file ,then compare hx duty
             EqDiffs.Clear();
             lst.Clear();
@@ -131,19 +144,20 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 ProIIEqData eq1 = dal.GetModel(SessionPlant, przFileName, s);
                 ProIIEqData eq2 = reader.GetEqInfo("Hx", s);
-                double d = Math.Abs(double.Parse(eq1.DutyCalc) - double.Parse(eq2.DutyCalc)) ;
-                if (d > 1)
-                {
+                double d = 100*Math.Abs(double.Parse(eq1.DutyCalc) - double.Parse(eq2.DutyCalc))/Math.Abs(double.Parse(eq1.DutyCalc)) ;
+                //if (d > 1)
+                //{
                     ReactorLoopEqDiff eqdiff = new ReactorLoopEqDiff();
                     eqdiff.CurrentDuty = double.Parse(eq2.DutyCalc) * 3600;
                     eqdiff.Diff = d;
                     eqdiff.EqName = s;
                     eqdiff.EqType = "HX";
                     eqdiff.OrginDuty = double.Parse(eq1.DutyCalc) * 3600;
+                    eqdiff.ReactorLoopID = ReactorLoopID;
                     ReactorLoopEqDiffModel m = new ReactorLoopEqDiffModel(eqdiff);
                     EqDiffs.Add(m);
                     lst.Add(eqdiff);
-                }
+                //}
             }
             
             reader.ReleaseProIIReader();

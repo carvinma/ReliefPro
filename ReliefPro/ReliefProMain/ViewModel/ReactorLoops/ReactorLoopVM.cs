@@ -23,6 +23,7 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using Microsoft.Win32;
 using ReliefProCommon.Enum;
+using ReliefProMain.Models;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -43,6 +44,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         public ICommand NetworkHXAddCMD { get; set; }
         public ICommand NetworkHXDelCMD { get; set; }
 
+        public ICommand DetailCMD { get; set; }
         
         private ISession SessionPS;
         private ISession SessionPF;
@@ -78,6 +80,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             MixerSplitterAddCMD = new DelegateCommand<object>(MixerSplitterAdd);
             MixerSplitterDelCMD = new DelegateCommand<object>(MixerSplitterDel);
 
+            DetailCMD = new DelegateCommand<object>(Detail);
         }
         private void InitPage()
         {
@@ -101,6 +104,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcNetworkHX = new ObservableCollection<ReactorLoopDetail>();
                 model.ObcMixerSplitter = new ObservableCollection<ReactorLoopDetail>();
             }
+            
         }
         private ObservableCollection<string> GetProIIStreamNames()
         {
@@ -197,6 +201,111 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             return rlt;
         }
 
+        private void InitReactorLoopSource()
+        {
+            SourceDAL srdal = new SourceDAL();
+            if (!string.IsNullOrEmpty(model.EffluentStream))
+            {
+                if (model.EffluentStreamSource == null)
+                {
+                    Source sr = new Source();
+                    model.EffluentStreamSource = new SourceModel(sr);
+                    model.EffluentStreamSource.StreamName = model.EffluentStream;
+                    model.EffluentStreamSource.SourceType = "Pressurized Vessel";
+                    model.EffluentStreamSource.SourceType_Color = ColorBorder.green.ToString();
+                }
+                else
+                {
+                    Source sr = srdal.GetModel(SessionPS, model.EffluentStream);
+                    model.EffluentStreamSource = new SourceModel(sr);
+                }
+            }
+            if (!string.IsNullOrEmpty(model.EffluentStream2))
+            {
+                if (model.EffluentStream2Source == null)
+                {
+                    Source sr = new Source();
+                    model.EffluentStream2Source = new SourceModel(sr);
+                    model.EffluentStream2Source.StreamName = model.EffluentStream2;
+                    model.EffluentStream2Source.SourceType = "Pressurized Vessel";
+                    model.EffluentStream2Source.SourceType_Color = ColorBorder.green.ToString();
+                }
+                else
+                {
+                    Source sr = srdal.GetModel(SessionPS, model.EffluentStream2);
+                    model.EffluentStream2Source = new SourceModel(sr);
+                }
+            }
+            if (!string.IsNullOrEmpty(model.CompressorH2Stream))
+            {
+                if (model.CompressorH2StreamSource == null)
+                {
+                    Source sr = new Source();
+                    model.CompressorH2StreamSource = new SourceModel(sr);
+                    model.CompressorH2StreamSource.StreamName = model.CompressorH2Stream;
+                    model.CompressorH2StreamSource.SourceType = "Compressor(Steam Turbine Driven)";
+                    model.CompressorH2StreamSource.SourceType_Color = ColorBorder.green.ToString();
+                }
+                else
+                {
+                    Source sr = srdal.GetModel(SessionPS, model.CompressorH2Stream);
+                    model.CompressorH2StreamSource = new SourceModel(sr);
+                }
+            }
+
+            if ( !string.IsNullOrEmpty(model.ColdReactorFeedStream))
+            {
+                if (model.ColdReactorFeedStreamSource == null)
+                {
+                    Source sr = new Source();
+                    model.ColdReactorFeedStreamSource = new SourceModel(sr);
+                    model.ColdReactorFeedStreamSource.StreamName = model.ColdReactorFeedStream;
+                    model.ColdReactorFeedStreamSource.SourceType = "Pump(Motor)";
+                    model.ColdReactorFeedStreamSource.SourceType_Color = ColorBorder.green.ToString();
+                }
+                else
+                {
+                    Source sr = srdal.GetModel(SessionPS, model.ColdReactorFeedStream);
+                    model.ColdReactorFeedStreamSource = new SourceModel(sr);
+                }
+            }
+            if (!string.IsNullOrEmpty(model.ColdReactorFeedStream2))
+            {
+                if (model.ColdReactorFeedStream2Source == null)
+                {
+                    Source sr = new Source();
+                    model.ColdReactorFeedStream2Source = new SourceModel(sr);
+                    model.ColdReactorFeedStream2Source.StreamName = model.ColdReactorFeedStream2;
+                    model.ColdReactorFeedStream2Source.SourceType = "Pump(Motor)";
+                    model.ColdReactorFeedStream2Source.SourceType_Color = ColorBorder.green.ToString();
+                }
+                else
+                {
+                    Source sr = srdal.GetModel(SessionPS, model.ColdReactorFeedStream2);
+                    model.ColdReactorFeedStream2Source = new SourceModel(sr);
+                }
+            }
+
+            if (model.InjectionWaterStreamSource == null && !string.IsNullOrEmpty(model.InjectionWaterStream))
+            {
+                if (model.InjectionWaterStreamSource == null)
+                {
+                    Source sr = new Source();
+                    model.InjectionWaterStreamSource = new SourceModel(sr);
+                    model.InjectionWaterStreamSource.StreamName = model.InjectionWaterStream;
+                    model.InjectionWaterStreamSource.SourceType = "Pump(Motor)";
+                    model.InjectionWaterStreamSource.SourceType_Color = ColorBorder.green.ToString();
+                }
+                else
+                {
+                    Source sr = srdal.GetModel(SessionPS, model.InjectionWaterStream);
+                    model.InjectionWaterStreamSource = new SourceModel(sr);
+                }
+            }
+
+
+
+        }
         public ReactorLoopVM( ISession SessionPF, ISession SessionPS, string dirPlant, string dirProtectedSystem)
         {
             model = new ReactorLoopModel();
@@ -218,11 +327,13 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcUtilityHX = reactorBLL.GetUtilityHX(reactorLoopID);
                 model.ObcNetworkHX = reactorBLL.GetNetworkHX(reactorLoopID);
                 model.ObcMixerSplitter = reactorBLL.GetMixerSplitter(reactorLoopID);
+
                 SourceFileBLL sfbll = new SourceFileBLL(SessionPF);
                 SourceFileInfo = sfbll.GetSourceFileInfo(model.dbModel.SourceFile);
                 FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
                 FileName = SourceFileInfo.FileName;
                 InitPage();
+                InitReactorLoopSource();
                 op = 1;
             }
             else
@@ -235,14 +346,73 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.EffluentStream_Color = ColorBorder.red.ToString();
                 model.EffluentStream2_Color = ColorBorder.green.ToString();
                 model.ColdReactorFeedStream_Color = ColorBorder.red.ToString();
-                model.ColdReactorFeedStream2_Color = ColorBorder.red.ToString();
+                model.ColdReactorFeedStream2_Color = ColorBorder.green.ToString();
                 model.HotHighPressureSeparator_Color = ColorBorder.red.ToString();
                 model.ColdHighPressureSeparator_Color = ColorBorder.red.ToString();
                 model.HXNetworkColdStream_Color = ColorBorder.red.ToString();
                 model.InjectionWaterStream_Color = ColorBorder.red.ToString();
                 model.CompressorH2Stream_Color = ColorBorder.red.ToString();
                 model.ReactorLoopName = "ReactorLoop1";
+
+                InitReactorLoopSource();
                 op = 0;
+            }
+            foreach (ReactorLoopDetail d in model.ObcProcessHX)
+            {
+                var find = model.ObcProcessHXSource.FirstOrDefault(p => p.DetailInfo == d.DetailInfo);
+                if (find != null)
+                {
+                    model.ObcProcessHXSource.Remove(find);
+                }
+
+                var find2 = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == d.DetailInfo);
+                if (find2 != null)
+                {
+                    model.ObcNetworkHXSource.Remove(find2);
+                }
+            }
+            foreach (ReactorLoopDetail d in model.ObcUtilityHX)
+            {
+                var find = model.ObcUtilityHXSource.FirstOrDefault(p => p.DetailInfo == d.DetailInfo);
+                if (find != null)
+                {
+                    model.ObcUtilityHXSource.Remove(find);
+                }
+                var find2 = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == d.DetailInfo);
+                if (find2 != null)
+                {
+                    model.ObcNetworkHXSource.Remove(find2);
+                }
+            }
+
+            foreach (ReactorLoopDetail d in model.ObcNetworkHX)
+            {
+                var find = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == d.DetailInfo);
+                if (find != null)
+                {
+                    model.ObcNetworkHXSource.Remove(find);
+                }
+                var find1 = model.ObcUtilityHXSource.FirstOrDefault(p => p.DetailInfo == d.DetailInfo);
+                if (find1 != null)
+                {
+                    model.ObcUtilityHXSource.Remove(find1);
+                }
+
+                var find2 = model.ObcProcessHXSource.FirstOrDefault(p => p.DetailInfo == d.DetailInfo);
+                if (find2 != null)
+                {
+                    model.ObcProcessHXSource.Remove(find2);
+                }
+            }
+
+            foreach (ReactorLoopDetail d in model.ObcMixerSplitter)
+            {
+                var find = model.ObcMixerSplitterSource.FirstOrDefault(p => p.DetailInfo == d.DetailInfo);
+                if (find != null)
+                {
+                    model.ObcMixerSplitterSource.Remove(find);
+                }
+               
             }
         }
         private void ProcessHXAdd(object obj)
@@ -496,6 +666,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 Directory.CreateDirectory(newInpDir);
             }
+            if (System.IO.File.Exists(newInpFile))
+                File.Delete(newInpFile);
             File.Create(newInpFile).Close();
             File.WriteAllText(newInpFile, inpData);
             if (errorTag == -1)
@@ -536,7 +708,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     }
                     else if (op == 1)
                     {
-
+                        Create();
                     }
                     else
                     {
@@ -589,12 +761,53 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     allSelectedInfo.Add(hx);
                 }
             }
+
+            List<Source> lstStreamSource = new List<Source>();
+            if (model.EffluentStreamSource!=null)
+            {
+                model.EffluentStreamSource.dbmodel.SourceType = model.EffluentStreamSource.SourceType;
+                model.EffluentStreamSource.SourceType_Color = model.EffluentStreamSource.SourceType_Color;
+                lstStreamSource.Add(model.EffluentStreamSource.dbmodel);
+            }
+            if (model.EffluentStream2Source != null)
+            {
+                model.EffluentStream2Source.dbmodel.SourceType = model.EffluentStream2Source.SourceType;
+                model.EffluentStream2Source.SourceType_Color = model.EffluentStream2Source.SourceType_Color;
+                lstStreamSource.Add(model.EffluentStream2Source.dbmodel);
+            }
+            if (model.CompressorH2StreamSource != null)
+            {
+                model.CompressorH2StreamSource.dbmodel.SourceType = model.CompressorH2StreamSource.SourceType;
+                model.CompressorH2StreamSource.SourceType_Color = model.CompressorH2StreamSource.SourceType_Color;
+                lstStreamSource.Add(model.CompressorH2StreamSource.dbmodel);
+            }
+            if (model.ColdReactorFeedStreamSource != null)
+            {
+                model.ColdReactorFeedStreamSource.dbmodel.SourceType = model.ColdReactorFeedStreamSource.SourceType;
+                model.ColdReactorFeedStreamSource.SourceType_Color = model.ColdReactorFeedStreamSource.SourceType_Color;
+                lstStreamSource.Add(model.ColdReactorFeedStreamSource.dbmodel);
+            }
+            if (model.ColdReactorFeedStream2Source != null)
+            {
+                model.ColdReactorFeedStream2Source.dbmodel.SourceType = model.ColdReactorFeedStream2Source.SourceType;
+                model.ColdReactorFeedStream2Source.SourceType_Color = model.ColdReactorFeedStream2Source.SourceType_Color;
+                lstStreamSource.Add(model.ColdReactorFeedStream2Source.dbmodel);
+            }
+            if (model.InjectionWaterStreamSource != null)
+            {
+                model.InjectionWaterStreamSource.dbmodel.SourceType = model.InjectionWaterStreamSource.SourceType;
+                model.InjectionWaterStreamSource.SourceType_Color = model.InjectionWaterStreamSource.SourceType_Color;
+                lstStreamSource.Add(model.InjectionWaterStreamSource.dbmodel);
+            }
             if (allSelectedInfo.Count > 0)
-                reactorBLL.Save(model.dbModel, allSelectedInfo);
-            ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
-            ProtectedSystem ps = new ProtectedSystem();
-            ps.PSType = 6;
-            psDAL.Add(ps, SessionPS);
+                reactorBLL.Save(model.dbModel, allSelectedInfo, lstStreamSource);
+            if (op != 1)
+            {
+                ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
+                ProtectedSystem ps = new ProtectedSystem();
+                ps.PSType = 6;
+                psDAL.Add(ps, SessionPS);
+            }
             SourceFileDAL sfdal = new SourceFileDAL();
             SourceFileInfo = sfdal.GetModel(model.SourceFile, SessionPF);
             SessionPS.Flush();
@@ -1108,7 +1321,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         //get eq duty,ltmd, 然后讲HX的值进行替换。
 
 
-        private double GetLTMD(ISession sessionPlant,string fileName,string eqName,out double duty)
+        private double GetLTMD(ISession sessionPlant, string fileName, string eqName, out double duty, out double ltmdfactor)
         {
             double tin=0;
             double tout=0;
@@ -1118,6 +1331,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             
             ProIIEqData eqData = eqDAL.GetModel(sessionPlant, fileName, eqName);
             duty = double.Parse(eqData.DutyCalc);
+            ltmdfactor = double.Parse(eqData.LmtdFactorCalc);
             string feeddata = eqData.FeedData;
             string[] feeds = feeddata.Split(',');
              string productdata = eqData.ProductData;
@@ -1181,30 +1395,37 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             line = lines[i];
             sb.Append(line);
             double duty=0;
-            double ltmd = GetLTMD(SessionPF, FileName, hxName, out  duty);
+            //double ltmdfactor = 0;
+            //double ltmd = GetLTMD(SessionPF, FileName, hxName, out  duty,out ltmdfactor);
 
             //三期再采用这个方法
-            //double ltmd = 0;// GetLTMD(SessionPF, FileName, hxName, out  duty);
-            //ProIIEqDataDAL eqDAL = new ProIIEqDataDAL();
-            //ProIIEqData eqData = eqDAL.GetModel(SessionPF, FileName, hxName);
-            //double LmtdCalc = double.Parse(eqData.LmtdCalc);
-            //double LmtdFactorCalc = 0;
-            //if (!string.IsNullOrEmpty(eqData.LmtdFactorCalc))
-            //    LmtdFactorCalc=double.Parse(eqData.LmtdFactorCalc);
-            //if (LmtdFactorCalc == 0 || LmtdFactorCalc == 1)
-            //    ltmd = GetLTMD(SessionPF, FileName, hxName, out  duty);
-            //else
-            //{
-            //    ltmd = LmtdCalc / LmtdFactorCalc;
-            //    if(ltmd>200 || ltmd<1)
-            //        ltmd = GetLTMD(SessionPF, FileName, hxName, out  duty);
-            //}
-            //duty = double.Parse(eqData.DutyCalc);
-            double k = 0.3;  //  KW/m2-K
-            double a = duty / ltmd / k;  //   m2
-            sb.Append(" ,U(KW/MK)=").Append(k).Append(",AREA(M2)=").Append(a).Append("\r\n");
-            if (ltmd < 0)
+            double ltmd = 0;// GetLTMD(SessionPF, FileName, hxName, out  duty);
+            ProIIEqDataDAL eqDAL = new ProIIEqDataDAL();
+            ProIIEqData eqData = eqDAL.GetModel(SessionPF, FileName, hxName);
+            double LmtdCalc = double.Parse(eqData.LmtdCalc);
+            if (LmtdCalc == 0 || LmtdCalc == 1)
+            {
                 errorTag = -1;
+                return "";
+            }
+            ////////double LmtdFactorCalc = 0;
+            ////////if (!string.IsNullOrEmpty(eqData.LmtdFactorCalc))
+            ////////    LmtdFactorCalc=double.Parse(eqData.LmtdFactorCalc);
+            ////////if (LmtdFactorCalc == 0 || LmtdFactorCalc == 1)
+            ////////    ltmd = GetLTMD(SessionPF, FileName, hxName, out  duty, out ltmdfactor);
+            ////////else
+            ////////{
+            ////////    //ltmd = LmtdCalc / LmtdFactorCalc;
+            ////////    if(ltmd>200 || ltmd<1)
+            ////////        ltmd = GetLTMD(SessionPF, FileName, hxName, out  duty, out ltmdfactor);
+            ////////}
+            duty = double.Parse(eqData.DutyCalc);
+            double k = 0.3;  //  KW/m2-K
+            double a = duty / LmtdCalc / k;  //   m2
+            //if (ltmdfactor != 0)
+            //    a = a / ltmdfactor;
+            sb.Append(" ,U(KW/MK)=").Append(k).Append(",AREA(M2)=").Append(a).Append("\r\n");
+            
             return sb.ToString();
             
         }
@@ -1230,7 +1451,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     
                     if (!b)
                     {
-                        attrvalue = "OPER Duty=" + double.Parse(eqData.DutyCalc)/10e6;
+                        attrvalue = "OPER Duty(KW)=" + double.Parse(eqData.DutyCalc)/1e6;
                         sb.Append(attrvalue).Append("\r\n");
                     }
                     break;
@@ -1238,7 +1459,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 else if (line.Contains("OPER "))
                 {
                     b = true;
-                    attrvalue = "OPER Duty=" + double.Parse(eqData.DutyCalc) / 10e6;
+                    attrvalue = "OPER Duty(KW)=" + double.Parse(eqData.DutyCalc) / 1e6;
                     sb.Append(attrvalue).Append("\r\n");
                 }
                 else
@@ -1286,7 +1507,83 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             return list.ToArray();
         }
 
-            
+
+        private void Detail(object o)
+        {
+            int type = int.Parse(o.ToString());
+            string streamName = string.Empty;
+            SourceModel sm=null;
+            ReactorLoopSourceVM vm=null;
+            switch (type)
+            {
+                case 1:
+                    streamName = model.EffluentStream;
+                    sm=model.EffluentStreamSource;
+                    break;
+                case 2:
+                    streamName = model.EffluentStream2;
+                    sm=model.EffluentStream2Source;
+                    break;
+                case 3:
+                    streamName = model.CompressorH2Stream;
+                    sm=model.CompressorH2StreamSource;
+                    break;
+                case 4:
+                    streamName = model.ColdReactorFeedStream;
+                    sm=model.ColdReactorFeedStreamSource;
+                    break;
+                case 5:
+                    streamName = model.ColdReactorFeedStream2;
+                    sm=model.ColdReactorFeedStream2Source;
+                    break;
+                case 6:
+                    streamName = model.InjectionWaterStream;
+                    sm=model.InjectionWaterStreamSource;
+                    break;
+
+            }
+            if(string.IsNullOrEmpty(streamName))
+            {
+                return ;
+            }
+             vm = new ReactorLoopSourceVM(type, sm, SessionPF, SessionPS);
+            if (!string.IsNullOrEmpty(streamName))
+            {
+                ReactorLoopSourceView v = new ReactorLoopSourceView();
+                v.DataContext = vm;
+                v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+               if( v.ShowDialog()==true)
+               {
+                switch (type)
+                {
+                    case 1:
+                        streamName = model.EffluentStream;
+                        model.EffluentStreamSource.SourceType=vm.model.SourceType;
+                        break;
+                    case 2:
+                        streamName = model.EffluentStream2;
+                        model.EffluentStream2Source.SourceType = vm.model.SourceType;
+                        break;
+                    case 3:
+                        streamName = model.CompressorH2Stream;
+                        model.CompressorH2StreamSource.SourceType = vm.model.SourceType;
+                        break;
+                    case 4:
+                        streamName = model.ColdReactorFeedStream;
+                        model.ColdReactorFeedStreamSource.SourceType = vm.model.SourceType;
+                        break;
+                    case 5:
+                        streamName = model.ColdReactorFeedStream2;
+                        model.ColdReactorFeedStream2Source.SourceType = vm.model.SourceType;
+                        break;
+                    case 6:
+                        streamName = model.InjectionWaterStream;
+                        model.InjectionWaterStreamSource.SourceType = vm.model.SourceType;
+                        break;
+                }
+               }
+            }
+        }
     }
 
 

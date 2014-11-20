@@ -44,6 +44,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private string newPrzFile;
         private string newInpFile;
         private int GeneralType;
+        private double reliefPressure;
+        private ReactorLoop rl;
         private void InitCMD()
         {
             OKCMD = new DelegateCommand<object>(Save);
@@ -80,14 +82,26 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             this.DirProtectedSystem = DirProtectedSystem;
             InitCMD();
             InitPage();
-
+            PSVBLL psvbll=new PSVBLL(SessionPS);
+            reliefPressure = psvbll.GetReliefPressure();
             ReactorLoopDAL rldal = new ReactorLoopDAL();
-            ReactorLoop rl = rldal.GetModel(SessionPS);
+            rl = rldal.GetModel(SessionPS);
             ProIIEqDataDAL eqDataDAL = new ProIIEqDataDAL();
             ProIIEqData eqData = eqDataDAL.GetModel(SessionPF, SourceFileInfo.FileName, rl.ColdHighPressureSeparator);
-            int idx = eqData.ProductData.IndexOf(",");
-            coldVaporStream = eqData.ProductData.Substring(0, idx);
+            string[] chcsList = eqData.ProductData.Split(',');
+            
             ProIIStreamDataDAL streamDataDAL = new ProIIStreamDataDAL();
+            foreach (string s in chcsList)
+            {
+                ProIIStreamData ps = streamDataDAL.GetModel(SessionPF, s, SourceFileInfo.FileName);
+                if (ps.VaporFraction == "1")
+                {
+                    coldVaporStream = s;
+                    break;
+                }
+            }
+
+
             ProIIStreamData streamData = streamDataDAL.GetModel(SessionPF, rl.CompressorH2Stream, SourceFileInfo.FileName);
             compressorH2Stream = ProIIToDefault.ConvertProIIStreamToCustomStream(streamData);
             this.GeneralType = GeneralType;
@@ -108,14 +122,19 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 IList<GeneralFailureCommonDetail> lstCommonDetail = generalBLL.GetGeneralFailureCommonDetail(commonModel.ID,1);
                 model.lstUtilityHX = lstCommonDetail.Select(p => new GeneralFailureHXModel { HXName = p.HXName, Stop = p.Stop, DutyFactor = p.DutyFactor, ReactorType = p.ReactorType }).ToList();
 
+                model.lstProcessHX = new List<GeneralFailureHXModel>();
+                IList<GeneralFailureCommonDetail> lstCommonDetail2 = generalBLL.GetGeneralFailureCommonDetail(commonModel.ID, 0);
+                model.lstProcessHX = lstCommonDetail2.Select(p => new GeneralFailureHXModel { HXName = p.HXName, Stop = p.Stop, DutyFactor = p.DutyFactor, ReactorType = p.ReactorType }).ToList();
+
                 model.lstNetworkHX = new List<GeneralFailureHXModel>();
-                IList<GeneralFailureCommonDetail> lstCommonDetail2 = generalBLL.GetGeneralFailureCommonDetail(commonModel.ID,3);
-                model.lstNetworkHX = lstCommonDetail2.Select(p => new GeneralFailureHXModel { HXName = p.HXName, Stop = p.Stop, DutyFactor = p.DutyFactor, ReactorType = p.ReactorType }).ToList();
+                IList<GeneralFailureCommonDetail> lstCommonDetail3 = generalBLL.GetGeneralFailureCommonDetail(commonModel.ID,3);
+                model.lstNetworkHX = lstCommonDetail3.Select(p => new GeneralFailureHXModel { HXName = p.HXName, Stop = p.Stop, DutyFactor = p.DutyFactor, ReactorType = p.ReactorType }).ToList();
 
             }
             else
             {
                 model.lstUtilityHX = GetInitHXs(1);
+                model.lstProcessHX = GetInitHXs(0);
                 model.lstNetworkHX = GetInitHXs(3);
             }
         }
@@ -148,46 +167,122 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             StringBuilder sb = new StringBuilder();
             ProIIEqDataDAL eqdatadal = new ProIIEqDataDAL();
             List<InpPosInfo> list = new List<InpPosInfo>();
+            IProIIReader r = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+            r.InitProIIReader(rpPrzFile);
+            ProIIStreamData proiicoldvaporstream = r.GetSteamInfo(coldVaporStream);
+            compressorH2Stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proiicoldvaporstream);
+            ProIIEqData proiiPCHPS = r.GetEqInfo("Flash", rl.ColdHighPressureSeparator);
+            ProIIEqData proiiHHPS = r.GetEqInfo("Flash", rl.HotHighPressureSeparator);
+            ProIIStreamData effluent = r.GetSteamInfo(rl.EffluentStream);
+            CustomStream csEffluent = ProIIToDefault.ConvertProIIStreamToCustomStream(effluent);
+            double PCHPS_N = double.Parse(proiiPCHPS.PressCalc);
+            double PHHPS_N = double.Parse(proiiHHPS.PressCalc);
+            PCHPS_N = UnitConvert.Convert("Kpa", "MPag", PCHPS_N);
+            PHHPS_N = UnitConvert.Convert("Kpa", "MPag", PHHPS_N);
+            r.ReleaseProIIReader();
+            double DeltP_Accu = reliefPressure - PCHPS_N;
+            double PHHPS_relief = PHHPS_N + DeltP_Accu;
+            double PCHPS_relief = PCHPS_N + DeltP_Accu;
+            double PEffluent_relief = csEffluent.Pressure + DeltP_Accu;
 
-            ReactorLoopDAL rldal = new ReactorLoopDAL();
-            ReactorLoop rl = rldal.GetModel(SessionPS);
-            InpPosInfo spi1 = GetStreamPosInfo(lines, rl.CompressorH2Stream, "RATE(KGM/S)=", "1e-3");
-            InpPosInfo spi2 = GetStreamPosInfo(lines, rl.InjectionWaterStream, "RATE(KGM/S)=", "1e-3");
-
-            foreach (GeneralFailureHXModel m in model.lstUtilityHX)
+            SourceDAL srDal = new SourceDAL();
+            SystemScenarioFactorDAL factorDal = new SystemScenarioFactorDAL();            
+            if (model.RecycleCompressorFailure)
             {
-                if (m.Stop)
+                InpPosInfo spi = GetStreamPosInfo(lines, rl.CompressorH2Stream, "RATE(WT)=", "RATE(WT)=", "1e-3");
+                list.Add(spi);
+            }
+            else
+            {
+                Source sr = srDal.GetModel(rl.CompressorH2Stream, SessionPS);
+                SystemScenarioFactor ssfactor = factorDal.GetSystemScenarioFactor(SessionPF, "4", sr.SourceType);
+                if (ssfactor.CoolingWaterFailure == "0")
                 {
-                    ProIIEqData eqdata = eqdatadal.GetModel(SessionPF, SourceFileInfo.FileName, m.HXName.ToUpper());
-                    double duty = double.Parse(eqdata.DutyCalc) * m.DutyFactor;//不需要转换单位了。因为它将用于proii文件中
-                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty=", (duty / 10e6).ToString());
+                    InpPosInfo spi = GetStreamPosInfo(lines, rl.CompressorH2Stream, "RATE(WT)=", "RATE(WT)=", "1e-3");
+                    list.Add(spi);
+                }
+            }
+            if (model.CalcInjectionWaterStream)
+            {
+                InpPosInfo spi = GetStreamPosInfo(lines, rl.InjectionWaterStream, "RATE(WT)=", "RATE(WT)=", "1e-3");
+                list.Add(spi);
+            }
+            else
+            {
+                Source sr = srDal.GetModel(rl.InjectionWaterStream, SessionPS);
+                SystemScenarioFactor ssfactor = factorDal.GetSystemScenarioFactor(SessionPF, "4", sr.SourceType);
+                if (ssfactor.CoolingWaterFailure == "0")
+                {
+                    InpPosInfo spi = GetStreamPosInfo(lines, rl.InjectionWaterStream, "RATE(WT)=", "RATE(WT)=", "1e-3");
                     list.Add(spi);
                 }
             }
 
+            if (!string.IsNullOrEmpty(rl.EffluentStream2))
+            {
+                InpPosInfo spi = GetStreamPosInfo(lines, rl.EffluentStream2, "PRESSURE(MPAG)=", "Pressure(MPag)=", PEffluent_relief.ToString());
+                list.Add(spi);
+            }
+            if (!string.IsNullOrEmpty(rl.EffluentStream))
+            {
+                InpPosInfo spi = GetStreamPosInfo(lines, rl.EffluentStream, "PRESSURE(MPAG)=", "Pressure(MPag)=", PEffluent_relief.ToString());
+                list.Add(spi);
+            }
+            InpPosInfo spi2 = GetFlashPosInfo(lines, rl.ColdHighPressureSeparator, "Pressure(MPag)=", PCHPS_relief.ToString());
+            InpPosInfo spi3 = GetFlashPosInfo(lines, rl.HotHighPressureSeparator, "Pressure(MPag)=", PHHPS_relief.ToString());
+            list.Add(spi2);
+            list.Add(spi3);
+            foreach (GeneralFailureHXModel m in model.lstProcessHX)
+            {
+                double duty = 1e-6;
+                if (m.Stop)
+                {
+                    ProIIEqData eqdata = eqdatadal.GetModel(SessionPF, SourceFileInfo.FileName, m.HXName.ToUpper());
+                    duty = double.Parse(eqdata.DutyCalc) * m.DutyFactor;//不需要转换单位了。因为它将用于proii文件中
+                    if (duty == 0)
+                        duty = 1e-6;
+                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty(kw)=", (duty * 1e-6).ToString());
+                    list.Add(spi);
+                }
+
+
+            }
+            foreach (GeneralFailureHXModel m in model.lstNetworkHX)
+            {
+                double duty = 1e-6;
+                if (m.Stop)
+                {
+                    ProIIEqData eqdata = eqdatadal.GetModel(SessionPF, SourceFileInfo.FileName, m.HXName.ToUpper());
+                    duty = double.Parse(eqdata.DutyCalc) * m.DutyFactor;//不需要转换单位了。因为它将用于proii文件中
+                    if (duty == 0)
+                        duty = 1e-6;
+                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty(kw)=", (duty * 1e-6).ToString());
+                    list.Add(spi);
+                }
+
+
+            }
+            foreach (GeneralFailureHXModel m in model.lstUtilityHX)
+            {
+                double duty = 1e-6;
+                if (m.Stop)
+                {
+                    ProIIEqData eqdata = eqdatadal.GetModel(SessionPF, SourceFileInfo.FileName, m.HXName.ToUpper());
+                    duty = double.Parse(eqdata.DutyCalc) * m.DutyFactor;//不需要转换单位了。因为它将用于proii文件中
+                    if (duty == 0)
+                        duty = 1e-6;
+                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty(kw)=", (duty * 1e-6).ToString());
+                    list.Add(spi);
+                }
+
+
+            }
+            
+
             for (int i = 0; i < lines.Length; i++)
             {
                 bool b = false;
-                if (model.RecycleCompressorFailure)
-                {
-                    if (spi1 != null && i == spi1.start)
-                    {
-                        sb.Append(spi1.NewInfo);
-                        i = spi1.end;
-                        b = true;
-                    }
-                }
-
-                if (model.CalcInjectionWaterStream)
-                {
-                    if (spi2 != null && i == spi2.start)
-                    {
-                        sb.Append(spi2.NewInfo);
-                        i = spi2.end;
-                        b = true;
-                    }
-                }
-
+                
                 foreach (InpPosInfo spi in list)
                 {
                     if (spi != null && i == spi.start )
@@ -239,10 +334,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     }
                     model.ReliefMW = cs.BulkMwOfPhase;
                     model.ReliefTemperature = cs.Temperature;
-                    model.ReliefPressure = cs.Pressure;
+                    model.ReliefPressure = reliefPressure; 
                     model.ReliefCpCv = cs.BulkCPCVRatio;
                     model.ReliefZ = cs.VaporZFmKVal;
-
+                    if (model.ReliefLoad < 0)
+                        model.ReliefLoad = 0;
                     reader.ReleaseProIIReader();
                 }
 
@@ -264,8 +360,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
         
         private void ElectricRunCaseSimulation(object obj)
-        {
-
+        {           
             string rpPrzFile = DirProtectedSystem + @"\myrp\myrp.prz";
             string rpInpDir = DirProtectedSystem + @"\myrp";
             string caseDir = DirProtectedSystem + @"\GeneralElectricPowerFailure";
@@ -275,29 +370,123 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             StringBuilder sb = new StringBuilder();
             ProIIEqDataDAL eqdatadal = new ProIIEqDataDAL();
             List<InpPosInfo> list = new List<InpPosInfo>();
-            foreach (GeneralFailureHXModel m in model.lstNetworkHX)
+            IProIIReader r = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+            r.InitProIIReader(rpPrzFile);
+            ProIIStreamData proiicoldvaporstream = r.GetSteamInfo(coldVaporStream);
+            compressorH2Stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proiicoldvaporstream);
+            ProIIEqData proiiPCHPS = r.GetEqInfo("Flash",rl.ColdHighPressureSeparator);
+            ProIIEqData proiiHHPS=r.GetEqInfo("Flash",rl.HotHighPressureSeparator);            
+            ProIIStreamData effluent = r.GetSteamInfo(rl.EffluentStream);
+            CustomStream csEffluent = ProIIToDefault.ConvertProIIStreamToCustomStream(effluent);
+            double PCHPS_N = double.Parse(proiiPCHPS.PressCalc);  
+            double PHHPS_N = double.Parse(proiiHHPS.PressCalc);
+            PCHPS_N = UnitConvert.Convert("Kpa", "MPag", PCHPS_N);
+            PHHPS_N = UnitConvert.Convert("Kpa", "MPag", PHHPS_N);
+            r.ReleaseProIIReader();
+            double DeltP_Accu = reliefPressure - PCHPS_N;
+            double PHHPS_relief = PHHPS_N + DeltP_Accu;
+            double PCHPS_relief = PCHPS_N + DeltP_Accu;
+            double PEffluent_relief = csEffluent.Pressure + DeltP_Accu;
+
+            if (!string.IsNullOrEmpty(rl.EffluentStream2))
             {
+                InpPosInfo spi = GetStreamPosInfo(lines, rl.EffluentStream2, "PRESSURE(MPAG)=", "Pressure(MPag)=", PEffluent_relief.ToString());
+                list.Add(spi);
+            }
+            if (!string.IsNullOrEmpty(rl.EffluentStream))
+            {
+                InpPosInfo spi = GetStreamPosInfo(lines, rl.EffluentStream, "PRESSURE(MPAG)=", "Pressure(MPag)=", PEffluent_relief.ToString());
+                list.Add(spi);
+            }
+
+            SourceDAL srDal = new SourceDAL();
+            SystemScenarioFactorDAL factorDal = new SystemScenarioFactorDAL();
+            Source sr = srDal.GetModel(rl.CompressorH2Stream, SessionPS);
+            SystemScenarioFactor ssfactor = factorDal.GetSystemScenarioFactor(SessionPF, "4", sr.SourceType);
+            if (ssfactor.CoolingWaterFailure == "0")
+            {
+                InpPosInfo spi = GetStreamPosInfo(lines, rl.CompressorH2Stream, "RATE(WT)=", "RATE(WT)=", "1e-3");
+                list.Add(spi);
+            }
+
+            sr = srDal.GetModel(rl.ColdReactorFeedStream, SessionPS);
+            ssfactor = factorDal.GetSystemScenarioFactor(SessionPF, "4", sr.SourceType);
+            if (ssfactor.CoolingWaterFailure == "0")
+            {
+                InpPosInfo spi = GetStreamPosInfo(lines, rl.ColdReactorFeedStream, "RATE(WT)=", "RATE(WT)=", "1e-3");
+                list.Add(spi);
+            }
+
+            if (!string.IsNullOrEmpty(rl.ColdReactorFeedStream2))
+            {
+                sr = srDal.GetModel(rl.ColdReactorFeedStream2, SessionPS);
+                ssfactor = factorDal.GetSystemScenarioFactor(SessionPF, "4", sr.SourceType);
+                if (ssfactor.CoolingWaterFailure == "0")
+                {
+                    InpPosInfo spi = GetStreamPosInfo(lines, rl.ColdReactorFeedStream2, "RATE(WT)=", "RATE(WT)=", "1e-3");
+                    list.Add(spi);
+                }
+            }
+            sr = srDal.GetModel(rl.InjectionWaterStream, SessionPS);
+            ssfactor = factorDal.GetSystemScenarioFactor(SessionPF, "4", sr.SourceType);
+            if (ssfactor.CoolingWaterFailure == "0")
+            {
+                InpPosInfo spi = GetStreamPosInfo(lines, rl.InjectionWaterStream, "RATE(WT)=", "RATE(WT)=", "1e-3");
+                list.Add(spi);
+            }     
+            InpPosInfo spi2 = GetFlashPosInfo(lines, rl.ColdHighPressureSeparator, "Pressure(MPag)=", PCHPS_relief.ToString());
+            InpPosInfo spi3 = GetFlashPosInfo(lines, rl.HotHighPressureSeparator, "Pressure(MPag)=", PHHPS_relief.ToString());
+            list.Add(spi2);
+            list.Add(spi3);
+
+            foreach (GeneralFailureHXModel m in model.lstProcessHX)
+            {
+                double duty = 1e-6;
                 if (m.Stop)
                 {
                     ProIIEqData eqdata = eqdatadal.GetModel(SessionPF, SourceFileInfo.FileName, m.HXName.ToUpper());
-                    double duty = double.Parse(eqdata.DutyCalc) * m.DutyFactor;//不需要转换单位了。因为它将用于proii文件中
-                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty=", (duty/10e6).ToString());
+                    duty = double.Parse(eqdata.DutyCalc) * m.DutyFactor;//不需要转换单位了。因为它将用于proii文件中
+                    if (duty == 0)
+                        duty = 1e-6;
+                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty(kw)=", (duty * 1e-6).ToString());
                     list.Add(spi);
                 }
+                
+
+            }
+            foreach (GeneralFailureHXModel m in model.lstNetworkHX)
+            {
+                double duty = 1e-6;
+                if (m.Stop)                
+                {
+                    ProIIEqData eqdata = eqdatadal.GetModel(SessionPF, SourceFileInfo.FileName, m.HXName.ToUpper());
+                    duty = double.Parse(eqdata.DutyCalc) * m.DutyFactor;//不需要转换单位了。因为它将用于proii文件中
+                    if (duty == 0)
+                        duty = 1e-6;
+                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty(kw)=", (duty * 1e-6).ToString());
+                    list.Add(spi);
+                }
+                
+
             }
             foreach (GeneralFailureHXModel m in model.lstUtilityHX)
             {
+                double duty = 1e-6;
                 if (m.Stop)
                 {
                     ProIIEqData eqdata = eqdatadal.GetModel(SessionPF, SourceFileInfo.FileName, m.HXName.ToUpper());
-                    double duty = double.Parse(eqdata.DutyCalc) * m.DutyFactor;//不需要转换单位了。因为它将用于proii文件中
-                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty=", (duty / 10e6).ToString());
+                    duty = double.Parse(eqdata.DutyCalc) * m.DutyFactor;//不需要转换单位了。因为它将用于proii文件中
+                    if (duty == 0)
+                        duty = 1e-6;
+                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty(kw)=", (duty * 1e-6).ToString());
                     list.Add(spi);
                 }
+                
+
             }
             for (int i = 0; i < lines.Length; i++)
             {
-                bool b = false;
+                bool b = false;                               
                 foreach (InpPosInfo spi in list)
                 {
                     if (spi != null && i == spi.start)
@@ -333,9 +522,6 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    ReactorLoopDAL rldal = new ReactorLoopDAL();
-                    ReactorLoop rl = rldal.GetModel(SessionPS);
-
                     IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(newPrzFile);
 
@@ -346,10 +532,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     model.ReliefLoad = 1.1 * cs.BulkDensityAct * (v1-v2 );
                     model.ReliefMW = cs.BulkMwOfPhase;
                     model.ReliefTemperature = cs.Temperature;
-                    model.ReliefPressure = cs.Pressure;
+                    model.ReliefPressure = reliefPressure;
                     model.ReliefCpCv = cs.BulkCPCVRatio;
                     model.ReliefZ = cs.VaporZFmKVal;
-
+                    if (model.ReliefLoad < 0)
+                        model.ReliefLoad = 0;
                     reader.ReleaseProIIReader();
                 }
 
@@ -372,7 +559,6 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
         private void LossOfColdFeedRunCaseSimulation(object obj)
         {
-
             string rpPrzFile = DirProtectedSystem + @"\myrp\myrp.prz";
             string rpInpDir = DirProtectedSystem + @"\myrp";
             string caseDir = DirProtectedSystem + @"\LossOfColdFeed";
@@ -382,16 +568,95 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             StringBuilder sb = new StringBuilder();
             ProIIEqDataDAL eqdatadal = new ProIIEqDataDAL();
             List<InpPosInfo> list = new List<InpPosInfo>();
-            
-            foreach (GeneralFailureHXModel m in model.lstUtilityHX)
+            IProIIReader r = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+            r.InitProIIReader(rpPrzFile);
+            ProIIStreamData proiicoldvaporstream = r.GetSteamInfo(coldVaporStream);
+            compressorH2Stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proiicoldvaporstream);
+            ProIIEqData proiiPCHPS = r.GetEqInfo("Flash", rl.ColdHighPressureSeparator);
+            ProIIEqData proiiHHPS = r.GetEqInfo("Flash", rl.HotHighPressureSeparator);
+            ProIIStreamData effluent = r.GetSteamInfo(rl.EffluentStream);
+            CustomStream csEffluent = ProIIToDefault.ConvertProIIStreamToCustomStream(effluent);
+            double PCHPS_N = double.Parse(proiiPCHPS.PressCalc);
+            double PHHPS_N = double.Parse(proiiHHPS.PressCalc);
+            PCHPS_N = UnitConvert.Convert("Kpa", "MPag", PCHPS_N);
+            PHHPS_N = UnitConvert.Convert("Kpa", "MPag", PHHPS_N);
+            r.ReleaseProIIReader();
+            double DeltP_Accu = reliefPressure - PCHPS_N;
+            double PHHPS_relief = PHHPS_N + DeltP_Accu;
+            double PCHPS_relief = PCHPS_N + DeltP_Accu;
+            double PEffluent_relief = csEffluent.Pressure + DeltP_Accu;
+
+            if (!string.IsNullOrEmpty(rl.EffluentStream2))
             {
+                InpPosInfo spi = GetStreamPosInfo(lines, rl.EffluentStream2, "PRESSURE(MPAG)=", "Pressure(MPag)=", PEffluent_relief.ToString());
+                list.Add(spi);
+            }
+            if (!string.IsNullOrEmpty(rl.EffluentStream))
+            {
+                InpPosInfo spi = GetStreamPosInfo(lines, rl.EffluentStream, "PRESSURE(MPAG)=", "Pressure(MPag)=", PEffluent_relief.ToString());
+                list.Add(spi);
+            }
+            if (!string.IsNullOrEmpty(rl.ColdReactorFeedStream))
+            {
+                InpPosInfo spi = GetStreamPosInfo(lines, rl.ColdReactorFeedStream, "RATE(KGM/S)=", "RATE(KGM/S)=", "1e-6");
+                list.Add(spi);
+            }
+
+            if (!string.IsNullOrEmpty(rl.ColdReactorFeedStream2))
+            {
+                InpPosInfo spi = GetStreamPosInfo(lines, rl.ColdReactorFeedStream2, "RATE(KGM/S)=", "RATE(KGM/S)=", "1e-6");
+                list.Add(spi);               
+            }
+
+
+            InpPosInfo spi2 = GetFlashPosInfo(lines, rl.ColdHighPressureSeparator, "Pressure(MPag)=", PCHPS_relief.ToString());
+            InpPosInfo spi3 = GetFlashPosInfo(lines, rl.HotHighPressureSeparator, "Pressure(MPag)=", PHHPS_relief.ToString());
+            list.Add(spi2);
+            list.Add(spi3);
+            foreach (GeneralFailureHXModel m in model.lstProcessHX)
+            {
+                double duty = 1e-6;
                 if (m.Stop)
                 {
                     ProIIEqData eqdata = eqdatadal.GetModel(SessionPF, SourceFileInfo.FileName, m.HXName.ToUpper());
-                    double duty = double.Parse(eqdata.DutyCalc) * m.DutyFactor;//不需要转换单位了。因为它将用于proii文件中
-                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty=", (duty / 10e6).ToString());
+                    duty = double.Parse(eqdata.DutyCalc) * m.DutyFactor;//不需要转换单位了。因为它将用于proii文件中
+                    if (duty == 0)
+                        duty = 1e-6;
+                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty(kw)=", (duty * 1e-6).ToString());
                     list.Add(spi);
                 }
+
+
+            }
+            foreach (GeneralFailureHXModel m in model.lstNetworkHX)
+            {
+                double duty = 1e-6;
+                if (m.Stop)
+                {
+                    ProIIEqData eqdata = eqdatadal.GetModel(SessionPF, SourceFileInfo.FileName, m.HXName.ToUpper());
+                    duty = double.Parse(eqdata.DutyCalc) * m.DutyFactor;//不需要转换单位了。因为它将用于proii文件中
+                    if (duty == 0)
+                        duty = 1e-6;
+                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty(kw)=", (duty * 1e-6).ToString());
+                    list.Add(spi);
+                }
+
+
+            }
+            foreach (GeneralFailureHXModel m in model.lstUtilityHX)
+            {
+                double duty = 1e-6;
+                if (m.Stop)
+                {
+                    ProIIEqData eqdata = eqdatadal.GetModel(SessionPF, SourceFileInfo.FileName, m.HXName.ToUpper());
+                    duty = double.Parse(eqdata.DutyCalc) * m.DutyFactor;//不需要转换单位了。因为它将用于proii文件中
+                    if (duty == 0)
+                        duty = 1e-6;
+                    InpPosInfo spi = GetHxPosInfo(lines, m.HXName, "Duty(kw)=", (duty * 1e-6).ToString());
+                    list.Add(spi);
+                }
+
+
             }
             for (int i = 0; i < lines.Length; i++)
             {
@@ -430,10 +695,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
-                {
-                    ReactorLoopDAL rldal = new ReactorLoopDAL();
-                    ReactorLoop rl = rldal.GetModel(SessionPS);
-
+                {                    
                     IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(newPrzFile);
 
@@ -444,10 +706,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     model.ReliefLoad = 1.1 * cs.BulkDensityAct * (v1 - v2);
                     model.ReliefMW = cs.BulkMwOfPhase;
                     model.ReliefTemperature = cs.Temperature;
-                    model.ReliefPressure = cs.Pressure;
+                    model.ReliefPressure = reliefPressure;
                     model.ReliefCpCv = cs.BulkCPCVRatio;
                     model.ReliefZ = cs.VaporZFmKVal;
-
+                    if (model.ReliefLoad < 0)
+                        model.ReliefLoad = 0;
                     reader.ReleaseProIIReader();
                 }
 
@@ -490,7 +753,15 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         DutyFactor = p.DutyFactor,
                         ReactorType=p.ReactorType
                     }).ToList();
-                    var lstCommonDetail2 = model.lstNetworkHX.Select(p => new GeneralFailureCommonDetail
+                    var lstCommonDetail2 = model.lstProcessHX.Select(p => new GeneralFailureCommonDetail
+                    {
+                        ID = 0,
+                        HXName = p.HXName,
+                        Stop = p.Stop,
+                        DutyFactor = p.DutyFactor,
+                        ReactorType = p.ReactorType
+                    }).ToList();
+                    var lstCommonDetail3 = model.lstNetworkHX.Select(p => new GeneralFailureCommonDetail
                     {
                         ID = 0,
                         HXName = p.HXName,
@@ -501,6 +772,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     if (GeneralType != 2)
                     {
                         lstCommonDetail = lstCommonDetail.Union(lstCommonDetail2).ToList();
+                        lstCommonDetail = lstCommonDetail.Union(lstCommonDetail3).ToList();
                     }
                     generalBLL.Save(model.dbmodel, lstCommonDetail);
                     wd.DialogResult = true;
@@ -527,7 +799,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         /// <param name="rewriteAttr">Duty</param>
         /// <param name="rewriteValue"></param>
         /// <param name="spi"></param>
-        private InpPosInfo GetHxPosInfo(string[] lines, string hxName, string rewriteAttr, string rewriteValue)
+        private InpPosInfo GetHxPosInfo(string[] lines, string hxName,string rewriteAttr, string rewriteValue)
         {
             if (string.IsNullOrEmpty(hxName))
             {
@@ -552,15 +824,15 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             for (int i = spi.start; i < lines.Length; i++)
             {
                 string line = lines[i];
-                string key1 = "HX   UID=";
+                string key1 = "UID=";
                 string key2 = "END";
-                 string key = "HX   UID=" + hxName.ToUpper();
+                 string key = "UID=" + hxName.ToUpper();
                  if ((line.Contains(key1) || line.Contains(key2)) && !line.Contains(key))
                 {
                     spi.end = i - 1;
                     if (!b)
                     {
-                        attrvalue = "OPER " + rewriteAttr + rewriteValue;
+                        attrvalue = "\tOPER " + rewriteAttr + rewriteValue;
                         list.Add(attrvalue);
                     }
                     break;
@@ -568,13 +840,19 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 else if (line.Contains("OPER "))
                 {
                     b = true;
-                    attrvalue = "OPER " + rewriteAttr + rewriteValue;
+                    attrvalue = "\tOPER " + rewriteAttr + rewriteValue;
                     list.Add(attrvalue);
+                    spi.end = i;
+                    break;
                 }
-                else
-                {
-                    list.Add(line);
-                }
+                 else if (line.Contains("CONFIGURE COUNTER"))
+                 {
+                     list.Add("\tCONFIGURE COUNTER");
+                 }
+                 else
+                 {
+                     list.Add(line);
+                 }
             }
 
 
@@ -582,22 +860,25 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 sb.Append(list[i]).Append("\r\n");
             }
-            if (!b)
-            {
-                sb.Append(attrvalue).Append("\r\n");
-            }
+            
             spi.Name = hxName;
             spi.NewInfo = sb.ToString();
             return spi;
         }
 
-        private InpPosInfo GetStreamPosInfo(string[] lines, string streamName, string rewriteAttr, string rewriteValue)
+        private InpPosInfo GetStreamPosInfo(string[] lines, string streamName,string attr, string rewriteAttr, string rewriteValue)
         {
             if (double.Parse(rewriteValue) == 0)
             {
                 rewriteValue = "1e-8";
             }
-
+            string attr1 = attr.ToUpper();
+            string attr2 = "";
+            if(attr.Contains("RATE("))
+            {
+                 attr1="RATE(WT)=";
+                 attr2="RATE(KGM/S)=";
+            }
 
             if (string.IsNullOrEmpty(streamName))
             {
@@ -634,13 +915,13 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     }
                     break;
                 }
-                else if (line.Contains(rewriteAttr.ToUpper()))
+                else if (line.Contains(attr1.ToUpper())&&line.Contains(attr2))
                 {
                     b = true;
                     string oldValue = string.Empty;
                     string newValue = rewriteAttr + rewriteValue;
 
-                    int s = line.IndexOf(rewriteAttr);
+                    int s = line.IndexOf(attr.ToUpper());
                     string sub = line.Substring(s);
                     s = sub.IndexOf(",");
                     oldValue = sub.Substring(0, s);
@@ -671,5 +952,62 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             return spi;
         }
 
+        private InpPosInfo GetFlashPosInfo(string[] lines, string flashName, string rewriteAttr, string rewriteValue)
+        {
+            if (string.IsNullOrEmpty(flashName))
+            {
+                return null;
+            }
+            StringBuilder sb = new StringBuilder();
+            List<string> list = new List<string>();
+            InpPosInfo spi = new InpPosInfo();
+            for (int i = 2; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                string key = "UID=" + flashName.ToUpper();
+                if ((line + ",").Contains(key + ","))
+                {
+                    spi.start = i;
+                    break;
+                }
+            }
+            string attrvalue = string.Empty;
+            for (int i = spi.start; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                string key1 = "UID=";
+                string key2 = "END";
+                string key = "UID=" + flashName.ToUpper();
+                if ((line.Contains(key1) || line.Contains(key2)) && !line.Contains(key))
+                {
+                    spi.end = i - 1;                    
+                    break;
+                }                
+                else
+                {
+                    list.Add(line);
+                }
+            }
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (i > 0 &&  list[i].Contains("PRODUCT  "))
+                {
+                    sb.Append(list[i]).Append("\r\n");
+                    sb.Append("\t ADIABATIC Duty=0,").Append(rewriteAttr).Append(rewriteValue).Append("\r\n");
+                    break;
+                }
+                else 
+                {
+                    sb.Append(list[i]).Append("\r\n");
+                }
+            }
+
+            spi.Name = flashName;
+            spi.NewInfo = sb.ToString();
+            return spi;
+        }
+
+        
     }
 }
