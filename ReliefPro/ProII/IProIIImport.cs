@@ -7,6 +7,13 @@ namespace ProII
 {
     public interface IProIIImport
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inpFile"></param>
+        /// <param name="ImportResult">1,2 import success,3error 5 no inp</param>
+        /// <param name="RunResult">1,2 solved,3 solved error,4not solved 5 no inp</param>
+        /// <returns></returns>
       string ImportProIIINP(string inpFile, out int ImportResult, out int RunResult);
     }
 }

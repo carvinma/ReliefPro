@@ -6,6 +6,7 @@ using NHibernate;
 using NHibernate.Criterion;
 using ReliefProDAL.Common;
 using ReliefProModel.ReactorLoops;
+using ReliefProModel;
 
 namespace ReliefProDAL.ReactorLoops
 {
@@ -34,7 +35,7 @@ namespace ReliefProDAL.ReactorLoops
             var list = session.CreateCriteria<ReactorLoopDetail>().Add(Expression.Eq("ReactorType", ReactorType)).List<ReactorLoopDetail>();
             return list;
         }
-        public void Save(ISession session, ReactorLoop model, IList<ReactorLoopDetail> lstDetailModel)
+        public void Save(ISession session, ReactorLoop model, IList<ReactorLoopDetail> lstDetailModel,List<Source> lstStreamSource)
         {
             using (ITransaction tx = session.BeginTransaction())
             {
@@ -43,7 +44,6 @@ namespace ReliefProDAL.ReactorLoops
                     session.Clear();
                     var sql = " from ReliefProModel.ReactorLoops.ReactorLoopDetail o Where o.ReactorType in (0,1,2,3) and o.ReactorLoopID=" + model.ID;
                     session.Delete(sql);
-
                     session.SaveOrUpdate(model);
 
                     foreach (var detail in lstDetailModel)
@@ -51,7 +51,12 @@ namespace ReliefProDAL.ReactorLoops
                         detail.ReactorLoopID = model.ID;
                         session.Save(detail);
                     }
-
+                    sql = " from ReliefProModel.Source";
+                    session.Delete(sql);
+                    foreach (var detail in lstStreamSource)
+                    {
+                        session.Save(detail);
+                    }
                     session.Flush();
                     tx.Commit();
                 }

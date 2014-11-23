@@ -19,7 +19,8 @@ namespace ReliefProModel.ReactorLoops
         public virtual string InjectionWaterStream { get; set; }
         public virtual string CompressorH2Stream { get; set; }
         public virtual string SourceFile { get; set; }
-
+        public virtual bool IsSolved { get; set; }
+        public virtual bool IsMatched { get; set; }
         public virtual string ReactorLoopName_Color { get; set; }
         public virtual string EffluentStream_Color { get; set; }
         public virtual string ColdReactorFeedStream_Color { get; set; }

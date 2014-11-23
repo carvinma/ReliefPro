@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FlashCalculate.cs" />
+    <Compile Include="ProIIImport.cs" />
     <Compile Include="ProIIReader.cs">
       <SubType>Code</SubType>
     </Compile>

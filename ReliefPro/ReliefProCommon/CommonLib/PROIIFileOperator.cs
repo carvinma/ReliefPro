@@ -396,5 +396,224 @@ namespace ReliefProCommon.CommonLib
             return sb.ToString();
         }
 
+        public static InpPosInfo GetHxPosInfo(string[] lines, string hxName, string rewriteAttr, string rewriteValue)
+        {
+            if (string.IsNullOrEmpty(hxName))
+            {
+                return null;
+            }
+            StringBuilder sb = new StringBuilder();
+            List<string> list = new List<string>();
+            InpPosInfo spi = new InpPosInfo();
+            for (int i = 2; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                string key = "HX   UID=" + hxName.ToUpper();
+                if ((line + ",").Contains(key + ","))
+                {
+                    spi.start = i;
+                    break;
+                }
+            }
+
+            bool b = false;
+            string attrvalue = string.Empty;
+            for (int i = spi.start; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                string key1 = "UID=";
+                string key2 = "END";
+                string key = "UID=" + hxName.ToUpper();
+                if ((line.Contains(key1) || line.Contains(key2)) && !line.Contains(key))
+                {
+                    spi.end = i - 1;
+                    if (!b)
+                    {
+                        attrvalue = "\tOPER " + rewriteAttr + rewriteValue;
+                        list.Add(attrvalue);
+                    }
+                    break;
+                }
+                else if (line.Contains("OPER "))
+                {
+                    b = true;
+                    attrvalue = "\tOPER " + rewriteAttr + rewriteValue;
+                    list.Add(attrvalue);
+                    spi.end = i;
+                    break;
+                }
+                else if (line.Contains("CONFIGURE COUNTER"))
+                {
+                    list.Add("\tCONFIGURE COUNTER");
+                }
+                else
+                {
+                    list.Add(line);
+                }
+            }
+
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                sb.Append(list[i]).Append("\r\n");
+            }
+
+            spi.Name = hxName;
+            spi.NewInfo = sb.ToString();
+            return spi;
+        }
+
+        public static InpPosInfo GetStreamPosInfo(string[] lines, string streamName, string attr, string rewriteAttr, string rewriteValue)
+        {
+            if (double.Parse(rewriteValue) == 0)
+            {
+                rewriteValue = "1e-8";
+            }
+            string attr1 = attr.ToUpper();
+            string attr2 = "";
+            if (attr.Contains("RATE("))
+            {
+                attr1 = "RATE(WT)=";
+                attr2 = "RATE(KGM/S)=";
+            }
+
+            if (string.IsNullOrEmpty(streamName))
+            {
+                return null;
+            }
+            StringBuilder sb = new StringBuilder();
+            List<string> list = new List<string>();
+            InpPosInfo spi = new InpPosInfo();
+            for (int i = 2; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                string key = "PROPERTY STREAM=" + streamName.ToUpper();
+                if (line.Contains(key + ","))
+                {
+                    spi.start = i;
+                    break;
+                }
+            }
+
+            bool b = false;
+            string attrvalue = string.Empty;
+            for (int i = spi.start; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                string key1 = "PROPERTY STREAM=";
+                string key2 = "UNIT OPERATIONS";
+                string key = "PROPERTY STREAM=" + streamName.ToUpper();
+                if ((line.Contains(key1) || line.Contains(key2)) && !line.Contains(key + ","))
+                {
+                    spi.end = i - 1;
+                    if (!b)
+                    {
+                        attrvalue = rewriteAttr + rewriteValue;
+                    }
+                    break;
+                }
+                else if (line.Contains(attr1.ToUpper()) || (!string.IsNullOrEmpty(attr2) && line.Contains(attr2)))
+                {
+                    b = true;
+                    string oldValue = string.Empty;
+                    string newValue = rewriteAttr + rewriteValue;
+
+                    int s = line.IndexOf(attr1.ToUpper());
+                    if (s == -1)
+                        s = line.IndexOf(attr2.ToUpper());
+                    string sub = line.Substring(s);
+                    s = sub.IndexOf(",");
+                    oldValue = sub.Substring(0, s);
+                    string newLine = line.Replace(oldValue, newValue);
+                    list.Add(newLine);
+                }
+                else
+                {
+                    list.Add(line);
+
+                }
+            }
+            if (b)
+            {
+                sb.Append(list[0]).Append("\r\n");
+            }
+            else
+            {
+                sb.Append(list[0]).Append(@",");
+                sb.Append(attrvalue).Append("\r\n");
+            }
+            for (int i = 1; i < list.Count; i++)
+            {
+                sb.Append(list[i]).Append("\r\n");
+            }
+            spi.Name = streamName;
+            spi.NewInfo = sb.ToString();
+            return spi;
+        }
+
+        public static InpPosInfo GetFlashPosInfo(string[] lines, string flashName, string rewriteAttr, string rewriteValue)
+        {
+            if (string.IsNullOrEmpty(flashName))
+            {
+                return null;
+            }
+            StringBuilder sb = new StringBuilder();
+            List<string> list = new List<string>();
+            InpPosInfo spi = new InpPosInfo();
+            for (int i = 2; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                string key = "UID=" + flashName.ToUpper();
+                if ((line + ",").Contains(key + ","))
+                {
+                    spi.start = i;
+                    break;
+                }
+            }
+            string attrvalue = string.Empty;
+            for (int i = spi.start; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                string key1 = "UID=";
+                string key2 = "END";
+                string key = "UID=" + flashName.ToUpper();
+                if ((line.Contains(key1) || line.Contains(key2)) && !line.Contains(key))
+                {
+                    spi.end = i - 1;
+                    break;
+                }
+                else
+                {
+                    list.Add(line);
+                }
+            }
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (i > 0 && list[i].Contains("PRODUCT  "))
+                {
+                    sb.Append(list[i]).Append("\r\n");
+                    sb.Append("\t ADIABATIC Duty=0,").Append(rewriteAttr).Append(rewriteValue).Append("\r\n");
+                    break;
+                }
+                else
+                {
+                    sb.Append(list[i]).Append("\r\n");
+                }
+            }
+
+            spi.Name = flashName;
+            spi.NewInfo = sb.ToString();
+            return spi;
+        }
+
+    }
+
+    public class InpPosInfo
+    {
+        public int start;
+        public int end;
+        public string Name;
+        public string NewInfo;
     }
 }

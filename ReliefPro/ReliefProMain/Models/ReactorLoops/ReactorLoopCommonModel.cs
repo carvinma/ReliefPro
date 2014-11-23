@@ -104,11 +104,21 @@ namespace ReliefProMain.Models.ReactorLoops
             this.reliefTemperature = model.ReliefTemperature;
             this.reliefCpCv = model.ReliefCpCv;
             this.reliefZ = model.ReliefZ;
-
+            this.IsSolved = model.IsSolved;
             this.effluentTemperature_Color = dbmodel.EffluentTemperature_Color;
             this.effluentTemperature2_Color = dbmodel.EffluentTemperature2_Color;
             this.totalPurgeRate_Color = dbmodel.TotalPurgeRate_Color;
             this.maxGasRate_Color = dbmodel.MaxGasRate_Color;
+        }
+        private bool _IsSolved;
+        public bool IsSolved
+        {
+            get { return _IsSolved; }
+            set
+            {
+                _IsSolved = value;
+                NotifyPropertyChanged("IsSolved");
+            }
         }
 
         private int reactorType;

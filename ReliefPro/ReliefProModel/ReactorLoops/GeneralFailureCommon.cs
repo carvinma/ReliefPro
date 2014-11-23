@@ -24,7 +24,7 @@ namespace ReliefProModel.ReactorLoops
         public virtual double ReliefPressure { get; set; }
         public virtual double ReliefCpCv { get; set; }
         public virtual double ReliefZ { get; set; }
-
+        public virtual bool IsSolved { get; set; }
         public virtual string ScenarioID_Color { get; set; }
         public virtual string GeneralType_Color { get; set; } //0-GeneralCoolingWaterFailure,1-GeneralElectricPowerFailure
         public virtual string RecycleCompressorFailure_Color { get; set; }

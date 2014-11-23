@@ -103,10 +103,10 @@ namespace ReliefProBLL
             return tObject;
         }
 
-        public void Save(ReactorLoop model, ObservableCollection<ReactorLoopDetail> obcReactorLoopDetail)
+        public void Save(ReactorLoop model, ObservableCollection<ReactorLoopDetail> obcReactorLoopDetail,List<Source> lstStreamSource)
         {
             IList<ReactorLoopDetail> lst = new List<ReactorLoopDetail>(obcReactorLoopDetail);
-            reactorLoopDAL.Save(SessionPS, model, lst);
+            reactorLoopDAL.Save(SessionPS, model, lst, lstStreamSource);
         }
     }
 }

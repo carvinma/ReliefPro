@@ -52,6 +52,25 @@ namespace ReliefProMain.Models.ReactorLoops
                 NotifyPropertyChanged("ID");
             }
         }
+        public bool IsSolved
+        {
+            get { return dbModel.IsSolved; }
+            set
+            {
+                dbModel.IsSolved = value;
+                NotifyPropertyChanged("IsSolved");
+            }
+        }
+
+        public bool IsMatched
+        {
+            get { return dbModel.IsMatched; }
+            set
+            {
+                dbModel.IsMatched = value;
+                NotifyPropertyChanged("IsMatched");
+            }
+        }
 
         public string EffluentStream
         {

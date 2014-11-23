@@ -1,5 +1,6 @@
 ﻿using NHibernate;
 using ReliefProDAL;
+using ReliefProModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,13 @@ namespace ReliefProBLL
             sql = " from ReliefProModel.FlashCalcResult ";
             SessionProtectedSystem.Delete(sql);
             SessionProtectedSystem.Flush();
+        }
+
+        public double GetReliefPressure()
+        {
+            PSVDAL dal = new PSVDAL();
+            PSV model = dal.GetModel(SessionProtectedSystem);
+            return model.Pressure * model.ReliefPressureFactor;
         }
     }
 }

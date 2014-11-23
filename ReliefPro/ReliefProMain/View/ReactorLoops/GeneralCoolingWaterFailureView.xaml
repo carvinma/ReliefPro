@@ -36,9 +36,9 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="50"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <CheckBox Content="{DynamicResource RecycleCompressorfailure}" IsChecked="{Binding Path=model.RecycleCompressorFailure,Mode=TwoWay}"  HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" Height="16" Margin="0,13,0,12" Width="150" />
+        <CheckBox Content="{DynamicResource RecycleCompressorfailure}" IsChecked="{Binding Path=model.RecycleCompressorFailure,Mode=TwoWay}"  HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1"   Width="150" />
 
-        <CheckBox Content="{DynamicResource Injectionwaterstream}" IsChecked="{Binding Path=model.CalcInjectionWaterStream,Mode=TwoWay}"  HorizontalAlignment="Left" Grid.Column="2" Grid.Row="1" Height="16" Margin="0,13,0,12" Width="130" />
+        <CheckBox Content="{DynamicResource Injectionwaterstream}" IsChecked="{Binding Path=model.CalcInjectionWaterStream,Mode=TwoWay}"  HorizontalAlignment="Left" Grid.Column="2" Grid.Row="1"   Width="130" />
         <GroupBox Grid.Column="1" Header="Process HX" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="3" Height="114" Grid.RowSpan="5" Width="364" Margin="0,7,0,0" Grid.Row="2">
             <ListView HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectionMode="Single"  ItemsSource="{Binding Path=model.lstProcessHX,Mode=TwoWay}" >
                 <ListView.View>
@@ -135,14 +135,14 @@
 
         </GroupBox>
 
-        <Label Content="{DynamicResource SimulationSolvedUnsolved}"  Grid.Row="16" Grid.Column="1" Height="25" Width="155"/>
+        <Label Content="{Binding SimulationResult,Mode=TwoWay}"  Grid.Row="16" Grid.Column="1" Height="25" Width="155"/>
         <Label Content="{DynamicResource ReliefLoad}"  Grid.Row="17" Grid.Column="1" Height="25" Width="67"/>
         <Label Content="{DynamicResource ReliefTemperature}"  Grid.Row="18" Grid.Column="1" Height="25" Width="106"/>
         <Label Content="{DynamicResource ReliefMW}"  Grid.Row="20" Grid.Column="1" Height="23" Width="64" />
         <Label Content="{DynamicResource ReliefPressure}"  Grid.Row="19" Grid.Column="1" Height="23" Width="85" />
-        <Label x:Name="lblReliefLoad" Content="{Binding Path=model.ReliefLoadUnit,Mode=TwoWay}"  Grid.Column="3"  Grid.Row="17" Height="10" Width="10"  />
-        <Label x:Name="lblReliefTemperature" Content="{Binding Path=model.ReliefTemperatureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="18" Height="10" Width="10"  />
-        <Label x:Name="lblReliefPressure" Content="{Binding Path=model.ReliefPressureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="19" Height="10" Width="10"  />
+        <Label x:Name="lblReliefLoad" Content="{Binding Path=model.ReliefLoadUnit,Mode=TwoWay}"  Grid.Column="3"  Grid.Row="17"   />
+        <Label x:Name="lblReliefTemperature" Content="{Binding Path=model.ReliefTemperatureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="18"  />
+        <Label x:Name="lblReliefPressure" Content="{Binding Path=model.ReliefPressureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="19"   />
 
         <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay}" Text="{Binding Path=model.ReliefLoad,Mode=TwoWay,StringFormat='{}{0:F0}'}"  Grid.Column="2" Grid.Row="17"  />
         <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay}" Text="{Binding Path=model.ReliefTemperature,Mode=TwoWay,StringFormat='{}{0:F4}'}"  Grid.Column="2" Grid.Row="18"  />
@@ -153,8 +153,8 @@
 
 
 
-        <Button Content="{DynamicResource RunCaseSimulation}" Command="{Binding ElectricRunCaseSimulationCMD}" Grid.Column="1"  Grid.Row="14" Width="130" Margin="19,4" />
-        <Button Content="{DynamicResource LaunchSimulator}" Command="{Binding ElectricLaunchSimulatorCMD}" Grid.Column="2" Grid.Row="14" Width="130" Margin="5,4,7,4" />
+        <Button Content="{DynamicResource RunCaseSimulation}" Command="{Binding CoolingRunCaseSimulationCMD}" Grid.Column="1"  Grid.Row="14" Width="130" Margin="19,4" />
+        <Button Content="{DynamicResource LaunchSimulator}" Command="{Binding CoolingLaunchSimulatorCMD}" Grid.Column="2" Grid.Row="14" Width="130" Margin="5,4,7,4" />
 
         <Grid HorizontalAlignment="Stretch" Grid.Row="21" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>

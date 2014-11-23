@@ -208,11 +208,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 if (model.EffluentStreamSource == null)
                 {
-                    Source sr = new Source();
-                    model.EffluentStreamSource = new SourceModel(sr);
-                    model.EffluentStreamSource.StreamName = model.EffluentStream;
-                    model.EffluentStreamSource.SourceType = "Pressurized Vessel";
-                    model.EffluentStreamSource.SourceType_Color = ColorBorder.green.ToString();
+                    model.EffluentStreamSource = InitSource(model.EffluentStream, "Pressurized Vessel");                    
                 }
                 else
                 {
@@ -305,6 +301,15 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
 
 
+        }
+        private SourceModel InitSource(string streamName,string sourceType)
+        {
+            Source sr = new Source();
+            SourceModel m = new SourceModel(sr);
+            m.StreamName = streamName;
+            m.SourceType = sourceType;
+            m.SourceType_Color = ColorBorder.green.ToString();
+            return m;
         }
         public ReactorLoopVM( ISession SessionPF, ISession SessionPS, string dirPlant, string dirProtectedSystem)
         {
@@ -561,13 +566,63 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         /// </summary>
         /// <param name="obj"></param>
         private void Simulation(object obj)
-        {            
+        {
+            string newInpFile = DirProtectedSystem + @"\myrp\myrp.inp";
+            List<string> hxList = new List<string>();
+            List<string> flashList = new List<string>();
+            foreach (ReactorLoopDetail d in model.ObcProcessHX)
+            {
+                hxList.Add(d.DetailInfo);
+            }
+            foreach (ReactorLoopDetail d in model.ObcUtilityHX)
+            {
+                hxList.Add(d.DetailInfo);
+            }
+            foreach (ReactorLoopDetail d in model.ObcNetworkHX)
+            {
+                hxList.Add(d.DetailInfo);
+            }
+            if (!string.IsNullOrEmpty(model.ColdHighPressureSeparator))
+            {
+                flashList.Add(model.ColdHighPressureSeparator);
+            }
+            if (!string.IsNullOrEmpty(model.HotHighPressureSeparator))
+            {
+                flashList.Add(model.HotHighPressureSeparator);
+            }
+            if (System.IO.File.Exists(newInpFile))
+            {
+                if (MessageBox.Show("Do you want to rewrite inp file", "Message Box", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    CreateInpFile();
+                }
+            }
+            else
+            {
+                CreateInpFile();
+            }
+
+            string sourcePrzFile = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
+            ReactorLoopSimulationView v = new ReactorLoopSimulationView();           
+            ReactorLoopSimulationVM vm = new ReactorLoopSimulationVM(reactorLoopID,newInpFile,sourcePrzFile,SourceFileInfo.FileVersion,hxList,flashList,SessionPS,SessionPF);
+            v.DataContext = vm;
+            if (v.ShowDialog() == true)
+            {
+                model.IsMatched = vm.IsMatched;
+                model.IsSolved = vm.IsSolved;
+            }
+
+        }
+
+        private void CreateInpFile()
+        {
+            string newInpFile = DirProtectedSystem + @"\myrp\myrp.inp";
             streams.Clear();
             List<CustomStream> csList = new List<CustomStream>();
             List<string> eqList = new List<string>();
             List<string> processHxList = new List<string>();
             List<string> otherHxList = new List<string>();
-             
+
             foreach (ReactorLoopDetail d in model.ObcProcessHX)
             {
                 processHxList.Add(d.DetailInfo);
@@ -595,12 +650,12 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             csList = GetReactorLoopStreamsFromProII(eqList);
             List<CustomStream> csList2 = GetReactorLoopStreamsFromProII(processHxList);
             List<CustomStream> csList3 = GetReactorLoopStreamsFromProII(otherHxList);
-            csList=csList.Union(csList2).ToList();
+            csList = csList.Union(csList2).ToList();
             csList = csList.Union(csList3).ToList();
             if (!string.IsNullOrEmpty(model.ColdReactorFeedStream) && !streams.Contains(model.ColdReactorFeedStream))
-            {               
+            {
                 if (!streams.Contains(model.ColdReactorFeedStream))
-                {                   
+                {
                     CustomStream cs = GetReactorLoopStreamInfoFromProII(model.ColdReactorFeedStream);
                     csList.Add(cs);
                     streams.Add(model.ColdReactorFeedStream);
@@ -656,9 +711,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
 
             int errorTag = 0;
-            string inpData = CreateReactorLoopInpData(dir, csList, eqList,processHxList,otherHxList,ref errorTag);
-            
-            string newInpFile = DirProtectedSystem + @"\myrp\myrp.inp";
+            string inpData = CreateReactorLoopInpData(dir, csList, eqList, processHxList, otherHxList, ref errorTag);
+
             string sourcePrzFile = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
 
             string newInpDir = DirProtectedSystem + @"\myrp";
@@ -686,15 +740,16 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     System.Diagnostics.Process.Start(procInfo);
                 }
             }
-            ReactorLoopSimulationView v = new ReactorLoopSimulationView();           
-            ReactorLoopSimulationVM vm = new ReactorLoopSimulationVM(reactorLoopID,newInpFile,sourcePrzFile,SourceFileInfo.FileVersion,processHxList,SessionPS,SessionPF);
-            v.DataContext = vm;
-            v.ShowDialog();
-
-
         }
+
         private void Save(object obj)
         {
+            string newPrzFile = DirProtectedSystem + @"\myrp\myrp.prz";
+            if (!System.IO.File.Exists(newPrzFile))
+            {
+                MessageBox.Show("Please Simulate First.","Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
+                return;
+            }
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;

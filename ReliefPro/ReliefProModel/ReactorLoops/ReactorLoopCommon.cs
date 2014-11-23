@@ -20,7 +20,7 @@ namespace ReliefProModel.ReactorLoops
         public virtual double ReliefMW { get; set; }
         public virtual double ReliefCpCv { get; set; }
         public virtual double ReliefZ { get; set; }
-
+        public virtual bool IsSolved { get; set; }
         public virtual string ScenarioID_Color { get; set; }
         public virtual string ReactorType_Color { get; set; }   //0-ReactorLoopBlockedOutlet,1-LossOfReactorQuench,2-LossOfColdFeed
         public virtual string EffluentTemperature_Color { get; set; }

@@ -15,7 +15,8 @@
   <property name="InjectionWaterStream" column="InjectionWaterStream" type="String"/>
   <property name="CompressorH2Stream" column="CompressorH2Stream" type="String"/>
   <property name="SourceFile" column="SourceFile" type="String"/>
-
+  <property name="IsSolved" column="IsSolved" type="Boolean"/>
+  <property name="IsMatched" column="IsMatched" type="Boolean"/>
   <property name="ReactorLoopName_Color" column="ReactorLoopName_Color" type="String" length="255"/>
   <property name="EffluentStream_Color" column="EffluentStream_Color" type="String" length="255"/>
   <property name="ColdReactorFeedStream_Color" column="ColdReactorFeedStream_Color" type="String" length="255"/>

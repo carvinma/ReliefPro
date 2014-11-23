@@ -89,7 +89,15 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("HXNetworkColdStream");
             }
         }
-
+        public bool IsSolved
+        {
+            get { return dbmodel.IsSolved; }
+            set
+            {
+                dbmodel.IsSolved = value;
+                NotifyPropertyChanged("IsSolved");
+            }
+        }
         public double ReliefLoad
         {
             get { return dbmodel.ReliefLoad; }

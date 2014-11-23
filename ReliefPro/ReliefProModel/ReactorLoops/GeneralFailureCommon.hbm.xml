@@ -20,7 +20,7 @@
   <property name="ReliefPressure" column="ReliefPressure" type="Double"/>
   <property name="ReliefCpCv" column="ReliefCpCv" type="Double"/>
   <property name="ReliefZ" column="ReliefZ" type="Double"/>
-
+  <property name="IsSolved" column="IsSolved" type="Boolean"/>
   <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"/>
   <property name="GeneralType_Color" column="GeneralType_Color" type="String" length="255"/>
   <property name="RecycleCompressorFailure_Color" column="RecycleCompressorFailure_Color" type="String" length="255"/>

@@ -28,7 +28,7 @@
         </Grid.ColumnDefinitions>
         <Label Content="{DynamicResource Effluenttemperature}"  Grid.Row="1" Grid.Column="1" />
         <Label Content="{DynamicResource Effluenttemperature2}"  Grid.Row="2" Grid.Column="1" />
-        <Label Content="{DynamicResource SimulationSolvedUnsolved}"  Grid.Row="5" Grid.Column="1" />
+        <Label Content="{Binding SimulationResult,Mode=TwoWay}"  Grid.Row="5" Grid.Column="1" />
         <Label Content="{DynamicResource ReliefLoad}"  Grid.Row="6" Grid.Column="1" />
         <Label Content="{DynamicResource ReliefTemperature}"  Grid.Row="7" Grid.Column="1" />
         <Label Content="{DynamicResource ReliefPressure}" Grid.Column="1" Grid.Row="8"/>

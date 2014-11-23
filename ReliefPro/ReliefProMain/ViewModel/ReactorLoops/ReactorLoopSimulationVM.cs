@@ -34,6 +34,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private string przFile;
         private string przFileName;
         private List<string> hxs;
+        private List<string> flashs;
         private int ReactorLoopID;
         private ISession SessionPlant;
         private ISession SessionProtectedSystem;
@@ -50,7 +51,29 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
         }
 
-        
+        public bool IsSolved;
+        public bool IsMatched;
+        private string _SimulationResult;
+        public string SimulationResult
+        {
+            get { return _SimulationResult; }
+            set
+            {
+                _SimulationResult = value;
+                this.NotifyPropertyChanged("SimulationResult");
+            }
+        }
+
+        private string _MatchResult;
+        public string MatchResult
+        {
+            get { return _MatchResult; }
+            set
+            {
+                _MatchResult = value;
+                this.NotifyPropertyChanged("MatchResult");
+            }
+        }
 
         private void InitCMD()
         {
@@ -60,7 +83,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             RunSimulationCommand = new DelegateCommand<object>(RunSimulation);
         }
         
-        public ReactorLoopSimulationVM(int ReactorLoopID,string newInpFile,string sourcePrzFile,string sourcePrzVersion,List<string> hxNames,ISession sessionProtectedSystem,ISession sessionPlant)
+        public ReactorLoopSimulationVM(int ReactorLoopID,string newInpFile,string sourcePrzFile,string sourcePrzVersion,List<string> hxNames,List<string> flashNames,ISession sessionProtectedSystem,ISession sessionPlant)
         {
             InitCMD();
             lst = new List<ReactorLoopEqDiff>();
@@ -68,20 +91,28 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             przVersion = sourcePrzVersion;
             this.newInpFile = newInpFile;
             hxs = hxNames;
+            flashs = flashNames;
             SessionPlant = sessionPlant;
             SessionProtectedSystem=sessionProtectedSystem;
             przFile = sourcePrzFile;
             przFileName = System.IO.Path.GetFileName(sourcePrzFile);
             this.ReactorLoopID=ReactorLoopID;
+     
             eqDiffDAL = new ReactorLoopEqDiffDAL();
             if (ReactorLoopID > 0)
-            {                
-                IList<ReactorLoopEqDiff> list= eqDiffDAL.GetList(SessionProtectedSystem, ReactorLoopID);
+            {
+                IList<ReactorLoopEqDiff> list = eqDiffDAL.GetList(SessionProtectedSystem, ReactorLoopID);
                 foreach (ReactorLoopEqDiff diff in list)
                 {
                     ReactorLoopEqDiffModel m = new ReactorLoopEqDiffModel(diff);
                     EqDiffs.Add(m);
                 }
+                GetMessage();
+            }
+            else
+            {
+                MatchResult = string.Empty;
+                SimulationResult = string.Empty;
             }
         }
 
@@ -93,17 +124,18 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             newPrzFile = import.ImportProIIINP(newInpFile, out ImportResult, out RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
+                MessageBox.Show("Data is right!", "Message Box");
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    MessageBox.Show("Data is right.", "Message Box");
+                    IsSolved = true;                   
                     return;
                 }
-
                 else
                 {
-                    MessageBox.Show("Prz file is error!", "Message Box");
+                    IsSolved = false;
                     return;
                 }
+                
             }
             else
             {
@@ -112,11 +144,17 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
             
         }
+       
         private void LaunchSimulator(object obj)
         {
             if (string.IsNullOrEmpty(newPrzFile))
             {
                 MessageBox.Show("Please Check Data first.", "Message Box");
+                return;
+            }
+            if (!IsSolved)
+            {
+                MessageBox.Show("prz File is error.", "Message Box");
                 return;
             }
             ProIIHelper.Run(przVersion, newPrzFile);
@@ -126,6 +164,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             if (string.IsNullOrEmpty(newPrzFile))
             {
                 MessageBox.Show("Please Check Data first.","Message Box");
+                return;
+            }
+            if (!IsSolved)
+            {
+                MessageBox.Show("prz File is error.", "Message Box");
                 return;
             }
             //run prz file ,then compare hx duty
@@ -144,23 +187,64 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 ProIIEqData eq1 = dal.GetModel(SessionPlant, przFileName, s);
                 ProIIEqData eq2 = reader.GetEqInfo("Hx", s);
-                double d = 100*Math.Abs(double.Parse(eq1.DutyCalc) - double.Parse(eq2.DutyCalc))/Math.Abs(double.Parse(eq1.DutyCalc)) ;
-                //if (d > 1)
-                //{
-                    ReactorLoopEqDiff eqdiff = new ReactorLoopEqDiff();
-                    eqdiff.CurrentDuty = double.Parse(eq2.DutyCalc) * 3600;
-                    eqdiff.Diff = d;
-                    eqdiff.EqName = s;
-                    eqdiff.EqType = "HX";
-                    eqdiff.OrginDuty = double.Parse(eq1.DutyCalc) * 3600;
-                    eqdiff.ReactorLoopID = ReactorLoopID;
-                    ReactorLoopEqDiffModel m = new ReactorLoopEqDiffModel(eqdiff);
-                    EqDiffs.Add(m);
-                    lst.Add(eqdiff);
-                //}
+                double d = 0;
+                if (double.Parse(eq1.DutyCalc)!= 0)
+                {
+                    d = 100 * Math.Abs(double.Parse(eq1.DutyCalc) - double.Parse(eq2.DutyCalc)) / Math.Abs(double.Parse(eq1.DutyCalc));
+                }
+                ReactorLoopEqDiff eqdiff = new ReactorLoopEqDiff();
+                eqdiff.CurrentDuty = double.Parse(eq2.DutyCalc) * 3600;
+                eqdiff.Diff = d;
+                eqdiff.EqName = s;
+                eqdiff.EqType = "HX";
+                eqdiff.OrginDuty = double.Parse(eq1.DutyCalc) * 3600;
+                eqdiff.ReactorLoopID = ReactorLoopID;
+                ReactorLoopEqDiffModel m = new ReactorLoopEqDiffModel(eqdiff);
+                EqDiffs.Add(m);
+                lst.Add(eqdiff);
+                b = b && (d < 1);
+
             }
-            
+            foreach (string s in flashs)
+            {
+                ProIIStreamDataDAL proiisdal = new ProIIStreamDataDAL();
+                ProIIEqData eq1 = dal.GetModel(SessionPlant, przFileName, s);
+                ProIIEqData eq2 = reader.GetEqInfo("Flash", s);
+                double d = 0;
+                string[] products = eq1.ProductData.Split(',');
+                CustomStream vapor1 = null;
+                foreach (string p in products)
+                {
+                    ProIIStreamData sd = proiisdal.GetModel(SessionPlant, p, przFileName);
+                    if (sd.VaporFraction == "1")
+                    {
+                        if (sd.VaporFraction == "1")
+                        {
+                            vapor1 = ProIIToDefault.ConvertProIIStreamToCustomStream(sd);
+                            break;
+                        }
+                    }
+                }
+                ProIIStreamData proiivapor = reader.GetSteamInfo(vapor1.StreamName);
+                CustomStream vapor2 = ProIIToDefault.ConvertProIIStreamToCustomStream(proiivapor);
+                d = 100 * Math.Abs(vapor1.WeightFlow - vapor2.WeightFlow) / vapor1.WeightFlow;
+                
+                ReactorLoopEqDiff eqdiff = new ReactorLoopEqDiff();
+                eqdiff.CurrentDuty = double.Parse(eq2.DutyCalc) * 3600;
+                eqdiff.Diff = d;
+                eqdiff.EqName = s;
+                eqdiff.EqType = "Flash";
+                eqdiff.OrginDuty = double.Parse(eq1.DutyCalc) * 3600;
+                eqdiff.ReactorLoopID = ReactorLoopID;
+                ReactorLoopEqDiffModel m = new ReactorLoopEqDiffModel(eqdiff);
+                EqDiffs.Add(m);
+                lst.Add(eqdiff);
+                b = b && (d < 1);
+            }
             reader.ReleaseProIIReader();
+            IsMatched = b;
+            GetMessage();
+
         }
         private void OK(object obj)
         {
@@ -172,7 +256,25 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
         }
 
-        
+        void GetMessage()
+        {
+            if (IsSolved)
+            {
+                SimulationResult = "Simulation Solved.";
+            }
+            else
+            {
+                SimulationResult = "Simulation Unsolved.";
+            }
+            if (IsMatched)
+            {
+                MatchResult = "Base Case Simulation Matches Original Model";
+            }
+            else
+            {
+                MatchResult = "Base Case Simulation doesn't Match Original Model";
+            }
+        }
 
 
 

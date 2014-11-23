@@ -19,17 +19,17 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"></ColumnDefinition>
-            <ColumnDefinition Width="100*"/>
-            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="259*"/>
+            <ColumnDefinition Width="193*"/>
             <ColumnDefinition Width="20"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Content="{DynamicResource ErrorReport}"  Grid.Row="4" Grid.Column="1"/>
-        <Label Content="{DynamicResource SimulationSolvedUnsolved}"  Grid.Row="5" Grid.Column="1"/>
-        <Label Content="{DynamicResource BasecasesimulationNOTmatchsoriginalmodel}"  Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <Label Content="{DynamicResource Errors}"  Grid.Row="7" Grid.Column="1"/>
-        <Button Content="{DynamicResource CheckData}" Command="{Binding CheckDataCommand}" Grid.Column="1"  Grid.Row="1" Width="100" />
-        <Button Content="{DynamicResource LaunchSimulator}"  Command="{Binding LaunchSimulatorCommand}" Grid.Column="2"  Grid.Row="1" Width="125" />
-        <Button Content="{DynamicResource RunSimulation}" Command="{Binding RunSimulationCommand}" Grid.Column="1"  Grid.Row="2" Width="100" />
+        <Label Content="{DynamicResource ErrorReport}"  Grid.Row="4" Grid.Column="1" Height="25" Width="70"/>
+        <Label Content="{Binding SimulationResult,Mode=TwoWay}"  Grid.Row="5" Grid.Column="1" Height="25" Width="155"/>
+        <Label Content="{Binding MatchResult,Mode=TwoWay}"  Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Height="25" Width="261"/>
+        <Label Content="{DynamicResource Errors}"  Grid.Row="7" Grid.Column="1" Height="25" Width="39"/>
+        <Button Content="{DynamicResource CheckData}" Command="{Binding CheckDataCommand}" Grid.Column="1"  Grid.Row="1" Width="100" Margin="80,4,79,4" />
+        <Button Content="{DynamicResource LaunchSimulator}"  Command="{Binding LaunchSimulatorCommand}" Grid.Column="2"  Grid.Row="1" Width="124" Margin="35,4,34,4" />
+        <Button Content="{DynamicResource RunSimulation}" Command="{Binding RunSimulationCommand}" Grid.Column="1"  Grid.Row="2" Width="100" Margin="80,4,79,4" />
         <DataGrid   Grid.Row="8"  Grid.Column="1" Grid.ColumnSpan="2" IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding Path=EqDiffs,Mode=TwoWay}">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path=EqName,Mode=TwoWay}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Unit}"/>
@@ -40,7 +40,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Grid HorizontalAlignment="Stretch"  Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Stretch">
+        <Grid HorizontalAlignment="Stretch"  Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -51,7 +51,7 @@
             <Button Content="{DynamicResource OK}" Command="{Binding OKCommand}" CommandParameter="{Binding ElementName=myWindow}"  Grid.Column="1"/>
             <Button Content="{DynamicResource Cancel}" IsCancel="True"  Grid.Column="3"/>
         </Grid>
-        <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="10"  Grid.ColumnSpan="5" >
+        <StatusBar  HorizontalAlignment="Stretch" Height="Auto" Grid.Row="10"  Grid.ColumnSpan="4" >
             <StatusBarItem>
                 <TextBlock Text="{DynamicResource ReactorLoopSimulationViewStatusBar}"></TextBlock>
             </StatusBarItem>
