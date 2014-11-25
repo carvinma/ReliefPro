@@ -7,8 +7,9 @@
   <property name="ReactorLoopID" column="ReactorLoopID" type="Int32"/>
   <property name="ReactorType" column="ReactorType" type="Int32"/>
   <property name="DetailInfo" column="DetailInfo" type="String"/>
+  <property name="DetailType" column="DetailType" type="Int32"/>
 
-  <property name="ReactorLoopID_Color" column="ReactorLoopID_Color" type="String" length="255"/>
+    <property name="ReactorLoopID_Color" column="ReactorLoopID_Color" type="String" length="255"/>
   <property name="ReactorType_Color" column="ReactorType_Color" type="String" length="255"/>
   <property name="DetailInfo_Color" column="DetailInfo_Color" type="String" length="255"/>
 </class>

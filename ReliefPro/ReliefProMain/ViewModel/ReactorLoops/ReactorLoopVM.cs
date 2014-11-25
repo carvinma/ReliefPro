@@ -185,6 +185,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 ReactorLoopDetail d = new ReactorLoopDetail();
                 d.DetailInfo = eq.EqName;
                 d.ReactorType = 2;
+                d.DetailType = 2;
                 rlt.Add(d);
             }
             IList<ProIIEqData> list2 = dal.GetAllList(SessionPF, SourceFileInfo.FileName, "Splitter");
@@ -196,6 +197,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 ReactorLoopDetail d = new ReactorLoopDetail();
                 d.DetailInfo = eq.EqName;
                 d.ReactorType = 2;
+                d.DetailType = 3;
                 rlt.Add(d);
             }
             return rlt;
@@ -604,7 +606,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             List<string> eqList = new List<string>();
             List<string> processHxList = new List<string>();
             List<string> otherHxList = new List<string>();
-
+            List<string> splitterList = new List<string>();
             foreach (ReactorLoopDetail d in model.ObcProcessHX)
             {
                 processHxList.Add(d.DetailInfo);
@@ -619,7 +621,16 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
             foreach (ReactorLoopDetail d in model.ObcMixerSplitter)
             {
-                eqList.Add(d.DetailInfo);
+                if (d.DetailType == 3)
+                {
+                    splitterList.Add(d.DetailInfo);
+                }
+                else
+                {
+                    eqList.Add(d.DetailInfo);
+                }
+                
+                
             }
             if (!string.IsNullOrEmpty(model.ColdHighPressureSeparator))
             {
@@ -632,8 +643,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             csList = GetReactorLoopStreamsFromProII(eqList);
             List<CustomStream> csList2 = GetReactorLoopStreamsFromProII(processHxList);
             List<CustomStream> csList3 = GetReactorLoopStreamsFromProII(otherHxList);
+            List<CustomStream> csList4 = GetReactorLoopStreamsFromProII(splitterList);
             csList = csList.Union(csList2).ToList();
             csList = csList.Union(csList3).ToList();
+            csList = csList.Union(csList4).ToList();
             if (!string.IsNullOrEmpty(model.ColdReactorFeedStream) && !streams.Contains(model.ColdReactorFeedStream))
             {
                 if (!streams.Contains(model.ColdReactorFeedStream))
@@ -693,7 +706,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
 
             int errorTag = 0;
-            string inpData = CreateReactorLoopInpData(dir, csList, eqList, processHxList, otherHxList, ref errorTag);
+            string inpData = CreateReactorLoopInpData(dir, csList, eqList, processHxList, otherHxList,splitterList, ref errorTag);
 
             string sourcePrzFile = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
 
@@ -877,7 +890,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         /// <param name="streamList"></param>
         /// <param name="details"></param>
         /// <returns></returns>
-        public string CreateReactorLoopInpData(string rootDir, List<CustomStream> csList, List<string> eqList, List<string> processHxList,List<string> otherHxList,ref int errorTag)
+        public string CreateReactorLoopInpData(string rootDir, List<CustomStream> csList, List<string> eqList, List<string> processHxList, List<string> otherHxList, List<string> splitterList, ref int errorTag)
         {
             StringBuilder sb = new StringBuilder();
             string[] files = Directory.GetFiles(rootDir, "*.inp");
@@ -991,6 +1004,20 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 }
                 break;
             }
+
+            i = unitStart;
+            while (i < lines.Length)
+            {
+                foreach (string eq in splitterList)
+                {
+                    string eqinfo = FindSplitterInfo(lines, i, eq);
+                    sb.Append(eqinfo).Append("\r\n");
+                }
+                break;
+            }
+
+
+
             sb.Append("END");
 
             return sb.ToString();
@@ -1138,6 +1165,28 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
             return sb.ToString();
 
+        }
+
+        public string FindSplitterInfo(string[] lines, int start, string eqName)
+        {
+            StringBuilder sb = new StringBuilder();
+            string EqInfo = "SPLITTER UID=" + eqName.ToUpper();
+            int i = start;
+            while (i < lines.Length)
+            {
+                string line = lines[i];
+                if ((line + ",").Contains(EqInfo + ","))
+                {
+                    string eqInfo = GetSplitterInfo(lines, i, eqName);
+                    sb.Append(eqInfo);
+                    break;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            return sb.ToString();
         }
 
         public string FindOtherHxInfo(string[] lines, int start, string eqName, ref int errorTag)
@@ -1602,6 +1651,38 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             return list.ToArray();
         }
 
+        private string GetSplitterInfo(string[] lines, int start, string splitterName)
+        {
+            StringBuilder sb = new StringBuilder();
+            ProIIEqData eqData = eqDAL.GetModel(SessionPF, SourceFileInfo.FileName, splitterName);
+            string[] feeds = eqData.FeedData.Split(',');
+            string[] products = eqData.ProductData.Split(',');
+            double REFFEED = 0;
+            foreach (string s in feeds)
+            {
+                ProIIStreamData sdata = streamDAL.GetModel(SessionPF, s, SourceFileInfo.FileName);
+                REFFEED = REFFEED + double.Parse(sdata.TotalMolarRate) * double.Parse(sdata.BulkMwOfPhase);
+            }
+            
+            int i = start;
+            sb.Append(lines[i]).Append("\r\n");
+            sb.Append(lines[i+1]).Append("\r\n");
+            sb.Append(lines[i+2]).Append("\r\n");
+            sb.Append(lines[i+3]).Append("\r\n");
+
+            for (i = 1; i < products.Length; i++)
+            {
+                string s = products[i];
+                ProIIStreamData sdata = streamDAL.GetModel(SessionPF, s, SourceFileInfo.FileName);
+                double w = double.Parse(sdata.TotalMolarRate) * double.Parse(sdata.BulkMwOfPhase);
+                double value=w/REFFEED;
+                sb.Append("\t  SPEC STREAM=").Append(s).Append(", RATE(WT,KG/H),TOTAL,WET, DIVIDE, REFFEED, &\r\n");
+                sb.Append("\t  RATE(WT,KG/H),WET, VALUE=").Append(value).Append("\r\n");
+            }
+
+
+            return sb.ToString();
+        }
 
         private void Detail(object o)
         {
