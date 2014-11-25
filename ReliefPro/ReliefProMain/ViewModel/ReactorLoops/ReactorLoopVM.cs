@@ -220,11 +220,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 if (model.EffluentStream2Source == null)
                 {
-                    Source sr = new Source();
-                    model.EffluentStream2Source = new SourceModel(sr);
-                    model.EffluentStream2Source.StreamName = model.EffluentStream2;
-                    model.EffluentStream2Source.SourceType = "Pressurized Vessel";
-                    model.EffluentStream2Source.SourceType_Color = ColorBorder.green.ToString();
+                    model.EffluentStream2Source = InitSource(model.EffluentStream2, "Pressurized Vessel");      
                 }
                 else
                 {
@@ -236,11 +232,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 if (model.CompressorH2StreamSource == null)
                 {
-                    Source sr = new Source();
-                    model.CompressorH2StreamSource = new SourceModel(sr);
-                    model.CompressorH2StreamSource.StreamName = model.CompressorH2Stream;
-                    model.CompressorH2StreamSource.SourceType = "Compressor(Steam Turbine Driven)";
-                    model.CompressorH2StreamSource.SourceType_Color = ColorBorder.green.ToString();
+                    model.CompressorH2StreamSource = InitSource(model.CompressorH2Stream, "Compressor(Steam Turbine Driven)");                         
                 }
                 else
                 {
@@ -253,11 +245,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 if (model.ColdReactorFeedStreamSource == null)
                 {
-                    Source sr = new Source();
-                    model.ColdReactorFeedStreamSource = new SourceModel(sr);
-                    model.ColdReactorFeedStreamSource.StreamName = model.ColdReactorFeedStream;
-                    model.ColdReactorFeedStreamSource.SourceType = "Pump(Motor)";
-                    model.ColdReactorFeedStreamSource.SourceType_Color = ColorBorder.green.ToString();
+                    model.ColdReactorFeedStreamSource = InitSource(model.ColdReactorFeedStream, "Pump(Motor)");  
                 }
                 else
                 {
@@ -269,11 +257,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 if (model.ColdReactorFeedStream2Source == null)
                 {
-                    Source sr = new Source();
-                    model.ColdReactorFeedStream2Source = new SourceModel(sr);
-                    model.ColdReactorFeedStream2Source.StreamName = model.ColdReactorFeedStream2;
-                    model.ColdReactorFeedStream2Source.SourceType = "Pump(Motor)";
-                    model.ColdReactorFeedStream2Source.SourceType_Color = ColorBorder.green.ToString();
+                    model.ColdReactorFeedStream2Source = InitSource(model.ColdReactorFeedStream2, "Pump(Motor)");  
                 }
                 else
                 {
@@ -286,11 +270,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 if (model.InjectionWaterStreamSource == null)
                 {
-                    Source sr = new Source();
-                    model.InjectionWaterStreamSource = new SourceModel(sr);
-                    model.InjectionWaterStreamSource.StreamName = model.InjectionWaterStream;
-                    model.InjectionWaterStreamSource.SourceType = "Pump(Motor)";
-                    model.InjectionWaterStreamSource.SourceType_Color = ColorBorder.green.ToString();
+                    model.InjectionWaterStreamSource = InitSource(model.InjectionWaterStream, "Pump(Motor)");  
                 }
                 else
                 {
@@ -613,7 +593,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
 
         }
-
+        /// <summary>
+        /// 组合生成inp文件
+        /// </summary>
         private void CreateInpFile()
         {
             string newInpFile = DirProtectedSystem + @"\myrp\myrp.inp";
@@ -818,42 +800,55 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
 
             List<Source> lstStreamSource = new List<Source>();
-            if (model.EffluentStreamSource!=null)
+            if (model.EffluentStreamSource == null)
             {
-                model.EffluentStreamSource.dbmodel.SourceType = model.EffluentStreamSource.SourceType;
-                model.EffluentStreamSource.SourceType_Color = model.EffluentStreamSource.SourceType_Color;
-                lstStreamSource.Add(model.EffluentStreamSource.dbmodel);
+                model.EffluentStreamSource = InitSource(model.EffluentStream, "Pressurized Vessel");
             }
-            if (model.EffluentStream2Source != null)
+            model.EffluentStreamSource.dbmodel.SourceType = model.EffluentStreamSource.SourceType;
+            model.EffluentStreamSource.SourceType_Color = model.EffluentStreamSource.SourceType_Color;
+            lstStreamSource.Add(model.EffluentStreamSource.dbmodel);
+
+            if (model.EffluentStream2Source == null)
             {
-                model.EffluentStream2Source.dbmodel.SourceType = model.EffluentStream2Source.SourceType;
-                model.EffluentStream2Source.SourceType_Color = model.EffluentStream2Source.SourceType_Color;
-                lstStreamSource.Add(model.EffluentStream2Source.dbmodel);
+                model.EffluentStream2Source = InitSource(model.EffluentStream2, "Pressurized Vessel");
             }
-            if (model.CompressorH2StreamSource != null)
+            model.EffluentStream2Source.dbmodel.SourceType = model.EffluentStream2Source.SourceType;
+            model.EffluentStream2Source.SourceType_Color = model.EffluentStream2Source.SourceType_Color;
+            lstStreamSource.Add(model.EffluentStream2Source.dbmodel);
+
+            if (model.CompressorH2StreamSource == null)
             {
-                model.CompressorH2StreamSource.dbmodel.SourceType = model.CompressorH2StreamSource.SourceType;
-                model.CompressorH2StreamSource.SourceType_Color = model.CompressorH2StreamSource.SourceType_Color;
-                lstStreamSource.Add(model.CompressorH2StreamSource.dbmodel);
+                model.CompressorH2StreamSource = InitSource(model.CompressorH2Stream, "Compressor(Steam Turbine Driven)");
             }
-            if (model.ColdReactorFeedStreamSource != null)
+            model.CompressorH2StreamSource.dbmodel.SourceType = model.CompressorH2StreamSource.SourceType;
+            model.CompressorH2StreamSource.SourceType_Color = model.CompressorH2StreamSource.SourceType_Color;
+            lstStreamSource.Add(model.CompressorH2StreamSource.dbmodel);
+
+            if (model.ColdReactorFeedStreamSource == null)
             {
-                model.ColdReactorFeedStreamSource.dbmodel.SourceType = model.ColdReactorFeedStreamSource.SourceType;
-                model.ColdReactorFeedStreamSource.SourceType_Color = model.ColdReactorFeedStreamSource.SourceType_Color;
-                lstStreamSource.Add(model.ColdReactorFeedStreamSource.dbmodel);
+                model.ColdReactorFeedStreamSource = InitSource(model.ColdReactorFeedStream, "Pump(Motor)");
             }
-            if (model.ColdReactorFeedStream2Source != null)
+
+            model.ColdReactorFeedStreamSource.dbmodel.SourceType = model.ColdReactorFeedStreamSource.SourceType;
+            model.ColdReactorFeedStreamSource.SourceType_Color = model.ColdReactorFeedStreamSource.SourceType_Color;
+            lstStreamSource.Add(model.ColdReactorFeedStreamSource.dbmodel);
+
+            if (model.ColdReactorFeedStream2Source == null)
             {
-                model.ColdReactorFeedStream2Source.dbmodel.SourceType = model.ColdReactorFeedStream2Source.SourceType;
-                model.ColdReactorFeedStream2Source.SourceType_Color = model.ColdReactorFeedStream2Source.SourceType_Color;
-                lstStreamSource.Add(model.ColdReactorFeedStream2Source.dbmodel);
+                model.ColdReactorFeedStream2Source = InitSource(model.ColdReactorFeedStream2, "Pump(Motor)");
             }
-            if (model.InjectionWaterStreamSource != null)
+            model.ColdReactorFeedStream2Source.dbmodel.SourceType = model.ColdReactorFeedStream2Source.SourceType;
+            model.ColdReactorFeedStream2Source.SourceType_Color = model.ColdReactorFeedStream2Source.SourceType_Color;
+            lstStreamSource.Add(model.ColdReactorFeedStream2Source.dbmodel);
+
+            if (model.InjectionWaterStreamSource == null)
             {
-                model.InjectionWaterStreamSource.dbmodel.SourceType = model.InjectionWaterStreamSource.SourceType;
-                model.InjectionWaterStreamSource.SourceType_Color = model.InjectionWaterStreamSource.SourceType_Color;
-                lstStreamSource.Add(model.InjectionWaterStreamSource.dbmodel);
+                model.InjectionWaterStreamSource = InitSource(model.InjectionWaterStream, "Pump(Motor)");
             }
+            model.InjectionWaterStreamSource.dbmodel.SourceType = model.InjectionWaterStreamSource.SourceType;
+            model.InjectionWaterStreamSource.SourceType_Color = model.InjectionWaterStreamSource.SourceType_Color;
+            lstStreamSource.Add(model.InjectionWaterStreamSource.dbmodel);
+
             if (allSelectedInfo.Count > 0)
                 reactorBLL.Save(model.dbModel, allSelectedInfo, lstStreamSource);
             if (op != 1)
@@ -876,7 +871,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
         }
         /// <summary>
-        /// 
+        /// 生成inp文件的数据
         /// </summary>
         /// <param name="rootDir"></param>
         /// <param name="streamList"></param>
@@ -915,8 +910,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 }
                 else
                 {
-                    i++;
                     sb.Append(line).Append("\r\n");
+                    i++;
                 }
             }
 
@@ -936,10 +931,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             while (i < lines.Length)
             {
                 i = removeTagInfo(lines, i, "  OUTPUT ");
-                i = removeRowTagInfo(lines, i, "RXDATA");
-                i = removeRowTagInfo(lines, i, "  RXSET ID=");
-                i = removeRowTagInfo(lines, i, "    REACTION ID=");
-                int end = removeRowTagInfo(lines, i, "      HORX ");
+
+                i = removeRowTagInfo(lines, i, "RXDATA");                
                 string line = lines[i];
                 if (line.Contains("UNIT OPERATIONS"))
                 {
@@ -947,7 +940,6 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 }
                 else
                 {
-                    i = end;
                     if (i < lines.Length)
                     {
                         i++;
@@ -1242,7 +1234,14 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     }
                     else
                     {
-                        end = i;
+                        if (line.Contains("COMPONENT DATA"))
+                        {
+                            end = i;
+                        }
+                        else
+                        {
+                            end = i + 1;
+                        }
                         break;
                     }
 
@@ -1253,6 +1252,47 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
 
         private int removeRowTagInfo(string[] lines, int start, string tag)
+        {
+            int end = start;
+            int i = start;
+            int len = tag.Length;
+            bool b = false;
+            while (i < lines.Length)
+            {
+                string line = lines[i];
+                if (line.Contains(tag) && line.Substring(0, len) == tag)
+                {
+                    b = true;
+                    break;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            if (b)
+            {
+                i = i + 1;
+                while (i < lines.Length)
+                {
+                    string line = lines[i];
+                    if (line.Substring(0,2)=="  ")
+                    {
+                        i++;
+                    }
+                    else
+                    {
+                        end = i;
+                        break;
+                    }
+
+                }
+            }
+            return end;
+        }
+
+
+        private int removeRowTagInfo2(string[] lines, int start, string tag)
         {
             int end = start;
             int i = start;
@@ -1573,26 +1613,50 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 case 1:
                     streamName = model.EffluentStream;
+                    if (model.EffluentStreamSource == null)
+                    {
+                        model.EffluentStreamSource = InitSource(model.EffluentStream, "Pressurized Vessel");
+                    }
                     sm=model.EffluentStreamSource;
                     break;
                 case 2:
                     streamName = model.EffluentStream2;
+                    if (model.EffluentStream2Source == null)
+                    {
+                        model.EffluentStream2Source = InitSource(model.EffluentStream2, "Pressurized Vessel");
+                    }
                     sm=model.EffluentStream2Source;
                     break;
                 case 3:
                     streamName = model.CompressorH2Stream;
+                    if (model.CompressorH2StreamSource == null)
+                    {
+                        model.CompressorH2StreamSource = InitSource(model.CompressorH2Stream, "Compressor(Steam Turbine Driven)");
+                    }
                     sm=model.CompressorH2StreamSource;
                     break;
                 case 4:
                     streamName = model.ColdReactorFeedStream;
+                    if (model.ColdReactorFeedStreamSource == null)
+                    {
+                        model.ColdReactorFeedStreamSource = InitSource(model.ColdReactorFeedStream, "Pump(Motor)");
+                    }
                     sm=model.ColdReactorFeedStreamSource;
                     break;
                 case 5:
                     streamName = model.ColdReactorFeedStream2;
+                    if (model.ColdReactorFeedStream2Source == null)
+                    {
+                        model.ColdReactorFeedStream2Source = InitSource(model.ColdReactorFeedStream2, "Pump(Motor)");
+                    }
                     sm=model.ColdReactorFeedStream2Source;
                     break;
                 case 6:
                     streamName = model.InjectionWaterStream;
+                    if (model.InjectionWaterStreamSource == null)
+                    {
+                        model.InjectionWaterStreamSource = InitSource(model.InjectionWaterStream, "Pump(Motor)");
+                    }
                     sm=model.InjectionWaterStreamSource;
                     break;
 
@@ -1607,36 +1671,36 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 ReactorLoopSourceView v = new ReactorLoopSourceView();
                 v.DataContext = vm;
                 v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-               if( v.ShowDialog()==true)
-               {
-                switch (type)
+                if (v.ShowDialog() == true)
                 {
-                    case 1:
-                        streamName = model.EffluentStream;
-                        model.EffluentStreamSource.SourceType=vm.model.SourceType;
-                        break;
-                    case 2:
-                        streamName = model.EffluentStream2;
-                        model.EffluentStream2Source.SourceType = vm.model.SourceType;
-                        break;
-                    case 3:
-                        streamName = model.CompressorH2Stream;
-                        model.CompressorH2StreamSource.SourceType = vm.model.SourceType;
-                        break;
-                    case 4:
-                        streamName = model.ColdReactorFeedStream;
-                        model.ColdReactorFeedStreamSource.SourceType = vm.model.SourceType;
-                        break;
-                    case 5:
-                        streamName = model.ColdReactorFeedStream2;
-                        model.ColdReactorFeedStream2Source.SourceType = vm.model.SourceType;
-                        break;
-                    case 6:
-                        streamName = model.InjectionWaterStream;
-                        model.InjectionWaterStreamSource.SourceType = vm.model.SourceType;
-                        break;
+                    switch (type)
+                    {
+                        case 1:
+                            streamName = model.EffluentStream;
+                            model.EffluentStreamSource.SourceType = vm.model.SourceType;
+                            break;
+                        case 2:
+                            streamName = model.EffluentStream2;
+                            model.EffluentStream2Source.SourceType = vm.model.SourceType;
+                            break;
+                        case 3:
+                            streamName = model.CompressorH2Stream;
+                            model.CompressorH2StreamSource.SourceType = vm.model.SourceType;
+                            break;
+                        case 4:
+                            streamName = model.ColdReactorFeedStream;
+                            model.ColdReactorFeedStreamSource.SourceType = vm.model.SourceType;
+                            break;
+                        case 5:
+                            streamName = model.ColdReactorFeedStream2;
+                            model.ColdReactorFeedStream2Source.SourceType = vm.model.SourceType;
+                            break;
+                        case 6:
+                            streamName = model.InjectionWaterStream;
+                            model.InjectionWaterStreamSource.SourceType = vm.model.SourceType;
+                            break;
+                    }
                 }
-               }
             }
         }
     }

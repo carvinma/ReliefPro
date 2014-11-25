@@ -121,7 +121,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             IProIIImport import = ProIIFactory.CreateProIIImport(przVersion);
             int ImportResult = -1;
             int RunResult = -1;
-            newPrzFile = import.ImportProIIINP(newInpFile, out ImportResult, out RunResult);
+            newPrzFile = import.ImportProIIINP(newInpFile, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 MessageBox.Show("Data is right!", "Message Box");

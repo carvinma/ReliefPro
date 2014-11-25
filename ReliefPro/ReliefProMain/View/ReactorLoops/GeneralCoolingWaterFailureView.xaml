@@ -61,7 +61,7 @@
                         <GridViewColumn Header="{DynamicResource DutyFactor}" Width="150px" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox  Text="{Binding Path=DutyFactor,Mode=TwoWay,StringFormat='{}{0:F4}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                    <TextBox IsEnabled="{Binding Stop,Mode=TwoWay}"  Text="{Binding Path=DutyFactor,Mode=TwoWay,StringFormat='{}{0:F4}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -93,7 +93,7 @@
                         <GridViewColumn Header="{DynamicResource DutyFactor}" Width="150px" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox  Text="{Binding Path=DutyFactor,Mode=TwoWay,StringFormat='{}{0:F4}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                    <TextBox IsEnabled="{Binding Stop,Mode=TwoWay}" Text="{Binding Path=DutyFactor,Mode=TwoWay,StringFormat='{}{0:F4}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -124,7 +124,7 @@
                         <GridViewColumn Header="{DynamicResource DutyFactor}" Width="150px" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox  Text="{Binding Path=DutyFactor,Mode=TwoWay,StringFormat='{}{0:F4}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                    <TextBox IsEnabled="{Binding Stop,Mode=TwoWay}" Text="{Binding Path=DutyFactor,Mode=TwoWay,StringFormat='{}{0:F4}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

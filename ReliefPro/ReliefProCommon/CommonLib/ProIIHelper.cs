@@ -42,5 +42,21 @@ namespace ReliefProCommon.CommonLib
             }
         }
 
+        /// <summary>
+        /// open inp file
+        /// </summary>
+        /// <param name="ProiiInpFile"></param>
+        public static void Open(string ProiiInpFile)
+        {
+            ProcessStartInfo procInfo = new System.Diagnostics.ProcessStartInfo();
+            //设置要调用的外部程序名
+            procInfo.FileName = "notepad.exe";
+            //设置外部程序的启动参数（命令行参数）为1.txt
+            procInfo.Arguments = ProiiInpFile;
+
+            //设置外部程序工作目录为 C:\
+            //procInfo.WorkingDirectory = "C:\\";
+            System.Diagnostics.Process.Start(procInfo);
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace ProII93
 {
     public class ProIIImport:IProIIImport
     {
-       public string ImportProIIINP(string inpFile, out int ImportResult, out int RunResult)
+       public string ImportProIIINP(string inpFile, ref int ImportResult, ref int RunResult)
         {
             ImportResult = -1;
             RunResult = -1;

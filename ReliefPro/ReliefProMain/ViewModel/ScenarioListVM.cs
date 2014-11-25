@@ -440,6 +440,7 @@ namespace ReliefProMain.ViewModel
                     {
                         ReactorLoopBlockedOutletView v = new ReactorLoopBlockedOutletView();
                         ReactorLoopCommonVM vm = new ReactorLoopCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 0);
+                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         v.DataContext = vm;
                         if (v.ShowDialog() == true)
                         {
@@ -454,6 +455,7 @@ namespace ReliefProMain.ViewModel
                         LossOfReactorQuenchView v = new LossOfReactorQuenchView();
                         ReactorLoopCommonVM vm = new ReactorLoopCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 1);
                         v.DataContext = vm;
+                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         if (v.ShowDialog() == true)
                         {
                             SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
@@ -467,6 +469,7 @@ namespace ReliefProMain.ViewModel
                         LossOfColdFeedView v = new LossOfColdFeedView();
                         GeneralFailureCommonVM vm = new GeneralFailureCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 2);                       
                         v.DataContext = vm;
+                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         if (v.ShowDialog() == true)
                         {
                             SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
@@ -480,6 +483,7 @@ namespace ReliefProMain.ViewModel
                         GeneralElectricPowerFailureView v = new GeneralElectricPowerFailureView();
                         GeneralFailureCommonVM vm = new GeneralFailureCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 1);
                         v.DataContext = vm;
+                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         if (v.ShowDialog() == true)
                         {
                             SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
@@ -493,6 +497,7 @@ namespace ReliefProMain.ViewModel
                         GeneralCoolingWaterFailureView v = new GeneralCoolingWaterFailureView();
                         GeneralFailureCommonVM vm = new GeneralFailureCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 0);
                         v.DataContext = vm;
+                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         if (v.ShowDialog() == true)
                         {
                             SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
@@ -511,6 +516,7 @@ namespace ReliefProMain.ViewModel
                 BlockedVaporOutletView view = new BlockedVaporOutletView();
                 BlockedVaporOutletVM vm = new BlockedVaporOutletVM(SessionPlant, SessionProtectedSystem, ScenarioID, OutletType);
                 view.DataContext = vm;
+                view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 if (view.ShowDialog() == true)
                 {
                     SelectedScenario.ReliefLoad = vm.model.dbScenario.ReliefLoad;
@@ -524,6 +530,7 @@ namespace ReliefProMain.ViewModel
                 AbsorbentStopsView view = new AbsorbentStopsView();
                 BlockedVaporOutletVM vm = new BlockedVaporOutletVM(SessionPlant, SessionProtectedSystem, ScenarioID, OutletType);
                 view.DataContext = vm;
+                view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 if (view.ShowDialog() == true)
                 {
                     SelectedScenario.ReliefLoad = vm.model.dbScenario.ReliefLoad;

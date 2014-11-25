@@ -463,12 +463,8 @@ namespace ReliefProCommon.CommonLib
             return spi;
         }
 
-        public static InpPosInfo GetStreamPosInfo(string[] lines, string streamName, string attr, string rewriteAttr, string rewriteValue)
-        {
-            if (double.Parse(rewriteValue) == 0)
-            {
-                rewriteValue = "1e-8";
-            }
+        public static InpPosInfo GetStreamPosInfo(string[] lines, string streamName, string attr, string rewriteAttr)
+        {            
             string attr1 = attr.ToUpper();
             string attr2 = "";
             if (attr.Contains("RATE("))
@@ -508,7 +504,7 @@ namespace ReliefProCommon.CommonLib
                     spi.end = i - 1;
                     if (!b)
                     {
-                        attrvalue = rewriteAttr + rewriteValue;
+                        attrvalue = rewriteAttr;
                     }
                     break;
                 }
@@ -516,7 +512,7 @@ namespace ReliefProCommon.CommonLib
                 {
                     b = true;
                     string oldValue = string.Empty;
-                    string newValue = rewriteAttr + rewriteValue;
+                    string newValue = rewriteAttr;
 
                     int s = line.IndexOf(attr1.ToUpper());
                     if (s == -1)
@@ -603,6 +599,123 @@ namespace ReliefProCommon.CommonLib
             }
 
             spi.Name = flashName;
+            spi.NewInfo = sb.ToString();
+            return spi;
+        }
+
+       /// <summary>
+       /// 替换压力，温度
+       /// </summary>
+       /// <param name="lines"></param>
+       /// <param name="streamName"></param>
+       /// <param name="rewriteAttr1"></param>
+       /// <param name="rewriteAttr2"></param>
+       /// <returns></returns>
+        public static InpPosInfo GetStreamPosInfo2(string[] lines, string streamName, string rewriteAttr1, string rewriteAttr2)
+        {
+            string attr1 = "PRESSURE=";
+            string attr2 = "PRESSURE(MPAG)=";
+
+            string attr3 = "TEMPERATURE=";
+            string attr4 = "TEMPERATURE(C)=";
+            
+            if (string.IsNullOrEmpty(streamName))
+            {
+                return null;
+            }
+            StringBuilder sb = new StringBuilder();
+            List<string> list = new List<string>();
+            InpPosInfo spi = new InpPosInfo();
+            for (int i = 2; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                string key = "PROPERTY STREAM=" + streamName.ToUpper();
+                if (line.Contains(key + ","))
+                {
+                    spi.start = i;
+                    break;
+                }
+            }
+
+            string attrvalue = string.Empty;
+            for (int i = spi.start; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                string key1 = "PROPERTY STREAM=";
+                string key2 = "UNIT OPERATIONS";
+                string key = "PROPERTY STREAM=" + streamName.ToUpper();
+                bool b1=line.Contains(attr1.ToUpper()) ||  line.Contains(attr2);
+                bool b2=line.Contains(attr3.ToUpper()) ||  line.Contains(attr4);
+
+                if ((line.Contains(key1) || line.Contains(key2)) && !line.Contains(key + ","))
+                {
+                    spi.end = i - 1;                    
+                    break;
+                }
+                else if (b1&&b2)
+                {
+                    string oldValue = string.Empty;
+                    string newValue = rewriteAttr1;
+
+                    int s = line.IndexOf(attr1.ToUpper());
+                    if (s == -1)
+                        s = line.IndexOf(attr2.ToUpper());
+                    string sub = line.Substring(s);
+                    s = sub.IndexOf(",");
+                    oldValue = sub.Substring(0, s);
+                    string newLine = line.Replace(oldValue, newValue);
+
+                    newValue = rewriteAttr2;
+                    s = newLine.IndexOf(attr3.ToUpper());
+                    if (s == -1)
+                        s = newLine.IndexOf(attr4.ToUpper());
+                    sub = newLine.Substring(s);
+                    s = sub.IndexOf(",");
+                    oldValue = sub.Substring(0, s);
+                    newLine = newLine.Replace(oldValue, newValue);
+
+                    list.Add(newLine);
+                }
+                else if (b1)
+                {
+                    string oldValue = string.Empty;
+                    string newValue = rewriteAttr1;
+
+                    int s = line.IndexOf(attr1.ToUpper());
+                    if (s == -1)
+                        s = line.IndexOf(attr2.ToUpper());
+                    string sub = line.Substring(s);
+                    s = sub.IndexOf(",");
+                    oldValue = sub.Substring(0, s);
+                    string newLine = line.Replace(oldValue, newValue);
+                    list.Add(newLine);
+                }
+                else if (b2)
+                {
+                    string oldValue = string.Empty;
+                    string newValue = rewriteAttr2;
+
+                    int s = line.IndexOf(attr3.ToUpper());
+                    if (s == -1)
+                        s = line.IndexOf(attr4.ToUpper());
+                    string sub = line.Substring(s);
+                    s = sub.IndexOf(",");
+                    oldValue = sub.Substring(0, s);
+                    string newLine = line.Replace(oldValue, newValue);
+                    list.Add(newLine);
+                }
+                else
+                {
+                    list.Add(line);
+
+                }
+            }
+            
+            for (int i = 0; i < list.Count; i++)
+            {
+                sb.Append(list[i]).Append("\r\n");
+            }
+            spi.Name = streamName;
             spi.NewInfo = sb.ToString();
             return spi;
         }
