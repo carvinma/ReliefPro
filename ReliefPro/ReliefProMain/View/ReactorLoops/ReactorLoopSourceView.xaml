@@ -1,0 +1,49 @@
+﻿<Window x:Class="ReliefProMain.View.ReactorLoops.ReactorLoopSourceView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"     
+        xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
+        Title="{DynamicResource SourceViewTitle}" Height="170" Width="421" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+    
+    <Grid Style="{DynamicResource WinGrid}">
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="25"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="23"/>
+          
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="160*"/>
+            <ColumnDefinition Width="170*"/>
+            <ColumnDefinition Width="90*"/>
+            <ColumnDefinition Width="60*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="{DynamicResource SourceType}"    Grid.Column="1" Grid.Row="1" Margin="10,5,0,0"  />
+        <ComboBox IsEnabled="{Binding model.IsEnabledSourceType}" ItemsSource="{Binding Path=model.SourceTypes,Mode=TwoWay}" SelectedItem="{Binding model.SourceType,Mode=TwoWay}"  BorderBrush="{Binding model.SourceType_Color,Mode=TwoWay}"  Name="cbxType"  Grid.Column="2"  Grid.Row="1" Margin="0,5,0,0"/>
+        <Label x:Name="lblPressure" Content="{Binding  model.PressureUnit,Mode=TwoWay}"    Grid.Column="3" Grid.Row="4" />
+
+
+        <Grid HorizontalAlignment="Stretch"  Grid.Row="3" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="87*" />
+                <ColumnDefinition Width="100*" />
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="100*" />
+                <ColumnDefinition Width="87*" />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnOK" Content="{DynamicResource OK}" Command="{Binding Update}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="1" />
+            <Button x:Name="btnCancel" IsCancel="True" Content="{DynamicResource Cancel}"  Grid.Column="3" />
+
+        </Grid>
+
+        
+        <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="4" VerticalAlignment="Stretch" Grid.ColumnSpan="5" >
+            <StatusBarItem HorizontalAlignment="Stretch">
+                <TextBlock Text="{DynamicResource SourceViewStatusBar}"></TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+
+</Window>
