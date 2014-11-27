@@ -82,7 +82,7 @@
     
     <Style TargetType="{x:Type CustomControl:UnitConvertTextBox}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Height" Value="18"/>
         <Setter Property="Width" Value="125"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
@@ -91,7 +91,7 @@
     </Style>
     <Style x:Key="UCTextBoxReadOnly" TargetType="{x:Type CustomControl:UnitConvertTextBox}" >
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Height" Value="18"/>
         <Setter Property="Width" Value="125"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
@@ -103,7 +103,7 @@
     </Style>
     <Style x:Key="TextBoxReadOnly" TargetType="TextBox" >
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Height" Value="18"/>
         <Setter Property="Width" Value="125"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
@@ -128,7 +128,7 @@
     </Style>
     <Style TargetType="{x:Type ComboBox}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Width" Value="125"/>
         <Setter Property="Height" Value="18"/>
         <Setter Property="FontSize" Value="12px" />
@@ -137,7 +137,7 @@
     </Style>
     <Style TargetType="{x:Type CustomControl:CustomComboBox}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Width" Value="125"/>
         <Setter Property="Height" Value="18"/>
         <Setter Property="FontSize" Value="12px" />
@@ -162,7 +162,7 @@
     </Style>
     <Style TargetType="{x:Type RadioButton }">
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="FontSize" Value="12px" />
         <Setter Property="FontFamily" Value="Calibri"/>
     </Style>

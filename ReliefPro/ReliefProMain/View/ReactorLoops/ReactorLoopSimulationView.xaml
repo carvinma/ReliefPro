@@ -20,26 +20,52 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"></ColumnDefinition>
             <ColumnDefinition Width="259*"/>
-            <ColumnDefinition Width="193*"/>
-            <ColumnDefinition Width="20"></ColumnDefinition>
+            <ColumnDefinition Width="198*"/>
+            <ColumnDefinition Width="15"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Content="{DynamicResource ErrorReport}"  Grid.Row="4" Grid.Column="1" Height="25" Width="70"/>
-        <Label Content="{Binding SimulationResult,Mode=TwoWay}"  Grid.Row="5" Grid.Column="1" Height="25" Width="155"/>
-        <Label Content="{Binding MatchResult,Mode=TwoWay}"  Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Height="25" Width="261"/>
-        <Label Content="{DynamicResource Errors}"  Grid.Row="7" Grid.Column="1" Height="25" Width="39"/>
-        <Button Content="{DynamicResource CheckData}" Command="{Binding CheckDataCommand}" Grid.Column="1"  Grid.Row="1" Width="100" Margin="80,4,79,4" />
-        <Button Content="{DynamicResource LaunchSimulator}"  Command="{Binding LaunchSimulatorCommand}" Grid.Column="2"  Grid.Row="1" Width="124" Margin="35,4,34,4" />
-        <Button Content="{DynamicResource RunSimulation}" Command="{Binding RunSimulationCommand}" Grid.Column="1"  Grid.Row="2" Width="100" Margin="80,4,79,4" />
-        <DataGrid   Grid.Row="8"  Grid.Column="1" Grid.ColumnSpan="2" IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding Path=EqDiffs,Mode=TwoWay}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=EqName,Mode=TwoWay}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Unit}"/>
-                <DataGridTextColumn Binding="{Binding Path=EqType,Mode=TwoWay}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Type}"/>
-                <DataGridTextColumn Binding="{Binding Path=OrginDuty,Mode=TwoWay}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource OriginalModel}"/>
-                <DataGridTextColumn Binding="{Binding Path=CurrentDuty,Mode=TwoWay}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Basecase}"/>
-                <DataGridTextColumn Binding="{Binding Path=Diff,Mode=TwoWay}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Diff}"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <GroupBox Grid.Column="1" Header="{DynamicResource ErrorReport}" HorizontalAlignment="Left"    Grid.Row="4" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="85" Grid.RowSpan="3" Width="430">
+            <Grid Style="{DynamicResource WinGrid}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>                   
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"></ColumnDefinition>
+                    <ColumnDefinition Width="259*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="{Binding SimulationResult,Mode=TwoWay}" Foreground="{Binding IsSolved_Color,Mode=TwoWay}" Grid.Row="1" Grid.Column="1" Height="25" Width="155"/>
+                <Label Content="{Binding MatchResult,Mode=TwoWay}" Foreground="{Binding IsMatched_Color,Mode=TwoWay}"  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Height="25" Width="261"/>
+            </Grid>           
+        </GroupBox>
 
+        <GroupBox Grid.Column="1" Header="{DynamicResource Errors}" HorizontalAlignment="Left"    Grid.Row="7" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="140" Grid.RowSpan="3" Width="430">
+            <Grid Style="{DynamicResource WinGrid}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition Height="100*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <DataGrid   Grid.Row="1"   Grid.ColumnSpan="2" IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding Path=EqDiffs,Mode=TwoWay}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Path=EqName,Mode=TwoWay}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Unit}"/>
+                        <DataGridTextColumn Binding="{Binding Path=EqType,Mode=TwoWay}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Type}"/>
+                        <DataGridTextColumn Binding="{Binding Path=OrginDuty,Mode=TwoWay}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource OriginalModel}"/>
+                        <DataGridTextColumn Binding="{Binding Path=CurrentDuty,Mode=TwoWay}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Basecase}"/>
+                        <DataGridTextColumn Binding="{Binding Path=Diff,Mode=TwoWay}" ClipboardContentBinding="{x:Null}" Header="{DynamicResource Diff}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </Grid>
+        </GroupBox>
+       
+        <Button Content="{DynamicResource CheckData}" Command="{Binding CheckDataCommand}" Grid.Column="1"  Grid.Row="1" Width="100" Margin="80,4,79,4" />
+        <Button Content="{DynamicResource LaunchSimulator}"  Command="{Binding LaunchSimulatorCommand}" Grid.Column="2"  Grid.Row="1" Width="124" Margin="37,4" />
+        <Button Content="{DynamicResource RunSimulation}" Command="{Binding RunSimulationCommand}" Grid.Column="1"  Grid.Row="2" Width="100" Margin="80,4,79,4" />
+        
+        
         <Grid HorizontalAlignment="Stretch"  Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -56,5 +82,6 @@
                 <TextBlock Text="{DynamicResource ReactorLoopSimulationViewStatusBar}"></TextBlock>
             </StatusBarItem>
         </StatusBar>
+       
     </Grid>
 </Window>

@@ -31,7 +31,8 @@ namespace ReliefProModel.ReactorLoops
         public virtual string HXNetworkColdStream_Color { get; set; }
         public virtual string InjectionWaterStream_Color { get; set; }
         public virtual string CompressorH2Stream_Color { get; set; }
-
+        public virtual string IsSolved_Color { get; set; }
+        public virtual string IsMatched_Color { get; set; }
 
 
     }

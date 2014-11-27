@@ -111,7 +111,10 @@ namespace ReliefProMain.ViewModel.HXs
             int ImportResult = 0;
             int RunResult = 0;
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
-            string content = PROIIFileOperator.getUsableContent(csHigh.StreamName, tempdir);
+            string[] files = Directory.GetFiles(tempdir, "*.inp");
+            string sourceFile = files[0];
+            string[] lines = System.IO.File.ReadAllLines(sourceFile);
+            string content = PROIIFileOperator.getUsableContent(csHigh.StreamName, lines);
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
             string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 5, "0", csHigh, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)

@@ -33,5 +33,7 @@ namespace ReliefProModel.ReactorLoops
         public virtual string ReliefMW_Color { get; set; }
         public virtual string ReliefCpCv_Color { get; set; }
         public virtual string ReliefZ_Color { get; set; }
+        public virtual string IsSolved_Color { get; set; }
+        
     }
 }

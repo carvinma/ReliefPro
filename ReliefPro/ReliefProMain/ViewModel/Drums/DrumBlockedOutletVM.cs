@@ -127,7 +127,10 @@ namespace ReliefProMain.ViewModel.Drums
                     {
                         string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
                         SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
-                        string content = PROIIFileOperator.getUsableContent(drum.Feeds[0].StreamName, dir);
+                        string[] files = Directory.GetFiles(dir, "*.inp");
+                        string sourceFile = files[0];
+                        string[] lines = System.IO.File.ReadAllLines(sourceFile);
+                        string content = PROIIFileOperator.getUsableContent(drum.Feeds[0].StreamName, lines);
                         if (model.DrumType == "Flashing Drum")
                         {
                             duty = (model.NormalFlashDuty / Math.Pow(10, 6)).ToString();

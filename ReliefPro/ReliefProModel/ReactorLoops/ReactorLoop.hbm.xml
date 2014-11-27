@@ -27,5 +27,7 @@
   <property name="HXNetworkColdStream_Color" column="HXNetworkColdStream_Color" type="String" length="255"/>
   <property name="InjectionWaterStream_Color" column="InjectionWaterStream_Color" type="String" length="255"/>
   <property name="CompressorH2Stream_Color" column="CompressorH2Stream_Color" type="String" length="255"/>
+  <property name="IsSolved_Color" column="IsSolved_Color" type="String" length="255"/>
+  <property name="IsMatched_Color" column="IsMatched_Color" type="String" length="255"/>
 </class>
 </hibernate-mapping>

@@ -131,7 +131,7 @@
 
         </GroupBox>
 
-        <Label Content="{Binding SimulationResult,Mode=TwoWay}"  Grid.Row="14" Grid.Column="1"/>
+        <Label Content="{Binding SimulationResult,Mode=TwoWay}" Foreground="{Binding model.IsSolved_Color,Mode=TwoWay}"  Grid.Row="14" Grid.Column="1"/>
         <Label Content="{DynamicResource ReliefLoad}"  Grid.Row="15" Grid.Column="1"/>
         <Label Content="{DynamicResource ReliefTemperature}"  Grid.Row="16" Grid.Column="1"/>
         <Label Content="{DynamicResource ReliefMW}"  Grid.Row="18" Grid.Column="1" />

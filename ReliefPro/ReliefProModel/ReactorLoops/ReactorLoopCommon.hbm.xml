@@ -29,5 +29,6 @@
   <property name="ReliefPressure_Color" column="ReliefPressure_Color" type="String" length="255"/>
   <property name="ReliefCpCv_Color" column="ReliefCpCv_Color" type="String" length="255"/>
   <property name="ReliefZ_Color" column="ReliefZ_Color" type="String" length="255"/>
+  <property name="IsSolved_Color" column="IsSolved_Color" type="String" length="255"/>
 </class>
 </hibernate-mapping>

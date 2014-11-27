@@ -19,6 +19,7 @@ using System.Diagnostics;
 using Microsoft.Win32;
 using ReliefProDAL.ReactorLoops;
 using ReliefProCommon.CommonLib;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -39,7 +40,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private ISession SessionPlant;
         private ISession SessionProtectedSystem;
         ReactorLoopEqDiffDAL eqDiffDAL;
-        private List<ReactorLoopEqDiff> lst;
+        public List<ReactorLoopEqDiff> lst;
         private ObservableCollection<ReactorLoopEqDiffModel> _eqDiffs;
         public ObservableCollection<ReactorLoopEqDiffModel> EqDiffs
         {
@@ -64,7 +65,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
         }
 
-        private string _MatchResult;
+        private string _MatchResult = ColorBorder.blue.ToString();
         public string MatchResult
         {
             get { return _MatchResult; }
@@ -75,6 +76,30 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
         }
 
+        private string _IsSolved_Color;
+        public string IsSolved_Color
+        {
+            get { return _IsSolved_Color; }
+            set
+            {
+                _IsSolved_Color = value;
+                this.NotifyPropertyChanged("IsSolved_Color");
+            }
+        }
+
+        private string _IsMatched_Color = ColorBorder.blue.ToString();
+        public string IsMatched_Color
+        {
+            get { return _IsMatched_Color; }
+            set
+            {
+                _IsMatched_Color = value;
+                this.NotifyPropertyChanged("IsMatched_Color");
+            }
+        }
+
+
+
         private void InitCMD()
         {
             OKCommand = new DelegateCommand<object>(OK);
@@ -83,7 +108,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             RunSimulationCommand = new DelegateCommand<object>(RunSimulation);
         }
         
-        public ReactorLoopSimulationVM(int ReactorLoopID,string newInpFile,string sourcePrzFile,string sourcePrzVersion,List<string> hxNames,List<string> flashNames,ISession sessionProtectedSystem,ISession sessionPlant)
+        public ReactorLoopSimulationVM(int ReactorLoopID,string newInpFile,string sourcePrzFile,string sourcePrzVersion,List<string> hxNames,List<string> flashNames,ISession sessionProtectedSystem,ISession sessionPlant,bool isSolved,bool isMatched,List<ReactorLoopEqDiff> lstDiff)
         {
             InitCMD();
             lst = new List<ReactorLoopEqDiff>();
@@ -97,7 +122,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             przFile = sourcePrzFile;
             przFileName = System.IO.Path.GetFileName(sourcePrzFile);
             this.ReactorLoopID=ReactorLoopID;
-     
+            
             eqDiffDAL = new ReactorLoopEqDiffDAL();
             if (ReactorLoopID > 0)
             {
@@ -107,12 +132,25 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     ReactorLoopEqDiffModel m = new ReactorLoopEqDiffModel(diff);
                     EqDiffs.Add(m);
                 }
+                IsSolved = isSolved;
+                IsMatched = isMatched;
                 GetMessage();
             }
             else
             {
                 MatchResult = string.Empty;
                 SimulationResult = string.Empty;
+                if (lstDiff!=null)
+                {
+                    IsSolved = isSolved;
+                    IsMatched = isMatched;
+                    GetMessage();
+                    foreach (ReactorLoopEqDiff diff in lstDiff)
+                    {
+                        ReactorLoopEqDiffModel m = new ReactorLoopEqDiffModel(diff);
+                        EqDiffs.Add(m);
+                    }
+                }
             }
         }
 
@@ -192,6 +230,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 {
                     d = 100 * Math.Abs(double.Parse(eq1.DutyCalc) - double.Parse(eq2.DutyCalc)) / Math.Abs(double.Parse(eq1.DutyCalc));
                 }
+                d = Math.Round(d, 10);
                 ReactorLoopEqDiff eqdiff = new ReactorLoopEqDiff();
                 eqdiff.CurrentDuty = double.Parse(eq2.DutyCalc) * 3600;
                 eqdiff.Diff = d;
@@ -225,21 +264,24 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         }
                     }
                 }
-                ProIIStreamData proiivapor = reader.GetSteamInfo(vapor1.StreamName);
-                CustomStream vapor2 = ProIIToDefault.ConvertProIIStreamToCustomStream(proiivapor);
-                d = 100 * Math.Abs(vapor1.WeightFlow - vapor2.WeightFlow) / vapor1.WeightFlow;
-                
-                ReactorLoopEqDiff eqdiff = new ReactorLoopEqDiff();
-                eqdiff.CurrentDuty = double.Parse(eq2.DutyCalc) * 3600;
-                eqdiff.Diff = d;
-                eqdiff.EqName = s;
-                eqdiff.EqType = "Flash";
-                eqdiff.OrginDuty = double.Parse(eq1.DutyCalc) * 3600;
-                eqdiff.ReactorLoopID = ReactorLoopID;
-                ReactorLoopEqDiffModel m = new ReactorLoopEqDiffModel(eqdiff);
-                EqDiffs.Add(m);
-                lst.Add(eqdiff);
-                b = b && (d < 1);
+                if (vapor1 != null)
+                {
+                    ProIIStreamData proiivapor = reader.GetSteamInfo(vapor1.StreamName);
+                    CustomStream vapor2 = ProIIToDefault.ConvertProIIStreamToCustomStream(proiivapor);
+                    d = 100 * Math.Abs(vapor1.WeightFlow - vapor2.WeightFlow) / vapor1.WeightFlow;
+                    d = Math.Round(d, 10);
+                    ReactorLoopEqDiff eqdiff = new ReactorLoopEqDiff();
+                    eqdiff.CurrentDuty = double.Parse(eq2.DutyCalc) * 3600;
+                    eqdiff.Diff = d;
+                    eqdiff.EqName = s;
+                    eqdiff.EqType = "Flash";
+                    eqdiff.OrginDuty = double.Parse(eq1.DutyCalc) * 3600;
+                    eqdiff.ReactorLoopID = ReactorLoopID;
+                    ReactorLoopEqDiffModel m = new ReactorLoopEqDiffModel(eqdiff);
+                    EqDiffs.Add(m);
+                    lst.Add(eqdiff);
+                    b = b && (d < 1);
+                }
             }
             reader.ReleaseProIIReader();
             IsMatched = b;
@@ -249,8 +291,24 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private void OK(object obj)
         {
             if (obj != null)
-            {                
-                eqDiffDAL.Save(SessionProtectedSystem,ReactorLoopID,lst);
+            {
+                if (string.IsNullOrEmpty(newPrzFile))
+                {
+                    MessageBox.Show("Please Check Data first.", "Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (!File.Exists(newPrzFile))
+                {
+                    MessageBox.Show("Please run simulation first.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (!IsSolved)
+                {
+                    MessageBox.Show("Simulation not solved.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
                 System.Windows.Window wd = obj as System.Windows.Window;
                 wd.DialogResult = true;
             }
@@ -261,18 +319,22 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             if (IsSolved)
             {
                 SimulationResult = "Simulation Solved.";
+                IsSolved_Color = ColorBorder.blue.ToString();
             }
             else
             {
                 SimulationResult = "Simulation Unsolved.";
+                IsSolved_Color = ColorBorder.red.ToString();
             }
             if (IsMatched)
             {
                 MatchResult = "Base Case Simulation Matches Original Model";
+                IsMatched_Color = ColorBorder.blue.ToString();
             }
             else
             {
                 MatchResult = "Base Case Simulation doesn't Match Original Model";
+                IsMatched_Color = ColorBorder.red.ToString();
             }
         }
 

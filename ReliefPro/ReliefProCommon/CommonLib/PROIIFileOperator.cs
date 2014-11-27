@@ -73,14 +73,95 @@ namespace ReliefProCommon.CommonLib
             return version;
         }
 
-        public static string getUsableContent(string streamName, string rootDir)
+        public static string getUsableContent(string streamName, string[] lines)
         {
-            string PropStream = "PROPERTY STREAM=" + streamName.ToUpper();
+            string PropStream = "PROPERTY STREAM=" + streamName.ToUpper()+",";
             string[] keys = { "srk", "srkh", "srkm", "srkp", "srks", "pr", "prh", "prm", "prp" };
             StringBuilder sb = new StringBuilder();
+            List<int> list = new List<int>();
+            int i = 0;
+            while (i < lines.Length)
+            {
+                string s = lines[i];
+                if (s.Trim().IndexOf("SEQUENCE") > -1)
+                {
+                    while (lines[i].Contains("&"))
+                    {
+                        i = i + 1;
+                    }
+                    if (!lines[i].Contains("&")) //表示该SEQUENCE最后一行
+                    {
+                        i = i + 1;
+                    }
+                }
+                else if (s.Trim().IndexOf("OUTPUT") > -1)
+                {
+                    while (lines[i].Contains("&"))
+                    {
+                        i = i + 1;
+                    }
+                    if (!lines[i].Contains("&")) //表示该output最后一行
+                    {
+                        i = i + 1;
+                    }
+                }
+                else if (s.Trim().ToUpper().IndexOf(PropStream) > -1)
+                {
+                    while (lines[i].Contains("&"))
+                    {
+                        i = i + 1;
+                    }
+                    if (!lines[i].Contains("&"))
+                    {
+                        i = i + 1;
+                    }
+
+                }
+                else if (s.Trim().IndexOf("NAME") == 0 || s.Trim().IndexOf("UNIT") == 0)
+                {
+                    break;
+                }
+
+                else if (s.IndexOf("REFSTREAM") > -1)
+                {
+                    int idx = s.IndexOf("REFSTREAM");
+
+                    string subS = s.Substring(idx);
+                    int spitIdx = subS.IndexOf(",");
+                    if (spitIdx > -1)
+                    {
+                        string old = subS.Substring(0, spitIdx);
+                        s = s.Replace(old, "REFSTREAM=" + streamName);
+                    }
+                    else
+                    {
+                        s = s.Replace(subS, "REFSTREAM=" + streamName);
+                    }
+                    sb.Append(s).Append("\n");
+
+                    i++;
+                }
+                else
+                {
+                    sb.Append(s).Append("\n");
+                    i++;
+                }
+
+
+            }
+
+
+            return sb.ToString();
+        }
+
+        public static string getUsableContent(string streamName, string rootDir)
+        {
             string[] files = Directory.GetFiles(rootDir, "*.inp");
             string sourceFile = files[0];
             string[] lines = System.IO.File.ReadAllLines(sourceFile);
+            string PropStream = "PROPERTY STREAM=" + streamName.ToUpper() + ",";
+            string[] keys = { "srk", "srkh", "srkm", "srkp", "srks", "pr", "prh", "prm", "prp" };
+            StringBuilder sb = new StringBuilder();
             List<int> list = new List<int>();
             int i = 0;
             while (i < lines.Length)
@@ -158,8 +239,7 @@ namespace ReliefProCommon.CommonLib
         }
 
         public static string getUsableContent(List<string>streamNames, string rootDir)
-        {
-            
+        {            
             string[] keys = { "srk", "srkh", "srkm", "srkp", "srks", "pr", "prh", "prm", "prp" };
             StringBuilder sb = new StringBuilder();
             string[] files = Directory.GetFiles(rootDir, "*.inp");
@@ -246,7 +326,7 @@ namespace ReliefProCommon.CommonLib
             bool b = false;
             foreach (string streamName in streamNames)
             {
-                string PropStream = "PROPERTY STREAM=" + streamName.ToUpper();
+                string PropStream = "PROPERTY STREAM=" + streamName.ToUpper()+",";
                 if (line.Trim().ToUpper().IndexOf(PropStream) > -1)
                 {
                     b = true;

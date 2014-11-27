@@ -550,6 +550,26 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("CompressorH2Stream_Color");
             }
         }
+
+        public string IsSolved_Color
+        {
+            get { return dbModel.IsSolved_Color; }
+            set
+            {
+                dbModel.IsSolved_Color = value;
+                this.NotifyPropertyChanged("IsSolved_Color");
+            }
+        }
+
+        public string IsMatched_Color
+        {
+            get { return dbModel.IsMatched_Color; }
+            set
+            {
+                dbModel.IsMatched_Color = value;
+                this.NotifyPropertyChanged("IsMatched_Color");
+            }
+        }
         #endregion
     }
 }

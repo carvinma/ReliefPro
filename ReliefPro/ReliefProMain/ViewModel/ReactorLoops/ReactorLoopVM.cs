@@ -24,6 +24,8 @@ using System.Diagnostics;
 using Microsoft.Win32;
 using ReliefProCommon.Enum;
 using ReliefProMain.Models;
+using ProII;
+using ReliefProCommon.CommonLib;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -34,15 +36,23 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         public ICommand ImportCMD { get; set; }
         public ICommand ProcessHXAddCMD { get; set; }
         public ICommand ProcessHXDelCMD { get; set; }
+        public ICommand ProcessHXAdd2CMD { get; set; }
+        public ICommand ProcessHXDel2CMD { get; set; }
 
         public ICommand UtilityHXAddCMD { get; set; }
         public ICommand UtilityHXDelCMD { get; set; }
+        public ICommand UtilityHXAdd2CMD { get; set; }
+        public ICommand UtilityHXDel2CMD { get; set; }
 
         public ICommand MixerSplitterAddCMD { get; set; }
         public ICommand MixerSplitterDelCMD { get; set; }
+        public ICommand MixerSplitterAdd2CMD { get; set; }
+        public ICommand MixerSplitterDel2CMD { get; set; }
 
         public ICommand NetworkHXAddCMD { get; set; }
         public ICommand NetworkHXDelCMD { get; set; }
+        public ICommand NetworkHXAdd2CMD { get; set; }
+        public ICommand NetworkHXDel2CMD { get; set; }
 
         public ICommand DetailCMD { get; set; }
         
@@ -56,11 +66,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private ReactorLoopBLL reactorBLL;
         public SourceFile SourceFileInfo { get; set; }
         public string FileFullPath { get; set; }
-        public string FileName { set; get; }
-
+        public string FileName { set; get; }        
+        private string sourcePrzFile;
         ProIIEqDataDAL eqDAL = new ProIIEqDataDAL();
         ProIIStreamDataDAL streamDAL = new ProIIStreamDataDAL();
-
+        List<ReactorLoopEqDiff> eqDiffList;
         public List<string> streams = new List<string>();
         int op = 1;
         private void InitCMD()
@@ -79,6 +89,18 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
             MixerSplitterAddCMD = new DelegateCommand<object>(MixerSplitterAdd);
             MixerSplitterDelCMD = new DelegateCommand<object>(MixerSplitterDel);
+
+            ProcessHXAdd2CMD = new DelegateCommand<object>(ProcessHXAdd2);
+            ProcessHXDel2CMD = new DelegateCommand<object>(ProcessHXDel2);
+
+            UtilityHXAdd2CMD = new DelegateCommand<object>(UtilityHXAdd2);
+            UtilityHXDel2CMD = new DelegateCommand<object>(UtilityHXDel2);
+
+            NetworkHXAdd2CMD = new DelegateCommand<object>(NetworkHXAdd2);
+            NetworkHXDel2CMD = new DelegateCommand<object>(NetworkHXDel2);
+
+            MixerSplitterAdd2CMD = new DelegateCommand<object>(MixerSplitterAdd2);
+            MixerSplitterDel2CMD = new DelegateCommand<object>(MixerSplitterDel2);
 
             DetailCMD = new DelegateCommand<object>(Detail);
         }
@@ -114,6 +136,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             var query = from s in list
                         orderby s.StreamName
                         select s;
+            rlt.Add(string.Empty);
             foreach (ProIIStreamData s in query.ToList())
             {
                 rlt.Add(s.StreamName);
@@ -125,6 +148,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             ObservableCollection<string> rlt = new ObservableCollection<string>();
             ProIIEqDataDAL dal = new ProIIEqDataDAL();
             IList<ProIIEqData> list = dal.GetAllList(SessionPF, FileName, "Flash");
+            rlt.Add(string.Empty);
             foreach (ProIIEqData eq in list)
             {
                 rlt.Add(eq.EqName);
@@ -334,7 +358,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.EffluentStream2_Color = ColorBorder.green.ToString();
                 model.ColdReactorFeedStream_Color = ColorBorder.red.ToString();
                 model.ColdReactorFeedStream2_Color = ColorBorder.green.ToString();
-                model.HotHighPressureSeparator_Color = ColorBorder.red.ToString();
+                model.HotHighPressureSeparator_Color = ColorBorder.green.ToString();
                 model.ColdHighPressureSeparator_Color = ColorBorder.red.ToString();
                 model.HXNetworkColdStream_Color = ColorBorder.red.ToString();
                 model.InjectionWaterStream_Color = ColorBorder.red.ToString();
@@ -431,6 +455,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcProcessHX.Remove(find);
             }
         }
+
         private void UtilityHXAdd(object obj)
         {
             if (model.SelectedUtilityHXSourceModel != null)
@@ -505,7 +530,6 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
         }
 
-
         private void MixerSplitterAdd(object obj)
         {
             if (model.SelectedMixerSourceModel != null)
@@ -524,6 +548,135 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcMixerSplitter.Remove(find);
             }
         }
+
+        private void ProcessHXAdd2(object obj)
+        {
+            for (int i = 0; i < model.ObcProcessHXSource.Count; i++)
+            {
+                ReactorLoopDetail d = model.ObcProcessHXSource[i];
+                model.ObcProcessHX.Add(d);
+                var find = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == d.DetailInfo);
+                model.ObcNetworkHXSource.Remove(find);                
+            }
+            model.ObcProcessHXSource.Clear();
+        }
+        private void ProcessHXDel2(object obj)
+        {
+            for (int i = 0; i < model.ObcProcessHX.Count; i++)
+            {
+                ReactorLoopDetail d = model.ObcProcessHX[i];
+                model.ObcProcessHXSource.Add(d);
+
+                ReactorLoopDetail detail3 = d;
+                detail3.ReactorType = 3;
+                model.ObcNetworkHXSource.Add(detail3);
+            }
+
+            model.ObcProcessHX.Clear();
+
+        }
+
+        private void UtilityHXAdd2(object obj)
+        {
+            
+            for (int i = 0; i < model.ObcUtilityHXSource.Count; i++)
+            {
+                ReactorLoopDetail d = model.ObcUtilityHXSource[i];
+                model.ObcUtilityHX.Add(d);
+                var find = model.ObcNetworkHXSource.FirstOrDefault(p => p.DetailInfo == d.DetailInfo);
+                model.ObcNetworkHXSource.Remove(find);
+                
+            }
+            model.ObcUtilityHXSource.Clear();
+        }
+        private void UtilityHXDel2(object obj)
+        {
+            for (int i = 0; i < model.ObcUtilityHX.Count; i++)
+            {
+                ReactorLoopDetail d = model.ObcUtilityHX[i];
+                model.ObcUtilityHXSource.Add(d);
+
+                ReactorLoopDetail detail3 = d;
+                detail3.ReactorType = 3;
+                model.ObcNetworkHXSource.Add(detail3);
+            }
+            model.ObcUtilityHX.Clear();
+           
+        }
+
+        private void NetworkHXAdd2(object obj)
+        {            
+            for (int i = 0; i < model.ObcNetworkHXSource.Count; i++)
+            {
+                ReactorLoopDetail d = model.ObcNetworkHXSource[i];
+                model.ObcNetworkHX.Add(d);
+                string str = d.DetailInfo;
+                var find2 = model.ObcUtilityHXSource.FirstOrDefault(p => p.DetailInfo == str);
+                if (find2 != null)
+                {
+                    model.ObcUtilityHXSource.Remove(find2);
+                }
+                var find3 = model.ObcProcessHXSource.FirstOrDefault(p => p.DetailInfo == str);
+                if (find3 != null)
+                {
+                    model.ObcProcessHXSource.Remove(find3);
+                }
+                
+            }
+            model.ObcNetworkHXSource.Clear();
+        }
+        private void NetworkHXDel2(object obj)
+        {            
+            for (int i = 0; i < model.ObcNetworkHX.Count; i++)
+            {
+                ReactorLoopDetail d = model.ObcNetworkHX[i];
+                string str = d.DetailInfo;
+                model.ObcNetworkHXSource.Add(d);
+
+                if (d.ReactorLoopID_Color == "1")
+                {
+                    ReactorLoopDetail detail3 = d;
+                    detail3.ReactorType = 1;
+                    model.ObcUtilityHXSource.Add(detail3);
+                }
+                else
+                {
+                    ReactorLoopDetail detail0 = d;
+                    detail0.ReactorType = 0;
+                    model.ObcProcessHXSource.Add(detail0);
+                }
+                
+                
+            }
+            model.ObcNetworkHX.Clear();
+        }
+
+        private void MixerSplitterAdd2(object obj)
+        {
+            for (int i = 0; i < model.ObcMixerSplitterSource.Count; i++)
+            {
+                ReactorLoopDetail d = model.ObcMixerSplitterSource[i];
+                model.ObcMixerSplitter.Add(d);
+            }
+
+            model.ObcMixerSplitterSource.Clear();
+
+        }
+        private void MixerSplitterDel2(object obj)
+        {
+            for (int i = 0; i < model.ObcMixerSplitter.Count; i++)
+            {
+                ReactorLoopDetail d = model.ObcMixerSplitter[i];
+                model.ObcMixerSplitterSource.Add(d);
+            }
+
+            model.ObcMixerSplitter.Clear();
+            
+        }
+
+
+
+
         private void Import(object obj)
         {
             SelectPathView view = new SelectPathView();
@@ -532,8 +685,6 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (view.ShowDialog() == true)
             {
-                if (op == 1)
-                    op = 2;
                 FileName = vm.SelectedFile;
                 SourceFileInfo = vm.SourceFileInfo;
                 InitPage();
@@ -549,7 +700,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         /// <param name="obj"></param>
         private void Simulation(object obj)
         {
+            string sourcePrzFile = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
             string newInpFile = DirProtectedSystem + @"\myrp\myrp.inp";
+            string newPrzFile = DirProtectedSystem + @"\myrp\myrp.prz";
             List<string> hxList = new List<string>();
             List<string> flashList = new List<string>();
             foreach (ReactorLoopDetail d in model.ObcProcessHX)
@@ -564,6 +717,17 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 hxList.Add(d.DetailInfo);
             }
+            string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
+            string[] files = Directory.GetFiles(dir, "*.inp");
+            string sourceFile = files[0];
+            string[] lines = System.IO.File.ReadAllLines(sourceFile);
+            bool IsHXOK=CheckHXData(lines,hxList);
+            if (!IsHXOK)
+            {
+                MessageBox.Show("Error:Hot side feed temperature is Lower than cold side outlet temperature detected for HX,Please correct your model and re-import.","Message Box",MessageBoxButton.OK,MessageBoxImage.Error);
+                return;
+            }
+
             if (!string.IsNullOrEmpty(model.ColdHighPressureSeparator))
             {
                 flashList.Add(model.ColdHighPressureSeparator);
@@ -572,7 +736,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 flashList.Add(model.HotHighPressureSeparator);
             }
-            if (System.IO.File.Exists(newInpFile))
+            if (System.IO.File.Exists(newPrzFile))
             {
                 if (MessageBox.Show("Do you want to rewrite inp file", "Message Box", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
@@ -584,14 +748,18 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 CreateInpFile();
             }
 
-            string sourcePrzFile = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
+            
             ReactorLoopSimulationView v = new ReactorLoopSimulationView();           
-            ReactorLoopSimulationVM vm = new ReactorLoopSimulationVM(reactorLoopID,newInpFile,sourcePrzFile,SourceFileInfo.FileVersion,hxList,flashList,SessionPS,SessionPF);
+            ReactorLoopSimulationVM vm = new ReactorLoopSimulationVM(reactorLoopID,newInpFile,sourcePrzFile,SourceFileInfo.FileVersion,hxList,flashList,SessionPS,SessionPF,model.IsSolved,model.IsMatched,eqDiffList);
+            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.DataContext = vm;
             if (v.ShowDialog() == true)
             {
                 model.IsMatched = vm.IsMatched;
                 model.IsSolved = vm.IsSolved;
+                model.IsSolved_Color = vm.IsSolved_Color;
+                model.IsMatched_Color = vm.IsMatched_Color;
+                eqDiffList = vm.lst;
             }
 
         }
@@ -600,6 +768,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         /// </summary>
         private void CreateInpFile()
         {
+            string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
+            string[] files = Directory.GetFiles(dir, "*.inp");
+            string sourceFile = files[0];
+            string[] lines = System.IO.File.ReadAllLines(sourceFile);
+
             string newInpFile = DirProtectedSystem + @"\myrp\myrp.inp";
             streams.Clear();
             List<CustomStream> csList = new List<CustomStream>();
@@ -629,8 +802,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 {
                     eqList.Add(d.DetailInfo);
                 }
-                
-                
+                               
             }
             if (!string.IsNullOrEmpty(model.ColdHighPressureSeparator))
             {
@@ -703,10 +875,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
 
 
-            string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
-
+            
             int errorTag = 0;
-            string inpData = CreateReactorLoopInpData(dir, csList, eqList, processHxList, otherHxList,splitterList, ref errorTag);
+            string inpData = CreateReactorLoopInpData(lines, csList, eqList, processHxList, otherHxList,splitterList, ref errorTag);
 
             string sourcePrzFile = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
 
@@ -745,6 +916,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 MessageBox.Show("Please Simulate First.","Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
                 return;
             }
+            if (!model.IsSolved)
+            {
+                MessageBox.Show("Simulation not solved,the result can't be saved.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;
@@ -755,14 +931,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         ReImportBLL reimportbll = new ReImportBLL(SessionPS);
                         reimportbll.DeleteAllData();
                         Create();
-                    }
-                    else if (op == 1)
-                    {
-                        Create();
-                    }
+                    }                    
                     else
                     {
-                        MessageBoxResult r = MessageBox.Show("Are you sure to reimport all data?", "Message Box", MessageBoxButton.YesNo);
+                        MessageBoxResult r = MessageBox.Show("Are you sure to rewrite all data?", "Message Box", MessageBoxButton.YesNo);
                         if (r == MessageBoxResult.Yes)
                         {
                             ReImportBLL reimportbll = new ReImportBLL(SessionPS);
@@ -862,8 +1034,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             model.InjectionWaterStreamSource.SourceType_Color = model.InjectionWaterStreamSource.SourceType_Color;
             lstStreamSource.Add(model.InjectionWaterStreamSource.dbmodel);
 
-            if (allSelectedInfo.Count > 0)
-                reactorBLL.Save(model.dbModel, allSelectedInfo, lstStreamSource);
+            reactorBLL.Save(model.dbModel, allSelectedInfo, lstStreamSource,eqDiffList);
             if (op != 1)
             {
                 ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
@@ -890,12 +1061,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         /// <param name="streamList"></param>
         /// <param name="details"></param>
         /// <returns></returns>
-        public string CreateReactorLoopInpData(string rootDir, List<CustomStream> csList, List<string> eqList, List<string> processHxList, List<string> otherHxList, List<string> splitterList, ref int errorTag)
+        public string CreateReactorLoopInpData(string[] lines, List<CustomStream> csList, List<string> eqList, List<string> processHxList, List<string> otherHxList, List<string> splitterList, ref int errorTag)
         {
-            StringBuilder sb = new StringBuilder();
-            string[] files = Directory.GetFiles(rootDir, "*.inp");
-            string sourceFile = files[0];
-            string[] lines = System.IO.File.ReadAllLines(sourceFile);
+            StringBuilder sb = new StringBuilder();            
             List<int> list = new List<int>();
             int i = 0;
             while (i < lines.Length)
@@ -1152,6 +1320,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             while (i < lines.Length)
             {
                 string line = lines[i];
+                int idx = line.IndexOf(",");
+                if (idx > 0)
+                    line = line.Substring(0,idx);
                 if ((line+",").Contains(EqInfo+","))
                 {
                     string eqInfo = GetNewHXInfo(lines, i, eqName, ref errorTag);
@@ -1197,7 +1368,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             while (i < lines.Length)
             {
                 string line = lines[i];
-                if (line.Trim() == EqInfo)
+                int idx = line.IndexOf(",");
+                if (idx > 0)
+                    line = line.Substring(0, idx);
+                if ((line + ",").Contains(EqInfo + ","))
                 {
                     string eqInfo = GetNewOtherHXInfo(lines, i, eqName, ref errorTag);
                     sb.Append(eqInfo);
@@ -1465,17 +1639,17 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         //get eq duty,ltmd, 然后讲HX的值进行替换。
 
 
-        private double GetLTMD(ISession sessionPlant, string fileName, string eqName, out double duty, out double ltmdfactor)
+        private double GetLMTD(ISession sessionPlant, string fileName, string eqName, out double duty, out double lmtdfactor)
         {
             double tin=0;
             double tout=0;
             double Tin=0;
             double Tout=0;
-            double ltmd = -1;
+            double lmtd = -1;
             
             ProIIEqData eqData = eqDAL.GetModel(sessionPlant, fileName, eqName);
             duty = double.Parse(eqData.DutyCalc);
-            ltmdfactor = double.Parse(eqData.LmtdFactorCalc);
+            lmtdfactor = double.Parse(eqData.LmtdFactorCalc);
             string feeddata = eqData.FeedData;
             string[] feeds = feeddata.Split(',');
              string productdata = eqData.ProductData;
@@ -1517,13 +1691,14 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 double a = Tin - tout;
                 double b = Tout - tin;
                 double c = Math.Log(a / b);
-                ltmd = (a - b) / c;
+                lmtd = (a - b) / c;
             }
-            return ltmd;
+            return lmtd;
         }
 
         private string GetNewHXInfo(string[] lines, int start,string hxName,ref int errorTag)
         {
+            bool b = CheckHXColdHotTemperature(lines, start, hxName);            
             StringBuilder sb = new StringBuilder();
             int i = start;
             string line = lines[i];
@@ -1531,19 +1706,23 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             sb.Append(line).Append("\r\n");
             i++;
             line = lines[i];
+            if (!b)
+            {
+                line = line.Replace("HOT  FEED", "COLD  FEED");
+            }
             sb.Append(line).Append("\r\n");
             i++;
             line = lines[i];
+            if (!b)
+            {
+                line = line.Replace("COLD FEED", "HOT  FEED");
+            }
             sb.Append(line).Append("\r\n");
-            i++;
-            line = lines[i];
-            sb.Append(line);
+            
             double duty=0;
-            //double ltmdfactor = 0;
-            //double ltmd = GetLTMD(SessionPF, FileName, hxName, out  duty,out ltmdfactor);
-
+            double lmtdfactor = 0;            
             //三期再采用这个方法
-            double ltmd = 0;// GetLTMD(SessionPF, FileName, hxName, out  duty);
+            double lmtd = 0;// GetLTMD(SessionPF, FileName, hxName, out  duty);
             ProIIEqDataDAL eqDAL = new ProIIEqDataDAL();
             ProIIEqData eqData = eqDAL.GetModel(SessionPF, FileName, hxName);
             double LmtdCalc = double.Parse(eqData.LmtdCalc);
@@ -1552,24 +1731,37 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 errorTag = -1;
                 return "";
             }
-            ////////double LmtdFactorCalc = 0;
-            ////////if (!string.IsNullOrEmpty(eqData.LmtdFactorCalc))
-            ////////    LmtdFactorCalc=double.Parse(eqData.LmtdFactorCalc);
-            ////////if (LmtdFactorCalc == 0 || LmtdFactorCalc == 1)
-            ////////    ltmd = GetLTMD(SessionPF, FileName, hxName, out  duty, out ltmdfactor);
-            ////////else
-            ////////{
-            ////////    //ltmd = LmtdCalc / LmtdFactorCalc;
-            ////////    if(ltmd>200 || ltmd<1)
-            ////////        ltmd = GetLTMD(SessionPF, FileName, hxName, out  duty, out ltmdfactor);
-            ////////}
-            duty = double.Parse(eqData.DutyCalc);
+           
+            if (b)
+            {
+                duty = double.Parse(eqData.DutyCalc);               
+            }
+            else
+            {
+                double LmtdFactorCalc = 0;
+                if (!string.IsNullOrEmpty(eqData.LmtdFactorCalc))
+                    LmtdFactorCalc = double.Parse(eqData.LmtdFactorCalc);
+                if (LmtdFactorCalc == 0 || LmtdFactorCalc == 1)
+                    lmtd = GetLMTD(SessionPF, FileName, hxName, out  duty, out lmtdfactor);
+                else
+                {
+                    lmtd = LmtdCalc / LmtdFactorCalc;
+                    if (lmtd > 200 || lmtd < 1)
+                        lmtd = GetLMTD(SessionPF, FileName, hxName, out  duty, out lmtdfactor);
+                }
+                LmtdCalc = lmtd;
+            }
             double k = 0.3;  //  KW/m2-K
             double a = duty / LmtdCalc / k;  //   m2
-            //if (ltmdfactor != 0)
-            //    a = a / ltmdfactor;
-            sb.Append(" ,U(KW/MK)=").Append(k).Append(",AREA(M2)=").Append(a).Append("\r\n");
-            
+
+            if (b)
+            {
+                sb.Append("CONFIGURE COUNTER,  U(KW/MK)=").Append(k).Append(", AREA(M2)=").Append(a).Append("\r\n");
+            }
+            else
+            {
+                sb.Append("CONFIGURE COUNTER, FT=1, U(KW/MK)=").Append(k).Append(", AREA(M2)=").Append(a).Append("\r\n");
+            }
             return sb.ToString();
             
         }
@@ -1577,13 +1769,16 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
         private string GetNewOtherHXInfo(string[] lines, int start, string hxName, ref int errorTag)
         {
+            bool bTemp = CheckHXColdHotTemperature(lines, start, hxName);           
             ProIIEqData eqData=eqDAL.GetModel(SessionPF,SourceFileInfo.FileName,hxName);
             StringBuilder sb = new StringBuilder();
             string line = lines[start];
             line = line.Replace(", ZONES(OUTPUT)=5", "");
+
             sb.Append(line).Append("\r\n");
             List<string> list = new List<string>();
-            bool b = false;
+            bool bOPER = false;
+            //bool bCONFIGURE=false;
             string attrvalue = string.Empty;
             for (int i = start+1; i < lines.Length; i++)
             {
@@ -1592,9 +1787,12 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 string key2 = "END";
                 if (line.Contains(key1) || line.Trim()==key2)
                 {
-                    
-                    if (!b)
+                    if (!bOPER)
                     {
+                        //if (!bCONFIGURE)
+                        //{
+                        //    sb.Append("CONFIGURE COUNTER, FT=1");
+                        //}
                         attrvalue = "OPER Duty(KW)=" + double.Parse(eqData.DutyCalc)/1e6;
                         sb.Append(attrvalue).Append("\r\n");
                     }
@@ -1602,10 +1800,19 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 }
                 else if (line.Contains("OPER "))
                 {
-                    b = true;
+                    bOPER = true;
+                    //if (!bCONFIGURE)
+                    //{
+                    //    sb.Append("CONFIGURE COUNTER, FT=1");
+                    //}
                     attrvalue = "OPER Duty(KW)=" + double.Parse(eqData.DutyCalc) / 1e6;
                     sb.Append(attrvalue).Append("\r\n");
                 }
+                //else if (line.Contains("CONFIGURE COUNTER"))
+                //{
+                //    bCONFIGURE = true;
+                //    sb.Append("CONFIGURE COUNTER, FT=1");
+                //}
                 else
                 {
                     sb.Append(line).Append("\r\n");
@@ -1784,6 +1991,203 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 }
             }
         }
+
+
+        private bool CheckHXColdHotTemperature(string[] lines,int start,string hx)
+        {
+            bool b = true;
+            ProIIEqData eqdata = eqDAL.GetModel(SessionPF, SourceFileInfo.FileName, hx);
+            if (eqdata.ProductData.Contains(","))
+            {
+                List<string> hotFeeds = new List<string>();
+                List<string> coldFeeds = new List<string>();
+                string hotProduct = string.Empty;
+                string coldProduct = string.Empty;
+                double hotFeedTemperature = 0;
+                double coldFeedTemperature = 0;
+                int j = start + 1;
+                string line = lines[j].Trim();                
+                GetHXStreamInfo(line, ref hotFeeds, ref hotProduct);                
+                j++;
+                line = lines[j].Trim();
+                GetHXStreamInfo(line, ref coldFeeds, ref coldProduct);
+                ProIIStreamData proiihotfeed = streamDAL.GetModel(SessionPF, hotFeeds[0], SourceFileInfo.FileName);
+                if (hotFeeds.Count == 1)
+                {
+                    hotFeedTemperature = double.Parse(proiihotfeed.Temperature);
+                }
+                else
+                {
+                    // do Mixer
+                    hotFeedTemperature = GetMixerTemperature(hotFeeds);                    
+                }
+                ProIIStreamData proiicoldfeed = streamDAL.GetModel(SessionPF, coldFeeds[0], SourceFileInfo.FileName);
+                if (coldFeeds.Count == 1)
+                {
+                    coldFeedTemperature = double.Parse(proiicoldfeed.Temperature);
+                }
+                else
+                {
+                    // do Mixer
+                    coldFeedTemperature = GetMixerTemperature(coldFeeds);
+                }
+                if (hotFeedTemperature < coldFeedTemperature)
+                {
+                    b = false;
+                }
+
+
+            }
+            return b;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hxList"></param>
+        /// <returns></returns>
+        private bool CheckHXData(string[] lines,List<string> hxList)
+        {
+            bool b = true;
+
+            int i=4;
+            int length=lines.Length;
+            while (i < length)
+            {
+                if (lines[i].Contains("UNIT OPERATIONS"))
+                {
+                    i++;
+                    break;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            int start = i;
+            foreach (string hx in hxList)
+            {
+                ProIIEqData eqdata = eqDAL.GetModel(SessionPF, SourceFileInfo.FileName, hx);
+                if (!eqdata.ProductData.Contains(",")) 
+                {
+                    break;
+                }
+                int j = start;
+                while (j < length)
+                {
+                    List<string> hotFeeds = new List<string>();
+                    List<string> coldFeeds = new List<string>();
+                    string hotProduct = string.Empty;
+                    string coldProduct = string.Empty;
+                    string line = lines[j];
+                    if ((line + ",").Contains("HX   UID=" + hx + ","))
+                    {
+                        j++;
+                        line = lines[j].Trim();
+                        if (line.Substring(0, 3) == "HOT")
+                        {
+                            GetHXStreamInfo(line, ref hotFeeds, ref hotProduct);
+                        }
+                        j++;
+                        line = lines[j].Trim();
+                        GetHXStreamInfo(line, ref coldFeeds, ref coldProduct);
+                        ProIIStreamData proiihotfeed = streamDAL.GetModel(SessionPF, hotFeeds[0], SourceFileInfo.FileName);
+                        if (hotFeeds.Count == 1)
+                        {
+                            ProIIStreamData proiicoldproduct = streamDAL.GetModel(SessionPF, coldProduct, SourceFileInfo.FileName);
+                            if (double.Parse(proiicoldproduct.Temperature) > double.Parse(proiihotfeed.Temperature))
+                            {
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            // do Mixer
+                            double mixTemperature = GetMixerTemperature(hotFeeds);
+                            if (mixTemperature > double.Parse(proiihotfeed.Temperature))
+                            {
+                                return false;
+                            }
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        j++;
+                    }
+                }
+            }
+            return b;
+        }
+
+        private void GetHXStreamInfo(string line,ref List<string> feeds,ref string product)
+        {            
+            int begin = line.IndexOf("FEED=");
+            int end1 = line.IndexOf(", M=");
+            string strFeed = line.Substring(begin + 5, end1 - begin - 5);
+            string[] arrFeed = strFeed.Split(',');
+            foreach (string s in arrFeed)
+            {
+                if (!string.IsNullOrEmpty(s))
+                {
+                    feeds.Add(s);
+                }
+            }
+
+            int end2 = line.IndexOf(", DP=") - 1;
+            if (end2 == -2)
+            {
+                end2 = line.Length - 1;
+            }
+            product = line.Substring(end1 + 4, end2 - end1 - 3);
+        }
+
+        private double GetMixerTemperature(List<string> feedList)
+        {
+            double temperature = 0;
+            string sourceDir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
+            string tempdir = DirProtectedSystem + @"\temp\";
+            if (!Directory.Exists(tempdir))
+            {
+                Directory.CreateDirectory(tempdir);
+            }
+            string dirMix = tempdir + "Mix";
+            if (!Directory.Exists(dirMix))
+            {
+                Directory.CreateDirectory(dirMix);
+            }
+            StringBuilder sb = new StringBuilder();
+            string content= PROIIFileOperator.getUsableContent(feedList, sourceDir);
+
+            List<CustomStream> csList=new List<CustomStream>();
+            foreach(string s in feedList)
+            {
+                ProIIStreamData data=streamDAL.GetModel(SessionPF,s,SourceFileInfo.FileName);
+                CustomStream cs=ProIIToDefault.ConvertProIIStreamToCustomStream(data);
+                csList.Add(cs);
+            }
+
+            int ImportResult = 1;
+            int RunResult = 1;
+            IMixCalculate mixcalc = ProIIFactory.CreateMixCalculate(SourceFileInfo.FileVersion);
+            string mixProduct = Guid.NewGuid().ToString().Substring(0, 6);
+            string tray1_f = mixcalc.Calculate(content.ToString(),csList , mixProduct, dirMix, ref ImportResult, ref RunResult);
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                if (RunResult == 1 || RunResult == 2)
+                {
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    reader.InitProIIReader(tray1_f);
+                    ProIIStreamData proIIProduct = reader.GetSteamInfo(mixProduct);                    
+                    reader.ReleaseProIIReader();
+                    temperature = double.Parse(proIIProduct.Temperature);
+                }
+            }
+            return temperature;
+        }
+
+        
     }
 
 

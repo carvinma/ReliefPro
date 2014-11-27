@@ -17,6 +17,7 @@ using ProII;
 using System.Windows;
 using ReliefProDAL;
 using ReliefProBLL;
+using ReliefProCommon.Enum;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -40,9 +41,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private double reliefPressure;
         private string coldVaporStream;
         private CustomStream compressorH2Stream;
-        private string newPrzFile;
-        private string newInpFile;
-
+        private string caseDir;
+        private string casePrzFile;
+        private string caseInpFile;
         private string _SimulationResult;
         public string SimulationResult
         {
@@ -128,6 +129,20 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     SimulationResult = "Simulation not resolved.";
                 }
             }
+
+            if (ReactorType == 0)
+            {
+                caseDir = DirProtectedSystem + @"\BlocketOutlet" + ScenarioID.ToString();
+                casePrzFile = caseDir + @"\a.prz";
+                caseInpFile = caseDir + @"\a.inp";
+            }
+            else
+            {
+                caseDir = DirProtectedSystem + @"\LossOfReactorQuench" + ScenarioID.ToString();
+                casePrzFile = caseDir + @"\a.prz";
+                caseInpFile = caseDir + @"\a.inp";
+            }
+
             UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
             model.EffluentTemperatureUnit = uomEnum.UserTemperature;
             model.EffluentTemperature2Unit = uomEnum.UserTemperature;
@@ -151,6 +166,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             model.dbmodel.ReliefZ = model.ReliefZ;
             model.dbmodel.ReactorType = reactorType;
             model.dbmodel.IsSolved = model.IsSolved;
+            model.dbmodel.IsSolved_Color = model.IsSolved_Color;
         }
 
         /// <summary>
@@ -159,18 +175,48 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         /// <param name="obj"></param>
         private void RunCaseSimulation(object obj)
         {
-            CalcResult(obj);
-            //读取新构建的prz文件的inp文件。
-            //string caseDir = "";
-            //PROIIFileOperator.DecompressProIIFile(rlPrzFile, caseDir);
-            //string inpFile = rlPrzFile.Substring(0, rlPrzFile.Length - 4) + "_backup.inp";
-
-            //讲inp文件里的feed的RATE(WT)=0. 然后再导入inp文件，生成prz文件，查看它是否正确
+            if (File.Exists(casePrzFile))
+            {
+                if (MessageBox.Show("Do you want to rewrite?", "Message Box", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    //覆盖
+                    CalcResult(obj);
+                    return;
+                }
+                else
+                {
+                    IProIIImport import = ProIIFactory.CreateProIIImport(SourceFileInfo.FileVersion);
+                    int RunResult = import.CheckProIISolved(casePrzFile);
+                    if (RunResult != 1 || RunResult != 2)
+                    {
+                        MessageBox.Show("Current simulation not solved.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                }
+            }
+            CalcResult(obj);           
         }
 
         private void LaunchSimulator(object obj)
         {
-            ProIIHelper.Run(SourceFileInfo.FileVersion, newPrzFile);
+            if (File.Exists(casePrzFile))
+            {
+                ProIIHelper.Run(SourceFileInfo.FileVersion, casePrzFile);
+            }
+            else
+            {
+                if (File.Exists(caseInpFile))
+                {
+                    if (MessageBox.Show("Dou you want to open keyword file?", "Message Box", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        ProIIHelper.Open(caseInpFile);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please run simulation first.", "Message Box");
+                }
+            }
         }
         private void CalcResult(object obj)
         {
@@ -204,12 +250,12 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private void CalcBlocket()
         {
             SplashScreenManager.Show(10);
-            SplashScreenManager.SentMsgToScreen("Simulation starting ......1%");
+            SplashScreenManager.SentMsgToScreen("Simulation starting ......10%");
             string rpPrzFile = DirProtectedSystem + @"\myrp\myrp.prz";
             string rpInpDir = DirProtectedSystem + @"\myrp";
             PROIIFileOperator.DecompressProIIFile(rpPrzFile, rpInpDir);
             string inpFile = rpInpDir + @"\myrp.inp";
-            SplashScreenManager.SentMsgToScreen("Simulation ......10%");
+            SplashScreenManager.SentMsgToScreen("Simulation ......20%");
             string[] lines = System.IO.File.ReadAllLines(inpFile);
             StringBuilder sb = new StringBuilder();
             ProIIEqDataDAL eqdatadal = new ProIIEqDataDAL();
@@ -219,11 +265,15 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             ProIIStreamData proiicoldvaporstream = r.GetSteamInfo(coldVaporStream);
             compressorH2Stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proiicoldvaporstream);
             ProIIEqData proiiPCHPS = r.GetEqInfo("Flash", rl.ColdHighPressureSeparator);
-            ProIIEqData proiiHHPS = r.GetEqInfo("Flash", rl.HotHighPressureSeparator);
             ProIIStreamData effluent = r.GetSteamInfo(rl.EffluentStream);
             CustomStream csEffluent = ProIIToDefault.ConvertProIIStreamToCustomStream(effluent);
             double PCHPS_N = double.Parse(proiiPCHPS.PressCalc);
-            double PHHPS_N = double.Parse(proiiHHPS.PressCalc);
+            double PHHPS_N = 0;
+            if (!string.IsNullOrEmpty(rl.HotHighPressureSeparator))
+            {
+                ProIIEqData proiiHHPS = r.GetEqInfo("Flash", rl.HotHighPressureSeparator);
+                PHHPS_N = double.Parse(proiiHHPS.PressCalc);
+            }
             PCHPS_N = UnitConvert.Convert("Kpa", "MPag", PCHPS_N);
             PHHPS_N = UnitConvert.Convert("Kpa", "MPag", PHHPS_N);
             r.ReleaseProIIReader();
@@ -232,7 +282,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             double PCHPS_relief = PCHPS_N + DeltP_Accu;
             double PEffluent_relief = csEffluent.Pressure + DeltP_Accu;
 
-            SplashScreenManager.SentMsgToScreen("Simulation ......20%");
+            SplashScreenManager.SentMsgToScreen("Simulation ......30%");
             if (!string.IsNullOrEmpty(rl.EffluentStream2))
             {
                 InpPosInfo spi = PROIIFileOperator.GetStreamPosInfo(lines, rl.EffluentStream2, "PRESSURE(MPAG)=", "Pressure(MPag)="+ PEffluent_relief.ToString());
@@ -243,10 +293,18 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 InpPosInfo spi = PROIIFileOperator.GetStreamPosInfo(lines, rl.EffluentStream, "PRESSURE(MPAG)=", "Pressure(MPag)="+ PEffluent_relief.ToString());
                 list.Add(spi);
             }
-            InpPosInfo spi2 = PROIIFileOperator.GetFlashPosInfo(lines, rl.ColdHighPressureSeparator, "Pressure(MPag)=", PCHPS_relief.ToString());
-            InpPosInfo spi3 = PROIIFileOperator.GetFlashPosInfo(lines, rl.HotHighPressureSeparator, "Pressure(MPag)=", PHHPS_relief.ToString());
-            list.Add(spi2);
-            list.Add(spi3);
+            SplashScreenManager.SentMsgToScreen("Simulation ......40%");
+            if (!string.IsNullOrEmpty(rl.ColdHighPressureSeparator))
+            {
+                InpPosInfo spi = PROIIFileOperator.GetFlashPosInfo(lines, rl.ColdHighPressureSeparator, "Pressure(MPag)=", PCHPS_relief.ToString());
+                list.Add(spi);
+            }
+            if (!string.IsNullOrEmpty(rl.HotHighPressureSeparator))
+            {
+                InpPosInfo spi = PROIIFileOperator.GetFlashPosInfo(lines, rl.HotHighPressureSeparator, "Pressure(MPag)=", PHHPS_relief.ToString());
+                list.Add(spi);
+            }
+            
             model.ReliefLoad = model.MaxGasRate - model.TotalPurgeRate;
             SplashScreenManager.SentMsgToScreen("Simulation ......50%");
             for (int i = 0; i < lines.Length; i++)
@@ -268,28 +326,27 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     sb.Append(line).Append("\r\n");
                 }
             }
-            SplashScreenManager.SentMsgToScreen("Simulation ......70%");
+            SplashScreenManager.SentMsgToScreen("Simulation ......60%");
             //保存inpdata 到文件。
-            string newInpDir = DirProtectedSystem + @"\BlocketOutlet";
-            if (!Directory.Exists(newInpDir))
+            if (!Directory.Exists(caseDir))
             {
-                Directory.CreateDirectory(newInpDir);
+                Directory.CreateDirectory(caseDir);
             }
-            newInpFile = newInpDir + @"\a.inp";
-            File.Create(newInpFile).Close();
-            File.WriteAllText(newInpFile, sb.ToString());
+            File.Create(caseInpFile).Close();
+            File.WriteAllText(caseInpFile, sb.ToString());
+            SplashScreenManager.SentMsgToScreen("Simulation ......70%");
             //导入后，生成prz文件。
             IProIIImport import = ProIIFactory.CreateProIIImport(SourceFileInfo.FileVersion);
             int ImportResult = -1;
             int RunResult = -1;
-            newPrzFile = import.ImportProIIINP(newInpFile, ref ImportResult, ref RunResult);
+            casePrzFile = import.ImportProIIINP(caseInpFile, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
                     SplashScreenManager.SentMsgToScreen("Simulation ......80%");
                     IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(newPrzFile);
+                    reader.InitProIIReader(casePrzFile);
                     ProIIStreamData proiiStream = reader.GetSteamInfo(coldVaporStream);
                     CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proiiStream);
                     model.ReliefMW = cs.BulkMwOfPhase;
@@ -301,6 +358,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         model.ReliefLoad = 0;
                     reader.ReleaseProIIReader();
                     model.IsSolved = true;
+                    model.IsSolved_Color = ColorBorder.blue.ToString();
                     SimulationResult = "Simulation resolved";
                     SplashScreenManager.SentMsgToScreen("Simulation finished");
                     SplashScreenManager.Close();
@@ -308,6 +366,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 else
                 {
                     model.IsSolved = false;
+                    model.IsSolved_Color = ColorBorder.red.ToString();
                     SimulationResult = "Simulation not resolved";
                     SplashScreenManager.Close();
                     MessageBox.Show("Prz file is error!", "Message Box");
@@ -325,13 +384,13 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private void CalcLossOfReactorQuench()
         {
             SplashScreenManager.Show(10);
-            SplashScreenManager.SentMsgToScreen("Simulation starting ......1%");
+            SplashScreenManager.SentMsgToScreen("Simulation starting ......10%");
             string rpPrzFile = DirProtectedSystem + @"\myrp\myrp.prz";
             string rpInpDir = DirProtectedSystem + @"\myrp";
             PROIIFileOperator.DecompressProIIFile(rpPrzFile, rpInpDir);
             string inpFile = rpInpDir + @"\myrp.inp";
             string[] lines = System.IO.File.ReadAllLines(inpFile);
-            SplashScreenManager.SentMsgToScreen("Simulation ......10%");
+            SplashScreenManager.SentMsgToScreen("Simulation ......20%");
             StringBuilder sb = new StringBuilder();
             ProIIEqDataDAL eqdatadal = new ProIIEqDataDAL();
             List<InpPosInfo> list = new List<InpPosInfo>();
@@ -340,11 +399,15 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             ProIIStreamData proiicoldvaporstream = r.GetSteamInfo(coldVaporStream);
             compressorH2Stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proiicoldvaporstream);
             ProIIEqData proiiPCHPS = r.GetEqInfo("Flash", rl.ColdHighPressureSeparator);
-            ProIIEqData proiiHHPS = r.GetEqInfo("Flash", rl.HotHighPressureSeparator);
             ProIIStreamData effluent = r.GetSteamInfo(rl.EffluentStream);
             CustomStream csEffluent = ProIIToDefault.ConvertProIIStreamToCustomStream(effluent);
             double PCHPS_N = double.Parse(proiiPCHPS.PressCalc);
-            double PHHPS_N = double.Parse(proiiHHPS.PressCalc);
+            double PHHPS_N = 0;
+            if (!string.IsNullOrEmpty(rl.HotHighPressureSeparator))
+            {
+                ProIIEqData proiiHHPS = r.GetEqInfo("Flash", rl.HotHighPressureSeparator);
+                PHHPS_N = double.Parse(proiiHHPS.PressCalc);
+            }
             PCHPS_N = UnitConvert.Convert("Kpa", "MPag", PCHPS_N);
             PHHPS_N = UnitConvert.Convert("Kpa", "MPag", PHHPS_N);
             r.ReleaseProIIReader();
@@ -352,7 +415,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             double PHHPS_relief = PHHPS_N + DeltP_Accu;
             double PCHPS_relief = PCHPS_N + DeltP_Accu;
             double PEffluent_relief = csEffluent.Pressure + DeltP_Accu;
-            SplashScreenManager.SentMsgToScreen("Simulation ......20%");
+            SplashScreenManager.SentMsgToScreen("Simulation ......30%");
             if (!string.IsNullOrEmpty(rl.EffluentStream))
             {
                 InpPosInfo spi = PROIIFileOperator.GetStreamPosInfo2(lines, rl.EffluentStream, "PRESSURE(MPAG)="+PEffluent_relief, "TEMPERATURE(C)="+ model.EffluentTemperature.ToString());
@@ -363,12 +426,18 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 InpPosInfo spi = PROIIFileOperator.GetStreamPosInfo2(lines, rl.EffluentStream2, "PRESSURE(MPAG)="+PEffluent_relief, "TEMPERATURE(C)="+ model.EffluentTemperature2.ToString());
                 list.Add(spi);
             }
-
-            InpPosInfo spi2 = PROIIFileOperator.GetFlashPosInfo(lines, rl.ColdHighPressureSeparator, "Pressure(MPag)=", PCHPS_relief.ToString());
-            InpPosInfo spi3 = PROIIFileOperator.GetFlashPosInfo(lines, rl.HotHighPressureSeparator, "Pressure(MPag)=", PHHPS_relief.ToString());
-            list.Add(spi2);
-            list.Add(spi3);
-            SplashScreenManager.SentMsgToScreen("Simulation ......30%");
+            SplashScreenManager.SentMsgToScreen("Simulation ......40%");
+            if (!string.IsNullOrEmpty(rl.ColdHighPressureSeparator))
+            {
+                InpPosInfo spi = PROIIFileOperator.GetFlashPosInfo(lines, rl.ColdHighPressureSeparator, "Pressure(MPag)=", PCHPS_relief.ToString());
+                list.Add(spi);
+            }
+            if (!string.IsNullOrEmpty(rl.HotHighPressureSeparator))
+            {
+                InpPosInfo spi = PROIIFileOperator.GetFlashPosInfo(lines, rl.HotHighPressureSeparator, "Pressure(MPag)=", PHHPS_relief.ToString());
+                list.Add(spi);
+            }
+            SplashScreenManager.SentMsgToScreen("Simulation ......50%");
             for (int i = 0; i < lines.Length; i++)
             {
                 bool b = false;
@@ -388,29 +457,27 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     sb.Append(line).Append("\r\n");
                 }
             }
-            SplashScreenManager.SentMsgToScreen("Simulation ......40%");
+            SplashScreenManager.SentMsgToScreen("Simulation ......60%");
             //保存inpdata 到文件。
-            string newInpDir = DirProtectedSystem + @"\LossOfReactorQuench";
-            if (!Directory.Exists(newInpDir))
+            if (!Directory.Exists(caseDir))
             {
-                Directory.CreateDirectory(newInpDir);
+                Directory.CreateDirectory(caseDir);
             }
-            newInpFile = newInpDir + @"\a.inp";
-            File.Create(newInpFile).Close();
-            File.WriteAllText(newInpFile, sb.ToString());
-            SplashScreenManager.SentMsgToScreen("Simulation ......50%");
+            File.Create(caseInpFile).Close();
+            File.WriteAllText(caseInpFile, sb.ToString());
+            SplashScreenManager.SentMsgToScreen("Simulation ......70%");
             //导入后，生成prz文件。
             IProIIImport import = ProIIFactory.CreateProIIImport(SourceFileInfo.FileVersion);
             int ImportResult = -1;
             int RunResult = -1;
-            newPrzFile = import.ImportProIIINP(newInpFile, ref ImportResult, ref RunResult);
+            casePrzFile = import.ImportProIIINP(caseInpFile, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    SplashScreenManager.SentMsgToScreen("Simulation ......70%");
+                    SplashScreenManager.SentMsgToScreen("Simulation ......80%");
                     IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(newPrzFile);
+                    reader.InitProIIReader(casePrzFile);
                     ProIIStreamData proiiStream = reader.GetSteamInfo(coldVaporStream);
                     reader.ReleaseProIIReader();
                     CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proiiStream);
@@ -424,6 +491,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         model.ReliefLoad = 0;
                     model.IsSolved = true;
                     SimulationResult = "Simulation resolved";
+                    model.IsSolved_Color = ColorBorder.blue.ToString();
                     SplashScreenManager.SentMsgToScreen("Simulation finished");
                     SplashScreenManager.Close();
                 }
@@ -431,6 +499,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 {
                     model.IsSolved = false;
                     SimulationResult = "Simulation not resolved";
+                    model.IsSolved_Color = ColorBorder.red.ToString();
                     SplashScreenManager.Close();
                     MessageBox.Show("Prz file is error!", "Message Box");
                     return;

@@ -30,5 +30,16 @@ namespace ProII93
 
             return przFile;
         }
+       public int CheckProIISolved(string przFile)
+       {
+           int RunResult = -1;
+           CP2ServerClass cp2Srv = new CP2ServerClass();
+           cp2Srv.Initialize();
+           CP2File cp2File = (CP2File)cp2Srv.OpenDatabase(przFile);
+           RunResult = cp2Srv.RunCalcs(przFile);
+           Marshal.FinalReleaseComObject(cp2Srv);
+           GC.ReRegisterForFinalize(cp2Srv);
+           return RunResult;
+       }
     }
 }

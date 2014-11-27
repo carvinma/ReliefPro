@@ -35,29 +35,45 @@ namespace ReliefProDAL.ReactorLoops
             var list = session.CreateCriteria<ReactorLoopDetail>().Add(Expression.Eq("ReactorType", ReactorType)).List<ReactorLoopDetail>();
             return list;
         }
-        public void Save(ISession session, ReactorLoop model, IList<ReactorLoopDetail> lstDetailModel,List<Source> lstStreamSource)
+        public void Save(ISession session, ReactorLoop model, IList<ReactorLoopDetail> lstDetailModel, List<Source> lstStreamSource, List<ReactorLoopEqDiff> lstEqDiff)
         {
             using (ITransaction tx = session.BeginTransaction())
             {
                 try
                 {
                     session.Clear();
-                    var sql = " from ReliefProModel.ReactorLoops.ReactorLoopDetail o Where o.ReactorType in (0,1,2,3) and o.ReactorLoopID=" + model.ID;
+                    string sql = " from ReliefProModel.ReactorLoops.ReactorLoopDetail o Where o.ReactorType in (0,1,2,3) and o.ReactorLoopID=" + model.ID;
                     session.Delete(sql);
+
+                    sql = " from ReliefProModel.Source";
+                    session.Delete(sql);                   
+                   
+                    
+
                     session.SaveOrUpdate(model);
+
+                    foreach (var detail in lstStreamSource)
+                    {
+                        session.Save(detail);
+                    }
+                    if (lstEqDiff != null)
+                    {
+                        sql = " from ReliefProModel.ReactorLoops.ReactorLoopEqDiff o Where  o.ReactorLoopID=" + model.ID;
+                        session.Delete(sql);
+                        foreach (var diff in lstEqDiff)
+                        {
+                            diff.ReactorLoopID = model.ID;
+                            session.Save(diff);
+                        }
+                    }
 
                     foreach (var detail in lstDetailModel)
                     {
                         detail.ReactorLoopID = model.ID;
                         session.Save(detail);
                     }
-                    sql = " from ReliefProModel.Source";
-                    session.Delete(sql);
-                    foreach (var detail in lstStreamSource)
-                    {
-                        session.Save(detail);
-                    }
-                    session.Flush();
+                    
+                    //session.Flush();
                     tx.Commit();
                 }
                 catch (HibernateException hx)

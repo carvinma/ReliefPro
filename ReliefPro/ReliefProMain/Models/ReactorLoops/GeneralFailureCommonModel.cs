@@ -155,6 +155,16 @@ namespace ReliefProMain.Models.ReactorLoops
                 this.NotifyPropertyChanged("ReliefZ");
             }
         }
+        private string _IsSolved_Color;
+        public string IsSolved_Color
+        {
+            get { return _IsSolved_Color; }
+            set
+            {
+                _IsSolved_Color = value;
+                this.NotifyPropertyChanged("_IsSolved_Color");
+            }
+        }
     }
 
     public class GeneralFailureHXModel : ModelBase

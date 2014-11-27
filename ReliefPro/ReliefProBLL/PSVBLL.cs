@@ -27,7 +27,7 @@ namespace ReliefProBLL
 
             sql = " from ReliefProModel.FlashCalcResult ";
             SessionProtectedSystem.Delete(sql);
-            SessionProtectedSystem.Flush();
+            //SessionProtectedSystem.Flush();
         }
 
         public double GetReliefPressure()

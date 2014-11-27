@@ -372,6 +372,7 @@
     <!--GeneralCoolingWaterFailureView.xaml-->
     <s:String x:Key="GeneralCoolingWaterFailureViewTitle">General Cooling Water Failure</s:String>
     <s:String x:Key="Injectionwaterstream">Injection Water Stream</s:String>
+    <s:String x:Key="Injectionwaterstreamstops">Injection Water Stream Stops</s:String>
     <s:String x:Key="UtilityHX">Utility HX</s:String>
     <s:String x:Key="SimulationSolvedUnsolved">Simulation Solved (Unsolved).</s:String>
     <s:String x:Key="RunCaseSimulation">Run Case Simulation</s:String>
@@ -429,7 +430,7 @@
     <s:String x:Key="HotHighPressureSeparator">Hot High Pressure Separator:</s:String>
     <s:String x:Key="ColdHighPressureSeparator">Cold High Pressure Separator:</s:String>
     <s:String x:Key="ProcessHX">Process HX:</s:String>
-    <s:String x:Key="NetworkHX">Network HX (cold streams form others) :</s:String>
+    <s:String x:Key="NetworkHX">Network HX (One side outside the loop) :</s:String>
     <s:String x:Key="Mixer_Splitter">Mixer/Splitter:</s:String>
     <s:String x:Key="SplitterName">Splitter Name:</s:String>
     <s:String x:Key="Simulation">Simulation:</s:String>
