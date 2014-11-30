@@ -15,8 +15,8 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="23*"></RowDefinition>
             <RowDefinition Height="23"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="70"></ColumnDefinition>
@@ -26,7 +26,7 @@
         </Grid.ColumnDefinitions>
         <Label Content="{DynamicResource Maxmakeupgasrate}"  Grid.Row="1" Grid.Column="1"/>
         <Label Content="{DynamicResource Totalreactorpurgerate}"  Grid.Row="2" Grid.Column="1"/>
-        <Label Content="{Binding SimulationResult,Mode=TwoWay}" Foreground="{Binding model.IsSolved_Color,Mode=TwoWay}" Grid.Row="4" Grid.Column="1"/>
+        <Label Content="{Binding SimulationResult,Mode=TwoWay}" Foreground="{Binding model.IsSolved_Color,Mode=TwoWay}" Height="25" Width="155" Grid.Row="4" Grid.Column="1"/>
         <Label Content="{DynamicResource ReliefLoad}"  Grid.Row="5" Grid.Column="1"/>
         <Label Content="{DynamicResource ReliefTemperature}"  Grid.Row="6" Grid.Column="1"/>
         <Label Content="{DynamicResource ReliefPressure}" Grid.Column="1" Grid.Row="7"/>
@@ -67,7 +67,7 @@
             
         </Grid>
 
-        <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="10"  Grid.ColumnSpan="4" Margin="0,24" >
+        <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="10"  Grid.ColumnSpan="4"  >
             <StatusBarItem>
                 <TextBlock Text="{DynamicResource ReactorLoopBlockedOutletViewStatusBar}"></TextBlock>
             </StatusBarItem>

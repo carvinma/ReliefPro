@@ -37,6 +37,7 @@ namespace ReliefProDAL.ReactorLoops
         }
         public void Save(ISession session, ReactorLoop model, IList<ReactorLoopDetail> lstDetailModel, List<Source> lstStreamSource, List<ReactorLoopEqDiff> lstEqDiff)
         {
+                       
             using (ITransaction tx = session.BeginTransaction())
             {
                 try
@@ -45,21 +46,23 @@ namespace ReliefProDAL.ReactorLoops
                     string sql = " from ReliefProModel.ReactorLoops.ReactorLoopDetail o Where o.ReactorType in (0,1,2,3) and o.ReactorLoopID=" + model.ID;
                     session.Delete(sql);
 
+                    if (lstEqDiff != null)
+                    {
+                        sql = " from ReliefProModel.ReactorLoops.ReactorLoopEqDiff o Where  o.ReactorLoopID=" + model.ID;
+                        session.Delete(sql);
+                    }
+
                     sql = " from ReliefProModel.Source";
-                    session.Delete(sql);                   
+                    session.Delete(sql);
                    
+                    session.Save(model);
                     
-
-                    session.SaveOrUpdate(model);
-
                     foreach (var detail in lstStreamSource)
                     {
                         session.Save(detail);
                     }
                     if (lstEqDiff != null)
                     {
-                        sql = " from ReliefProModel.ReactorLoops.ReactorLoopEqDiff o Where  o.ReactorLoopID=" + model.ID;
-                        session.Delete(sql);
                         foreach (var diff in lstEqDiff)
                         {
                             diff.ReactorLoopID = model.ID;
@@ -73,7 +76,7 @@ namespace ReliefProDAL.ReactorLoops
                         session.Save(detail);
                     }
                     
-                    //session.Flush();
+                    session.Flush();
                     tx.Commit();
                 }
                 catch (HibernateException hx)
@@ -82,6 +85,8 @@ namespace ReliefProDAL.ReactorLoops
                     throw;
                 }
             }
+           
+            
         }
     }
 }

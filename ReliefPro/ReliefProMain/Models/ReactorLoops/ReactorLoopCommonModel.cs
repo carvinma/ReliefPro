@@ -105,6 +105,7 @@ namespace ReliefProMain.Models.ReactorLoops
             this.reliefCpCv = model.ReliefCpCv;
             this.reliefZ = model.ReliefZ;
             this.IsSolved = model.IsSolved;
+            this.IsSolved_Color = model.IsSolved_Color;
             this.effluentTemperature_Color = dbmodel.EffluentTemperature_Color;
             this.effluentTemperature2_Color = dbmodel.EffluentTemperature2_Color;
             this.totalPurgeRate_Color = dbmodel.TotalPurgeRate_Color;
@@ -287,7 +288,7 @@ namespace ReliefProMain.Models.ReactorLoops
             set
             {
                 _IsSolved_Color = value;
-                this.NotifyPropertyChanged("_IsSolved_Color");
+                this.NotifyPropertyChanged("IsSolved_Color");
             }
         }
 

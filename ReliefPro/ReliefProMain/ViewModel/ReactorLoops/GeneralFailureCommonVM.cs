@@ -17,6 +17,7 @@ using System.Windows;
 using ReliefProDAL;
 using ReliefProBLL;
 using ReliefProCommon.Enum;
+using ReliefProMain.View.Common;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -38,7 +39,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         private string DirPlant;
         private string DirProtectedSystem;
         private string coldVaporStream;
-        private CustomStream compressorH2Stream;
+        private CustomStream compressorNormal; //coldVaporStream的转换
         public GeneralFailureCommonModel model { get; set; }
         private GeneralFailureCommonBLL generalBLL; 
         private string rpPrzFile ;
@@ -120,8 +121,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 }
             }
 
-            ProIIStreamData streamData = streamDataDAL.GetModel(SessionPF, rl.CompressorH2Stream, SourceFileInfo.FileName);
-            compressorH2Stream = ProIIToDefault.ConvertProIIStreamToCustomStream(streamData);
+            ProIIStreamData streamData = streamDataDAL.GetModel(SessionPF, coldVaporStream, SourceFileInfo.FileName);
+            compressorNormal = ProIIToDefault.ConvertProIIStreamToCustomStream(streamData);
             this.GeneralType = GeneralType;
             generalBLL = new GeneralFailureCommonBLL(SessionPS, SessionPF);
             GeneralFailureCommon commonModel = new GeneralFailureCommon();
@@ -165,10 +166,12 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.lstNetworkHX = lstCommonDetail3.Select(p => new GeneralFailureHXModel { HXName = p.HXName, Stop = p.Stop, DutyFactor = p.DutyFactor, ReactorType = p.ReactorType }).ToList();
                 if (model.IsSolved)
                 {
+                    model.IsSolved_Color = ColorBorder.blue.ToString();
                     SimulationResult = "Simulation resolved.";
                 }
                 else
                 {
+                    model.IsSolved_Color = ColorBorder.red.ToString();
                     SimulationResult = "Simulation not resolved.";
                 }
             }
@@ -178,6 +181,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.lstProcessHX = GetInitHXs(0);
                 model.lstNetworkHX = GetInitHXs(3);
                 SimulationResult = string.Empty;
+                model.IsSolved_Color = ColorBorder.blue.ToString();
             }
 
             rpPrzFile = DirProtectedSystem + @"\myrp\myrp.prz";
@@ -236,6 +240,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMEnum.MassRate, model.ReliefLoad);
             model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMEnum.Pressure, model.ReliefPressure);
             model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMEnum.Temperature, model.ReliefTemperature);
+            model.dbmodel.ReliefZ = model.ReliefZ;
+            model.dbmodel.ReliefCpCv = model.ReliefCpCv;
+            model.dbmodel.IsSolved_Color = model.IsSolved_Color;
+            model.dbmodel.IsSolved = model.IsSolved;
         }
 
         private void Save(object obj)
@@ -332,9 +340,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             ProIIEqDataDAL eqdatadal = new ProIIEqDataDAL();
             list = new List<InpPosInfo>();
             IProIIReader r = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-            r.InitProIIReader(rpPrzFile);
-            ProIIStreamData proiicoldvaporstream = r.GetSteamInfo(coldVaporStream);
-            compressorH2Stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proiicoldvaporstream);
+            r.InitProIIReader(rpPrzFile);            
             ProIIEqData proiiPCHPS = r.GetEqInfo("Flash", rl.ColdHighPressureSeparator);
             ProIIStreamData effluent = r.GetSteamInfo(rl.EffluentStream);
             CustomStream csEffluent = ProIIToDefault.ConvertProIIStreamToCustomStream(effluent);
@@ -619,21 +625,47 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             int RunResult = 1;
             if (File.Exists(casePrzFile))
             {
-                if (MessageBox.Show("Do you want to rewrite?", "Message Box", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                DuplicateSimulationView v = new DuplicateSimulationView();
+                DuplicateSimulationVM vm = new DuplicateSimulationVM();
+                v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                v.DataContext = vm;
+                if (v.ShowDialog()==true)
                 {
-                    //覆盖
-                    Simulation(ref ImportResult, ref RunResult);
-                }
-                else
-                {
-                    IProIIImport import = ProIIFactory.CreateProIIImport(SourceFileInfo.FileVersion);
-                    RunResult = import.CheckProIISolved(casePrzFile);
-                    if (RunResult != 1 || RunResult != 2)
+                    if (vm.Rdo1)
                     {
-                        MessageBox.Show("Current simulation not solved.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return;
+                        SplashScreenManager.Show(10);
+                        SplashScreenManager.SentMsgToScreen("Simulation reading ......10%");
+                        
+                        IProIIImport import = ProIIFactory.CreateProIIImport(SourceFileInfo.FileVersion);
+                        SplashScreenManager.SentMsgToScreen("Simulation reading ......20%");
+                        SplashScreenManager.SentMsgToScreen("Simulation reading ......30%");
+                        
+                        RunResult = import.CheckProIISolved(casePrzFile);
+                        SplashScreenManager.SentMsgToScreen("Simulation reading ......40%");
+                        SplashScreenManager.SentMsgToScreen("Simulation reading ......50%");
+                        bool b = (RunResult == 1 || RunResult == 2);
+                        if (!b)
+                        {
+                            SplashScreenManager.Close();
+                            MessageBox.Show("Current simulation not solved.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+                        SplashScreenManager.SentMsgToScreen("Simulation reading ......60%");
+                    }
+                    else
+                    {
+                        //覆盖
+                        if (PROIIFileOperator.ClearFolder(caseDir))
+                        {
+                            Simulation(ref ImportResult, ref RunResult);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please close all subfoder and files of this folder.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        }
                     }
                 }
+               
             }
             else
             {
@@ -653,7 +685,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
                     SplashScreenManager.SentMsgToScreen("Simulation reading ......90%");
                     double v1 = cs.WeightFlow / cs.BulkDensityAct;
-                    double v2 = compressorH2Stream.WeightFlow / compressorH2Stream.BulkDensityAct;
+                    double v2 = this.compressorNormal.WeightFlow / compressorNormal.BulkDensityAct;
                     model.ReliefLoad = 1.1 * cs.BulkDensityAct * (v1 - v2);
                     model.ReliefMW = cs.BulkMwOfPhase;
                     model.ReliefTemperature = cs.Temperature;

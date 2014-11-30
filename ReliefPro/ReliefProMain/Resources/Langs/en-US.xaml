@@ -662,7 +662,12 @@
     <s:String x:Key="Longdescriptions">Long descriptions</s:String>
     <s:String x:Key="UnitConvertCommonViewStatusBar">...</s:String>
 
-
+    <!--DuplicateSimulation.xaml-->
+    <s:String x:Key="DuplicateSimulationTitle">Duplicate Simulation Message Box</s:String>
+    <s:String x:Key="DuplicateTip">PRO/II simulation is detected in database</s:String>
+    <s:String x:Key="rdoCurrent">Use current simulation for calculation</s:String>
+    <s:String x:Key="rdoRewrite">Create new simulation and override current simulation</s:String>
+    <s:String x:Key="DuplicateSimulationStatusBar">Exist the window after saving all data</s:String>
 
     <s:String x:Key="ODWarning">OD must be greater than or equal to</s:String>
     <s:String x:Key="LengthWarning">Length must be greater than or equal to zero</s:String>

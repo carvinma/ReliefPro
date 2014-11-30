@@ -162,7 +162,7 @@ namespace ReliefProMain.Models.ReactorLoops
             set
             {
                 _IsSolved_Color = value;
-                this.NotifyPropertyChanged("_IsSolved_Color");
+                this.NotifyPropertyChanged("IsSolved_Color");
             }
         }
     }

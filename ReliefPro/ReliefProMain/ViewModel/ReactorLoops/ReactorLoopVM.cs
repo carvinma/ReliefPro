@@ -26,6 +26,7 @@ using ReliefProCommon.Enum;
 using ReliefProMain.Models;
 using ProII;
 using ReliefProCommon.CommonLib;
+using ReliefProDAL.ReactorLoops;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -71,6 +72,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         ProIIEqDataDAL eqDAL = new ProIIEqDataDAL();
         ProIIStreamDataDAL streamDAL = new ProIIStreamDataDAL();
         List<ReactorLoopEqDiff> eqDiffList;
+
+        Dictionary<string, HXTemperatureInfo> listHxTemp;
         public List<string> streams = new List<string>();
         int op = 1;
         private void InitCMD()
@@ -338,13 +341,18 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 model.ObcUtilityHX = reactorBLL.GetUtilityHX(reactorLoopID);
                 model.ObcNetworkHX = reactorBLL.GetNetworkHX(reactorLoopID);
                 model.ObcMixerSplitter = reactorBLL.GetMixerSplitter(reactorLoopID);
-
+                model.IsMatched = RLModel.IsMatched;
+                model.IsMatched_Color = RLModel.IsMatched_Color;
+                model.IsSolved = RLModel.IsSolved;
+                model.IsSolved_Color = RLModel.IsSolved_Color;
                 SourceFileBLL sfbll = new SourceFileBLL(SessionPF);
                 SourceFileInfo = sfbll.GetSourceFileInfo(model.dbModel.SourceFile);
                 FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
                 FileName = SourceFileInfo.FileName;
                 InitPage();
                 InitReactorLoopSource();
+                ReactorLoopEqDiffDAL eqDiffDal = new ReactorLoopEqDiffDAL();
+                eqDiffList = eqDiffDal.GetList(SessionPS, reactorLoopID).ToList();
                 op = 1;
             }
             else
@@ -700,6 +708,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         /// <param name="obj"></param>
         private void Simulation(object obj)
         {
+            if (!CheckRequireInfo())
+            {
+                return;
+            }
             string sourcePrzFile = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
             string newInpFile = DirProtectedSystem + @"\myrp\myrp.inp";
             string newPrzFile = DirProtectedSystem + @"\myrp\myrp.prz";
@@ -721,10 +733,14 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             string[] files = Directory.GetFiles(dir, "*.inp");
             string sourceFile = files[0];
             string[] lines = System.IO.File.ReadAllLines(sourceFile);
-            bool IsHXOK=CheckHXData(lines,hxList);
+            string ErrorHx = string.Empty;
+
+            listHxTemp = new Dictionary<string, HXTemperatureInfo>();
+            bool IsHXOK=CheckHXData(lines,hxList,ref ErrorHx);
             if (!IsHXOK)
             {
-                MessageBox.Show("Error:Hot side feed temperature is Lower than cold side outlet temperature detected for HX,Please correct your model and re-import.","Message Box",MessageBoxButton.OK,MessageBoxImage.Error);
+                string msg = "Hot side feed temperature lower than cold side outlet temperature  detected for HX "+ErrorHx+", please correct your model and re-import.";
+                MessageBox.Show(msg,"Message Box",MessageBoxButton.OK,MessageBoxImage.Error);
                 return;
             }
 
@@ -910,15 +926,25 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
         private void Save(object obj)
         {
+            if (!CheckRequireInfo())
+            {
+                return;
+            }
+
             string newPrzFile = DirProtectedSystem + @"\myrp\myrp.prz";
             if (!System.IO.File.Exists(newPrzFile))
             {
                 MessageBox.Show("Please Simulate First.","Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
                 return;
             }
-            if (!model.IsSolved)
+            if (!model.IsSolved )
             {
                 MessageBox.Show("Simulation not solved,the result can't be saved.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (eqDiffList==null||eqDiffList.Count==0)
+            {
+                MessageBox.Show("Please Simulate First.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             if (obj != null)
@@ -1698,7 +1724,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
         private string GetNewHXInfo(string[] lines, int start,string hxName,ref int errorTag)
         {
-            bool b = CheckHXColdHotTemperature(lines, start, hxName);            
+            bool isDouble = false;
+            bool isReverse = false;
+            double lmtd = GetHXLMTD(hxName,ref isDouble,ref isReverse);
+            
             StringBuilder sb = new StringBuilder();
             int i = start;
             string line = lines[i];
@@ -1706,55 +1735,38 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             sb.Append(line).Append("\r\n");
             i++;
             line = lines[i];
-            if (!b)
+            if (isReverse)
             {
                 line = line.Replace("HOT  FEED", "COLD  FEED");
             }
             sb.Append(line).Append("\r\n");
             i++;
             line = lines[i];
-            if (!b)
+            if (isReverse)
             {
                 line = line.Replace("COLD FEED", "HOT  FEED");
             }
             sb.Append(line).Append("\r\n");
             
-            double duty=0;
-            double lmtdfactor = 0;            
-            //三期再采用这个方法
-            double lmtd = 0;// GetLTMD(SessionPF, FileName, hxName, out  duty);
+            
             ProIIEqDataDAL eqDAL = new ProIIEqDataDAL();
             ProIIEqData eqData = eqDAL.GetModel(SessionPF, FileName, hxName);
             double LmtdCalc = double.Parse(eqData.LmtdCalc);
+            double duty = double.Parse(eqData.DutyCalc);
             if (LmtdCalc == 0 || LmtdCalc == 1)
             {
                 errorTag = -1;
                 return "";
             }
            
-            if (b)
-            {
-                duty = double.Parse(eqData.DutyCalc);               
-            }
-            else
-            {
-                double LmtdFactorCalc = 0;
-                if (!string.IsNullOrEmpty(eqData.LmtdFactorCalc))
-                    LmtdFactorCalc = double.Parse(eqData.LmtdFactorCalc);
-                if (LmtdFactorCalc == 0 || LmtdFactorCalc == 1)
-                    lmtd = GetLMTD(SessionPF, FileName, hxName, out  duty, out lmtdfactor);
-                else
-                {
-                    lmtd = LmtdCalc / LmtdFactorCalc;
-                    if (lmtd > 200 || lmtd < 1)
-                        lmtd = GetLMTD(SessionPF, FileName, hxName, out  duty, out lmtdfactor);
-                }
+            if(isReverse)
+            {                
                 LmtdCalc = lmtd;
             }
             double k = 0.3;  //  KW/m2-K
             double a = duty / LmtdCalc / k;  //   m2
 
-            if (b)
+            if (lmtd>0)
             {
                 sb.Append("CONFIGURE COUNTER,  U(KW/MK)=").Append(k).Append(", AREA(M2)=").Append(a).Append("\r\n");
             }
@@ -1769,58 +1781,39 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
         private string GetNewOtherHXInfo(string[] lines, int start, string hxName, ref int errorTag)
         {
-            bool bTemp = CheckHXColdHotTemperature(lines, start, hxName);           
+            bool isDouble = false;
+            bool isReverse = false;
+            double lmtd = GetHXLMTD(hxName,ref isDouble,ref isReverse);          
             ProIIEqData eqData=eqDAL.GetModel(SessionPF,SourceFileInfo.FileName,hxName);
             StringBuilder sb = new StringBuilder();
-            string line = lines[start];
+            int i = start;
+            string line = lines[i];
             line = line.Replace(", ZONES(OUTPUT)=5", "");
-
             sb.Append(line).Append("\r\n");
-            List<string> list = new List<string>();
-            bool bOPER = false;
-            //bool bCONFIGURE=false;
-            string attrvalue = string.Empty;
-            for (int i = start+1; i < lines.Length; i++)
+            i++;
+            line = lines[i];
+            if (isDouble)
             {
+                if (isReverse)
+                {
+                    line = line.Replace("HOT  FEED", "COLD  FEED");
+                }
+                sb.Append(line).Append("\r\n");
+                i++;
                 line = lines[i];
-                string key1 = "UID=";
-                string key2 = "END";
-                if (line.Contains(key1) || line.Trim()==key2)
+                if (isReverse)
                 {
-                    if (!bOPER)
-                    {
-                        //if (!bCONFIGURE)
-                        //{
-                        //    sb.Append("CONFIGURE COUNTER, FT=1");
-                        //}
-                        attrvalue = "OPER Duty(KW)=" + double.Parse(eqData.DutyCalc)/1e6;
-                        sb.Append(attrvalue).Append("\r\n");
-                    }
-                    break;
+                    line = line.Replace("COLD FEED", "HOT  FEED");
                 }
-                else if (line.Contains("OPER "))
-                {
-                    bOPER = true;
-                    //if (!bCONFIGURE)
-                    //{
-                    //    sb.Append("CONFIGURE COUNTER, FT=1");
-                    //}
-                    attrvalue = "OPER Duty(KW)=" + double.Parse(eqData.DutyCalc) / 1e6;
-                    sb.Append(attrvalue).Append("\r\n");
-                }
-                //else if (line.Contains("CONFIGURE COUNTER"))
-                //{
-                //    bCONFIGURE = true;
-                //    sb.Append("CONFIGURE COUNTER, FT=1");
-                //}
-                else
-                {
-                    sb.Append(line).Append("\r\n");
-                }
+                sb.Append(line).Append("\r\n");
             }
+            else
+            {
+                sb.Append(line).Append("\r\n");
+            }
+            string oper = "OPER Duty(KW)=" + double.Parse(eqData.DutyCalc) / 1e6;
+            sb.Append(oper).Append("\r\n");
 
-
-            
             return sb.ToString();
 
         }
@@ -1993,52 +1986,26 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
 
 
-        private bool CheckHXColdHotTemperature(string[] lines,int start,string hx)
+        private double GetHXLMTD(string hx,ref  bool isDouble,ref bool isReverse)
         {
-            bool b = true;
-            ProIIEqData eqdata = eqDAL.GetModel(SessionPF, SourceFileInfo.FileName, hx);
-            if (eqdata.ProductData.Contains(","))
+            double lmtd = 1;
+            isReverse=false;
+            if (listHxTemp.ContainsKey(hx))
             {
-                List<string> hotFeeds = new List<string>();
-                List<string> coldFeeds = new List<string>();
-                string hotProduct = string.Empty;
-                string coldProduct = string.Empty;
-                double hotFeedTemperature = 0;
-                double coldFeedTemperature = 0;
-                int j = start + 1;
-                string line = lines[j].Trim();                
-                GetHXStreamInfo(line, ref hotFeeds, ref hotProduct);                
-                j++;
-                line = lines[j].Trim();
-                GetHXStreamInfo(line, ref coldFeeds, ref coldProduct);
-                ProIIStreamData proiihotfeed = streamDAL.GetModel(SessionPF, hotFeeds[0], SourceFileInfo.FileName);
-                if (hotFeeds.Count == 1)
+                HXTemperatureInfo info = listHxTemp[hx];
+                double d1 = info.T1 - info.t2;
+                double d2 =  info.T2 - info.t1;
+                lmtd = d1 / Math.Log(d2);
+                isDouble = true;
+                if (lmtd < 0)
                 {
-                    hotFeedTemperature = double.Parse(proiihotfeed.Temperature);
+                    isReverse = true;
+                    d1 = info.t1 - info.T2;
+                    d2=info.t2 - info.T1;
+                    lmtd = d1 / Math.Log(d2);
                 }
-                else
-                {
-                    // do Mixer
-                    hotFeedTemperature = GetMixerTemperature(hotFeeds);                    
-                }
-                ProIIStreamData proiicoldfeed = streamDAL.GetModel(SessionPF, coldFeeds[0], SourceFileInfo.FileName);
-                if (coldFeeds.Count == 1)
-                {
-                    coldFeedTemperature = double.Parse(proiicoldfeed.Temperature);
-                }
-                else
-                {
-                    // do Mixer
-                    coldFeedTemperature = GetMixerTemperature(coldFeeds);
-                }
-                if (hotFeedTemperature < coldFeedTemperature)
-                {
-                    b = false;
-                }
-
-
             }
-            return b;
+            return lmtd;
         }
 
         /// <summary>
@@ -2046,7 +2013,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         /// </summary>
         /// <param name="hxList"></param>
         /// <returns></returns>
-        private bool CheckHXData(string[] lines,List<string> hxList)
+        private bool CheckHXData(string[] lines,List<string> hxList,ref string errorHx)
         {
             bool b = true;
 
@@ -2080,6 +2047,10 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     List<string> coldFeeds = new List<string>();
                     string hotProduct = string.Empty;
                     string coldProduct = string.Empty;
+                    double T1;
+                    double T2;
+                    double t1;
+                    double t2;
                     string line = lines[j];
                     if ((line + ",").Contains("HX   UID=" + hx + ","))
                     {
@@ -2092,25 +2063,52 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         j++;
                         line = lines[j].Trim();
                         GetHXStreamInfo(line, ref coldFeeds, ref coldProduct);
-                        ProIIStreamData proiihotfeed = streamDAL.GetModel(SessionPF, hotFeeds[0], SourceFileInfo.FileName);
+                       
                         if (hotFeeds.Count == 1)
                         {
-                            ProIIStreamData proiicoldproduct = streamDAL.GetModel(SessionPF, coldProduct, SourceFileInfo.FileName);
-                            if (double.Parse(proiicoldproduct.Temperature) > double.Parse(proiihotfeed.Temperature))
-                            {
-                                return false;
-                            }
+                            ProIIStreamData streamT1 = streamDAL.GetModel(SessionPF, hotFeeds[0], SourceFileInfo.FileName);
+                            T1 = double.Parse(streamT1.Temperature);
                         }
                         else
                         {
                             // do Mixer
-                            double mixTemperature = GetMixerTemperature(hotFeeds);
-                            if (mixTemperature > double.Parse(proiihotfeed.Temperature))
-                            {
-                                return false;
-                            }
+                            T1 = GetMixerTemperature(hotFeeds);                            
                         }
-                        break;
+
+                        if (coldFeeds.Count == 1)
+                        {
+                            ProIIStreamData streamt1 = streamDAL.GetModel(SessionPF, coldFeeds[0], SourceFileInfo.FileName);
+                            t1 = double.Parse(streamt1.Temperature);
+                        }
+                        else
+                        {
+                            // do Mixer
+                            t1 = GetMixerTemperature(hotFeeds);
+                        }
+                        ProIIStreamData streamT2 = streamDAL.GetModel(SessionPF, hotProduct, SourceFileInfo.FileName);
+                        T2 = double.Parse(streamT2.Temperature);
+
+                        ProIIStreamData streamt2 = streamDAL.GetModel(SessionPF, coldProduct, SourceFileInfo.FileName);
+                        t2 = double.Parse(streamt2.Temperature);
+
+                        double t = (T1 - t2) * (T2 - t1);
+                        if (t >=0)
+                        {
+                            HXTemperatureInfo info=new HXTemperatureInfo();
+                            info.HXName=hx;
+                            info.T1=T1;
+                            info.T2 = T2;
+                            info.t1 = t1;
+                            info.t2 = t2;
+                            listHxTemp.Add(hx, info);
+                        }
+                        else
+                        {
+                            errorHx = hx;
+                            return false;
+                            break;
+                        }
+
                     }
                     else
                     {
@@ -2187,9 +2185,55 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             return temperature;
         }
 
-        
-    }
 
+        private bool CheckRequireInfo()
+        {
+            bool b = true;
+            if (string.IsNullOrEmpty(model.ColdHighPressureSeparator))
+            {
+                model.ColdReactorFeedStream2_Color = ColorBorder.red.ToString();
+                MessageBox.Show("Cold High Pressure Separator is required.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            if (string.IsNullOrEmpty(model.EffluentStream) && string.IsNullOrEmpty(model.EffluentStream2))
+            {
+                model.EffluentStream_Color = ColorBorder.red.ToString();
+                MessageBox.Show("Cold High Pressure Separator is required.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            if (string.IsNullOrEmpty(model.CompressorH2Stream))
+            {
+                model.CompressorH2Stream_Color = ColorBorder.red.ToString();
+                MessageBox.Show("Compressor H2 Stream is required.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            if (string.IsNullOrEmpty(model.ColdReactorFeedStream) && string.IsNullOrEmpty(model.ColdReactorFeedStream2))
+            {
+                model.ColdReactorFeedStream = ColorBorder.red.ToString();
+                MessageBox.Show("Cold Reactor Feed Stream is required.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            if (string.IsNullOrEmpty(model.InjectionWaterStream))
+            {
+                model.InjectionWaterStream_Color = ColorBorder.red.ToString();
+                MessageBox.Show("Injection Water Stream is required.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            
+            return b;
+        }
+
+
+
+    }
+    public class HXTemperatureInfo
+    {
+        public string HXName;
+        public double T1;
+        public double T2;
+        public double t1;
+        public double t2;
+    }
 
 
 }

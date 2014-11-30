@@ -341,8 +341,10 @@ namespace ReliefProMain.ViewModel
                         ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
                         scBLL.DeleteSCOther();
                         scBLL.ClearScenario();
+                        
                         PSVBLL psvbll = new PSVBLL(SessionProtectedSystem);
                         psvbll.DeletePSVData();
+                        
                         SplashScreenManager.SentMsgToScreen("Creating PSV");
                         if (EqType == "Tower")
                         {

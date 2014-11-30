@@ -800,6 +800,39 @@ namespace ReliefProCommon.CommonLib
             return spi;
         }
 
+        public static bool ClearFolder(string dir)
+        {
+            bool b = true;
+            try
+            {
+                foreach (string d in Directory.GetFileSystemEntries(dir))
+                {
+                    if (File.Exists(d))
+                    {
+                        FileInfo fi = new FileInfo(d);
+                        if (fi.Attributes.ToString().IndexOf("ReadOnly") != -1)
+                            fi.Attributes = FileAttributes.Normal;
+                        File.Delete(d);//直接删除其中的文件  
+                    }
+                    else
+                    {
+                        DirectoryInfo d1 = new DirectoryInfo(d);
+                        if (d1.GetFiles().Length != 0)
+                        {
+                            ClearFolder(d1.FullName);////递归删除子文件夹
+                        }
+                        Directory.Delete(d);
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            
+        }
+
     }
 
     public class InpPosInfo

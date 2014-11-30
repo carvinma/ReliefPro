@@ -36,7 +36,7 @@ namespace ReliefProBLL
         {
             var sql = " from ReliefProModel.Scenario ";
             SessionProtectedSystem.Delete(sql);
-            //SessionProtectedSystem.Flush();
+            SessionProtectedSystem.Flush();
         }
 
         //删除所有相关ICON的表，同时，清空tbScenario
@@ -99,9 +99,7 @@ namespace ReliefProBLL
             SessionProtectedSystem.Delete(sql);
             sql = " from ReliefProModel.ReactorLoops.ReactorLoopCommon ";
             SessionProtectedSystem.Delete(sql);
-            sql = " from ReliefProModel.ReactorLoops.ReactorLoopDetail ";
-            SessionProtectedSystem.Delete(sql);
-
+            
             sql = " from ReliefProModel.Towers.BlockedVaporOutlet ";
             SessionProtectedSystem.Delete(sql);
 
@@ -141,7 +139,7 @@ namespace ReliefProBLL
             sql = " from ReliefProModel.TowerScenarioStream ";
             SessionProtectedSystem.Delete(sql);
 
-            //SessionProtectedSystem.Flush();
+            SessionProtectedSystem.Flush();
         }
 
         

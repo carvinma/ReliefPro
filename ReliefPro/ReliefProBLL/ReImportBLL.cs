@@ -51,6 +51,8 @@ namespace ReliefProBLL
             SessionProtectedSystem.Delete(sql);
             sql = " from ReliefProModel.ReactorLoops.ReactorLoop ";
             SessionProtectedSystem.Delete(sql);
+            sql = " from ReliefProModel.ReactorLoops.ReactorLoopDetail ";
+            SessionProtectedSystem.Delete(sql);
             sql = " from ReliefProModel.ReactorLoops.ReactorLoopEqDiff ";
             SessionProtectedSystem.Delete(sql);
             sql = " from ReliefProModel.Accumulator ";
@@ -86,7 +88,7 @@ namespace ReliefProBLL
             sql = " from ReliefProModel.TowerHX ";
             SessionProtectedSystem.Delete(sql);
             
-            //SessionProtectedSystem.Flush();
+            SessionProtectedSystem.Flush();
         }
     }
 }

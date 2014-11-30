@@ -63,14 +63,14 @@
     
     <Style TargetType="{x:Type Label}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="FontSize" Value="12px" />
         <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
     
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Height" Value="18"/>
         <Setter Property="Width" Value="125"/>
         <!--<Setter Property="BorderBrush" Value="#007f00"/>-->
