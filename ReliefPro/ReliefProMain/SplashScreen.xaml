@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="SplashScreen" Height="60" Width="400"  
         WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        x:Name="Splash">
+        x:Name="Splash" AllowsTransparency="True"  Background="#00FFFFFF">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -13,7 +13,7 @@
             <StackPanel Grid.Row="1" Orientation="Vertical">
                 <ProgressBar x:Name="progress" Maximum="{Binding SProgressValue}" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="6" Value="{Binding ProgressValue}" Height="15" Width="350">
                 </ProgressBar>
-                <Label  x:Name="txtInfo"  Content="{Binding Message}"  HorizontalAlignment="Center" Width="300" Margin="6"></Label>
+                <Label  x:Name="txtInfo" HorizontalContentAlignment="Center" Content="{Binding Message}"  HorizontalAlignment="Center" Width="300" Margin="6"></Label>
             </StackPanel>
         </Grid>
     </Grid>

@@ -662,6 +662,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         else
                         {
                             MessageBox.Show("Please close all subfoder and files of this folder.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
                         }
                     }
                 }

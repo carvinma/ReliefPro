@@ -69,8 +69,8 @@ namespace ReliefProBLL
         {
             var sql = " from ReliefProModel.Compressors.CentrifugalBlockedOutlet ";
             SessionProtectedSystem.Delete(sql);
-            sql = " from ReliefProModel.Compressors.PistonBlockedOutlet ";
-            SessionProtectedSystem.Delete(sql);
+            //sql = " from ReliefProModel.Compressors.PistonBlockedOutlet "; // 和CentrifugalBlockedOutlet存储的表一样，所以只需要删除一次即可
+            //result = SessionProtectedSystem.Delete(sql);
 
             sql = " from ReliefProModel.Drums.DrumBlockedOutlet ";
             SessionProtectedSystem.Delete(sql);
@@ -99,7 +99,7 @@ namespace ReliefProBLL
             SessionProtectedSystem.Delete(sql);
             sql = " from ReliefProModel.ReactorLoops.ReactorLoopCommon ";
             SessionProtectedSystem.Delete(sql);
-            
+
             sql = " from ReliefProModel.Towers.BlockedVaporOutlet ";
             SessionProtectedSystem.Delete(sql);
 

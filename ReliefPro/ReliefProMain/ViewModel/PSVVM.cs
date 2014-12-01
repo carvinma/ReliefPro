@@ -198,6 +198,15 @@ namespace ReliefProMain.ViewModel
             CurrentModel.dbmodel.CriticalTemperature = UnitConvert.Convert(CurrentModel.CriticalTemperatureUnit,UOMEnum.Temperature,  CurrentModel.CriticalTemperature);
             CurrentModel.dbmodel.CricondenbarPress = UnitConvert.Convert(CurrentModel.CricondenbarPressUnit, UOMEnum.Pressure, CurrentModel.CricondenbarPress);
             CurrentModel.dbmodel.CricondenbarTemp = UnitConvert.Convert(CurrentModel.CricondenbarTempUnit, UOMEnum.Temperature, CurrentModel.CricondenbarTemp);
+
+            CurrentModel.dbmodel.Description = CurrentModel.Description;
+            CurrentModel.dbmodel.LocationDescription = CurrentModel.LocationDescription;
+            CurrentModel.dbmodel.DischargeTo = CurrentModel.DischargeTo;
+            CurrentModel.dbmodel.DischargeTo_Color = CurrentModel.DischargeTo_Color;
+            CurrentModel.dbmodel.ValveType = CurrentModel.ValveType;
+            CurrentModel.dbmodel.ValveType_Color = CurrentModel.ValveType_Color;
+            CurrentModel.dbmodel.PSVName = CurrentModel.PSVName;
+            CurrentModel.dbmodel.PSVName_Color = CurrentModel.PSVName_Color;
         }
 
         private ICommand _SaveCommand;
@@ -333,7 +342,7 @@ namespace ReliefProMain.ViewModel
                     //SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
 
                     //应该是删除所有的和定压相关的表的数据
-                    MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
+                    MessageBoxResult r = MessageBox.Show("Are you sure to edit data? ", "Message Box", MessageBoxButton.YesNo,MessageBoxImage.Information);
                     if (r == MessageBoxResult.Yes)
                     {
                         SplashScreenManager.Show();

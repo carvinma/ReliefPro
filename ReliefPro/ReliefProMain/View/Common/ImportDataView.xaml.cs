@@ -149,8 +149,7 @@ namespace ReliefProMain.View
             IList<ProIIEqData> eqList=new List<ProIIEqData>();
             IList<string> streamList = new List<string>();         
             try
-            {
-                
+            {                
                 IProIIReader reader = ProIIFactory.CreateReader(version);
                 reader.InitProIIReader(curprzFile);
 
