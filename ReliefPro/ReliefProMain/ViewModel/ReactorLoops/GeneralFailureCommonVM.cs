@@ -18,6 +18,7 @@ using ReliefProDAL;
 using ReliefProBLL;
 using ReliefProCommon.Enum;
 using ReliefProMain.View.Common;
+using System.Diagnostics;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -214,7 +215,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
         private void CoolingLaunchSimulator(object obj)
         {
-            ProIIHelper.Run(SourceFileInfo.FileVersion, casePrzFile);
+            LaunchSimulator();
         }
         
         private void ElectricRunCaseSimulation(object obj)
@@ -223,7 +224,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
         private void ElectricLaunchSimulator(object obj)
         {
-            ProIIHelper.Run(SourceFileInfo.FileVersion, casePrzFile);
+            LaunchSimulator();
         }
 
         private void LossOfColdFeedRunCaseSimulation(object obj)
@@ -420,12 +421,20 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             return casePrzFile;
             
         }
-
+        Process caseProcess;
         private void LaunchSimulator()
         {
             if (File.Exists(casePrzFile))
             {
-                ProIIHelper.Run(SourceFileInfo.FileVersion, casePrzFile);
+                if (caseProcess == null || caseProcess.HasExited)
+                {
+                    caseProcess = ProIIHelper.Run(SourceFileInfo.FileVersion, casePrzFile);
+                }
+                else
+                {
+                    MessageBox.Show("this file was opened.","Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
+                    return;
+                }
             }
             else
             {

@@ -16,8 +16,9 @@ namespace ReliefProCommon.CommonLib
         /// </summary>
         /// <param name="przVersion"></param>
         /// <param name="proiiFilePath"></param>
-        public static void Run(string przVersion, string proiiFilePath)
+        public static Process Run(string przVersion, string proiiFilePath)
         {
+            Process pro = null;
             if (!string.IsNullOrEmpty(przVersion) && !string.IsNullOrEmpty(proiiFilePath))
             {
                 ProcessStartInfo psInfo = new ProcessStartInfo();
@@ -35,18 +36,19 @@ namespace ReliefProCommon.CommonLib
                         {
                             psInfo.FileName = version.GetValue("SecDir").ToString() + @"\PROII.exe";
                             psInfo.Arguments = string.Format("/I=\"{0}\" \"{1}\"", version.GetValue("SecIni").ToString(), proiiFilePath);
-                            Process pro = Process.Start(psInfo);
+                            pro = Process.Start(psInfo);
                         }
                     }
                 }
             }
+            return pro;
         }
 
         /// <summary>
         /// open inp file
         /// </summary>
         /// <param name="ProiiInpFile"></param>
-        public static void Open(string ProiiInpFile)
+        public static Process Open(string ProiiInpFile)
         {
             ProcessStartInfo procInfo = new System.Diagnostics.ProcessStartInfo();
             //设置要调用的外部程序名
@@ -56,7 +58,7 @@ namespace ReliefProCommon.CommonLib
 
             //设置外部程序工作目录为 C:\
             //procInfo.WorkingDirectory = "C:\\";
-            System.Diagnostics.Process.Start(procInfo);
+           return System.Diagnostics.Process.Start(procInfo);
         }
     }
 }

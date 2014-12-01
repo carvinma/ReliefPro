@@ -19,6 +19,7 @@ using ReliefProDAL;
 using ReliefProBLL;
 using ReliefProCommon.Enum;
 using ReliefProMain.View.Common;
+using System.Diagnostics;
 
 namespace ReliefProMain.ViewModel.ReactorLoops
 {
@@ -234,11 +235,20 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
         }
 
+        Process caseProcess;
         private void LaunchSimulator(object obj)
         {
             if (File.Exists(casePrzFile))
             {
-                ProIIHelper.Run(SourceFileInfo.FileVersion, casePrzFile);
+                if (caseProcess == null || caseProcess.HasExited)
+                {
+                    caseProcess = ProIIHelper.Run(SourceFileInfo.FileVersion, casePrzFile);
+                }
+                else
+                {
+                    MessageBox.Show("this file was opened.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
             }
             else
             {
