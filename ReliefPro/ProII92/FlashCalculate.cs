@@ -33,7 +33,7 @@ namespace ProII92
             StringBuilder sb = new StringBuilder();
             string[] arrfileContent = fileContent.Split(new string[] { "STREAM DATA" }, StringSplitOptions.None);
             sb.Append(arrfileContent[0]).Append("\nSTREAM DATA\n").Append(streamData).Append(arrfileContent[1]).Append(flashData);
-            string onlyFileName = dir + @"\" + Guid.NewGuid().ToString().Substring(0, 5);
+            string onlyFileName = dir + @"\a" ;
             string inpFile = onlyFileName + ".inp";
             File.WriteAllText(inpFile, sb.ToString());
             CP2ServerClass cp2Srv = new CP2ServerClass();

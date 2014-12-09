@@ -26,9 +26,9 @@ namespace ProII92
             Guid guid = Guid.NewGuid();
             string MixName = "Mix_1";
 
-            data2.Append("\tMix UID=").Append(MixName).Append("\n");
+            data2.Append("\tMIXER UID=").Append(MixName).Append("\n");
             data2.Append("\t FEED ").Append(feeds.ToUpper()).Append("\n");
-            data2.Append("\t PRODUCT M=").Append(product).Append(",&\n");
+            data2.Append("\t PRODUCT M=").Append(product).Append("\n");
    
             data2.Append("END");
             return data2.ToString();
@@ -49,7 +49,7 @@ namespace ProII92
             }
 
             sb.Append(arrfileContent[1]).Append(flashData);
-            string onlyFileName = dir + @"\" + Guid.NewGuid().ToString().Substring(0, 5);
+            string onlyFileName = dir + @"\a" ;
             string inpFile = onlyFileName + ".inp";
             File.WriteAllText(inpFile, sb.ToString());
             CP2ServerClass cp2Srv = new CP2ServerClass();

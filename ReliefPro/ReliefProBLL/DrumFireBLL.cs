@@ -30,10 +30,11 @@ namespace ReliefProBLL
             {
                 firemodel = lstDrumFire.Where(p => p.ScenarioID == ScenarioID).FirstOrDefault();
             }
-            if (firemodel.ID > 0)
+            if (firemodel!=null)
                 return firemodel;
             else
             {
+                firemodel = new DrumFireCalc();
                 firemodel = GetScenarioInfo(ScenarioID, firemodel);
                 firemodel.ScenarioID = ScenarioID;
             }

@@ -69,7 +69,6 @@ namespace ReliefProMain.ViewModel
                 ObservableCollection<CustomStream>  Products = csbll.GetStreams(SessionProtectedSystem, true);
                 Compressor compressor = compressorbll.GetModel();
                 model = new CompressorModel(compressor,Feeds,Products);
-               
                 SourceFileDAL sfdal = new SourceFileDAL();
                 SourceFileInfo = sfdal.GetModel(compressor.SourceFile, SessionPlant);
                 FileName = compressor.SourceFile;
@@ -82,9 +81,12 @@ namespace ReliefProMain.ViewModel
                 ObservableCollection<CustomStream> Feeds = new ObservableCollection<CustomStream>();
                 ObservableCollection<CustomStream> Products = new ObservableCollection<CustomStream>();
                 Compressor compressor = new Compressor();
-                compressor.CompressorType = "Centrifugal";
-                compressor.CompressorType_Color = ColorBorder.green.ToString();
+                compressor.CompressorType = "Centrifugal";                
+                compressor.Driver = "Turbine";
+                
                 model = new CompressorModel(compressor, Feeds, Products);
+                model.CompressorType_Color = ColorBorder.green.ToString();
+                model.Driver_Color = ColorBorder.green.ToString();
                 op = 0;
             }
         }
@@ -122,6 +124,10 @@ namespace ReliefProMain.ViewModel
                     ProIICompressor = dbEq.GetModel(SessionPlant, FileName, vm.SelectedEq, "Compressor");                   
                     model.CompressorType = model.CompressorTypes[0];
                     model.CompressorName = ProIICompressor.EqName;
+                    model.Driver = model.Drivers[0];
+                    model.CompressorType_Color = ColorBorder.green.ToString();
+                    model.Driver_Color = ColorBorder.green.ToString();
+
                     dicFeeds = new List<string>();
                     dicProducts = new List<string>();
                     dicProductTypes = new List<string>();

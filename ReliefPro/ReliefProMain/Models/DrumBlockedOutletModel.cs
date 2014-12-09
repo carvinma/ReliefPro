@@ -98,7 +98,6 @@ namespace ReliefProMain.Models
 
         private double maxPressure;
         
-        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double MaxPressure
         {
             get { return maxPressure; }
@@ -112,7 +111,6 @@ namespace ReliefProMain.Models
 
         private double maxStreamRate;
         
-        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double MaxStreamRate
         {
             get { return maxStreamRate; }

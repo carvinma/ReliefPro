@@ -42,8 +42,17 @@ namespace ReliefProMain.ViewModel.Compressors
             model.ReliefloadUnit = uomEnum.UserMassRate;
             model.ReliefTempUnit = uomEnum.UserTemperature;
             model.ReliefPressureUnit = uomEnum.UserPressure;
+            
         }
-        private void WriteConvertModel()
+
+        private void ReadConvert()
+        {
+            //model.Reliefload = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), model.ReliefloadUnit, model.dbmodel.Reliefload);
+            //model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTempUnit, model.dbmodel.ReliefTemperature);
+            //model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressureUnit, model.dbmodel.ReliefPressure);
+            
+        }
+        private void WriteConvert()
         {
             model.dbmodel.RatedCapacity = model.RatedCapacity;
             model.dbmodel.ReliefMW = model.ReliefMW;
@@ -55,13 +64,15 @@ namespace ReliefProMain.ViewModel.Compressors
         }
         private void CalcResult(object obj)
         {
+            PSVDAL psvDAL = new PSVDAL();
+            PSV psv = psvDAL.GetModel(SessionPS);
             CustomStreamDAL customStreamDAL = new CustomStreamDAL();
             IList<CustomStream> csList = customStreamDAL.GetAllList(SessionPS, true);
             if (csList.Count > 0)
             {
                 CustomStream cs = csList[0];
                 model.ReliefMW = cs.BulkMwOfPhase;
-                model.ReliefPressure = cs.Pressure;
+                model.ReliefPressure = psv.Pressure*psv.ReliefPressureFactor;
                 model.Reliefload = cs.WeightFlow * model.RatedCapacity;
                 model.ReliefTemperature = cs.Temperature;
                 if (model.Reliefload < 0)
@@ -77,7 +88,7 @@ namespace ReliefProMain.ViewModel.Compressors
                 System.Windows.Window wd = obj as System.Windows.Window;
                 if (wd != null)
                 {
-                    WriteConvertModel();
+                    WriteConvert();
                     blockBLL.SavePiston(model.dbmodel);
 
                     wd.DialogResult = true;

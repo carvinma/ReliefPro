@@ -15,7 +15,9 @@
   <property name="ReliefPressure" column="ReliefPressure" type="Double"/>
   <property name="ReliefCpCv" column="ReliefCpCv" type="Double"/>
   <property name="ReliefZ" column="ReliefZ" type="Double"/>
-
+  <property name="KNormal" column="KNormal" type="Double"/>
+  <property name="DeltPowY" column="DeltPowY" type="Double"/>
+  
   <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"/>
   <property name="Scale_Color" column="Scale_Color" type="String" length="255"/>
   <property name="InletLoad_Color" column="InletLoad_Color" type="String" length="255"/>
@@ -25,6 +27,8 @@
   <property name="ReliefMW_Color" column="ReliefMW_Color" type="String" length="255"/>
   <property name="ReliefTemperature_Color" column="ReliefTemperature_Color" type="String" length="255"/>
   <property name="ReliefPressure_Color" column="ReliefPressure_Color" type="String" length="255"/>
+  <property name="KNormal_Color" column="KNormal_Color" type="String" length="255"/>
+  <property name="DeltPowY_Color" column="DeltPowY_Color" type="String" length="255"/>
   
   
   

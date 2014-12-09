@@ -157,19 +157,32 @@ namespace ReliefProMain.ViewModel
                 psv.Location_Color = ColorBorder.green.ToString();
             }
             CurrentModel = new PSVModel(psv);
-            CurrentModel.ValveType = ValveTypes[0];
+            if (psv.ID == 0)
+            {
+                CurrentModel.ValveType = ValveTypes[0];
+            }
             if (DischargeTos.Count > 0)
             {
-                CurrentModel.DischargeTo = DischargeTos[0];
+                if (psv.ID == 0)
+                {
+                    CurrentModel.DischargeTo = DischargeTos[0];
+                }
             }
 
             if (eqType == "StorageTank" || EqType=="ReactorLoop")
             {
-                CurrentModel.Location = Locations[0]; ;
+                if (psv.ID == 0)
+                {
+                    CurrentModel.Location = Locations[0]; ;
+                }
             }
             else
             {
-                CurrentModel.Location = eqName;
+                if (psv.ID == 0)
+                {
+                    CurrentModel.Location = eqName;
+                }
+               
             }
             CurrentModel.CriticalPressureUnit = uomEnum.UserPressure;
             CurrentModel.CriticalTemperatureUnit = uomEnum.UserTemperature;
@@ -192,7 +205,7 @@ namespace ReliefProMain.ViewModel
         }
         private void WriteConvert()
         {
-            CurrentModel.dbmodel.Pressure = UnitConvert.Convert(CurrentModel.PressureUnit,UOMEnum.Pressure,  CurrentModel.Pressure);
+            CurrentModel.dbmodel.Pressure = UnitConvert.Convert(CurrentModel.PSVPressureUnit, UOMEnum.Pressure, CurrentModel.Pressure);
             CurrentModel.dbmodel.CriticalPressure = UnitConvert.Convert(CurrentModel.CriticalPressureUnit,UOMEnum.Pressure,  CurrentModel.CriticalPressure);
             CurrentModel.dbmodel.DrumPressure = UnitConvert.Convert(CurrentModel.DrumPressureUnit,UOMEnum.Pressure,  CurrentModel.DrumPressure);
             CurrentModel.dbmodel.CriticalTemperature = UnitConvert.Convert(CurrentModel.CriticalTemperatureUnit,UOMEnum.Temperature,  CurrentModel.CriticalTemperature);
@@ -201,6 +214,7 @@ namespace ReliefProMain.ViewModel
 
             CurrentModel.dbmodel.Description = CurrentModel.Description;
             CurrentModel.dbmodel.LocationDescription = CurrentModel.LocationDescription;
+            CurrentModel.dbmodel.Location = CurrentModel.Location;
             CurrentModel.dbmodel.DischargeTo = CurrentModel.DischargeTo;
             CurrentModel.dbmodel.DischargeTo_Color = CurrentModel.DischargeTo_Color;
             CurrentModel.dbmodel.ValveType = CurrentModel.ValveType;

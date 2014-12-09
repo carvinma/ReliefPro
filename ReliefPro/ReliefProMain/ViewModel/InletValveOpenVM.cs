@@ -80,8 +80,12 @@ namespace ReliefProMain.ViewModel
                     else
                     {
                         UpStreamNames = GetFlashProducts(dicEqData[SelectedVessel]);
-                        UpStreamCpCv = UpStreamVaporData.BulkCPCVRatio;
+                        
                         MaxOperatingPressure = UnitConvert.Convert("KPA", "MPAG", double.Parse(dicEqData[_SelectedVessel].PressCalc));
+                        if (UpStreamVaporData!=null)
+                        {
+                            UpStreamCpCv = UpStreamVaporData.BulkCPCVRatio;
+                        }
                     }
                     SplashScreenManager.SentMsgToScreen("Loading finished");
                     SplashScreenManager.Close();
@@ -279,9 +283,7 @@ namespace ReliefProMain.ViewModel
             model = dbinlet.GetModel(SessionProtectedSystem);
             if (model == null)
             {
-                PSVDAL dbpsv = new PSVDAL();
-                PSV psv = dbpsv.GetModel(sessionProtectedSystem);
-                ReliefPressure = psv.Pressure;
+               
             }
             else
             {
@@ -347,10 +349,12 @@ namespace ReliefProMain.ViewModel
                 model.ReliefLoad = ReliefLoad;
                 model.ReliefMW = ReliefMW;
                 model.ReliefPressure = ReliefPressure;
-                model.ReliefTemperature = _ReliefTemperature;
+                model.ReliefTemperature = ReliefTemperature;
                 model.VesselName = SelectedVessel;
                 model.XT = XT;
                 model.UpStreamCpCv = UpStreamCpCv;
+                model.ReliefCpCv = ReliefCpCv;
+                model.ReliefZ = ReliefZ;
                 dbinlet.Add(model, SessionProtectedSystem);
             }
             else
@@ -361,17 +365,21 @@ namespace ReliefProMain.ViewModel
                 model.ReliefLoad = ReliefLoad;
                 model.ReliefMW = ReliefMW;
                 model.ReliefPressure = ReliefPressure;
-                model.ReliefTemperature = _ReliefTemperature;
+                model.ReliefTemperature = ReliefTemperature;
                 model.VesselName = SelectedVessel;
                 model.XT = XT;
                 model.UpStreamCpCv = UpStreamCpCv;
+                model.ReliefCpCv = ReliefCpCv;
+                model.ReliefZ = ReliefZ;
                 dbinlet.Update(model, SessionProtectedSystem);
             }
             Scenario sc = dbsc.GetModel(ScenarioID, SessionProtectedSystem);
             sc.ReliefLoad = ReliefLoad;
             sc.ReliefMW = ReliefMW;
             sc.ReliefPressure = ReliefPressure;
-            sc.ReliefTemperature = _ReliefTemperature;
+            sc.ReliefTemperature = ReliefTemperature;
+            sc.ReliefCpCv = ReliefCpCv;
+            sc.ReliefZ = ReliefZ;
             dbsc.Update(sc, SessionProtectedSystem);
             SessionProtectedSystem.Flush();
 
@@ -670,6 +678,11 @@ namespace ReliefProMain.ViewModel
             {
                 SplashScreenManager.Show();
                 SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
+
+                PSVDAL dbpsv = new PSVDAL();
+                PSV psv = dbpsv.GetModel(SessionProtectedSystem);
+                ReliefPressure = psv.Pressure * psv.ReliefPressureFactor;
+
                 double flReliefLoad = 0;
                 double flReliefMW = 0;
                 double flReliefTemperature = 0;

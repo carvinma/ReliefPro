@@ -3,7 +3,7 @@
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-		Title="{DynamicResource DrumFireViewTitle}" Height="488" Width="570"  Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+		Title="{DynamicResource DrumFireViewTitle}" Height="500" Width="570"  Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
 	
 	<Grid Style="{DynamicResource WinGrid}">
 		<Grid.RowDefinitions>
@@ -21,10 +21,9 @@
 			<RowDefinition Height="30"></RowDefinition>
 			<RowDefinition Height="30"></RowDefinition>
 			<RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30*"></RowDefinition>
             <RowDefinition Height="23"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
-
+           
         </Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
             <ColumnDefinition Width="70"></ColumnDefinition>

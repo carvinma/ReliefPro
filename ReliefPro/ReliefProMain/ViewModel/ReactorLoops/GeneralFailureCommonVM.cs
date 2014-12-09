@@ -249,6 +249,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
         private void Save(object obj)
         {
+            if (caseProcess != null && !caseProcess.HasExited)
+            {
+                MessageBox.Show("this file is opened,please close it first.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;

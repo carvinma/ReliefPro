@@ -153,19 +153,23 @@ namespace ReliefProMain.ViewModel.Drums
             double tConstant = 0;
             double tRequire = 0;
             double pRequire = 0;
+            double tempPress = 0;
             switch (selectedDeprRqe)
             {
                 case "21bar/min":
-                    pRequire = model.InitialPressure - 2.1;
+                    tempPress = UnitConvert.Convert(model.InitialPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.InitialPressure);
+                    pRequire = tempPress - 2.1;
                     tRequire = 1.0 / 60;
 
                     break;
                 case "7bar/min":
-                    pRequire = model.InitialPressure - 0.7;
+                    tempPress = UnitConvert.Convert(model.InitialPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.InitialPressure);
+                    pRequire = tempPress - 0.7;
                     tRequire = 1.0 / 60;
                     break;
                 case "15min to 50% Design pressure":
-                    pRequire = model.Vesseldesignpressure / 2;
+                    tempPress = UnitConvert.Convert(model.InitialPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.Vesseldesignpressure);
+                    pRequire = tempPress / 2;
                     tRequire = 15.0 / 60;
                     break;
                 case "15min to 7barg":
@@ -177,7 +181,7 @@ namespace ReliefProMain.ViewModel.Drums
             }
             if (pRequire <= 0)
             {
-                MessageBox.Show("P t_require can't be smaller than zero", "Message Box");
+                MessageBox.Show("P t_require can't be lesser than zero,please change Initial Pressure.", "Message Box");
                 return;
             }
             tConstant = tRequire / Math.Log(model.InitialPressure / pRequire);

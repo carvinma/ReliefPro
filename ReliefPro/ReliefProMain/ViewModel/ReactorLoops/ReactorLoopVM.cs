@@ -1766,13 +1766,13 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             double k = 0.3;  //  KW/m2-K
             double a = duty / LmtdCalc / k;  //   m2
 
-            if (lmtd>0)
+            if (isReverse)
             {
-                sb.Append("CONFIGURE COUNTER,  U(KW/MK)=").Append(k).Append(", AREA(M2)=").Append(a).Append("\r\n");
+                sb.Append("CONFIGURE COUNTER, FT=1, U(KW/MK)=").Append(k).Append(", AREA(M2)=").Append(a).Append("\r\n");                
             }
             else
             {
-                sb.Append("CONFIGURE COUNTER, FT=1, U(KW/MK)=").Append(k).Append(", AREA(M2)=").Append(a).Append("\r\n");
+                sb.Append("CONFIGURE COUNTER,  U(KW/MK)=").Append(k).Append(", AREA(M2)=").Append(a).Append("\r\n");
             }
             return sb.ToString();
             
@@ -1995,14 +1995,19 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 HXTemperatureInfo info = listHxTemp[hx];
                 double d1 = info.T1 - info.t2;
                 double d2 =  info.T2 - info.t1;
-                lmtd = d1 / Math.Log(d2);
+
+                double b = d1 - d2;
+                double d = d1 / d2;
+                lmtd = b / Math.Log(d);
                 isDouble = true;
                 if (lmtd < 0)
                 {
                     isReverse = true;
                     d1 = info.t1 - info.T2;
                     d2=info.t2 - info.T1;
-                    lmtd = d1 / Math.Log(d2);
+                    b = d1 - d2;
+                    d = d1 / d2;
+                    lmtd = b / Math.Log(d);
                 }
             }
             return lmtd;

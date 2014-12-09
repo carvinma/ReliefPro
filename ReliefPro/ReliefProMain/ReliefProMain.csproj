@@ -262,6 +262,7 @@
     <Compile Include="Util\ErrorMsg.cs" />
     <Compile Include="Util\LanguageHelper.cs" />
     <Compile Include="ViewModel\BlockedVaporOutletVM.cs" />
+    <Compile Include="ViewModel\Compressors\BlockedSettingVM.cs" />
     <Compile Include="ViewModel\Compressors\CentrifugalVM.cs" />
     <Compile Include="ViewModel\Compressors\CompressorVM.cs" />
     <Compile Include="ViewModel\Compressors\PistonVM.cs" />
@@ -350,8 +351,14 @@
     <Compile Include="View\Common\SelectPathView.xaml.cs">
       <DependentUpon>SelectPathView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Compressors\BlockedSettingView.xaml.cs">
+      <DependentUpon>BlockedSettingView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Compressors\CompressorView.xaml.cs">
       <DependentUpon>CompressorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Compressors\CentrifugalBlocked2View.xaml.cs">
+      <DependentUpon>CentrifugalBlocked2View.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DrumDepressures\RateCurveView.xaml.cs">
       <DependentUpon>RateCurveView.xaml</DependentUpon>
@@ -646,7 +653,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Compressors\BlockedSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Compressors\CompressorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Compressors\CentrifugalBlocked2View.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

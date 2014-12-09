@@ -54,9 +54,10 @@ namespace ReliefProBLL
                 Model.DrumType = lstDrum[0].DrumType;
                 Model.NormalFlashDuty = lstDrum[0].Duty;
                 Model.DrumID = lstDrum[0].ID;
+                Model.FDReliefCondition = Model.NormalFlashDuty;
             }
 
-            Feeds = dbsteam.GetAllList(SessionPS, true);
+            Feeds = dbsteam.GetAllList(SessionPS, false);
 
             var tmpModel = dbBlockedOutlet.GetModelByDrumID(SessionPS, Model.DrumID);
             if (tmpModel != null)

@@ -8,9 +8,11 @@
   <property name="CompressorName" column="CompressorName" type="String" length="255"/>
   <property name="CompressorType" column="CompressorType" type="String" length="255"/> 
   <property name="SourceFile" column="SourceFile" type="String" length="255"/>
-
+  <property name="Driver" column="Driver" type="String" length="255"/>
+  
   <property name="CompressorName_Color" column="CompressorName_Color" type="String" length="255"/>
   <property name="CompressorType_Color" column="CompressorType_Color" type="String" length="255"/>
-  <property name="SourceFile_Color" column="SourceFile_Color" type="String" length="255"/> 
+  <property name="SourceFile_Color" column="SourceFile_Color" type="String" length="255"/>
+  <property name="Driver_Color" column="Driver_Color" type="String" length="255"/>
 </class>
 </hibernate-mapping>

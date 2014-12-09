@@ -30,5 +30,10 @@ namespace ReliefProModel.Compressors
         public virtual string ReliefTemperature_Color { get; set; }
         public virtual string ReliefPressure_Color { get; set; }
 
+        public virtual double KNormal { get; set; }
+        public virtual double DeltPowY { get; set; }
+        public virtual string KNormal_Color { get; set; }
+        public virtual string DeltPowY_Color { get; set; }
+
     }
 }

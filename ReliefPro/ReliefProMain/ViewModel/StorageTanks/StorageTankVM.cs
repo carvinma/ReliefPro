@@ -205,8 +205,7 @@ namespace ReliefProMain.ViewModel.StorageTanks
                     ProtectedSystem ps = psDAL.GetModel(SessionProtectedSystem);
                     ps.PSType = 5;
                     psDAL.Update(ps, SessionProtectedSystem);
-                    SessionProtectedSystem.Flush();
-
+                    
                     SourceFileDAL sfdal = new SourceFileDAL();
                     SourceFileInfo = sfdal.GetModel(tank.SourceFile, SessionPlant);
                 }
@@ -236,7 +235,6 @@ namespace ReliefProMain.ViewModel.StorageTanks
                 System.Windows.Window wd = obj as System.Windows.Window;
                 if (wd != null)
                 {
-
                     wd.DialogResult = true;
                 }
             }

@@ -55,7 +55,7 @@ namespace ReliefProBLL
             Model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);
 
             Model.InletLoad = UnitConvert.Convert(UOMLib.UOMEnum.VolumeRate.ToString(), uomEnum.UserVolumeRate, Model.InletLoad);
-            Model.OutletPressure = UnitConvert.Convert(UOMLib.UOMEnum.VolumeRate.ToString(), uomEnum.UserPressure, Model.OutletPressure);
+            Model.OutletPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.OutletPressure);
             Model.SurgeLoad = UnitConvert.Convert(UOMLib.UOMEnum.VolumeRate.ToString(), uomEnum.UserVolumeRate, Model.SurgeLoad);
             return Model;
         }
@@ -87,7 +87,6 @@ namespace ReliefProBLL
             sModel.ReliefCpCv = model.ReliefCpCv;
             sModel.ReliefZ = model.ReliefZ;
             db.Update(sModel, SessionPS);
-            SessionPS.Flush();
         }
 
         public void SavePiston(PistonBlockedOutlet model)
@@ -102,7 +101,6 @@ namespace ReliefProBLL
             sModel.ReliefCpCv = model.ReliefCpCv;
             sModel.ReliefZ = model.ReliefZ;
             db.Update(sModel, SessionPS);
-            SessionPS.Flush();
         }
     }
 }

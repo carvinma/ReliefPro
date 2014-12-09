@@ -314,18 +314,37 @@ namespace ReliefProMain.ViewModel
                         string CompresserType = comp.CompressorType;
                         if (CompresserType == "Centrifugal")
                         {
-                            CentrifugalBlockedView v = new CentrifugalBlockedView();
-                            v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                            CentrifugalVM vm = new CentrifugalVM(ScenarioID, SessionProtectedSystem, SessionPlant);
-                            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                            v.DataContext = vm;
-                            if (v.ShowDialog() == true)
+                            if (comp.Driver == "Turbine")
                             {
-                                SelectedScenario.ReliefLoad = vm.model.dbmodel.Reliefload;
-                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
-                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                                CentrifugalBlockedView v = new CentrifugalBlockedView();
+                                v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                                CentrifugalVM vm = new CentrifugalVM(ScenarioID, SessionProtectedSystem, SessionPlant,0);
+                                v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                                v.DataContext = vm;
+                                if (v.ShowDialog() == true)
+                                {
+                                    SelectedScenario.ReliefLoad = vm.model.dbmodel.Reliefload;
+                                    SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                                    SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                                    SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                                }
                             }
+                            else
+                            {
+                                CentrifugalBlocked2View v = new CentrifugalBlocked2View();
+                                v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                                CentrifugalVM vm = new CentrifugalVM(ScenarioID, SessionProtectedSystem, SessionPlant,1);
+                                v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                                v.DataContext = vm;
+                                if (v.ShowDialog() == true)
+                                {
+                                    SelectedScenario.ReliefLoad = vm.model.dbmodel.Reliefload;
+                                    SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                                    SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                                    SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                                }
+                            }
+                            
                         }
                         else if (CompresserType == "Piston")
                         {
@@ -355,6 +374,7 @@ namespace ReliefProMain.ViewModel
                             HXBlockedInView v = new HXBlockedInView();
                             HXBlockedInVM vm = new HXBlockedInVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
                             v.DataContext = vm;
+                            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                             if (v.ShowDialog() == true)
                             {
                                 SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
@@ -372,6 +392,7 @@ namespace ReliefProMain.ViewModel
                                 TubeRuptureView v = new TubeRuptureView();
                                 TubeRuptureVM vm = new TubeRuptureVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
                                 v.DataContext = vm;
+                                v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                                 if (v.ShowDialog() == true)
                                 {
                                     SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
@@ -391,6 +412,7 @@ namespace ReliefProMain.ViewModel
                             HXFireView v = new HXFireView();
                             DrumFireVM vm = new DrumFireVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 2);
                             v.DataContext = vm;
+                            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                             if (v.ShowDialog() == true)
                             {
                                 SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
@@ -407,6 +429,7 @@ namespace ReliefProMain.ViewModel
                             AirCooledHXFireView v = new AirCooledHXFireView();
                             DrumFireVM vm = new DrumFireVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 3);
                             v.DataContext = vm;
+                            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                             if (v.ShowDialog() == true)
                             {
                                 SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
@@ -424,6 +447,7 @@ namespace ReliefProMain.ViewModel
                         StorageTankFireView v = new StorageTankFireView();
                         DrumFireVM vm = new DrumFireVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 1);
                         v.DataContext = vm;
+                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         if (v.ShowDialog() == true)
                         {
                             SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;

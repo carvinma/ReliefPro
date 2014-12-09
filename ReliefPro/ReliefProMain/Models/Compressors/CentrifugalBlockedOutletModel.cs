@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ReliefProModel.Compressors;
+using ReliefProCommon.Enum;
 
 
 namespace ReliefProMain.Models.Compressors
@@ -88,7 +89,8 @@ namespace ReliefProMain.Models.Compressors
             this.reliefPressure = model.ReliefPressure;
             this.reliefCpCv = model.ReliefCpCv;
             this.reliefZ = model.ReliefZ;
-
+            this.DeltPowY = model.DeltPowY;
+            this.KNormal = model.KNormal;
             this.inletLoad_Color = model.InletLoad_Color;
             this.outletPressure_Color = model.OutletPressure_Color;
             this.surgeLoad_Color = model.SurgeLoad_Color;
@@ -97,6 +99,8 @@ namespace ReliefProMain.Models.Compressors
             this.reliefload_Color = model.Reliefload_Color;
             this.reliefTemperature_Color = model.ReliefTemperature_Color;
             this.reliefPressure_Color = model.ReliefPressure_Color;
+            this.KNormal_Color = model.KNormal_Color;
+            this.DeltPowY_Color = model.DeltPowY_Color;
         }
 
         private double scale;
@@ -109,6 +113,33 @@ namespace ReliefProMain.Models.Compressors
                 this.NotifyPropertyChanged("Scale");
             }
         }
+
+        private double _KNormal;
+        public double KNormal
+        {
+            get { return _KNormal; }
+            set
+            {
+                if (_KNormal != dbmodel.KNormal)
+                {
+                    KNormal_Color = ColorBorder.blue.ToString();
+                }
+                _KNormal = value;
+                this.NotifyPropertyChanged("KNormal");
+            }
+        }
+
+        private double _DeltPowY;
+        public double DeltPowY
+        {
+            get { return _DeltPowY; }
+            set
+            {
+                _DeltPowY = value;
+                this.NotifyPropertyChanged("DeltPowY");
+            }
+        }
+
 
         private double inletLoad;
         public double InletLoad
@@ -295,6 +326,28 @@ namespace ReliefProMain.Models.Compressors
             {
                 reliefPressure_Color = value;
                 this.NotifyPropertyChanged("ReliefPressure_Color");
+            }
+        }
+
+        private string _KNormal_Color;
+        public string KNormal_Color
+        {
+            get { return _KNormal_Color; }
+            set
+            {
+                _KNormal_Color = value;
+                this.NotifyPropertyChanged("KNormal_Color");
+            }
+        }
+
+        private string _DeltPowY_Color;
+        public string DeltPowY_Color
+        {
+            get { return _DeltPowY_Color; }
+            set
+            {
+                _DeltPowY_Color = value;
+                this.NotifyPropertyChanged("DeltPowY_Color");
             }
         }
     }

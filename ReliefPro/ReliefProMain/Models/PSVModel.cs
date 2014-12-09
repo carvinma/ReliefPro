@@ -142,19 +142,7 @@ namespace ReliefProMain.Models
                 NotifyPropertyChanged("Pressure");
             }
         }
-        private string _PressureUnit;
-        public string PressureUnit
-        {
-            get
-            {
-                return this._PressureUnit;
-            }
-            set
-            {
-                this._PressureUnit = value;
-                NotifyPropertyChanged("PressureUnit");
-            }
-        }
+        
         private double _ReliefPressureFactor;
         public double ReliefPressureFactor
         {

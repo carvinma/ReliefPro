@@ -24,7 +24,6 @@ namespace ReliefProMain.ViewModel.Drums
             this.SessionPF = SessionPF;
 
             DrumFireFluidBLL fluidBll = new DrumFireFluidBLL(SessionPS, SessionPF);
-
             var fireModel = fluidBll.GetFireFluidModel(DrumFireCalcID);
             fireModel = fluidBll.ReadConvertModel(fireModel);
             model = new DrumFireFluidModel(fireModel);

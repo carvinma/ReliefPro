@@ -121,6 +121,7 @@ namespace ReliefProMain.ViewModel.Drums
 
             UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             model = new DrumFireModel(fireModel);
+            fireModel.ScenarioID = ScenarioID;
             model.WettedAreaUnit = uomEnum.UserArea;
             model.LatentHeatUnit = uomEnum.UserSpecificEnthalpy;
             model.CrackingHeatUnit = uomEnum.UserSpecificEnthalpy;
@@ -130,6 +131,8 @@ namespace ReliefProMain.ViewModel.Drums
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
             model.NoneAllGas = !model.AllGas;
 
+            DrumFireFluidBLL fluidBll = new DrumFireFluidBLL(SessionPS, SessionPF);
+            fireFluidModel = fluidBll.GetFireFluidModel(model.dbmodel.ID);
             reliefPressure = ScenarioFireReliefPressure(SessionPS);
         }
         private void WriteConvertModel()
@@ -175,6 +178,8 @@ namespace ReliefProMain.ViewModel.Drums
                     if (sizeModel != null)
                         Area = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, sizeModel.NormalLiquidLevel, sizeModel.BootHeight, sizeModel.BootDiameter);
                     model.WettedArea = Area;
+                    if (fireFluidModel != null)
+                        fireFluidModel.ExposedVesse = Area;
                 }
             }
             else if (FireType == 1)
@@ -247,12 +252,6 @@ namespace ReliefProMain.ViewModel.Drums
                     model.WettedArea = Area;
                 }
             }
-
-
-
-
-
-
         }
 
         /// <summary>
@@ -266,50 +265,51 @@ namespace ReliefProMain.ViewModel.Drums
             win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             DrumFireFluidVM vm = new DrumFireFluidVM(model.dbmodel.ID, SessionProtectedSystem, SessionPlant);
             win.DataContext = vm;
+            vm.model.Vessel = model.WettedArea;
             if (win.ShowDialog() == true)
             {
                 fireFluidModel = vm.model.dbmodel;
-                //需要转换成算法GetFullVaporW 要求的单位。
-                double dmw = fireFluidModel.GasVaporMW;
-                double dp1 = fireFluidModel.PSVPressure * 1.21;
-                double darea = fireFluidModel.ExposedVesse;
-                double dtw = fireFluidModel.TW;
-                double dtn = fireFluidModel.NormaTemperature;
-                double dpn = fireFluidModel.NormalPressure;
+                ////需要转换成算法GetFullVaporW 要求的单位。
+                //double dmw = fireFluidModel.GasVaporMW;
+                //double dp1 = fireFluidModel.PSVPressure * 1.21;
+                //double darea = fireFluidModel.ExposedVesse;
+                //double dtw = fireFluidModel.TW;
+                //double dtn = fireFluidModel.NormaTemperature;
+                //double dpn = fireFluidModel.NormalPressure;
 
 
 
-                fireFluidModel = vm.model.dbmodel;
-                double mw = dmw;
-                double p1 = UnitConvert.Convert("P", "Mpag", "psia", dp1);
-                double area = UnitConvert.Convert("A", "m2", "ft2", darea);
-                double tw = UnitConvert.Convert("T", "C", "R", dtw);
-                double tn = UnitConvert.Convert("T", "C", "R", dtn);
-                double pn = UnitConvert.Convert("P", "Mpag", "psia", dpn);
+                //fireFluidModel = vm.model.dbmodel;
+                //double mw = dmw;
+                //double p1 = UnitConvert.Convert("P", "Mpag", "psia", dp1);
+                //double area = UnitConvert.Convert("A", "m2", "ft2", darea);
+                //double tw = UnitConvert.Convert("T", "C", "R", dtw);
+                //double tn = UnitConvert.Convert("T", "C", "R", dtn);
+                //double pn = UnitConvert.Convert("P", "Mpag", "psia", dpn);
 
-                double t1 = 0;
-                double load = Algorithm.GetFullVaporW(mw, p1, area, tw, pn, tn, ref t1);
-                double relieftT = UnitConvert.Convert("T", "R", "C", t1);
-                double reliefLoad = UnitConvert.Convert("MR", "lb/hr", "kg/hr", load);
+                //double t1 = 0;
+                //double load = Algorithm.GetFullVaporW(mw, p1, area, tw, pn, tn, ref t1);
+                //double relieftT = UnitConvert.Convert("T", "R", "C", t1);
+                //double reliefLoad = UnitConvert.Convert("MR", "lb/hr", "kg/hr", load);
 
-                //泄放结果。 老李需要保存到数据库里。
-                double reliefPressure = dp1;
-                double reliefMW = dmw;
-                double reliefTemperature = relieftT;
+                ////泄放结果。 老李需要保存到数据库里。
+                //double reliefPressure = dp1;
+                //double reliefMW = dmw;
+                //double reliefTemperature = relieftT;
 
-                model.ReliefLoad = reliefLoad;
-                model.ReliefMW = reliefMW;
-                model.ReliefTemperature = relieftT;
-                model.ReliefPressure = reliefPressure;
+                //model.ReliefLoad = reliefLoad;
+                //model.ReliefMW = reliefMW;
+                //model.ReliefTemperature = relieftT;
+                //model.ReliefPressure = reliefPressure;
 
-                model.ReliefCpCv = 1.12;
-                model.ReliefZ = 0.723;
+                //model.ReliefCpCv = 1.12;
+                //model.ReliefZ = 0.723;
             }
         }
         private void CalcDrum()
         {
-
             if (!model.CheckData()) return;
+            model.ReliefPressure = reliefPressure;
             double Qfire = 0;
             double Area = model.WettedArea;
             //求出面积---你查看下把durmsize的 数据传进来。
@@ -344,7 +344,7 @@ namespace ReliefProMain.ViewModel.Drums
             else if (model.AllGas)
             {
                 double mw = fireFluidModel.GasVaporMW;
-                double area = UnitConvert.Convert("m2", "ft2", fireFluidModel.ExposedVesse);
+                double area = UnitConvert.Convert("m2", "ft2", Area);
                 double tw = UnitConvert.Convert("C", "R", fireFluidModel.TW);
                 double tn = UnitConvert.Convert("C", "R", fireFluidModel.NormaTemperature);
                 double pn = UnitConvert.Convert("MPag", "psia", fireFluidModel.NormalPressure);
@@ -356,11 +356,11 @@ namespace ReliefProMain.ViewModel.Drums
                     MessageBox.Show("T1 could not be greater than TW", "Message Box");
                     return;
                 }
-                double reliefLoad = UnitConvert.Convert("Kg/hr", "lb/hr", w);
-                model.ReliefLoad = reliefLoad;
+                double reliefLoad = UnitConvert.Convert( "lb/hr","Kg/hr", w);
+                model.ReliefLoad =UnitConvert.Convert("Kg/hr",model.ReliefLoadUnit, reliefLoad);
                 model.ReliefMW = mw;
                 model.ReliefTemperature = UnitConvert.Convert("R", "C", t1); ;
-
+                model.ReliefTemperature = UnitConvert.Convert("Mpag", model.ReliefPressureUnit, model.ReliefTemperature);
                 model.ReliefCpCv = 1.12;
                 model.ReliefZ = 0.723;
             }
@@ -380,8 +380,11 @@ namespace ReliefProMain.ViewModel.Drums
                             liquidStream = s;
                         }
                     }
-
-
+                    if (liquidStream.Temperature <= 0 || liquidStream.Pressure <= 0)
+                    {
+                        MessageBox.Show("No Liquid Stream.","Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
+                        return;
+                    }
 
                     //闪蒸计算
                     string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);

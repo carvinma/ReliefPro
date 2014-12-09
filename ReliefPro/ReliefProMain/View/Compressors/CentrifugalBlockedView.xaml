@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
-        Title="{DynamicResource CentrifugalBlockedViewTitle}" Height="370" Width="530" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+        Title="{DynamicResource CentrifugalBlockedViewTitle}" Height="380" Width="530" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
     
     <Grid Style="{DynamicResource WinGrid}">
         <Grid.RowDefinitions>
@@ -43,7 +43,8 @@
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.InletLoad,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblInletLoad,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="2" />
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.OutletPressure,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblOutletPressure,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="3" />
         <CustomControl:UnitConvertTextBox Text="{Binding Path=model.SurgeLoad,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblSurgeLoad,Path=Content,Mode=TwoWay}" Grid.Column="2" Grid.Row="4" />
-        <Button Content="{DynamicResource Calculate}" Command="{Binding CalcCMD}" Grid.Column="1"  Grid.Row="5" />
+        <Button Content="{DynamicResource BlockedSetting}" Command="{Binding SettingCMD}" Grid.Column="1"  Grid.Row="5" />
+        <Button Content="{DynamicResource Calculate}" Command="{Binding CalcCMD}" Grid.Column="2"  Grid.Row="5" />
 
         <GroupBox Header="{DynamicResource Output}" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3" Grid.RowSpan="4">
             <Grid Style="{DynamicResource WinGrid}">

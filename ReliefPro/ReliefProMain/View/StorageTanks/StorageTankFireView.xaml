@@ -20,9 +20,8 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30*"></RowDefinition>
             <RowDefinition Height="23"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"></ColumnDefinition>
@@ -52,7 +51,7 @@
         <Label  x:Name="lblCraking" Content="{Binding model.CrackingHeatUnit,Mode=TwoWay}"  Grid.Column="3" Grid.Row="8" />
         <Label x:Name="lblLoad" Content="{Binding model.ReliefLoadUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="10"  />
         <Label x:Name="lblPresses" Content="{Binding model.ReliefPressureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="11"  />
-        <Label x:Name="lblTemper" Content="{Binding model.ReliefTemperatureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="13"  />
+        <Label x:Name="lblTemper" Content="{Binding model.ReliefTemperatureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="12"  />
         <Label x:Name="lblDesignPresses" Content="{Binding model.DesignPressureUnit,Mode=TwoWay}" Grid.Column="3" Grid.Row="4"  />
 
         <Button Command="{Binding DrumSizeCMD}" Content="{DynamicResource TankSize}" Grid.Row="5" IsCancel="True" Grid.Column="1"/>

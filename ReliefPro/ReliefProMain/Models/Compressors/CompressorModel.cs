@@ -11,6 +11,19 @@ namespace ReliefProMain.Models.Compressors
     public class CompressorModel: ModelBase
     {
         public Compressor dbmodel { get; set; }
+        private ObservableCollection<string> _Drivers;
+        public ObservableCollection<string> Drivers
+        {
+            get
+            {
+                return this._Drivers;
+            }
+            set
+            {
+                this._Drivers = value;
+                OnPropertyChanged("Drivers");
+            }
+        }
         private ObservableCollection<string> _CompressorTypes;
         public ObservableCollection<string> CompressorTypes
         {
@@ -22,6 +35,22 @@ namespace ReliefProMain.Models.Compressors
             {
                 this._CompressorTypes = value;
                 OnPropertyChanged("CompressorTypes");
+            }
+        }
+        private string _Driver;
+        public string Driver
+        {
+            get
+            {
+                return this._Driver;
+            }
+            set
+            {
+                this._Driver = value;
+                dbmodel.Driver = value;
+                this.Driver_Color = ColorBorder.blue.ToString();
+                
+                OnPropertyChanged("Driver");
             }
         }
 
@@ -85,6 +114,22 @@ namespace ReliefProMain.Models.Compressors
             }
         }
 
+        private string _Driver_Color;
+        public string Driver_Color
+        {
+            get
+            {
+                return this._Driver_Color;
+            }
+            set
+            {
+                this._Driver_Color = value;
+                dbmodel.CompressorType_Color = value;
+
+                OnPropertyChanged("Driver_Color");
+            }
+        }
+
 
         private ObservableCollection<CustomStream> _Feeds;
         public ObservableCollection<CustomStream> Feeds
@@ -113,13 +158,15 @@ namespace ReliefProMain.Models.Compressors
         {
             this.dbmodel = compressor;
             this.CompressorName = compressor.CompressorName;
-            this.CompressorTypes = GetCompressorTypes();          
+            this.CompressorTypes = GetCompressorTypes();
+            this.Drivers = GetDrivers();
             this.CompressorType = compressor.CompressorType;
             this.CompressorType_Color = compressor.CompressorType_Color;
             this.Feeds = Feeds;
             this.Products = Products;
             this.CompressorName = compressor.CompressorName;
             this.CompressorType = compressor.CompressorType;
+            this.Driver = compressor.Driver;
         }
 
 
@@ -128,6 +175,14 @@ namespace ReliefProMain.Models.Compressors
             ObservableCollection<string> list = new ObservableCollection<string>();
             list.Add("Centrifugal");
             list.Add("Piston");
+            return list;
+        }
+
+        private ObservableCollection<string> GetDrivers()
+        {
+            ObservableCollection<string> list = new ObservableCollection<string>();
+            list.Add("Turbine");
+            list.Add("Non-Turbine");
             return list;
         }
 

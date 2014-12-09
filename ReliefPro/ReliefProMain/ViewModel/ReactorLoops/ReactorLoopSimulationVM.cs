@@ -115,6 +115,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             EqDiffs = new ObservableCollection<ReactorLoopEqDiffModel>();
             przVersion = sourcePrzVersion;
             this.newInpFile = newInpFile;
+            this.newPrzFile = newInpFile.Substring(0,newInpFile.Length-3) + @"prz";
             hxs = hxNames;
             flashs = flashNames;
             SessionPlant = sessionPlant;
@@ -182,13 +183,40 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
             
         }
-       
+
+        Process caseProcess;
         private void LaunchSimulator(object obj)
         {
             if (string.IsNullOrEmpty(newPrzFile))
             {
-                MessageBox.Show("Please Check Data first.", "Message Box");
+                MessageBox.Show("Please Check Data first.", "Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
                 return;
+            }
+            if (File.Exists(newPrzFile))
+            {
+                if (caseProcess == null || caseProcess.HasExited)
+                {
+                    caseProcess = ProIIHelper.Run(przVersion, newPrzFile);
+                }
+                else
+                {
+                    MessageBox.Show("this file was opened.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+            }
+            else
+            {
+                if (File.Exists(newInpFile))
+                {
+                    if (MessageBox.Show("Dou you want to open keyword file?", "Message Box", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        ProIIHelper.Open(newInpFile);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please run simulation first.", "Message Box");
+                }
             }
             if (!IsSolved)
             {
@@ -290,6 +318,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         }
         private void OK(object obj)
         {
+            if (caseProcess != null && !caseProcess.HasExited)
+            {
+                MessageBox.Show("this file is opened,please close it first.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             if (obj != null)
             {
                 if (string.IsNullOrEmpty(newPrzFile))
