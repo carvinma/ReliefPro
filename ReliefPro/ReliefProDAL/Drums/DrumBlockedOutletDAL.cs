@@ -25,10 +25,10 @@ namespace ReliefProDAL.Drums
             }
             return list;
         }
-        public DrumBlockedOutlet GetModelByDrumID(ISession session, int drumID)
+        public DrumBlockedOutlet GetModelByScenarioID(ISession session, int ScenarioID)
         {
             session.Clear();
-            var list = session.CreateCriteria<DrumBlockedOutlet>().Add(Expression.Eq("DrumID", drumID)).List<DrumBlockedOutlet>();
+            var list = session.CreateCriteria<DrumBlockedOutlet>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<DrumBlockedOutlet>();
             if (list.Count() > 0)
             {
                 return list[0];

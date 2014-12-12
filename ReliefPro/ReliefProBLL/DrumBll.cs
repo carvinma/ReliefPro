@@ -43,7 +43,7 @@ namespace ReliefProBLL
             db.Update(sModel, SessionPS);
             SessionPS.Flush();
         }
-        public DrumBlockedOutlet GetBlockedOutletModel(ISession SessionPS)
+        public DrumBlockedOutlet GetBlockedOutletModel(ISession SessionPS, int ScenarioID)
         {
             StreamDAL dbsteam = new StreamDAL();
             DrumBlockedOutlet Model = new DrumBlockedOutlet();
@@ -59,7 +59,7 @@ namespace ReliefProBLL
 
             Feeds = dbsteam.GetAllList(SessionPS, false);
 
-            var tmpModel = dbBlockedOutlet.GetModelByDrumID(SessionPS, Model.DrumID);
+            var tmpModel = dbBlockedOutlet.GetModelByScenarioID(SessionPS, ScenarioID);
             if (tmpModel != null)
             {
                 Model = tmpModel;
@@ -67,16 +67,16 @@ namespace ReliefProBLL
             }
             SourceDAL dbSource = new SourceDAL();
             List<Source> listSource = dbSource.GetAllList(SessionPS).ToList();
-            if (listSource.Count() > 0)
+            if (listSource.Count() == 1)
             {
                 Model.MaxPressure = listSource.First().MaxPossiblePressure;
+                List<CustomStream> liststream = dbsteam.GetAllList(SessionPS, false).ToList();
+                if (liststream.Count() == 1)
+                {
+                    Model.MaxStreamRate = liststream.First().WeightFlow;
+                }
             }
-
-            List<CustomStream> liststream = dbsteam.GetAllList(SessionPS, false).ToList();
-            if (liststream.Count() > 0)
-            {
-                Model.MaxStreamRate = liststream.First().WeightFlow;
-            }
+            Model.ScenarioID = ScenarioID;
             return Model;
         }
 
@@ -95,6 +95,8 @@ namespace ReliefProBLL
             outletModel.MaxPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, outletModel.MaxPressure);
             outletModel.MaxStreamRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, outletModel.MaxStreamRate);
             outletModel.NormalFlashDuty = UnitConvert.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(), uomEnum.UserEnthalpyDuty, outletModel.NormalFlashDuty);
+            outletModel.FDReliefCondition = UnitConvert.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(), uomEnum.UserEnthalpyDuty, outletModel.FDReliefCondition);
+
             return outletModel;
         }
 

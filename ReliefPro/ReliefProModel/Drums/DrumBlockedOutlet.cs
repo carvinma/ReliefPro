@@ -18,6 +18,7 @@ namespace ReliefProModel.Drums
         public virtual double FDReliefCondition { get; set; }
         public virtual bool Feed { get; set; }
         public virtual bool ReboilerPinch { get; set; }
+        public virtual string MixProductName { get; set; }
 
         public virtual string DrumID_Color { get; set; }
         public virtual string ScenarioID_Color { get; set; }

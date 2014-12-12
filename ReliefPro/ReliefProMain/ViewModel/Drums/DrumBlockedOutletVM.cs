@@ -69,6 +69,7 @@ namespace ReliefProMain.ViewModel.Drums
                     if (sr.MaxPossiblePressure >= setPress)
                     {
                         strFeeds.Add(cs.StreamName);
+                        cs.Pressure = sr.MaxPossiblePressure;
                         mixFeeds.Add(cs);
                     }
                 }

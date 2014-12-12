@@ -13,7 +13,8 @@
   <property name="FDReliefCondition" column="FDReliefCondition" type="Double"/>
   <property name="Feed" column="Feed" type="Boolean"/>
   <property name="ReboilerPinch" column="ReboilerPinch" type="Boolean"/>
-
+  <property name="MixProductName" column="MixProductName" type="String" length="255"/>
+  
   <property name="DrumID_Color" column="DrumID_Color" type="String" length="255"/>
   <property name="ScenarioID_Color" column="ScenarioID_Color" type="String" length="255"/>
   <property name="MaxPressure_Color" column="MaxPressure_Color" type="String" length="255"/>

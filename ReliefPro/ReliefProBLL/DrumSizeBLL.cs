@@ -36,6 +36,7 @@ namespace ReliefProBLL
             {
                 Model.Orientation = "Vertical";
                 Model.HeadType = "Eclipse";
+                Model.HeadNumber = 2;
                 Model.BootDiameter_Color = ColorBorder.green.ToString();
                 Model.BootHeight_Color = ColorBorder.green.ToString();
                 Model.Diameter_Color = ColorBorder.green.ToString();

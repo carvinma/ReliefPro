@@ -527,14 +527,14 @@ namespace ReliefProMain.ViewModel
             double detaP = dUPStreamPressure - dDownStreamPressure;
 
             double x = detaP / UPStreamPressure;
-            double fr = Cv / 1.4;
-            if (x >= fr)
+            double fr = UpStreamCpCv / 1.4;
+            if (x >= fr*XT)
             {
                 w = Cv * 2.73 * 0.667 * Math.Pow(fr * XT * dUPStreamPressure * Rmass, 0.5);
             }
             else
             {
-                double y = 1 - x / 3 * fr * XT;
+                double y = 1 - x / (3 * fr * XT);
                 w = Cv * 2.73 * y * Math.Pow(detaP * Rmass, 0.5);
             }
             return w;
@@ -552,7 +552,10 @@ namespace ReliefProMain.ViewModel
             string vapor = Guid.NewGuid().ToString().Substring(0, 6);
             string liquid = Guid.NewGuid().ToString().Substring(0, 6);
 
-            double Wliquidvalve = Darcy(Rmass, Cv, UPStreamPressure, DownStreamPressure);
+            double p1 = UnitConvert.Convert(UOMEnum.Pressure, "Mpa", UPStreamPressure);
+            double p2 = UnitConvert.Convert(UOMEnum.Pressure, "Mpa", DownStreamPressure);
+
+            double Wliquidvalve = Darcy(Rmass, Cv, p1, p2);
             IFlashCalculate flashCalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
             string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
             string content = PROIIFileOperator.getUsableContent(UpStreamLiquidData.StreamName, dir);
@@ -608,7 +611,10 @@ namespace ReliefProMain.ViewModel
             if (!Directory.Exists(dirInletValveOpen))
                 Directory.CreateDirectory(dirInletValveOpen);
             //double reliefLoad = Darcy(rMass, CV, MaxOperatingPressure, ReliefPressure);
-            double reliefLoad = VaporMethod(rMass, CV, MaxOperatingPressure, ReliefPressure);
+
+            double p1 = UnitConvert.Convert(UOMEnum.Pressure, "kpa", MaxOperatingPressure);
+            double p2 = UnitConvert.Convert(UOMEnum.Pressure, "kpa", ReliefPressure);
+            double reliefLoad = VaporMethod(rMass, CV, p1, p2);
             double wf = 0;
             if (CurrentEqNormalVapor != null)
             {               
