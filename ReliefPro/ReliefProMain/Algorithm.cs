@@ -94,6 +94,7 @@ namespace ReliefProMain
                         {
                             Area = (Length + Diameter) * 3.14159 * Diameter;
                         }
+                        
                     }
                     else if ((0.5 * Diameter + Elevation) > 7.6)
                     {
@@ -109,6 +110,7 @@ namespace ReliefProMain
                         double hfire = NLL;
                         Area = 2 * (Math.Acos(1 - 2 * hfire / Diameter) * 180 / 3.14159) / 360 * 3.14159 * Diameter * Length + 0.5 * 3.14159 * Math.Pow(Diameter, 2);
                     }
+                    Area = Area + 3.14159 * BootDiameter * BootHeight;
                 }
                 else if (Orientation == "Vertical")
                 {
@@ -124,7 +126,7 @@ namespace ReliefProMain
                             Area = (7.6 - Elevation + 0.4 * Diameter) * 3.14159 * Diameter;
                         }
                     }
-                    else
+                    else //flat
                     {
                         if ((NLL + Elevation) <= 7.6)
                         {
@@ -135,8 +137,9 @@ namespace ReliefProMain
                             Area = (7.6 - Elevation + 0.25 * Diameter) * 3.14159 * Diameter;
                         }
                     }
+                    Area = Area + 3.14159 * BootDiameter * BootHeight;
                 }
-                else
+                else //Spherical 
                 {
                     if ((NLL + Elevation) > 7.6)
                     {
@@ -151,6 +154,7 @@ namespace ReliefProMain
             }
             if (Area < 0)
                 Area = 0;
+            
             return Area;
         }
 

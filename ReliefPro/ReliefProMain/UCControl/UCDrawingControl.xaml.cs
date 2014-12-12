@@ -640,18 +640,34 @@ namespace ReliefProMain.View
             start = 14;
             foreach (CustomStream cs in vm.Products)
             {
-                Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
-                ConnectShapes(shape, start, connector, 1);
-                connector.Text = cs.StreamName;
-                Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX +(15-start)*0.6,  pinY - (start + center-14) * multiple * height);
-                endShp.get_Cells("Height").ResultIU = endShpHeight;
-                endShp.get_Cells("Width").ResultIU = endShpWidth;
-                endShp.Text = connector.Text + "_Sink";
-                endShp.Cells["EventDblClick"].Formula = "=0";
-                ConnectShapes(endShp, 7, connector, 0);
-                start = start - 1;
-                if (start <= 8)
-                    start = 14;
+                if (cs.VaporFraction == 1)
+                {
+                    int h = 7;
+                    Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
+                    ConnectShapes(shape, 16, connector, 1);
+                    connector.Text = cs.StreamName;
+                    Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + (15 - h) * 0.6, pinY - (h + center - 14) * multiple * height);
+                    endShp.get_Cells("Height").ResultIU = endShpHeight;
+                    endShp.get_Cells("Width").ResultIU = endShpWidth;
+                    endShp.Text = connector.Text + "_Sink";
+                    endShp.Cells["EventDblClick"].Formula = "=0";
+                    ConnectShapes(endShp, 7, connector, 0);
+                }
+                else
+                {
+                    Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
+                    ConnectShapes(shape, start, connector, 1);
+                    connector.Text = cs.StreamName;
+                    Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + (15 - start) * 0.6, pinY - (start + center - 14) * multiple * height);
+                    endShp.get_Cells("Height").ResultIU = endShpHeight;
+                    endShp.get_Cells("Width").ResultIU = endShpWidth;
+                    endShp.Text = connector.Text + "_Sink";
+                    endShp.Cells["EventDblClick"].Formula = "=0";
+                    ConnectShapes(endShp, 7, connector, 0);
+                    start = start - 1;
+                    if (start <= 8)
+                        start = 14;
+                }
             }
 
 

@@ -32,10 +32,15 @@ namespace ReliefProMain.ViewModel.Drums
         private ISession SessionPF;
         private string DirPlant { set; get; }
         private string DirProtectedSystem { set; get; }
+        string dirMix;
+        string mixPrzFile;
+        private List<CustomStream> mixFeeds;
+        CustomStream mixCSProduct;
         SourceFile SourceFileInfo { set; get; }
         double reliefLoad = 0, reliefMW = 0, reliefT = 0, reliefPressure = 0, reliefCpCv = 0, reliefZ = 0;
         public Tuple<double, double, double, double> CalcTuple { get; set; }
         public int ScenarioID;
+
         public DrumBlockedOutletVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;
@@ -45,10 +50,65 @@ namespace ReliefProMain.ViewModel.Drums
             DirProtectedSystem = dirProtectedSystem;
             drum = new DrumBLL();
             this.ScenarioID = ScenarioID;
+            mixFeeds = new List<CustomStream>();
+            mixCSProduct = new CustomStream();
+            dirMix = DirProtectedSystem + @"\mix" + ScenarioID.ToString();
+            mixPrzFile = dirMix + @"\a.prz";
+            var outletModel = drum.GetBlockedOutletModel(SessionPS, ScenarioID);
+           
+            if (drum.Feeds.Count > 1 && string.IsNullOrEmpty(outletModel.MixProductName))
+            {
+                double setPress = drum.PSet(SessionPS);
+                string sbcontent = string.Empty;
+                List<string> strFeeds = new List<string>();
+                SourceDAL sourcedal = new SourceDAL();
 
-            var outletModel = drum.GetBlockedOutletModel(SessionPS);
+                foreach (CustomStream cs in drum.Feeds)
+                {
+                    Source sr = sourcedal.GetModel(cs.StreamName, SessionPS);
+                    if (sr.MaxPossiblePressure >= setPress)
+                    {
+                        strFeeds.Add(cs.StreamName);
+                        mixFeeds.Add(cs);
+                    }
+                }
+                string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
+                string[] sourceFiles = Directory.GetFiles(dir, "*.inp");
+                string sourceFile = sourceFiles[0];
+                string[] lines = System.IO.File.ReadAllLines(sourceFile);
+                sbcontent = PROIIFileOperator.getUsableContent(strFeeds, lines);
+                IMixCalculate mixcalc = ProIIFactory.CreateMixCalculate(SourceFileInfo.FileVersion);
+                outletModel.MixProductName = Guid.NewGuid().ToString().Substring(0, 6);
+                
+                if (!Directory.Exists(dirMix))
+                {
+                    Directory.CreateDirectory(dirMix);
+                }
+                int mixImportResult = 1;
+                int mixRunResult = 1;
+                mixPrzFile = mixcalc.Calculate(sbcontent, mixFeeds, outletModel.MixProductName, dirMix, ref mixImportResult, ref mixRunResult);
+
+                if (mixImportResult == 1 || mixImportResult == 2)
+                {
+                    if (mixRunResult == 1 || mixRunResult == 2)
+                    {
+                        IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                        reader.InitProIIReader(mixPrzFile);
+                        ProIIStreamData proIIvapor = reader.GetSteamInfo(outletModel.MixProductName);
+                        reader.ReleaseProIIReader();
+                        mixCSProduct = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
+                        
+                        outletModel.MaxPressure = mixCSProduct.Pressure;
+                        outletModel.MaxStreamRate = mixCSProduct.WeightFlow;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Prz file is error", "Message Box");
+                    return;
+                }
+            }
             outletModel = drum.ReadConvertModel(outletModel, SessionPF);
-
             model = new DrumBlockedOutletModel(outletModel);
             model.dbmodel.DrumID = drum.GetDrumID(SessionPS);
             model.dbmodel.ScenarioID = ScenarioID;
@@ -60,6 +120,8 @@ namespace ReliefProMain.ViewModel.Drums
             model.FlashingDutyUnit = uomEnum.UserEnthalpyDuty;
             model.ReliefConditionUnit = uomEnum.UserEnthalpyDuty;
 
+            
+
             model.ReliefloadUnit = uomEnum.UserMassRate;
             model.ReliefTempUnit = uomEnum.UserTemperature;
             model.ReliefPressureUnit = uomEnum.UserPressure;
@@ -67,9 +129,9 @@ namespace ReliefProMain.ViewModel.Drums
             ScenarioDAL db = new ScenarioDAL();
             var sModel = db.GetModel(ScenarioID, SessionPS);
 
-            model.ReliefLoad = sModel.ReliefLoad;
-            model.ReliefPressure = sModel.ReliefPressure;
-            model.ReliefTemperature = sModel.ReliefTemperature;
+            model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefloadUnit, sModel.ReliefLoad);
+            model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, sModel.ReliefPressure);
+            model.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, model.ReliefTempUnit, sModel.ReliefTemperature);
             model.ReliefMW = sModel.ReliefMW;
             model.ReliefCpCv = sModel.ReliefCpCv;
             model.ReliefZ = sModel.ReliefZ;
@@ -98,7 +160,7 @@ namespace ReliefProMain.ViewModel.Drums
                 reliefPressure = drum.ScenarioReliefPressure(SessionPS);
                 string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
                 string liquid = "L_" + Guid.NewGuid().ToString().Substring(0, 6);
-                string tempdir = DirProtectedSystem + @"\BlockedOutlet";
+                string tempdir = DirProtectedSystem + @"\BlockedOutlet"+ScenarioID.ToString();
                 if (!Directory.Exists(tempdir))
                 {
                     Directory.CreateDirectory(tempdir);
@@ -117,53 +179,17 @@ namespace ReliefProMain.ViewModel.Drums
                     string sourceFile = files[0];
                     string[] lines = System.IO.File.ReadAllLines(sourceFile);
                     string content = string.Empty;
-                    CustomStream mixCSProduct = new CustomStream();
                     if (drum.Feeds.Count == 1)
                     {
                         content = PROIIFileOperator.getUsableContent(drum.Feeds[0].StreamName, lines);
                     }
                     else
                     {
-                        string sbcontent = string.Empty;
-                        List<string> strFeeds=new List<string>();
-                        foreach (CustomStream cs in drum.Feeds)
-                        {
-                            strFeeds.Add(cs.StreamName);
-                        }
-                        sbcontent = PROIIFileOperator.getUsableContent(strFeeds, lines);
-                        IMixCalculate mixcalc = ProIIFactory.CreateMixCalculate(SourceFileInfo.FileVersion);
-                        string mixProduct = Guid.NewGuid().ToString().Substring(0, 6);
-
-                        string dirMix = DirProtectedSystem + @"\mix"+ScenarioID.ToString();
-                        if (!Directory.Exists(dirMix))
-                        {
-                            Directory.CreateDirectory(dirMix);
-                        }
-                        int mixImportResult = 1;
-                        int mixRunResult = 1;
-                        string tray1_f = mixcalc.Calculate(sbcontent, drum.Feeds.ToList(), mixProduct, dirMix, ref mixImportResult, ref mixRunResult);
-
-                        if (mixImportResult == 1 || mixImportResult == 2)
-                        {
-                            if (mixRunResult == 1 || mixRunResult == 2)
-                            {
-                                IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                                reader.InitProIIReader(tray1_f);
-                                ProIIStreamData proIIvapor = reader.GetSteamInfo(mixProduct);
-                                reader.ReleaseProIIReader();
-                                mixCSProduct = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
-                                bool b = PROIIFileOperator.DecompressProIIFile(tray1_f, dirMix);
-                                files = Directory.GetFiles(dirMix, "*.inp");
-                                sourceFile = files[0];
-                                lines = System.IO.File.ReadAllLines(sourceFile);
-                                content = PROIIFileOperator.getUsableContent(mixProduct, lines);
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Prz file is error", "Message Box");
-                            return;
-                        }
+                        bool b = PROIIFileOperator.DecompressProIIFile(mixPrzFile, dirMix);
+                        string[] mixfiles = Directory.GetFiles(dirMix, "*.inp");
+                        string mixsourceFile = mixfiles[0];
+                        string[] mixlines = System.IO.File.ReadAllLines(mixsourceFile);
+                        content = PROIIFileOperator.getUsableContent(model.MixProductName, mixlines);
                     }
                     if (model.DrumType == "Flashing Drum")
                     {
@@ -175,14 +201,19 @@ namespace ReliefProMain.ViewModel.Drums
                     int RunResult = 0;
                     string f = string.Empty;
                     if (drum.Feeds.Count == 1)
-                    {
-                        drum.Feeds[0].Pressure = UnitConvert.Convert(model.PressureUnit, "Mpag", model.MaxPressure);
-                        double weightFlow = UnitConvert.Convert(model.StreamRateUnit, "Kg/hr", model.MaxStreamRate);
-                        drum.Feeds[0].TotalMolarRate = weightFlow / 3600 / drum.Feeds[0].BulkMwOfPhase;
+                    {      
+                        drum.Feeds[0].Pressure=UnitConvert.Convert(model.PressureUnit,"Mpag",model.MaxPressure);
+                        double weightFlow=UnitConvert.Convert(model.StreamRateUnit,"Kg/hr",model.MaxStreamRate);
+                        drum.Feeds[0].TotalMolarRate=weightFlow/3600/drum.Feeds[0].BulkMwOfPhase;
                         f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, drum.Feeds[0], vapor, liquid, tempdir, ref ImportResult, ref RunResult);
                     }
                     else
                     {
+                        IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                        reader.InitProIIReader(mixPrzFile);
+                        ProIIStreamData proIIvapor = reader.GetSteamInfo(model.MixProductName);
+                        reader.ReleaseProIIReader();
+                        mixCSProduct = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
                         mixCSProduct.Pressure = UnitConvert.Convert(model.PressureUnit, "Mpag", model.MaxPressure);
                         double weightFlow = UnitConvert.Convert(model.StreamRateUnit, "Kg/hr", model.MaxStreamRate);
                         mixCSProduct.TotalMolarRate = weightFlow / 3600 / mixCSProduct.BulkMwOfPhase;
@@ -202,9 +233,9 @@ namespace ReliefProMain.ViewModel.Drums
                             reliefMW = cs.BulkMwOfPhase;
                             reliefT = cs.Temperature;
                             reliefLoad = cs.WeightFlow;
-                            model.ReliefLoad = UnitConvert.Convert("kg/hr",model.ReliefloadUnit, reliefLoad);
-                            model.ReliefPressure = UnitConvert.Convert("Mpag",model.ReliefPressureUnit,reliefPressure);
-                            model.ReliefTemperature =  UnitConvert.Convert("C",model.ReliefTempUnit,reliefT);
+                            model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate,model.ReliefloadUnit, reliefLoad);
+                            model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure,model.ReliefPressureUnit,reliefPressure);
+                            model.ReliefTemperature =  UnitConvert.Convert(UOMEnum.Temperature,model.ReliefTempUnit,reliefT);
                             model.ReliefMW = reliefMW;
                             model.ReliefCpCv = cs.BulkCPCVRatio;
                             model.ReliefZ = cs.VaporZFmKVal;
@@ -227,13 +258,13 @@ namespace ReliefProMain.ViewModel.Drums
                 else
                 {
                     reliefLoad = 0;
-                    model.ReliefLoad = reliefLoad;
+                    model.ReliefLoad = 0;
                     model.ReliefPressure = reliefPressure;
-                    model.ReliefTemperature = reliefT;
-                    model.ReliefMW = reliefMW;
+                    model.ReliefTemperature = 0;
+                    model.ReliefMW = 0;
                     model.ReliefCpCv = 0;
                     model.ReliefZ = 0;
-                    MessageBox.Show("ReliefLoad is zero.","Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
+                    MessageBox.Show("Source Pressure is less than set pressure,no relief occurs.","Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
                 }
                 SplashScreenManager.SentMsgToScreen("Calculation finished");
             }
@@ -251,7 +282,13 @@ namespace ReliefProMain.ViewModel.Drums
         {
             if (!model.CheckData()) return;
             WriteConvertModel();
-            CalcTuple = new Tuple<double, double, double, double>(reliefLoad, reliefMW, reliefT, reliefPressure);
+            reliefLoad = model.ReliefLoad;
+            reliefMW = model.ReliefMW;
+            reliefT = model.ReliefTemperature;
+            reliefCpCv = model.ReliefCpCv;
+            reliefZ = model.ReliefZ;
+            reliefPressure = model.ReliefPressure;
+            CalcTuple = new Tuple<double, double, double, double>(reliefLoad, reliefMW, reliefT, reliefPressure);            
             drum.SaveDrumBlockedOutlet(model.dbmodel, SessionPS, reliefLoad, reliefMW, reliefT, reliefCpCv, reliefZ);
             if (obj != null)
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ReliefProModel.Drums;
+using System.Collections.ObjectModel;
 
 namespace ReliefProMain.Models
 {
@@ -73,14 +74,28 @@ namespace ReliefProMain.Models
             }
         }
 
+        public bool _IsEnabled;
+        public bool IsEnabled
+        {
+            get { return _IsEnabled; }
+            set
+            {
+                _IsEnabled = value;
+                this.NotifyPropertyChanged("IsEnabled");
+            }
+        }
+
         public DrumSize dbmodel { get; set; }
 
         public DrumSizeModel(DrumSize sizemodel)
         {
             dbmodel = sizemodel;
-            this.orientation = sizemodel.Orientation;
+            LstHeadType = new ObservableCollection<string>();
+            LstOrientation = new ObservableCollection<string>();
+            GetOrientations();
+            this.Orientation = sizemodel.Orientation;
             this.headnumber = sizemodel.HeadNumber;
-            this.headType = sizemodel.HeadType;
+            this.HeadType = sizemodel.HeadType;
             this.elevation = sizemodel.Elevation;
             this.diameter = sizemodel.Diameter;
             this.length = sizemodel.Length;
@@ -97,10 +112,10 @@ namespace ReliefProMain.Models
             this.normalLiquidLevel_Color = sizemodel.NormalLiquidLevel_Color;
             this.bootDiameter_Color = sizemodel.BootDiameter_Color;
             this.bootHeight_Color = sizemodel.BootHeight_Color;
+
         }
         private double elevation;
 
-        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "ElevationWarning")]
         public double Elevation
         {
             get { return elevation; }
@@ -113,7 +128,6 @@ namespace ReliefProMain.Models
 
         private double diameter;
 
-        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double Diameter
         {
             get { return diameter; }
@@ -125,7 +139,6 @@ namespace ReliefProMain.Models
         }
         private double length;
 
-        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double Length
         {
             get { return length; }
@@ -137,8 +150,6 @@ namespace ReliefProMain.Models
         }
 
         private double normalLiquidLevel;
-
-        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double NormalLiquidLevel
         {
             get { return normalLiquidLevel; }
@@ -178,6 +189,27 @@ namespace ReliefProMain.Models
             set
             {
                 orientation = value;
+                LstHeadType.Clear();
+                if(orientation=="Vertical")
+                {
+                    LstHeadType.Add("Eclipse");
+                    LstHeadType.Add("Flat");
+                    IsEnabled = true;
+                    this.HeadType = LstHeadType[0] ;
+                }
+                else  if(orientation=="Horizontal")
+                {
+                    LstHeadType.Add("Eclipse");
+                    LstHeadType.Add("Sphere");
+                    IsEnabled = true;
+                    this.HeadType = LstHeadType[0];
+                }
+                else
+                {
+                    LstHeadType.Add("");
+                    IsEnabled = false;
+                    this.HeadType = LstHeadType[0];
+                }
                 this.NotifyPropertyChanged("Orientation");
             }
         }
@@ -305,5 +337,39 @@ namespace ReliefProMain.Models
             }
         }
 
+        public ObservableCollection <string> lstOrientation;
+        public ObservableCollection <string> LstOrientation
+        {
+            get { return lstOrientation; }
+            set
+            {
+                lstOrientation = value;
+                this.NotifyPropertyChanged("LstOrientation");
+            }
+        }
+
+        public ObservableCollection <string> lstHeadType;
+        public ObservableCollection <string> LstHeadType
+        {
+            get { return lstHeadType; }
+            set
+            {
+                lstHeadType = value;
+                this.NotifyPropertyChanged("LstHeadType");
+            }
+        }
+
+
+        private void GetOrientations()
+        {
+            lstOrientation.Add("Vertical");
+            lstOrientation.Add("Horizontal");
+            lstOrientation.Add("Spherical");
+        }
+
+        
+
+     
+            
     }
 }

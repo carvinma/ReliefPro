@@ -79,22 +79,16 @@ namespace ReliefProMain.ViewModel.HXs
                     Directory.CreateDirectory(dirMix);
                 }
                 string[] coldfeeds = heathx.ColdInlet.Split(',');
-                StringBuilder sbcontent = new StringBuilder();                
+                string sbcontent = string.Empty;              
                 string[] files = Directory.GetFiles(tempdir, "*.inp");
                 string sourceFile = files[0];
                 string[] lines = System.IO.File.ReadAllLines(sourceFile);
-
-                //错了，下次再改
-                foreach (string cold in coldfeeds)
-                {
-                    //CustomStream cs = csdal.GetModel(SessionPS, cold);
-                    //string content = PROIIFileOperator.getUsableContent(cs.StreamName, lines);
-                    //sbcontent.Append(content).Append("\n");
-                    //normalColdInletList.Add(cs);
-                }
+                
+                sbcontent = PROIIFileOperator.getUsableContent(coldfeeds.ToList(), lines);
+                
                 IMixCalculate mixcalc = ProIIFactory.CreateMixCalculate(SourceFileInfo.FileVersion);
                 string mixProduct = Guid.NewGuid().ToString().Substring(0, 6);
-                string tray1_f = mixcalc.Calculate(sbcontent.ToString(), normalColdInletList, mixProduct, dirMix, ref ImportResult, ref RunResult);
+                string tray1_f = mixcalc.Calculate(sbcontent, normalColdInletList, mixProduct, dirMix, ref ImportResult, ref RunResult);
                 if (ImportResult == 1 || ImportResult == 2)
                 {
                     if (RunResult == 1 || RunResult == 2)

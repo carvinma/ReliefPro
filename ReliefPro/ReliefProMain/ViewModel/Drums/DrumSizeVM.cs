@@ -9,6 +9,7 @@ using ReliefProMain.Commands;
 using ReliefProMain.Models;
 using UOMLib;
 using ReliefProBLL;
+using ReliefProDAL.Drums;
 
 namespace ReliefProMain.ViewModel.Drums
 {
@@ -18,16 +19,13 @@ namespace ReliefProMain.ViewModel.Drums
         public DrumSizeModel model { get; set; }
         private ISession SessionPS;
         private ISession SessionPF;
-        public List<string> lstOrientation { get; set; }
-        public List<string> lstHeadType { get; set; }
-
+        
         
         public DrumSizeVM(int DrumFireCalcID, ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
-            lstOrientation = new List<string> { "Vertical", "Horizontal", "Spherical", "Non-standard" };
-            lstHeadType = new List<string> { "Eclipse", "Sphere" };
+           
             DrumSizeBLL fluidBll = new DrumSizeBLL(SessionPS, SessionPF);
 
             var sizeModel = fluidBll.GetSizeModel(DrumFireCalcID);
@@ -66,6 +64,11 @@ namespace ReliefProMain.ViewModel.Drums
                 if (wd != null)
                 {
                     WriteConvertModel();
+                    if (model.dbmodel.ID > 0)
+                    {
+                        DrumSizeDAL dal = new DrumSizeDAL();
+                        dal.SaveDrumSize(SessionPS, model.dbmodel);
+                    }
                     wd.DialogResult = true;
                 }
             }

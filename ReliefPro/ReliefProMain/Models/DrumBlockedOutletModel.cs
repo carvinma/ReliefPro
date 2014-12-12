@@ -93,6 +93,7 @@ namespace ReliefProMain.Models
             this.fdReliefCondition = dbmodel.FDReliefCondition;
             this.feed = dbmodel.Feed;
             this.reboilerPinch = dbmodel.ReboilerPinch;
+            this._MixProductName = dbmodel.MixProductName;
         }
         public DrumBlockedOutlet dbmodel { get; set; }
 
@@ -106,6 +107,19 @@ namespace ReliefProMain.Models
                 maxPressure = value;
                 dbmodel.MaxPressure = value;
                 this.NotifyPropertyChanged("MaxPressure");
+            }
+        }
+
+        private string _MixProductName;
+
+        public string MixProductName
+        {
+            get { return _MixProductName; }
+            set
+            {
+                _MixProductName = value;
+                dbmodel.MixProductName = value;
+                this.NotifyPropertyChanged("MixProductName");
             }
         }
 

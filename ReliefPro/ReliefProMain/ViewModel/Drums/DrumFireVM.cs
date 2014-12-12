@@ -80,6 +80,7 @@ namespace ReliefProMain.ViewModel.Drums
         private AirCooledHXFireSize airCooledHXFireSize;
         private int FireType;
         private SourceFile SourceFileInfo;
+        UOMLib.UOMEnum uomEnum;
         /// <summary>
         /// 
         /// </summary>
@@ -119,7 +120,7 @@ namespace ReliefProMain.ViewModel.Drums
             if (!string.IsNullOrEmpty(fireModel.HeatInputModel))
                 SelectedHeatInputModel = fireModel.HeatInputModel;
 
-            UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
+            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             model = new DrumFireModel(fireModel);
             fireModel.ScenarioID = ScenarioID;
             model.WettedAreaUnit = uomEnum.UserArea;
@@ -177,6 +178,23 @@ namespace ReliefProMain.ViewModel.Drums
                     }
                     if (sizeModel != null)
                         Area = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, sizeModel.NormalLiquidLevel, sizeModel.BootHeight, sizeModel.BootDiameter);
+                    if (model.AllGas)
+                    {
+                        double NLL = 0;
+                        if (sizeModel.Orientation == "Vertical")
+                        {
+                            NLL = sizeModel.Length;
+                        }
+                        else if (sizeModel.Orientation == "Horizontal")
+                        {
+                            NLL = sizeModel.Diameter;
+                        }
+                        else
+                        {
+                            NLL = sizeModel.Diameter;
+                        }
+                        Area = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, NLL, sizeModel.BootHeight, sizeModel.BootDiameter);            
+                    }
                     model.WettedArea = Area;
                     if (fireFluidModel != null)
                         fireFluidModel.ExposedVesse = Area;
@@ -265,6 +283,30 @@ namespace ReliefProMain.ViewModel.Drums
             win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             DrumFireFluidVM vm = new DrumFireFluidVM(model.dbmodel.ID, SessionProtectedSystem, SessionPlant);
             win.DataContext = vm;
+            if (model.WettedArea == 0)
+            {
+                MessageBox.Show("Area must be greater than zero.","Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
+                return;
+            }
+            if (sizeModel == null)
+            {
+                DrumSizeBLL sizeBll = new DrumSizeBLL(SessionProtectedSystem, SessionPlant);
+                sizeModel = sizeBll.GetSizeModel(model.dbmodel.ID);
+            }
+            double NLL = 0;
+            if (sizeModel.Orientation == "Vertical")
+            {
+                NLL = sizeModel.Length;
+            }
+            else if (sizeModel.Orientation == "Horizontal")
+            {
+                NLL = sizeModel.Diameter;
+            }
+            else 
+            {
+                NLL = sizeModel.Diameter;
+            }
+            model.WettedArea = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, NLL, sizeModel.BootHeight, sizeModel.BootDiameter);
             vm.model.Vessel = model.WettedArea;
             if (win.ShowDialog() == true)
             {
@@ -360,7 +402,7 @@ namespace ReliefProMain.ViewModel.Drums
                 model.ReliefLoad =UnitConvert.Convert("Kg/hr",model.ReliefLoadUnit, reliefLoad);
                 model.ReliefMW = mw;
                 model.ReliefTemperature = UnitConvert.Convert("R", "C", t1); ;
-                model.ReliefTemperature = UnitConvert.Convert("Mpag", model.ReliefPressureUnit, model.ReliefTemperature);
+                model.ReliefPressure = UnitConvert.Convert("Mpag", model.ReliefPressureUnit, fireFluidModel.PSVPressure * 1.21);
                 model.ReliefCpCv = 1.12;
                 model.ReliefZ = 0.723;
             }
@@ -389,7 +431,7 @@ namespace ReliefProMain.ViewModel.Drums
                     //闪蒸计算
                     string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
                     string liquid = "L_" + Guid.NewGuid().ToString().Substring(0, 6);
-                    string tempdir = DirProtectedSystem + @"\DrumFire";
+                    string tempdir = DirProtectedSystem + @"\DrumFire"+ScenarioID.ToString();
                     if (!Directory.Exists(tempdir))
                     {
                         Directory.CreateDirectory(tempdir);
@@ -416,11 +458,11 @@ namespace ReliefProMain.ViewModel.Drums
                             double reliefLoad = Qfire / latent;
                             double reliefMW = csVapor.BulkMwOfPhase;
                             double reliefT = csVapor.Temperature;
-                            model.ReliefLoad = reliefLoad;
+                            model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit,reliefLoad);
                             model.ReliefMW = reliefMW;
-                            model.ReliefPressure = reliefPressure;
-                            model.ReliefTemperature = reliefT;
-                            model.LatentHeat = latent;
+                            model.ReliefPressure = UnitConvert.Convert("Mpag", model.ReliefPressureUnit,reliefPressure);
+                            model.ReliefTemperature = UnitConvert.Convert("C", model.ReliefTemperatureUnit,reliefT);
+                            model.LatentHeat = UnitConvert.Convert(UOMEnum.SpecificEnthalpy,model.LatentHeatUnit, latent);
                             model.ReliefCpCv = csVapor.BulkCPCVRatio;                            
                             model.ReliefZ = csVapor.VaporZFmKVal;
 
@@ -430,9 +472,9 @@ namespace ReliefProMain.ViewModel.Drums
                             flashCalcResult.ReliefCpCv = model.ReliefCpCv;
                             flashCalcResult.ReliefMW = model.ReliefMW;
                             flashCalcResult.ReliefZ = model.ReliefZ;
-                            flashCalcResult.ReliefPressure = model.ReliefPressure;
-                            flashCalcResult.ReliefTemperature = model.ReliefTemperature;
-                            flashCalcResult.Latent = model.LatentHeat;
+                            flashCalcResult.ReliefPressure = reliefPressure;
+                            flashCalcResult.ReliefTemperature = reliefT;
+                            flashCalcResult.Latent = latent;
                             flashCalcResult.ScenarioID = ScenarioID;
                             flashCalcResultDAL.Add(flashCalcResult, SessionProtectedSystem);
                         }
@@ -451,14 +493,14 @@ namespace ReliefProMain.ViewModel.Drums
                 }
                 else
                 {
-                    double latent = model.LatentHeat;
-                    model.ReliefLoad = Qfire / latent;
+                    double latent = UnitConvert.Convert(model.LatentHeatUnit,UOMEnum.SpecificEnthalpy, model.LatentHeat);
+                    model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit,Qfire / latent);
                     FlashCalcResultDAL flashCalcResultDAL = new FlashCalcResultDAL();
                     FlashCalcResult flashCalcResult = flashCalcResultDAL.GetModel(SessionProtectedSystem, ScenarioID);
                     if (flashCalcResult != null)
                     {
-                        model.ReliefPressure = flashCalcResult.ReliefPressure;
-                        model.ReliefTemperature = flashCalcResult.ReliefTemperature;
+                        model.ReliefPressure = UnitConvert.Convert("Mpag", model.ReliefPressureUnit,flashCalcResult.ReliefPressure);
+                        model.ReliefTemperature = UnitConvert.Convert("C", model.ReliefTemperatureUnit,flashCalcResult.ReliefTemperature);
                         model.ReliefMW = flashCalcResult.ReliefMW;
                         model.ReliefCpCv = flashCalcResult.ReliefCpCv;
                         model.ReliefZ = flashCalcResult.ReliefZ;

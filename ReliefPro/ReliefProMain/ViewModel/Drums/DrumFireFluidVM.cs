@@ -9,6 +9,7 @@ using ReliefProBLL;
 using ReliefProMain.Commands;
 using ReliefProMain.Models;
 using UOMLib;
+using ReliefProDAL.Drums;
 
 namespace ReliefProMain.ViewModel.Drums
 {
@@ -60,6 +61,11 @@ namespace ReliefProMain.ViewModel.Drums
                 if (wd != null)
                 {
                     WriteConvertModel();
+                    if (model.dbmodel.ID > 0)
+                    {
+                        DrumFireFluidDAL dal = new DrumFireFluidDAL();
+                        dal.SaveDrumFireFluid(SessionPS, model.dbmodel);
+                    }
                     wd.DialogResult = true;
                 }
             }
