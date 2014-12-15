@@ -417,7 +417,7 @@ namespace ReliefProMain.ViewModel.Drums
                     CustomStream liquidStream = new CustomStream();
                     foreach (CustomStream s in listStream)
                     {
-                        if (s.ProdType == "2")
+                        if (s.ProdType == "2" || s.ProdType=="6")
                         {
                             liquidStream = s;
                         }
