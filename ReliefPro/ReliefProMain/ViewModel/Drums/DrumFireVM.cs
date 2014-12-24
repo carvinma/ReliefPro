@@ -24,12 +24,13 @@ using ReliefProMain.ViewModel.HXs;
 using ReliefProModel.HXs;
 using ReliefProDAL.HXs;
 using ReliefProBLL;
+using ReliefProDAL.Drums;
 
 namespace ReliefProMain.ViewModel.Drums
 {
     public class DrumFireVM : ViewModelBase
     {
-        public ICommand FluidCMD { get; set; }
+        public ICommand InputDataCMD { get; set; }
         public ICommand CalcCMD { get; set; }
         public ICommand OKCMD { get; set; }
         public ICommand DrumSizeCMD { get; set; }
@@ -68,6 +69,8 @@ namespace ReliefProMain.ViewModel.Drums
         private string DirProtectedSystem { set; get; }
 
         private double reliefPressure;
+        private double fireCriticalPressure;
+        private double fireCriticalTemperature;
         private int ScenarioID;
         private DrumFireBLL fireBLL;
         private DrumFireFluid fireFluidModel;
@@ -80,7 +83,15 @@ namespace ReliefProMain.ViewModel.Drums
         private AirCooledHXFireSize airCooledHXFireSize;
         private int FireType;
         private SourceFile SourceFileInfo;
-        UOMLib.UOMEnum uomEnum;
+        private PSV psv;
+        private UOMLib.UOMEnum uomEnum;
+
+        private CustomStream normalVapor;
+        private Drum drum;
+
+        private CustomStream molVapor;
+        private double molLatent;
+
         /// <summary>
         /// 
         /// </summary>
@@ -102,10 +113,16 @@ namespace ReliefProMain.ViewModel.Drums
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
             FileFullPath = DirPlant + @"\" + sourceFileInfo.FileNameNoExt + @"\" + sourceFileInfo.FileName;
-            FluidCMD = new DelegateCommand<object>(OpenFluidWin);
+            InputDataCMD = new DelegateCommand<object>(OpenFluidWin);
             CalcCMD = new DelegateCommand<object>(Calc);
             OKCMD = new DelegateCommand<object>(Save);
             DrumSizeCMD = new DelegateCommand<object>(OpenDrumSize);
+            PSVDAL psvdal = new PSVDAL();
+            psv = psvdal.GetModel(SessionProtectedSystem);
+
+            DrumDAL drumdal = new DrumDAL();
+            drum = drumdal.GetModel(SessionProtectedSystem);
+
             lstHeatInputModel = new List<string>();
             lstHeatInputModel.Add("API 521");
             if (FireType == 1)
@@ -125,6 +142,7 @@ namespace ReliefProMain.ViewModel.Drums
             fireModel.ScenarioID = ScenarioID;
             model.WettedAreaUnit = uomEnum.UserArea;
             model.LatentHeatUnit = uomEnum.UserSpecificEnthalpy;
+            model.LatentHeat2Unit = uomEnum.UserSpecificEnthalpy;
             model.CrackingHeatUnit = uomEnum.UserSpecificEnthalpy;
             model.ReliefLoadUnit = uomEnum.UserMassRate;
             model.ReliefPressureUnit = uomEnum.UserPressure;
@@ -135,6 +153,37 @@ namespace ReliefProMain.ViewModel.Drums
             DrumFireFluidBLL fluidBll = new DrumFireFluidBLL(SessionPS, SessionPF);
             fireFluidModel = fluidBll.GetFireFluidModel(model.dbmodel.ID);
             reliefPressure = ScenarioFireReliefPressure(SessionPS);
+
+            CustomStreamDAL csdal=new CustomStreamDAL();
+            IList<CustomStream> products = csdal.GetAllList(SessionPS, true);
+            foreach (CustomStream cs in products)
+            {
+                if (cs.VaporFraction == 1)
+                {
+                    normalVapor = cs;
+                    break;
+                }
+            }
+            if (model.FluidType == 0)
+            {
+                model.FluidType = GetFluidType();
+            }
+            else if (model.FluidType == 3 || model.FluidType == 4)
+            {
+                molLatent = model.LatentHeat;
+            }
+
+            if (model.dbmodel.ID == 0 && model.FluidType == 1)
+            {
+                fireFluidModel.NormalCpCv = normalVapor.BulkCPCVRatio;
+                fireFluidModel.GasVaporMW = normalVapor.BulkMwOfPhase;
+            }
+            else if (model.dbmodel.ID == 0 && model.FluidType == 2)
+            {
+                fireFluidModel.NormalCpCv = molVapor.BulkCPCVRatio;
+                fireFluidModel.GasVaporMW = molVapor.BulkMwOfPhase;
+            }
+           
         }
         private void WriteConvertModel()
         {
@@ -142,6 +191,7 @@ namespace ReliefProMain.ViewModel.Drums
                 model.ReliefLoad = 0;
             model.dbmodel.WettedArea = UnitConvert.Convert(model.WettedAreaUnit, UOMLib.UOMEnum.Area.ToString(), model.WettedArea);
             model.dbmodel.LatentHeat = UnitConvert.Convert(model.LatentHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.LatentHeat);
+            model.dbmodel.LatentHeat2 = UnitConvert.Convert(model.LatentHeat2Unit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.LatentHeat2);
             model.dbmodel.CrackingHeat = UnitConvert.Convert(model.CrackingHeatUnit, UOMLib.UOMEnum.SpecificEnthalpy.ToString(), model.CrackingHeat);
             model.dbmodel.ReliefLoad = UnitConvert.Convert(model.ReliefLoadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.ReliefLoad);
             model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
@@ -155,6 +205,8 @@ namespace ReliefProMain.ViewModel.Drums
             model.dbmodel.AllGas = model.AllGas;
             model.dbmodel.EquipmentExist = model.EquipmentExist;
             model.dbmodel.HeatInputModel = selectedHeatInputModel;
+            model.dbmodel.IsCalc = model.IsCalc;
+            model.dbmodel.FluidType = model.FluidType;
 
         }
         private void OpenDrumSize(object obj)
@@ -278,6 +330,55 @@ namespace ReliefProMain.ViewModel.Drums
         /// <param name="obj"></param>
         private void OpenFluidWin(object obj)
         {
+            if (model.FluidType==1||model.FluidType==2)
+            {                
+                OpenGasWin(obj);
+            }
+            else 
+            {
+                if (model.dbmodel.ID == 0)
+                {
+                    if (model.FluidType == 3)
+                    {
+                        double pr = reliefPressure / fireCriticalPressure;
+
+                        if (pr > 0.9)
+                        {
+                            MessageBox.Show("Relief Condition is near critical , Latent heat is set to default or user defined value.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            model.LatentHeat = UnitConvert.Convert(UOMEnum.EnthalpyDuty,model.LatentHeatUnit, 115);
+                        }
+                        else
+                        {
+                            if (molLatent < 115)
+                            {
+                                MessageBox.Show("Calculated latent heat is less than bound value and default  or user defined value is used.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                model.LatentHeat = UnitConvert.Convert(UOMEnum.EnthalpyDuty, model.LatentHeatUnit, 115);
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        if (molLatent < 115)
+                        {
+                            MessageBox.Show("Calculated latent heat is less than bound value and default  or user defined value is used.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            model.LatentHeat = UnitConvert.Convert(UOMEnum.EnthalpyDuty, model.LatentHeatUnit, 115);
+                        }
+
+                    }
+                }
+                OpenLiquidWin(obj);
+            }
+            
+            
+        }
+
+        /// <summary>
+        /// 全气相的操作
+        /// </summary>
+        /// <param name="obj"></param>
+        private void OpenGasWin(object obj)
+        {
             UnitConvert uc = new UnitConvert();
             DrumFireFluidView win = new DrumFireFluidView();
             win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
@@ -285,7 +386,7 @@ namespace ReliefProMain.ViewModel.Drums
             win.DataContext = vm;
             if (model.WettedArea == 0)
             {
-                MessageBox.Show("Area must be greater than zero.","Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
+                MessageBox.Show("Area must be greater than zero.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             if (sizeModel == null)
@@ -302,55 +403,74 @@ namespace ReliefProMain.ViewModel.Drums
             {
                 NLL = sizeModel.Diameter;
             }
-            else 
+            else
             {
                 NLL = sizeModel.Diameter;
             }
-            model.WettedArea = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, NLL, sizeModel.BootHeight, sizeModel.BootDiameter);
-            vm.model.Vessel = model.WettedArea;
+
+            if (model.dbmodel.ID == 0)
+            {
+                model.WettedArea = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, NLL, sizeModel.BootHeight, sizeModel.BootDiameter);
+                vm.model.Vessel = model.WettedArea;
+            }
+            vm.model.NormalCpCv = fireFluidModel.NormalCpCv;
+            vm.model.VaporMW = fireFluidModel.GasVaporMW;
             if (win.ShowDialog() == true)
             {
                 fireFluidModel = vm.model.dbmodel;
-                ////需要转换成算法GetFullVaporW 要求的单位。
-                //double dmw = fireFluidModel.GasVaporMW;
-                //double dp1 = fireFluidModel.PSVPressure * 1.21;
-                //double darea = fireFluidModel.ExposedVesse;
-                //double dtw = fireFluidModel.TW;
-                //double dtn = fireFluidModel.NormaTemperature;
-                //double dpn = fireFluidModel.NormalPressure;
-
-
-
-                //fireFluidModel = vm.model.dbmodel;
-                //double mw = dmw;
-                //double p1 = UnitConvert.Convert("P", "Mpag", "psia", dp1);
-                //double area = UnitConvert.Convert("A", "m2", "ft2", darea);
-                //double tw = UnitConvert.Convert("T", "C", "R", dtw);
-                //double tn = UnitConvert.Convert("T", "C", "R", dtn);
-                //double pn = UnitConvert.Convert("P", "Mpag", "psia", dpn);
-
-                //double t1 = 0;
-                //double load = Algorithm.GetFullVaporW(mw, p1, area, tw, pn, tn, ref t1);
-                //double relieftT = UnitConvert.Convert("T", "R", "C", t1);
-                //double reliefLoad = UnitConvert.Convert("MR", "lb/hr", "kg/hr", load);
-
-                ////泄放结果。 老李需要保存到数据库里。
-                //double reliefPressure = dp1;
-                //double reliefMW = dmw;
-                //double reliefTemperature = relieftT;
-
-                //model.ReliefLoad = reliefLoad;
-                //model.ReliefMW = reliefMW;
-                //model.ReliefTemperature = relieftT;
-                //model.ReliefPressure = reliefPressure;
-
-                //model.ReliefCpCv = 1.12;
-                //model.ReliefZ = 0.723;
+                
+                //model.AllGas = true;
             }
         }
-        private void CalcDrum()
+
+        /// <summary>
+        /// 夜相的操作
+        /// </summary>
+        /// <param name="obj"></param>
+        private void OpenLiquidWin(object obj)
         {
-            if (!model.CheckData()) return;
+            UnitConvert uc = new UnitConvert();
+            DrumMutiPhaseView win = new DrumMutiPhaseView();
+            win.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            DrumMutiPhaseVM vm = new DrumMutiPhaseVM(model, SessionPlant, SessionProtectedSystem);
+            win.DataContext = vm;
+            if (model.WettedArea == 0)
+            {
+                MessageBox.Show("Area must be greater than zero.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (sizeModel == null)
+            {
+                DrumSizeBLL sizeBll = new DrumSizeBLL(SessionProtectedSystem, SessionPlant);
+                sizeModel = sizeBll.GetSizeModel(model.dbmodel.ID);
+            }
+            double NLL = 0;
+            if (sizeModel.Orientation == "Vertical")
+            {
+                NLL = sizeModel.Length;
+            }
+            else if (sizeModel.Orientation == "Horizontal")
+            {
+                NLL = sizeModel.Diameter;
+            }
+            else
+            {
+                NLL = sizeModel.Diameter;
+            }
+            if (model.dbmodel.ID == 0)
+            {
+                model.WettedArea = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, NLL, sizeModel.BootHeight, sizeModel.BootDiameter);
+            }
+            if (win.ShowDialog() == true)
+            {
+                model = vm.model;               
+            }
+        }
+
+        private void CalcDrumOld()
+        {
+            PSVDAL psvdal = new PSVDAL();
+            PSV psv = psvdal.GetModel(SessionProtectedSystem);
             model.ReliefPressure = reliefPressure;
             double Qfire = 0;
             double Area = model.WettedArea;
@@ -386,20 +506,21 @@ namespace ReliefProMain.ViewModel.Drums
             else if (model.AllGas)
             {
                 double mw = fireFluidModel.GasVaporMW;
+                double cpcv = fireFluidModel.NormalCpCv;
                 double area = UnitConvert.Convert("m2", "ft2", Area);
                 double tw = UnitConvert.Convert("C", "R", fireFluidModel.TW);
                 double tn = UnitConvert.Convert("C", "R", fireFluidModel.NormaTemperature);
                 double pn = UnitConvert.Convert("MPag", "psia", fireFluidModel.NormalPressure);
                 double p1 = UnitConvert.Convert("MPag", "psia", fireFluidModel.PSVPressure * 1.21);
                 double t1 = 0;
-                double w = Algorithm.GetFullVaporW(mw, p1, area, tw, pn, tn, ref t1);
+                //double w = Algorithm.GetFullVaporW(cpcv,mw, p1, area, tw, pn, tn, ref t1);
                 if (t1 >= tw)
                 {
                     MessageBox.Show("T1 could not be greater than TW", "Message Box");
                     return;
                 }
-                double reliefLoad = UnitConvert.Convert( "lb/hr","Kg/hr", w);
-                model.ReliefLoad =UnitConvert.Convert("Kg/hr",model.ReliefLoadUnit, reliefLoad);
+                //double reliefLoad = UnitConvert.Convert("lb/hr", "Kg/hr", w);
+                //model.ReliefLoad = UnitConvert.Convert("Kg/hr", model.ReliefLoadUnit, reliefLoad);
                 model.ReliefMW = mw;
                 model.ReliefTemperature = UnitConvert.Convert("R", "C", t1); ;
                 model.ReliefPressure = UnitConvert.Convert("Mpag", model.ReliefPressureUnit, fireFluidModel.PSVPressure * 1.21);
@@ -415,23 +536,36 @@ namespace ReliefProMain.ViewModel.Drums
                     CustomStreamDAL dbcs = new CustomStreamDAL();
                     IList<CustomStream> listStream = dbcs.GetAllList(SessionProtectedSystem, true);
                     CustomStream liquidStream = new CustomStream();
-                    foreach (CustomStream s in listStream)
+                    var lst = listStream.Where(s => s.ProdType == "2").ToList();
+                    if (lst.Count > 0)
                     {
-                        if (s.ProdType == "2" || s.ProdType=="6")
+                        if (lst[0].WeightFlow > 0)
                         {
-                            liquidStream = s;
+                            liquidStream = lst[0];
                         }
                     }
+                    else
+                    {
+                        lst = listStream.Where(s => s.ProdType == "4").ToList();
+                        if (lst.Count > 0)
+                        {
+                            if (lst[0].WeightFlow > 0)
+                            {
+                                liquidStream = lst[0];
+                            }
+                        }
+                    }
+
                     if (liquidStream.Temperature <= 0 || liquidStream.Pressure <= 0)
                     {
-                        MessageBox.Show("No Liquid Stream.","Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
+                        MessageBox.Show("No Liquid Stream.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
                     }
 
                     //闪蒸计算
                     string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
                     string liquid = "L_" + Guid.NewGuid().ToString().Substring(0, 6);
-                    string tempdir = DirProtectedSystem + @"\DrumFire"+ScenarioID.ToString();
+                    string tempdir = DirProtectedSystem + @"\DrumFire" + ScenarioID.ToString();
                     if (!Directory.Exists(tempdir))
                     {
                         Directory.CreateDirectory(tempdir);
@@ -458,12 +592,12 @@ namespace ReliefProMain.ViewModel.Drums
                             double reliefLoad = Qfire / latent;
                             double reliefMW = csVapor.BulkMwOfPhase;
                             double reliefT = csVapor.Temperature;
-                            model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit,reliefLoad);
+                            model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit, reliefLoad);
                             model.ReliefMW = reliefMW;
-                            model.ReliefPressure = UnitConvert.Convert("Mpag", model.ReliefPressureUnit,reliefPressure);
-                            model.ReliefTemperature = UnitConvert.Convert("C", model.ReliefTemperatureUnit,reliefT);
-                            model.LatentHeat = UnitConvert.Convert(UOMEnum.SpecificEnthalpy,model.LatentHeatUnit, latent);
-                            model.ReliefCpCv = csVapor.BulkCPCVRatio;                            
+                            model.ReliefPressure = UnitConvert.Convert("Mpag", model.ReliefPressureUnit, reliefPressure);
+                            model.ReliefTemperature = UnitConvert.Convert("C", model.ReliefTemperatureUnit, reliefT);
+                            model.LatentHeat = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, model.LatentHeatUnit, latent);
+                            model.ReliefCpCv = csVapor.BulkCPCVRatio;
                             model.ReliefZ = csVapor.VaporZFmKVal;
 
 
@@ -489,24 +623,70 @@ namespace ReliefProMain.ViewModel.Drums
                         MessageBox.Show("inp file is error", "Message Box");
                         return;
                     }
-                    
+
                 }
                 else
                 {
-                    double latent = UnitConvert.Convert(model.LatentHeatUnit,UOMEnum.SpecificEnthalpy, model.LatentHeat);
-                    model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit,Qfire / latent);
+                    double latent = UnitConvert.Convert(model.LatentHeatUnit, UOMEnum.SpecificEnthalpy, model.LatentHeat);
+                    model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit, Qfire / latent);
                     FlashCalcResultDAL flashCalcResultDAL = new FlashCalcResultDAL();
                     FlashCalcResult flashCalcResult = flashCalcResultDAL.GetModel(SessionProtectedSystem, ScenarioID);
                     if (flashCalcResult != null)
                     {
-                        model.ReliefPressure = UnitConvert.Convert("Mpag", model.ReliefPressureUnit,flashCalcResult.ReliefPressure);
-                        model.ReliefTemperature = UnitConvert.Convert("C", model.ReliefTemperatureUnit,flashCalcResult.ReliefTemperature);
+                        model.ReliefPressure = UnitConvert.Convert("Mpag", model.ReliefPressureUnit, flashCalcResult.ReliefPressure);
+                        model.ReliefTemperature = UnitConvert.Convert("C", model.ReliefTemperatureUnit, flashCalcResult.ReliefTemperature);
                         model.ReliefMW = flashCalcResult.ReliefMW;
                         model.ReliefCpCv = flashCalcResult.ReliefCpCv;
                         model.ReliefZ = flashCalcResult.ReliefZ;
                     }
                 }
             }
+        }
+        
+        
+        private void CalcDrum()
+        {
+            PSVDAL psvdal = new PSVDAL();
+            PSV psv = psvdal.GetModel(SessionProtectedSystem);
+            model.ReliefPressure = reliefPressure;
+            double Qfire = 0;
+            double Area = model.WettedArea;
+            //求出面积---你查看下把durmsize的 数据传进来。
+            if (sizeModel == null)
+            {
+                DrumSizeBLL sizeBll = new DrumSizeBLL(SessionProtectedSystem, SessionPlant);
+                sizeModel = sizeBll.GetSizeModel(model.dbmodel.ID);
+            }
+            if (sizeModel != null)
+                Area = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, sizeModel.NormalLiquidLevel, sizeModel.BootHeight, sizeModel.BootDiameter);
+            //计算Qfire
+            double C1 = 0;
+            if (model.EquipmentExist)
+            {
+                C1 = 43200;
+            }
+            else
+            {
+                C1 = 70900;
+            }
+            Qfire = Algorithm.GetQ(C1, 1, Area);
+
+            if (model.HeavyOilFluid)
+            {
+                double L = model.CrackingHeat;
+                model.ReliefLoad = Qfire / L;
+                model.ReliefMW = 114;
+                model.ReliefTemperature = 400;
+                model.ReliefCpCv = 1.12;
+                model.ReliefZ = 0.723;
+            }
+            else
+            {
+                CalcDrumFire(model.FluidType,Qfire);
+            }
+            
+            
+            
         }
         private void CalcTank()
         {
@@ -935,7 +1115,7 @@ namespace ReliefProMain.ViewModel.Drums
         private CustomStream getFlashCalcLiquidStreamVF0(CustomStream stream)
         {
             string tempdir = DirProtectedSystem + @"\temp\";
-            string dirLatent = tempdir + "Fire1";
+            string dirLatent = tempdir + "Fire" + ScenarioID.ToString() + "_0";
             if (!Directory.Exists(dirLatent))
                 Directory.CreateDirectory(dirLatent);
             string gd = Guid.NewGuid().ToString();
@@ -977,7 +1157,7 @@ namespace ReliefProMain.ViewModel.Drums
         private CustomStream getFlashCalcLiquidStreamVF1(CustomStream stream)
         {
             string tempdir = DirProtectedSystem + @"\temp\";
-            string dirLatent = tempdir + "Fire1";
+            string dirLatent = tempdir + "Fire"+ScenarioID.ToString()+"_1";
             if (!Directory.Exists(dirLatent))
                 Directory.CreateDirectory(dirLatent);
             string gd = Guid.NewGuid().ToString();
@@ -1014,6 +1194,452 @@ namespace ReliefProMain.ViewModel.Drums
                 MessageBox.Show("inp file is error", "Message Box");
                 return null;
             }
+        }
+
+
+        public int GetFluidType()
+        {
+            int result = 0;
+            
+            CustomStreamDAL dal = new CustomStreamDAL();
+            IList<CustomStream> Feeds = dal.GetAllList(SessionProtectedSystem, false);
+            IList<CustomStream> Products = dal.GetAllList(SessionProtectedSystem, true);
+            double totalFeeds = 0;
+            double totalVaporProducts = 0;
+            List<CustomStream> liquidProducts=new List<CustomStream>();
+            List<string> liquidProductNames = new List<string>();
+            CustomStream waterCS=null;
+            foreach (CustomStream cs in Feeds)
+            {
+                totalFeeds = totalFeeds + cs.WeightFlow;
+                
+            }
+            foreach (CustomStream cs in Products)
+            {
+                if (cs.VaporFraction == 1)
+                {
+                    totalVaporProducts = totalVaporProducts + cs.WeightFlow;
+                }
+                else
+                {
+                    if (cs.ProdType == "4")
+                    {
+                        waterCS = cs;
+                    }
+                    else
+                    {
+                        liquidProducts.Add(cs);
+                        liquidProductNames.Add(cs.StreamName);
+                    }
+                }
+            }
+            if (totalFeeds == totalVaporProducts)
+            {
+                result = 1;//  Gas/Vapor Only
+            }
+            else
+            {
+                if (liquidProducts.Count == 0)
+                {
+                    liquidProducts.Add(waterCS);
+                    liquidProductNames.Add(waterCS.StreamName);
+                }
+                int resultFireCriticalPressure = CalcFireCriticalPressure(liquidProducts);
+                if (resultFireCriticalPressure == 1)
+                {
+                    if (reliefPressure > fireCriticalPressure)
+                    {
+                        CalcSupercriticalCpCv(liquidProducts, liquidProductNames);
+                        result = 2;
+                    }
+                    else
+                    {
+                        int molflash = CalcPercent5Mol(liquidProducts, liquidProductNames);
+                        if (molflash == 1)
+                        {
+                            result = 3;
+                        }
+                        else
+                        {
+                            result = 5;
+                        }
+                    }
+                }
+                else
+                {
+
+                    int molflash = CalcPercent5Mol(liquidProducts, liquidProductNames);
+                    if (molflash == 1)
+                    {
+                        result = 4;
+                    }
+                    else
+                    {
+                        result = 5;
+                    }
+                }
+            }
+            return result;
+        }
+
+        private int CalcPercent5Mol(List<CustomStream> liquidFeeds,List<string>liquidFeedNames)
+        {
+            string tempdir = DirProtectedSystem + @"\temp\";
+            string dirMol = tempdir + "Fire" + ScenarioID.ToString() + "_Mol5";
+            if (!Directory.Exists(dirMol))
+                Directory.CreateDirectory(dirMol);
+            string molcontent = PROIIFileOperator.getUsableContent(liquidFeedNames, tempdir);
+            int result= CalcPercent5Mol(molcontent, reliefPressure, liquidFeeds, dirMol);
+            return result;
+        }
+
+        private int CalcPercent5Mol(string content, double reliefPressure, List<CustomStream> liquidFeeds, string dirPercent5Mol)
+        {
+            if (liquidFeeds.Count == 0)
+                return 2;
+            int result = 0;
+            int ImportResult = 0;
+            int RunResult = 0;
+            string gd = Guid.NewGuid().ToString();
+            string vapor = "S_" + gd.Substring(0, 5).ToUpper();
+            string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
+            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 6, "0.05", liquidFeeds, vapor, liquid, dirPercent5Mol, ref ImportResult, ref RunResult);
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                if (RunResult == 1 || RunResult == 2)
+                {
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    reader.InitProIIReader(tray1_f);
+                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                    reader.ReleaseProIIReader();
+                    molVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
+                    CustomStream molLiquid = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
+                    molLatent = molVapor.SpEnthalpy - molLiquid.SpEnthalpy;
+                    if (molVapor.WeightFlow > 0)
+                        result = 1;
+                    else
+                        result = 2;
+                    return result;
+                }
+
+                else
+                {
+                    MessageBox.Show("Prz file is error", "Message Box");
+                    return 3;
+                }
+            }
+            else
+            {
+                MessageBox.Show("inp file is error", "Message Box");
+                return 3;
+            }
+
+        }
+
+        private int CalcCriticalPressure(string content, double ReliefPressure, CustomStream stream, string dirPhase )
+        {
+            int ImportResult = 0;
+            int RunResult = 0;
+            int result = 0;
+            IPHASECalculate PhaseCalc = ProIIFactory.CreatePHASECalculate(SourceFileInfo.FileVersion);
+            string PH = "PH" + Guid.NewGuid().ToString().Substring(0, 4);
+            string criticalPress = string.Empty;
+            string criticalTemp = string.Empty;
+            string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH, dirPhase, ref ImportResult, ref RunResult);
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                if (RunResult == 1 || RunResult == 2)
+                {
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    reader.InitProIIReader(phasef);
+                    criticalPress = reader.GetCriticalPressure(PH);
+                    criticalTemp = reader.GetCriticalTemperature(PH);
+                    reader.ReleaseProIIReader();
+
+                    if (string.IsNullOrEmpty(criticalPress) || double.Parse(criticalPress) <=0)
+                    {
+                        result = 2;
+                    }
+                    else
+                    {
+                        fireCriticalPressure = UnitConvert.Convert("KPa",UOMEnum.Pressure , double.Parse(criticalPress));
+                        fireCriticalTemperature = double.Parse(criticalTemp);
+                        result = 1;
+                    }
+                    return result;
+                }
+                else
+                {
+                    MessageBox.Show("Prz file is error", "Message Box");
+                    return 3;
+                }
+            }
+            else
+            {
+                MessageBox.Show("inp file is error", "Message Box");
+                return 4;
+            }
+
+        }
+
+        private int CalcFireCriticalPressure(List<CustomStream> arrFeeds)
+        {
+            int result = 0;
+            if (arrFeeds.Count == 0)
+            {
+                result= 2;
+            }
+            else
+            {
+                string tempdir = DirProtectedSystem + @"\temp\";
+                string dirPhase = tempdir + "Fire" + ScenarioID.ToString() + "_Phase";
+                if (!Directory.Exists(dirPhase))
+                    Directory.CreateDirectory(dirPhase);
+                CustomStream stream = arrFeeds[0];
+                string[] streamComps = stream.TotalComposition.Split(',');
+                int len = streamComps.Length;
+                double[] streamCompValues = new double[len];
+                double sumTotalMolarRate = 0;
+                foreach (CustomStream cs in arrFeeds)
+                {
+                    sumTotalMolarRate = sumTotalMolarRate + cs.TotalMolarRate;
+                }
+                foreach (CustomStream cs in arrFeeds)
+                {
+                    string[] comps = cs.TotalComposition.Split(',');
+                    for (int i = 0; i < len; i++)
+                    {
+                        streamCompValues[i] = streamCompValues[i] + double.Parse(comps[i]) * cs.TotalMolarRate / sumTotalMolarRate;
+                    }
+                }
+                StringBuilder sumComposition = new StringBuilder();
+                foreach (double comp in streamCompValues)
+                {
+                    sumComposition.Append(",").Append(comp.ToString());
+                }
+                stream.TotalComposition = sumComposition.ToString().Substring(1);
+                double internPressure = UnitConvert.Convert("MPAG", "KPA", stream.Pressure);
+
+                string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
+                double ReliefPressure = 1;
+                result = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase);
+               
+            }
+            if (result == 2)
+            {
+                MessageBox.Show("Critical point NOT determined, please check result carefully.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning); 
+            }
+            return result;
+        }
+
+
+        private void CalcDrumFire(int FluidType,double QFire)
+        {
+            switch (FluidType)
+            {
+                case 1:
+                    //all gas only
+                    GasMethod();
+                    break;
+                case 2: 
+                    //suppercritical
+                    GasMethod();
+                    break;
+                case 3:
+                    MultiPhase3Method(QFire);
+                    break;
+                case 4:
+                    MultiPhase4Method(QFire);
+                    break;
+                case 5:
+                    MessageBox.Show("Flash for latent heat failed and default 46 KJ/Kg is used as latent heat.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning); 
+                    NotDetermined(QFire);
+                    break;
+
+            }
+        }
+
+
+        private void CalcSupercriticalCpCv(List<CustomStream> liquidFeeds, List<string> liquidFeedNames)
+        {
+            double temperature = UnitConvert.Convert(UOMEnum.Pressure, "Kpa", reliefPressure) / UnitConvert.Convert(UOMEnum.Pressure, "Kpa", drum.Pressure) * UnitConvert.Convert(UOMEnum.Temperature, "K", drum.Temperature);
+            double reliefTemperature =  UnitConvert.Convert("K", UOMEnum.Temperature, temperature);
+            string tempdir = DirProtectedSystem + @"\temp\";
+            string dirSupercritical = tempdir + "Fire" + ScenarioID.ToString() + "_dirSupercritical";
+            if (!Directory.Exists(dirSupercritical))
+                Directory.CreateDirectory(dirSupercritical);
+            string content = PROIIFileOperator.getUsableContent(liquidFeedNames, tempdir);
+            int result = 0;
+            int ImportResult = 0;
+            int RunResult = 0;
+            string gd = Guid.NewGuid().ToString();
+            string vapor = "S_" + gd.Substring(0, 5).ToUpper();
+            string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
+            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+            double maxTemp = reliefTemperature;
+            if (maxTemp < fireCriticalTemperature)
+                maxTemp = fireCriticalTemperature;
+
+            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 2, maxTemp.ToString(), liquidFeeds, vapor, liquid, dirSupercritical, ref ImportResult, ref RunResult);
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                if (RunResult == 1 || RunResult == 2)
+                {
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    reader.InitProIIReader(tray1_f);
+                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                    reader.ReleaseProIIReader();
+                    CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
+                    if (cs.BulkCPCVRatio > 0)
+                    {
+                        fireFluidModel.NormalCpCv = cs.BulkCPCVRatio;
+                    }
+                    else
+                    {
+                        fireFluidModel.NormalCpCv = 1.4;
+                    }
+                    fireFluidModel.GasVaporMW = cs.BulkMwOfPhase;
+                }
+
+                else
+                {
+                    MessageBox.Show("Prz file is error", "Message Box");
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("inp file is error", "Message Box");
+
+            }
+
+        }
+
+
+        private void MultiPhase3Method(double QFire)
+        {
+            CalcDrumFireByLatent(QFire);
+            //double pr = reliefPressure / fireCriticalPressure;
+
+            //if (pr > 0.9)
+            //{
+            //    MessageBox.Show("Relief Condition is near critical , Latent heat is set to default or user defined value.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning); 
+            //    CalcDrumFireByLatent(QFire);
+            //}
+            //else
+            //{
+            //    if (molLatent < 115)
+            //    {
+            //        MessageBox.Show("Calculated latent heat is less than bound value and default  or user defined value is used.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //        model.LatentHeat = 115;
+            //        CalcDrumFireByLatent(QFire);
+            //    }
+            //    else
+            //    {
+            //        CalcDrumFireByLatent(QFire);
+            //    }
+            //}
+        }
+
+        private void MultiPhase4Method(double QFire)
+        {
+            //if (molLatent < 115)
+            //{
+            //    MessageBox.Show("Calculated latent heat is less than bound value and default  or user defined value is used.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //    model.LatentHeat = 115;
+            //    CalcDrumFireByLatent(QFire);
+            //}
+            //else
+            //{
+                CalcDrumFireByLatent(QFire);
+            //}
+
+        }
+
+        private void NotDetermined(double QFire)
+        {
+            CalcDrumFireByLatent(QFire);
+            double temperature = UnitConvert.Convert(UOMEnum.Pressure, "Kpa", reliefPressure) / UnitConvert.Convert(UOMEnum.Pressure, "Kpa", drum.Pressure) * UnitConvert.Convert(UOMEnum.Temperature, "K", drum.Temperature);
+            model.ReliefTemperature = UnitConvert.Convert( "K",UOMEnum.Temperature, temperature);
+        }
+        private void CalcDrumFireByLatent(double Qfire)
+        {
+            if (model.IsCalc)
+            {               
+                double latent = UnitConvert.Convert(model.LatentHeatUnit, UOMEnum.SpecificEnthalpy, model.LatentHeat);
+                if (latent == 0)
+                {
+                    MessageBox.Show("Latent could not be zero.","Message Box",MessageBoxButton.OK,MessageBoxImage.Error);
+                    return;
+                }
+                else
+                {
+                    model.ReliefLoad = Qfire / latent;
+                }
+                
+            }
+            else
+            {
+                double latent = UnitConvert.Convert(model.LatentHeat2Unit, UOMEnum.SpecificEnthalpy, model.LatentHeat2);
+                if (latent == 0)
+                {
+                    MessageBox.Show("Latent could not be zero.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                else
+                {
+                    model.ReliefLoad = Qfire / latent;
+                }
+            }
+
+            if (model.FluidType == 5)
+            {
+                model.ReliefMW = normalVapor.BulkMwOfPhase;
+                model.ReliefPressure = reliefPressure;              
+                model.ReliefCpCv = normalVapor.BulkCPCVRatio;
+                model.ReliefZ = normalVapor.VaporZFmKVal;
+                double temperature = UnitConvert.Convert(UOMEnum.Pressure, "Kpa", reliefPressure) / UnitConvert.Convert(UOMEnum.Pressure, "Kpa", drum.Pressure) * UnitConvert.Convert(UOMEnum.Temperature, "K", drum.Temperature);
+                model.ReliefTemperature = UnitConvert.Convert("K", UOMEnum.Temperature, temperature);
+            }
+            else
+            {
+                if (model.dbmodel.ID == 0)
+                {
+                    model.ReliefMW = molVapor.BulkMwOfPhase;
+                    model.ReliefPressure = reliefPressure;
+                    model.ReliefTemperature = molVapor.Temperature;
+                    model.ReliefCpCv = molVapor.BulkCPCVRatio;
+                    model.ReliefZ = molVapor.VaporZFmKVal;
+                }
+            }
+
+        }
+
+        private void GasMethod()
+        {
+            double mw = fireFluidModel.GasVaporMW;
+            double cpcv = fireFluidModel.NormalCpCv;
+            double area = fireFluidModel.ExposedVesse;
+            double tw = UnitConvert.Convert("C", "K", fireFluidModel.TW);
+            //double tn = UnitConvert.Convert("C", "K", fireFluidModel.NormaTemperature);
+            //double pn = UnitConvert.Convert("MPag", "Kpa", fireFluidModel.NormalPressure);
+            double p1 = UnitConvert.Convert("MPag", "Kpa", reliefPressure);
+            double t1 = UnitConvert.Convert(UOMEnum.Pressure, "Kpa", reliefPressure) / UnitConvert.Convert(UOMEnum.Pressure, "Kpa", drum.Pressure) * UnitConvert.Convert(UOMEnum.Temperature, "K", drum.Temperature);
+            double w = Algorithm.GetFullVaporW(cpcv,mw, p1, area, tw, t1);
+            if (t1 >= tw)
+            {
+                MessageBox.Show("T1 could not be greater than TW", "Message Box");
+                return;
+            }
+
+            model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, uomEnum.UserMassRate, w); 
+            model.ReliefMW = mw;
+            model.ReliefTemperature = UnitConvert.Convert("K", uomEnum.UserTemperature, t1); 
+            model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, reliefPressure);
+            model.ReliefCpCv = 1.12;
+            model.ReliefZ = 0.723;
         }
     }
 }

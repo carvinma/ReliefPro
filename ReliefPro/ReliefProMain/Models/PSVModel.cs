@@ -4,14 +4,18 @@ using System.Linq;
 using System.Text;
 using ReliefProCommon.Enum;
 using ReliefProModel;
+using NHibernate;
+using ReliefProDAL;
 
 namespace ReliefProMain.Models
 {
     public class PSVModel : ModelBase
     {
         public PSV dbmodel;
-        public PSVModel(PSV m)
+        public ISession SessionPlant;
+        public PSVModel(PSV m, ISession SessionPlant)
         {
+            this.SessionPlant = SessionPlant;
             dbmodel= m;
             this.ID = m.ID;
             this.PSVName = m.PSVName;
@@ -26,7 +30,6 @@ namespace ReliefProMain.Models
             this.LocationDescription = m.LocationDescription;
             this.DischargeTo = m.DischargeTo;
             this.CriticalPressure = m.CriticalPressure;
-
             this.PSVName_Color = m.PSVName_Color;
             this.ValveNumber_Color = m.ValveNumber_Color;
             this.DrumPSVName_Color = m.DrumPSVName_Color;
@@ -241,9 +244,27 @@ namespace ReliefProMain.Models
                 }
                 location = value;
 
+                ProIIEqDataDAL proiieqdal = new ProIIEqDataDAL();
+                ProIIEqData data = proiieqdal.GetModel(SessionPlant,location,location);
+
+
+
+
                 NotifyPropertyChanged("Location");
             }
         }
+
+        private double _FluidType;
+        public double FluidType
+        {
+            get { return _FluidType; }
+            set
+            {
+                _FluidType = value;
+                NotifyPropertyChanged("FluidType");
+            }
+        }
+
 
         private double _CriticalPressure;
         public double CriticalPressure

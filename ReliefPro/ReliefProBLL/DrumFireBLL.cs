@@ -8,6 +8,7 @@ using ReliefProDAL.Drums;
 using ReliefProModel;
 using ReliefProModel.Drums;
 using UOMLib;
+using ProII;
 
 namespace ReliefProBLL
 {
@@ -25,13 +26,15 @@ namespace ReliefProBLL
         {
             DrumFireCalc firemodel = new DrumFireCalc();
             DrumFireDAL drumFire = new DrumFireDAL();
-            List<DrumFireCalc> lstDrumFire = drumFire.GetAllList(SessionPS).ToList();
+            List<DrumFireCalc> lstDrumFire = drumFire.GetAllList(SessionPS,ScenarioID).ToList();
             if (lstDrumFire.Count() > 0)
             {
                 firemodel = lstDrumFire.Where(p => p.ScenarioID == ScenarioID).FirstOrDefault();
             }
-            if (firemodel!=null)
+            if (firemodel.ID>0)
+            {
                 return firemodel;
+            }
             else
             {
                 firemodel = new DrumFireCalc();
@@ -75,6 +78,8 @@ namespace ReliefProBLL
             fireModel.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.ReliefTemperature);
             return fireModel;
         }
+
+       
 
         public void SaveData(DrumFireCalc model, DrumFireFluid fluidModel, DrumSize sizeModel, ISession SessionPS)
         {

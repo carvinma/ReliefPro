@@ -84,8 +84,8 @@
     <!--PSVView.xaml-->
     <s:String x:Key="PSVViewTitle">PSV</s:String>
     <s:String x:Key="PSVName">PSV Name:</s:String>
-    <s:String x:Key="ValveNumber">Valve Number:</s:String>
-    <s:String x:Key="ValveType">Valve Type:</s:String>
+    <s:String x:Key="ValveNumber">PSV Number:</s:String>
+    <s:String x:Key="ValveType">PSV Type:</s:String>
     <s:String x:Key="SetPressure">Set Pressure:</s:String>
     <s:String x:Key="Prelief">Relief Pressure/Set Pressure:</s:String>
     <s:String x:Key="Pset">Pset</s:String>
@@ -239,6 +239,15 @@
     <s:String x:Key="TW">TW:</s:String>
     <s:String x:Key="DrumFireFluidViewStatusBar">Exist the window after saving all data</s:String>
 
+    <!--DrumMutiPhaseView.xaml-->
+    <s:String x:Key="DrumMutiPhaseViewTitle">Drum Muti Phase</s:String>
+    <s:String x:Key="Calculated">Calculated</s:String>
+    <s:String x:Key="UserDefined">User Defined</s:String>
+   
+    <s:String x:Key="DrumMutiPhaseViewStatusBar">Exist the window after saving all data</s:String>
+
+
+
     <!--CreateUnitView.xaml-->
     <s:String x:Key="DrumFireViewTitle">Drum Fire</s:String>
     <s:String x:Key="All GasSupercritical Fluid">All Gas/Supercritical Fluid</s:String>
@@ -246,6 +255,9 @@
     <s:String x:Key="CrackingHeat">Cracking Heat:</s:String>
     <s:String x:Key="HeavyOilFluid">Heavy Oil Fluid</s:String>
     <s:String x:Key="DrumSize">Drum Size</s:String>
+    <s:String x:Key="FluidTypeRelief">Fluid Type@relief condition:</s:String>
+    <s:String x:Key="InputData">Input Data</s:String>
+    <s:String x:Key="NormalCpCv">CpCv:</s:String>
     <s:String x:Key="Adequatedrainageandfirefightingequipmentexist">Adequate Drainage and Firefighting equipment Exist</s:String>
     <s:String x:Key="DrumFireViewStatusBar">Exist the window after saving all data</s:String>
 

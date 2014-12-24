@@ -168,21 +168,38 @@ namespace ReliefProMain
         /// <param name="Pn"></param>
         /// <param name="Tn"></param>
         /// <returns></returns>
-        public static double GetFullVaporW(double MW, double P1, double Area, double Tw, double Pn, double Tn, ref double T1)
+        public static double GetFullVaporW(double CpCv, double MW, double P1, double Area, double Tw,  double T1)
         {
             double result = 0;
-            if (Pn != 0)
+
+            if (T1 >= Tw)
             {
-                T1 = Tn * P1 / Pn;
-                if (T1 >= Tw)
+                result = 0;
+            }
+            else
+            {
+                double C10 = 0.0395;
+                double K = CpCv;
+                double K2 = Math.Pow(2 / (K + 1), (K + 1) / (K - 1));
+                double C = C10 * Math.Pow(K * K2, 0.5);
+
+                double C9 = 0.2772;
+                double Kd = 0.975;
+                double F1 = C9 / (C * Kd);
+                double F2 = Math.Pow((Tw - T1), 1.25) / Math.Pow(T1, 0.6506);
+                double F = F1 * F2;
+                if (F <= 182)
                 {
-                    result = 0;
+                    double C13 = 182;
+                    result = C13 * C * Area * Math.Pow(MW * P1/T1, 0.5);
                 }
                 else
                 {
-                    result = 0.1406 * Math.Pow(MW * P1, 0.5) * Area * Math.Pow((Tw - T1), 1.25) / Math.Pow(T1, 1.1506);
+                    double C12 = 0.2772;
+                    result = C12 * Math.Pow(MW * P1, 0.5) * Area * Math.Pow((Tw - T1), 1.25) / Math.Pow(T1, 1.1506);
                 }
             }
+
             return result;
         }
 

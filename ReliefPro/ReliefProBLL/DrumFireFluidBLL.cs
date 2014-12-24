@@ -34,11 +34,13 @@ namespace ReliefProBLL
             }
             else
             {
+                DrumDAL drumdal = new DrumDAL();
                 var info = GetFluidInfo();
                 Model.GasVaporMW = info.Item1;
                 Model.NormalPressure = info.Item3;
                 Model.NormaTemperature = info.Item2;
                 Model.PSVPressure = info.Item4;
+                Model.NormalCpCv = info.Item5;
                 Model.TW = 593;
             }
             return Model;
@@ -61,13 +63,14 @@ namespace ReliefProBLL
             fireModel.TW = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, fireModel.TW);
             return fireModel;
         }
-        private Tuple<double, double, double, double> GetFluidInfo()
+        private Tuple<double,double, double, double, double> GetFluidInfo()
         {
-            double s = 0, drumt = 0, drump = 0, psv = 0;
+            double cpcv=0, s = 0, drumt = 0, drump = 0, psv = 0;
             StreamDAL dbs = new StreamDAL();
             var lstStream = dbs.GetAllList(SessionPS).Where(p => p.IsProduct == true && p.ProdType == "1").ToList();
             if (lstStream.Count > 0)
             {
+                cpcv = lstStream[0].BulkCPCVRatio;
                 s = lstStream[0].BulkMwOfPhase;
             }
             DrumDAL dbd = new DrumDAL();
@@ -83,7 +86,7 @@ namespace ReliefProBLL
             {
                 psv = lstPsv[0].Pressure;
             }
-            return Tuple.Create(s, drumt, drump, psv);
+            return Tuple.Create(s, drumt, drump, psv,cpcv);
         }
     }
 }

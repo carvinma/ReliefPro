@@ -46,5 +46,7 @@ namespace ReliefProModel
         public virtual string MWAP_Color { get; set; }
         public virtual string DischargeTo_Color { get; set; }
         public virtual string dbPath_Color { get; set; }
+
+       
     }
 }

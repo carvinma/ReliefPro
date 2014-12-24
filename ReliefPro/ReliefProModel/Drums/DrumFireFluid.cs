@@ -14,9 +14,9 @@ namespace ReliefProModel.Drums
         public virtual double ExposedVesse { get; set; }
         public virtual double NormaTemperature { get; set; }
         public virtual double NormalPressure { get; set; }
+        public virtual double NormalCpCv { get; set; }
         public virtual double PSVPressure { get; set; }
         public virtual double TW { get; set; }
-
         public virtual string DrumFireCalcID_Color { get; set; }
         public virtual string GasVaporMW_Color { get; set; }
         public virtual string ExposedVesse_Color { get; set; }
@@ -24,5 +24,6 @@ namespace ReliefProModel.Drums
         public virtual string NormalPressure_Color { get; set; }
         public virtual string PSVPressure_Color { get; set; }
         public virtual string TW_Color { get; set; }
+        public virtual string NormalCpCv_Color { get; set; }
     }
 }

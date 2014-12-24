@@ -50,6 +50,7 @@ namespace ReliefProMain.ViewModel.Drums
             model.dbmodel.NormalPressure = UnitConvert.Convert(model.PressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.Pressure);
             model.dbmodel.PSVPressure = UnitConvert.Convert(model.PSVPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.PSVPressure);
             model.dbmodel.TW = model.TW;
+            model.dbmodel.NormalCpCv = model.NormalCpCv;
             //model.dbmodel.TW = uc.Convert(model.t, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
         }
         private void Save(object obj)

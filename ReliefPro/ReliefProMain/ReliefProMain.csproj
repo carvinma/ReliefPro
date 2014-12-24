@@ -268,6 +268,7 @@
     <Compile Include="ViewModel\Compressors\PistonVM.cs" />
     <Compile Include="ViewModel\CreateUnitVM.cs" />
     <Compile Include="ViewModel\CustomStreamVM.cs" />
+    <Compile Include="ViewModel\Drums\DrumMutiPhaseVM.cs" />
     <Compile Include="ViewModel\DrumVM.cs" />
     <Compile Include="ViewModel\Drums\DrumBlockedOutletVM.cs" />
     <Compile Include="ViewModel\Drums\DrumDepressuringVM.cs" />
@@ -365,6 +366,9 @@
     </Compile>
     <Compile Include="View\DrumDepressures\PressureCurveView.xaml.cs">
       <DependentUpon>PressureCurveView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DrumFires\DrumMutiPhaseView.xaml.cs">
+      <DependentUpon>DrumMutiPhaseView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\GlobalDefault\GlobalDefaultView.xaml.cs">
       <DependentUpon>GlobalDefaultView.xaml</DependentUpon>
@@ -672,6 +676,10 @@
     <Page Include="View\DrumDepressures\PressureCurveView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DrumFires\DrumMutiPhaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\GlobalDefault\GlobalDefaultView.xaml">
       <SubType>Designer</SubType>

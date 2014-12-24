@@ -14,6 +14,7 @@ namespace ReliefProModel.Drums
         public virtual string HeatInputModel { get; set; }
         public virtual double WettedArea { get; set; }
         public virtual double LatentHeat { get; set; }
+        public virtual double LatentHeat2 { get; set; }
         public virtual double CrackingHeat { get; set; }
         public virtual double DesignPressure { get; set; }
         public virtual double ReliefLoad { get; set; }
@@ -26,13 +27,15 @@ namespace ReliefProModel.Drums
         public virtual bool HeavyOilFluid { get; set; }
         public virtual bool AllGas { get; set; }
         public virtual bool EquipmentExist { get; set; }
-
+        public virtual int FluidType { get; set; }
+        public virtual bool IsCalc { get; set; }
 
         public virtual string DrumID_Color { get; set; }
         public virtual string ScenarioID_Color { get; set; }
         public virtual string HeatInputModel_Color { get; set; }
         public virtual string WettedArea_Color { get; set; }
         public virtual string LatentHeat_Color { get; set; }
+        public virtual string LatentHeat2_Color { get; set; }
         public virtual string CrackingHeat_Color { get; set; }
         public virtual string DesignPressure_Color { get; set; }
         public virtual string ReliefLoad_Color { get; set; }
@@ -44,5 +47,6 @@ namespace ReliefProModel.Drums
         public virtual string HeavyOilFluid_Color { get; set; }
         public virtual string AllGas_Color { get; set; }
         public virtual string EquipmentExist_Color { get; set; }
+
     }
 }

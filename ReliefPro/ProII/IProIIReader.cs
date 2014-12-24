@@ -20,6 +20,7 @@ namespace ProII
         string GetCriticalTemperature(string PH);
         string GetCricondenbarPress(string PH);
         string GetCricondenbarTemp(string PH);
+        double[] GetCompInInfo(string CompName);
         //Dictionary<string, ProIIStreamData> GetTowerStreamInfoExtra(string otype, string eqname);
 
         void ReleaseProIIReader();

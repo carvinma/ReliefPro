@@ -11,13 +11,13 @@ namespace ReliefProDAL.Drums
 {
     public class DrumFireDAL
     {
-        public IList<DrumFireCalc> GetAllList(ISession session)
+        public IList<DrumFireCalc> GetAllList(ISession session,int ScenarioID)
         {
             IList<DrumFireCalc> list = null;
             try
             {
                 session.Clear();
-                list = session.CreateCriteria<DrumFireCalc>().List<DrumFireCalc>();
+                list = session.CreateCriteria<DrumFireCalc>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<DrumFireCalc>();
             }
             catch (Exception ex)
             {

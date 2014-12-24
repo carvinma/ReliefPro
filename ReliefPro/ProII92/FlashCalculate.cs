@@ -139,7 +139,7 @@ namespace ProII92
                     break;
 
             }
-
+            
             data2.Append("END");
             return data2.ToString();
         }
@@ -202,7 +202,7 @@ namespace ProII92
                     break;
 
             }
-
+            
             data2.Append("END");
             return data2.ToString();
         }

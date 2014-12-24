@@ -380,6 +380,7 @@ namespace ProII91
                     }
                 }
             }
+            
             return data;
         }
 
@@ -536,6 +537,16 @@ namespace ProII91
             CP2Object eq = (CP2Object)cp2File.ActivateObject(otype, phaseName);
             object value = eq.GetAttribute(attr);
             return value.ToString();
+        }
+
+        public double[] GetCompInInfo(string compname)
+        {
+            double[] data = new double[4];
+            CP2Object eq = (CP2Object)cp2File.ActivateObject("CompIn", compname);
+            double d1 = double.Parse(eq.GetAttribute("CritPressLibr").ToString());
+            double d2 = double.Parse(eq.GetAttribute("CritTempLibr").ToString());
+            data[0] = d1;
+            return data;
         }
     }
 }

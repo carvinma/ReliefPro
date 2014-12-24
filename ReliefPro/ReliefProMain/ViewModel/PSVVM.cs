@@ -73,10 +73,10 @@ namespace ReliefProMain.ViewModel
         public ObservableCollection<string> GetValveTypes()
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
-            list.Add("Modulation");
-            list.Add("Pop Action");
+            list.Add("Conventional");
+            list.Add("Balanced");
+            list.Add("Pilot Operated");
             list.Add("Rupture Disk");
-            list.Add("Temperature Actuated");
             return list;
         }
         public ObservableCollection<string> GetDischargeTos()
@@ -156,7 +156,7 @@ namespace ReliefProMain.ViewModel
                 psv.ValveType_Color = ColorBorder.green.ToString();
                 psv.Location_Color = ColorBorder.green.ToString();
             }
-            CurrentModel = new PSVModel(psv);
+            CurrentModel = new PSVModel(psv,sessionPlant);
             if (psv.ID == 0)
             {
                 CurrentModel.ValveType = ValveTypes[0];
@@ -173,7 +173,7 @@ namespace ReliefProMain.ViewModel
             {
                 if (psv.ID == 0)
                 {
-                    CurrentModel.Location = Locations[0]; ;
+                    CurrentModel.Location = Locations[0]; 
                 }
             }
             else
@@ -481,6 +481,8 @@ namespace ReliefProMain.ViewModel
             CurrentModel.CriticalTemperature = criticalTemperature;
             CurrentModel.CricondenbarPress = cricondenbarPressure;
             CurrentModel.CricondenbarTemp = cricondenbarTemperature;
+
+
             double latentEnthalpy = 0;
             double ReliefTemperature = 0;
             LatentProduct latentVapor = new LatentProduct();
@@ -678,6 +680,7 @@ namespace ReliefProMain.ViewModel
                 Directory.CreateDirectory(dirPhase);
 
             List<CustomStream> arrFeeds = new List<CustomStream>();
+            List<string> lstLiquidFeed = new List<string>();
             CustomStreamDAL csdal = new CustomStreamDAL();
             List<CustomStream> feedlist = csdal.GetAllList(SessionProtectedSystem, false).ToList();
             IList<CustomStream> productlist = csdal.GetAllList(SessionProtectedSystem, true);
@@ -693,52 +696,70 @@ namespace ReliefProMain.ViewModel
                     arrFeeds.Add(cs);
                 }                
 
-            }
+            }          
             else
             {
                 arrFeeds = feedlist;
             }
-            string[] streamComps = stream.TotalComposition.Split(',');
-            int len = streamComps.Length;
-            double[] streamCompValues = new double[len];
-            double sumTotalMolarRate=0;
-            foreach (CustomStream cs in arrFeeds)
+            if (arrFeeds.Count > 0)
             {
-                sumTotalMolarRate=sumTotalMolarRate+cs.TotalMolarRate;
-            }
-            foreach (CustomStream cs in arrFeeds)
-            {
-                string[] comps=cs.TotalComposition.Split(',');
-                for(int i=0;i<len;i++)
+                string[] streamComps = stream.TotalComposition.Split(',');
+                int len = streamComps.Length;
+                if (len == 1)
                 {
-                    streamCompValues[i] = streamCompValues[i] + double.Parse(comps[i]) * cs.TotalMolarRate/sumTotalMolarRate;
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    reader.InitProIIReader(FileFullPath);
+                    double[] compInData = reader.GetCompInInfo(streamComps[0]);
+                   
+                    reader.ReleaseProIIReader();
+
+                    criticalPressure = UnitConvert.Convert("KPA", CurrentModel.CriticalPressureUnit, compInData[0]);
+                    criticalTemperature = UnitConvert.Convert("C", CurrentModel.CriticalTemperatureUnit, compInData[1]);
+                       
                 }
-            }
-            StringBuilder  sumComposition =new StringBuilder();
-            foreach(double comp in streamCompValues)
-            {
-                sumComposition.Append(",").Append(comp.ToString());
-            }
-            stream.TotalComposition = sumComposition.ToString().Substring(1);
-            double internPressure = UnitConvert.Convert("MPAG", "KPA", stream.Pressure);
-            if (internPressure == 0)
-            {
-                MessageBox.Show("Please Rerun this ProII file and save it.", "Message Box");
-                return;
-            }
-            PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+                else
+                {
+                    double[] streamCompValues = new double[len];
+                    double sumTotalMolarRate = 0;
+                    foreach (CustomStream cs in arrFeeds)
+                    {
+                        sumTotalMolarRate = sumTotalMolarRate + cs.TotalMolarRate;
+                    }
+                    foreach (CustomStream cs in arrFeeds)
+                    {
+                        string[] comps = cs.TotalComposition.Split(',');
+                        for (int i = 0; i < len; i++)
+                        {
+                            streamCompValues[i] = streamCompValues[i] + double.Parse(comps[i]) * cs.TotalMolarRate / sumTotalMolarRate;
+                        }
+                    }
+                    StringBuilder sumComposition = new StringBuilder();
+                    foreach (double comp in streamCompValues)
+                    {
+                        sumComposition.Append(",").Append(comp.ToString());
+                    }
+                    stream.TotalComposition = sumComposition.ToString().Substring(1);
+                    double internPressure = UnitConvert.Convert("MPAG", "KPA", stream.Pressure);
+                    if (internPressure == 0)
+                    {
+                        MessageBox.Show("Please Rerun this ProII file and save it.", "Message Box");
+                        return;
+                    }
+                    PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
 
-            string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
-            double ReliefPressure = CurrentModel.ReliefPressureFactor * CurrentModel.Pressure;
+                    string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
+                    double ReliefPressure = CurrentModel.ReliefPressureFactor * UnitConvert.Convert(uomEnum.UserPressure, UOMEnum.Pressure, CurrentModel.Pressure);
 
-            
-            bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase);
-            if (b == false)
-                return;
-            CurrentModel.CriticalPressure = criticalPressure;
-            CurrentModel.CriticalTemperature = criticalTemperature;
-            CurrentModel.CricondenbarPress = cricondenbarPressure;
-            CurrentModel.CricondenbarTemp = cricondenbarTemperature;
+
+                    bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase);
+                    if (b == false)
+                        return;
+                }
+                CurrentModel.CriticalPressure = criticalPressure;
+                CurrentModel.CriticalTemperature = criticalTemperature;
+                CurrentModel.CricondenbarPress = cricondenbarPressure;
+                CurrentModel.CricondenbarTemp = cricondenbarTemperature;
+            }
         }
 
         private CustomStream CopyTop1Liquid(string copyPrzFile)
@@ -796,8 +817,7 @@ namespace ReliefProMain.ViewModel
                     criticalPressure = UnitConvert.Convert("KPA", CurrentModel.CriticalPressureUnit, double.Parse(criticalPress));
                     criticalTemperature = UnitConvert.Convert("C", CurrentModel.CriticalTemperatureUnit, double.Parse(criticalTemp));
                     cricondenbarPressure = UnitConvert.Convert("C", CurrentModel.CricondenbarPressUnit, double.Parse(cricondenbarPress));
-                    cricondenbarTemperature = UnitConvert.Convert("KPA", CurrentModel.CricondenbarTempUnit, double.Parse(cricondenbarTemp));
-                   
+                    cricondenbarTemperature = UnitConvert.Convert("KPA", CurrentModel.CricondenbarTempUnit, double.Parse(cricondenbarTemp));                   
                     return true;
                 }
                 else
@@ -861,6 +881,6 @@ namespace ReliefProMain.ViewModel
 
 
         
-
+        
     }
 }

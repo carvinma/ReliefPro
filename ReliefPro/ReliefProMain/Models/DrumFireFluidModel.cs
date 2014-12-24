@@ -71,10 +71,10 @@ namespace ReliefProMain.Models
             this.pressure = firemodel.NormalPressure;
             this.pSVPressure = firemodel.PSVPressure;
             this.tw = firemodel.TW;
+            this.normalCpCv = firemodel.NormalCpCv;
         }
 
-        private double vaporMW;
-        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
+        private double vaporMW;       
         public double VaporMW
         {
             get { return vaporMW; }
@@ -84,8 +84,7 @@ namespace ReliefProMain.Models
                 this.NotifyPropertyChanged("VaporMW");
             }
         }
-        private double vessel;
-        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
+        private double vessel;       
         public double Vessel
         {
             get { return vessel; }
@@ -96,8 +95,7 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double temperature;
-        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
+        private double temperature;       
         public double Temperature
         {
             get { return temperature; }
@@ -108,8 +106,7 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double pressure;
-        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
+        private double pressure;       
         public double Pressure
         {
             get { return pressure; }
@@ -120,9 +117,7 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double pSVPressure;
-        
-        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
+        private double pSVPressure;             
         public double PSVPressure
         {
             get { return pSVPressure; }
@@ -134,8 +129,6 @@ namespace ReliefProMain.Models
         }
 
         private double tw;
-        
-        [ReliefProMain.Util.RegularExpression(ModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double TW
         {
             get { return tw; }
@@ -145,7 +138,16 @@ namespace ReliefProMain.Models
                 this.NotifyPropertyChanged("TW");
             }
         }
-
+        private double normalCpCv;
+        public double NormalCpCv
+        {
+            get { return normalCpCv; }
+            set
+            {
+                normalCpCv = value;
+                this.NotifyPropertyChanged("NormalCpCv");
+            }
+        }
 
 
         private string vaporMW_Color;

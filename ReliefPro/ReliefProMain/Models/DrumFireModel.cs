@@ -29,6 +29,16 @@ namespace ReliefProMain.Models
                 NotifyPropertyChanged("LatentHeatUnit");
             }
         }
+        private string latentHeat2Unit;
+        public string LatentHeat2Unit
+        {
+            get { return latentHeat2Unit; }
+            set
+            {
+                latentHeat2Unit = value;
+                NotifyPropertyChanged("LatentHeat2Unit");
+            }
+        }
 
         private string crackingHeatUnit;
         public string CrackingHeatUnit
@@ -82,6 +92,47 @@ namespace ReliefProMain.Models
                 NotifyPropertyChanged("ReliefTemperatureUnit");
             }
         }
+        private int _FluidType;
+        public int FluidType
+        {
+            get { return _FluidType; }
+            set
+            {
+                _FluidType = value;
+                switch(_FluidType)
+                {
+                    case 1:
+                        FluidTypeRelief = "Gas/Vapor Only";
+                        break;
+                    case 2:
+                        FluidTypeRelief = "Supercritical";
+                        break;
+                    case 3:
+                        FluidTypeRelief = "Multi-Phase/liquid";
+                        break;
+                    case 4:
+                        FluidTypeRelief = "Multi-Phase/liquid";
+                        break;
+                    case 5:
+                        FluidTypeRelief = "Not Determined";
+                        break;
+
+                }
+                NotifyPropertyChanged("FluidType");
+            }
+        }
+
+
+        private string _FluidTypeRelief;
+        public string FluidTypeRelief
+        {
+            get { return _FluidTypeRelief; }
+            set
+            {
+                _FluidTypeRelief = value;
+                NotifyPropertyChanged("FluidTypeRelief");
+            }
+        }
 
         public DrumFireCalc dbmodel { get; set; }
         public DrumFireModel(DrumFireCalc fireModel)
@@ -89,6 +140,7 @@ namespace ReliefProMain.Models
             dbmodel = fireModel;
             this.wettedArea = dbmodel.WettedArea;
             this.latentHeat = dbmodel.LatentHeat;
+            this.latentHeat2 = dbmodel.LatentHeat2;
             this.crackingHeat = dbmodel.CrackingHeat;
             this.reliefLoad = dbmodel.ReliefLoad;
             this.reliefPressure = dbmodel.ReliefPressure;
@@ -100,7 +152,38 @@ namespace ReliefProMain.Models
             this.HeavyOilFluid = dbmodel.HeavyOilFluid;
             this.allGas = dbmodel.AllGas;
             this.equipmentExist = dbmodel.EquipmentExist;
+            this.FluidType = dbmodel.FluidType;
+            this.IsCalc = dbmodel.IsCalc;
+            if (fireModel.ID == 0)
+            {
+                this.isCalc = true;
+                
+            }
+            this.isNotCalc = !this.isCalc;
         }
+
+        private bool isCalc;
+        public bool IsCalc
+        {
+            get { return isCalc; }
+            set
+            {
+                isCalc = value;
+                NotifyPropertyChanged("IsCalc");
+            }
+        }
+
+        private bool isNotCalc;
+        public bool IsNotCalc
+        {
+            get { return isNotCalc; }
+            set
+            {
+                isNotCalc = value;
+                NotifyPropertyChanged("IsNotCalc");
+            }
+        }
+
 
 
         private double wettedArea;
@@ -124,6 +207,18 @@ namespace ReliefProMain.Models
                 NotifyPropertyChanged("LatentHeat");
             }
         }
+
+        private double latentHeat2;
+        public double LatentHeat2
+        {
+            get { return latentHeat2; }
+            set
+            {
+                latentHeat2 = value;
+                NotifyPropertyChanged("LatentHeat2");
+            }
+        }
+
 
         private double crackingHeat;
         

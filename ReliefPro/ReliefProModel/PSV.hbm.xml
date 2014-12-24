@@ -38,5 +38,8 @@
     <property name="DrumPressure_Color" column="DrumPressure_Color" type="String" length="255" />
     <property name="MWAP_Color" column="MWAP_Color" type="String" length="255" />
     <property name="DischargeTo_Color" column="DischargeTo_Color" type="String" length="255" />
+
+  
+    
   </class>
 </hibernate-mapping>
