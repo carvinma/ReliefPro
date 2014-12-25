@@ -83,7 +83,6 @@ namespace ReliefProMain.ViewModel.Drums
         private AirCooledHXFireSize airCooledHXFireSize;
         private int FireType;
         private SourceFile SourceFileInfo;
-        private PSV psv;
         private UOMLib.UOMEnum uomEnum;
 
         private CustomStream normalVapor;
@@ -117,12 +116,13 @@ namespace ReliefProMain.ViewModel.Drums
             CalcCMD = new DelegateCommand<object>(Calc);
             OKCMD = new DelegateCommand<object>(Save);
             DrumSizeCMD = new DelegateCommand<object>(OpenDrumSize);
-            PSVDAL psvdal = new PSVDAL();
-            psv = psvdal.GetModel(SessionProtectedSystem);
-
-            DrumDAL drumdal = new DrumDAL();
-            drum = drumdal.GetModel(SessionProtectedSystem);
-
+            
+            //如果是drum的话，获得当前drum的信息
+            if (FireType == 0)
+            {
+                DrumDAL drumdal = new DrumDAL();
+                drum = drumdal.GetModel(SessionProtectedSystem);
+            }
             lstHeatInputModel = new List<string>();
             lstHeatInputModel.Add("API 521");
             if (FireType == 1)
@@ -131,6 +131,7 @@ namespace ReliefProMain.ViewModel.Drums
                 SelectedHeatInputModel = "API 2000";
             }
 
+            //获得drumfirecalc的数据
             fireBLL = new DrumFireBLL(SessionPS, SessionPF);
             var fireModel = fireBLL.GetDrumFireModel(ScenarioID);
             fireModel = fireBLL.ReadConvertModel(fireModel);
@@ -144,6 +145,7 @@ namespace ReliefProMain.ViewModel.Drums
             model.LatentHeatUnit = uomEnum.UserSpecificEnthalpy;
             model.LatentHeat2Unit = uomEnum.UserSpecificEnthalpy;
             model.CrackingHeatUnit = uomEnum.UserSpecificEnthalpy;
+
             model.ReliefLoadUnit = uomEnum.UserMassRate;
             model.ReliefPressureUnit = uomEnum.UserPressure;
             model.DesignPressureUnit = uomEnum.UserPressure;
@@ -177,12 +179,9 @@ namespace ReliefProMain.ViewModel.Drums
             {
                 fireFluidModel.NormalCpCv = normalVapor.BulkCPCVRatio;
                 fireFluidModel.GasVaporMW = normalVapor.BulkMwOfPhase;
+                fireFluidModel.TW=UnitConvert.Convert(UOMEnum.Temperature,uomEnum.UserTemperature,593);
             }
-            else if (model.dbmodel.ID == 0 && model.FluidType == 2)
-            {
-                fireFluidModel.NormalCpCv = molVapor.BulkCPCVRatio;
-                fireFluidModel.GasVaporMW = molVapor.BulkMwOfPhase;
-            }
+            
            
         }
         private void WriteConvertModel()
@@ -336,42 +335,68 @@ namespace ReliefProMain.ViewModel.Drums
             }
             else 
             {
-                if (model.dbmodel.ID == 0)
+                CheckLatent();
+                OpenLiquidWin(obj);
+            }
+            
+            
+        }
+        private void CheckLatent()
+        {
+            if (model.dbmodel.ID == 0 && model.IsCalc)
+            {
+                if (model.FluidType == 3)
                 {
-                    if (model.FluidType == 3)
+                    double pr = reliefPressure / fireCriticalPressure;
+                    if (pr > 0.9)
                     {
-                        double pr = reliefPressure / fireCriticalPressure;
-
-                        if (pr > 0.9)
-                        {
-                            MessageBox.Show("Relief Condition is near critical , Latent heat is set to default or user defined value.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
-                            model.LatentHeat = UnitConvert.Convert(UOMEnum.EnthalpyDuty,model.LatentHeatUnit, 115);
-                        }
-                        else
-                        {
-                            if (molLatent < 115)
-                            {
-                                MessageBox.Show("Calculated latent heat is less than bound value and default  or user defined value is used.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
-                                model.LatentHeat = UnitConvert.Convert(UOMEnum.EnthalpyDuty, model.LatentHeatUnit, 115);
-                            }
-
-                        }
+                        MessageBox.Show("Relief Condition is near critical , Latent heat is set to default or user defined value.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        model.LatentHeat2 = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, model.LatentHeatUnit, 115);
+                        model.IsCalc = false;
                     }
                     else
                     {
                         if (molLatent < 115)
                         {
                             MessageBox.Show("Calculated latent heat is less than bound value and default  or user defined value is used.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
-                            model.LatentHeat = UnitConvert.Convert(UOMEnum.EnthalpyDuty, model.LatentHeatUnit, 115);
+                            model.LatentHeat2 = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, model.LatentHeatUnit, 115);
+                            model.IsCalc = false;
                         }
 
                     }
+                    model.LatentHeat = molLatent;
+                    if (molLatent >= 115)
+                    {
+                        model.IsCalc = true;
+                    }
                 }
-                OpenLiquidWin(obj);
+                else if (model.FluidType == 4)
+                {
+                    if (molLatent < 115)
+                    {
+                        MessageBox.Show("Calculated latent heat is less than bound value and default  or user defined value is used.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        model.LatentHeat2 = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, model.LatentHeatUnit, 115);
+                        model.IsCalc = false;
+                    }
+                    model.LatentHeat = molLatent;
+                    if (molLatent >= 115)
+                    {
+                        model.IsCalc = true;
+                    }
+
+                }
+                else if (model.FluidType == 5)
+                {
+                    MessageBox.Show("Flash for latent heat failed and default 46 KJ/Kg is used as latent heat.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    model.LatentHeat2 = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, model.LatentHeatUnit, 46);
+                    model.IsCalc = false;
+                }
+                
+
             }
-            
-            
         }
+
+
 
         /// <summary>
         /// 全气相的操作
@@ -415,6 +440,7 @@ namespace ReliefProMain.ViewModel.Drums
             }
             vm.model.NormalCpCv = fireFluidModel.NormalCpCv;
             vm.model.VaporMW = fireFluidModel.GasVaporMW;
+            vm.model.TW =fireFluidModel.TW;
             if (win.ShowDialog() == true)
             {
                 fireFluidModel = vm.model.dbmodel;
@@ -460,6 +486,7 @@ namespace ReliefProMain.ViewModel.Drums
             if (model.dbmodel.ID == 0)
             {
                 model.WettedArea = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, NLL, sizeModel.BootHeight, sizeModel.BootDiameter);
+                
             }
             if (win.ShowDialog() == true)
             {
@@ -1081,7 +1108,10 @@ namespace ReliefProMain.ViewModel.Drums
         {
             if (!model.CheckData()) return;
             WriteConvertModel();
-            fireBLL.SaveData(model.dbmodel, fireFluidModel, sizeModel, SessionProtectedSystem);
+            if (model.dbmodel.ReliefMW > 0)
+            {
+                fireBLL.SaveData(model.dbmodel, fireFluidModel, sizeModel, SessionProtectedSystem);
+            }
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;
@@ -1097,7 +1127,7 @@ namespace ReliefProMain.ViewModel.Drums
             var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
             if (psvModel != null)
             {
-                return psvModel.Pressure * psvModel.ReliefPressureFactor;
+                return psvModel.Pressure * 1.21;
             }
             return 0;
         }
@@ -1200,64 +1230,85 @@ namespace ReliefProMain.ViewModel.Drums
         public int GetFluidType()
         {
             int result = 0;
-            
-            CustomStreamDAL dal = new CustomStreamDAL();
-            IList<CustomStream> Feeds = dal.GetAllList(SessionProtectedSystem, false);
-            IList<CustomStream> Products = dal.GetAllList(SessionProtectedSystem, true);
-            double totalFeeds = 0;
-            double totalVaporProducts = 0;
-            List<CustomStream> liquidProducts=new List<CustomStream>();
-            List<string> liquidProductNames = new List<string>();
-            CustomStream waterCS=null;
-            foreach (CustomStream cs in Feeds)
+            SplashScreenManager.Show(5);
+            try
             {
-                totalFeeds = totalFeeds + cs.WeightFlow;
-                
-            }
-            foreach (CustomStream cs in Products)
-            {
-                if (cs.VaporFraction == 1)
+                CustomStreamDAL dal = new CustomStreamDAL();
+                IList<CustomStream> Feeds = dal.GetAllList(SessionProtectedSystem, false);
+                IList<CustomStream> Products = dal.GetAllList(SessionProtectedSystem, true);
+                double totalFeeds = 0;
+                double totalVaporProducts = 0;
+                List<CustomStream> liquidProducts = new List<CustomStream>();
+                List<string> liquidProductNames = new List<string>();
+                CustomStream waterCS = null;
+                SplashScreenManager.SentMsgToScreen("Get feed info of drum ......  20%");
+                foreach (CustomStream cs in Feeds)
                 {
-                    totalVaporProducts = totalVaporProducts + cs.WeightFlow;
+                    totalFeeds = totalFeeds + cs.WeightFlow;
                 }
-                else
+                foreach (CustomStream cs in Products)
                 {
-                    if (cs.ProdType == "4")
+                    if (cs.VaporFraction == 1)
                     {
-                        waterCS = cs;
+                        totalVaporProducts = totalVaporProducts + cs.WeightFlow;
                     }
                     else
                     {
-                        liquidProducts.Add(cs);
-                        liquidProductNames.Add(cs.StreamName);
+                        if (cs.ProdType == "4")
+                        {
+                            waterCS = cs;
+                        }
+                        else
+                        {
+                            liquidProducts.Add(cs);
+                            liquidProductNames.Add(cs.StreamName);
+                        }
                     }
                 }
-            }
-            if (totalFeeds == totalVaporProducts)
-            {
-                result = 1;//  Gas/Vapor Only
-            }
-            else
-            {
-                if (liquidProducts.Count == 0)
+                SplashScreenManager.SentMsgToScreen("Get product info of drum ......  40%");
+                if (totalFeeds == totalVaporProducts)
                 {
-                    liquidProducts.Add(waterCS);
-                    liquidProductNames.Add(waterCS.StreamName);
+                    result = 1;//  Gas/Vapor Only
                 }
-                int resultFireCriticalPressure = CalcFireCriticalPressure(liquidProducts);
-                if (resultFireCriticalPressure == 1)
+                else
                 {
-                    if (reliefPressure > fireCriticalPressure)
+                    if (liquidProducts.Count == 0)
                     {
-                        CalcSupercriticalCpCv(liquidProducts, liquidProductNames);
-                        result = 2;
+                        liquidProducts.Add(waterCS);
+                        liquidProductNames.Add(waterCS.StreamName);
+                    }
+                    SplashScreenManager.SentMsgToScreen("Get product info of drum ......  60%");
+                    int resultFireCriticalPressure = CalcFireCriticalPressure(liquidProducts);
+                    SplashScreenManager.SentMsgToScreen("Get product info of drum ......  80%");
+                    if (resultFireCriticalPressure == 1)
+                    {
+                        if (reliefPressure > fireCriticalPressure)
+                        {
+                            CalcSupercriticalCpCv(liquidProducts, liquidProductNames);
+                            SplashScreenManager.SentMsgToScreen("Get product info of drum ......  100%");
+                            result = 2;
+                        }
+                        else
+                        {
+                            int molflash = CalcPercent5Mol(liquidProducts, liquidProductNames);
+                            SplashScreenManager.SentMsgToScreen("Get product info of drum ......  100%");
+                            if (molflash == 1)
+                            {
+                                result = 3;
+                            }
+                            else
+                            {
+                                result = 5;
+                            }
+                        }
                     }
                     else
                     {
                         int molflash = CalcPercent5Mol(liquidProducts, liquidProductNames);
+                        SplashScreenManager.SentMsgToScreen("Get product info of drum ......  100%");
                         if (molflash == 1)
                         {
-                            result = 3;
+                            result = 4;
                         }
                         else
                         {
@@ -1265,19 +1316,14 @@ namespace ReliefProMain.ViewModel.Drums
                         }
                     }
                 }
-                else
-                {
-
-                    int molflash = CalcPercent5Mol(liquidProducts, liquidProductNames);
-                    if (molflash == 1)
-                    {
-                        result = 4;
-                    }
-                    else
-                    {
-                        result = 5;
-                    }
-                }
+            }
+            catch (Exception ex)
+            {
+                result = 0;
+            }
+            finally
+            {
+                SplashScreenManager.Close();                
             }
             return result;
         }
@@ -1286,8 +1332,9 @@ namespace ReliefProMain.ViewModel.Drums
         {
             string tempdir = DirProtectedSystem + @"\temp\";
             string dirMol = tempdir + "Fire" + ScenarioID.ToString() + "_Mol5";
-            if (!Directory.Exists(dirMol))
-                Directory.CreateDirectory(dirMol);
+            if (Directory.Exists(dirMol))
+                Directory.Delete(dirMol, true);
+            Directory.CreateDirectory(dirMol);
             string molcontent = PROIIFileOperator.getUsableContent(liquidFeedNames, tempdir);
             int result= CalcPercent5Mol(molcontent, reliefPressure, liquidFeeds, dirMol);
             return result;
@@ -1326,13 +1373,13 @@ namespace ReliefProMain.ViewModel.Drums
 
                 else
                 {
-                    MessageBox.Show("Prz file is error", "Message Box");
+                    MessageBox.Show("The simulation unsolved!", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return 3;
                 }
             }
             else
             {
-                MessageBox.Show("inp file is error", "Message Box");
+                MessageBox.Show("There is some errors in keyword file.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
                 return 3;
             }
 
@@ -1372,13 +1419,13 @@ namespace ReliefProMain.ViewModel.Drums
                 }
                 else
                 {
-                    MessageBox.Show("Prz file is error", "Message Box");
+                    MessageBox.Show("The simulation unsolved!", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return 3;
                 }
             }
             else
             {
-                MessageBox.Show("inp file is error", "Message Box");
+                MessageBox.Show("There is some errors in keyword file.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
                 return 4;
             }
 
@@ -1395,8 +1442,9 @@ namespace ReliefProMain.ViewModel.Drums
             {
                 string tempdir = DirProtectedSystem + @"\temp\";
                 string dirPhase = tempdir + "Fire" + ScenarioID.ToString() + "_Phase";
-                if (!Directory.Exists(dirPhase))
-                    Directory.CreateDirectory(dirPhase);
+                if (Directory.Exists(dirPhase))
+                    Directory.Delete(dirPhase,true);
+                Directory.CreateDirectory(dirPhase);
                 CustomStream stream = arrFeeds[0];
                 string[] streamComps = stream.TotalComposition.Split(',');
                 int len = streamComps.Length;
@@ -1437,6 +1485,11 @@ namespace ReliefProMain.ViewModel.Drums
 
         private void CalcDrumFire(int FluidType,double QFire)
         {
+            if (model.WettedArea == 0)
+            {
+                MessageBox.Show("Area must be greater than zero.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             switch (FluidType)
             {
                 case 1:
@@ -1448,13 +1501,15 @@ namespace ReliefProMain.ViewModel.Drums
                     GasMethod();
                     break;
                 case 3:
+                    CheckLatent();
                     MultiPhase3Method(QFire);
                     break;
                 case 4:
+                    CheckLatent();
                     MultiPhase4Method(QFire);
                     break;
                 case 5:
-                    MessageBox.Show("Flash for latent heat failed and default 46 KJ/Kg is used as latent heat.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning); 
+                    CheckLatent();
                     NotDetermined(QFire);
                     break;
 
@@ -1468,8 +1523,9 @@ namespace ReliefProMain.ViewModel.Drums
             double reliefTemperature =  UnitConvert.Convert("K", UOMEnum.Temperature, temperature);
             string tempdir = DirProtectedSystem + @"\temp\";
             string dirSupercritical = tempdir + "Fire" + ScenarioID.ToString() + "_dirSupercritical";
-            if (!Directory.Exists(dirSupercritical))
-                Directory.CreateDirectory(dirSupercritical);
+            if (Directory.Exists(dirSupercritical))
+                Directory.Delete(dirSupercritical,true);
+            Directory.CreateDirectory(dirSupercritical);
             string content = PROIIFileOperator.getUsableContent(liquidFeedNames, tempdir);
             int result = 0;
             int ImportResult = 0;
@@ -1505,13 +1561,13 @@ namespace ReliefProMain.ViewModel.Drums
 
                 else
                 {
-                    MessageBox.Show("Prz file is error", "Message Box");
+                    MessageBox.Show("The simulation unsolved!", "Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
 
                 }
             }
             else
             {
-                MessageBox.Show("inp file is error", "Message Box");
+                MessageBox.Show("There is some errors in keyword file.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
 
             }
 
@@ -1520,42 +1576,12 @@ namespace ReliefProMain.ViewModel.Drums
 
         private void MultiPhase3Method(double QFire)
         {
-            CalcDrumFireByLatent(QFire);
-            //double pr = reliefPressure / fireCriticalPressure;
-
-            //if (pr > 0.9)
-            //{
-            //    MessageBox.Show("Relief Condition is near critical , Latent heat is set to default or user defined value.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning); 
-            //    CalcDrumFireByLatent(QFire);
-            //}
-            //else
-            //{
-            //    if (molLatent < 115)
-            //    {
-            //        MessageBox.Show("Calculated latent heat is less than bound value and default  or user defined value is used.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //        model.LatentHeat = 115;
-            //        CalcDrumFireByLatent(QFire);
-            //    }
-            //    else
-            //    {
-            //        CalcDrumFireByLatent(QFire);
-            //    }
-            //}
+            CalcDrumFireByLatent(QFire);         
         }
 
         private void MultiPhase4Method(double QFire)
-        {
-            //if (molLatent < 115)
-            //{
-            //    MessageBox.Show("Calculated latent heat is less than bound value and default  or user defined value is used.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //    model.LatentHeat = 115;
-            //    CalcDrumFireByLatent(QFire);
-            //}
-            //else
-            //{
-                CalcDrumFireByLatent(QFire);
-            //}
-
+        {           
+            CalcDrumFireByLatent(QFire);
         }
 
         private void NotDetermined(double QFire)

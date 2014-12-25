@@ -34,7 +34,6 @@ namespace ReliefProBLL
             }
             else
             {
-                DrumDAL drumdal = new DrumDAL();
                 var info = GetFluidInfo();
                 Model.GasVaporMW = info.Item1;
                 Model.NormalPressure = info.Item3;

@@ -156,10 +156,10 @@ namespace ReliefProMain.Models
             this.IsCalc = dbmodel.IsCalc;
             if (fireModel.ID == 0)
             {
-                this.isCalc = true;
+                this.IsCalc = true;
                 
             }
-            this.isNotCalc = !this.isCalc;
+            this.IsNotCalc = !this.isCalc;
         }
 
         private bool isCalc;
@@ -169,6 +169,7 @@ namespace ReliefProMain.Models
             set
             {
                 isCalc = value;
+                IsNotCalc = !isCalc;
                 NotifyPropertyChanged("IsCalc");
             }
         }
