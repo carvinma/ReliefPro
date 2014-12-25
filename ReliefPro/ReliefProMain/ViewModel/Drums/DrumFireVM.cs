@@ -494,183 +494,7 @@ namespace ReliefProMain.ViewModel.Drums
             }
         }
 
-        private void CalcDrumOld()
-        {
-            PSVDAL psvdal = new PSVDAL();
-            PSV psv = psvdal.GetModel(SessionProtectedSystem);
-            model.ReliefPressure = reliefPressure;
-            double Qfire = 0;
-            double Area = model.WettedArea;
-            //求出面积---你查看下把durmsize的 数据传进来。
-            if (sizeModel == null)
-            {
-                DrumSizeBLL sizeBll = new DrumSizeBLL(SessionProtectedSystem, SessionPlant);
-                sizeModel = sizeBll.GetSizeModel(model.dbmodel.ID);
-            }
-            if (sizeModel != null)
-                Area = Algorithm.GetDrumArea(sizeModel.Orientation, sizeModel.HeadType, sizeModel.Elevation, sizeModel.Diameter, sizeModel.Length, sizeModel.NormalLiquidLevel, sizeModel.BootHeight, sizeModel.BootDiameter);
-            //计算Qfire
-            double C1 = 0;
-            if (model.EquipmentExist)
-            {
-                C1 = 43200;
-            }
-            else
-            {
-                C1 = 70900;
-            }
-            Qfire = Algorithm.GetQ(C1, 1, Area);
-
-            if (model.HeavyOilFluid)
-            {
-                double L = model.CrackingHeat;
-                model.ReliefLoad = Qfire / L;
-                model.ReliefMW = 114;
-                model.ReliefTemperature = 400;
-                model.ReliefCpCv = 1.12;
-                model.ReliefZ = 0.723;
-            }
-            else if (model.AllGas)
-            {
-                double mw = fireFluidModel.GasVaporMW;
-                double cpcv = fireFluidModel.NormalCpCv;
-                double area = UnitConvert.Convert("m2", "ft2", Area);
-                double tw = UnitConvert.Convert("C", "R", fireFluidModel.TW);
-                double tn = UnitConvert.Convert("C", "R", fireFluidModel.NormaTemperature);
-                double pn = UnitConvert.Convert("MPag", "psia", fireFluidModel.NormalPressure);
-                double p1 = UnitConvert.Convert("MPag", "psia", fireFluidModel.PSVPressure * 1.21);
-                double t1 = 0;
-                //double w = Algorithm.GetFullVaporW(cpcv,mw, p1, area, tw, pn, tn, ref t1);
-                if (t1 >= tw)
-                {
-                    MessageBox.Show("T1 could not be greater than TW", "Message Box");
-                    return;
-                }
-                //double reliefLoad = UnitConvert.Convert("lb/hr", "Kg/hr", w);
-                //model.ReliefLoad = UnitConvert.Convert("Kg/hr", model.ReliefLoadUnit, reliefLoad);
-                model.ReliefMW = mw;
-                model.ReliefTemperature = UnitConvert.Convert("R", "C", t1); ;
-                model.ReliefPressure = UnitConvert.Convert("Mpag", model.ReliefPressureUnit, fireFluidModel.PSVPressure * 1.21);
-                model.ReliefCpCv = 1.12;
-                model.ReliefZ = 0.723;
-            }
-            else
-            {
-
-                if (model.LatentHeat == 0)
-                {
-                    //取出liquid stream
-                    CustomStreamDAL dbcs = new CustomStreamDAL();
-                    IList<CustomStream> listStream = dbcs.GetAllList(SessionProtectedSystem, true);
-                    CustomStream liquidStream = new CustomStream();
-                    var lst = listStream.Where(s => s.ProdType == "2").ToList();
-                    if (lst.Count > 0)
-                    {
-                        if (lst[0].WeightFlow > 0)
-                        {
-                            liquidStream = lst[0];
-                        }
-                    }
-                    else
-                    {
-                        lst = listStream.Where(s => s.ProdType == "4").ToList();
-                        if (lst.Count > 0)
-                        {
-                            if (lst[0].WeightFlow > 0)
-                            {
-                                liquidStream = lst[0];
-                            }
-                        }
-                    }
-
-                    if (liquidStream.Temperature <= 0 || liquidStream.Pressure <= 0)
-                    {
-                        MessageBox.Show("No Liquid Stream.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return;
-                    }
-
-                    //闪蒸计算
-                    string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
-                    string liquid = "L_" + Guid.NewGuid().ToString().Substring(0, 6);
-                    string tempdir = DirProtectedSystem + @"\DrumFire" + ScenarioID.ToString();
-                    if (!Directory.Exists(tempdir))
-                    {
-                        Directory.CreateDirectory(tempdir);
-                    }
-                    int ImportResult = 0;
-                    int RunResult = 0;
-                    string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\";
-                    string content = PROIIFileOperator.getUsableContent(liquidStream.StreamName, dir);
-                    IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-                    string f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 6, "0.05", liquidStream, vapor, liquid, tempdir, ref ImportResult, ref RunResult);
-                    if (ImportResult == 1 || ImportResult == 2)
-                    {
-                        if (RunResult == 1 || RunResult == 2)
-                        {
-                            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                            reader.InitProIIReader(f);
-                            ProIIStreamData proIIvapor = reader.GetSteamInfo(vapor);
-                            ProIIStreamData proIIliquid = reader.GetSteamInfo(liquid);
-                            reader.ReleaseProIIReader();
-                            CustomStream csVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
-                            CustomStream csLiquid = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIliquid);
-                            double latent = csVapor.SpEnthalpy - csLiquid.SpEnthalpy;
-
-                            double reliefLoad = Qfire / latent;
-                            double reliefMW = csVapor.BulkMwOfPhase;
-                            double reliefT = csVapor.Temperature;
-                            model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit, reliefLoad);
-                            model.ReliefMW = reliefMW;
-                            model.ReliefPressure = UnitConvert.Convert("Mpag", model.ReliefPressureUnit, reliefPressure);
-                            model.ReliefTemperature = UnitConvert.Convert("C", model.ReliefTemperatureUnit, reliefT);
-                            model.LatentHeat = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, model.LatentHeatUnit, latent);
-                            model.ReliefCpCv = csVapor.BulkCPCVRatio;
-                            model.ReliefZ = csVapor.VaporZFmKVal;
-
-
-                            FlashCalcResultDAL flashCalcResultDAL = new FlashCalcResultDAL();
-                            FlashCalcResult flashCalcResult = new FlashCalcResult();
-                            flashCalcResult.ReliefCpCv = model.ReliefCpCv;
-                            flashCalcResult.ReliefMW = model.ReliefMW;
-                            flashCalcResult.ReliefZ = model.ReliefZ;
-                            flashCalcResult.ReliefPressure = reliefPressure;
-                            flashCalcResult.ReliefTemperature = reliefT;
-                            flashCalcResult.Latent = latent;
-                            flashCalcResult.ScenarioID = ScenarioID;
-                            flashCalcResultDAL.Add(flashCalcResult, SessionProtectedSystem);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Prz file is error", "Message Box");
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("inp file is error", "Message Box");
-                        return;
-                    }
-
-                }
-                else
-                {
-                    double latent = UnitConvert.Convert(model.LatentHeatUnit, UOMEnum.SpecificEnthalpy, model.LatentHeat);
-                    model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit, Qfire / latent);
-                    FlashCalcResultDAL flashCalcResultDAL = new FlashCalcResultDAL();
-                    FlashCalcResult flashCalcResult = flashCalcResultDAL.GetModel(SessionProtectedSystem, ScenarioID);
-                    if (flashCalcResult != null)
-                    {
-                        model.ReliefPressure = UnitConvert.Convert("Mpag", model.ReliefPressureUnit, flashCalcResult.ReliefPressure);
-                        model.ReliefTemperature = UnitConvert.Convert("C", model.ReliefTemperatureUnit, flashCalcResult.ReliefTemperature);
-                        model.ReliefMW = flashCalcResult.ReliefMW;
-                        model.ReliefCpCv = flashCalcResult.ReliefCpCv;
-                        model.ReliefZ = flashCalcResult.ReliefZ;
-                    }
-                }
-            }
-        }
-        
-        
+       
         private void CalcDrum()
         {
             PSVDAL psvdal = new PSVDAL();
@@ -851,13 +675,13 @@ namespace ReliefProMain.ViewModel.Drums
 
                         else
                         {
-                            MessageBox.Show("Prz file is error", "Message Box");
+                            MessageBox.Show("The simulation unsolved!", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                             return;
                         }
                     }
                     else
                     {
-                        MessageBox.Show("inp file is error", "Message Box");
+                        MessageBox.Show("There is some errors in keyword file.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
                 }
@@ -1044,13 +868,13 @@ namespace ReliefProMain.ViewModel.Drums
 
                             else
                             {
-                                MessageBox.Show("Prz file is error", "Message Box");
+                                MessageBox.Show("The simulation unsolved!", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                                 return;
                             }
                         }
                         else
                         {
-                            MessageBox.Show("inp file is error", "Message Box");
+                            MessageBox.Show("There is some errors in keyword file.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
                             return;
                         }
                     }
@@ -1173,13 +997,13 @@ namespace ReliefProMain.ViewModel.Drums
 
                 else
                 {
-                    MessageBox.Show("Prz file is error", "Message Box");
+                    MessageBox.Show("The simulation unsolved!", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return null;
                 }
             }
             else
             {
-                MessageBox.Show("inp file is error", "Message Box");
+                MessageBox.Show("There is some errors in keyword file.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
         }
@@ -1215,13 +1039,13 @@ namespace ReliefProMain.ViewModel.Drums
 
                 else
                 {
-                    MessageBox.Show("Prz file is error", "Message Box");
+                    MessageBox.Show("The simulation unsolved!", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return null;
                 }
             }
             else
             {
-                MessageBox.Show("inp file is error", "Message Box");
+                MessageBox.Show("There is some errors in keyword file.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
         }
