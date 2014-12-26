@@ -39,10 +39,17 @@ namespace ReliefProMain.ViewModel.HXs
         PSVDAL psvDAL ;
         PSV psv;
         double reliefPressure;
+        double criticalPressure;
+        double criticalTemperature;
+        double cricondenbarPressure;
+        double cricondenbarTemperature;
+        public bool IsColdIn = true;
+        int ScenarioID;
         public HXBlockedInVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
+            this.ScenarioID = ScenarioID;
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
             DirPlant = dirPlant;
@@ -62,11 +69,25 @@ namespace ReliefProMain.ViewModel.HXs
             model.dbmodel.ScenarioID = ScenarioID;
 
             //判断冷测进出，
+
             CustomStreamDAL csdal = new CustomStreamDAL();
-            
-           
-            HeatExchangerDAL heatexdal=new HeatExchangerDAL();
-            HeatExchanger heathx=heatexdal.GetModel(SessionPS);
+            HeatExchangerDAL heatexdal = new HeatExchangerDAL();
+            HeatExchanger heathx = heatexdal.GetModel(SessionPS);
+            string coldFeed = string.Empty;
+            if (psv.LocationDescription == "Shell")
+            {
+                coldFeed = heathx.ShellFeedStreams;
+            }
+            else
+            {
+                coldFeed = heathx.TubeFeedStreams;
+            }
+            if (heathx.ColdInlet != coldFeed)
+            {
+                IsColdIn = false;
+                return;
+            }
+
             if (heathx.ColdInlet.Contains(","))
             {
                 //需要做mixer
@@ -74,18 +95,18 @@ namespace ReliefProMain.ViewModel.HXs
                 int RunResult = 0;
                 string tempdir = DirProtectedSystem + @"\temp\";
                 string dirMix = tempdir + "BlockedInlet_Mix";
-                if (!Directory.Exists(dirMix))
-                {
-                    Directory.CreateDirectory(dirMix);
-                }
+                if (Directory.Exists(dirMix))
+                    Directory.Delete(dirMix);
+                Directory.CreateDirectory(dirMix);
+
                 string[] coldfeeds = heathx.ColdInlet.Split(',');
-                string sbcontent = string.Empty;              
+                string sbcontent = string.Empty;
                 string[] files = Directory.GetFiles(tempdir, "*.inp");
                 string sourceFile = files[0];
                 string[] lines = System.IO.File.ReadAllLines(sourceFile);
-                
+
                 sbcontent = PROIIFileOperator.getUsableContent(coldfeeds.ToList(), lines);
-                
+
                 IMixCalculate mixcalc = ProIIFactory.CreateMixCalculate(SourceFileInfo.FileVersion);
                 string mixProduct = Guid.NewGuid().ToString().Substring(0, 6);
                 string tray1_f = mixcalc.Calculate(sbcontent, normalColdInletList, mixProduct, dirMix, ref ImportResult, ref RunResult);
@@ -103,10 +124,10 @@ namespace ReliefProMain.ViewModel.HXs
             }
             else
             {
-                normalColdInlet = csdal.GetModel(SessionPS,heathx.ColdInlet);
-                
+                normalColdInlet = csdal.GetModel(SessionPS, heathx.ColdInlet);
+
             }
-            normalColdOutlet= csdal.GetModel(SessionPS,heathx.ColdOutlet);
+            normalColdOutlet = csdal.GetModel(SessionPS, heathx.ColdOutlet);
             normalHotInlet = csdal.GetModel(SessionPS, heathx.HotInlet);
 
             HeatExchangerDAL heatdal = new HeatExchangerDAL();
@@ -151,7 +172,7 @@ namespace ReliefProMain.ViewModel.HXs
             //if (!model.CheckData()) return; 
             try
             {
-                SplashScreenManager.Show();
+                SplashScreenManager.Show(10);
                 SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
  
                 double pressure = psv.Pressure;
@@ -159,13 +180,20 @@ namespace ReliefProMain.ViewModel.HXs
 
                 if (normalColdInlet.VaporFraction == 1)
                 {
-                    // gas expansion
-                    MethodGasExp();
+                    // gas expansion  全气相的不做。 condition  1
+                    //MethodGasExp();
+                    model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate,model.ReliefLoadUnit, 0);
+                    model.ReliefMW = normalColdInlet.BulkMwOfPhase;
+                    model.ReliefPressure =  UnitConvert.Convert(UOMEnum.Pressure,model.ReliefPressureUnit,reliefPressure);
+                    model.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, model.ReliefTemperatureUnit, normalColdInlet.Temperature);
+                    model.ReliefZ = normalColdInlet.VaporZFmKVal;
+                    model.ReliefCpCv = normalColdInlet.BulkCPCVRatio;
                 }
                 else
                 {
-                    double critalcalPress =UnitConvert.Convert("MPAG","Kpa", psv.CriticalPressure);
-                    if (critalcalPress == 0)
+                    int citicalResult = CalcBlockedInCriticalPressure(normalColdInletList);
+
+                    if (citicalResult == 2) //no critical point
                     {
                         if (normalColdInlet.VaporFraction == 0)
                         {
@@ -190,19 +218,19 @@ namespace ReliefProMain.ViewModel.HXs
                            bool b= MethodBubble1();
                            if (!b)
                            {
-                               if (normalColdInlet.VaporFraction == 0)
+                               if (normalColdInlet.VaporFraction == 0) //liquid
                                {
                                    MethodBubbleFail();
                                }
                                else
                                {
-                                   MethodDuty2();
+                                   MethodDuty2();  //vap-liquid
                                }
                            }
                         }
                         else
                         {
-                            if (reliefPressure < psv.CricondenbarPress && psv.CriticalTemperature > psv.CricondenbarTemp)
+                            if (reliefPressure < cricondenbarPressure && criticalTemperature > cricondenbarTemperature)
                             {
                                bool b= MethodBubble1();
                                if (!b)
@@ -478,27 +506,124 @@ namespace ReliefProMain.ViewModel.HXs
         private void MethodBubbleFail()
         {
             //cold_out
-            CustomStreamBLL csbll=new CustomStreamBLL(SessionPF,SessionPS);
-            IList<CustomStream> list = csbll.GetStreams(SessionPS, true);
-            CustomStream coldout=list[0];
-            if(list.Count==2)
-            {
-                if (coldout.Temperature > list[1].Temperature)
-                {
-                    coldout = list[1];
-                }
-            }
-
-            double frac = coldout.VaporFraction;
+            double frac = normalColdOutlet.VaporFraction;
             if (frac > 0)
             {
-                MethodCritical3();
+                MethodCritical3();  //condition7
             }
             else
             {
-                model.ReliefLoad = 0;
+                model.ReliefLoad = 0; //condition11
+                //自定义部分了。
             }
         }
+
+
+        private int CalcBlockedInCriticalPressure(List<CustomStream> arrFeeds)
+        {
+            int result = 0;
+            if (arrFeeds.Count == 0)
+            {
+                result = 2;
+            }
+            else
+            {
+                string tempdir = DirProtectedSystem + @"\temp\";
+                string dirPhase = tempdir + "Fire" + ScenarioID.ToString() + "_Phase";
+                if (Directory.Exists(dirPhase))
+                    Directory.Delete(dirPhase, true);
+                Directory.CreateDirectory(dirPhase);
+                CustomStream stream = arrFeeds[0];
+                string[] streamComps = stream.TotalComposition.Split(',');
+                int len = streamComps.Length;
+                double[] streamCompValues = new double[len];
+                double sumTotalMolarRate = 0;
+                foreach (CustomStream cs in arrFeeds)
+                {
+                    sumTotalMolarRate = sumTotalMolarRate + cs.TotalMolarRate;
+                }
+                foreach (CustomStream cs in arrFeeds)
+                {
+                    string[] comps = cs.TotalComposition.Split(',');
+                    for (int i = 0; i < len; i++)
+                    {
+                        streamCompValues[i] = streamCompValues[i] + double.Parse(comps[i]) * cs.TotalMolarRate / sumTotalMolarRate;
+                    }
+                }
+                StringBuilder sumComposition = new StringBuilder();
+                foreach (double comp in streamCompValues)
+                {
+                    sumComposition.Append(",").Append(comp.ToString());
+                }
+                stream.TotalComposition = sumComposition.ToString().Substring(1);
+                double internPressure = UnitConvert.Convert("MPAG", "KPA", stream.Pressure);
+
+                string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
+                double ReliefPressure = 1;
+                result = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase);
+
+            }
+            if (result == 2)
+            {
+                MessageBox.Show("Critical point NOT determined, please check result carefully.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            return result;
+        }
+        private int CalcCriticalPressure(string content, double ReliefPressure, CustomStream stream, string dirPhase)
+        {
+            int ImportResult = 0;
+            int RunResult = 0;
+            int result = 0;
+            IPHASECalculate PhaseCalc = ProIIFactory.CreatePHASECalculate(SourceFileInfo.FileVersion);
+            string PH = "PH" + Guid.NewGuid().ToString().Substring(0, 4);
+            string criticalPress = string.Empty;
+            string criticalTemp = string.Empty;
+            string cricondenbarPress = string.Empty;
+            string cricondenbarTemp = string.Empty;
+
+            string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH, dirPhase, ref ImportResult, ref RunResult);
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                if (RunResult == 1 || RunResult == 2)
+                {
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    reader.InitProIIReader(phasef);
+                    criticalPress = reader.GetCriticalPressure(PH);
+                    criticalTemp = reader.GetCriticalTemperature(PH);
+                    cricondenbarPress = reader.GetCricondenbarPress(PH);
+                    cricondenbarTemp = reader.GetCricondenbarTemp(PH);
+                    reader.ReleaseProIIReader();
+
+                    if (string.IsNullOrEmpty(criticalPress) || double.Parse(criticalPress) <= 0)
+                    {
+                        result = 2;
+                    }
+                    else
+                    {
+                        criticalPressure = UnitConvert.Convert("KPa", UOMEnum.Pressure, double.Parse(criticalPress));
+                        criticalTemperature = double.Parse(criticalTemp);
+                        cricondenbarPressure = UnitConvert.Convert("KPa", UOMEnum.Pressure, double.Parse(cricondenbarPress));
+                        cricondenbarTemperature = double.Parse(cricondenbarTemp);
+
+                        result = 1;
+                    }
+                    return result;
+                }
+                else
+                {
+                    MessageBox.Show("The simulation unsolved!", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return 3;
+                }
+            }
+            else
+            {
+                MessageBox.Show("There is some errors in keyword file.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
+                return 4;
+            }
+
+        }
+
+
 
 
         private void Save(object obj)

@@ -373,6 +373,11 @@ namespace ReliefProMain.ViewModel
                         {
                             HXBlockedInView v = new HXBlockedInView();
                             HXBlockedInVM vm = new HXBlockedInVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
+                            if (!vm.IsColdIn)
+                            {
+                                MessageBox.Show("this case can't be used. it is hot in", "Message Box",MessageBoxButton.OK,MessageBoxImage.Error);
+                                return;
+                            }
                             v.DataContext = vm;
                             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                             if (v.ShowDialog() == true)

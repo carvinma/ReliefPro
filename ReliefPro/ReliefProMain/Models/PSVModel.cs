@@ -52,10 +52,15 @@ namespace ReliefProMain.Models
             }
             set
             {
-                if (this._PSVName != value)
+                if(string.IsNullOrEmpty(value))
+                {
+                    PSVName_Color = ColorBorder.red.ToString();
+                }
+                else if (this._PSVName != value && !string.IsNullOrEmpty(value))
                 {
                     PSVName_Color = ColorBorder.blue.ToString();
                 }
+                
                 this._PSVName = value;
                 NotifyPropertyChanged("PSVName");
             }
@@ -141,6 +146,10 @@ namespace ReliefProMain.Models
             }
             set
             {
+                if (value==0)
+                {
+                    Pressure_Color = ColorBorder.red.ToString();
+                }
                 this._Pressure = value;
                 NotifyPropertyChanged("Pressure");
             }
@@ -225,7 +234,7 @@ namespace ReliefProMain.Models
         private string locationDescription;
         public string LocationDescription
         {
-            get { return description; }
+            get { return locationDescription; }
             set
             {
                 locationDescription = value;
@@ -254,17 +263,7 @@ namespace ReliefProMain.Models
             }
         }
 
-        private double _FluidType;
-        public double FluidType
-        {
-            get { return _FluidType; }
-            set
-            {
-                _FluidType = value;
-                NotifyPropertyChanged("FluidType");
-            }
-        }
-
+       
 
         private double _CriticalPressure;
         public double CriticalPressure

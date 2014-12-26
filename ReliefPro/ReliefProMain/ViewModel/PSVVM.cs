@@ -53,6 +53,9 @@ namespace ReliefProMain.ViewModel
             }
         }
         public ObservableCollection<string> ValveTypes { get; set; }
+
+        public ObservableCollection<string> LocationDescriptions { get; set; }
+
         public PSVModel CurrentModel { get; set; }
 
         public ObservableCollection<string> DischargeTos { get; set; }
@@ -79,6 +82,23 @@ namespace ReliefProMain.ViewModel
             list.Add("Rupture Disk");
             return list;
         }
+
+        public ObservableCollection<string> GetLocationDescriptions(string eqType)
+        {
+            ObservableCollection<string> list = new ObservableCollection<string>();
+            if (eqType == "HX")
+            {
+                list.Add("Shell");
+                list.Add("Tube");
+            }
+            else
+            {
+                list.Add("Top");
+                list.Add("Bottom");
+            }
+            return list;
+        }
+
         public ObservableCollection<string> GetDischargeTos()
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
@@ -129,6 +149,7 @@ namespace ReliefProMain.ViewModel
             ValveTypes = GetValveTypes();
             DischargeTos = GetDischargeTos();
             Locations = GetLocations();
+            LocationDescriptions = GetLocationDescriptions(eqType);
             uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             
             if (eqType == "Tower")
@@ -144,11 +165,11 @@ namespace ReliefProMain.ViewModel
             if (psv == null)
             {
                 psv = new PSV();
-                psv.PSVName = "PSV1";
+                psv.PSVName = "";
                 psv.ValveNumber = 2;
-                psv.PSVName_Color = ColorBorder.green.ToString();
+                psv.PSVName_Color = ColorBorder.red.ToString();
                 psv.ValveNumber_Color = ColorBorder.green.ToString();
-                psv.Pressure_Color = ColorBorder.green.ToString();
+                psv.Pressure_Color = ColorBorder.red.ToString();
                 psv.ReliefPressureFactor_Color = ColorBorder.green.ToString();
                 psv.DrumPressure_Color = ColorBorder.green.ToString();
                 psv.DrumPressure_Color = ColorBorder.green.ToString();
@@ -160,6 +181,7 @@ namespace ReliefProMain.ViewModel
             if (psv.ID == 0)
             {
                 CurrentModel.ValveType = ValveTypes[0];
+                CurrentModel.LocationDescription = LocationDescriptions[0];
             }
             if (DischargeTos.Count > 0)
             {
@@ -181,9 +203,13 @@ namespace ReliefProMain.ViewModel
                 if (psv.ID == 0)
                 {
                     CurrentModel.Location = eqName;
-                }
-               
+                }              
             }
+            
+
+
+
+
             CurrentModel.CriticalPressureUnit = uomEnum.UserPressure;
             CurrentModel.CriticalTemperatureUnit = uomEnum.UserTemperature;
             CurrentModel.PSVPressureUnit = uomEnum.UserPressure;
@@ -242,11 +268,14 @@ namespace ReliefProMain.ViewModel
             if (string.IsNullOrEmpty(CurrentModel.PSVName))
             {
                 MessageBox.Show("PSV Name can't be empty.", "Message Box");
+                CurrentModel.PSVName_Color = ColorBorder.red.ToString();
                 return;
             }
-            if (CurrentModel.Pressure <= 0)
+            double pressure = UnitConvert.Convert(CurrentModel.PSVPressureUnit, "Kpa", CurrentModel.Pressure);
+            if (pressure <= 0)
             {
                 MessageBox.Show("PSV Pressure can't be empty.", "Message Box");
+                CurrentModel.Pressure_Color = ColorBorder.red.ToString();
                 return;
             }
             if (CurrentModel.ReliefPressureFactor <= 0)

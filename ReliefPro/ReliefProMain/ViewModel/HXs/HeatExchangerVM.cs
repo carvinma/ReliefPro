@@ -17,6 +17,7 @@ using ReliefProModel.HXs;
 using ReliefProDAL.HXs;
 using ReliefProBLL;
 using ReliefProCommon.Enum;
+using System.IO;
 
 namespace ReliefProMain.ViewModel
 {
@@ -426,6 +427,8 @@ namespace ReliefProMain.ViewModel
             {
                 CurrentHX = dbHX.GetModel(SessionProtectedSystem);
                 CurrentHX.HXType = HXType;
+                CurrentHX.ShellFeedStreams = ShellFeedStreams;
+                CurrentHX.TubeFeedStreams = TubeFeedStreams;
                 dbHX.Update(CurrentHX, SessionProtectedSystem);
                 SessionProtectedSystem.Flush();
             }
@@ -538,116 +541,170 @@ namespace ReliefProMain.ViewModel
             return list;
         }
 
+        /*
+        private void GetColdHotStream()
+        //{
+        //    string[] firstfeeds = this.ProIIHX.FirstFeed.Split(',');
+        //    string[] lastfeeds = this.ProIIHX.LastFeed.Split(',');
+
+        //    string[] firstproducts = this.ProIIHX.FirstProduct.Split(',');
+        //    string[] lastproducts = this.ProIIHX.LastProduct.Split(',');
+
+        //    if (Products.Count == 1)
+        //    {
+        //        //说明单侧进单侧出
+        //        ColdInlet = this.ProIIHX.FeedData;
+        //        ColdOutlet = this.ProIIHX.ProductData;
+        //    }
+        //    else
+        //    {
+        //        int startfeed1 = int.Parse(firstfeeds[0]);
+        //        int endfeed1 = int.Parse(firstfeeds[0]);
+        //        int startproduct1 = int.Parse(firstproducts[0]);
+        //        int endproduct1 = int.Parse(firstproducts[0]);
+
+        //        int startfeed2 = int.Parse(firstfeeds[1]);
+        //        int endfeed2 = int.Parse(firstfeeds[1]);
+        //        int startproduct2 = int.Parse(firstproducts[1]);
+        //        int endproduct2 = int.Parse(firstproducts[1]);
+
+        //        if (startfeed2 > endfeed2)
+        //        {
+        //            //说明也是单侧进单侧出
+        //            ColdInlet = this.ProIIHX.FeedData;
+        //            ColdOutlet = this.ProIIHX.ProductData;
+        //        }
+        //        else
+        //        {
+        //            //说明双侧进，双侧出。 我们需要判断那个是冷侧进，那个是热侧进
+        //            int feed1count = endfeed1 - startfeed1 + 1;
+        //            int feed2count = endfeed2 - startfeed2 + 1;
+        //            if (feed1count == 1)
+        //            {
+        //                CustomStream feed1 = Feeds[0];
+        //                CustomStream product1 = Products[0];
+        //                if (feed1.Temperature < product1.Temperature)
+        //                {
+        //                    //冷侧进
+        //                    ColdInlet = feed1.StreamName;
+        //                    ColdOutlet = product1.StreamName;
+
+        //                    //热侧
+        //                    StringBuilder sb = new StringBuilder();
+        //                    for (int i = startfeed2; i <= endfeed2; i++)
+        //                    {
+        //                        sb.Append(",").Append(Feeds[i - 1].StreamName);
+        //                    }
+        //                    HotInlet = sb.ToString().Substring(1);
+        //                    HotOutlet = Products[1].StreamName;
+        //                }
+        //                else
+        //                {
+        //                    //冷测
+        //                    StringBuilder sb = new StringBuilder();
+        //                    for (int i = startfeed2; i <= endfeed2; i++)
+        //                    {
+        //                        sb.Append(",").Append(Feeds[i - 1].StreamName);
+        //                    }
+        //                    ColdInlet = sb.ToString().Substring(1);
+        //                    ColdOutlet = Products[1].StreamName;
+
+        //                    //热侧进
+        //                    HotInlet = feed1.StreamName;
+        //                    HotOutlet = product1.StreamName;
+        //                }
+        //            }
+        //            else if (feed2count == 1)
+        //            {
+        //                CustomStream feed2 = Feeds[Feeds.Count - 1];
+        //                CustomStream product2 = Products[1];
+        //                if (feed2.Temperature < product2.Temperature)
+        //                {
+        //                    //冷侧进
+        //                    ColdInlet = feed2.StreamName;
+        //                    ColdOutlet = product2.StreamName;
+
+        //                    StringBuilder sb = new StringBuilder();
+        //                    for (int i = startfeed1; i <= endfeed1; i++)
+        //                    {
+        //                        sb.Append(",").Append(Feeds[i - 1].StreamName);
+        //                    }
+        //                    HotInlet = sb.ToString().Substring(1);
+        //                    HotOutlet = Products[0].StreamName;
+        //                }
+        //                else
+        //                {
+        //                    //热侧进
+
+        //                    StringBuilder sb = new StringBuilder();
+        //                    for (int i = startfeed1; i <= endfeed1; i++)
+        //                    {
+        //                        sb.Append(",").Append(Feeds[i - 1].StreamName);
+        //                    }
+        //                    ColdInlet = sb.ToString().Substring(1);
+        //                    ColdOutlet = Products[0].StreamName;
+
+        //                    HotInlet = feed2.StreamName;
+        //                    HotOutlet = product2.StreamName;
+        //                }
+        //            }
+
+        //        }
+
+        //    }
+        //}
+         
+        */
         private void GetColdHotStream()
         {
-            string[] firstfeeds = this.ProIIHX.FirstFeed.Split(',');
-            string[] lastfeeds = this.ProIIHX.LastFeed.Split(',');
+            string przfile = DirProtectedSystem + @"\temp\" + FileName;
+            string sourceFile = przfile.Substring(0, przfile.Length - 3)+"inp";
+            string[] lines = System.IO.File.ReadAllLines(sourceFile);
 
-            string[] firstproducts = this.ProIIHX.FirstProduct.Split(',');
-            string[] lastproducts = this.ProIIHX.LastProduct.Split(',');
-
-            if (Products.Count == 1)
+            int i=1;
+            for (i = 1; i < lines.Length; i++)
             {
-                //说明单侧进单侧出
-                ColdInlet = this.ProIIHX.FeedData;
-                ColdOutlet = this.ProIIHX.ProductData;
+                string line = lines[i];
+                if((line+",").Contains("HX   UID="+HXName+","))
+                {
+                    break;
+                }
             }
-            else
+            i++;
+            string row = lines[i];
+            if (row.Contains("HOT  FEED"))
             {
-                int startfeed1 = int.Parse(firstfeeds[0]);
-                int endfeed1 = int.Parse(firstfeeds[0]);
-                int startproduct1 = int.Parse(firstproducts[0]);
-                int endproduct1 = int.Parse(firstproducts[0]);
-
-                int startfeed2 = int.Parse(firstfeeds[1]);
-                int endfeed2 = int.Parse(firstfeeds[1]);
-                int startproduct2 = int.Parse(firstproducts[1]);
-                int endproduct2 = int.Parse(firstproducts[1]);
-
-                if (startfeed2 > endfeed2)
-                {
-                    //说明也是单侧进单侧出
-                    ColdInlet = this.ProIIHX.FeedData;
-                    ColdOutlet = this.ProIIHX.ProductData;
-                }
-                else
-                {
-                    //说明双侧进，双侧出。 我们需要判断那个是冷侧进，那个是热侧进
-                    int feed1count = endfeed1 - startfeed1 + 1;
-                    int feed2count = endfeed2 - startfeed2 + 1;
-                    if (feed1count == 1)
-                    {
-                        CustomStream feed1 = Feeds[0];
-                        CustomStream product1 = Products[0];
-                        if (feed1.Temperature < product1.Temperature)
-                        {
-                            //冷侧进
-                            ColdInlet = feed1.StreamName;
-                            ColdOutlet = product1.StreamName;
-
-                            //热侧
-                            StringBuilder sb = new StringBuilder();
-                            for (int i = startfeed2; i <= endfeed2; i++)
-                            {
-                                sb.Append(",").Append(Feeds[i - 1].StreamName);
-                            }
-                            HotInlet = sb.ToString().Substring(1);
-                            HotOutlet = Products[1].StreamName;
-                        }
-                        else
-                        {
-                            //冷测
-                            StringBuilder sb = new StringBuilder();
-                            for (int i = startfeed2; i <= endfeed2; i++)
-                            {
-                                sb.Append(",").Append(Feeds[i - 1].StreamName);
-                            }
-                            ColdInlet = sb.ToString().Substring(1);
-                            ColdOutlet = Products[1].StreamName;
-
-                            //热侧进
-                            HotInlet = feed1.StreamName;
-                            HotOutlet = product1.StreamName;
-                        }
-                    }
-                    else if (feed2count == 1)
-                    {
-                        CustomStream feed2 = Feeds[Feeds.Count - 1];
-                        CustomStream product2 = Products[1];
-                        if (feed2.Temperature < product2.Temperature)
-                        {
-                            //冷侧进
-                            ColdInlet = feed2.StreamName;
-                            ColdOutlet = product2.StreamName;
-
-                            StringBuilder sb = new StringBuilder();
-                            for (int i = startfeed1; i <= endfeed1; i++)
-                            {
-                                sb.Append(",").Append(Feeds[i - 1].StreamName);
-                            }
-                            HotInlet = sb.ToString().Substring(1);
-                            HotOutlet = Products[0].StreamName;
-                        }
-                        else
-                        {
-                            //热侧进
-
-                            StringBuilder sb = new StringBuilder();
-                            for (int i = startfeed1; i <= endfeed1; i++)
-                            {
-                                sb.Append(",").Append(Feeds[i - 1].StreamName);
-                            }
-                            ColdInlet = sb.ToString().Substring(1);
-                            ColdOutlet = Products[0].StreamName;
-
-                            HotInlet = feed2.StreamName;
-                            HotOutlet = product2.StreamName;
-                        }
-                    }
-
-                }
-
+                GetHXStreamInfo(row, ref HotInlet, ref HotOutlet);
             }
+            else if (row.Contains("COLD  FEED"))
+            {
+                GetHXStreamInfo(row, ref ColdInlet, ref ColdOutlet);
+            }
+
+            i++;
+            row = lines[i];
+            if (row.Contains("HOT  FEED"))
+            {
+                GetHXStreamInfo(row, ref HotInlet, ref HotOutlet);
+            }
+            else if (row.Contains("COLD  FEED"))
+            {
+                GetHXStreamInfo(row, ref ColdInlet, ref ColdOutlet);
+            }
+        }
+
+        private void GetHXStreamInfo(string line, ref string feed, ref string product)
+        {
+            int begin = line.IndexOf("FEED=");
+            int end1 = line.IndexOf(", M=");
+            feed = line.Substring(begin + 5, end1 - begin - 5);
+            
+            int end2 = line.IndexOf(", DP=") - 1;
+            if (end2 == -2)
+            {
+                end2 = line.Length - 1;
+            }
+            product = line.Substring(end1 + 4, end2 - end1 - 3);
         }
 
     }
