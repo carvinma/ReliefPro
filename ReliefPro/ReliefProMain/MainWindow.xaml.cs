@@ -361,7 +361,7 @@ namespace ReliefProMain
                         if (lvi.Source.ToString().ToLower().Contains("heatexchanger"))
                         {
                             Visio.Document currentStencil = visioControl.Document.Application.Documents.OpenEx("PEHEAT_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
-                            Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Heat exchanger2");
+                            Visio.Master visioRectMaster = currentStencil.Masters.get_ItemU(@"Heat exchanger1");
                             DragDropEffects dde1 = DragDrop.DoDragDrop(lvi, visioRectMaster, DragDropEffects.All);
                             foreach (Visio.Shape shape in visioControl.Window.Selection)
                             {

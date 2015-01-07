@@ -17,6 +17,7 @@ using ReliefProDAL;
 using System.Collections.ObjectModel;
 using ReliefProDAL.HXs;
 using ReliefProModel.HXs;
+using ReliefProMain.View.HXs;
 
 namespace ReliefProMain.ViewModel.HXs
 {
@@ -36,6 +37,7 @@ namespace ReliefProMain.ViewModel.HXs
         CustomStream normalColdInlet = new CustomStream();//单个
         List<CustomStream> normalColdInletList = new List<CustomStream>();
         CustomStream normalColdOutlet = new CustomStream();
+        CustomStream normalHotOutlet = new CustomStream();
         PSVDAL psvDAL ;
         PSV psv;
         double reliefPressure;
@@ -45,6 +47,7 @@ namespace ReliefProMain.ViewModel.HXs
         double cricondenbarTemperature;
         public bool IsColdIn = true;
         int ScenarioID;
+        
         public HXBlockedInVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;
@@ -100,6 +103,13 @@ namespace ReliefProMain.ViewModel.HXs
                 Directory.CreateDirectory(dirMix);
 
                 string[] coldfeeds = heathx.ColdInlet.Split(',');
+                foreach (string s in coldfeeds)
+                {
+                    CustomStream cs=csdal.GetModel(SessionPS,s);
+                    normalColdInletList.Add(cs);
+                }
+
+
                 string sbcontent = string.Empty;
                 string[] files = Directory.GetFiles(tempdir, "*.inp");
                 string sourceFile = files[0];
@@ -119,17 +129,19 @@ namespace ReliefProMain.ViewModel.HXs
                         ProIIStreamData proIIProduct = reader.GetSteamInfo(mixProduct);
                         normalColdInlet = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIProduct);
                         reader.ReleaseProIIReader();
+                        //normalColdInletList.Add(normalColdInlet);
                     }
                 }
             }
             else
             {
                 normalColdInlet = csdal.GetModel(SessionPS, heathx.ColdInlet);
+                normalColdInletList.Add(normalColdInlet);
 
             }
             normalColdOutlet = csdal.GetModel(SessionPS, heathx.ColdOutlet);
             normalHotInlet = csdal.GetModel(SessionPS, heathx.HotInlet);
-
+            normalHotOutlet = csdal.GetModel(SessionPS, heathx.HotOutlet);
             HeatExchangerDAL heatdal = new HeatExchangerDAL();
             HeatExchanger heat = heatdal.GetModel(SessionPS);
             model.NormalDuty = heat.Duty;
@@ -212,7 +224,7 @@ namespace ReliefProMain.ViewModel.HXs
                     }
                     else
                     {
-                        if (reliefPressure < psv.CriticalPressure)
+                        if (reliefPressure < criticalPressure)
                         {
                             //flash bubble
                            bool b= MethodBubble1();
@@ -230,12 +242,12 @@ namespace ReliefProMain.ViewModel.HXs
                         }
                         else
                         {
-                            if (reliefPressure < cricondenbarPressure && criticalTemperature > cricondenbarTemperature)
+                            if (model.NormalHotTemperature<criticalTemperature)
                             {
                                bool b= MethodBubble1();
                                if (!b)
                                {
-                                   MethodBubbleFail();
+                                   MethodCritical3();
                                }
                             }
                             else
@@ -245,7 +257,8 @@ namespace ReliefProMain.ViewModel.HXs
                         }
                     }
                 }
-
+                if (model.ReliefLoad < 0)
+                    model.ReliefLoad = 0;
 
                 SplashScreenManager.SentMsgToScreen("Calculation finished");
 
@@ -264,9 +277,10 @@ namespace ReliefProMain.ViewModel.HXs
             double Q = model.NormalDuty;
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             string tempdir = DirProtectedSystem + @"\temp\";
-            string dirLatent = tempdir + "BlockedIn";
-            if (!Directory.Exists(dirLatent))
-                Directory.CreateDirectory(dirLatent);
+            string dirLatent = tempdir + "BlockedIn_Bubble"+ScenarioID.ToString();
+            if (Directory.Exists(dirLatent))
+                Directory.Delete(dirLatent, true);
+            Directory.CreateDirectory(dirLatent);
             string gd = Guid.NewGuid().ToString();
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
@@ -312,7 +326,7 @@ namespace ReliefProMain.ViewModel.HXs
                         model.ReliefZ = vaporcs.VaporZFmKVal;
                         return true;
                     }
-                    else
+                    else 
                     {
                         return false;
                     }
@@ -321,18 +335,17 @@ namespace ReliefProMain.ViewModel.HXs
 
                 else
                 {
-                    MessageBox.Show("Prz file is error", "Message Box");
+                    //MessageBox.Show("Prz file is error", "Message Box");
                     return false;
                 }
             }
             else
             {
-                MessageBox.Show("inp file is error", "Message Box");
+                //MessageBox.Show("inp file is error", "Message Box");
                 return false;
 
             }
         }
-
 
         /// <summary>
         /// 
@@ -343,9 +356,10 @@ namespace ReliefProMain.ViewModel.HXs
             double Q = model.NormalDuty;
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             string tempdir = DirProtectedSystem + @"\temp\";
-            string dirLatent = tempdir + "BlockedIn";
-            if (!Directory.Exists(dirLatent))
-                Directory.CreateDirectory(dirLatent);
+            string dirLatent = tempdir + "BlockedIn_duty" + ScenarioID.ToString() ;
+            if (Directory.Exists(dirLatent))
+                Directory.Delete(dirLatent, true);
+            Directory.CreateDirectory(dirLatent);
             string gd = Guid.NewGuid().ToString();
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
@@ -422,9 +436,13 @@ namespace ReliefProMain.ViewModel.HXs
             CustomStream cs = normalColdInlet;
             double reliefMW = cs.BulkMwOfPhase;
             double latent = 116;
-            model.ReliefLoad = Q/latent+(model.NormalHotTemperature-psv.CriticalTemperature)/(model.NormalHotTemperature-tAvg);
+            GlobalDefaultBLL globalbll = new GlobalDefaultBLL(SessionPF);
+            latent = globalbll.GetConditionsSettings().LatentHeatSettings;
+
+            model.LatentPoint = latent;
+            model.ReliefLoad = Q/latent*(model.NormalHotTemperature-criticalTemperature)/(model.NormalHotTemperature-tAvg);
             model.ReliefPressure = reliefPressure;
-            model.ReliefTemperature = psv.CriticalTemperature;
+            model.ReliefTemperature = criticalTemperature;
             model.ReliefMW = reliefMW;
             model.ReliefCpCv = cs.BulkCPCVRatio;
             model.ReliefZ = cs.VaporZFmKVal;
@@ -439,9 +457,10 @@ namespace ReliefProMain.ViewModel.HXs
             double Q = model.NormalDuty;
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             string tempdir = DirProtectedSystem + @"\temp\";
-            string dirLatent = tempdir + "BlockedInlet_GasExp";
-            if (!Directory.Exists(dirLatent))
-                Directory.CreateDirectory(dirLatent);
+            string dirLatent = tempdir + "BlockedInlet_GasExp"+ScenarioID.ToString();
+            if (Directory.Exists(dirLatent))
+                Directory.Delete(dirLatent, true);
+            Directory.CreateDirectory(dirLatent);
             string gd = Guid.NewGuid().ToString();
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
@@ -512,8 +531,31 @@ namespace ReliefProMain.ViewModel.HXs
                 MethodCritical3();  //condition7
             }
             else
-            {
-                model.ReliefLoad = 0; //condition11
+            {                
+                PhaseEnvelopShowView view=new PhaseEnvelopShowView();
+                PhaseEnvelopShowVM vm = new PhaseEnvelopShowVM();
+                view.DataContext = vm;
+                if (view.ShowDialog()==true)
+                {
+                    if (vm.IsSuperCritical)
+                    {
+                        MethodCritical3();
+                    }
+                    else
+                    {
+                        model.ReliefLoad = 0; //condition11
+                        model.ReliefPressure = reliefPressure;
+                        model.ReliefTemperature = normalColdInlet.Temperature;
+                        model.ReliefCpCv = normalColdInlet.BulkCPCVRatio;
+                        model.ReliefZ = normalColdInlet.VaporZFmKVal;
+                        model.ReliefMW = normalColdInlet.BulkMwOfPhase;
+                    }
+                    
+                }
+
+
+
+
                 //自定义部分了。
             }
         }
@@ -601,9 +643,9 @@ namespace ReliefProMain.ViewModel.HXs
                     else
                     {
                         criticalPressure = UnitConvert.Convert("KPa", UOMEnum.Pressure, double.Parse(criticalPress));
-                        criticalTemperature = double.Parse(criticalTemp);
+                        criticalTemperature =  UnitConvert.Convert("K", "C", double.Parse(criticalTemp)); 
                         cricondenbarPressure = UnitConvert.Convert("KPa", UOMEnum.Pressure, double.Parse(cricondenbarPress));
-                        cricondenbarTemperature = double.Parse(cricondenbarTemp);
+                        cricondenbarTemperature = UnitConvert.Convert("K", "C", double.Parse(cricondenbarTemp)); 
 
                         result = 1;
                     }

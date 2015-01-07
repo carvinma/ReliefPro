@@ -10,13 +10,15 @@ using ReliefProDAL.Drums;
 using ReliefProModel;
 using ReliefProModel.Drums;
 using UOMLib;
+using ReliefProDAL.HXs;
+using ReliefProModel.HXs;
 
 
 namespace ReliefProBLL
 {
     public class DrumBLL
     {
-        public IList<CustomStream> Feeds;
+        public List<CustomStream> Feeds=new List<CustomStream>();
         private DrumBlockedOutletDAL dbBlockedOutlet = new DrumBlockedOutletDAL();
         public int GetDrumID(ISession SessionPS)
         {
@@ -43,21 +45,61 @@ namespace ReliefProBLL
             db.Update(sModel, SessionPS);
             SessionPS.Flush();
         }
-        public DrumBlockedOutlet GetBlockedOutletModel(ISession SessionPS, int ScenarioID)
+        public DrumBlockedOutlet GetBlockedOutletModel(ISession SessionPS, int ScenarioID, int EqType)
         {
             StreamDAL dbsteam = new StreamDAL();
             DrumBlockedOutlet Model = new DrumBlockedOutlet();
-            DrumDAL dbdrum = new DrumDAL();
-            List<Drum> lstDrum = dbdrum.GetAllList(SessionPS).ToList();
-            if (lstDrum.Count() > 0)
+
+            if (EqType == 0)
             {
-                Model.DrumType = lstDrum[0].DrumType;
-                Model.NormalFlashDuty = lstDrum[0].Duty;
-                Model.DrumID = lstDrum[0].ID;
-                Model.FDReliefCondition = Model.NormalFlashDuty;
+                DrumDAL dbdrum = new DrumDAL();
+                List<Drum> lstDrum = dbdrum.GetAllList(SessionPS).ToList();
+                if (lstDrum.Count() > 0)
+                {
+                    Model.DrumType = lstDrum[0].DrumType;
+                    Model.NormalFlashDuty = lstDrum[0].Duty;
+                    Model.DrumID = lstDrum[0].ID;
+                    Model.FDReliefCondition = Model.NormalFlashDuty;
+                }
+                Feeds = dbsteam.GetAllList(SessionPS, false).ToList();
+            }
+            else
+            {
+                HeatExchangerDAL hxdal = new HeatExchangerDAL();
+                HeatExchanger hx = hxdal.GetModel(SessionPS);
+                if (hx != null)
+                {
+                    Model.NormalFlashDuty = hx.Duty;
+                    Model.DrumID = hx.ID;
+                    Model.FDReliefCondition = Model.NormalFlashDuty;
+                }
+                PSVDAL psv = new PSVDAL();
+
+                var psvModel = psv.GetAllList(SessionPS).FirstOrDefault();
+                if (psvModel != null)
+                {
+                    if (psvModel.LocationDescription == "Shell")
+                    {
+                        string[] shells = hx.ShellFeedStreams.Split(',');
+                        foreach (string s in shells)
+                        {
+                            CustomStream cs = dbsteam.GetModel(SessionPS, s);
+                            Feeds.Add(cs);
+                        }
+                    }
+                    else
+                    {
+                        string[] tubes = hx.TubeFeedStreams.Split(',');
+                        foreach (string s in tubes)
+                        {
+                            CustomStream cs = dbsteam.GetModel(SessionPS, s);
+                            Feeds.Add(cs);
+                        }
+                    }
+                }
             }
 
-            Feeds = dbsteam.GetAllList(SessionPS, false);
+
 
             var tmpModel = dbBlockedOutlet.GetModelByScenarioID(SessionPS, ScenarioID);
             if (tmpModel != null)
@@ -65,17 +107,15 @@ namespace ReliefProBLL
                 Model = tmpModel;
                 return Model;
             }
+
             SourceDAL dbSource = new SourceDAL();
-            List<Source> listSource = dbSource.GetAllList(SessionPS).ToList();
-            if (listSource.Count() == 1)
+            if (Feeds.Count == 1)
             {
-                Model.MaxPressure = listSource.First().MaxPossiblePressure;
-                List<CustomStream> liststream = dbsteam.GetAllList(SessionPS, false).ToList();
-                if (liststream.Count() == 1)
-                {
-                    Model.MaxStreamRate = liststream.First().WeightFlow;
-                }
+                Source sr = dbSource.GetModel(Feeds[0].StreamName, SessionPS);
+                Model.MaxPressure = sr.MaxPossiblePressure;
+                Model.MaxStreamRate = Feeds[0].WeightFlow;
             }
+
             Model.ScenarioID = ScenarioID;
             return Model;
         }
@@ -100,16 +140,7 @@ namespace ReliefProBLL
             return outletModel;
         }
 
-        public double PfeedUpstream(ISession SessionPS)
-        {
-            StreamDAL stream = new StreamDAL();
-            var streamModel = stream.GetAllList(SessionPS).FirstOrDefault();
-            if (streamModel != null)
-            {
-                return streamModel.Pressure;
-            }
-            return 0;
-        }
+        
         public double ScenarioReliefPressure(ISession SessionPS)
         {
             PSVDAL psv = new PSVDAL();

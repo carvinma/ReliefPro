@@ -19,13 +19,13 @@ namespace ReliefProMain.ViewModel.Drums
         public DrumFireFluidModel model { get; set; }
         private ISession SessionPS;
         private ISession SessionPF;
-        public DrumFireFluidVM(int DrumFireCalcID, ISession SessionPS, ISession SessionPF)
+        public DrumFireFluidVM(int DrumFireCalcID, ISession SessionPS, ISession SessionPF,int FireType)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
 
             DrumFireFluidBLL fluidBll = new DrumFireFluidBLL(SessionPS, SessionPF);
-            var fireModel = fluidBll.GetFireFluidModel(DrumFireCalcID);
+            var fireModel = fluidBll.GetFireFluidModel(DrumFireCalcID,FireType);
             fireModel = fluidBll.ReadConvertModel(fireModel);
             model = new DrumFireFluidModel(fireModel);
             //  model = new DrumBlockedOutletModel(fireModel);

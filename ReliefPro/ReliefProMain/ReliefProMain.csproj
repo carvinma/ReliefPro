@@ -252,6 +252,7 @@
     <Compile Include="Models\SourceModel.cs" />
     <Compile Include="Models\TowerFireHXModel.cs" />
     <Compile Include="ProIIFactory.cs" />
+    <Compile Include="ProIIMethod.cs" />
     <Compile Include="ProIIToDefault.cs" />
     <Compile Include="Service\ServiceProvider.cs" />
     <Compile Include="Service\UnityServiceLocator.cs" />
@@ -285,6 +286,7 @@
     <Compile Include="ViewModel\HXs\HeatExchangerVM.cs" />
     <Compile Include="ViewModel\HXs\HXBlockedInVM.cs" />
     <Compile Include="ViewModel\HXs\HXFireSizeVM.cs" />
+    <Compile Include="ViewModel\HXs\PhaseEnvelopShowVM.cs" />
     <Compile Include="ViewModel\HXs\TubeRuptureVM.cs" />
     <Compile Include="ViewModel\MainWindowVM.cs" />
     <Compile Include="ViewModel\Mode.cs" />
@@ -376,6 +378,9 @@
     <Compile Include="View\HXs\AirCooledHXFireSizeView.xaml.cs">
       <DependentUpon>AirCooledHXFireSizeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\HXs\HXBlockedOutletView.xaml.cs">
+      <DependentUpon>HXBlockedOutletView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\HXs\HXFireView.xaml.cs">
       <DependentUpon>HXFireView.xaml</DependentUpon>
     </Compile>
@@ -384,6 +389,9 @@
     </Compile>
     <Compile Include="View\HXs\HXFireSizeView.xaml.cs">
       <DependentUpon>HXFireSizeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HXs\PhaseEnvelopShowView.xaml.cs">
+      <DependentUpon>PhaseEnvelopShowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\HXs\TubeRuptureView.xaml.cs">
       <DependentUpon>TubeRuptureView.xaml</DependentUpon>
@@ -689,6 +697,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\HXs\HXBlockedOutletView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\HXs\HXFireView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -698,6 +710,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\HXs\HXFireSizeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HXs\PhaseEnvelopShowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

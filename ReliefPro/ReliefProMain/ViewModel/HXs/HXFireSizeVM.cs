@@ -8,6 +8,8 @@ using NHibernate;
 using ReliefProBLL;
 using ReliefProMain.Models.HXs;
 using UOMLib;
+using ReliefProDAL;
+using ReliefProModel;
 
 namespace ReliefProMain.ViewModel.HXs
 {
@@ -24,6 +26,7 @@ namespace ReliefProMain.ViewModel.HXs
             set
             {
                 selectedExposedToFire = value;
+                lstTypes = GetTypes(selectedExposedToFire);
                 this.OnPropertyChanged("SelectedExposedToFire");
             }
         }
@@ -46,14 +49,17 @@ namespace ReliefProMain.ViewModel.HXs
             this.SessionPF = SessionPF;
             OKCMD = new DelegateCommand<object>(Save);
             lstExposedToFires = GetExposedToFires();
-            lstTypes = GetTypes();
+            
             hxBLL = new HXBLL(SessionPS, SessionPF);
             var fireModel = hxBLL.GetHXFireSizeModel(ScenarioID);
-            fireModel = hxBLL.ReadConvertHXFireSizeModel(fireModel);
-
+            fireModel = hxBLL.ReadConvertHXFireSizeModel(fireModel);            
             model = new HXFireSizeModel(fireModel);
             model.dbmodel.ScenarioID = ScenarioID;
-            SelectedExposedToFire = fireModel.ExposedToFire;
+
+            PSVDAL psvdal = new PSVDAL();
+            PSV psv = psvdal.GetModel(SessionPS);
+            
+            SelectedExposedToFire = psv.LocationDescription;
             if (!string.IsNullOrEmpty(fireModel.Type))
             { SelectedType = fireModel.Type; }
 
@@ -74,7 +80,7 @@ namespace ReliefProMain.ViewModel.HXs
 
         private void Save(object obj)
         {
-            if (!model.CheckData()) return;
+            
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;
@@ -95,12 +101,16 @@ namespace ReliefProMain.ViewModel.HXs
             list.Add("Tube");
             return list;
         }
-        public List<string> GetTypes()
+        public List<string> GetTypes(string hxType)
         {
             List<string> list = new List<string>();
             list.Add("Fixed");
             list.Add("U-Tube");
-            list.Add("Floating head");
+            if (hxType == "Shell")
+            {
+                list.Add("Floating head");
+                list.Add("Kettle type");
+            }
             return list;
         }
     }

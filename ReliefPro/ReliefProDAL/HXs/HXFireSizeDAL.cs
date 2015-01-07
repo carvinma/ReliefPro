@@ -37,11 +37,20 @@ namespace ReliefProDAL.HXs
         }
         public void Save(ISession session, HXFireSize model)
         {
+            session.Clear();
             using (ITransaction tx = session.BeginTransaction())
             {
                 try
                 {
-                    session.SaveOrUpdate(model);
+                    //session.SaveOrUpdate(model);
+                    if (model.ID == 0)
+                    {
+                        session.Save(model);
+                    }
+                    else
+                    {
+                        session.Update(model);
+                    }
                     session.Flush();
                     tx.Commit();
                 }

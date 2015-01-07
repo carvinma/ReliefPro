@@ -107,7 +107,7 @@ namespace ReliefProMain.ViewModel
             set
             {
                 this._TubeFeedStreams = value;
-                if (value == _ShellFeedStreams && !string.IsNullOrEmpty(value))
+                if (value == _ShellFeedStreams && !string.IsNullOrEmpty(value) || string.IsNullOrEmpty(_ShellFeedStreams) && !string.IsNullOrEmpty(value))
                 {
                     if (FeedStreams[1] == value)
                     {
@@ -125,6 +125,7 @@ namespace ReliefProMain.ViewModel
                         ShellFeedStreams = FeedStreams[1];
                     }
                 }
+               
                 OnPropertyChanged("TubeFeedStreams");
             }
         }
@@ -138,7 +139,7 @@ namespace ReliefProMain.ViewModel
             set
             {
                 this._ShellFeedStreams = value;
-                if (value == _TubeFeedStreams && !string.IsNullOrEmpty(value))
+                if (value == _TubeFeedStreams && !string.IsNullOrEmpty(value) || string.IsNullOrEmpty(_TubeFeedStreams) && !string.IsNullOrEmpty(value))
                 {
                     if (FeedStreams[1] == value)
                     {
@@ -257,7 +258,7 @@ namespace ReliefProMain.ViewModel
                 HXType = HXTypes[0];
                 Feeds = GetStreams(SessionProtectedSystem, false);
                 Products = GetStreams(SessionProtectedSystem, true);
-
+                
                 HeatExchangerDAL dbHX = new HeatExchangerDAL();
                 CurrentHX = dbHX.GetModel(SessionProtectedSystem);
                 if (CurrentHX != null)
@@ -296,15 +297,7 @@ namespace ReliefProMain.ViewModel
             }
         }
         private void Import(object obj)
-        {
-            if (!string.IsNullOrEmpty(this.HXName))
-            {
-                MessageBoxResult r = MessageBox.Show("Data was Imported,Are you sure you want to reimport?", "Message Box");
-                if (r == MessageBoxResult.No)
-                {
-                    return;
-                }
-            }
+        {            
             SelectEquipmentView v = new SelectEquipmentView();
             SelectEquipmentVM vm = new SelectEquipmentVM("Hx",  SessionPlant);
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -349,8 +342,14 @@ namespace ReliefProMain.ViewModel
                         Products.Add(cstream);
                     }
                     //计算hx的coldinlet,hotinlet,coldoutlet,hotoutlet
+                    ColdInlet = string.Empty;
+                    ColdOutlet = string.Empty;
+                    HotInlet = string.Empty;
+                    HotOutlet = string.Empty;
                     GetColdHotStream();
                     FeedStreams = GetFeedStreams();
+                    TubeFeedStreams = string.Empty;
+                    ShellFeedStreams = string.Empty;
                     ColorImport = ColorBorder.blue.ToString();
                     op = 0;
                 }               
@@ -415,6 +414,30 @@ namespace ReliefProMain.ViewModel
                 ColorImport = ColorBorder.red.ToString();
                 return;
             }
+            if (HXType == "Shell-Tube")
+            {
+                if (Feeds.Count == 1)
+                {
+                    if (string.IsNullOrEmpty(TubeFeedStreams) && string.IsNullOrEmpty(ShellFeedStreams))
+                    {
+                        MessageBox.Show("TubeFeedStreams or ShellFeedStreams must be selected.", "Message Box");
+                        return;
+                    }
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(TubeFeedStreams))
+                    {
+                        MessageBox.Show("TubeFeedStreams  must be selected.", "Message Box");
+                        return;
+                    }
+                    if (string.IsNullOrEmpty(ShellFeedStreams))
+                    {
+                        MessageBox.Show("ShellFeedStreams  must be selected.", "Message Box");
+                        return;
+                    }
+                }
+            }
            
             HeatExchangerDAL dbHX = new HeatExchangerDAL();
             if (op == 0)
@@ -452,11 +475,19 @@ namespace ReliefProMain.ViewModel
         }
         private void Create()
         {
-            CustomStreamDAL dbCS = new CustomStreamDAL();
+            CustomStreamDAL csdal = new CustomStreamDAL();
             SourceDAL dbsr = new SourceDAL();
             SinkDAL sinkdal = new SinkDAL();
             HeatExchangerDAL dbHX = new HeatExchangerDAL();
             ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
+
+            List<CustomStream> lstColdFeed = new List<CustomStream>();
+            List<CustomStream> lstHotFeed = new List<CustomStream>();
+            CustomStream ColdProduct = new CustomStream();
+            CustomStream HotProduct = new CustomStream();
+
+            string[] arrColdFeed = ColdInlet.Split(',');
+            string[] arrHotFeed = HotInlet.Split(',');
             foreach (CustomStream cs in Feeds)
             {
                 Source sr = new Source();
@@ -465,7 +496,17 @@ namespace ReliefProMain.ViewModel
                 sr.SourceType = "Pump(Motor)";
                 sr.SourceName = cs.StreamName + "_Source";
                 dbsr.Add(sr, SessionProtectedSystem);
-                dbCS.Add(cs, SessionProtectedSystem);
+                csdal.Add(cs, SessionProtectedSystem);
+                if (cs.StreamName == ColdInlet || arrColdFeed.Contains(cs.StreamName))
+                {
+                    lstColdFeed.Add(cs);
+                }
+                else if (cs.StreamName == HotInlet || arrHotFeed.Contains(cs.StreamName))
+                {
+                    lstHotFeed.Add(cs);
+                }
+
+
             }
 
             foreach (CustomStream cs in Products)
@@ -476,7 +517,15 @@ namespace ReliefProMain.ViewModel
                 sink.SinkName = cs.StreamName + "_Sink";
                 sink.SinkType = "Pump(Motor)";
                 sinkdal.Add(sink, SessionProtectedSystem);
-                dbCS.Add(cs, SessionProtectedSystem);
+                csdal.Add(cs, SessionProtectedSystem);
+                if (cs.StreamName == ColdOutlet)
+                {
+                    ColdProduct = cs;
+                }
+                else
+                {
+                    HotProduct = cs;
+                }
             }
 
 
@@ -492,10 +541,42 @@ namespace ReliefProMain.ViewModel
             HX.LastFeed = ProIIHX.LastFeed;
             HX.LastProduct = ProIIHX.LastProduct;
            
+
             HX.ColdInlet= ColdInlet;
             HX.ColdOutlet =ColdOutlet;
             HX.HotInlet=HotInlet;
             HX.HotOutlet=HotOutlet;
+
+            //温度升高的是冷侧，降低的是热侧
+            if (Products.Count == 2)
+            {
+                if (ColdInlet.Contains(",") && HotInlet.Contains(","))
+                {
+                    //只需要针对coldinlet 做mix
+                    int errorType=0;
+                    string sourceDir=DirProtectedSystem+@"\temp";
+                    string mixDir=DirProtectedSystem+@"\temp\ColdMixed";
+                    CustomStream mixFeed=ProIIMethod.MixStream(SourceFileInfo.FileVersion,arrColdFeed.ToList(),lstColdFeed,sourceDir,mixDir,ref errorType);
+                    if (mixFeed.Temperature > ColdProduct.Temperature)
+                    {
+                        HX.ColdInlet = HotInlet;
+                        HX.ColdOutlet = HotOutlet;
+                        HX.HotInlet = ColdInlet;
+                        HX.HotOutlet = ColdOutlet;
+                    }
+                }
+                else if (!ColdInlet.Contains(",") )
+                {
+                    if (lstColdFeed[0].Temperature > ColdProduct.Temperature)
+                    {
+                        HX.ColdInlet = HotInlet ;
+                        HX.ColdOutlet = HotOutlet;
+                        HX.HotInlet = ColdInlet;
+                        HX.HotOutlet = ColdOutlet;
+                    }
+                }
+            }
+
            
             HX.TubeFeedStreams = TubeFeedStreams;
             HX.ShellFeedStreams = ShellFeedStreams;
@@ -505,15 +586,6 @@ namespace ReliefProMain.ViewModel
             ps.PSType = 4;
             psDAL.Add(ps, SessionProtectedSystem);
 
-            if (FeedStreams.Count == 1)
-            {
-                TubeFeedStreams = FeedStreams[0];
-            }
-            if (FeedStreams.Count > 1)
-            {
-                TubeFeedStreams = FeedStreams[0];
-                ShellFeedStreams = FeedStreams[1];
-            }
 
             SourceFileDAL sfdal = new SourceFileDAL();
             SourceFileInfo = sfdal.GetModel(HX.SourceFile, SessionPlant);
@@ -657,8 +729,9 @@ namespace ReliefProMain.ViewModel
         */
         private void GetColdHotStream()
         {
-            string przfile = DirProtectedSystem + @"\temp\" + FileName;
-            string sourceFile = przfile.Substring(0, przfile.Length - 3)+"inp";
+            string dir = DirPlant + @"\" + FileName.Substring(0,FileName.Length-4);
+            string[] files = Directory.GetFiles(dir, "*.inp");
+            string sourceFile = files[0];
             string[] lines = System.IO.File.ReadAllLines(sourceFile);
 
             int i=1;
@@ -671,23 +744,23 @@ namespace ReliefProMain.ViewModel
                 }
             }
             i++;
-            string row = lines[i];
-            if (row.Contains("HOT  FEED"))
+            string row = lines[i].Trim();
+            if (row.Substring(0,3)=="HOT")
             {
                 GetHXStreamInfo(row, ref HotInlet, ref HotOutlet);
             }
-            else if (row.Contains("COLD  FEED"))
+            else if (row.Substring(0,4)=="COLD")
             {
                 GetHXStreamInfo(row, ref ColdInlet, ref ColdOutlet);
             }
 
             i++;
-            row = lines[i];
-            if (row.Contains("HOT  FEED"))
+            row = lines[i].Trim();
+            if (row.Substring(0, 3) == "HOT")
             {
                 GetHXStreamInfo(row, ref HotInlet, ref HotOutlet);
             }
-            else if (row.Contains("COLD  FEED"))
+            else if (row.Substring(0, 4) == "COLD")
             {
                 GetHXStreamInfo(row, ref ColdInlet, ref ColdOutlet);
             }

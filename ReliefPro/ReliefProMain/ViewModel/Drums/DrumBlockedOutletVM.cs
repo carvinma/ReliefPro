@@ -40,39 +40,61 @@ namespace ReliefProMain.ViewModel.Drums
         double reliefLoad = 0, reliefMW = 0, reliefT = 0, reliefPressure = 0, reliefCpCv = 0, reliefZ = 0;
         public Tuple<double, double, double, double> CalcTuple { get; set; }
         public int ScenarioID;
-
-        public DrumBlockedOutletVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
+        private int EqType;
+        public int IsHasBlockedOutlet;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ScenarioID"></param>
+        /// <param name="sourceFileInfo"></param>
+        /// <param name="SessionPS"></param>
+        /// <param name="SessionPF"></param>
+        /// <param name="dirPlant"></param>
+        /// <param name="dirProtectedSystem"></param>
+        /// <param name="EqType">0:drum 1:hx</param>
+        public DrumBlockedOutletVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem,int EqType)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
             SourceFileInfo = sourceFileInfo;
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
+            this.EqType = EqType;
             drum = new DrumBLL();
             this.ScenarioID = ScenarioID;
             mixFeeds = new List<CustomStream>();
             mixCSProduct = new CustomStream();
             dirMix = DirProtectedSystem + @"\mix" + ScenarioID.ToString();
             mixPrzFile = dirMix + @"\a.prz";
-            var outletModel = drum.GetBlockedOutletModel(SessionPS, ScenarioID);
-           
+            var outletModel = drum.GetBlockedOutletModel(SessionPS, ScenarioID,EqType);
+            double setPress = drum.PSet(SessionPS);
             if (drum.Feeds.Count > 1 && string.IsNullOrEmpty(outletModel.MixProductName))
             {
-                double setPress = drum.PSet(SessionPS);
+                
                 string sbcontent = string.Empty;
                 List<string> strFeeds = new List<string>();
                 SourceDAL sourcedal = new SourceDAL();
-
+                double minPressure = 100000;
                 foreach (CustomStream cs in drum.Feeds)
                 {
                     Source sr = sourcedal.GetModel(cs.StreamName, SessionPS);
                     if (sr.MaxPossiblePressure >= setPress)
                     {
                         strFeeds.Add(cs.StreamName);
-                        cs.Pressure = sr.MaxPossiblePressure;
+                        //cs.Pressure = sr.MaxPossiblePressure;  改为使用本身的压力了。
                         mixFeeds.Add(cs);
+                        if (sr.MaxPossiblePressure < minPressure)
+                            minPressure = sr.MaxPossiblePressure;
                     }
                 }
+                if (strFeeds.Count==0)
+                {
+                    IsHasBlockedOutlet = 1;
+                    return;
+                }
+
+
+                outletModel.MaxPressure = minPressure;
                 string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
                 string[] sourceFiles = Directory.GetFiles(dir, "*.inp");
                 string sourceFile = sourceFiles[0];
@@ -99,16 +121,28 @@ namespace ReliefProMain.ViewModel.Drums
                         reader.ReleaseProIIReader();
                         mixCSProduct = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
                         
-                        outletModel.MaxPressure = mixCSProduct.Pressure;
+                        //outletModel.MaxPressure = mixCSProduct.Pressure;  //2015.1.6 修改其读取方法，不再从mix里读取。而是通过和定压比较取最小的压力。
                         outletModel.MaxStreamRate = mixCSProduct.WeightFlow;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Inp file is error", "Message Box");
+                        //return;
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Prz file is error", "Message Box");
+                    //MessageBox.Show("Prz file is error", "Message Box");
                     return;
                 }
             }
+            if (outletModel.MaxPressure == 100000 || outletModel.MaxPressure <= setPress)
+            {
+                //MessageBox.Show("No blocked outlet", "Message Box");
+                IsHasBlockedOutlet = 1;
+                return;
+            }
+
             outletModel = drum.ReadConvertModel(outletModel, SessionPF);
             model = new DrumBlockedOutletModel(outletModel);
             model.dbmodel.DrumID = drum.GetDrumID(SessionPS);
@@ -156,7 +190,7 @@ namespace ReliefProMain.ViewModel.Drums
             try
             {
                 SplashScreenManager.Show();
-                if (!model.CheckData()) return;
+                //if (!model.CheckData()) return;
                 SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
                 reliefPressure = drum.ScenarioReliefPressure(SessionPS);
                 string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
@@ -196,6 +230,11 @@ namespace ReliefProMain.ViewModel.Drums
                     {
                         duty = (model.FDReliefCondition / Math.Pow(10, 6)).ToString();
                     }
+                    if (EqType == 1)
+                    {
+                        duty = (model.FDReliefCondition / Math.Pow(10, 6)).ToString(); 
+                    }
+                    
                     SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
                     IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
                     int ImportResult = 0;
@@ -203,7 +242,7 @@ namespace ReliefProMain.ViewModel.Drums
                     string f = string.Empty;
                     if (drum.Feeds.Count == 1)
                     {      
-                        drum.Feeds[0].Pressure=UnitConvert.Convert(model.PressureUnit,"Mpag",model.MaxPressure);
+                        //drum.Feeds[0].Pressure=UnitConvert.Convert(model.PressureUnit,"Mpag",model.MaxPressure);
                         double weightFlow=UnitConvert.Convert(model.StreamRateUnit,"Kg/hr",model.MaxStreamRate);
                         drum.Feeds[0].TotalMolarRate=weightFlow/3600/drum.Feeds[0].BulkMwOfPhase;
                         f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, drum.Feeds[0], vapor, liquid, tempdir, ref ImportResult, ref RunResult);
@@ -215,7 +254,7 @@ namespace ReliefProMain.ViewModel.Drums
                         ProIIStreamData proIIvapor = reader.GetSteamInfo(model.MixProductName);
                         reader.ReleaseProIIReader();
                         mixCSProduct = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
-                        mixCSProduct.Pressure = UnitConvert.Convert(model.PressureUnit, "Mpag", model.MaxPressure);
+                        //mixCSProduct.Pressure = UnitConvert.Convert(model.PressureUnit, "Mpag", model.MaxPressure);
                         double weightFlow = UnitConvert.Convert(model.StreamRateUnit, "Kg/hr", model.MaxStreamRate);
                         mixCSProduct.TotalMolarRate = weightFlow / 3600 / mixCSProduct.BulkMwOfPhase;
                         f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, mixCSProduct, vapor, liquid, tempdir, ref ImportResult, ref RunResult);

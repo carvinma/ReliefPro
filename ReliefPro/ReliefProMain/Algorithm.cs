@@ -54,12 +54,16 @@ namespace ReliefProMain
                 {
                     Area = 3.14159 * (Length + 0.4 * D) * D;
                 }
+                else
+                {
+                    Area = 3.14159 * (Length + 0.4 * D) * D;
+                }
             }
             else
             {
                 if (Type == "Fixed")
                 {
-                    Area = 3.14159 * (Length + Length2 + 0.8D) * D;
+                    Area = 3.14159 * (Length + Length2 + 0.8*D) * D;
                 }
                 else if (Type == "U-Tube")
                 {
@@ -258,6 +262,13 @@ namespace ReliefProMain
         {
             if (K == 1 || K == -1) return 0;
             return 2 * 347 * Math.Sqrt(Rmassv * K * (P1 * 10) * Math.Pow(2 / (K + 1), (K + 1) / (K - 1)));
+
+        }
+        public static double CalcKvSecond(double P1,double P2, double Rmassv)
+        {
+            double tmpP = P1 - P2;
+            double Y = 1 - 0.317 * tmpP / P1;
+            return 2 * 490 * Y * Math.Sqrt(tmpP * 10 * Rmassv);
         }
 
         /// <summary>

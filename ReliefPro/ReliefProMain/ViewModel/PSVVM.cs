@@ -54,7 +54,7 @@ namespace ReliefProMain.ViewModel
         }
         public ObservableCollection<string> ValveTypes { get; set; }
 
-        public ObservableCollection<string> LocationDescriptions { get; set; }
+        
 
         public PSVModel CurrentModel { get; set; }
 
@@ -83,22 +83,7 @@ namespace ReliefProMain.ViewModel
             return list;
         }
 
-        public ObservableCollection<string> GetLocationDescriptions(string eqType)
-        {
-            ObservableCollection<string> list = new ObservableCollection<string>();
-            if (eqType == "HX")
-            {
-                list.Add("Shell");
-                list.Add("Tube");
-            }
-            else
-            {
-                list.Add("Top");
-                list.Add("Bottom");
-            }
-            return list;
-        }
-
+       
         public ObservableCollection<string> GetDischargeTos()
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
@@ -149,7 +134,7 @@ namespace ReliefProMain.ViewModel
             ValveTypes = GetValveTypes();
             DischargeTos = GetDischargeTos();
             Locations = GetLocations();
-            LocationDescriptions = GetLocationDescriptions(eqType);
+            
             uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             
             if (eqType == "Tower")
@@ -166,7 +151,7 @@ namespace ReliefProMain.ViewModel
             {
                 psv = new PSV();
                 psv.PSVName = "";
-                psv.ValveNumber = 2;
+                psv.ValveNumber = 1;
                 psv.PSVName_Color = ColorBorder.red.ToString();
                 psv.ValveNumber_Color = ColorBorder.green.ToString();
                 psv.Pressure_Color = ColorBorder.red.ToString();
@@ -176,12 +161,16 @@ namespace ReliefProMain.ViewModel
                 psv.DischargeTo_Color = ColorBorder.green.ToString();
                 psv.ValveType_Color = ColorBorder.green.ToString();
                 psv.Location_Color = ColorBorder.green.ToString();
+                psv.LocationDescription_Color = ColorBorder.red.ToString();
             }
-            CurrentModel = new PSVModel(psv,sessionPlant);
+            CurrentModel = new PSVModel(psv,sessionPlant,sourceFileInfo.FileName);
             if (psv.ID == 0)
             {
                 CurrentModel.ValveType = ValveTypes[0];
-                CurrentModel.LocationDescription = LocationDescriptions[0];
+                if (CurrentModel.LocationDescriptions != null)
+                {
+                    CurrentModel.LocationDescription = CurrentModel.LocationDescriptions[0];
+                }
             }
             if (DischargeTos.Count > 0)
             {
@@ -844,8 +833,8 @@ namespace ReliefProMain.ViewModel
                     reader.ReleaseProIIReader();
 
                     criticalPressure = UnitConvert.Convert("KPA", CurrentModel.CriticalPressureUnit, double.Parse(criticalPress));
-                    criticalTemperature = UnitConvert.Convert("C", CurrentModel.CriticalTemperatureUnit, double.Parse(criticalTemp));
-                    cricondenbarPressure = UnitConvert.Convert("C", CurrentModel.CricondenbarPressUnit, double.Parse(cricondenbarPress));
+                    criticalTemperature = UnitConvert.Convert("K", CurrentModel.CriticalTemperatureUnit, double.Parse(criticalTemp));
+                    cricondenbarPressure = UnitConvert.Convert("K", CurrentModel.CricondenbarPressUnit, double.Parse(cricondenbarPress));
                     cricondenbarTemperature = UnitConvert.Convert("KPA", CurrentModel.CricondenbarTempUnit, double.Parse(cricondenbarTemp));                   
                     return true;
                 }

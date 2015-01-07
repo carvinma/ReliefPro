@@ -6,6 +6,7 @@ using ReliefProCommon.Enum;
 using ReliefProModel;
 using NHibernate;
 using ReliefProDAL;
+using Remotion.Linq.Collections;
 
 namespace ReliefProMain.Models
 {
@@ -13,10 +14,12 @@ namespace ReliefProMain.Models
     {
         public PSV dbmodel;
         public ISession SessionPlant;
-        public PSVModel(PSV m, ISession SessionPlant)
+        public string sourceFile;
+        public PSVModel(PSV m, ISession SessionPlant, string sourceFile)
         {
             this.SessionPlant = SessionPlant;
             dbmodel= m;
+            this.sourceFile = sourceFile;
             this.ID = m.ID;
             this.PSVName = m.PSVName;
             this.Pressure = m.Pressure;
@@ -253,9 +256,21 @@ namespace ReliefProMain.Models
                 }
                 location = value;
 
-                ProIIEqDataDAL proiieqdal = new ProIIEqDataDAL();
-                ProIIEqData data = proiieqdal.GetModel(SessionPlant,location,location);
-
+                if (!string.IsNullOrEmpty(location))
+                {
+                    ProIIEqDataDAL proiieqdal = new ProIIEqDataDAL();
+                    ProIIEqData data = proiieqdal.GetModel(SessionPlant, sourceFile, location);
+                    if (data.EqType == "Hx")
+                    {
+                        LocationDescriptions = GetLocationDescriptions("HX");
+                        
+                    }
+                    else
+                    {
+                        LocationDescriptions = GetLocationDescriptions("");
+                    }
+                    LocationDescription = LocationDescriptions[0];
+                }
 
 
 
@@ -534,5 +549,34 @@ namespace ReliefProMain.Models
                 NotifyPropertyChanged("Location_Color");
             }
         }
+        private ObservableCollection<string> locationDescriptions;
+        public ObservableCollection<string> LocationDescriptions 
+        { 
+            get
+            {
+                return this.locationDescriptions;
+            }
+            set
+            {
+                this.locationDescriptions = value;
+                NotifyPropertyChanged("LocationDescriptions");
+            }
+        }
+        public ObservableCollection<string> GetLocationDescriptions(string eqType)
+        {
+            ObservableCollection<string> list = new ObservableCollection<string>();
+            if (eqType == "HX")
+            {
+                list.Add("Shell");
+                list.Add("Tube");
+            }
+            else
+            {
+                list.Add("Top");
+                list.Add("Bottom");
+            }
+            return list;
+        }
+
     }
 }

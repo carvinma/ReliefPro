@@ -227,7 +227,7 @@ namespace ReliefProMain.View
                     {
                     }
                 }
-                else if (shp.NameU.Contains("Heat exchanger1"))
+                else if (shp.NameU.Contains("Heat exchanger2"))
                 {
                     TowerHXVM vm = new TowerHXVM(name, SessionPlant, SessionProtectedSystem);
                     TowerHXView v = new TowerHXView();
@@ -257,7 +257,7 @@ namespace ReliefProMain.View
                     }
 
                 }
-                if (shp.NameU.ToLower().Contains("heat exchanger2"))
+                if (shp.NameU.ToLower().Contains("heat exchanger1"))
                 {
                     try
                     {
@@ -343,7 +343,7 @@ namespace ReliefProMain.View
             Visio.Document currentStencil_1 = visioControl.Document.Application.Documents.OpenEx("PEHEAT_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
             Visio.Document currentStencil_2 = visioControl.Document.Application.Documents.OpenEx("CONNEC_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
             Visio.Document currentStencil_3 = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
-            Visio.Master condenserMaster = currentStencil_1.Masters.get_ItemU(@"Heat exchanger1");
+            Visio.Master condenserMaster = currentStencil_1.Masters.get_ItemU(@"Heat exchanger2");
             Visio.Master reboilerMaster = currentStencil_1.Masters.get_ItemU(@"Kettle reboiler");
             Visio.Master streamMaster = currentStencil_2.Masters.get_ItemU(@"Dynamic connector");
             Visio.Master condenserVesselMaster = currentStencil_3.Masters.get_ItemU(@"Vessel");
@@ -608,10 +608,10 @@ namespace ReliefProMain.View
             Visio.Document currentStencil_1 = visioControl.Document.Application.Documents.OpenEx("PEHEAT_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
             Visio.Document currentStencil_2 = visioControl.Document.Application.Documents.OpenEx("CONNEC_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
             Visio.Document currentStencil_3 = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
-            Visio.Master condenserMaster = currentStencil_1.Masters.get_ItemU(@"Heat exchanger1");
-            Visio.Master reboilerMaster = currentStencil_1.Masters.get_ItemU(@"Kettle reboiler");
+            //Visio.Master condenserMaster = currentStencil_1.Masters.get_ItemU(@"Heat exchanger1");
+            //Visio.Master reboilerMaster = currentStencil_1.Masters.get_ItemU(@"Kettle reboiler");
             Visio.Master streamMaster = currentStencil_2.Masters.get_ItemU(@"Dynamic connector");
-            Visio.Master condenserVesselMaster = currentStencil_3.Masters.get_ItemU(@"Vessel");
+            //Visio.Master condenserVesselMaster = currentStencil_3.Masters.get_ItemU(@"Vessel");
 
             Visio.Document startStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
             Visio.Master startMaster = startStencil.Masters.get_ItemU(@"Carrying vessel");
@@ -688,10 +688,10 @@ namespace ReliefProMain.View
             Visio.Document currentStencil_1 = visioControl.Document.Application.Documents.OpenEx("PEHEAT_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
             Visio.Document currentStencil_2 = visioControl.Document.Application.Documents.OpenEx("CONNEC_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
             Visio.Document currentStencil_3 = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
-            Visio.Master condenserMaster = currentStencil_1.Masters.get_ItemU(@"Heat exchanger1");
-            Visio.Master reboilerMaster = currentStencil_1.Masters.get_ItemU(@"Kettle reboiler");
+            //Visio.Master condenserMaster = currentStencil_1.Masters.get_ItemU(@"Heat exchanger1");
+            //Visio.Master reboilerMaster = currentStencil_1.Masters.get_ItemU(@"Kettle reboiler");
             Visio.Master streamMaster = currentStencil_2.Masters.get_ItemU(@"Dynamic connector");
-            Visio.Master condenserVesselMaster = currentStencil_3.Masters.get_ItemU(@"Vessel");
+            //Visio.Master condenserVesselMaster = currentStencil_3.Masters.get_ItemU(@"Vessel");
 
             Visio.Document startStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
             Visio.Master startMaster = startStencil.Masters.get_ItemU(@"Carrying vessel");
@@ -705,91 +705,208 @@ namespace ReliefProMain.View
             int feedcount = vm.Feeds.Count;
             int productcount = vm.Products.Count;
 
-            //coldinlet
-            if (!string.IsNullOrEmpty(vm.ColdInlet))
+            if (vm.HXType == "Shell-Tube")
             {
-                string[] coldinlets = vm.ColdInlet.Split(',');
-                for (int i = 0; i < coldinlets.Length; i++)
+                //ShellFeedStreams --从左侧进
+                if (!string.IsNullOrEmpty(vm.TubeFeedStreams))
                 {
-                    if (coldinlets[i] != string.Empty)
+                    string[] TubeFeedStreams = vm.TubeFeedStreams.Split(',');
+                    for (int i = 0; i < TubeFeedStreams.Length; i++)
                     {
-                        Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
-                        ConnectShapes(shape, 2, connector, 0);
-                        connector.Text = coldinlets[i];
-                        int diff = 0;
-                        if (i % 2 == 0)
+                        if (TubeFeedStreams[i] != string.Empty)
                         {
-                            diff = i ;
+                            Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
+                            ConnectShapes(shape, 2, connector, 0);
+                            connector.Text = TubeFeedStreams[i];
+                            int diff = 0;
+                            if (i % 2 == 0)
+                            {
+                                diff = i;
+                            }
+                            else
+                            {
+                                diff = -1 * i;
+                            }
+                            Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY - diff);
+                            startShp.get_Cells("Height").ResultIU = 0.1;
+                            startShp.get_Cells("Width").ResultIU = 0.2;
+                            startShp.Text = connector.Text + "_Source";
+                            ConnectShapes(startShp, 2, connector, 1);
+                            startShp.Cells["EventDblClick"].Formula = "=0";
                         }
-                        else
-                        {
-                            diff = -1 * i ;
-                        }
-                        Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY - diff );
-                        startShp.get_Cells("Height").ResultIU = 0.1;
-                        startShp.get_Cells("Width").ResultIU = 0.2;
-                        startShp.Text = connector.Text + "_Source";
-                        ConnectShapes(startShp, 2, connector, 1);
-                        startShp.Cells["EventDblClick"].Formula = "=0";
                     }
                 }
-            }
-            if (!string.IsNullOrEmpty(vm.HotInlet))
-            {
-                string[] hotinlets = vm.HotInlet.Split(',');
-                for (int i = 0; i < hotinlets.Length; i++)
-                {
-                    if (hotinlets[i] != string.Empty)
-                    {
-                        Visio.Shape connector2 = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
-                        ConnectShapes(shape, 3, connector2, 0);
-                        connector2.Text = hotinlets[i];
 
-                        int diff = 0;
-                        if (i % 2 == 0)
+                //从上面进
+                if (!string.IsNullOrEmpty(vm.ShellFeedStreams))
+                {
+                    string[] ShellFeedStreams = vm.ShellFeedStreams.Split(',');
+                    for (int i = 0; i < ShellFeedStreams.Length; i++)
+                    {
+                        if (ShellFeedStreams[i] != string.Empty)
                         {
-                            diff = i ;
+                            Visio.Shape connector2 = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
+                            ConnectShapes(shape, 3, connector2, 0);
+                            connector2.Text = ShellFeedStreams[i];
+
+                            int diff = 0;
+                            if (i % 2 == 0)
+                            {
+                                diff = i;
+                            }
+                            else
+                            {
+                                diff = -1 * i;
+                            }
+                            Visio.Shape startShp2 = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2 + diff, pinY + 0.2);
+                            startShp2.get_Cells("Height").ResultIU = 0.1;
+                            startShp2.get_Cells("Width").ResultIU = 0.2;
+                            startShp2.Text = connector2.Text + "_Source";
+                            ConnectShapes(startShp2, 2, connector2, 1);
+                            startShp2.Cells["EventDblClick"].Formula = "=0";
                         }
-                        else
-                        {
-                            diff = -1 * i ;
-                        }
-                        Visio.Shape startShp2 = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2+diff, pinY + 0.2);
-                        startShp2.get_Cells("Height").ResultIU = 0.1;
-                        startShp2.get_Cells("Width").ResultIU = 0.2;
-                        startShp2.Text = connector2.Text + "_Source";
-                        ConnectShapes(startShp2, 2, connector2, 1);
-                        startShp2.Cells["EventDblClick"].Formula = "=0";
                     }
                 }
+
+
+                //从右侧出
+                if (!string.IsNullOrEmpty(vm.TubeFeedStreams))
+                {
+
+                    Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
+                    ConnectShapes(shape, 1, connector, 1);
+                    if (vm.TubeFeedStreams == vm.ColdInlet)
+                    {
+                        connector.Text = vm.ColdOutlet;
+                    }
+                    else
+                    {
+                        connector.Text = vm.HotOutlet;
+                    }
+                    Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 1.8, pinY + 0.35);
+                    endShp.get_Cells("Height").ResultIU = endShpHeight;
+                    endShp.get_Cells("Width").ResultIU = endShpWidth;
+                    endShp.Text = connector.Text + "_Sink";
+                    endShp.Cells["EventDblClick"].Formula = "=0";
+                    ConnectShapes(endShp, 7, connector, 0);
+                }
+
+
+                if (!string.IsNullOrEmpty(vm.ShellFeedStreams))
+                {
+                    Visio.Shape connector2 = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
+                    ConnectShapes(shape, 4, connector2, 1);
+                    if (vm.ShellFeedStreams == vm.ColdInlet)
+                    {
+                        connector2.Text = vm.ColdOutlet;
+                    }
+                    else
+                    {
+                        connector2.Text = vm.HotOutlet;
+                    }
+                    Visio.Shape endShp2 = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 1.8, pinY - 0.6);
+                    endShp2.get_Cells("Height").ResultIU = endShpHeight;
+                    endShp2.get_Cells("Width").ResultIU = endShpWidth;
+                    endShp2.Text = connector2.Text + "_Sink";
+                    endShp2.Cells["EventDblClick"].Formula = "=0";
+                    ConnectShapes(endShp2, 7, connector2, 0);
+                }
             }
-
-
-            //1,4出
-
-            if (!string.IsNullOrEmpty(vm.ColdOutlet))
+            else
             {
-                Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
-                ConnectShapes(shape, 1, connector, 1);
-                connector.Text = vm.ColdOutlet;
-                Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 1.8, pinY + 0.35);
-                endShp.get_Cells("Height").ResultIU = endShpHeight;
-                endShp.get_Cells("Width").ResultIU = endShpWidth;
-                endShp.Text = connector.Text + "_Sink";
-                endShp.Cells["EventDblClick"].Formula = "=0";
-                ConnectShapes(endShp, 7, connector, 0);
-            }
-            if (!string.IsNullOrEmpty(vm.HotOutlet))
-            {
-                Visio.Shape connector2 = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
-                ConnectShapes(shape, 4, connector2, 1);
-                connector2.Text = vm.HotOutlet;
-                Visio.Shape endShp2 = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 1.8, pinY - 0.6);
-                endShp2.get_Cells("Height").ResultIU = endShpHeight;
-                endShp2.get_Cells("Width").ResultIU = endShpWidth;
-                endShp2.Text = connector2.Text + "_Sink";
-                endShp2.Cells["EventDblClick"].Formula = "=0";
-                ConnectShapes(endShp2, 7, connector2, 0);
+                //ShellFeedStreams --从左侧进
+                if (!string.IsNullOrEmpty(vm.ColdInlet))
+                {
+                    string[] ColdInlets = vm.ColdInlet.Split(',');
+                    for (int i = 0; i < ColdInlets.Length; i++)
+                    {
+                        if (ColdInlets[i] != string.Empty)
+                        {
+                            Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
+                            ConnectShapes(shape, 2, connector, 0);
+                            connector.Text = ColdInlets[i];
+                            int diff = 0;
+                            if (i % 2 == 0)
+                            {
+                                diff = i;
+                            }
+                            else
+                            {
+                                diff = -1 * i;
+                            }
+                            Visio.Shape startShp = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2, pinY - diff);
+                            startShp.get_Cells("Height").ResultIU = 0.1;
+                            startShp.get_Cells("Width").ResultIU = 0.2;
+                            startShp.Text = connector.Text + "_Source";
+                            ConnectShapes(startShp, 2, connector, 1);
+                            startShp.Cells["EventDblClick"].Formula = "=0";
+                        }
+                    }
+                }
+
+                //从上面进
+                if (!string.IsNullOrEmpty(vm.HotInlet))
+                {
+                    string[] HotInlets = vm.HotInlet.Split(',');
+                    for (int i = 0; i < HotInlets.Length; i++)
+                    {
+                        if (HotInlets[i] != string.Empty)
+                        {
+                            Visio.Shape connector2 = visioControl.Window.Application.ActivePage.Drop(streamMaster, 4, pinY);
+                            ConnectShapes(shape, 3, connector2, 0);
+                            connector2.Text = HotInlets[i];
+
+                            int diff = 0;
+                            if (i % 2 == 0)
+                            {
+                                diff = i;
+                            }
+                            else
+                            {
+                                diff = -1 * i;
+                            }
+                            Visio.Shape startShp2 = visioControl.Window.Application.ActivePage.Drop(startMaster, pinX - 2 + diff, pinY + 0.2);
+                            startShp2.get_Cells("Height").ResultIU = 0.1;
+                            startShp2.get_Cells("Width").ResultIU = 0.2;
+                            startShp2.Text = connector2.Text + "_Source";
+                            ConnectShapes(startShp2, 2, connector2, 1);
+                            startShp2.Cells["EventDblClick"].Formula = "=0";
+                        }
+                    }
+                }
+
+
+                //从右侧出
+                if (!string.IsNullOrEmpty(vm.ColdOutlet))
+                {
+
+                    Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
+                    ConnectShapes(shape, 1, connector, 1);
+                    connector.Text = vm.ColdOutlet;
+                    
+                    Visio.Shape endShp = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 1.8, pinY + 0.35);
+                    endShp.get_Cells("Height").ResultIU = endShpHeight;
+                    endShp.get_Cells("Width").ResultIU = endShpWidth;
+                    endShp.Text = connector.Text + "_Sink";
+                    endShp.Cells["EventDblClick"].Formula = "=0";
+                    ConnectShapes(endShp, 7, connector, 0);
+                }
+
+
+                if (!string.IsNullOrEmpty(vm.HotOutlet))
+                {
+                    Visio.Shape connector2 = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
+                    ConnectShapes(shape, 4, connector2, 1);
+                    connector2.Text = vm.HotOutlet;
+                    
+                    Visio.Shape endShp2 = visioControl.Window.Application.ActivePage.Drop(endMaster, pinX + 1.8, pinY - 0.6);
+                    endShp2.get_Cells("Height").ResultIU = endShpHeight;
+                    endShp2.get_Cells("Width").ResultIU = endShpWidth;
+                    endShp2.Text = connector2.Text + "_Sink";
+                    endShp2.Cells["EventDblClick"].Formula = "=0";
+                    ConnectShapes(endShp2, 7, connector2, 0);
+                }
+
             }
 
         }
@@ -809,10 +926,10 @@ namespace ReliefProMain.View
             Visio.Document currentStencil_1 = visioControl.Document.Application.Documents.OpenEx("PEHEAT_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
             Visio.Document currentStencil_2 = visioControl.Document.Application.Documents.OpenEx("CONNEC_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
             Visio.Document currentStencil_3 = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
-            Visio.Master condenserMaster = currentStencil_1.Masters.get_ItemU(@"Heat exchanger1");
-            Visio.Master reboilerMaster = currentStencil_1.Masters.get_ItemU(@"Kettle reboiler");
+            //Visio.Master condenserMaster = currentStencil_1.Masters.get_ItemU(@"Heat exchanger1");
+            //Visio.Master reboilerMaster = currentStencil_1.Masters.get_ItemU(@"Kettle reboiler");
             Visio.Master streamMaster = currentStencil_2.Masters.get_ItemU(@"Dynamic connector");
-            Visio.Master condenserVesselMaster = currentStencil_3.Masters.get_ItemU(@"Vessel");
+            //Visio.Master condenserVesselMaster = currentStencil_3.Masters.get_ItemU(@"Vessel");
 
             Visio.Document startStencil = visioControl.Document.Application.Documents.OpenEx("PEVESS_M.vss", (short)Visio.VisOpenSaveArgs.visAddHidden);
             Visio.Master startMaster = startStencil.Masters.get_ItemU(@"Carrying vessel");

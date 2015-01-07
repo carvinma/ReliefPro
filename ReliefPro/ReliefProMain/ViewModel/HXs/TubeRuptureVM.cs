@@ -32,18 +32,24 @@ namespace ReliefProMain.ViewModel.HXs
         private string DirPlant { set; get; }
         private string DirProtectedSystem { set; get; }
         private CustomStream csHigh;
+        List<string> strHighFeeds = new List<string>();
+        List<CustomStream> lstHighFeeds = new List<CustomStream>();
+
         private double reliefPressure;
         private CustomStream csVapor;
         private CustomStream csLiquid;
         UOMLib.UOMEnum uomEnum;
         public TubeRuptureModel model { set; get; }
         TubeRuptureDAL dal = new TubeRuptureDAL();
-
+        HeatExchanger hx = new HeatExchanger();
         double k = 0;
+        int ScenarioID;
+        
         public TubeRuptureVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
+            this.ScenarioID = ScenarioID;
             this.SourceFileInfo = sourceFileInfo;
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
@@ -70,20 +76,65 @@ namespace ReliefProMain.ViewModel.HXs
             model.ReliefLoadUnit = uomEnum.UserMassRate;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
             model.ReliefPressureUnit = uomEnum.UserPressure;
-            model.ODUnit = uomEnum.UserLength;
+            model.ODUnit = uomEnum.UserFineLength;
             ReadConvert();
+
+            HeatExchangerDAL hxDAL = new HeatExchangerDAL();
+            hx = hxDAL.GetModel(SessionPS);
 
         }
 
         public void CalcResult(object obj)
         {
-            if (!CheckData()) return;
-            CustomStreamBLL csbll = new CustomStreamBLL(SessionPF, SessionPS);
-            ObservableCollection<CustomStream> feeds = csbll.GetStreams(SessionPS, false);
+            if (model.OD == 0)
+            {
+                MessageBox.Show("OD could not be zero.","Message Box",MessageBoxButton.OK,MessageBoxImage.Error);
+                return;
+            }
+            CustomStreamDAL csdal = new CustomStreamDAL();
+            CustomStream csTube = null;
+            CustomStream csShell = null;
+            List<CustomStream> mixTubeFeeds = new List<CustomStream>();
+            List<CustomStream> mixShellFeeds = new List<CustomStream>();
+            List<string> strTubeFeeds = new List<string>();
+            List<string> strShellFeeds = new List<string>();
 
-            csHigh = feeds[0];
-            if (csHigh.Pressure < feeds[1].Pressure)
-                csHigh = feeds[1];
+            strHighFeeds = new List<string>();
+            lstHighFeeds = new List<CustomStream>();
+            if (hx.TubeFeedStreams.Contains(","))
+            {
+                csTube = MixFeed(1,ref strTubeFeeds,ref mixTubeFeeds);
+            }
+            else
+            {
+                csTube = csdal.GetModel(SessionPS, hx.TubeFeedStreams);
+                mixTubeFeeds.Add(csTube);
+                strTubeFeeds.Add(hx.TubeFeedStreams);
+            }
+            if (hx.ShellFeedStreams.Contains(","))
+            {
+                csShell = MixFeed(2,ref strShellFeeds,ref mixShellFeeds);
+            }
+            else
+            {
+                csShell = csdal.GetModel(SessionPS, hx.ShellFeedStreams);
+                mixShellFeeds.Add(csShell);
+                strShellFeeds.Add(hx.ShellFeedStreams);
+            }
+
+            
+            if (csShell.Pressure > csTube.Pressure)
+            {
+                csHigh = csShell;
+                strHighFeeds = strShellFeeds;
+                lstHighFeeds = mixShellFeeds;
+            }
+            else
+            {
+                csHigh = csTube;
+                strHighFeeds = strTubeFeeds;
+                lstHighFeeds = mixTubeFeeds;
+            }
 
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionPS);
@@ -96,27 +147,26 @@ namespace ReliefProMain.ViewModel.HXs
                 return;
             }
 
-
-
-
             string FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
             reliefPressure = pressure * psv.ReliefPressureFactor;
             string tempdir = DirProtectedSystem + @"\temp\";
-            string dirLatent = tempdir + "TubeRupture";
-            if (!Directory.Exists(dirLatent))
-                Directory.CreateDirectory(dirLatent);
+            string dirLatent = tempdir + "TubeRupture1_"+ScenarioID.ToString();
+            if (Directory.Exists(dirLatent))
+                Directory.Delete(dirLatent,true);
+            Directory.CreateDirectory(dirLatent);
             string gd = Guid.NewGuid().ToString();
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
             int ImportResult = 0;
             int RunResult = 0;
+
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string[] files = Directory.GetFiles(tempdir, "*.inp");
             string sourceFile = files[0];
             string[] lines = System.IO.File.ReadAllLines(sourceFile);
-            string content = PROIIFileOperator.getUsableContent(csHigh.StreamName, lines);
+            string content = PROIIFileOperator.getUsableContent(strHighFeeds, lines);
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 5, "0", csHigh, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 5, "0", lstHighFeeds, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -168,8 +218,8 @@ namespace ReliefProMain.ViewModel.HXs
         private void Calc(int calcType)
         {
             double d = UnitConvert.Convert(model.ODUnit, "in", model.OD);
-            double p1 = csHigh.Pressure;
-            double p2 = reliefPressure;
+            double p1 =UnitConvert.Convert(UOMEnum.Pressure, "Mpa", csHigh.Pressure);
+            double p2 = UnitConvert.Convert(UOMEnum.Pressure, "Mpa",reliefPressure);
             double rmass = 0;
 
             bool b = false;
@@ -183,21 +233,25 @@ namespace ReliefProMain.ViewModel.HXs
                     model.ReliefMW = csLiquid.BulkMwOfPhase;
                     model.ReliefPressure = csLiquid.Pressure;
                     model.ReliefTemperature = csLiquid.Temperature;
+                    model.ReliefCpCv = csLiquid.BulkCPCVRatio;
+                    model.ReliefZ = csLiquid.VaporZFmKVal;
                     break;
                 case 1:
                     k = csVapor.BulkCPCVRatio;
                     rmass = csVapor.BulkDensityAct;
                     if (b)
                     {
-                        model.ReliefLoad = Algorithm.CalcWv(d, p1, rmass, k);
+                        model.ReliefLoad = Algorithm.CalcWv(d, p1, rmass, k); //临界流
                     }
                     else
                     {
-                        model.ReliefLoad = Algorithm.CalcWvSecond(d, p1, rmass, k);
+                        model.ReliefLoad = Algorithm.CalcWvSecond(d, p1, p2, rmass);//非临界流
                     }
                     model.ReliefMW = csVapor.BulkMwOfPhase;
                     model.ReliefPressure = reliefPressure;
                     model.ReliefTemperature = csVapor.Temperature;
+                    model.ReliefCpCv = csVapor.BulkCPCVRatio;
+                    model.ReliefZ = csVapor.VaporZFmKVal;
                     break;
                 case 2:
                     //再做一次闪蒸，求出
@@ -205,18 +259,19 @@ namespace ReliefProMain.ViewModel.HXs
                     {
                         string FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
                         string tempdir = DirProtectedSystem + @"\temp\";
-                        string dirLatent = tempdir + "TubeRupture2";
-                        if (!Directory.Exists(dirLatent))
-                            Directory.CreateDirectory(dirLatent);
+                        string dirLatent = tempdir + "TubeRupture2_"+ScenarioID.ToString();
+                        if (Directory.Exists(dirLatent))
+                            Directory.Delete(dirLatent, true);
+                        Directory.CreateDirectory(dirLatent);
                         string gd = Guid.NewGuid().ToString();
                         string vapor = "S_" + gd.Substring(0, 5).ToUpper();
                         string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
                         int ImportResult = 0;
                         int RunResult = 0;
                         PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
-                        string content = PROIIFileOperator.getUsableContent(csHigh.StreamName, tempdir);
+                        string content = PROIIFileOperator.getUsableContent(strHighFeeds, tempdir);
                         IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-                        string tray1_f = fcalc.Calculate(content, 1, pcf.ToString(), 5, "0", csHigh, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+                        string tray1_f = fcalc.Calculate(content, 1, pcf.ToString(), 5, "0", lstHighFeeds, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
                         if (ImportResult == 1 || ImportResult == 2)
                         {
                             if (RunResult == 1 || RunResult == 2)
@@ -230,13 +285,17 @@ namespace ReliefProMain.ViewModel.HXs
                                 CustomStream csVapor2 = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
                                 CustomStream csLiquid2 = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
 
+                                double tmpP2 = UnitConvert.Convert(UOMEnum.Pressure, "Mpa", csLiquid2.Pressure);
+
                                 double Rv = csVapor2.WeightFlow / csHigh.WeightFlow;
-                                double KL = Algorithm.CalcKL(p1, csLiquid2.Pressure, csLiquid2.BulkDensityAct);
+                                double KL = Algorithm.CalcKL(p1, tmpP2, csLiquid2.BulkDensityAct);
                                 double Kv = Algorithm.CalcKv(p1, csVapor2.BulkDensityAct, k);
                                 model.ReliefLoad = Algorithm.CalcWH(Rv, KL, Kv, d);
                                 model.ReliefMW = csVapor2.BulkMwOfPhase;
                                 model.ReliefPressure = reliefPressure;
                                 model.ReliefTemperature = csVapor2.Temperature;
+                                model.ReliefCpCv = csVapor2.BulkCPCVRatio;
+                                model.ReliefZ = csVapor2.VaporZFmKVal;
                             }
 
                             else
@@ -252,17 +311,23 @@ namespace ReliefProMain.ViewModel.HXs
                     }
                     else
                     {
+                        double tmpP21 = UnitConvert.Convert(UOMEnum.Pressure, "Mpa", csLiquid.Pressure);
+                        double tmpP22 = UnitConvert.Convert(UOMEnum.Pressure, "Mpa", csVapor.Pressure);
                         double Rv = csVapor.WeightFlow / csHigh.WeightFlow;
-                        double KL = Algorithm.CalcKL(p1, csLiquid.Pressure, csLiquid.BulkDensityAct);
-                        double Kv = Algorithm.CalcKv(p1, csVapor.Pressure, csVapor.BulkDensityAct);
-                        model.ReliefLoad = Algorithm.CalcWH(Rv, Kv, KL, d);
+                        double KL = Algorithm.CalcKL(p1, tmpP21, csLiquid.BulkDensityAct);
+                        double Kv = Algorithm.CalcKvSecond(p1,tmpP22, csVapor.BulkDensityAct);
+                        model.ReliefLoad = Algorithm.CalcWH(Rv, KL,Kv,  d);
                         model.ReliefMW = csVapor.BulkMwOfPhase;
                         model.ReliefPressure = reliefPressure;
                         model.ReliefTemperature = csVapor.Temperature;
+                        model.ReliefCpCv = csVapor.BulkCPCVRatio;
+                        model.ReliefZ = csVapor.VaporZFmKVal;
                     }
                     break;
 
             }
+            if (model.ReliefLoad < 0)
+                model.ReliefLoad = 0;
 
         }
 
@@ -276,7 +341,11 @@ namespace ReliefProMain.ViewModel.HXs
                 if (wd != null)
                 {
                     WriteConvert();
-                    dal.Update(model.dbmodel, SessionPS);
+                    model.dbmodel.ScenarioID = ScenarioID;
+                    if (model.dbmodel.ID == 0)
+                        dal.Add(model.dbmodel, SessionPS);
+                    else
+                        dal.Update(model.dbmodel, SessionPS);
                     SaveScenario(model.dbmodel);
                     SessionPS.Flush();
                     wd.DialogResult = true;
@@ -325,6 +394,65 @@ namespace ReliefProMain.ViewModel.HXs
             return b;
         }
 
+        private CustomStream MixFeed(int feedType, ref  List<string> strFeeds, ref List<CustomStream> mixFeeds)
+        {
+            string mixFeedType = "Tube";
+            string mixFeedNames = hx.TubeFeedStreams;
+           
+            if (feedType == 2)
+            {
+                mixFeedType = "Shell";
+                mixFeedNames = hx.ShellFeedStreams;
+            }
+            string dirMix = DirProtectedSystem + @"\mix_" + mixFeedType + ScenarioID.ToString();
+            string sbcontent = string.Empty;
+            string[] feeds = mixFeedNames.Split(',');
+            CustomStreamDAL csdal = new CustomStreamDAL();
+            foreach (string s in feeds)
+            {
+                CustomStream cs = csdal.GetModel(SessionPS, s);
+                mixFeeds.Add(cs);
+                strFeeds.Add(s);
+            }
+            string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
+            string[] sourceFiles = Directory.GetFiles(dir, "*.inp");
+            string sourceFile = sourceFiles[0];
+            string[] lines = System.IO.File.ReadAllLines(sourceFile);
+            sbcontent = PROIIFileOperator.getUsableContent(strFeeds, lines);
+            IMixCalculate mixcalc = ProIIFactory.CreateMixCalculate(SourceFileInfo.FileVersion);
+            string mixProductName = Guid.NewGuid().ToString().Substring(0, 6);
 
+            if (Directory.Exists(dirMix))
+                Directory.Delete(dirMix, true);
+            Directory.CreateDirectory(dirMix);
+            
+            int mixImportResult = 1;
+            int mixRunResult = 1;
+            string mixPrzFile = mixcalc.Calculate(sbcontent, mixFeeds, mixProductName, dirMix, ref mixImportResult, ref mixRunResult);
+
+            if (mixImportResult == 1 || mixImportResult == 2)
+            {
+                if (mixRunResult == 1 || mixRunResult == 2)
+                {
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    reader.InitProIIReader(mixPrzFile);
+                    ProIIStreamData proIIvapor = reader.GetSteamInfo(mixProductName);
+                    reader.ReleaseProIIReader();
+                    CustomStream mixCSProduct = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
+                    return mixCSProduct;
+                }
+                else
+                {
+                    MessageBox.Show("inp file is error", "Message Box");
+                    return null;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Prz file is error", "Message Box");
+                return null;
+            }
+
+        }
     }
 }

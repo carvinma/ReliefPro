@@ -257,8 +257,13 @@ namespace ReliefProMain.ViewModel
                     {
                         DrumBlockedOutletView v = new DrumBlockedOutletView();
                         v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                        DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
-                        v.DataContext = vm;
+                        DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem,0);
+                        if (vm.IsHasBlockedOutlet == 1)
+                        {
+                            MessageBox.Show("No blocked outlet,because no max source pressure is greater than set pressure.", "Message Box");
+                            return;
+                        }
+                        v.DataContext = vm;                       
                         if (v.ShowDialog() == true)
                         {
                             if (vm.CalcTuple != null)
@@ -388,11 +393,30 @@ namespace ReliefProMain.ViewModel
                                 SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                             }
                         }
+                        if (ScenarioName.Contains("Outlet"))
+                        {
+                            HXBlockedOutletView v = new HXBlockedOutletView();
+                            v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                            DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem,1);
+                            v.DataContext = vm;
+                            if (v.ShowDialog() == true)
+                            {
+                                if (vm.CalcTuple != null)
+                                {
+                                    SelectedScenario.ReliefLoad = vm.CalcTuple.Item1;
+                                    SelectedScenario.ReliefPressure = vm.CalcTuple.Item4;
+                                    SelectedScenario.ReliefTemperature = vm.CalcTuple.Item3;
+                                    SelectedScenario.ReliefMW = vm.CalcTuple.Item2;
+                                }
+                            }
+
+                        }
                         if (ScenarioName.Contains("TubeRupture"))
                         {
                             CustomStreamDAL csdal = new CustomStreamDAL();
-                            IList<CustomStream> list = csdal.GetAllList(SessionProtectedSystem);
-                            if (list.Count == 4)
+                            IList<CustomStream> list = csdal.GetAllList(SessionProtectedSystem,true);
+                            
+                            if (list.Count == 2)
                             {
                                 TubeRuptureView v = new TubeRuptureView();
                                 TubeRuptureVM vm = new TubeRuptureVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
@@ -1176,6 +1200,7 @@ namespace ReliefProMain.ViewModel
                 if (hx.HXType == "Shell-Tube")
                 {
                     list.Add("Blocked In");
+                    list.Add("Blocked Outlet");
                     list.Add("Tube Rupture");
                 }
 

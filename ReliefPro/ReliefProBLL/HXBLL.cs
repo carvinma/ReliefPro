@@ -100,8 +100,7 @@ namespace ReliefProBLL
                 model = new HXFireSize();
                 model.PipingContingency = 10;
                 model.ExposedToFire = "Shell";
-                model.Type = "Fixed";
-                
+                model.Type = "Fixed";                
                 model.Elevation_Color = ColorBorder.green.ToString();
                 model.ExposedToFire_Color = ColorBorder.green.ToString();
                 model.Length_Color = ColorBorder.green.ToString();
