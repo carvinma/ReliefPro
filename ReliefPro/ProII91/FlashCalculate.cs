@@ -222,7 +222,7 @@ namespace ProII91
             }
 
             sb.Append(arrfileContent[1]).Append(flashData);
-            string onlyFileName = dir + @"\" + Guid.NewGuid().ToString().Substring(0, 5);
+            string onlyFileName = dir + @"\a";
             string inpFile = onlyFileName + ".inp";
             File.WriteAllText(inpFile, sb.ToString());
             CP2ServerClass cp2Srv = new CP2ServerClass();

@@ -630,7 +630,7 @@ namespace ReliefProMain.ViewModel
             string FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
             double reliefFirePressure = pressure * psv.ReliefPressureFactor;
             string tempdir = DirProtectedSystem + @"\temp\";
-            string dirLatent = tempdir + ScenarioName;
+            string dirLatent = tempdir + ScenarioName + ScenarioID.ToString() ;
             if (Directory.Exists(dirLatent))
             {
                 Directory.Delete(dirLatent,true);

@@ -280,7 +280,7 @@ namespace ReliefProMain.ViewModel
             tempdir = dirProtectedSystem + @"\temp\";
             dbinlet = new InletValveOpenDAL();
             //读取当前入口阀全开的信息
-            model = dbinlet.GetModel(SessionProtectedSystem);
+            model = dbinlet.GetModel(SessionProtectedSystem,ScenarioID);
             if (model == null)
             {
                
@@ -545,7 +545,7 @@ namespace ReliefProMain.ViewModel
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             string rMass = string.Empty;
 
-            string dirInletValveOpen = tempdir + "InletValveOpen";
+            string dirInletValveOpen = tempdir + "InletValveOpen_LiquidMethod" + ScenarioID.ToString(); ;
             if (Directory.Exists(dirInletValveOpen))
             {
                 Directory.Delete(dirInletValveOpen, true);
@@ -610,7 +610,7 @@ namespace ReliefProMain.ViewModel
 
         private void VaporBreakthrough(ref double VBReliefLoad, ref double VBReliefMW, ref double VBReliefTemperature)
         {
-            string dirInletValveOpen = tempdir + "InletValveOpen";
+            string dirInletValveOpen = tempdir + "InletValveOpen_VaporMethod"+ScenarioID.ToString();
             if (Directory.Exists(dirInletValveOpen))
             {
                 Directory.Delete(dirInletValveOpen, true);

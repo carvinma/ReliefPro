@@ -24,14 +24,14 @@ namespace ReliefProDAL
             }
             return list;
         }
-        public InletValveOpen GetModel(ISession session)
+        public InletValveOpen GetModel(ISession session,int ScenarioID)
         {
             InletValveOpen model = null;
             IList<InletValveOpen> list = null;
             try
             {
                 session.Clear();
-                list = session.CreateCriteria<InletValveOpen>().List<InletValveOpen>();
+                list = session.CreateCriteria<InletValveOpen>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<InletValveOpen>();
                 if (list.Count > 0)
                 {
                     model = list[0];

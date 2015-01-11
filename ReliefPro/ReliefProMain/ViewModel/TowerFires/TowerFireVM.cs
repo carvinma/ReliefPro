@@ -437,7 +437,7 @@ namespace ReliefProMain.ViewModel.TowerFires
 
             double reliefFirePressure = pressure * 1.21;
             string tempdir = DirProtectedSystem + @"\temp\";
-            string dirLatent = tempdir + "TowerFire";
+            string dirLatent = tempdir + "TowerFire"+ScenarioID.ToString();
             if (Directory.Exists(dirLatent))
             {
                 Directory.Delete(dirLatent,true);
