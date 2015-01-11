@@ -374,10 +374,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             SplashScreenManager.Show(10);
             SplashScreenManager.SentMsgToScreen("Simulation Init...... 10%");
             StringBuilder sb = new StringBuilder();
-            if (!Directory.Exists(caseDir))
+            if (Directory.Exists(caseDir))
             {
-                Directory.CreateDirectory(caseDir);
+                Directory.Delete(caseDir,true);
             }
+            Directory.CreateDirectory(caseDir);
             InitSimulation();
             SplashScreenManager.SentMsgToScreen("Simulation ...... 20%");
 

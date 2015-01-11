@@ -724,8 +724,11 @@ namespace ReliefProMain.ViewModel.Drums
                 {
                     string tempdir = DirProtectedSystem + @"\temp\";
                     string dirLatent = tempdir + "StorageTankFire";
-                    if (!Directory.Exists(dirLatent))
-                        Directory.CreateDirectory(dirLatent);
+                    if (Directory.Exists(dirLatent))
+                    {
+                        Directory.Delete(dirLatent, true);
+                    }
+                    Directory.CreateDirectory(dirLatent);
                     CustomStreamDAL customStreamDAL = new CustomStreamDAL();
                     IList<CustomStream> list = customStreamDAL.GetAllList(SessionProtectedSystem);
                     CustomStream stream = list[0];
@@ -1064,8 +1067,11 @@ namespace ReliefProMain.ViewModel.Drums
                     {
                         string tempdir = DirProtectedSystem + @"\temp\";
                         string dirLatent = tempdir + "Fire2_"+ScenarioID.ToString();
-                        if (!Directory.Exists(dirLatent))
-                            Directory.CreateDirectory(dirLatent);
+                        if (Directory.Exists(dirLatent))
+                        {
+                            Directory.Delete(dirLatent, true);
+                        }
+                        Directory.CreateDirectory(dirLatent);
 
                         string gd = Guid.NewGuid().ToString();
                         string vapor = "S_" + gd.Substring(0, 5).ToUpper();
@@ -1205,8 +1211,11 @@ namespace ReliefProMain.ViewModel.Drums
         {
             string tempdir = DirProtectedSystem + @"\temp\";
             string dirLatent = tempdir + "Fire1_" + ScenarioID.ToString();
-            if (!Directory.Exists(dirLatent))
-                Directory.CreateDirectory(dirLatent);
+            if (Directory.Exists(dirLatent))
+            {
+                Directory.Delete(dirLatent, true);
+            }
+            Directory.CreateDirectory(dirLatent);
             string gd = Guid.NewGuid().ToString();
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
@@ -1254,8 +1263,11 @@ namespace ReliefProMain.ViewModel.Drums
         {
             string tempdir = DirProtectedSystem + @"\temp\";
             string dirLatent = tempdir + "Fire1_"+ScenarioID.ToString();
-            if (!Directory.Exists(dirLatent))
-                Directory.CreateDirectory(dirLatent);
+            if (Directory.Exists(dirLatent))
+            {
+                Directory.Delete(dirLatent, true);
+            }
+            Directory.CreateDirectory(dirLatent);
             string gd = Guid.NewGuid().ToString();
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
@@ -1351,7 +1363,7 @@ namespace ReliefProMain.ViewModel.Drums
                         liquidProductNames.Add(waterCS.StreamName);
                     }
                     SplashScreenManager.SentMsgToScreen("Get product info of drum ......  60%");
-                    int resultFireCriticalPressure = CalcFireCriticalPressure(liquidProducts);
+                    int resultFireCriticalPressure = CalcFireCriticalPressure(liquidProductNames);
                     SplashScreenManager.SentMsgToScreen("Get product info of drum ......  80%");
                     if (resultFireCriticalPressure == 1)
                     {
@@ -1427,7 +1439,7 @@ namespace ReliefProMain.ViewModel.Drums
                         liquidProducts = lstFeeds;
                     }
                     SplashScreenManager.SentMsgToScreen("Get product info   ......  60%");
-                    int resultFireCriticalPressure = CalcFireCriticalPressure(liquidProducts);
+                    int resultFireCriticalPressure = CalcFireCriticalPressure(liquidProductNames);
                     SplashScreenManager.SentMsgToScreen("Get product info   ......  80%");
                     if (resultFireCriticalPressure == 1)
                     {
@@ -1617,30 +1629,37 @@ namespace ReliefProMain.ViewModel.Drums
 
         }
 
-        private int CalcFireCriticalPressure(List<CustomStream> arrFeeds)
+        private int CalcFireCriticalPressure(List<string> lstFeeds)
         {
             int result = 0;
-            if (arrFeeds.Count == 0)
+            if (lstFeeds.Count == 0)
             {
                 result= 2;
             }
             else
             {
+                List<CustomStream> csFeeds = new List<CustomStream>();
+                CustomStreamDAL csdal = new CustomStreamDAL();
+                foreach (string s in lstFeeds)
+                {
+                    CustomStream cs = csdal.GetModel(SessionProtectedSystem, s);
+                    csFeeds.Add(cs);
+                }
                 string tempdir = DirProtectedSystem + @"\temp\";
                 string dirPhase = tempdir + "Fire" + ScenarioID.ToString() + "_Phase";
                 if (Directory.Exists(dirPhase))
                     Directory.Delete(dirPhase,true);
                 Directory.CreateDirectory(dirPhase);
-                CustomStream stream = arrFeeds[0];
+                CustomStream stream = csFeeds[0];
                 string[] streamComps = stream.TotalComposition.Split(',');
                 int len = streamComps.Length;
                 double[] streamCompValues = new double[len];
                 double sumTotalMolarRate = 0;
-                foreach (CustomStream cs in arrFeeds)
+                foreach (CustomStream cs in csFeeds)
                 {
                     sumTotalMolarRate = sumTotalMolarRate + cs.TotalMolarRate;
                 }
-                foreach (CustomStream cs in arrFeeds)
+                foreach (CustomStream cs in csFeeds)
                 {
                     string[] comps = cs.TotalComposition.Split(',');
                     for (int i = 0; i < len; i++)

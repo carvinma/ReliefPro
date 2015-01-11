@@ -398,6 +398,11 @@ namespace ReliefProMain.ViewModel
                             HXBlockedOutletView v = new HXBlockedOutletView();
                             v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
                             DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem,1);
+                            if (vm.IsHasBlockedOutlet == 1)
+                            {
+                                MessageBox.Show("No blocked outlet,because no max source pressure is greater than set pressure.", "Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
+                                return;
+                            }
                             v.DataContext = vm;
                             if (v.ShowDialog() == true)
                             {

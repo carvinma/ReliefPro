@@ -103,10 +103,11 @@ namespace ReliefProMain.ViewModel.Drums
                 IMixCalculate mixcalc = ProIIFactory.CreateMixCalculate(SourceFileInfo.FileVersion);
                 outletModel.MixProductName = Guid.NewGuid().ToString().Substring(0, 6);
                 
-                if (!Directory.Exists(dirMix))
+                if (Directory.Exists(dirMix))
                 {
-                    Directory.CreateDirectory(dirMix);
+                    Directory.Delete(dirMix, true);
                 }
+                Directory.CreateDirectory(dirMix);
                 int mixImportResult = 1;
                 int mixRunResult = 1;
                 mixPrzFile = mixcalc.Calculate(sbcontent, mixFeeds, outletModel.MixProductName, dirMix, ref mixImportResult, ref mixRunResult);
@@ -196,10 +197,11 @@ namespace ReliefProMain.ViewModel.Drums
                 string vapor = "V_" + Guid.NewGuid().ToString().Substring(0, 6);
                 string liquid = "L_" + Guid.NewGuid().ToString().Substring(0, 6);
                 string tempdir = DirProtectedSystem + @"\BlockedOutlet"+ScenarioID.ToString();
-                if (!Directory.Exists(tempdir))
+                if (Directory.Exists(tempdir))
                 {
-                    Directory.CreateDirectory(tempdir);
+                    Directory.Delete(tempdir,true);
                 }
+                Directory.CreateDirectory(tempdir);
                 string duty = "0";
                 double feedupPress = model.MaxPressure;
                 double setPress = drum.PSet(SessionPS);

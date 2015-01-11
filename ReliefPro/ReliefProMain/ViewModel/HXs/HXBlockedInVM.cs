@@ -36,6 +36,7 @@ namespace ReliefProMain.ViewModel.HXs
         CustomStream normalHotInlet = null;
         CustomStream normalColdInlet = new CustomStream();//单个
         List<CustomStream> normalColdInletList = new List<CustomStream>();
+        List<string> lstFeed = new List<string>();
         CustomStream normalColdOutlet = new CustomStream();
         CustomStream normalHotOutlet = new CustomStream();
         PSVDAL psvDAL ;
@@ -99,7 +100,7 @@ namespace ReliefProMain.ViewModel.HXs
                 string tempdir = DirProtectedSystem + @"\temp\";
                 string dirMix = tempdir + "BlockedInlet_Mix";
                 if (Directory.Exists(dirMix))
-                    Directory.Delete(dirMix);
+                    Directory.Delete(dirMix,true);
                 Directory.CreateDirectory(dirMix);
 
                 string[] coldfeeds = heathx.ColdInlet.Split(',');
@@ -108,7 +109,7 @@ namespace ReliefProMain.ViewModel.HXs
                     CustomStream cs=csdal.GetModel(SessionPS,s);
                     normalColdInletList.Add(cs);
                 }
-
+                lstFeed = coldfeeds.ToList();
 
                 string sbcontent = string.Empty;
                 string[] files = Directory.GetFiles(tempdir, "*.inp");
@@ -137,6 +138,7 @@ namespace ReliefProMain.ViewModel.HXs
             {
                 normalColdInlet = csdal.GetModel(SessionPS, heathx.ColdInlet);
                 normalColdInletList.Add(normalColdInlet);
+                lstFeed.Add(heathx.ColdInlet);
 
             }
             normalColdOutlet = csdal.GetModel(SessionPS, heathx.ColdOutlet);
@@ -203,7 +205,7 @@ namespace ReliefProMain.ViewModel.HXs
                 }
                 else
                 {
-                    int citicalResult = CalcBlockedInCriticalPressure(normalColdInletList);
+                    int citicalResult = CalcBlockedInCriticalPressure(lstFeed);
 
                     if (citicalResult == 2) //no critical point
                     {
@@ -410,7 +412,8 @@ namespace ReliefProMain.ViewModel.HXs
                     else
                     {
                         model.ReliefLoad = 0;
-                        MessageBox.Show("Flash Calculation failed", "Message Box");
+                        model.ReliefPressure = reliefPressure;
+                        MessageBox.Show("No blockedIn", "Message Box");
                     }
 
                 }
@@ -561,30 +564,39 @@ namespace ReliefProMain.ViewModel.HXs
         }
 
 
-        private int CalcBlockedInCriticalPressure(List<CustomStream> arrFeeds)
+        private int CalcBlockedInCriticalPressure(List<string> lstFeeds)
         {
             int result = 0;
-            if (arrFeeds.Count == 0)
+            if (lstFeeds.Count == 0)
             {
                 result = 2;
             }
             else
             {
+                List<CustomStream> csFeeds = new List<CustomStream>();
+                CustomStreamDAL csdal = new CustomStreamDAL();
+                foreach (string s in lstFeeds)
+                {
+                    CustomStream cs = csdal.GetModel(SessionPS, s);
+                    csFeeds.Add(cs);
+                }
+
                 string tempdir = DirProtectedSystem + @"\temp\";
                 string dirPhase = tempdir + "Fire" + ScenarioID.ToString() + "_Phase";
                 if (Directory.Exists(dirPhase))
                     Directory.Delete(dirPhase, true);
                 Directory.CreateDirectory(dirPhase);
-                CustomStream stream = arrFeeds[0];
+                CustomStream stream = new CustomStream();
+                stream = csFeeds[0];
                 string[] streamComps = stream.TotalComposition.Split(',');
                 int len = streamComps.Length;
                 double[] streamCompValues = new double[len];
                 double sumTotalMolarRate = 0;
-                foreach (CustomStream cs in arrFeeds)
+                foreach (CustomStream cs in csFeeds)
                 {
                     sumTotalMolarRate = sumTotalMolarRate + cs.TotalMolarRate;
                 }
-                foreach (CustomStream cs in arrFeeds)
+                foreach (CustomStream cs in csFeeds)
                 {
                     string[] comps = cs.TotalComposition.Split(',');
                     for (int i = 0; i < len; i++)
@@ -597,6 +609,7 @@ namespace ReliefProMain.ViewModel.HXs
                 {
                     sumComposition.Append(",").Append(comp.ToString());
                 }
+               
                 stream.TotalComposition = sumComposition.ToString().Substring(1);
                 double internPressure = UnitConvert.Convert("MPAG", "KPA", stream.Pressure);
 

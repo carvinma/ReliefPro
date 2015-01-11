@@ -94,10 +94,11 @@ namespace ReliefProMain.View
                 }
                 FileNameNoExt = System.IO.Path.GetFileNameWithoutExtension(selectedFile);
                 string dir = dirInfo + @"\" + FileNameNoExt;
-                if (!Directory.Exists(dir))
+                if (Directory.Exists(dir))
                 {
-                    Directory.CreateDirectory(dir);
+                    Directory.Delete(dir,true);
                 }
+                Directory.CreateDirectory(dir);
                 curprzFile = dir+ @"\" + selectedFileName;
                 System.IO.File.Copy(selectedFile, curprzFile, true);
                 if (System.IO.File.Exists(dbPlantFile) == true)

@@ -122,8 +122,11 @@ namespace ReliefProMain.ViewModel.HXs
                     double reliefFirePressure = pressure * 1.21;
                     string tempdir = DirProtectedSystem + @"\temp\";
                     string dirLatent = tempdir + "Fire2";
-                    if (!Directory.Exists(dirLatent))
-                        Directory.CreateDirectory(dirLatent);
+                    if (Directory.Exists(dirLatent))
+                    {
+                        Directory.Delete(dirLatent, true);
+                    }
+                    Directory.CreateDirectory(dirLatent);
 
                     string gd = Guid.NewGuid().ToString();
                     string vapor = "S_" + gd.Substring(0, 5).ToUpper();
@@ -191,7 +194,10 @@ namespace ReliefProMain.ViewModel.HXs
         {
             string tempdir = DirProtectedSystem + @"\temp\";
             string dirLatent = tempdir + "Fire1";
-            if (!Directory.Exists(dirLatent))
+            if (Directory.Exists(dirLatent))
+            {
+                Directory.Delete(dirLatent, true);
+            }
                 Directory.CreateDirectory(dirLatent);
             string gd = Guid.NewGuid().ToString();
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
@@ -234,7 +240,10 @@ namespace ReliefProMain.ViewModel.HXs
         {
             string tempdir = DirProtectedSystem + @"\temp\";
             string dirLatent = tempdir + "Fire1";
-            if (!Directory.Exists(dirLatent))
+            if (Directory.Exists(dirLatent))
+            {
+                Directory.Delete(dirLatent, true);
+            }
                 Directory.CreateDirectory(dirLatent);
             string gd = Guid.NewGuid().ToString();
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();

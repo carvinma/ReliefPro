@@ -353,7 +353,7 @@ namespace ReliefProMain.ViewModel
                     dbpsv.Add(CurrentModel.dbmodel, SessionProtectedSystem);
                     SplashScreenManager.SentMsgToScreen("Calculation finished");
                 }
-                else if (psv.ReliefPressureFactor == CurrentModel.ReliefPressureFactor && psv.Pressure == CurrentModel.Pressure)
+                else if (psv.ReliefPressureFactor == CurrentModel.ReliefPressureFactor && psv.Pressure == CurrentModel.Pressure && psv.LocationDescription==CurrentModel.LocationDescription)
                 {
                     SplashScreenManager.Show();
                     SplashScreenManager.SentMsgToScreen("Converting Unit");
@@ -464,18 +464,30 @@ namespace ReliefProMain.ViewModel
             //判断压力是否更改，relief pressure 是否更改。  （drum的是否修改，会影响到火灾的计算）
             string FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
             string tempdir = DirProtectedSystem + @"\temp\";
-            if (!Directory.Exists(tempdir))
-                Directory.CreateDirectory(tempdir);
+            if (Directory.Exists(tempdir))
+            {
+                Directory.Delete(tempdir, true);
+            }
+            Directory.CreateDirectory(tempdir);
 
             string dirPhase = tempdir + "Phase";
-            if (!Directory.Exists(dirPhase))
-                Directory.CreateDirectory(dirPhase);
+            if (Directory.Exists(dirPhase))
+            {
+                Directory.Delete(dirPhase, true);
+            }
+            Directory.CreateDirectory(dirPhase);
             string dirLatent = tempdir + "Latent";
-            if (!Directory.Exists(dirLatent))
-                Directory.CreateDirectory(dirLatent);
+            if (Directory.Exists(dirLatent))
+            {
+                Directory.Delete(dirLatent, true);
+            }
+            Directory.CreateDirectory(dirLatent);
             string dirCopyStream = tempdir + "CopyStream";
-            if (!Directory.Exists(dirCopyStream))
-                Directory.CreateDirectory(dirCopyStream);
+            if (Directory.Exists(dirCopyStream))
+            {
+                Directory.Delete(dirCopyStream, true);
+            }
+            Directory.CreateDirectory(dirCopyStream);
 
             string copyFile = dirCopyStream + @"\" + SourceFileInfo.FileName;
             File.Copy(FileFullPath, copyFile, true);
@@ -491,7 +503,7 @@ namespace ReliefProMain.ViewModel
             string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
             double ReliefPressure = CurrentModel.ReliefPressureFactor * CurrentModel.Pressure;
 
-            
+
             bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase);
             if (b == false)
                 return;
@@ -546,8 +558,11 @@ namespace ReliefProMain.ViewModel
 
 
                     string dirflash = tempdir + p.StreamName;
-                    if (!Directory.Exists(dirflash))
-                        Directory.CreateDirectory(dirflash);
+                    if (Directory.Exists(dirflash))
+                    {
+                        Directory.Delete(dirflash, true);
+                    }
+                    Directory.CreateDirectory(dirflash);
                     double prodpressure = 0;
 
                     prodpressure = p.Pressure;
@@ -588,23 +603,6 @@ namespace ReliefProMain.ViewModel
 
                             //if (r == MessageBoxResult.Yes)
                             //{
-                                FlashResult fr = new FlashResult();
-                                fr.LiquidName = liquid;
-                                fr.VaporName = vapor;
-                                fr.StreamName = streamname;
-                                fr.PrzFile = f;
-                                fr.Tray = tray;
-                                fr.ProdType = prodtype;
-                                listFlashResult.Add(fr);
-                            //}
-                           // return;
-                        }
-                    }
-                    else
-                    {
-                        //MessageBoxResult r = MessageBox.Show("inp file is error", "Message Box", MessageBoxButton.OKCancel);
-                        //if (r == MessageBoxResult.Yes)
-                        //{
                             FlashResult fr = new FlashResult();
                             fr.LiquidName = liquid;
                             fr.VaporName = vapor;
@@ -613,6 +611,23 @@ namespace ReliefProMain.ViewModel
                             fr.Tray = tray;
                             fr.ProdType = prodtype;
                             listFlashResult.Add(fr);
+                            //}
+                            // return;
+                        }
+                    }
+                    else
+                    {
+                        //MessageBoxResult r = MessageBox.Show("inp file is error", "Message Box", MessageBoxButton.OKCancel);
+                        //if (r == MessageBoxResult.Yes)
+                        //{
+                        FlashResult fr = new FlashResult();
+                        fr.LiquidName = liquid;
+                        fr.VaporName = vapor;
+                        fr.StreamName = streamname;
+                        fr.PrzFile = f;
+                        fr.Tray = tray;
+                        fr.ProdType = prodtype;
+                        listFlashResult.Add(fr);
                         //}
                         //return;
                     }
@@ -633,10 +648,10 @@ namespace ReliefProMain.ViewModel
                     cs = dbstream.GetModel(SessionProtectedSystem, fr.StreamName);
                 }
                 else
-                {                   
+                {
                     IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(fr.PrzFile);
-                    
+
                     if (prodtype == "4" || (prodtype == "2" && tray == 1) || prodtype == "3" || prodtype == "6")
                     {
                         ProIIStreamData data = reader.GetSteamInfo(fr.VaporName);
@@ -650,7 +665,7 @@ namespace ReliefProMain.ViewModel
                     }
                     reader.ReleaseProIIReader();
                 }
-                
+
                 product.SpEnthalpy = cs.SpEnthalpy;
                 product.StreamName = fr.StreamName;
                 product.WeightFlow = cs.WeightFlow;
@@ -690,11 +705,17 @@ namespace ReliefProMain.ViewModel
             //判断压力是否更改，relief pressure 是否更改。  （drum的是否修改，会影响到火灾的计算）
             string FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
             string tempdir = DirProtectedSystem + @"\temp\";
-            if (!Directory.Exists(tempdir))
+            if (Directory.Exists(tempdir))
+            {
+                Directory.Delete(tempdir, true);
+            }
                 Directory.CreateDirectory(tempdir);
 
             string dirPhase = tempdir + "Phase";
-            if (!Directory.Exists(dirPhase))
+            if (Directory.Exists(dirPhase))
+            {
+                Directory.Delete(dirPhase, true);
+            }
                 Directory.CreateDirectory(dirPhase);
 
             List<CustomStream> arrFeeds = new List<CustomStream>();
@@ -707,12 +728,24 @@ namespace ReliefProMain.ViewModel
             {
                 HeatExchangerDAL hxdal = new HeatExchangerDAL();
                 HeatExchanger hx = hxdal.GetModel(SessionProtectedSystem);
-                string[] coldefeeds = hx.ColdInlet.Split(',');
-                foreach(string cold in coldefeeds)
+                if (CurrentModel.LocationDescription == "Shell")
                 {
-                    CustomStream cs = csdal.GetModel(SessionProtectedSystem, cold);
-                    arrFeeds.Add(cs);
-                }                
+                    string[] feeds = hx.ShellFeedStreams.Split(',');
+                    foreach (string cold in feeds)
+                    {
+                        CustomStream cs = csdal.GetModel(SessionProtectedSystem, cold);
+                        arrFeeds.Add(cs);
+                    }
+                }
+                else
+                {
+                    string[] feeds = hx.TubeFeedStreams.Split(',');
+                    foreach (string cold in feeds)
+                    {
+                        CustomStream cs = csdal.GetModel(SessionProtectedSystem, cold);
+                        arrFeeds.Add(cs);
+                    }
+                }
 
             }          
             else
@@ -727,8 +760,7 @@ namespace ReliefProMain.ViewModel
                 {
                     IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(FileFullPath);
-                    double[] compInData = reader.GetCompInInfo(streamComps[0]);
-                   
+                    double[] compInData = reader.GetCompInInfo(streamComps[0]);                   
                     reader.ReleaseProIIReader();
 
                     criticalPressure = UnitConvert.Convert("KPA", CurrentModel.CriticalPressureUnit, compInData[0]);

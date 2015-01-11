@@ -631,7 +631,10 @@ namespace ReliefProMain.ViewModel
             double reliefFirePressure = pressure * psv.ReliefPressureFactor;
             string tempdir = DirProtectedSystem + @"\temp\";
             string dirLatent = tempdir + ScenarioName;
-            if (!Directory.Exists(dirLatent))
+            if (Directory.Exists(dirLatent))
+            {
+                Directory.Delete(dirLatent,true);
+            }
                 Directory.CreateDirectory(dirLatent);
 
             IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);

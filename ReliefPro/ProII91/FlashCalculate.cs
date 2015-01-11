@@ -28,7 +28,7 @@ namespace ProII91
         /// <returns></returns>
         public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string vapor, string liquid, string dir, ref int ImportResult, ref int RunResult)
         {
-            string streamData = getStreamData(iFirst, firstValue, iSecond, secondValue, stream);
+            string streamData = getStreamData(stream);
             string flashData = getFlashData(iFirst, firstValue, iSecond, secondValue, stream, vapor, liquid);
             StringBuilder sb = new StringBuilder();
             string[] arrfileContent = fileContent.Split(new string[] { "STREAM DATA" }, StringSplitOptions.None);
@@ -51,7 +51,7 @@ namespace ProII91
 
             return przFile;
         }
-        private string getStreamData(int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream)
+        private string getStreamData( CustomStream stream)
         {
             StringBuilder data1 = new StringBuilder();
             string streamName = stream.StreamName;
@@ -217,7 +217,7 @@ namespace ProII91
             sb.Append(arrfileContent[0]).Append("\nSTREAM DATA\n");
             foreach(CustomStream stream in streams)
             {
-                string streamData = getStreamData(iFirst, firstValue, iSecond, secondValue, stream);
+                string streamData = getStreamData(stream);
                 sb.Append(streamData).Append("\n");;
             }
 

@@ -546,7 +546,10 @@ namespace ReliefProMain.ViewModel
             string rMass = string.Empty;
 
             string dirInletValveOpen = tempdir + "InletValveOpen";
-            if (!Directory.Exists(dirInletValveOpen))
+            if (Directory.Exists(dirInletValveOpen))
+            {
+                Directory.Delete(dirInletValveOpen, true);
+            }
                 Directory.CreateDirectory(dirInletValveOpen);
 
             string vapor = Guid.NewGuid().ToString().Substring(0, 6);
@@ -608,7 +611,10 @@ namespace ReliefProMain.ViewModel
         private void VaporBreakthrough(ref double VBReliefLoad, ref double VBReliefMW, ref double VBReliefTemperature)
         {
             string dirInletValveOpen = tempdir + "InletValveOpen";
-            if (!Directory.Exists(dirInletValveOpen))
+            if (Directory.Exists(dirInletValveOpen))
+            {
+                Directory.Delete(dirInletValveOpen, true);
+            }
                 Directory.CreateDirectory(dirInletValveOpen);
             //double reliefLoad = Darcy(rMass, CV, MaxOperatingPressure, ReliefPressure);
 

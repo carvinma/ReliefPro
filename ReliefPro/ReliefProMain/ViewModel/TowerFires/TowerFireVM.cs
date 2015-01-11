@@ -438,8 +438,11 @@ namespace ReliefProMain.ViewModel.TowerFires
             double reliefFirePressure = pressure * 1.21;
             string tempdir = DirProtectedSystem + @"\temp\";
             string dirLatent = tempdir + "TowerFire";
-            if (!Directory.Exists(dirLatent))
-                Directory.CreateDirectory(dirLatent);
+            if (Directory.Exists(dirLatent))
+            {
+                Directory.Delete(dirLatent,true);
+            }
+            Directory.CreateDirectory(dirLatent);
 
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
@@ -505,7 +508,10 @@ namespace ReliefProMain.ViewModel.TowerFires
                 double reliefFirePressure = pressure * 1.21;
                 string tempdir = DirProtectedSystem + @"\temp\";
                 string dirLatent = tempdir + "TowerFire";
-                if (!Directory.Exists(dirLatent))
+                if (Directory.Exists(dirLatent))
+                {
+                    Directory.Delete(dirLatent,true);
+                }
                     Directory.CreateDirectory(dirLatent);
 
                 SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
@@ -574,7 +580,10 @@ namespace ReliefProMain.ViewModel.TowerFires
                 double reliefFirePressure = pressure * 1.21;
                 string tempdir = DirProtectedSystem + @"\temp\";
                 string dirLatent = tempdir + "TowerFire";
-                if (!Directory.Exists(dirLatent))
+                if (Directory.Exists(dirLatent))
+                {
+                    Directory.Delete(dirLatent, true);
+                }
                     Directory.CreateDirectory(dirLatent);
                 CustomStreamDAL csdal = new CustomStreamDAL();
                 IList<CustomStream> list = csdal.GetAllList(SessionProtectedSystem, false);

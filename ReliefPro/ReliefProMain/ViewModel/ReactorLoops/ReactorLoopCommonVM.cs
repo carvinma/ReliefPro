@@ -374,10 +374,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
             SplashScreenManager.SentMsgToScreen("Simulation ......60%");
             //保存inpdata 到文件。
-            if (!Directory.Exists(caseDir))
+            if (Directory.Exists(caseDir))
             {
-                Directory.CreateDirectory(caseDir);
+                Directory.Delete(caseDir,true);
             }
+            Directory.CreateDirectory(caseDir);
             File.Create(caseInpFile).Close();
             File.WriteAllText(caseInpFile, sb.ToString());
             SplashScreenManager.SentMsgToScreen("Simulation ......70%");
@@ -467,10 +468,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
             SplashScreenManager.SentMsgToScreen("Simulation ......60%");
             //保存inpdata 到文件。
-            if (!Directory.Exists(caseDir))
+            if (Directory.Exists(caseDir))
             {
-                Directory.CreateDirectory(caseDir);
+                Directory.Delete(caseDir,true);
             }
+            Directory.CreateDirectory(caseDir);
             File.Create(caseInpFile).Close();
             File.WriteAllText(caseInpFile, sb.ToString());
             SplashScreenManager.SentMsgToScreen("Simulation ......70%");

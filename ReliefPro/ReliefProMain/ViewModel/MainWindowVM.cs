@@ -111,10 +111,16 @@ namespace ReliefProMain.ViewModel
             version = ConfigurationManager.AppSettings["version"];
             defaultReliefProDir = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\" + version;
             if (!Directory.Exists(defaultReliefProDir))
-                Directory.CreateDirectory(defaultReliefProDir);
+            {
+                Directory.CreateDirectory(defaultReliefProDir);  //这是我的文档里的工作文件夹。[不需要删除]
+            }
+                
             tempReliefProWorkDir = System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\" + version;
             if (!Directory.Exists(tempReliefProWorkDir))
-                Directory.CreateDirectory(tempReliefProWorkDir);
+            {
+                Directory.CreateDirectory(tempReliefProWorkDir);//这是appdata里工作目录文件夹
+            }
+                
 
         }
 

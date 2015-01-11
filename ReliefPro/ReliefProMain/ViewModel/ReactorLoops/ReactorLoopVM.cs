@@ -898,10 +898,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             string sourcePrzFile = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
 
             string newInpDir = DirProtectedSystem + @"\myrp";
-            if (!Directory.Exists(newInpDir))
+            if (Directory.Exists(newInpDir))
             {
-                Directory.CreateDirectory(newInpDir);
+                Directory.Delete(newInpDir,true);
             }
+            Directory.CreateDirectory(newInpDir);
             if (System.IO.File.Exists(newInpFile))
                 File.Delete(newInpFile);
             File.Create(newInpFile).Close();
@@ -2151,15 +2152,17 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             double temperature = 0;
             string sourceDir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
             string tempdir = DirProtectedSystem + @"\temp\";
-            if (!Directory.Exists(tempdir))
+            if (Directory.Exists(tempdir))
             {
-                Directory.CreateDirectory(tempdir);
+                Directory.Delete(tempdir,true);
             }
+            Directory.CreateDirectory(tempdir);
             string dirMix = tempdir + "Mix";
-            if (!Directory.Exists(dirMix))
+            if (Directory.Exists(dirMix))
             {
-                Directory.CreateDirectory(dirMix);
+                Directory.Delete(dirMix, true);
             }
+            Directory.CreateDirectory(dirMix);
             StringBuilder sb = new StringBuilder();
             string content= PROIIFileOperator.getUsableContent(feedList, sourceDir);
 

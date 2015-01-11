@@ -188,6 +188,7 @@
     <Compile Include="AutoFacManger.cs" />
     <Compile Include="Commands\CommandReference.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Common\CriticalInfo.cs" />
     <Compile Include="CustomControl\CustomComboBox.cs" />
     <Compile Include="CustomControl\GVColumnHeader.cs" />
     <Compile Include="CustomControl\ReportViewer.xaml.cs">
