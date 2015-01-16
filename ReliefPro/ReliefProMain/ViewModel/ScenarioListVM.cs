@@ -121,7 +121,8 @@ namespace ReliefProMain.ViewModel
                 ScenarioModel m = new ScenarioModel();
                 m.ID = s.ID;
                 m.ScenarioName = s.ScenarioName;
-                m.ReliefLoad = UnitConvert.Convert(UOMEnum.EnthalpyDuty, Uom.UserEnthalpyDuty, s.ReliefLoad);
+                //m.ReliefLoad = UnitConvert.Convert(UOMEnum.EnthalpyDuty, Uom.UserEnthalpyDuty, s.ReliefLoad);
+                m.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, Uom.UserMassRate, s.ReliefLoad);
                 m.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, Uom.UserTemperature, s.ReliefTemperature);
                 m.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, Uom.UserPressure, s.ReliefPressure);
                 m.ReliefMW = s.ReliefMW;
