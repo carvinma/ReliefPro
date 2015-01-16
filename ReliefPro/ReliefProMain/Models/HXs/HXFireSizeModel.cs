@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ReliefProModel.HXs;
+using System.Windows.Media.Imaging;
 
 namespace ReliefProMain.Models.HXs
 {
@@ -47,12 +48,13 @@ namespace ReliefProMain.Models.HXs
         public HXFireSizeModel(HXFireSize model)
         {
             dbmodel = model;
-            this.exposedToFire = model.ExposedToFire;
-            this.type = model.Type;
+            this.ExposedToFire = model.ExposedToFire;
+            this.Type = model.Type;
             this.oD = model.OD;
             this.length = model.Length;
             this.elevation = model.Elevation;
             this.pipingContingency = model.PipingContingency;
+           
 
             this.exposedToFire_Color = model.ExposedToFire_Color;
             this.type_Color = model.Type_Color;
@@ -70,7 +72,50 @@ namespace ReliefProMain.Models.HXs
             set
             {
                 type = value;
+                string strTypeImageFile = string.Empty;
+                if (exposedToFire == "Shell")
+                {
+                    if (type == "Fixed")
+                    {
+                        strTypeImageFile = "/Images/Shell_fixed.jpg";  
+                    }
+                    else if (type == "U-Tube")
+                    {
+                        strTypeImageFile = "/Images/Shell_U-Tube.jpg";
+                    }
+                    else if (type == "Floating head")
+                    {
+                        strTypeImageFile = "/Images/Shell_Floating-head .jpg";
+                    }
+                    else
+                    {
+                        strTypeImageFile = "/Images/Shell_Kettle .jpg";
+                    }
+                }
+                else
+                {
+                    if (type == "Fixed")
+                    {
+                        strTypeImageFile = "/Images/Tube_Fixed.jpg";
+                    }
+                    else
+                    {
+                        strTypeImageFile = "/Images/Tube_U-Tube.jpg";
+                    }
+                }
+                TypeImageFile = new BitmapImage(new Uri(strTypeImageFile, UriKind.Relative));
                 this.NotifyPropertyChanged("Type");
+            }
+        }
+
+        private BitmapImage typeImageFile;
+        public BitmapImage TypeImageFile
+        {
+            get { return typeImageFile; }
+            set
+            {
+                typeImageFile = value;
+                this.NotifyPropertyChanged("TypeImageFile");
             }
         }
 

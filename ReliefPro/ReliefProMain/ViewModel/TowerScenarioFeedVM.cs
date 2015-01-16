@@ -172,7 +172,7 @@ namespace ReliefProMain.ViewModel
             }
             if (scs.FlowStop || scs.FlowCalcFactor == 0)
             {
-                ScenarioHeatSourceListView v = new ScenarioHeatSourceListView();
+                ScenarioResidualListView v = new ScenarioResidualListView();
                 ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SCStreamID, SourceFileInfo, SessionPlant, SessionProtectedSystem, "Fired Heater");
                 v.DataContext = vm;
                 v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -185,7 +185,7 @@ namespace ReliefProMain.ViewModel
             {
                 if (MessageBox.Show("Are you sure to edit it?", "Message Box", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    ScenarioHeatSourceListView v = new ScenarioHeatSourceListView();
+                    ScenarioResidualListView v = new ScenarioResidualListView();
                     ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SCStreamID, SourceFileInfo, SessionPlant, SessionProtectedSystem, "Fired Heater");
                     v.DataContext = vm;
                     v.WindowStartupLocation = WindowStartupLocation.CenterScreen;

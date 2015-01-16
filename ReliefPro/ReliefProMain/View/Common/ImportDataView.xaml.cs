@@ -202,12 +202,12 @@ namespace ReliefProMain.View
             {
                 string lines = ex.ToString() ;
 
-                using (StreamWriter writer = new StreamWriter("log.txt",true))
-                {
-                    writer.WriteLine(ex.ToString());
-                    backgroundWorker.ReportProgress(100);
-                    isImportSucess = false;
-                }
+                //using (StreamWriter writer = new StreamWriter("log.txt",true))
+                //{
+                //    writer.WriteLine(ex.ToString());
+                //    backgroundWorker.ReportProgress(100);
+                //    isImportSucess = false;
+                //}
             }
 
         }

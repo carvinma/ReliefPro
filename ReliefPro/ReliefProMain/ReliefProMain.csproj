@@ -604,10 +604,33 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Resource Include="Images\report.ico" />
-    <Resource Include="Images\uom.ico" />
-    <Resource Include="Images\PSVd.ico" />
-    <Resource Include="Images\Scenario.ico" />
+    <Content Include="Images\report.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\uom.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PSVd.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Scenario.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Shell_fixed.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Shell_Floating-head .jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Shell_U-Tube.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Tube_Fixed.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Tube_U-Tube.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Langs\en-US.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1008,29 +1031,75 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\drum.ico" />
-    <Resource Include="Images\Compressor.ico" />
-    <Resource Include="Images\flash.ico" />
-    <Resource Include="Images\GlobalDefault.ico" />
-    <Resource Include="Images\HeatExchanger.ico" />
-    <Resource Include="Images\ImportSimulation.ico" />
-    <Resource Include="Images\PSVDatasheet.ico" />
-    <Resource Include="Images\PSVManager.ico" />
-    <Resource Include="Images\PSVSizing.ico" />
-    <Resource Include="Images\reactorLoop.ico" />
-    <Resource Include="Images\Scenario2.ico" />
-    <Resource Include="Images\ShowHide.ico" />
-    <Resource Include="Images\StorageTank.ico" />
-    <Resource Include="Images\app.png" />
-    <Resource Include="Images\file.gif" />
-    <Resource Include="Images\plant.png" />
-    <Resource Include="Images\protectedsystem.png" />
-    <Resource Include="Images\unit.png" />
-    <Resource Include="Images\file.ico" />
-    <Resource Include="Images\ps.ico" />
-    <Resource Include="Images\pt.ico" />
-    <Resource Include="Images\save.ico" />
-    <Resource Include="Images\un.ico" />
+    <Content Include="Images\drum.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Compressor.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\flash.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\GlobalDefault.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\HeatExchanger.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ImportSimulation.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PSVDatasheet.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PSVManager.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\PSVSizing.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\reactorLoop.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Scenario2.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ShowHide.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\StorageTank.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\app.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\file.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\plant.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\protectedsystem.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\unit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\file.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ps.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\pt.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\save.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\un.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Template\plant.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1039,31 +1108,81 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\tower.ico" />
-    <Resource Include="Images\app.ico" />
-    <Resource Include="Images\Assistance.ico" />
-    <Resource Include="Images\back.png" />
-    <Resource Include="Images\calculator.ico" />
-    <Resource Include="Images\cancel.png" />
-    <Resource Include="Images\closeplant.ico" />
-    <Resource Include="Images\closeplant.png" />
-    <Resource Include="Images\compute.ico" />
-    <Resource Include="Images\newplant.ico" />
-    <Resource Include="Images\newplant.png" />
-    <Resource Include="Images\ok.png" />
-    <Resource Include="Images\openplant.ico" />
-    <Resource Include="Images\openplant.png" />
-    <Resource Include="Images\plant.ico" />
-    <Resource Include="Images\project.ico" />
-    <Resource Include="Images\property_icon.gif" />
-    <Resource Include="Images\property_icon.png" />
-    <Resource Include="Images\question.ico" />
-    <Resource Include="Images\save.png" />
-    <Resource Include="Images\saveall.png" />
-    <Resource Include="Images\tip.jpg" />
-    <Resource Include="Images\address-book--pencil.png" />
-    <Resource Include="Images\address-book-open.png" />
-    <Resource Include="Images\alarm-clock-blue.png" />
+    <Content Include="Images\tower.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\app.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Assistance.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\back.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\calculator.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\cancel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\closeplant.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\closeplant.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\compute.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\newplant.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\newplant.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ok.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\openplant.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\openplant.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\plant.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\project.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\property_icon.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\property_icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\question.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\save.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\saveall.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\tip.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\address-book--pencil.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\address-book-open.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\alarm-clock-blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="license.txt" />
   </ItemGroup>
   <ItemGroup>

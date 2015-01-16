@@ -403,9 +403,11 @@ namespace ReliefProMain.ViewModel.HXs
                         model.ReliefLoad = vaporcs.WeightFlow;
                         if (model.ReliefLoad < 0 )
                             model.ReliefLoad = 0;
+
+                        model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit, model.ReliefLoad);
                         model.ReliefMW = vaporcs.BulkMwOfPhase;
-                        model.ReliefPressure = reliefPressure;
-                        model.ReliefTemperature = vaporcs.Temperature;
+                        model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit,reliefPressure);
+                        model.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, model.ReliefTemperatureUnit,vaporcs.Temperature);
                         model.ReliefCpCv = vaporcs.BulkCPCVRatio;
                         model.ReliefZ = vaporcs.VaporZFmKVal;
                     }
@@ -443,10 +445,25 @@ namespace ReliefProMain.ViewModel.HXs
             latent = globalbll.GetConditionsSettings().LatentHeatSettings;
 
             model.LatentPoint = latent;
-            model.ReliefLoad = Q/latent*(model.NormalHotTemperature-criticalTemperature)/(model.NormalHotTemperature-tAvg);
-            model.ReliefPressure = reliefPressure;
-            model.ReliefTemperature = criticalTemperature;
+            if (criticalTemperature == 0)  //相当于超临界临界方法5
+            {
+                model.ReliefLoad = Q / latent ;
+                model.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, model.ReliefTemperatureUnit, normalHotInlet.Temperature);
+            }
+            else
+            {
+                model.ReliefLoad = Q / latent * (model.NormalHotTemperature - criticalTemperature) / (model.NormalHotTemperature - tAvg);
+                model.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, model.ReliefTemperatureUnit, criticalTemperature);
+            }
+            model.ReliefLoad = Q / latent;
+            if (model.ReliefLoad < 0)
+                model.ReliefLoad = 0;
+            model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit, model.ReliefLoad);
+            model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, reliefPressure);
+            
             model.ReliefMW = reliefMW;
+
+            //cpcv:1.4  z:0.7
             model.ReliefCpCv = cs.BulkCPCVRatio;
             model.ReliefZ = cs.VaporZFmKVal;
         }
@@ -499,9 +516,11 @@ namespace ReliefProMain.ViewModel.HXs
                         model.ReliefLoad = vaporcs.WeightFlow;
                         if (model.ReliefLoad < 0 )
                             model.ReliefLoad = 0;
+
+                        model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit, model.ReliefLoad);
                         model.ReliefMW = vaporcs.BulkMwOfPhase;
-                        model.ReliefPressure = reliefPressure;
-                        model.ReliefTemperature = vaporcs.Temperature;
+                        model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit,reliefPressure);
+                        model.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, model.ReliefTemperatureUnit,vaporcs.Temperature);
                         model.ReliefCpCv = vaporcs.BulkCPCVRatio;
                         model.ReliefZ = vaporcs.VaporZFmKVal;
                     }
@@ -546,9 +565,11 @@ namespace ReliefProMain.ViewModel.HXs
                     }
                     else
                     {
-                        model.ReliefLoad = 0; //condition11
-                        model.ReliefPressure = reliefPressure;
-                        model.ReliefTemperature = normalColdInlet.Temperature;
+                        model.ReliefLoad = 0; //condition11                        
+                        model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit, model.ReliefLoad);
+
+                        model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit,reliefPressure);
+                        model.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, model.ReliefTemperatureUnit,normalColdInlet.Temperature);
                         model.ReliefCpCv = normalColdInlet.BulkCPCVRatio;
                         model.ReliefZ = normalColdInlet.VaporZFmKVal;
                         model.ReliefMW = normalColdInlet.BulkMwOfPhase;

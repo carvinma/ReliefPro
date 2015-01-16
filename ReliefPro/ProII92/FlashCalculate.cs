@@ -96,8 +96,16 @@ namespace ProII92
 
             data2.Append("\tFLASH UID=").Append(FlashName).Append("\n");
             data2.Append("\t FEED ").Append(streamName.ToUpper()).Append("\n");
-            data2.Append("\t PRODUCT V=").Append(vapor).Append(",&\n");
-            data2.Append("\t L=").Append(liquid).Append("\n");
+
+            if (string.IsNullOrEmpty(liquid))
+            {
+                data2.Append("\t PRODUCT V=").Append(vapor).Append("\n");
+            }
+            else
+            {
+                data2.Append("\t PRODUCT V=").Append(vapor).Append(",&\n");
+                data2.Append("\t L=").Append(liquid).Append("\n");
+            }
 
             StringBuilder sbPT = new StringBuilder();
             if (iFirst == 1)

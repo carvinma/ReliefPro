@@ -131,6 +131,7 @@ namespace ReliefProMain.ViewModel
         private string EqName;
         Tower tower;
         CondenserCalc condenserCalc;
+        PSV psv = new PSV();
         public TowerScenarioCalcVM(string EqName, string ScenarioName, int scenarioID, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string DirPlant, string DirProtectedSystem)
         {
             SessionPlant = sessionPlant;
@@ -158,6 +159,9 @@ namespace ReliefProMain.ViewModel
             ReadConvert();
             TowerDAL towerdal = new TowerDAL();
             tower = towerdal.GetModel(SessionProtectedSystem);
+
+            PSVDAL dbpsv = new PSVDAL();
+            psv = dbpsv.GetModel(SessionProtectedSystem);
            
         }
         private int CheckSteamFreezed()
@@ -185,16 +189,18 @@ namespace ReliefProMain.ViewModel
                     sumDutyFactor2 = sumDutyFactor2 + shx.DutyCalcFactor * detail.DutyPercentage / 100;
                 }
             }
-            if (condenserCalc.Flooding)
+            if (condenserCalc != null)
             {
-                sumDutyFactor = 0;
+                if (condenserCalc.Flooding)
+                {
+                    sumDutyFactor = 0;
+                }
+                if (sumDutyFactor < 1 || sumDutyFactor2 < 1)
+                    SteamFreezed = 0;
+                else
+                    SteamFreezed = 1;
+
             }
-            if (sumDutyFactor < 1 || sumDutyFactor2<1)
-                SteamFreezed = 0;
-            else
-                SteamFreezed = 1;
-
-
             return SteamFreezed;
         }
 
@@ -371,7 +377,9 @@ namespace ReliefProMain.ViewModel
                 }
                 SplashScreenManager.SentMsgToScreen("Calculation finished");
             }
-            catch { }
+            catch 
+            { 
+            }
             finally {
                 SplashScreenManager.Close();
             }
@@ -379,144 +387,233 @@ namespace ReliefProMain.ViewModel
 
         private void Balance()
         {
-            SourceDAL sourceDAL = new SourceDAL();
-            TowerScenarioStreamDAL db = new TowerScenarioStreamDAL();
-            StreamDAL dbstream = new StreamDAL();
-            TowerFlashProductDAL dbtfp = new ReliefProDAL.TowerFlashProductDAL();
-            IList<TowerScenarioStream> feeds = db.GetAllList(SessionProtectedSystem, ScenarioID, false);
-            IList<TowerScenarioStream> products = db.GetAllList(SessionProtectedSystem, ScenarioID, true);
-            double Total = 0;
-            double steamTotal = 0;
-            double currentTotal = 0;
-            double diffTotal = 0;
-            foreach (TowerScenarioStream s in feeds)
+            try
             {
-                CustomStream cs = dbstream.GetModel(SessionProtectedSystem, s.StreamName);
-                double wf = cs.WeightFlow;
-                Total = Total + wf;
-                if (!s.FlowStop)
+                SourceDAL sourceDAL = new SourceDAL();
+                TowerScenarioStreamDAL db = new TowerScenarioStreamDAL();
+                StreamDAL dbstream = new StreamDAL();
+                TowerFlashProductDAL dbtfp = new ReliefProDAL.TowerFlashProductDAL();
+                IList<TowerFlashProduct> listP = dbtfp.GetAllList(SessionProtectedSystem);
+                IList<TowerScenarioStream> feeds = db.GetAllList(SessionProtectedSystem, ScenarioID, false);
+                IList<TowerScenarioStream> products = db.GetAllList(SessionProtectedSystem, ScenarioID, true);
+                double Total = 0;
+                double steamTotal = 0;
+                double currentTotal = 0;
+                double diffTotal = 0;
+
+                double productTotal = 0;
+                double waterTotal = 0;
+                bool isSteamStop = false;
+                foreach (TowerScenarioStream s in feeds)
                 {
-                    currentTotal = currentTotal + wf * s.FlowCalcFactor;
+                    CustomStream cs = dbstream.GetModel(SessionProtectedSystem, s.StreamName);
+                    double wf = cs.WeightFlow;
+                    Total = Total + wf;
+
                     Source source = sourceDAL.GetModel(s.StreamName, SessionProtectedSystem);
-                    if (source.IsSteam)
-                        steamTotal = steamTotal + wf * s.FlowCalcFactor;
+                    if (!s.FlowStop)
+                    {
+                        currentTotal = currentTotal + wf * s.FlowCalcFactor;
+                        if (source.IsSteam)
+                            steamTotal = steamTotal + wf * s.FlowCalcFactor;
+                    }
+                    else
+                    {
+                        if (source.IsSteam)
+                        {
+                            isSteamStop = isSteamStop || true;
+                            steamTotal = steamTotal + wf * s.FlowCalcFactor;
+                        }
+                    }
                 }
-            }
-            diffTotal = Total - currentTotal;
-            if (diffTotal == 0)
-            {
+
+                foreach (TowerFlashProduct p in listP)
+                {
+                    double wf = p.WeightFlow;
+                    productTotal = productTotal + wf;
+                    if (p.ProdType == "6")
+                    {
+                        waterTotal = waterTotal + p.WeightFlow;
+                    }
+
+                }
                 for (int i = 0; i < products.Count; i++)
                 {
-                    TowerScenarioStream s = products[i];
-                    s.FlowCalcFactor = 1;
-                    db.Update(s, SessionProtectedSystem);
+                    TowerScenarioStream p = products[i];
+                    p.FlowCalcFactor = 1;
+                    db.Update(p, SessionProtectedSystem);
                 }
-                return;
-            }
-            int count = 0;
-            IList<TowerFlashProduct> listP = dbtfp.GetAllList(SessionProtectedSystem);
 
-            if (steamTotal > 0)
-            {
-                IList<TowerFlashProduct> listP0 = (from p in listP
-                                                   where (p.ProdType == "6")
-                                                   orderby p.SpEnthalpy descending
-                                                   select p).ToList();
 
-                count = listP0.Count;
-                for (int i = 0; i < count; i++)
+                diffTotal = Total - currentTotal;
+                if (diffTotal == 0)
                 {
-                    TowerFlashProduct p = listP0[i];
-                    TowerScenarioStream s = (from m in products
-                                             where m.StreamName == p.StreamName
-                                             select m).SingleOrDefault();
-                    double factor = 1;
-                    double flowrate = p.WeightFlow;
-                    double tempH = factor * flowrate;
-                    if (tempH >= diffTotal)
+                    if (currentTotal == 0)
                     {
-                        double tempfactor = (tempH - diffTotal) / tempH;
-                        s.FlowCalcFactor = tempfactor;
-                        diffTotal = 0;
-                        db.Update(s, SessionProtectedSystem);
-                        break;
-                    }
-                    else
-                    {
-                        s.FlowCalcFactor = 0;
-                        db.Update(s, SessionProtectedSystem);
-                        diffTotal = diffTotal - tempH;
-                    }
-                }
-            }
-            if (diffTotal > 0)
-            {
-                IList<TowerFlashProduct> listP1 = (from p in listP
-                                                   where (p.ProdType != "3" || p.ProdType != "4" || p.ProdType != "6" ||!(p.Tray==1 && p.ProdType=="2"))
-                                                   orderby p.SpEnthalpy descending
-                                                   select p).ToList();
+                        for (int i = 0; i < products.Count; i++)
+                        {
+                            TowerScenarioStream s = products[i];
+                            s.FlowCalcFactor = 0;
+                            db.Update(s, SessionProtectedSystem);
+                        }
 
-                count = listP1.Count;
-                for (int i = 0; i < count; i++)
+                    }
+                    return;
+                }
+                int count = 0;
+
+                double steamWaterDiff = steamTotal;
+                if (waterTotal > 0 && (isSteamStop || steamTotal > waterTotal))
                 {
-                    TowerFlashProduct p = listP1[i];
-                    TowerScenarioStream s = (from m in products
-                                             where m.StreamName == p.StreamName
-                                             select m).SingleOrDefault();
-                    double factor = 1;
-                    double flowrate = p.WeightFlow;
-                    double tempH = factor * flowrate;
-                    if (tempH >= diffTotal)
+                    IList<TowerFlashProduct> listP0 = (from p in listP
+                                                       where (p.ProdType == "6")
+                                                       orderby p.SpEnthalpy descending
+                                                       select p).ToList();
+
+                    count = listP0.Count;
+                    for (int i = 0; i < count; i++)
                     {
-                        double tempfactor = (tempH - diffTotal) / tempH;
-                        s.FlowCalcFactor = tempfactor;
-                        diffTotal = 0;
-                        db.Update(s, SessionProtectedSystem);
-                        break;
-                    }
-                    else
-                    {
-                        s.FlowCalcFactor = 0;
-                        db.Update(s, SessionProtectedSystem);
-                        diffTotal = diffTotal - tempH;
+                        if (steamWaterDiff > 0)
+                        {
+                            TowerFlashProduct p = listP0[i];
+                            TowerScenarioStream s = (from m in products
+                                                     where m.StreamName == p.StreamName
+                                                     select m).SingleOrDefault();
+                            double factor = 1;
+                            double flowrate = p.WeightFlow;
+                            double tempH = factor * flowrate;
+                            if (tempH >= steamWaterDiff)
+                            {
+                                double tempfactor = (tempH - steamWaterDiff) / tempH;
+                                s.FlowCalcFactor = tempfactor;
+                                db.Update(s, SessionProtectedSystem);
+                                steamWaterDiff = steamWaterDiff - tempH;
+                                diffTotal = diffTotal - tempH;
+                                break;
+                            }
+                            else
+                            {
+                                s.FlowCalcFactor = 0;
+                                db.Update(s, SessionProtectedSystem);
+                                diffTotal = diffTotal - tempH;
+                                steamWaterDiff = steamWaterDiff - tempH;
+                            }
+                        }
+
                     }
                 }
-            }
-            if (diffTotal > 0)
-            {
-                IList<TowerFlashProduct> listP2 = (from p in listP
-                                                   where (p.ProdType == "3" || p.ProdType == "4" || (p.Tray == 1 && p.ProdType == "2"))
-                                                   orderby p.SpEnthalpy descending
-                                                   select p).ToList();
-
-                count = listP2.Count;
-                for (int i = 0; i < count; i++)
+                if (diffTotal > 0)
                 {
-                    TowerFlashProduct p = listP2[i];
-                    TowerScenarioStream s = (from m in products
-                                             where m.StreamName == p.StreamName
-                                             select m).SingleOrDefault();
-                    double factor = 1;
-                    double flowrate = p.WeightFlow;
-                    double tempH = factor * flowrate;
-                    if (tempH >= diffTotal)
+                    IList<TowerFlashProduct> listP1 = (from p in listP
+                                                       where (p.ProdType != "3" && p.ProdType != "4" && p.ProdType != "6" && (!(p.Tray == 1 && p.ProdType == "2")))
+                                                       orderby p.SpEnthalpy descending
+                                                       select p).ToList();
+
+                    count = listP1.Count;
+                    for (int i = 0; i < count; i++)
                     {
-                        double tempfactor = (tempH - diffTotal) / tempH;
-                        s.FlowCalcFactor = tempfactor;
-                        db.Update(s, SessionProtectedSystem);
-                        diffTotal = 0;
-                        break;
-                    }
-                    else
-                    {
-                        s.FlowCalcFactor = 0;
-                        db.Update(s, SessionProtectedSystem);
-                        diffTotal = diffTotal - tempH;
+                        TowerFlashProduct p = listP1[i];
+                        TowerScenarioStream s = (from m in products
+                                                 where m.StreamName == p.StreamName
+                                                 select m).SingleOrDefault();
+                        double factor = 1;
+                        double flowrate = p.WeightFlow;
+                        double tempH = factor * flowrate;
+                        if (tempH >= diffTotal)
+                        {
+                            double tempfactor = (tempH - diffTotal) / tempH;
+                            s.FlowCalcFactor = tempfactor;
+                            diffTotal = 0;
+                            db.Update(s, SessionProtectedSystem);
+                            break;
+                        }
+                        else
+                        {
+                            s.FlowCalcFactor = 0;
+                            db.Update(s, SessionProtectedSystem);
+                            diffTotal = diffTotal - tempH;
+                        }
                     }
                 }
-            }
-            //SessionProtectedSystem.Flush();
+                if (diffTotal > 0)
+                {
+                    IList<TowerFlashProduct> listP2 = (from p in listP
+                                                       where (p.ProdType == "3" || p.ProdType == "4" || (p.Tray == 1 && p.ProdType == "2"))
+                                                       orderby p.SpEnthalpy descending
+                                                       select p).ToList();
 
+                    count = listP2.Count;
+                    for (int i = 0; i < count; i++)
+                    {
+                        TowerFlashProduct p = listP2[i];
+                        TowerScenarioStream s = (from m in products
+                                                 where m.StreamName == p.StreamName
+                                                 select m).SingleOrDefault();
+                        double factor = 1;
+                        double flowrate = p.WeightFlow;
+                        double tempH = factor * flowrate;
+                        if (tempH >= diffTotal)
+                        {
+                            double tempfactor = (tempH - diffTotal) / tempH;
+                            s.FlowCalcFactor = tempfactor;
+                            db.Update(s, SessionProtectedSystem);
+                            diffTotal = 0;
+                            break;
+                        }
+                        else
+                        {
+                            s.FlowCalcFactor = 0;
+                            db.Update(s, SessionProtectedSystem);
+                            diffTotal = diffTotal - tempH;
+                        }
+                    }
+
+                }
+
+                //不够减少的话
+                if (diffTotal > 0 && steamTotal < waterTotal)
+                {
+                    IList<TowerFlashProduct> listP0 = (from p in listP
+                                                       where (p.ProdType == "6")
+                                                       orderby p.SpEnthalpy descending
+                                                       select p).ToList();
+
+                    count = listP0.Count;
+                    for (int i = 0; i < count; i++)
+                    {
+
+                        TowerFlashProduct p = listP0[i];
+                        TowerScenarioStream s = (from m in products
+                                                 where m.StreamName == p.StreamName
+                                                 select m).SingleOrDefault();
+                        if (s.FlowCalcFactor > 0)
+                        {
+                            double factor = s.FlowCalcFactor;
+                            double flowrate = p.WeightFlow;
+                            double tempH = factor * flowrate;
+                            if (tempH >= diffTotal)
+                            {
+                                double tempfactor = (tempH - diffTotal) / tempH;
+                                s.FlowCalcFactor = tempfactor;
+                                db.Update(s, SessionProtectedSystem);
+                                diffTotal = diffTotal - tempH;
+                                break;
+                            }
+                            else
+                            {
+                                s.FlowCalcFactor = 0;
+                                db.Update(s, SessionProtectedSystem);
+                                diffTotal = diffTotal - tempH;
+                            }
+                        }
+
+                    }
+                }
+                //SessionProtectedSystem.Flush();
+            }
+            catch (Exception ex)
+            {
+            }
 
         }
 
@@ -698,7 +795,11 @@ namespace ReliefProMain.ViewModel
             double FeedTotal = 0;
             double ProductTotal = 0;
             double HeatTotal = 0;
-            bool IsFB = false;
+
+            double fbTotal=0;
+            double firedheaterTotal=0;
+           
+            
             PSVDAL dbpsv = new PSVDAL();
             PSV psv = dbpsv.GetModel(SessionProtectedSystem);
 
@@ -706,15 +807,7 @@ namespace ReliefProMain.ViewModel
             Latent latent = dblatent.GetModel(SessionProtectedSystem);
 
             FeedBottomHXDAL feedBottomHXDAL = new ReliefProDAL.FeedBottomHXDAL();
-            FeedBottomHX fbhx = feedBottomHXDAL.GetModel(SessionProtectedSystem);
-            if (fbhx != null)
-            {
-                ScenarioHeatSourceDAL scenarioHeatSourceDAL = new ScenarioHeatSourceDAL();
-                ScenarioHeatSource scenarioHeatSource = scenarioHeatSourceDAL.GetModel(SessionProtectedSystem, fbhx.HeatSourceID, ScenarioID);
-                if (scenarioHeatSource.IsFB)
-                    IsFB = true;
-            }
-
+            ScenarioHeatSourceDAL scenarioHSDal = new ScenarioHeatSourceDAL();
             CustomStreamDAL dbCS = new CustomStreamDAL();
             TowerScenarioStreamDAL db = new TowerScenarioStreamDAL();
             TowerFlashProductDAL dbFlashP = new TowerFlashProductDAL();
@@ -758,20 +851,37 @@ namespace ReliefProMain.ViewModel
                 }
                 else
                 {
-                    if (!s.FlowStop)
+                    ScenarioHeatSourceDAL scenarioHeatSourceDAL = new ScenarioHeatSourceDAL();
+                    if(s.FlowStop)
                     {
-                        if (fbhx != null)
+
+                    }
+                    else
+                    {
+                        if (s.FlowCalcFactor == 0)
                         {
-                            if (fbhx.StreamName == s.StreamName && IsFB)
+                            FeedBottomHX fbhx = feedBottomHXDAL.GetModel(SessionProtectedSystem, s.StreamName);
+                            if (fbhx != null)
                             {
-                                FeedTotal = FeedTotal + (s.FlowCalcFactor * fbhx.FeedReliefSpEout * cstream.WeightFlow);
+
+                                ScenarioHeatSource scenarioHeatSource = scenarioHeatSourceDAL.GetModel(SessionProtectedSystem, fbhx.HeatSourceID, ScenarioID);
+                                if (scenarioHeatSource.IsFB)
+                                {
+                                    fbTotal = fbTotal + (s.FlowCalcFactor * fbhx.FeedReliefSpEout * cstream.WeightFlow);
+                                }
                             }
+                            
+                            IList<ScenarioHeatSource> list=scenarioHeatSourceDAL.GetAllList(
+
+
                         }
                         else
                         {
-                            FeedTotal = FeedTotal + (s.FlowCalcFactor * cstream.SpEnthalpy * cstream.WeightFlow);
+                            FeedTotal = FeedTotal + s.FlowCalcFactor * cstream.SpEnthalpy * cstream.WeightFlow;
                         }
                     }
+                  
+                   
                 }
             }
 
@@ -819,7 +929,9 @@ namespace ReliefProMain.ViewModel
                 }
             }
 
-            double latestH = latent.LatentEnthalpy;
+           
+            double latestH=latent.LatentEnthalpy;
+            
             double totalH = FeedTotal - ProductTotal + HeatTotal;
             double wAccumulation = totalH / latestH + overHeadWeightFlow;
             double wRelief = wAccumulation;
@@ -847,15 +959,29 @@ namespace ReliefProMain.ViewModel
         }
         private void SteamFreezedMethod(ref double reliefLoad, ref double reliefMW, ref double reliefTemperature, ref double reliefPressure)
         {
+            
+
+            if (psv.CriticalPressure == 0)
+            {
+                //waring1 
+
+            }
+            else if (psv.CriticalPressure < psv.ReliefPressureFactor * psv.Pressure)
+            {
+                //fluid type= supercritical
+
+            }
+            else
+            {
+
+            }
+
             Balance();
             double overHeadWeightFlow = 0;
             double waterWeightFlow = 0;
             double FeedTotal = 0;
             double ProductTotal = 0;
             double HeatTotal = 0;
-
-            PSVDAL dbpsv = new PSVDAL();
-            PSV psv = dbpsv.GetModel(SessionProtectedSystem);
 
             LatentDAL dblatent = new LatentDAL();
             Latent latent = dblatent.GetModel(SessionProtectedSystem);
@@ -985,6 +1111,9 @@ namespace ReliefProMain.ViewModel
         }
 
 
+       
+
+
         private ICommand _SaveCommand;
         public ICommand SaveCommand
         {
@@ -1014,11 +1143,11 @@ namespace ReliefProMain.ViewModel
             scenario.ReliefPressure = ReliefPressure;
             scenario.ReliefCpCv = ReliefCpCv;
             scenario.ReliefZ = ReliefZ;
-            if (tower.TowerType == "Distillation")
-            {
-                scenario.ReliefCpCv = vaporProduct.BulkCPCVRatio;
-                scenario.ReliefZ = vaporProduct.VaporZFmKVal;
-            }
+            //if (tower.TowerType == "Distillation")
+            //{
+            //    scenario.ReliefCpCv = vaporProduct.BulkCPCVRatio;
+            //    scenario.ReliefZ = vaporProduct.VaporZFmKVal;
+            //}
             dbTS.Update(scenario, SessionProtectedSystem);
             SessionProtectedSystem.Flush();
 

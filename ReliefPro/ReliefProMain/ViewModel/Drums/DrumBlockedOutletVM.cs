@@ -188,6 +188,7 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void CalcResult(object obj)
         {
+            int errorType = 0;
             try
             {
                 SplashScreenManager.Show();
@@ -286,14 +287,14 @@ namespace ReliefProMain.ViewModel.Drums
                         }
                         else
                         {
-                            MessageBox.Show("Prz file is error", "Message Box");
-                            return;
+                            //MessageBox.Show("Prz file is error", "Message Box");
+                            errorType = 1;
                         }
                     }
                     else
                     {
-                        MessageBox.Show("inp file is error", "Message Box");
-                        return;
+                        //MessageBox.Show("inp file is error", "Message Box");
+                        errorType = 2;
                     }
 
                 }
@@ -315,6 +316,14 @@ namespace ReliefProMain.ViewModel.Drums
             finally
             {
                 SplashScreenManager.Close();
+                if (errorType == 1)
+                {
+                    MessageBox.Show("Prz file is error", "Message Box");
+                }
+                else if (errorType == 2)
+                {
+                    MessageBox.Show("inp file is error", "Message Box");
+                }
             }
             
 

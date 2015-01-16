@@ -97,9 +97,11 @@ namespace ReliefProBLL
             var model = dbFire.GetModelByScenarioID(SessionPS, ScenarioID);
             if (model == null)
             {
+                PSVDAL psvdal = new PSVDAL();
+                PSV psv = psvdal.GetModel(SessionPS);
                 model = new HXFireSize();
                 model.PipingContingency = 10;
-                model.ExposedToFire = "Shell";
+                model.ExposedToFire = psv.LocationDescription;
                 model.Type = "Fixed";                
                 model.Elevation_Color = ColorBorder.green.ToString();
                 model.ExposedToFire_Color = ColorBorder.green.ToString();

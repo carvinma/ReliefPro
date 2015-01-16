@@ -41,17 +41,17 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource IsPinch}" Width="50px"  >
+                    <GridViewColumn  Header="{DynamicResource IsPinch}" Width="50px"  >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IsPinch}"></CheckBox>
+                                <CheckBox IsEnabled="False" IsChecked="{Binding Path=IsPinch}"></CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{DynamicResource PinchFactor}" Width="150"   >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox  Text="{Binding Path=PinchFactor,Mode=TwoWay,StringFormat='{}{0:F4}'}"></TextBox>
+                                <TextBox IsEnabled="False"  Text="{Binding Path=PinchFactor,Mode=TwoWay,StringFormat='{}{0:F4}'}"></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -59,7 +59,7 @@
                     <GridViewColumn Header="{DynamicResource Calculation}"   >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="{DynamicResource Calculation}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.PinchCalcCommand}" CommandParameter="{Binding ID}" ></Button>
+                                <Button IsEnabled="False" Content="{DynamicResource Calculation}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.PinchCalcCommand}" CommandParameter="{Binding ID}" ></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

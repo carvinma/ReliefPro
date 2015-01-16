@@ -91,6 +91,12 @@ namespace ReliefProMain.ViewModel.HXs
                 MessageBox.Show("OD could not be zero.","Message Box",MessageBoxButton.OK,MessageBoxImage.Error);
                 return;
             }
+
+
+
+            int errorType = 0;
+            SplashScreenManager.Show(10);
+            
             CustomStreamDAL csdal = new CustomStreamDAL();
             CustomStream csTube = null;
             CustomStream csShell = null;
@@ -135,7 +141,7 @@ namespace ReliefProMain.ViewModel.HXs
                 strHighFeeds = strTubeFeeds;
                 lstHighFeeds = mixTubeFeeds;
             }
-
+            SplashScreenManager.SentMsgToScreen("Calculation in progress......  10%");
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionPS);
             double pressure = psv.Pressure;
@@ -143,6 +149,7 @@ namespace ReliefProMain.ViewModel.HXs
             //valid 验证
             if (csHigh.Pressure < psv.Pressure)
             {
+                SplashScreenManager.Close();
                 MessageBox.Show("High Pressure is lower than pressure of psv", "Message Box");
                 return;
             }
@@ -159,7 +166,7 @@ namespace ReliefProMain.ViewModel.HXs
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
             int ImportResult = 0;
             int RunResult = 0;
-
+            SplashScreenManager.SentMsgToScreen("Calculation in progress......  20%");
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string[] files = Directory.GetFiles(tempdir, "*.inp");
             string sourceFile = files[0];
@@ -175,11 +182,96 @@ namespace ReliefProMain.ViewModel.HXs
                     reader.InitProIIReader(tray1_f);
                     ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
                     ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                    
                     ProIIEqData flash = reader.GetEqInfo("Flash", "F_1");
+                    
+
+                    string inpFile = dirLatent + @"\a.inp";
+                    lines = File.ReadAllLines(inpFile);
+                    int pureStreamCount = 0;
+
+                    foreach (CustomStream cs in lstHighFeeds)
+                    {
+                        ProIIStreamData proIIFeedCopy = reader.GetSteamInfo(cs.StreamName);
+                        CustomStream csOld = cs;
+                        CustomStream csNew = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIFeedCopy); ;
+                        if (ProIIMethod.IsPureComposition(csOld))   //如果是单组份
+                        {
+                            if (Math.Abs(csOld.VaporFraction - csNew.VaporFraction) >= 0.01) //组分误差》0.01的话
+                            {
+                                if ((1 - csOld.VaporFraction) < 1e-5)
+                                {
+                                    //  修改为dew  PHASE=L,&
+                                    for (int j = 3; j < lines.Length; j++)
+                                    {
+                                        if (lines[j].Contains("PROPERTY STREAM=" + csOld.StreamName + ","))
+                                        {
+                                            lines[j + 2] = "PHASE=V,&";
+                                            pureStreamCount++;
+                                            break;
+                                        }
+                                    }
+
+                                }
+                                else if (csOld.VaporFraction < 1e-5)
+                                {
+                                    //修改为泡点  PHASE=V,&
+                                    for (int j = 3; j < lines.Length; j++)
+                                    {
+                                        if (lines[j].Contains("PROPERTY STREAM=" + csOld.StreamName + ","))
+                                        {
+                                            lines[j + 2] = "PHASE=L,&";
+                                            pureStreamCount++;
+                                            break;
+                                        }
+                                    }
+
+                                }
+                                else
+                                {
+                                    //PHASE=M, LFRACTION=0.2&   0.2=1-vaporFraction;
+                                    for (int j = 3; j < lines.Length; j++)
+                                    {
+                                        if (lines[j].Contains("PROPERTY STREAM=" + csOld.StreamName + ","))
+                                        {
+                                            double LFRACTION = 1 - csOld.VaporFraction;
+                                            lines[j + 2] = "PHASE=M,LFRACTION=" + LFRACTION + "&";
+                                            pureStreamCount++;
+                                            break;
+                                        }
+                                    }
+
+
+                                }
+                            }
+
+                        }
+                    }
                     reader.ReleaseProIIReader();
+
+                    if (pureStreamCount > 0)
+                    {
+                        File.WriteAllLines(inpFile, lines);
+                        IProIIImport proiiimport = ProIIFactory.CreateProIIImport(SourceFileInfo.FileVersion);
+                        int importresult = 0;
+                        int runresult = 0;
+                        tray1_f = proiiimport.ImportProIIINP(inpFile, ref importresult, ref runresult);
+
+                        reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                        reader.InitProIIReader(tray1_f);
+                        proIIVapor = reader.GetSteamInfo(vapor);
+                        proIILiquid = reader.GetSteamInfo(liquid);
+                        reader.ReleaseProIIReader();
+                    }
+
+
+
+
                     csVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
                     csLiquid = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
+                    SplashScreenManager.SentMsgToScreen("Calculation in progress......  30%");
                     k = csVapor.BulkCPCVRatio;
+                    SplashScreenManager.SentMsgToScreen("Calculation in progress......  40%");
                     double error = Math.Abs(csVapor.WeightFlow / csHigh.WeightFlow);
                     if (error < 1e-8) //L
                     {
@@ -194,20 +286,25 @@ namespace ReliefProMain.ViewModel.HXs
                         Calc(2);
                     }
 
-
                 }
-
                 else
                 {
-                    MessageBox.Show("Prz file is error", "Message Box");
+                    errorType = 1;
                 }
             }
             else
             {
-                MessageBox.Show("inp file is error", "Message Box");
-
+                errorType = 2;
             }
-
+            SplashScreenManager.Close();
+            if (errorType == 1)
+            {
+                MessageBox.Show("Prz file is error", "Message Box");
+            }
+            else if (errorType == 2)
+            {
+                MessageBox.Show("inp file is error", "Message Box");
+            }
 
 
         }
@@ -228,13 +325,20 @@ namespace ReliefProMain.ViewModel.HXs
             switch (calcType)
             {
                 case 0:
+                    SplashScreenManager.SentMsgToScreen("Calculation in progress......  50%");
                     rmass = csLiquid.BulkDensityAct;
                     model.ReliefLoad = Algorithm.CalcWL(d, p1, p2, rmass);
+                    if (model.ReliefLoad < 0)
+                        model.ReliefLoad = 0;
+
+                    model.ReliefLoad = 0;
+                    //model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit, model.ReliefLoad); //这是液相的泄放量，而系统现在都是气相的泄放量
                     model.ReliefMW = csLiquid.BulkMwOfPhase;
-                    model.ReliefPressure = csLiquid.Pressure;
-                    model.ReliefTemperature = csLiquid.Temperature;
+                    model.ReliefPressure =UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, reliefPressure);
+                    model.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, model.ReliefTemperatureUnit, csLiquid.Temperature);
                     model.ReliefCpCv = csLiquid.BulkCPCVRatio;
                     model.ReliefZ = csLiquid.VaporZFmKVal;
+                    SplashScreenManager.SentMsgToScreen("Calculation in progress......  60%");
                     break;
                 case 1:
                     k = csVapor.BulkCPCVRatio;
@@ -247,11 +351,16 @@ namespace ReliefProMain.ViewModel.HXs
                     {
                         model.ReliefLoad = Algorithm.CalcWvSecond(d, p1, p2, rmass);//非临界流
                     }
+                    SplashScreenManager.SentMsgToScreen("Calculation in progress......  50%");
+                    if (model.ReliefLoad < 0)
+                        model.ReliefLoad = 0;
+                    model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit, model.ReliefLoad);
                     model.ReliefMW = csVapor.BulkMwOfPhase;
-                    model.ReliefPressure = reliefPressure;
-                    model.ReliefTemperature = csVapor.Temperature;
+                    model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, reliefPressure);
+                    model.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, model.ReliefTemperatureUnit, csVapor.Temperature);
                     model.ReliefCpCv = csVapor.BulkCPCVRatio;
                     model.ReliefZ = csVapor.VaporZFmKVal;
+                    SplashScreenManager.SentMsgToScreen("Calculation in progress......  60%");
                     break;
                 case 2:
                     //再做一次闪蒸，求出
@@ -276,26 +385,111 @@ namespace ReliefProMain.ViewModel.HXs
                         {
                             if (RunResult == 1 || RunResult == 2)
                             {
+                                SplashScreenManager.SentMsgToScreen("Calculation in progress......  50%");
                                 IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                                 reader.InitProIIReader(tray1_f);
                                 ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
                                 ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
                                 ProIIEqData flash = reader.GetEqInfo("Flash", "F_1");
                                 reader.ReleaseProIIReader();
+
+                                string inpFile = dirLatent + @"\a.inp";
+                                string[]  lines= File.ReadAllLines(inpFile);
+                                int pureStreamCount = 0;
+
+                                foreach (CustomStream cs in lstHighFeeds)
+                                {
+                                    ProIIStreamData proIIFeedCopy = reader.GetSteamInfo(cs.StreamName);
+                                    CustomStream csOld = lstHighFeeds[0];
+                                    CustomStream csNew = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIFeedCopy); ;
+                                    if (ProIIMethod.IsPureComposition(csOld))   //如果是单组份
+                                    {
+                                        if (Math.Abs(csOld.VaporFraction - csNew.VaporFraction) >= 0.01) //组分误差》0.01的话
+                                        {
+                                            if ((1 - csOld.VaporFraction) < 1e-5)
+                                            {
+                                                //  修改为dew  PHASE=L,&
+                                                for (int j = 3; j < lines.Length; j++)
+                                                {
+                                                    if (lines[j].Contains("PROPERTY STREAM=" + csOld.StreamName + ","))
+                                                    {
+                                                        lines[j + 2] = "PHASE=V,&";
+                                                        pureStreamCount++;
+                                                        break;
+                                                    }
+                                                }
+
+                                            }
+                                            else if (csOld.VaporFraction < 1e-5)
+                                            {
+                                                //修改为泡点  PHASE=V,&
+                                                for (int j = 3; j < lines.Length; j++)
+                                                {
+                                                    if (lines[j].Contains("PROPERTY STREAM=" + csOld.StreamName + ","))
+                                                    {
+                                                        lines[j + 2] = "PHASE=L,&";
+                                                        pureStreamCount++;
+                                                        break;
+                                                    }
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                //PHASE=M, LFRACTION=0.2&   0.2=1-vaporFraction;
+                                                for (int j = 3; j < lines.Length; j++)
+                                                {
+                                                    if (lines[j].Contains("PROPERTY STREAM=" + csOld.StreamName + ","))
+                                                    {
+                                                        double LFRACTION = 1 - csOld.VaporFraction;
+                                                        lines[j + 2] = "PHASE=M,LFRACTION=" + LFRACTION + "&";
+                                                        pureStreamCount++;
+                                                        break;
+                                                    }
+                                                }
+
+
+                                            }
+                                        }
+
+                                    }
+                                }
+                                reader.ReleaseProIIReader();
+
+                                if (pureStreamCount > 0)
+                                {
+                                    File.WriteAllLines(inpFile, lines);
+                                    IProIIImport proiiimport = ProIIFactory.CreateProIIImport(SourceFileInfo.FileVersion);
+                                    int importresult = 0;
+                                    int runresult = 0;
+                                    tray1_f = proiiimport.ImportProIIINP(inpFile, ref importresult, ref runresult);
+
+                                    reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                                    reader.InitProIIReader(tray1_f);
+                                    proIIVapor = reader.GetSteamInfo(vapor);
+                                    proIILiquid = reader.GetSteamInfo(liquid);
+                                    reader.ReleaseProIIReader();
+                                }
+
+
                                 CustomStream csVapor2 = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
                                 CustomStream csLiquid2 = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
 
                                 double tmpP2 = UnitConvert.Convert(UOMEnum.Pressure, "Mpa", csLiquid2.Pressure);
-
+                                SplashScreenManager.SentMsgToScreen("Calculation in progress......  60%");
                                 double Rv = csVapor2.WeightFlow / csHigh.WeightFlow;
                                 double KL = Algorithm.CalcKL(p1, tmpP2, csLiquid2.BulkDensityAct);
                                 double Kv = Algorithm.CalcKv(p1, csVapor2.BulkDensityAct, k);
                                 model.ReliefLoad = Algorithm.CalcWH(Rv, KL, Kv, d);
+                                if (model.ReliefLoad < 0)
+                                    model.ReliefLoad = 0;
+                                model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit, model.ReliefLoad);
                                 model.ReliefMW = csVapor2.BulkMwOfPhase;
-                                model.ReliefPressure = reliefPressure;
-                                model.ReliefTemperature = csVapor2.Temperature;
+                                model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, reliefPressure);
+                                model.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, model.ReliefTemperatureUnit, csVapor2.Temperature);
                                 model.ReliefCpCv = csVapor2.BulkCPCVRatio;
                                 model.ReliefZ = csVapor2.VaporZFmKVal;
+                                SplashScreenManager.SentMsgToScreen("Calculation in progress......  70%");
                             }
 
                             else
@@ -311,17 +505,21 @@ namespace ReliefProMain.ViewModel.HXs
                     }
                     else
                     {
+                        SplashScreenManager.SentMsgToScreen("Calculation in progress......  50%");
                         double tmpP21 = UnitConvert.Convert(UOMEnum.Pressure, "Mpa", csLiquid.Pressure);
                         double tmpP22 = UnitConvert.Convert(UOMEnum.Pressure, "Mpa", csVapor.Pressure);
                         double Rv = csVapor.WeightFlow / csHigh.WeightFlow;
                         double KL = Algorithm.CalcKL(p1, tmpP21, csLiquid.BulkDensityAct);
                         double Kv = Algorithm.CalcKvSecond(p1,tmpP22, csVapor.BulkDensityAct);
                         model.ReliefLoad = Algorithm.CalcWH(Rv, KL,Kv,  d);
+
+                        model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit, model.ReliefLoad);
                         model.ReliefMW = csVapor.BulkMwOfPhase;
-                        model.ReliefPressure = reliefPressure;
-                        model.ReliefTemperature = csVapor.Temperature;
+                        model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, reliefPressure);
+                        model.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, model.ReliefTemperatureUnit, csVapor.Temperature);
                         model.ReliefCpCv = csVapor.BulkCPCVRatio;
                         model.ReliefZ = csVapor.VaporZFmKVal;
+                        SplashScreenManager.SentMsgToScreen("Calculation in progress......  60%");
                     }
                     break;
 
@@ -394,6 +592,85 @@ namespace ReliefProMain.ViewModel.HXs
             return b;
         }
 
+        private bool IsExistPureComposition(List<CustomStream> lst)
+        {
+            bool b=false;
+            foreach (CustomStream cs in lst)
+            {
+                if (ProIIMethod.IsPureComposition(cs))
+                {
+                    b = true;
+                    break;
+                }
+            }
+            return b;
+        }
+
+        private List<CustomStream> CalcPureComposion(List<CustomStream> lstOld, List<CustomStream> lstNew)
+        {
+            List<CustomStream> lst = new List<CustomStream>();
+            string tempdir = DirProtectedSystem + @"\temp\";
+            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+            for (int i = 0; i < lstOld.Count; i++)
+            {
+                CustomStream csOld = lstOld[i];
+                CustomStream csNew = lstNew[i];
+                if (ProIIMethod.IsPureComposition(csOld))   //如果是单组份
+                {
+                    if (Math.Abs(csOld.VaporFraction - csNew.VaporFraction) >= 0.01) //组分误差》0.01的话
+                    {
+                        if (csOld.VaporFraction == 1)
+                        {
+                            // 闪蒸到dew
+                            string gd = Guid.NewGuid().ToString();
+                            string vapor = "S_" + gd.Substring(0, 5).ToUpper();
+                            string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
+                            string content = PROIIFileOperator.getUsableContent(csOld.StreamName, tempdir);
+                            int ImportResult1 = 0;
+                            int RunResult1 = 0;
+                            string dirDew = tempdir + "TubeRupture1_dirDew" + ScenarioID.ToString();
+                            if (Directory.Exists(dirDew))
+                                Directory.Delete(dirDew, true);
+                            Directory.CreateDirectory(dirDew);
+                            string resultfile = fcalc.Calculate(content, 1, reliefPressure.ToString(), 4, "", csOld, vapor, liquid, dirDew, ref ImportResult1, ref RunResult1);
+                            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                            reader.InitProIIReader(resultfile);
+                            ProIIStreamData ProIINew2 = reader.GetSteamInfo(csOld.StreamName);
+                            reader.ReleaseProIIReader();
+                            CustomStream csNew2 = ProIIToDefault.ConvertProIIStreamToCustomStream(ProIINew2);
+                            csOld = csNew2;
+                        }
+                        else if (csHigh.VaporFraction == 0)
+                        {
+                            //闪蒸到泡点
+                            string gd = Guid.NewGuid().ToString();
+                            string vapor = "S_" + gd.Substring(0, 5).ToUpper();
+                            string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
+                            string content = PROIIFileOperator.getUsableContent(csOld.StreamName, tempdir);
+                            int ImportResult1 = 0;
+                            int RunResult1 = 0;
+                            string dirDew = tempdir + "TubeRupture1_dirDew" + ScenarioID.ToString();
+                            if (Directory.Exists(dirDew))
+                                Directory.Delete(dirDew, true);
+                            Directory.CreateDirectory(dirDew);
+                            string resultfile = fcalc.Calculate(content, 1, reliefPressure.ToString(), 3, "", csOld, vapor, liquid, dirDew, ref ImportResult1, ref RunResult1);
+                            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                            reader.InitProIIReader(resultfile);
+                            ProIIStreamData ProIINew2 = reader.GetSteamInfo(csOld.StreamName);
+                            reader.ReleaseProIIReader();
+                            CustomStream csNew2 = ProIIToDefault.ConvertProIIStreamToCustomStream(ProIINew2);
+                            csOld = csNew2;
+                        }
+                       
+                    }
+                }
+                lst.Add(csOld);
+            }
+            return lst;
+        }
+
+
+
         private CustomStream MixFeed(int feedType, ref  List<string> strFeeds, ref List<CustomStream> mixFeeds)
         {
             string mixFeedType = "Tube";
@@ -437,7 +714,83 @@ namespace ReliefProMain.ViewModel.HXs
                     IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     reader.InitProIIReader(mixPrzFile);
                     ProIIStreamData proIIvapor = reader.GetSteamInfo(mixProductName);
+
+                    string inpFile = dirMix + @"\a.inp";
+                    lines= File.ReadAllLines(inpFile);
+                    int pureStreamCount = 0;
+                    for (int i = 0; i < mixFeeds.Count; i++)
+                    {
+                        CustomStream csOld = mixFeeds[i];
+                        ProIIStreamData proiistream = reader.GetSteamInfo(csOld.StreamName);
+                        CustomStream csNew = ProIIToDefault.ConvertProIIStreamToCustomStream(proiistream); ;
+                        if (ProIIMethod.IsPureComposition(csOld))   //如果是单组份
+                        {
+                            if (Math.Abs(csOld.VaporFraction - csNew.VaporFraction) >= 0.01) //组分误差》0.01的话
+                            {
+                                if (csOld.VaporFraction == 1)
+                                {
+                                    //  修改为dew  PHASE=L,&
+                                    for(int j=3;j<lines.Length;j++)
+                                    {
+                                        if (lines[i].Contains("PROPERTY STREAM=" + csOld.StreamName + ","))
+                                        {
+                                            lines[j + 2] = "PHASE=V,&";
+                                            pureStreamCount++;
+                                            break;
+                                        }
+                                    }
+                                   
+                                }
+                                else if (csHigh.VaporFraction == 0)
+                                {
+                                    //修改为泡点  PHASE=V,&
+                                    for (int j = 3; j < lines.Length; j++)
+                                    {
+                                        if (lines[i].Contains("PROPERTY STREAM=" + csOld.StreamName + ","))
+                                        {
+                                            lines[j + 2] = "PHASE=L,&";
+                                            pureStreamCount++;
+                                            break;
+                                        }
+                                    }
+                                    
+                                }
+                                else
+                                {
+                                    //PHASE=M, LFRACTION=0.2&   0.2=1-vaporFraction;
+                                    for (int j = 3; j < lines.Length; j++)
+                                    {
+                                        if (lines[i].Contains("PROPERTY STREAM=" + csOld.StreamName + ","))
+                                        {
+                                            double LFRACTION = 1 - csOld.VaporFraction;
+                                            lines[i + 2] = "PHASE=M,LFRACTION=" + LFRACTION + "&";
+                                            pureStreamCount++;
+                                            break;
+                                        }
+                                    }
+                                  
+                                }
+                            }
+
+                        }
+
+                    }
                     reader.ReleaseProIIReader();
+                    if (pureStreamCount > 0)
+                    {
+                        File.WriteAllLines(inpFile,lines);
+                        IProIIImport proiiimport=ProIIFactory.CreateProIIImport(SourceFileInfo.FileVersion);
+                        int importresult=0;
+                        int runresult=0;
+                        mixPrzFile = proiiimport.ImportProIIINP(inpFile, ref importresult,ref runresult);
+                        
+                        reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                        reader.InitProIIReader(mixPrzFile);
+                        proIIvapor = reader.GetSteamInfo(mixProductName);
+                        reader.ReleaseProIIReader();
+
+                    }
+                   
                     CustomStream mixCSProduct = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
                     return mixCSProduct;
                 }

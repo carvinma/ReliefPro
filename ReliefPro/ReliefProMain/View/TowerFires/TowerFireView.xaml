@@ -28,8 +28,8 @@
         <ListView Grid.Column="1" HorizontalAlignment="Stretch" Height="163"  Grid.Row="2"  ItemsSource="{Binding EqList,Mode=TwoWay}" Grid.ColumnSpan="4" >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="{DynamicResource EqName}"  DisplayMemberBinding="{Binding Path=EqName}"></GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource EqType}"  DisplayMemberBinding="{Binding Path=Type}"></GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource EqName}"  DisplayMemberBinding="{Binding Path=EqName,Mode=TwoWay}"></GridViewColumn>
+                    <GridViewColumn Header="{DynamicResource EqType}"  DisplayMemberBinding="{Binding Path=Type,Mode=TwoWay}"></GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Elevation,Mode=TwoWay,StringFormat='{}{0:F4}'}">
                         <GridViewColumn.Header>
                             <StackPanel Orientation="Horizontal">
@@ -60,7 +60,7 @@
                             </StackPanel>
                         </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=HeatInput}">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=HeatInput,Mode=TwoWay}">
                         <GridViewColumn.Header>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{DynamicResource HeatInputKJ_hr}"/>

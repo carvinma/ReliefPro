@@ -265,8 +265,8 @@
     <s:String x:Key="DrumSizeViewTitle">Drum_fire</s:String>
     <s:String x:Key="Elevation">Elevation:</s:String>
     <s:String x:Key="Diameter">Diameter:</s:String>
-    <s:String x:Key="Length">Length:</s:String>
-    <s:String x:Key="Length2">Length2:</s:String>
+    <s:String x:Key="Length">L1:</s:String>
+    <s:String x:Key="Length2">L2:</s:String>
     <s:String x:Key="NormalLiquidLevel">Normal Liquid Level:</s:String>
     <s:String x:Key="Headnumber">Head Number:</s:String>
     <s:String x:Key="HeadType">Head Type:</s:String>
@@ -566,7 +566,7 @@
     <!--TowerFireHXView.xaml-->
     <s:String x:Key="TowerFireHXViewTitle">TowerShellTubeHX</s:String>
     <s:String x:Key="ExposedtoFire">Exposed to Fire:</s:String>
-    <s:String x:Key="OD">OD:</s:String>
+    <s:String x:Key="OD">Shell OD:</s:String>
     <s:String x:Key="DecType">Type:</s:String>
     <s:String x:Key="TowerFireHXViewStatusBar">...</s:String>
 
@@ -703,7 +703,7 @@
     <s:String x:Key="PhaseEnvelopShowViewTitle">Phase Envelop Show</s:String>
     <s:String x:Key="PhaseEnvelopShowViewStatusBar">...</s:String>
     <s:String x:Key="SuperCritical">Super Critical</s:String>
-    <s:String x:Key="ReverseCondensation">Reverse Condensation</s:String>
+    <s:String x:Key="ReverseCondensation">Retrograde Condensation</s:String>
 
 
     <!--HXBlockedOutletView.xaml-->

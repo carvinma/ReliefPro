@@ -171,7 +171,7 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return dbmodel.IsSteam;
+                return _IsSteam;
             }
             set
             {

@@ -442,6 +442,7 @@ namespace ReliefProMain.ViewModel.Drums
                     double pr = reliefPressure / fireCriticalPressure;
                     if (pr > 0.9)
                     {
+                        model.LatentHeat = molLatent;
                         MessageBox.Show("Relief Condition is near critical , Latent heat is set to default or user defined value.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                         model.LatentHeat2 = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, model.LatentHeatUnit, 115);
                         model.IsCalc = false;
@@ -453,14 +454,15 @@ namespace ReliefProMain.ViewModel.Drums
                             MessageBox.Show("Calculated latent heat is less than bound value and default  or user defined value is used.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                             model.LatentHeat2 = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, model.LatentHeatUnit, 115);
                             model.IsCalc = false;
+                        } 
+                        else
+                        {
+                            model.LatentHeat = molLatent;
+                            model.IsCalc = true;
                         }
 
                     }
-                    model.LatentHeat = molLatent;
-                    if (molLatent >= 115)
-                    {
-                        model.IsCalc = true;
-                    }
+                    
                 }
                 else if (model.FluidType == 4)
                 {
@@ -1571,13 +1573,13 @@ namespace ReliefProMain.ViewModel.Drums
 
                 else
                 {
-                    MessageBox.Show("The simulation unsolved!", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    //MessageBox.Show("The simulation unsolved!", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return 3;
                 }
             }
             else
             {
-                MessageBox.Show("There is some errors in keyword file.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
+                //MessageBox.Show("There is some errors in keyword file.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
                 return 3;
             }
 
@@ -1617,13 +1619,13 @@ namespace ReliefProMain.ViewModel.Drums
                 }
                 else
                 {
-                    MessageBox.Show("The simulation unsolved!", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    //MessageBox.Show("The simulation unsolved!", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return 3;
                 }
             }
             else
             {
-                MessageBox.Show("There is some errors in keyword file.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
+                //MessageBox.Show("There is some errors in keyword file.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
                 return 4;
             }
 
@@ -1809,7 +1811,7 @@ namespace ReliefProMain.ViewModel.Drums
             {
                 temperature = UnitConvert.Convert(UOMEnum.Pressure, "Kpa", reliefPressure) / UnitConvert.Convert(UOMEnum.Pressure, "Kpa", mixFeedStream.Pressure) * UnitConvert.Convert(UOMEnum.Temperature, "K", mixFeedStream.Temperature);
             }
-            model.ReliefTemperature = UnitConvert.Convert( "K",UOMEnum.Temperature, temperature);
+            model.ReliefTemperature = UnitConvert.Convert( "K",model.ReliefTemperatureUnit, temperature);
         }
         private void CalcDrumFireByLatent(double Qfire)
         {
@@ -1818,8 +1820,8 @@ namespace ReliefProMain.ViewModel.Drums
                 double latent = UnitConvert.Convert(model.LatentHeatUnit, UOMEnum.SpecificEnthalpy, model.LatentHeat);
                 if (latent == 0)
                 {
-                    MessageBox.Show("Latent could not be zero.","Message Box",MessageBoxButton.OK,MessageBoxImage.Error);
-                    return;
+                    //MessageBox.Show("Latent could not be zero.","Message Box",MessageBoxButton.OK,MessageBoxImage.Error);
+                    //return;
                 }
                 else
                 {
@@ -1832,15 +1834,15 @@ namespace ReliefProMain.ViewModel.Drums
                 double latent = UnitConvert.Convert(model.LatentHeat2Unit, UOMEnum.SpecificEnthalpy, model.LatentHeat2);
                 if (latent == 0)
                 {
-                    MessageBox.Show("Latent could not be zero.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
+                    //MessageBox.Show("Latent could not be zero.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
+                    //return;
                 }
                 else
                 {
                     model.ReliefLoad = Qfire / latent;
                 }
             }
-
+            model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit, model.ReliefLoad);
             if (model.FluidType == 5)
             {
                 if (normalVapor == null)
@@ -1849,7 +1851,7 @@ namespace ReliefProMain.ViewModel.Drums
                     return;
                 }
                 model.ReliefMW = normalVapor.BulkMwOfPhase;
-                model.ReliefPressure = reliefPressure;              
+                model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, reliefPressure);
                 model.ReliefCpCv = normalVapor.BulkCPCVRatio;
                 model.ReliefZ = normalVapor.VaporZFmKVal;
                 double temperature = 0;
@@ -1862,14 +1864,15 @@ namespace ReliefProMain.ViewModel.Drums
                     temperature = UnitConvert.Convert(UOMEnum.Pressure, "Kpa", reliefPressure) / UnitConvert.Convert(UOMEnum.Pressure, "Kpa", mixFeedStream.Pressure) * UnitConvert.Convert(UOMEnum.Temperature, "K", mixFeedStream.Temperature);
                 }
                 model.ReliefTemperature = UnitConvert.Convert("K", UOMEnum.Temperature, temperature);
+                model.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, model.ReliefTemperatureUnit, model.ReliefTemperature);
             }
             else
             {
                 if (model.dbmodel.ID == 0)
                 {
                     model.ReliefMW = molVapor.BulkMwOfPhase;
-                    model.ReliefPressure = reliefPressure;
-                    model.ReliefTemperature = molVapor.Temperature;
+                    model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, reliefPressure);
+                    model.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, model.ReliefTemperatureUnit, molVapor.Temperature);
                     model.ReliefCpCv = molVapor.BulkCPCVRatio;
                     model.ReliefZ = molVapor.VaporZFmKVal;
                 }
@@ -1898,13 +1901,15 @@ namespace ReliefProMain.ViewModel.Drums
             double w = Algorithm.GetFullVaporW(cpcv, mw, p1, area, tw, t1);
             if (t1 >= tw)
             {
-                MessageBox.Show("T1 could not be greater than TW", "Message Box");
+                MessageBox.Show(" T1 > Tw, relief load is set to zero.", "Message Box");
                 return;
             }
 
-            model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, uomEnum.UserMassRate, w);
+            model.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefLoadUnit, w);
+            if (model.ReliefLoad < 0)
+                model.ReliefLoad = 0;
             model.ReliefMW = mw;
-            model.ReliefTemperature = UnitConvert.Convert("K", uomEnum.UserTemperature, t1);
+            model.ReliefTemperature = UnitConvert.Convert("K", model.ReliefTemperatureUnit, t1);
             model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, reliefPressure);
             model.ReliefCpCv = 1.12;
             model.ReliefZ = 0.723;

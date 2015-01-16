@@ -54,7 +54,7 @@
                     <GridViewColumn Header="{DynamicResource IsFB}" Width="90px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox  IsChecked="{Binding Path=IsFB,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="50px" ></CheckBox>
+                                <CheckBox   IsChecked="{Binding Path=IsFB,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="50px" ></CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

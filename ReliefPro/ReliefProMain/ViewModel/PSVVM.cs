@@ -119,8 +119,8 @@ namespace ReliefProMain.ViewModel
             }
             return list;
         }
-
-
+        
+        Latent latent = new Latent();
 
         public PSVVM(string eqName, string eqType, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
@@ -492,6 +492,7 @@ namespace ReliefProMain.ViewModel
             string copyFile = dirCopyStream + @"\" + SourceFileInfo.FileName;
             File.Copy(FileFullPath, copyFile, true);
             CustomStream stream = CopyTop1Liquid(copyFile);
+            
             double internPressure = UnitConvert.Convert("MPAG", "KPA", stream.Pressure);
             if (internPressure == 0)
             {
@@ -499,38 +500,73 @@ namespace ReliefProMain.ViewModel
                 return;
             }
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
-
+            string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
             string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
             double ReliefPressure = CurrentModel.ReliefPressureFactor * CurrentModel.Pressure;
 
-
-            bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase);
-            if (b == false)
-                return;
-            CurrentModel.CriticalPressure = criticalPressure;
-            CurrentModel.CriticalTemperature = criticalTemperature;
-            CurrentModel.CricondenbarPress = cricondenbarPressure;
-            CurrentModel.CricondenbarTemp = cricondenbarTemperature;
-
-
-            double latentEnthalpy = 0;
             double ReliefTemperature = 0;
             LatentProduct latentVapor = new LatentProduct();
             LatentProduct latentLiquid = new LatentProduct();
-            string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-            if (criticalPressure > ReliefPressure)
+
+            bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase);
+            if (b)
             {
-                b = CalcLatent(content, ReliefPressure, stream, dirLatent, ref latentVapor, ref latentLiquid);
-                if (b == false)
-                    return;
-                latentEnthalpy = latentVapor.SpEnthalpy - latentLiquid.SpEnthalpy;
-                ReliefTemperature = latentVapor.Temperature;
+                CurrentModel.CriticalPressure = criticalPressure;
+                CurrentModel.CriticalTemperature = criticalTemperature;
+                CurrentModel.CricondenbarPress = cricondenbarPressure;
+                CurrentModel.CricondenbarTemp = cricondenbarTemperature;
+
+                if (criticalPressure > ReliefPressure)
+                {
+                    CalcLatent(content, ReliefPressure, stream, dirLatent, 2, ref latentVapor, ref latentLiquid);
+
+                }
+                else
+                {
+                    //suppercritical--- flash @prelief,trelief 
+                    string dirSupper = tempdir + "Supper";
+                    if (Directory.Exists(dirSupper))
+                    {
+                        Directory.Delete(dirSupper, true);
+                    }
+                    Directory.CreateDirectory(dirSupper);
+                    int supperResult=CalSupperCritical(content, ReliefPressure, criticalTemperature, stream, dirSupper);
+                    if (supperResult == 1 || supperResult == 2)
+                    {
+                        //warning 3
+                        CustomStreamDAL csdal = new CustomStreamDAL();
+                        CustomStream topVaporStream = new CustomStream();
+                        IList<CustomStream> csStreams = csdal.GetAllList(SessionProtectedSystem, true);
+                        foreach (CustomStream cs in csStreams)
+                        {
+                            if (cs.ProdType == "1" || cs.ProdType=="3")
+                            {
+                                topVaporStream = cs;
+                            }
+                        }
+
+                        LatentDAL dblatent = new LatentDAL();
+                        latent = new Latent();
+                        latent.LatentEnthalpy = 46;
+                        latent.ReliefTemperature = topVaporStream.Temperature;
+                        latent.ReliefOHWeightFlow = topVaporStream.BulkMwOfPhase;
+                        latent.ReliefPressure = ReliefPressure;
+                        latent.ReliefCpCv = topVaporStream.BulkCPCVRatio;
+                        latent.ReliefZ = topVaporStream.VaporZFmKVal;
+
+
+                        dblatent.Add(latent, SessionProtectedSystem);
+                    }
+
+                }
             }
             else
             {
-                latentEnthalpy = 116.3152;
-                ReliefTemperature = stream.Temperature;
+                    //warning1 
+                CalcLatent(content, ReliefPressure, stream, dirLatent, 3, ref latentVapor, ref latentLiquid);
             }
+            
+            ReliefTemperature = latent.ReliefTemperature;
             IList<CustomStream> products = null;
             CustomStreamDAL dbstream = new CustomStreamDAL();
             products = dbstream.GetAllList(SessionProtectedSystem, true);
@@ -677,21 +713,7 @@ namespace ReliefProMain.ViewModel
 
             }
 
-
-
-            LatentDAL dblatent = new LatentDAL();
-            //dbLatentProduct dblatentproduct = new dbLatentProduct();
             TowerFlashProductDAL dbFlashProduct = new TowerFlashProductDAL();
-
-            Latent latent = new Latent();
-            latent.LatentEnthalpy = latentEnthalpy;
-            latent.ReliefTemperature = ReliefTemperature;
-            latent.ReliefOHWeightFlow = latentVapor.BulkMwOfPhase;
-            latent.ReliefPressure = CurrentModel.Pressure * CurrentModel.ReliefPressureFactor;
-            latent.ReliefCpCv = latentVapor.BulkCPCVRatio;
-            latent.ReliefZ = latentVapor.VaporZFmKVal;
-            dblatent.Add(latent, SessionProtectedSystem);
-
             foreach (TowerFlashProduct p in listFlashProduct)
             {
                 dbFlashProduct.Add(p, SessionProtectedSystem);
@@ -884,8 +906,9 @@ namespace ReliefProMain.ViewModel
 
         }
 
-        private bool CalcLatent(string content, double ReliefPressure, CustomStream stream, string dirLatent, ref LatentProduct latentVapor, ref LatentProduct latentLiquid)
+        private void CalcLatent(string content, double ReliefPressure, CustomStream stream, string dirLatent,int FluidType, ref LatentProduct latentVapor, ref LatentProduct latentLiquid)
         {
+            int result = 0;
             LatentProductDAL dblp = new LatentProductDAL();
             int ImportResult = 0;
             int RunResult = 0;
@@ -902,6 +925,7 @@ namespace ReliefProMain.ViewModel
                     reader.InitProIIReader(tray1_f);
                     ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
                     ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                    ProIIEqData proiiEq=reader.GetEqInfo("Flash","F_1");
                     reader.ReleaseProIIReader();
                     latentVapor = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIIVapor);
                     latentVapor.ProdType = "1";
@@ -913,24 +937,114 @@ namespace ReliefProMain.ViewModel
                     dblp.Add(latentStream, SessionProtectedSystem);
                     dblp.Add(latentVapor, SessionProtectedSystem);
                     dblp.Add(latentLiquid, SessionProtectedSystem);
-                    return true;
+
+                    LatentDAL dblatent = new LatentDAL();
+                    latent = new Latent();
+                    latent.LatentEnthalpy = latentVapor.SpEnthalpy - latentLiquid.SpEnthalpy; ;
+                    latent.ReliefTemperature = latentVapor.Temperature ;
+                    latent.ReliefOHWeightFlow = latentVapor.BulkMwOfPhase;
+                    latent.ReliefPressure = CurrentModel.Pressure * CurrentModel.ReliefPressureFactor;
+                    latent.ReliefCpCv = latentVapor.BulkCPCVRatio;
+                    latent.ReliefZ = latentVapor.VaporZFmKVal;
+                    if (FluidType == 2)
+                    {
+                        if (latent.ReliefCpCv > 0.9 || latent.LatentEnthalpy < 115)
+                        {
+                            latent.LatentEnthalpy = 115;
+                            latent.ReliefTemperature = UnitConvert.Convert("K", UOMEnum.Temperature, double.Parse(proiiEq.TempCalc));
+                        }
+                    }
+                    else if (FluidType == 3)
+                    {
+                        if (latent.LatentEnthalpy < 115)
+                        {
+                            latent.LatentEnthalpy = 115;
+                            latent.ReliefTemperature = UnitConvert.Convert("K", UOMEnum.Temperature, double.Parse(proiiEq.TempCalc));
+                        }
+                    }
+
+                    dblatent.Add(latent, SessionProtectedSystem);
+
+                    
                 }
 
                 else
                 {
                     MessageBox.Show("Prz file is error", "Message Box");
-                    return false;
+                    result = 1;
                 }
             }
             else
             {
                 MessageBox.Show("inp file is error", "Message Box");
-                return false;
+                result = 2;
+            }
+            if (result != 0)
+            {
+                LatentDAL dblatent = new LatentDAL();
+                latent = new Latent();
+                latent.LatentEnthalpy = 46;
+                latent.ReliefTemperature = stream.Temperature;
+                latent.ReliefOHWeightFlow = stream.BulkMwOfPhase;
+                latent.ReliefPressure = ReliefPressure;
+                latent.ReliefCpCv = stream.BulkCPCVRatio;
+                latent.ReliefZ = stream.VaporZFmKVal;
+                dblatent.Add(latent, SessionProtectedSystem);
             }
         }
 
 
-        
+        private int CalSupperCritical(string content, double ReliefPressure,double ReliefTemperature,CustomStream stream,string dirSupper)
+        {
+            int result = 0;
+            int ImportResult = 0;
+            int RunResult = 0;
+            string gd = Guid.NewGuid().ToString();
+            string vapor = "S_" + gd.Substring(0, 5).ToUpper();
+            string liquid = string.Empty;
+            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+            string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, vapor, liquid, dirSupper, ref ImportResult, ref RunResult);
+            if (ImportResult == 1 || ImportResult == 2)
+            {
+                if (RunResult == 1 || RunResult == 2)
+                {
+                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    reader.InitProIIReader(tray1_f);
+                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                    reader.ReleaseProIIReader();
+                    CustomStream csVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
+                    LatentDAL dblatent = new LatentDAL();
+                    //dbLatentProduct dblatentproduct = new dbLatentProduct();
+                    TowerFlashProductDAL dbFlashProduct = new TowerFlashProductDAL();
+                    
+                    latent = new Latent();
+                    latent.LatentEnthalpy = 115;
+                    latent.ReliefTemperature = ReliefTemperature;
+                    latent.ReliefOHWeightFlow = csVapor.BulkMwOfPhase;
+                    latent.ReliefPressure = ReliefPressure;
+                    latent.ReliefCpCv = csVapor.BulkCPCVRatio;
+                    latent.ReliefZ = csVapor.VaporZFmKVal;
+
+                    if (csVapor.BulkCPCVRatio == 0)
+                    {
+                        latent.ReliefCpCv = 1.4;
+                    }
+                    dblatent.Add(latent, SessionProtectedSystem);
+                    return result;
+                }
+
+                else
+                {
+                    //MessageBox.Show("Prz file is error", "Message Box");
+                    return 1;
+                }
+            }
+            else
+            {
+                //MessageBox.Show("inp file is error", "Message Box");
+                return 2;
+            }
+        }
         
     }
 }

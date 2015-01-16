@@ -27,6 +27,13 @@ namespace ReliefProBLL
 
             sql = " from ReliefProModel.FlashCalcResult ";
             SessionProtectedSystem.Delete(sql);
+
+            sql = " from ReliefProModel.FlashResult ";
+            SessionProtectedSystem.Delete(sql);
+
+            sql = " from ReliefProModel.TowerFlashProduct ";
+            SessionProtectedSystem.Delete(sql);
+
             SessionProtectedSystem.Flush();
         }
 

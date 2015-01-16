@@ -48,14 +48,14 @@ namespace ReliefProDAL
 
             return model;
         }
-        public FeedBottomHX GetModel(ISession session)
+        public FeedBottomHX GetModel(ISession session,string streamName)
         {
             FeedBottomHX model = null;
             IList<FeedBottomHX> list = null;
             try
             {
                 session.Clear();
-                list = session.CreateCriteria<FeedBottomHX>().List<FeedBottomHX>();
+                list = session.CreateCriteria<FeedBottomHX>().Add(Expression.Eq("StreamName", streamName)).List<FeedBottomHX>();
                 if (list.Count > 0)
                 {
                     model = list[0];
