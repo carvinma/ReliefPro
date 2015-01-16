@@ -1,0 +1,63 @@
+﻿<Window x:Class="ReliefProMain.View.DrumFires.DrumMutiPhaseView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
+        Name="myWindow" Title="{DynamicResource DrumMutiPhaseViewTitle}" Height="260" Width="419" WindowStartupLocation="CenterScreen" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+
+    <Grid Style="{DynamicResource WinGrid}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="37*"/>
+            <ColumnDefinition Width="76*"/>
+            <ColumnDefinition Width="98*"/>
+            <ColumnDefinition Width="129*"/>
+            <ColumnDefinition Width="73*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="33*"/>
+            <RowDefinition Height="23"/>
+        </Grid.RowDefinitions>
+        <CheckBox  IsChecked="{Binding model.HeavyOilFluid,Mode=TwoWay}" Content="{DynamicResource HeavyOilFluid}" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" Height="16" Margin="0,7" Width="89" Grid.ColumnSpan="2"/>
+        <Label Content="{DynamicResource WettedArea}" Grid.Row="2" Grid.Column="1" Margin="0,3" Height="24" Width="75" />
+
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.WettedArea,Mode=TwoWay,StringFormat='{}{0:F4}'}" BorderBrush="{Binding model.WettedArea_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblWettedArea,Path=Content,Mode=TwoWay}" Grid.Column="3"  Grid.Row="2"   VerticalAlignment="Stretch" Height="Auto" Margin="0,6"  />
+        <Label x:Name="lblWettedArea" Content="{Binding model.WettedAreaUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="4" Grid.Row="2"   />
+
+        <Label Content="{DynamicResource LatentHeat}"  Grid.Row="3" Grid.Column="1" Margin="0,3" Height="24" Width="70"/>
+        <RadioButton IsChecked="{Binding model.IsCalc,Mode=TwoWay}" Content="{DynamicResource Calculated}" Grid.Column="2" HorizontalAlignment="Left"  Grid.Row="3"   Width="77" Height="16" Margin="0,7" />
+        <RadioButton IsChecked="{Binding model.IsNotCalc,Mode=TwoWay}" Content="{DynamicResource UserDefined}" Grid.Column="2" HorizontalAlignment="Left"  Grid.Row="4"  Width="88" Margin="0,10,0,5" Height="15" />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" Text="{Binding Path=model.LatentHeat,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblLatent,Path=Content,Mode=TwoWay}"  Grid.Column="3"  Grid.Row="3"   VerticalAlignment="Stretch"/>
+        <CustomControl:UnitConvertTextBox  Text="{Binding Path=model.LatentHeat2,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblLatent2,Path=Content,Mode=TwoWay}"  Grid.Column="3"  Grid.Row="4"   VerticalAlignment="Stretch"/>
+
+        <Label x:Name="lblLatent" Content="{Binding model.LatentHeatUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="4" Grid.Row="3"/>
+        <Label x:Name="lblLatent2" Content="{Binding model.LatentHeat2Unit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="4" Grid.Row="4"/>
+        <Label x:Name="lblCraking" Content="{Binding model.CrackingHeatUnit,Mode=TwoWay}" Style="{StaticResource LabelLeftStyle}" Grid.Column="4" Grid.Row="5"/>
+        <CustomControl:UnitConvertTextBox Text="{Binding Path=model.CrackingHeat,Mode=TwoWay,StringFormat='{}{0:F4}'}" UnitOrigin="{Binding ElementName=lblCraking,Path=Content,Mode=TwoWay}" IsEnabled="{Binding Path=model.EnabledCrack,Mode=TwoWay}" Grid.Column="3"  Grid.Row="5"/>
+        <Label Content="{DynamicResource CrackingHeat}" Grid.ColumnSpan="2" Grid.Row="5" Grid.Column="1"/>
+
+        <Grid HorizontalAlignment="Stretch" Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="{DynamicResource OK}" Command="{Binding OKCMD}" CommandParameter="{Binding ElementName=myWindow}" Grid.Column="1" />
+            <Button Content="{DynamicResource Cancel}" IsCancel="True" Grid.Column="2" />
+
+        </Grid>
+
+        <StatusBar  HorizontalAlignment="Stretch" Height="auto" Grid.Row="7" VerticalAlignment="Stretch" Grid.ColumnSpan="5">
+            <StatusBarItem>
+                <TextBlock Text="{DynamicResource DrumMutiPhaseViewStatusBar}"></TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+        
+        
+    </Grid>
+</Window>
