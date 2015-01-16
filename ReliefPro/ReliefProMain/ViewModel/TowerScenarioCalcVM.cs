@@ -870,8 +870,11 @@ namespace ReliefProMain.ViewModel
                                     fbTotal = fbTotal + (s.FlowCalcFactor * fbhx.FeedReliefSpEout * cstream.WeightFlow);
                                 }
                             }
+
+                            SourceDAL srdal = new SourceDAL();
+                            Source sr = srdal.GetModel(cstream.StreamName, SessionProtectedSystem);
+                            //IList<ScenarioHeatSource> list = scenarioHeatSourceDAL.GetAllList();
                             
-                            IList<ScenarioHeatSource> list=scenarioHeatSourceDAL.GetAllList(
 
 
                         }
