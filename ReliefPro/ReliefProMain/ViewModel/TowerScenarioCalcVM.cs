@@ -806,6 +806,7 @@ namespace ReliefProMain.ViewModel
             LatentDAL dblatent = new LatentDAL();
             Latent latent = dblatent.GetModel(SessionProtectedSystem);
 
+            HeatSourceDAL hsDAL=new HeatSourceDAL();
             FeedBottomHXDAL feedBottomHXDAL = new ReliefProDAL.FeedBottomHXDAL();
             ScenarioHeatSourceDAL scenarioHSDal = new ScenarioHeatSourceDAL();
             CustomStreamDAL dbCS = new CustomStreamDAL();
@@ -854,28 +855,70 @@ namespace ReliefProMain.ViewModel
                     ScenarioHeatSourceDAL scenarioHeatSourceDAL = new ScenarioHeatSourceDAL();
                     if(s.FlowStop)
                     {
+                        IList<ScenarioHeatSource> shsList = scenarioHSDal.GetScenarioStreamHeatSourceList(SessionProtectedSystem, s.ID, "Feed/Bottom HX");
+                        foreach (ScenarioHeatSource shs in shsList)
+                        {
+                            HeatSource hs = hsDAL.GetModel(shs.HeatSourceID, SessionProtectedSystem);
+                            FeedBottomHX fbhx = feedBottomHXDAL.GetModel(SessionProtectedSystem, shs.HeatSourceID);
+                            if (fbhx != null)
+                            {
+                                //ScenarioHeatSource scenarioHeatSource = scenarioHeatSourceDAL.GetModel(SessionProtectedSystem, fbhx.HeatSourceID, ScenarioID);
+                                if (shs.IsFB)
+                                {
+                                    fbTotal = fbTotal + (shs.DutyFactor * fbhx.FeedReliefSpEout * cstream.WeightFlow);  //
+                                }
+                                else
+                                {
+                                    fbTotal = fbTotal + (shs.DutyFactor *hs.Duty );
+                                }
 
+                            }
+                            else
+                            {
+                                fbTotal = fbTotal + (shs.DutyFactor * hs.Duty);
+                            }
+                        }
+
+                        IList<ScenarioHeatSource> shsList2 = scenarioHSDal.GetScenarioStreamHeatSourceList(SessionProtectedSystem, s.ID, "Fired Heater");
+                        foreach (ScenarioHeatSource shs in shsList2)
+                        {
+                            if (shs.DutyFactor > 0)
+                            {
+                                HeatSource hs = hsDAL.GetModel(shs.HeatSourceID, SessionProtectedSystem);
+                                firedheaterTotal = firedheaterTotal + hs.Duty * shs.DutyFactor;
+                            }
+
+                        }
                     }
                     else
                     {
                         if (s.FlowCalcFactor == 0)
                         {
-                            FeedBottomHX fbhx = feedBottomHXDAL.GetModel(SessionProtectedSystem, s.StreamName);
-                            if (fbhx != null)
+                            IList<ScenarioHeatSource> shsList = scenarioHSDal.GetScenarioStreamHeatSourceList(SessionProtectedSystem, s.ID, "Feed/Bottom HX");
+                            foreach (ScenarioHeatSource shs in shsList)
                             {
 
-                                ScenarioHeatSource scenarioHeatSource = scenarioHeatSourceDAL.GetModel(SessionProtectedSystem, fbhx.HeatSourceID, ScenarioID);
-                                if (scenarioHeatSource.IsFB)
+                                FeedBottomHX fbhx = feedBottomHXDAL.GetModel(SessionProtectedSystem, shs.HeatSourceID);
+                                if (fbhx != null)
                                 {
-                                    fbTotal = fbTotal + (s.FlowCalcFactor * fbhx.FeedReliefSpEout * cstream.WeightFlow);
+                                    //ScenarioHeatSource scenarioHeatSource = scenarioHeatSourceDAL.GetModel(SessionProtectedSystem, fbhx.HeatSourceID, ScenarioID);
+                                    if (shs.IsFB)
+                                    {
+                                        fbTotal = fbTotal + (shs.DutyFactor * fbhx.FeedReliefSpEout * cstream.WeightFlow);  //待确认
+                                    }
                                 }
                             }
 
-                            SourceDAL srdal = new SourceDAL();
-                            Source sr = srdal.GetModel(cstream.StreamName, SessionProtectedSystem);
-                            //IList<ScenarioHeatSource> list = scenarioHeatSourceDAL.GetAllList();
-                            
+                            IList<ScenarioHeatSource> shsList2 = scenarioHSDal.GetScenarioStreamHeatSourceList(SessionProtectedSystem, s.ID, "Fired Heater");
+                            foreach (ScenarioHeatSource shs in shsList2)
+                            {
+                                if (shs.DutyFactor > 0)
+                                {
+                                    HeatSource hs = hsDAL.GetModel(shs.HeatSourceID, SessionProtectedSystem);
+                                    firedheaterTotal = firedheaterTotal + hs.Duty * shs.DutyFactor;
+                                }
 
+                            }
 
                         }
                         else
@@ -935,7 +978,7 @@ namespace ReliefProMain.ViewModel
            
             double latestH=latent.LatentEnthalpy;
             
-            double totalH = FeedTotal - ProductTotal + HeatTotal;
+            double totalH = FeedTotal - ProductTotal + HeatTotal +fbTotal+firedheaterTotal;
             double wAccumulation = totalH / latestH + overHeadWeightFlow;
             double wRelief = wAccumulation;
             if (wRelief < 0)

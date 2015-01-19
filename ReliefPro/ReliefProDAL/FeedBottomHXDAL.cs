@@ -35,6 +35,7 @@ namespace ReliefProDAL
                 if (list.Count > 0)
                 {
                     model = list[0];
+                    
                 }
                 else
                     model = null;
@@ -58,7 +59,7 @@ namespace ReliefProDAL
                 list = session.CreateCriteria<FeedBottomHX>().Add(Expression.Eq("StreamName", streamName)).List<FeedBottomHX>();
                 if (list.Count > 0)
                 {
-                    model = list[0];
+                    model = list[0];                    
                 }
                 else
                     model = null;

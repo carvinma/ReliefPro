@@ -788,7 +788,7 @@ namespace ReliefProMain.ViewModel
                         {
                             shs = new ScenarioHeatSource();
                             shs.HeatSourceID = hs.ID;
-                            shs.DutyFactor = 1;
+                            shs.DutyFactor = 0;
                             shs.ScenarioStreamID = tss.ID;
                             shs.ScenarioID = ScenarioID;
                             shs.HeatSourceType = hs.HeatSourceType;
