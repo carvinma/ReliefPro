@@ -24,6 +24,7 @@ namespace ReliefProMain.ViewModel.Reports
 {
     public class PlantSummaryVM : ViewModelBase
     {
+        public bool isHideAir;
         private List<PUsummaryGridDS> listPUReportDS;
         private List<PlantSummaryGridDS> listPlantReportDS;
         private List<Tuple<int, List<string>>> ProcessUnitPath;
@@ -94,7 +95,7 @@ namespace ReliefProMain.ViewModel.Reports
             listPlantReportDS = new List<PlantSummaryGridDS>();
             NextPlantCMD = new DelegateCommand<object>(BtnNextPlant);
             report = new ReportBLL(UnitPath[0].Item1, UnitPath[0].Item2);
-
+            isHideAir = report.isHideAir();
             listPlantCalc = report.listPlantCalc;
             listDischargeTo = report.GetDisChargeTo();
             if (listDischargeTo.Count > 0)
@@ -207,6 +208,7 @@ namespace ReliefProMain.ViewModel.Reports
             List<PUsummaryReportSource> listRS = new List<PUsummaryReportSource>();
             listRS = listPlantReportDS.Select(p => new PUsummaryReportSource
             {
+                HideAir = isHideAir,
                 Device = p.ProcessUnit,
                 ScenarioReliefRate = p.ControllingDS.ReliefLoad,
                 ScenarioVolumeRate = p.ControllingDS.ReliefVolumeRate,
