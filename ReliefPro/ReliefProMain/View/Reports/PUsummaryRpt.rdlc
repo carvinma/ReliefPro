@@ -8916,11 +8916,31 @@ Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
             <TablixMember />
             <TablixMember />
             <TablixMember />
-            <TablixMember />
-            <TablixMember />
-            <TablixMember />
-            <TablixMember />
-            <TablixMember />
+            <TablixMember>
+              <Visibility>
+                <Hidden>=iif(Fields!HideAir.Value,True,False)</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>=iif(Fields!HideAir.Value,True,False)</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>=iif(Fields!HideAir.Value,True,False)</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>=iif(Fields!HideAir.Value,True,False)</Hidden>
+              </Visibility>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>=iif(Fields!HideAir.Value,True,False)</Hidden>
+              </Visibility>
+            </TablixMember>
             <TablixMember />
             <TablixMember />
             <TablixMember />
@@ -9016,13 +9036,17 @@ Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
+        <Field Name="AirCpCv">
+          <DataField>AirCpCv</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
         <Field Name="AirMWorSpGr">
           <DataField>AirMWorSpGr</DataField>
           <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="AirPhase">
           <DataField>AirPhase</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="AirReliefRate">
           <DataField>AirReliefRate</DataField>
@@ -9030,6 +9054,10 @@ Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
         </Field>
         <Field Name="AirT">
           <DataField>AirT</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="AirVolumeRate">
+          <DataField>AirVolumeRate</DataField>
           <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="AirZ">
@@ -9048,13 +9076,17 @@ Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
           <DataField>DischargeTo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="FireCpCv">
+          <DataField>FireCpCv</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
         <Field Name="FireMWorSpGr">
           <DataField>FireMWorSpGr</DataField>
           <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="FirePhase">
           <DataField>FirePhase</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="FireReliefRate">
           <DataField>FireReliefRate</DataField>
@@ -9064,8 +9096,16 @@ Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
           <DataField>FireT</DataField>
           <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
+        <Field Name="FireVolumeRate">
+          <DataField>FireVolumeRate</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
         <Field Name="FireZ">
           <DataField>FireZ</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="PowerCpCv">
+          <DataField>PowerCpCv</DataField>
           <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="PowerMWorSpGr">
@@ -9074,7 +9114,7 @@ Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
         </Field>
         <Field Name="PowerPhase">
           <DataField>PowerPhase</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="PowerReliefRate">
           <DataField>PowerReliefRate</DataField>
@@ -9082,6 +9122,10 @@ Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
         </Field>
         <Field Name="PowerT">
           <DataField>PowerT</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="PowerVolumeRate">
+          <DataField>PowerVolumeRate</DataField>
           <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="PowerZ">
@@ -9112,13 +9156,21 @@ Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
           <DataField>ScenarioT</DataField>
           <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
+        <Field Name="ScenarioVolumeRate">
+          <DataField>ScenarioVolumeRate</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
         <Field Name="ScenarioZ">
           <DataField>ScenarioZ</DataField>
           <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="SetPressure">
           <DataField>SetPressure</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="SteamCpCv">
+          <DataField>SteamCpCv</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="SteamMWorSpGr">
           <DataField>SteamMWorSpGr</DataField>
@@ -9126,7 +9178,7 @@ Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
         </Field>
         <Field Name="SteamPhase">
           <DataField>SteamPhase</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="SteamReliefRate">
           <DataField>SteamReliefRate</DataField>
@@ -9136,8 +9188,16 @@ Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
           <DataField>SteamT</DataField>
           <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
+        <Field Name="SteamVolumeRate">
+          <DataField>SteamVolumeRate</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
         <Field Name="SteamZ">
           <DataField>SteamZ</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="WaterCpCv">
+          <DataField>WaterCpCv</DataField>
           <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
         <Field Name="WaterMWorSpGr">
@@ -9146,7 +9206,7 @@ Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
         </Field>
         <Field Name="WaterPhase">
           <DataField>WaterPhase</DataField>
-          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="WaterReliefRate">
           <DataField>WaterReliefRate</DataField>
@@ -9156,9 +9216,17 @@ Fields!FireReliefRate.Value/Fields!FireMWorSpGr.Value/
           <DataField>WaterT</DataField>
           <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
+        <Field Name="WaterVolumeRate">
+          <DataField>WaterVolumeRate</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
         <Field Name="WaterZ">
           <DataField>WaterZ</DataField>
           <rd:TypeName>System.Nullable`1[[System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
+        </Field>
+        <Field Name="HideAir">
+          <DataField>HideAir</DataField>
+          <rd:TypeName>System.Nullable`1[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>

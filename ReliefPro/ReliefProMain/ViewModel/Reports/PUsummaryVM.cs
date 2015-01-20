@@ -218,6 +218,7 @@ namespace ReliefProMain.ViewModel.Reports
             List<PUsummaryReportSource> listRS = new List<PUsummaryReportSource>();
             listRS = model.listGrid.Select(p => new PUsummaryReportSource
             {
+                HideAir=true,
                 Device = p.psv.PSVName,
                 //ProtectedSystem = p.psv.PSVName,
                 ProtectedSystem=p.ProtectedSystem,
