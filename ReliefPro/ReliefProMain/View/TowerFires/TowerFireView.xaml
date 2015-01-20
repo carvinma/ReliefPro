@@ -41,7 +41,7 @@
                     <GridViewColumn Header="{DynamicResource FireZone}"  >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=FireZone}" ></CheckBox>
+                                <CheckBox IsChecked="{Binding Path=FireZone,Mode=TwoWay}" ></CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

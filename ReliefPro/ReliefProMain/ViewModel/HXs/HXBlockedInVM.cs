@@ -48,7 +48,8 @@ namespace ReliefProMain.ViewModel.HXs
         double cricondenbarTemperature;
         public bool IsColdIn = true;
         int ScenarioID;
-        
+        string HeatMethod = string.Empty;
+        HeatExchanger heathx = new HeatExchanger();
         public HXBlockedInVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;
@@ -76,7 +77,7 @@ namespace ReliefProMain.ViewModel.HXs
 
             CustomStreamDAL csdal = new CustomStreamDAL();
             HeatExchangerDAL heatexdal = new HeatExchangerDAL();
-            HeatExchanger heathx = heatexdal.GetModel(SessionPS);
+            heathx = heatexdal.GetModel(SessionPS);
             string coldFeed = string.Empty;
             if (psv.LocationDescription == "Shell")
             {
@@ -289,6 +290,10 @@ namespace ReliefProMain.ViewModel.HXs
             int ImportResult = 0;
             int RunResult = 0;
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+            string[] sourceFiles = Directory.GetFiles(tempdir, "*.inp");
+            string sourceFile = sourceFiles[0];
+            string[] lines = System.IO.File.ReadAllLines(sourceFile);
+            HeatMethod = ProIIMethod.GetHeatMethod(lines, heathx.HXName);
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             List<string> coldList = new List<string>();
             foreach (CustomStream cs in normalColdInletList)
@@ -298,7 +303,7 @@ namespace ReliefProMain.ViewModel.HXs
             string content = PROIIFileOperator.getUsableContent(coldList, tempdir);
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 3, "0", normalColdInletList, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 3, "0",heathx.HXName, normalColdInletList, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -368,6 +373,10 @@ namespace ReliefProMain.ViewModel.HXs
             int ImportResult = 0;
             int RunResult = 0;
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+            string[] sourceFiles = Directory.GetFiles(tempdir, "*.inp");
+            string sourceFile = sourceFiles[0];
+            string[] lines = System.IO.File.ReadAllLines(sourceFile);
+            HeatMethod = ProIIMethod.GetHeatMethod(lines, heathx.HXName);
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             List<string> coldList = new List<string>();
             foreach (CustomStream cs in normalColdInletList)
@@ -380,7 +389,7 @@ namespace ReliefProMain.ViewModel.HXs
 
             double normalduty=UnitConvert.Convert(model.NormalDutyUnit,"KJ/hr",model.NormalDuty);
             normalduty = normalduty / Math.Pow(10, 6);
-            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 5, normalduty.ToString(), normalColdInletList, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 5, normalduty.ToString(),heathx.HXName, normalColdInletList, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -487,13 +496,17 @@ namespace ReliefProMain.ViewModel.HXs
             int ImportResult = 0;
             int RunResult = 0;
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+            string[] sourceFiles = Directory.GetFiles(tempdir, "*.inp");
+            string sourceFile = sourceFiles[0];
+            string[] lines = System.IO.File.ReadAllLines(sourceFile);
+            HeatMethod = ProIIMethod.GetHeatMethod(lines,heathx.HXName );
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
 
             double temp = UnitConvert.Convert(model.NormalHotTemperatureUnit, "C", model.NormalHotTemperature);
-            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 2, temp.ToString(), stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 2, temp.ToString(), HeatMethod,stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)

@@ -44,7 +44,7 @@ namespace ReliefProMain.ViewModel.HXs
         HeatExchanger hx = new HeatExchanger();
         double k = 0;
         int ScenarioID;
-        
+        string HeatMethod = string.Empty;
         public TubeRuptureVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;
@@ -171,9 +171,10 @@ namespace ReliefProMain.ViewModel.HXs
             string[] files = Directory.GetFiles(tempdir, "*.inp");
             string sourceFile = files[0];
             string[] lines = System.IO.File.ReadAllLines(sourceFile);
+            HeatMethod = ProIIMethod.GetHeatMethod(lines,hx.HXName);
             string content = PROIIFileOperator.getUsableContent(strHighFeeds, lines);
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 5, "0", lstHighFeeds, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 5, "0", HeatMethod,lstHighFeeds, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -380,7 +381,7 @@ namespace ReliefProMain.ViewModel.HXs
                         PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
                         string content = PROIIFileOperator.getUsableContent(strHighFeeds, tempdir);
                         IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-                        string tray1_f = fcalc.Calculate(content, 1, pcf.ToString(), 5, "0", lstHighFeeds, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+                        string tray1_f = fcalc.Calculate(content, 1, pcf.ToString(), 5, "0", HeatMethod, lstHighFeeds, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
                         if (ImportResult == 1 || ImportResult == 2)
                         {
                             if (RunResult == 1 || RunResult == 2)
@@ -625,6 +626,12 @@ namespace ReliefProMain.ViewModel.HXs
                             string gd = Guid.NewGuid().ToString();
                             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
                             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
+                            string[] files = Directory.GetFiles(tempdir, "*.inp");
+                            string sourceFile = files[0];
+                            string[] lines = System.IO.File.ReadAllLines(sourceFile);
+                            HeatMethod = ProIIMethod.GetHeatMethod(lines, hx.HXName);
+
+
                             string content = PROIIFileOperator.getUsableContent(csOld.StreamName, tempdir);
                             int ImportResult1 = 0;
                             int RunResult1 = 0;
@@ -632,7 +639,7 @@ namespace ReliefProMain.ViewModel.HXs
                             if (Directory.Exists(dirDew))
                                 Directory.Delete(dirDew, true);
                             Directory.CreateDirectory(dirDew);
-                            string resultfile = fcalc.Calculate(content, 1, reliefPressure.ToString(), 4, "", csOld, vapor, liquid, dirDew, ref ImportResult1, ref RunResult1);
+                            string resultfile = fcalc.Calculate(content, 1, reliefPressure.ToString(), 4, "",HeatMethod, csOld, vapor, liquid, dirDew, ref ImportResult1, ref RunResult1);
                             IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                             reader.InitProIIReader(resultfile);
                             ProIIStreamData ProIINew2 = reader.GetSteamInfo(csOld.StreamName);
@@ -646,14 +653,20 @@ namespace ReliefProMain.ViewModel.HXs
                             string gd = Guid.NewGuid().ToString();
                             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
                             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
+
+                            string[] files = Directory.GetFiles(tempdir, "*.inp");
+                            string sourceFile = files[0];
+                            string[] lines = System.IO.File.ReadAllLines(sourceFile);
+                            HeatMethod = ProIIMethod.GetHeatMethod(lines, hx.HXName);
                             string content = PROIIFileOperator.getUsableContent(csOld.StreamName, tempdir);
+
                             int ImportResult1 = 0;
                             int RunResult1 = 0;
                             string dirDew = tempdir + "TubeRupture1_dirDew" + ScenarioID.ToString();
                             if (Directory.Exists(dirDew))
                                 Directory.Delete(dirDew, true);
                             Directory.CreateDirectory(dirDew);
-                            string resultfile = fcalc.Calculate(content, 1, reliefPressure.ToString(), 3, "", csOld, vapor, liquid, dirDew, ref ImportResult1, ref RunResult1);
+                            string resultfile = fcalc.Calculate(content, 1, reliefPressure.ToString(), 3, "",HeatMethod, csOld, vapor, liquid, dirDew, ref ImportResult1, ref RunResult1);
                             IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                             reader.InitProIIReader(resultfile);
                             ProIIStreamData ProIINew2 = reader.GetSteamInfo(csOld.StreamName);

@@ -28,7 +28,7 @@ namespace ReliefProBLL
                 return model.ID;
             return 0;
         }
-
+        public string EqName;
         public void SaveDrumBlockedOutlet(DrumBlockedOutlet model, ISession SessionPS, double reliefLoad, double reliefMW, double reliefT, double reliefCpCv, double reliefZ)
         {
 
@@ -60,8 +60,10 @@ namespace ReliefProBLL
                     Model.NormalFlashDuty = lstDrum[0].Duty;
                     Model.DrumID = lstDrum[0].ID;
                     Model.FDReliefCondition = Model.NormalFlashDuty;
+                    EqName = lstDrum[0].DrumName;
                 }
                 Feeds = dbsteam.GetAllList(SessionPS, false).ToList();
+                
             }
             else
             {
@@ -72,6 +74,7 @@ namespace ReliefProBLL
                     Model.NormalFlashDuty = hx.Duty;
                     Model.DrumID = hx.ID;
                     Model.FDReliefCondition = Model.NormalFlashDuty;
+                    EqName = hx.HXName;
                 }
                 PSVDAL psv = new PSVDAL();
 

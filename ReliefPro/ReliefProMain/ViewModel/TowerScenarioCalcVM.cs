@@ -132,6 +132,7 @@ namespace ReliefProMain.ViewModel
         Tower tower;
         CondenserCalc condenserCalc;
         PSV psv = new PSV();
+        string HeatMethod = string.Empty;
         public TowerScenarioCalcVM(string EqName, string ScenarioName, int scenarioID, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string DirPlant, string DirProtectedSystem)
         {
             SessionPlant = sessionPlant;
@@ -747,11 +748,15 @@ namespace ReliefProMain.ViewModel
             int ImportResult = 0;
             int RunResult = 0;
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+            string[] sourceFiles = Directory.GetFiles(tempdir, "*.inp");
+            string sourceFile = sourceFiles[0];
+            string[] lines = System.IO.File.ReadAllLines(sourceFile);
+            HeatMethod = ProIIMethod.GetHeatMethod(lines, EqName);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
             SplashScreenManager.SentMsgToScreen("Calculating");
             //除以10的6次方
-            string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 5, (duty / Math.Pow(10, 6)).ToString(), stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 5, (duty / Math.Pow(10, 6)).ToString(),HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -796,9 +801,9 @@ namespace ReliefProMain.ViewModel
             double ProductTotal = 0;
             double HeatTotal = 0;
 
-            double fbTotal=0;
+            double heatSourceTotal=0;
             double firedheaterTotal=0;
-           
+            double offGasWeightFlow = 0;// (prodtype==1 && tray==1 ) || prodtype==3; 泄放量
             
             PSVDAL dbpsv = new PSVDAL();
             PSV psv = dbpsv.GetModel(SessionProtectedSystem);
@@ -814,7 +819,7 @@ namespace ReliefProMain.ViewModel
             TowerFlashProductDAL dbFlashP = new TowerFlashProductDAL();
             IList<TowerScenarioStream> listStream = db.GetAllList(SessionProtectedSystem, ScenarioID);
 
-            overHeadWeightFlow = 0;
+            TowerScenarioStream offGasStream=null;
             foreach (TowerScenarioStream s in listStream)
             {
                 CustomStream cstream = dbCS.GetModel(SessionProtectedSystem, s.StreamName);
@@ -842,11 +847,16 @@ namespace ReliefProMain.ViewModel
                         }
                         if (cstream.ProdType == "6")
                         {
-                            waterWeightFlow = s.FlowCalcFactor * cstream.WeightFlow;
+                            waterWeightFlow =  cstream.WeightFlow;
                         }
                         if (cstream.ProdType == "4" ||(cstream.ProdType == "2" && cstream.Tray == 1))
                         {
-                            overHeadWeightFlow = s.FlowCalcFactor * cstream.WeightFlow;
+                            overHeadWeightFlow =  cstream.WeightFlow;
+                        }
+                        if (cstream.ProdType == "3" ||(cstream.ProdType == "1" && cstream.Tray == 1))
+                        {
+                            offGasWeightFlow =  cstream.WeightFlow;
+                            offGasStream=s;
                         }
                     }
                 }
@@ -855,30 +865,6 @@ namespace ReliefProMain.ViewModel
                     ScenarioHeatSourceDAL scenarioHeatSourceDAL = new ScenarioHeatSourceDAL();
                     if(s.FlowStop)
                     {
-                        IList<ScenarioHeatSource> shsList = scenarioHSDal.GetScenarioStreamHeatSourceList(SessionProtectedSystem, s.ID, "Feed/Bottom HX");
-                        foreach (ScenarioHeatSource shs in shsList)
-                        {
-                            HeatSource hs = hsDAL.GetModel(shs.HeatSourceID, SessionProtectedSystem);
-                            FeedBottomHX fbhx = feedBottomHXDAL.GetModel(SessionProtectedSystem, shs.HeatSourceID);
-                            if (fbhx != null)
-                            {
-                                //ScenarioHeatSource scenarioHeatSource = scenarioHeatSourceDAL.GetModel(SessionProtectedSystem, fbhx.HeatSourceID, ScenarioID);
-                                if (shs.IsFB)
-                                {
-                                    fbTotal = fbTotal + (shs.DutyFactor * fbhx.FeedReliefSpEout * cstream.WeightFlow);  //
-                                }
-                                else
-                                {
-                                    fbTotal = fbTotal + (shs.DutyFactor *hs.Duty );
-                                }
-
-                            }
-                            else
-                            {
-                                fbTotal = fbTotal + (shs.DutyFactor * hs.Duty);
-                            }
-                        }
-
                         IList<ScenarioHeatSource> shsList2 = scenarioHSDal.GetScenarioStreamHeatSourceList(SessionProtectedSystem, s.ID, "Fired Heater");
                         foreach (ScenarioHeatSource shs in shsList2)
                         {
@@ -894,21 +880,6 @@ namespace ReliefProMain.ViewModel
                     {
                         if (s.FlowCalcFactor == 0)
                         {
-                            IList<ScenarioHeatSource> shsList = scenarioHSDal.GetScenarioStreamHeatSourceList(SessionProtectedSystem, s.ID, "Feed/Bottom HX");
-                            foreach (ScenarioHeatSource shs in shsList)
-                            {
-
-                                FeedBottomHX fbhx = feedBottomHXDAL.GetModel(SessionProtectedSystem, shs.HeatSourceID);
-                                if (fbhx != null)
-                                {
-                                    //ScenarioHeatSource scenarioHeatSource = scenarioHeatSourceDAL.GetModel(SessionProtectedSystem, fbhx.HeatSourceID, ScenarioID);
-                                    if (shs.IsFB)
-                                    {
-                                        fbTotal = fbTotal + (shs.DutyFactor * fbhx.FeedReliefSpEout * cstream.WeightFlow);  //待确认
-                                    }
-                                }
-                            }
-
                             IList<ScenarioHeatSource> shsList2 = scenarioHSDal.GetScenarioStreamHeatSourceList(SessionProtectedSystem, s.ID, "Fired Heater");
                             foreach (ScenarioHeatSource shs in shsList2)
                             {
@@ -924,6 +895,29 @@ namespace ReliefProMain.ViewModel
                         else
                         {
                             FeedTotal = FeedTotal + s.FlowCalcFactor * cstream.SpEnthalpy * cstream.WeightFlow;
+                            IList<ScenarioHeatSource> shsList = scenarioHSDal.GetScenarioStreamHeatSourceList(SessionProtectedSystem, s.ID);
+                            foreach (ScenarioHeatSource shs in shsList)
+                            {
+                                HeatSource hs = hsDAL.GetModel(shs.HeatSourceID, SessionProtectedSystem);
+                                FeedBottomHX fbhx = feedBottomHXDAL.GetModel(SessionProtectedSystem, shs.HeatSourceID);
+                                if (fbhx != null)
+                                {
+                                    //ScenarioHeatSource scenarioHeatSource = scenarioHeatSourceDAL.GetModel(SessionProtectedSystem, fbhx.HeatSourceID, ScenarioID);
+                                    if (shs.IsFB)
+                                    {
+                                        heatSourceTotal = heatSourceTotal + (shs.DutyFactor * fbhx.FeedReliefSpEout * cstream.WeightFlow);  //
+                                    }
+                                    else
+                                    {
+                                        heatSourceTotal = heatSourceTotal + (shs.DutyFactor * hs.Duty);
+                                    }
+
+                                }
+                                else
+                                {
+                                    heatSourceTotal = heatSourceTotal + (shs.DutyFactor * hs.Duty);
+                                }
+                            }
                         }
                     }
                   
@@ -975,10 +969,17 @@ namespace ReliefProMain.ViewModel
                 }
             }
 
-           
+            bool isAddOffGas = false;
+            if(condenserCalc!=null && condenserCalc.Flooding || offGasStream!=null && (offGasStream.FlowStop==false || offGasStream.FlowCalcFactor==0))
+            {
+                isAddOffGas = true;
+            }
+
+
+
             double latestH=latent.LatentEnthalpy;
             
-            double totalH = FeedTotal - ProductTotal + HeatTotal +fbTotal+firedheaterTotal;
+            double totalH = FeedTotal - ProductTotal + HeatTotal +firedheaterTotal+heatSourceTotal;
             double wAccumulation = totalH / latestH + overHeadWeightFlow;
             double wRelief = wAccumulation;
             if (wRelief < 0)
@@ -986,6 +987,8 @@ namespace ReliefProMain.ViewModel
                 wRelief = 0;
             }
             reliefLoad = wRelief + waterWeightFlow;
+            if (isAddOffGas)
+                reliefLoad = reliefLoad + offGasWeightFlow;
             double r= wRelief / latent.ReliefOHWeightFlow + waterWeightFlow / 18;
             if (r == 0)
             {
@@ -1005,8 +1008,6 @@ namespace ReliefProMain.ViewModel
         }
         private void SteamFreezedMethod(ref double reliefLoad, ref double reliefMW, ref double reliefTemperature, ref double reliefPressure)
         {
-            
-
             if (psv.CriticalPressure == 0)
             {
                 //waring1 
@@ -1028,7 +1029,10 @@ namespace ReliefProMain.ViewModel
             double FeedTotal = 0;
             double ProductTotal = 0;
             double HeatTotal = 0;
-
+            double heatSourceTotal = 0;
+            double firedheaterTotal = 0;
+            double offGasWeightFlow = 0;// (prodtype==1 && tray==1 ) || prodtype==3; 泄放量
+            TowerScenarioStream offGasStream = null;
             LatentDAL dblatent = new LatentDAL();
             Latent latent = dblatent.GetModel(SessionProtectedSystem);
 
@@ -1036,9 +1040,10 @@ namespace ReliefProMain.ViewModel
             TowerScenarioStreamDAL db = new TowerScenarioStreamDAL();
             TowerFlashProductDAL dbFlashP = new TowerFlashProductDAL();
             IList<TowerScenarioStream> listStream = db.GetAllList(SessionProtectedSystem, ScenarioID);
-           ScenarioHeatSourceDAL  scheatsourcedal = new ScenarioHeatSourceDAL();
-            HeatSourceDAL hsdal=new HeatSourceDAL();
-            overHeadWeightFlow = 0;
+            ScenarioHeatSourceDAL  scheatsourcedal = new ScenarioHeatSourceDAL();
+            HeatSourceDAL hsDAL=new HeatSourceDAL();
+            FeedBottomHXDAL feedBottomHXDAL = new ReliefProDAL.FeedBottomHXDAL();
+            ScenarioHeatSourceDAL scenarioHSDal = new ScenarioHeatSourceDAL();
             foreach (TowerScenarioStream s in listStream)
             {
                 CustomStream cstream = dbCS.GetModel(SessionProtectedSystem, s.StreamName);
@@ -1064,25 +1069,76 @@ namespace ReliefProMain.ViewModel
                         }
                         if (cstream.ProdType == "4" || (cstream.ProdType == "2" && cstream.Tray == 1))
                         {
-                            overHeadWeightFlow = s.FlowCalcFactor * cstream.WeightFlow;
+                            overHeadWeightFlow = cstream.WeightFlow;
                         }
+                        if (cstream.ProdType == "3" || (cstream.ProdType == "1" && cstream.Tray == 1))
+                        {
+                            offGasWeightFlow = cstream.WeightFlow;
+                            offGasStream = s;
+                        }
+
+
                     }
                 }
                 else
                 {
-                    if (s.FlowCalcFactor == 0 || s.FlowStop)
+                    ScenarioHeatSourceDAL scenarioHeatSourceDAL = new ScenarioHeatSourceDAL();
+                    if (s.FlowStop)
                     {
-                        //取Residual
-                        IList<ScenarioHeatSource> shslist = scheatsourcedal.GetScenarioStreamHeatSourceList(SessionProtectedSystem,s.ID,"Fired Heater");
-                        foreach (ScenarioHeatSource shs in shslist)
+                        IList<ScenarioHeatSource> shsList2 = scenarioHSDal.GetScenarioStreamHeatSourceList(SessionProtectedSystem, s.ID, "Fired Heater");
+                        foreach (ScenarioHeatSource shs in shsList2)
                         {
-                            HeatSource hs=hsdal.GetModel(shs.HeatSourceID,SessionProtectedSystem);
-                            FeedTotal = FeedTotal + shs.DutyFactor*hs.Duty;
+                            if (shs.DutyFactor > 0)
+                            {
+                                HeatSource hs = hsDAL.GetModel(shs.HeatSourceID, SessionProtectedSystem);
+                                firedheaterTotal = firedheaterTotal + hs.Duty * shs.DutyFactor;
+                            }
+
                         }
                     }
-                    if (!s.FlowStop)
+                    else
                     {
-                        FeedTotal = FeedTotal + (s.FlowCalcFactor * cstream.SpEnthalpy * cstream.WeightFlow);
+                        if (s.FlowCalcFactor == 0)
+                        {
+                            IList<ScenarioHeatSource> shsList2 = scenarioHSDal.GetScenarioStreamHeatSourceList(SessionProtectedSystem, s.ID, "Fired Heater");
+                            foreach (ScenarioHeatSource shs in shsList2)
+                            {
+                                if (shs.DutyFactor > 0)
+                                {
+                                    HeatSource hs = hsDAL.GetModel(shs.HeatSourceID, SessionProtectedSystem);
+                                    firedheaterTotal = firedheaterTotal + hs.Duty * shs.DutyFactor;
+                                }
+
+                            }
+
+                        }
+                        else
+                        {
+                            FeedTotal = FeedTotal + s.FlowCalcFactor * cstream.SpEnthalpy * cstream.WeightFlow;
+                            IList<ScenarioHeatSource> shsList = scenarioHSDal.GetScenarioStreamHeatSourceList(SessionProtectedSystem, s.ID);
+                            foreach (ScenarioHeatSource shs in shsList)
+                            {
+                                HeatSource hs = hsDAL.GetModel(shs.HeatSourceID, SessionProtectedSystem);
+                                FeedBottomHX fbhx = feedBottomHXDAL.GetModel(SessionProtectedSystem, shs.HeatSourceID);
+                                if (fbhx != null)
+                                {
+                                    //ScenarioHeatSource scenarioHeatSource = scenarioHeatSourceDAL.GetModel(SessionProtectedSystem, fbhx.HeatSourceID, ScenarioID);
+                                    if (shs.IsFB)
+                                    {
+                                        heatSourceTotal = heatSourceTotal + (shs.DutyFactor * fbhx.FeedReliefSpEout * cstream.WeightFlow);  //
+                                    }
+                                    else
+                                    {
+                                        heatSourceTotal = heatSourceTotal + (shs.DutyFactor * hs.Duty);
+                                    }
+
+                                }
+                                else
+                                {
+                                    heatSourceTotal = heatSourceTotal + (shs.DutyFactor * hs.Duty);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1130,8 +1186,15 @@ namespace ReliefProMain.ViewModel
                 }
             }
 
+            bool isAddOffGas = false;
+            if (condenserCalc != null && condenserCalc.Flooding || offGasStream != null && (offGasStream.FlowStop == false || offGasStream.FlowCalcFactor == 0))
+            {
+                isAddOffGas = true;
+            }
+
+
             double latestH = latent.LatentEnthalpy;
-            double totalH = FeedTotal - ProductTotal + HeatTotal;
+            double totalH = FeedTotal - ProductTotal + HeatTotal+heatSourceTotal+firedheaterTotal;
             double wAccumulation = totalH / latestH + overHeadWeightFlow;
             double wRelief = wAccumulation;
             if (wRelief < 0)
@@ -1139,6 +1202,8 @@ namespace ReliefProMain.ViewModel
                 wRelief = 0;
             }
             reliefLoad = wRelief + waterWeightFlow;
+            if (isAddOffGas)
+                reliefLoad = reliefLoad + offGasWeightFlow;
             double r = wRelief / latent.ReliefOHWeightFlow + waterWeightFlow / 18;
             if (r == 0)
             {
@@ -1155,9 +1220,6 @@ namespace ReliefProMain.ViewModel
             if (reliefLoad < 0)
                 reliefLoad = 0;           
         }
-
-
-       
 
 
         private ICommand _SaveCommand;

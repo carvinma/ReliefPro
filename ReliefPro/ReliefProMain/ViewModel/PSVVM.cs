@@ -121,7 +121,7 @@ namespace ReliefProMain.ViewModel
         }
         
         Latent latent = new Latent();
-
+        string HeatMethod = string.Empty;
         public PSVVM(string eqName, string eqType, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
             EqName = eqName;
@@ -500,6 +500,11 @@ namespace ReliefProMain.ViewModel
                 return;
             }
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+            string[] sourceFiles = Directory.GetFiles(tempdir, "*.inp");
+            string sourceFile = sourceFiles[0];
+            string[] lines = System.IO.File.ReadAllLines(sourceFile);
+            HeatMethod = ProIIMethod.GetHeatMethod(lines, EqName);
+
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
             string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
             double ReliefPressure = CurrentModel.ReliefPressureFactor * CurrentModel.Pressure;
@@ -607,17 +612,17 @@ namespace ReliefProMain.ViewModel
 
                     if (prodtype == "4" || (prodtype == "2" && tray == 1)) // 2个条件是等同含义，后者是有气有液
                     {
-                        f = fc.Calculate(usablecontent, 1, ReliefPressure.ToString(), 4, "", p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
+                        f = fc.Calculate(usablecontent, 1, ReliefPressure.ToString(), 4, "",HeatMethod, p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
                     }
 
                     else if (prodtype == "6" || prodtype == "3") //3 气相  6 沉积水 
                     {
-                        f = fc.Calculate(usablecontent, 2, ReliefTemperature.ToString(), 4, "", p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
+                        f = fc.Calculate(usablecontent, 2, ReliefTemperature.ToString(), 4, "",HeatMethod, p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
                     }
                     else
                     {
                         double press = ReliefPressure + (p.Pressure - overHeadPressure);
-                        f = fc.Calculate(usablecontent, 1, press.ToString(), 3, "", p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
+                        f = fc.Calculate(usablecontent, 1, press.ToString(), 3, "",HeatMethod, p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
                     }
                     if (ImportResult == 1 || ImportResult == 2)
                     {
@@ -916,7 +921,7 @@ namespace ReliefProMain.ViewModel
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "",HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -1003,7 +1008,7 @@ namespace ReliefProMain.ViewModel
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
             string liquid = string.Empty;
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, vapor, liquid, dirSupper, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "",HeatMethod, stream, vapor, liquid, dirSupper, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)

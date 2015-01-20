@@ -42,6 +42,8 @@ namespace ReliefProMain.ViewModel.Drums
         public int ScenarioID;
         private int EqType;
         public int IsHasBlockedOutlet;
+
+        public string HeatMethod;
         /// <summary>
         /// 
         /// </summary>
@@ -216,6 +218,7 @@ namespace ReliefProMain.ViewModel.Drums
                     string[] files = Directory.GetFiles(dir, "*.inp");
                     string sourceFile = files[0];
                     string[] lines = System.IO.File.ReadAllLines(sourceFile);
+                    HeatMethod = ProIIMethod.GetHeatMethod(lines, drum.EqName);
                     string content = string.Empty;
                     if (drum.Feeds.Count == 1)
                     {
@@ -248,7 +251,7 @@ namespace ReliefProMain.ViewModel.Drums
                         //drum.Feeds[0].Pressure=UnitConvert.Convert(model.PressureUnit,"Mpag",model.MaxPressure);
                         double weightFlow=UnitConvert.Convert(model.StreamRateUnit,"Kg/hr",model.MaxStreamRate);
                         drum.Feeds[0].TotalMolarRate=weightFlow/3600/drum.Feeds[0].BulkMwOfPhase;
-                        f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, drum.Feeds[0], vapor, liquid, tempdir, ref ImportResult, ref RunResult);
+                        f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, HeatMethod,drum.Feeds[0], vapor, liquid, tempdir, ref ImportResult, ref RunResult);
                     }
                     else
                     {
@@ -260,7 +263,7 @@ namespace ReliefProMain.ViewModel.Drums
                         //mixCSProduct.Pressure = UnitConvert.Convert(model.PressureUnit, "Mpag", model.MaxPressure);
                         double weightFlow = UnitConvert.Convert(model.StreamRateUnit, "Kg/hr", model.MaxStreamRate);
                         mixCSProduct.TotalMolarRate = weightFlow / 3600 / mixCSProduct.BulkMwOfPhase;
-                        f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, mixCSProduct, vapor, liquid, tempdir, ref ImportResult, ref RunResult);
+                        f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, HeatMethod, mixCSProduct, vapor, liquid, tempdir, ref ImportResult, ref RunResult);
                     }
 
                     if (ImportResult == 1 || ImportResult == 2)

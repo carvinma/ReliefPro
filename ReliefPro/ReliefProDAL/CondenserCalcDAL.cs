@@ -18,7 +18,7 @@ namespace ReliefProDAL
             try
             {
                 session.Clear();
-                list = session.CreateCriteria<CondenserCalc>().List<CondenserCalc>();
+                list = session.CreateCriteria<CondenserCalc>().Add(Expression.Eq("ScenarioID", ScenarioID)).List<CondenserCalc>();
                 if (list.Count > 0)
                 {
                     model = list[0];

@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * 
+ * 
+ * */
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -14,8 +19,7 @@ namespace ReliefProMain.Models
     public class ScenarioHeatSourceModel : ModelBase
     {
         public ScenarioHeatSource model;
-
-        
+       
         public int ID
         {
             get
@@ -87,6 +91,16 @@ namespace ReliefProMain.Models
             }
             set
             {
+                if (value == "Feed/Bottom HX")
+                {
+                    IsFBEnabled = true;
+                }
+                else
+                {
+                    IsFBEnabled = false;
+                }
+
+
                 if (_HeatSourceType != value)
                 {
                     _HeatSourceType = value;
@@ -148,6 +162,11 @@ namespace ReliefProMain.Models
             }
             set
             {
+                if (value)
+                {
+                    IsDutyFactorReadOnly = true;
+                }
+
                 if (model.IsFB != value)
                 {
                     model.IsFB = value;
@@ -155,6 +174,44 @@ namespace ReliefProMain.Models
                 }
             }
         }
+
+        private bool _IsFBEnabled;
+        public bool IsFBEnabled
+        {
+            get
+            {
+                return _IsFBEnabled;
+            }
+            set
+            {
+                if (_IsFBEnabled != value)
+                {
+                    _IsFBEnabled = value;
+                    NotifyPropertyChanged("IsFBEnabled");
+                }
+            }
+        }
+
+        private bool _IsDutyFactorReadOnly;
+        public bool IsDutyFactorReadOnly
+        {
+            get
+            {
+                return _IsDutyFactorReadOnly;
+            }
+            set
+            {
+                if (_IsDutyFactorReadOnly != value)
+                {
+                    _IsDutyFactorReadOnly = value;
+                    NotifyPropertyChanged("IsDutyFactorReadOnly");
+                }
+            }
+        }
+
+
+
+
 
         public ScenarioHeatSourceModel(ScenarioHeatSource m)
         {

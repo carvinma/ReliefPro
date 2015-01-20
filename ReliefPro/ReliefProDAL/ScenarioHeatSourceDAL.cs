@@ -25,6 +25,20 @@ namespace ReliefProDAL
             }
             return list;
         }
+        public IList<ScenarioHeatSource> GetScenarioStreamHeatSourceList(ISession session, int ScenarioStreamID)
+        {
+            IList<ScenarioHeatSource> list = null;
+            try
+            {
+                session.Clear();
+                list = session.CreateCriteria<ScenarioHeatSource>().Add(Expression.Eq("ScenarioStreamID", ScenarioStreamID)).List<ScenarioHeatSource>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return list;
+        }
         public IList<ScenarioHeatSource> GetAllList(ISession session)
         {
             IList<ScenarioHeatSource> list = null;

@@ -47,25 +47,26 @@
                     <GridViewColumn Header="{DynamicResource DutyFactor}" Width="100px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox  Text="{Binding Path=DutyFactor,Mode=TwoWay,StringFormat='{}{0:F4}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
+                                <TextBox IsReadOnly="{Binding Path=IsDutyFactorReadOnly,Mode=TwoWay}"  Text="{Binding Path=DutyFactor,Mode=TwoWay,StringFormat='{}{0:F4}'}"  HorizontalAlignment="Stretch" Width="150px" ></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
+                    <GridViewColumn Header="" Width="90px">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button IsEnabled="{Binding Path=IsFBEnabled,Mode=TwoWay}" Content="{DynamicResource Calculate}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.CalculateCommand}" CommandParameter="{Binding ID}" ></Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
                     <GridViewColumn Header="{DynamicResource IsFB}" Width="90px" >
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox   IsChecked="{Binding Path=IsFB,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="50px" ></CheckBox>
+                                <CheckBox  IsEnabled="{Binding Path=IsFBEnabled,Mode=TwoWay}"  IsChecked="{Binding Path=IsFB,Mode=TwoWay}"  HorizontalAlignment="Stretch" Width="50px" ></CheckBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource FeedBottom}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="{DynamicResource Calculate}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.CalculateCommand}" CommandParameter="{Binding ID}" ></Button>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
+                    </GridView>
             </ListView.View>
         </ListView>
         

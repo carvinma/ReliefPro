@@ -31,6 +31,7 @@ namespace ReliefProMain.ViewModel.HXs
         private CustomStreamDAL customStreamDAL = new CustomStreamDAL();
         public SourceFile SourceFileInfo { get; set; }
         public string FileFullPath { get; set; }
+        string HeatMethod = string.Empty;
 
         public AirCooledHXFireSizeVM(int ID, ISession SessionPS, ISession SessionPF)
         {
@@ -137,7 +138,7 @@ namespace ReliefProMain.ViewModel.HXs
                     PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
                     string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
                     IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-                    string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, rate, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+                    string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, rate,HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
                     if (ImportResult == 1 || ImportResult == 2)
                     {
                         if (RunResult == 1 || RunResult == 2)
@@ -208,7 +209,7 @@ namespace ReliefProMain.ViewModel.HXs
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, "0", 5, "0", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, "0", 5, "0",HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -253,7 +254,7 @@ namespace ReliefProMain.ViewModel.HXs
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, "0", 4, "", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, "0", 4, "",HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)

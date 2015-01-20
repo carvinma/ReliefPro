@@ -54,6 +54,8 @@ namespace ReliefProMain.ViewModel.TowerFires
         }
         public UOMLib.UOMEnum uomEnum { set; get; }
         Tower TowerInfo;
+        string HeatMethod;
+
         public TowerFireVM(int ScenarioID, string EqName, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string DirPlant, string DirProtectedSystem)
         {
             SessionPlant = sessionPlant;
@@ -123,6 +125,14 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private void Save(object window)
         {
+            TowerFireEqDAL fireEqDAL = new TowerFireEqDAL();
+            foreach (TowerFireEqModel m in EqList)
+            {
+                m.dbmodel.FireZone = m.FireZone;
+                m.dbmodel.FFactor = m.FFactor;
+                fireEqDal.Update(m.dbmodel, SessionProtectedSystem);
+            }
+
 
             TowerFireDAL towerFireDAL = new TowerFireDAL();
             WriteConvert();
@@ -132,7 +142,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             MainModel.dbmodel.ReliefZ = MainModel.ReliefZ;
             MainModel.dbmodel.ReliefMW = MainModel.ReliefMW;
             towerFireDAL.Update(MainModel.dbmodel, SessionProtectedSystem);
-            SessionProtectedSystem.Flush();
+            
 
             ScenarioDAL scenarioDAL = new ScenarioDAL();
             Scenario sc = scenarioDAL.GetModel(ScenarioID, SessionProtectedSystem);
@@ -143,8 +153,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             sc.ReliefCpCv = MainModel.ReliefCpCv;
             sc.ReliefZ = MainModel.ReliefZ;
             scenarioDAL.Update(sc, SessionProtectedSystem);
-            SessionProtectedSystem.Flush();
-
+           
 
             System.Windows.Window wd = window as System.Windows.Window;
 
@@ -459,10 +468,14 @@ namespace ReliefProMain.ViewModel.TowerFires
             int RunResult = 0;
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+            string[] sourceFiles = Directory.GetFiles(tempdir, "*.inp");
+            string sourceFile = sourceFiles[0];
+            string[] lines = System.IO.File.ReadAllLines(sourceFile);
+            HeatMethod = ProIIMethod.GetHeatMethod(lines, EqName);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
-            string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 4, "", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 4, "",HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -528,9 +541,13 @@ namespace ReliefProMain.ViewModel.TowerFires
                 int ImportResult = 0;
                 int RunResult = 0;
                 PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+                string[] sourceFiles = Directory.GetFiles(tempdir, "*.inp");
+                string sourceFile = sourceFiles[0];
+                string[] lines = System.IO.File.ReadAllLines(sourceFile);
+                HeatMethod = ProIIMethod.GetHeatMethod(lines, EqName);
                 string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
                 IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-                string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, "0.05", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+                string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, "0.05", HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
                 if (ImportResult == 1 || ImportResult == 2)
                 {
                     if (RunResult == 1 || RunResult == 2)
@@ -594,6 +611,10 @@ namespace ReliefProMain.ViewModel.TowerFires
                 int ImportResult = 0;
                 int RunResult = 0;
                 PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+                string[] sourceFiles = Directory.GetFiles(tempdir, "*.inp");
+                string sourceFile = sourceFiles[0];
+                string[] lines = System.IO.File.ReadAllLines(sourceFile);
+                HeatMethod = ProIIMethod.GetHeatMethod(lines, EqName);
                 List<string> coldList = new List<string>();
                 foreach (CustomStream cs in feedlist)
                 {
@@ -601,7 +622,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                 }
                 string content = PROIIFileOperator.getUsableContent(coldList, tempdir);
                 IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-                string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, "0.05", feedlist, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+                string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, "0.05",HeatMethod, feedlist, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
                 if (ImportResult == 1 || ImportResult == 2)
                 {
                     if (RunResult == 1 || RunResult == 2)

@@ -135,7 +135,7 @@ namespace ReliefProMain.ViewModel
         {
             int SCStreamID = int.Parse(obj.ToString());
             ScenarioHeatSourceListView v = new ScenarioHeatSourceListView();
-            ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SCStreamID, SourceFileInfo, SessionPlant, SessionProtectedSystem, "Feed/Bottom HX");
+            ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SCStreamID, SourceFileInfo, SessionPlant, SessionProtectedSystem);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (v.ShowDialog() == true)

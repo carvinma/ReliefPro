@@ -29,7 +29,7 @@ namespace ProII
         /// <param name="ImportResult"></param>
         /// <param name="RunResult"></param>
         /// <returns></returns>
-        string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string vapor, string liquid, string dir, ref int ImportResult, ref int RunResult);
-        string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, List<CustomStream> streams, string vapor, string liquid, string dir, ref int ImportResult, ref int RunResult);
+        string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue,string heatMethod, CustomStream stream, string vapor, string liquid, string dir, ref int ImportResult, ref int RunResult);
+        string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, string heatMethod, List<CustomStream> streams, string vapor, string liquid, string dir, ref int ImportResult, ref int RunResult);
     }
 }

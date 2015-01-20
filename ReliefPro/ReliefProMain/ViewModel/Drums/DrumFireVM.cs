@@ -99,6 +99,8 @@ namespace ReliefProMain.ViewModel.Drums
         CustomStream HXProduct = new CustomStream();
         CustomStream mixFeedStream = new CustomStream();
         List<string> mixFeedStreamName = new List<string>();
+        string EqName = string.Empty;
+        string HeatMethod = string.Empty;
         /// <summary>
         /// 
         /// </summary>
@@ -164,6 +166,7 @@ namespace ReliefProMain.ViewModel.Drums
             {
                 DrumDAL drumdal = new DrumDAL();
                 drum = drumdal.GetModel(SessionProtectedSystem);
+                EqName = drum.DrumName;
                 DrumFireFluidBLL fluidBll = new DrumFireFluidBLL(SessionPS, SessionPF);
                 fireFluidModel = fluidBll.GetFireFluidModel(model.dbmodel.ID,FireType);
                                 
@@ -208,6 +211,7 @@ namespace ReliefProMain.ViewModel.Drums
             {
                 HeatExchangerDAL hxdal = new HeatExchangerDAL();
                 hx = hxdal.GetModel(SessionProtectedSystem);
+                EqName = hx.HXName;
                 DrumFireFluidBLL fluidBll = new DrumFireFluidBLL(SessionPS, SessionPF);
                 fireFluidModel = fluidBll.GetFireFluidModel(model.dbmodel.ID,FireType);               
                 if (psv != null)
@@ -742,10 +746,13 @@ namespace ReliefProMain.ViewModel.Drums
                     int RunResult = 0;
 
                     PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
-
+                    string[] sourceFiles = Directory.GetFiles(tempdir, "*.inp");
+                    string sourceFile = sourceFiles[0];
+                    string[] lines = System.IO.File.ReadAllLines(sourceFile);
+                    HeatMethod = ProIIMethod.GetHeatMethod(lines, EqName);
                     string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
                     IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-                    string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 4, "", stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+                    string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 4, "",HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
                     if (ImportResult == 1 || ImportResult == 2)
                     {
                         if (RunResult == 1 || RunResult == 2)
@@ -1082,9 +1089,13 @@ namespace ReliefProMain.ViewModel.Drums
                         int ImportResult = 0;
                         int RunResult = 0;
                         PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
+                        string[] files = Directory.GetFiles(tempdir, "*.inp");
+                        string sourceFile = files[0];
+                        string[] lines = System.IO.File.ReadAllLines(sourceFile);
+                        //string HeatMethod = ProIIMethod.GetHeatMethod(lines, eqName);
                         string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
                         IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-                        string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, second, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+                        string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, second,null, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
                         if (ImportResult == 1 || ImportResult == 2)
                         {
                             if (RunResult == 1 || RunResult == 2)
@@ -1233,7 +1244,7 @@ namespace ReliefProMain.ViewModel.Drums
 
             string content = PROIIFileOperator.getUsableContent(streamnames, tempdir);
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, "0", 5, "0", flashstreams, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, "0", 5, "0",HeatMethod, flashstreams, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -1285,7 +1296,7 @@ namespace ReliefProMain.ViewModel.Drums
 
             string content = PROIIFileOperator.getUsableContent(streamnames, tempdir);
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, "0", 4, "", flashstreams, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, "0", 4, "",HeatMethod, flashstreams, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -1551,7 +1562,7 @@ namespace ReliefProMain.ViewModel.Drums
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 6, "0.05", liquidFeeds, vapor, liquid, dirPercent5Mol, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 6, "0.05",HeatMethod, liquidFeeds, vapor, liquid, dirPercent5Mol, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -1753,7 +1764,7 @@ namespace ReliefProMain.ViewModel.Drums
             if (maxTemp < fireCriticalTemperature)
                 maxTemp = fireCriticalTemperature;
 
-            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 2, maxTemp.ToString(), liquidFeeds, vapor, liquid, dirSupercritical, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 2, maxTemp.ToString(),HeatMethod, liquidFeeds, vapor, liquid, dirSupercritical, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)

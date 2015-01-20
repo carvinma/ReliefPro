@@ -182,5 +182,49 @@ namespace ReliefProMain
             }
             return b;
         }
+
+        public static string GetHeatMethod(string[] lines, string eqName)
+        {
+            string result = string.Empty;
+            int i = 1;
+            int length = lines.Length;
+
+            for (i = 1; i < length; i++)
+            {
+                string line = lines[i];
+                if (line.Contains("UNIT OPERATIONS"))
+                {
+                    break;
+                }
+            }
+            int start = i + 1;
+            for (i = start; i < length; i++)
+            {
+                string line = lines[i].Trim();
+                if ((line + ",").Contains("UID="+eqName+","))
+                {
+                    break;
+                }
+            }
+            start = i + 1;
+            for (i = start; i < length; i++)
+            {
+                string line = lines[i].Trim();
+                if (line.Substring(0,6)=="METHOD")
+                {
+                    result = line ;
+                    break;
+                }
+                if (line.Contains("UID=") || line.Contains("END")) //新的Unit或Unit结束符，退出。 说明没有Method
+                {                    
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+
+
     }
 }

@@ -380,7 +380,6 @@ namespace ProII91
                     }
                 }
             }
-            
             return data;
         }
 
@@ -436,7 +435,8 @@ namespace ProII91
             }
             Marshal.FinalReleaseComObject(objStream);
             GC.ReRegisterForFinalize(objStream);
-            if (bCalulate)
+            //if (bCalulate)
+            try
             {
                 CP2Object objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
                 foreach (string s in arrBulkPropAttributes)
@@ -471,6 +471,10 @@ namespace ProII91
                             break;
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
             }
 
             return data;
@@ -511,7 +515,6 @@ namespace ProII91
             object value = eq.GetAttribute(attr);
             return value.ToString();
         }
-
         public string GetCriticalTemperature(string phaseName)
         {
             string otype = "PhaseEnvel";
@@ -520,7 +523,6 @@ namespace ProII91
             object value = eq.GetAttribute(attr);
             return value.ToString();
         }
-
         public string GetCricondenbarPress(string phaseName)
         {
             string otype = "PhaseEnvel";

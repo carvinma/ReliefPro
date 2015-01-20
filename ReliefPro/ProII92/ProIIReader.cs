@@ -435,7 +435,8 @@ namespace ProII92
             }
             Marshal.FinalReleaseComObject(objStream);
             GC.ReRegisterForFinalize(objStream);
-            if (bCalulate)
+            //if (bCalulate)
+            try
             {
                 CP2Object objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
                 foreach (string s in arrBulkPropAttributes)
@@ -470,6 +471,10 @@ namespace ProII92
                             break;
                     }
                 }
+            }
+            catch(Exception ex)
+            {
+
             }
 
             return data;

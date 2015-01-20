@@ -237,6 +237,7 @@ namespace ReliefProMain.ViewModel
         InletValveOpenDAL dbinlet;
         ScenarioDAL dbsc;
         UOMLib.UOMEnum uomEnum;
+        string HeatMethod = string.Empty;
         public InletValveOpenVM(int scenarioID, string eqName, string eqType, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
             SessionPlant = sessionPlant;
@@ -261,7 +262,8 @@ namespace ReliefProMain.ViewModel
             {
                 if (eqType == "Tower")
                 {
-                    if (s.ProdType == "3" || (s.ProdType == "1" && s.Tray == tower.StageNumber))
+                    //if (s.ProdType == "3" || (s.ProdType == "1" && s.Tray == tower.StageNumber))
+                    if (s.ProdType == "3" || (s.ProdType == "1" && s.Tray == 1))
                     {
                         CurrentEqNormalVapor = s;
                     }
@@ -562,10 +564,15 @@ namespace ReliefProMain.ViewModel
             IFlashCalculate flashCalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
             string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
             string content = PROIIFileOperator.getUsableContent(UpStreamLiquidData.StreamName, dir);
+            string[] sourceFiles = Directory.GetFiles(dir, "*.inp");
+            string sourceFile = sourceFiles[0];
+            string[] lines = System.IO.File.ReadAllLines(sourceFile);
+            HeatMethod = ProIIMethod.GetHeatMethod(lines, EqName);
+
             int ImportResult = 0;
             int RunResult = 0;
             UpStreamLiquidData.TotalMolarRate = Wliquidvalve/UpStreamLiquidData.BulkMwOfPhase/3600; //单位是kgm/s
-            string f = flashCalc.Calculate(content, 1, DownStreamPressure.ToString(), 5, "0", UpStreamLiquidData, vapor, liquid, dirInletValveOpen, ref ImportResult, ref RunResult);
+            string f = flashCalc.Calculate(content, 1, DownStreamPressure.ToString(), 5, "0",HeatMethod, UpStreamLiquidData, vapor, liquid, dirInletValveOpen, ref ImportResult, ref RunResult);
             ProIIStreamData proIIStreamData;
             if (ImportResult == 1 || ImportResult == 2)
             {

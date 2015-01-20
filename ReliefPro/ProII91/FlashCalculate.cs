@@ -26,10 +26,10 @@ namespace ProII91
         /// <param name="liquid"></param>
         /// <param name="dir"></param>
         /// <returns></returns>
-        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string vapor, string liquid, string dir, ref int ImportResult, ref int RunResult)
+        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, string heatMethod, CustomStream stream, string vapor, string liquid, string dir, ref int ImportResult, ref int RunResult)
         {
             string streamData = getStreamData(stream);
-            string flashData = getFlashData(iFirst, firstValue, iSecond, secondValue, stream, vapor, liquid);
+            string flashData = getFlashData(iFirst, firstValue, iSecond, secondValue, heatMethod, stream, vapor, liquid);
             StringBuilder sb = new StringBuilder();
             string[] arrfileContent = fileContent.Split(new string[] { "STREAM DATA" }, StringSplitOptions.None);
             sb.Append(arrfileContent[0]).Append("\nSTREAM DATA\n").Append(streamData).Append(arrfileContent[1]).Append(flashData);
@@ -86,7 +86,7 @@ namespace ProII91
             data1.Append("\t").Append(sbCom.Remove(0, 2)).Append("\n");
             return data1.ToString();
         }
-        private string getFlashData(int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string vapor, string liquid)
+        private string getFlashData(int iFirst, string firstValue, int iSecond, string secondValue, string heatMethod, CustomStream stream, string vapor, string liquid)
         {
             StringBuilder data2 = new StringBuilder("UNIT OPERATIONS\n");
             string streamName = stream.StreamName;
@@ -96,8 +96,19 @@ namespace ProII91
 
             data2.Append("\tFLASH UID=").Append(FlashName).Append("\n");
             data2.Append("\t FEED ").Append(streamName.ToUpper()).Append("\n");
-            data2.Append("\t PRODUCT V=").Append(vapor).Append(",&\n");
-            data2.Append("\t L=").Append(liquid).Append("\n");
+            if (string.IsNullOrEmpty(liquid))
+            {
+                data2.Append("\t PRODUCT V=").Append(vapor).Append("\n");
+            }
+            else
+            {
+                data2.Append("\t PRODUCT V=").Append(vapor).Append(",&\n");
+                data2.Append("\t L=").Append(liquid).Append("\n");
+            }
+            if (!string.IsNullOrEmpty(heatMethod))
+            {
+                data2.Append("\t ").Append(heatMethod).Append("\n");
+            }
 
             StringBuilder sbPT = new StringBuilder();
             if (iFirst == 1)
@@ -144,7 +155,7 @@ namespace ProII91
             return data2.ToString();
         }
 
-        private string getFlashData(int iFirst, string firstValue, int iSecond, string secondValue, List<CustomStream> streams, string vapor, string liquid)
+        private string getFlashData(int iFirst, string firstValue, int iSecond, string secondValue,string heatMethod, List<CustomStream> streams, string vapor, string liquid)
         {
             StringBuilder data2 = new StringBuilder("UNIT OPERATIONS\n");
             StringBuilder sb = new StringBuilder();
@@ -159,8 +170,20 @@ namespace ProII91
 
             data2.Append("\tFLASH UID=").Append(FlashName).Append("\n");
             data2.Append("\t FEED ").Append(feeds.ToUpper()).Append("\n");
-            data2.Append("\t PRODUCT V=").Append(vapor).Append(",&\n");
-            data2.Append("\t L=").Append(liquid).Append("\n");
+            if (string.IsNullOrEmpty(liquid))
+            {
+                data2.Append("\t PRODUCT V=").Append(vapor).Append("\n");
+            }
+            else
+            {
+                data2.Append("\t PRODUCT V=").Append(vapor).Append(",&\n");
+                data2.Append("\t L=").Append(liquid).Append("\n");
+            }
+            if (!string.IsNullOrEmpty(heatMethod))
+            {
+                data2.Append("\t ").Append(heatMethod).Append("\n");
+            }
+           
 
             StringBuilder sbPT = new StringBuilder();
             if (iFirst == 1)
@@ -207,12 +230,12 @@ namespace ProII91
             return data2.ToString();
         }
 
-        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, List<CustomStream> streams, string vapor, string liquid, string dir, ref int ImportResult, ref int RunResult)
+        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, string heatMethod, List<CustomStream> streams, string vapor, string liquid, string dir, ref int ImportResult, ref int RunResult)
         {
             StringBuilder sb = new StringBuilder();
             string[] arrfileContent = fileContent.Split(new string[] { "STREAM DATA" }, StringSplitOptions.None);
             
-            string flashData = getFlashData(iFirst, firstValue, iSecond, secondValue, streams, vapor, liquid);
+            string flashData = getFlashData(iFirst, firstValue, iSecond, secondValue,heatMethod, streams, vapor, liquid);
             
             sb.Append(arrfileContent[0]).Append("\nSTREAM DATA\n");
             foreach(CustomStream stream in streams)

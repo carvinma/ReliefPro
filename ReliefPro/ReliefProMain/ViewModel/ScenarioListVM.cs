@@ -784,8 +784,8 @@ namespace ReliefProMain.ViewModel
                     ScenarioHeatSource shs = scenarioHeatSourceDAL.GetModel(Session, hs.ID, ScenarioID);
                     if (shs == null)
                     {
-                        if (hs.HeatSourceType == "Feed/Bottom HX" || hs.HeatSourceType == "Fired Heater")
-                        {
+                        //if (hs.HeatSourceType == "Feed/Bottom HX" || hs.HeatSourceType == "Fired Heater")
+                        //{
                             shs = new ScenarioHeatSource();
                             shs.HeatSourceID = hs.ID;
                             shs.DutyFactor = 0;
@@ -793,7 +793,7 @@ namespace ReliefProMain.ViewModel
                             shs.ScenarioID = ScenarioID;
                             shs.HeatSourceType = hs.HeatSourceType;
                             scenarioHeatSourceDAL.Add(shs, SessionProtectedSystem);
-                        }
+                        //}
                     }
 
                 }
