@@ -37,7 +37,8 @@ namespace ReliefProBLL
         List<string> listProperty = new List<string> { "ReliefLoad", "ReliefMW", "ReliefTemperature", "ReliefZ" };
         List<PUsummaryGridDS> listGrid;
         private int UnitID;
-        private string ProcessUnitName;
+        public string ProcessUnitName;
+        public string PlantName;
         List<double?> tmpResult = new List<double?>();
         public ReportBLL()
         {
@@ -236,6 +237,7 @@ namespace ReliefProBLL
                 PUsummaryGridDS gridDs = new PUsummaryGridDS();
                 gridDs.ProcessUnit = ProcessUnitName;
                 string[] name=PSV.dbPath.Split('\\');
+                if (name.Length <= 1) name = PSV.dbPath.Split('/');
                 gridDs.ProtectedSystem = name[name.Length - 2];
                 gridDs.psv = PSV;
                 gridDs.PowerDS = this.ScenarioBag.FirstOrDefault(p => p.ScenarioName == this.ScenarioName[1] && p.dbPath == PSV.dbPath);
@@ -283,7 +285,10 @@ namespace ReliefProBLL
             var TreeUnit = dal.GetModel(UnitID, SessionPT);
             if (TreeUnit != null)
             {
+               // PlantName = TreeUnit.PlantName;
                 ProcessUnitName = TreeUnit.PUName;
+                if (!string.IsNullOrEmpty(TreeUnit.PlantName))
+                    ProcessUnitName = TreeUnit.PlantName;
                 if (string.IsNullOrEmpty(ProcessUnitName))
                     ProcessUnitName = TreeUnit.UnitName;
 
@@ -359,6 +364,9 @@ namespace ReliefProBLL
                     lstSession.Add(Tuple.Create(p, findSession));
                     if (p.Contains("plant.mdb"))
                     {
+                        string[] name = p.Split('\\');
+                        if (name.Length <= 1) name = p.Split('/');
+                        this.PlantName = name[name.Length -3];
                             SessionPlant = findSession;
                             GetProcessUnitName(findSession);
                     }

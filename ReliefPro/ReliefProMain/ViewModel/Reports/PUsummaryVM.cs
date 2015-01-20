@@ -32,7 +32,16 @@ namespace ReliefProMain.ViewModel.Reports
         public ICommand BtnReportCMD { get; set; }
         public ICommand ExportExcelCMD { get; set; }
         public ICommand NextUnitCMD { get; set; }
-        public PUsummaryModel model { get; set; }
+        private PUsummaryModel notifyModel;
+        public PUsummaryModel model
+        {
+            get { return notifyModel; }
+            set
+            {
+                notifyModel = value;
+                this.NotifyPropertyChanged("model");
+            }
+        }
         private string selectedDischargeTo;
         public string SelectedDischargeTo
         {
@@ -144,11 +153,12 @@ namespace ReliefProMain.ViewModel.Reports
                 this.selectedDischargeTo = "ALL";
             }
             PUsummary PU = reportBLL.GetPUsummaryModel(UnitID);
-            if (PU == null) { PU = new PUsummary(); PU.UnitID = UnitID; }
+            if (PU == null) { PU = new PUsummary(); PU.UnitID = UnitID; PU.PlantName = reportBLL.PlantName; PU.ProcessUnitName = reportBLL.ProcessUnitName; }
             CreateControl(listDischargeTo);
 
             reportBLL.ClearSession();
             model = new PUsummaryModel(PU);
+            //model.ProcessUnitName = reportBLL.ProcessUnitName;
             model.listGrid = new List<PUsummaryGridDS>();
             InitModel("ALL");
             CreateReport();

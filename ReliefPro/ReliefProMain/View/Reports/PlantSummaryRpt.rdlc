@@ -74,7 +74,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -105,7 +107,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>General Electric Power Failure</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -160,7 +164,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>General Cooling Water Failure</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -215,7 +221,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>General Instrument Air Failure</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -270,7 +278,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Controlling Individual Load</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -331,7 +341,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Process Unit</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -362,7 +374,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Mass Rate, </Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -413,7 +427,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Volume Rate, </Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -464,7 +480,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>MW</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -501,7 +519,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>T, C</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -533,7 +553,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Mass Rate, </Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -584,7 +606,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Volume Rate, </Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -635,7 +659,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>MW</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -672,7 +698,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>T, C</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -704,7 +732,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Mass Rate, </Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -755,7 +785,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Volume Rate, </Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -806,7 +838,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>MW</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -843,7 +877,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>T, C</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -875,7 +911,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Mass Rate, </Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -926,7 +964,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Volume Rate, </Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -977,7 +1017,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>MW</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1014,7 +1056,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>T, C</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1051,7 +1095,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Scenario</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1088,7 +1134,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1119,7 +1167,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>kg/hr</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1170,7 +1220,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>m3/hr</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1221,7 +1273,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1257,7 +1311,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1288,7 +1344,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>g/hr</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1339,7 +1397,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>m3/hr</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1390,7 +1450,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1426,7 +1488,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1457,7 +1521,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>g/hr</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1508,7 +1574,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>m3/hr</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1559,7 +1627,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1595,7 +1665,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1626,7 +1698,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>g/hr</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1677,7 +1751,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>m3/hr</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1728,7 +1804,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1764,7 +1842,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1800,7 +1880,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value />
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1836,7 +1918,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Device.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Calibri</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -1888,6 +1972,7 @@
                             <TextRun>
                               <Value>=Fields!PowerReliefRate.Value</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>F2</Format>
                               </Style>
                             </TextRun>
@@ -1941,6 +2026,7 @@
                             <TextRun>
                               <Value>=Fields!PowerVolumeRate.Value</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>F2</Format>
                               </Style>
                             </TextRun>
@@ -1994,6 +2080,7 @@
                             <TextRun>
                               <Value>=Fields!PowerMWorSpGr.Value</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>F2</Format>
                               </Style>
                             </TextRun>
@@ -2047,6 +2134,7 @@
                             <TextRun>
                               <Value>=Fields!PowerT.Value</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>F2</Format>
                               </Style>
                             </TextRun>
@@ -2100,6 +2188,7 @@
                             <TextRun>
                               <Value>=Fields!WaterReliefRate.Value</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>F2</Format>
                               </Style>
                             </TextRun>
@@ -2153,6 +2242,7 @@
                             <TextRun>
                               <Value>=Fields!WaterVolumeRate.Value</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>F2</Format>
                               </Style>
                             </TextRun>
@@ -2206,6 +2296,7 @@
                             <TextRun>
                               <Value>=Fields!WaterMWorSpGr.Value</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>F2</Format>
                               </Style>
                             </TextRun>
@@ -2259,6 +2350,7 @@
                             <TextRun>
                               <Value>=Fields!WaterT.Value</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>F2</Format>
                               </Style>
                             </TextRun>
@@ -2312,6 +2404,7 @@
                             <TextRun>
                               <Value>=Fields!AirReliefRate.Value</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>F2</Format>
                               </Style>
                             </TextRun>
@@ -2365,6 +2458,7 @@
                             <TextRun>
                               <Value>=Fields!AirVolumeRate.Value</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>F2</Format>
                               </Style>
                             </TextRun>
@@ -2418,6 +2512,7 @@
                             <TextRun>
                               <Value>=Fields!AirMWorSpGr.Value</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>F2</Format>
                               </Style>
                             </TextRun>
@@ -2471,6 +2566,7 @@
                             <TextRun>
                               <Value>=Fields!AirT.Value</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>F2</Format>
                               </Style>
                             </TextRun>
@@ -2524,6 +2620,7 @@
                             <TextRun>
                               <Value>=Fields!ScenarioReliefRate.Value</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>F2</Format>
                               </Style>
                             </TextRun>
@@ -2577,6 +2674,7 @@
                             <TextRun>
                               <Value>=Fields!ScenarioVolumeRate.Value</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>F2</Format>
                               </Style>
                             </TextRun>
@@ -2630,6 +2728,7 @@
                             <TextRun>
                               <Value>=Fields!ScenarioMWorSpGr.Value</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>F2</Format>
                               </Style>
                             </TextRun>
@@ -2683,6 +2782,7 @@
                             <TextRun>
                               <Value>=Fields!ScenarioT.Value</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>F2</Format>
                               </Style>
                             </TextRun>
@@ -2736,6 +2836,7 @@
                             <TextRun>
                               <Value>=Fields!ScenarioName.Value</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>F2</Format>
                               </Style>
                             </TextRun>
@@ -2795,7 +2896,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>Pressure Drop Effect Factor</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Cambria</FontFamily>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -2825,6 +2928,7 @@
                                 <TextRun>
                                   <Value>="W"&amp;ChrW(178)&amp;" * T"</Value>
                                   <Style>
+                                    <FontFamily>Calibri</FontFamily>
                                     <FontSize>8pt</FontSize>
                                     <TextDecoration>Underline</TextDecoration>
                                   </Style>
@@ -2858,6 +2962,7 @@
                                 <TextRun>
                                   <Value>MW</Value>
                                   <Style>
+                                    <FontFamily>Calibri</FontFamily>
                                     <FontSize>7pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -2920,6 +3025,7 @@
                             <TextRun>
                               <Value>=First(Fields!Power.Value, "PlantEffectFactorDS")</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>N2</Format>
                               </Style>
                             </TextRun>
@@ -2961,7 +3067,6 @@
                       </Style>
                     </Textbox>
                     <ColSpan>4</ColSpan>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -2978,6 +3083,7 @@
                             <TextRun>
                               <Value>=First(Fields!Water.Value, "PlantEffectFactorDS")</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>N2</Format>
                               </Style>
                             </TextRun>
@@ -3019,7 +3125,6 @@
                       </Style>
                     </Textbox>
                     <ColSpan>4</ColSpan>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -3036,6 +3141,7 @@
                             <TextRun>
                               <Value>=First(Fields!Air.Value, "PlantEffectFactorDS")</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>N2</Format>
                               </Style>
                             </TextRun>
@@ -3077,7 +3183,6 @@
                       </Style>
                     </Textbox>
                     <ColSpan>4</ColSpan>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -3156,7 +3261,9 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>Mach Number Effect Factor </Value>
-                                  <Style />
+                                  <Style>
+                                    <FontFamily>Cambria</FontFamily>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style />
@@ -3186,6 +3293,7 @@
                                 <TextRun>
                                   <Value>="W"&amp;ChrW(178)&amp;" * T"</Value>
                                   <Style>
+                                    <FontFamily>Calibri</FontFamily>
                                     <FontSize>8pt</FontSize>
                                     <TextDecoration>Underline</TextDecoration>
                                   </Style>
@@ -3219,6 +3327,7 @@
                                 <TextRun>
                                   <Value>MW*K</Value>
                                   <Style>
+                                    <FontFamily>Calibri</FontFamily>
                                     <FontSize>7pt</FontSize>
                                   </Style>
                                 </TextRun>
@@ -3281,6 +3390,7 @@
                             <TextRun>
                               <Value>=Last(Fields!Power.Value, "PlantEffectFactorDS")</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>N2</Format>
                               </Style>
                             </TextRun>
@@ -3322,7 +3432,6 @@
                       </Style>
                     </Textbox>
                     <ColSpan>4</ColSpan>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -3339,6 +3448,7 @@
                             <TextRun>
                               <Value>=Last(Fields!Water.Value, "PlantEffectFactorDS")</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>N2</Format>
                               </Style>
                             </TextRun>
@@ -3380,7 +3490,6 @@
                       </Style>
                     </Textbox>
                     <ColSpan>4</ColSpan>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -3397,6 +3506,7 @@
                             <TextRun>
                               <Value>=Last(Fields!Air.Value, "PlantEffectFactorDS")</Value>
                               <Style>
+                                <FontFamily>Calibri</FontFamily>
                                 <Format>N2</Format>
                               </Style>
                             </TextRun>
@@ -3438,7 +3548,6 @@
                       </Style>
                     </Textbox>
                     <ColSpan>4</ColSpan>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell />
@@ -3589,7 +3698,9 @@
             <TextRuns>
               <TextRun>
                 <Value>Design Total Plant Flare Load Summation</Value>
-                <Style />
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -3619,7 +3730,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!SummationFun.Value, "PlantHeadDS")</Value>
-                <Style />
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -3669,7 +3782,9 @@
             <TextRuns>
               <TextRun>
                 <Value>Controlling Scenario for Plant Flare</Value>
-                <Style />
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -3699,7 +3814,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!PlantFlare.Value, "PlantHeadDS")</Value>
-                <Style />
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -3749,7 +3866,9 @@
             <TextRuns>
               <TextRun>
                 <Value>Discharge To</Value>
-                <Style />
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -3779,7 +3898,9 @@
             <TextRuns>
               <TextRun>
                 <Value>=First(Fields!DischargeTo.Value, "PlantHeadDS")</Value>
-                <Style />
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
