@@ -1005,7 +1005,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\Reports\PlantSummaryRpt.rdlc" />
+    <EmbeddedResource Include="View\Reports\PlantSummaryRpt.rdlc">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\Reports\PUsummaryRpt.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>

@@ -28,6 +28,7 @@ namespace ReliefProMain.ViewModel.Reports
         private ReportBLL reportBLL;
         PUsummaryGridDS SumDs = new PUsummaryGridDS();
         StackPanel stackPanel;
+        private bool isHideAir;
         public ICommand OKCMD { get; set; }
         public ICommand BtnReportCMD { get; set; }
         public ICommand ExportExcelCMD { get; set; }
@@ -155,7 +156,7 @@ namespace ReliefProMain.ViewModel.Reports
             PUsummary PU = reportBLL.GetPUsummaryModel(UnitID);
             if (PU == null) { PU = new PUsummary(); PU.UnitID = UnitID; PU.PlantName = reportBLL.PlantName; PU.ProcessUnitName = reportBLL.ProcessUnitName; }
             CreateControl(listDischargeTo);
-
+            isHideAir =reportBLL.isHideAir();
             reportBLL.ClearSession();
             model = new PUsummaryModel(PU);
             //model.ProcessUnitName = reportBLL.ProcessUnitName;
@@ -218,7 +219,7 @@ namespace ReliefProMain.ViewModel.Reports
             List<PUsummaryReportSource> listRS = new List<PUsummaryReportSource>();
             listRS = model.listGrid.Select(p => new PUsummaryReportSource
             {
-                HideAir=true,
+                HideAir = isHideAir,
                 Device = p.psv.PSVName,
                 //ProtectedSystem = p.psv.PSVName,
                 ProtectedSystem=p.ProtectedSystem,

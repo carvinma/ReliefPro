@@ -62,5 +62,7 @@ namespace ReliefProModel.Reports
         public double? FireT { get; set; }
         public double? FireZ { get; set; }
         public double? FireCpCv { get; set; }
+
+        public bool HideAir { get; set; }  //报表General Instument Air Failure 列是否隐藏
     }
 }

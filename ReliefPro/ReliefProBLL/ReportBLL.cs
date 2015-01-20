@@ -58,6 +58,15 @@ namespace ReliefProBLL
             return globalDefaultDAL.GetFlareSystem(SessionPlant).ToList();
         }
 
+        public bool isHideAir()
+        {
+           var model=  globalDefaultDAL.GetConditionsSettings(SessionPlant);
+           if (model != null)
+           {
+               return !model.AirCondition;
+           }
+           return false;
+        }
         #region PlantSummary
         public List<PUsummaryReportSource> CalcPlantSummary(List<PlantSummaryGridDS> listPlant)
         {
