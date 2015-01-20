@@ -235,6 +235,8 @@ namespace ReliefProBLL
             {
                 PUsummaryGridDS gridDs = new PUsummaryGridDS();
                 gridDs.ProcessUnit = ProcessUnitName;
+                string[] name=PSV.dbPath.Split('\\');
+                gridDs.ProtectedSystem = name[name.Length - 2];
                 gridDs.psv = PSV;
                 gridDs.PowerDS = this.ScenarioBag.FirstOrDefault(p => p.ScenarioName == this.ScenarioName[1] && p.dbPath == PSV.dbPath);
                 gridDs.WaterDS = this.ScenarioBag.FirstOrDefault(p => p.ScenarioName == this.ScenarioName[2] && p.dbPath == PSV.dbPath);

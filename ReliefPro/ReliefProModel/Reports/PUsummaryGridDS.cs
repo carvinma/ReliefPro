@@ -8,6 +8,7 @@ namespace ReliefProModel.Reports
     public class PUsummaryGridDS
     {
         public string ProcessUnit { get; set; }
+        public string ProtectedSystem { get; set; }
         public PSV psv { get; set; }
         public Scenario SingleDS { get; set; }
         public Scenario PowerDS { get; set; }

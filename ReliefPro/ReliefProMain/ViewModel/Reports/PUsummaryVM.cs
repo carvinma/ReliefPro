@@ -209,7 +209,8 @@ namespace ReliefProMain.ViewModel.Reports
             listRS = model.listGrid.Select(p => new PUsummaryReportSource
             {
                 Device = p.psv.PSVName,
-                ProtectedSystem = p.psv.PSVName,
+                //ProtectedSystem = p.psv.PSVName,
+                ProtectedSystem=p.ProtectedSystem,
                 DeviceType = p.psv.ValveType,
                 SetPressure = p.psv.Pressure,
                 DischargeTo = p.psv.DischargeTo,
