@@ -73,7 +73,8 @@ namespace ReliefProMain.ViewModel
             try
             {
                 int id = model.BasicUnitselectLocation.ID;
-                unitInfo.BasicUnitSetDefault(id);
+                //unitInfo.BasicUnitSetDefault(id);
+                unitInfo.BasicUnitSetDefault(id, SessionPlant);
                 MessageBox.Show("Set Successful!");
             }
             catch (Exception ex)
@@ -221,14 +222,15 @@ namespace ReliefProMain.ViewModel
             model.ObcSpecificEnthalpy = new ObservableCollection<SystemUnit>(uomEnum.lstSystemUnit.Where(p => p.UnitType == 22));
             model.ObcEnthalpy = new ObservableCollection<SystemUnit>(uomEnum.lstSystemUnit.Where(p => p.UnitType == 24));
             model.ObcFineLength = new ObservableCollection<SystemUnit>(uomEnum.lstSystemUnit.Where(p => p.UnitType == 23));
-            if (uomEnum.UnitFromFlag && uomEnum.lstBasicUnitCurrent != null && uomEnum.lstBasicUnitCurrent.Count > 0)
-            {
-                model.BasicUnitselectLocation = lstBasicUnit.Where(p => p.ID == uomEnum.lstBasicUnitCurrent.First().BasicUnitID).First();
+            //if (uomEnum.UnitFromFlag && uomEnum.lstBasicUnitCurrent != null && uomEnum.lstBasicUnitCurrent.Count > 0)
+            //{
+            //    model.BasicUnitselectLocation = lstBasicUnit.Where(p => p.ID == uomEnum.lstBasicUnitCurrent.First().BasicUnitID).First();
 
-                model.BasicUnitselectLocation = new BasicUnit();
-            }
-            else
+            //    model.BasicUnitselectLocation = new BasicUnit();
+            //}
+            //else
                 model.BasicUnitselectLocation = lstBasicUnit[lstBasicUnit.ToList().FindIndex(p => p.IsDefault == 1)];
+
 
             //model.CompositionSelectLocation = lstSystemUnit[int.Parse(lstBasciUnitDefault.Where(s => s.BasicUnitID == model.BasicUnitselectLocation.ID && s.UnitTypeID == 11).Single().SystemUnitID)]; 
             //model.ObcComposition = new ObservableCollection<SystemUnit>(lstSystemUnit.Where(p => p.UnitType == 11));

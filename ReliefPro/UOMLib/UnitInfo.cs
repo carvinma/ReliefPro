@@ -18,10 +18,11 @@ namespace UOMLib
         {
             IList<BasicUnit> lstBasicUnit;
             BasicUnitDAL db = new BasicUnitDAL();
-            using (var helper = new UOMLNHibernateHelper(dbConnectPath))
-            {
-                lstBasicUnit = db.GetAllList(helper.GetCurrentSession());
-            }
+            //using (var helper = new UOMLNHibernateHelper(dbConnectPath))
+            //{
+            //    lstBasicUnit = db.GetAllList(helper.GetCurrentSession());
+            //}
+            lstBasicUnit = db.GetAllList(SessionPlan);
             return lstBasicUnit;
         }
         public BasicUnit GetBasicUnitUOM(ISession SessionPlan)
@@ -75,6 +76,27 @@ namespace UOMLib
             string sql2 = "update tbBasicUnit a set IsDefault=1 where a.ID=:ID";
             var query = UOMSingle.Session.CreateSQLQuery(sql);
             var query2 = UOMSingle.Session.CreateSQLQuery(sql2);
+            query.SetInt32("ID", id);
+            query2.SetInt32("ID", id);
+            try
+            {
+                var rows = query.ExecuteUpdate();
+                rows = query2.ExecuteUpdate();
+                return rows;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public int BasicUnitSetDefault(int id,ISession SessionPlan)
+        {
+            BasicUnitDAL db = new BasicUnitDAL();
+
+            string sql = "update tbBasicUnit a set IsDefault=0 where a.ID<>:ID";
+            string sql2 = "update tbBasicUnit a set IsDefault=1 where a.ID=:ID";
+            var query = SessionPlan.CreateSQLQuery(sql);
+            var query2 = SessionPlan.CreateSQLQuery(sql2);
             query.SetInt32("ID", id);
             query2.SetInt32("ID", id);
             try
