@@ -1,4 +1,7 @@
-﻿using System;
+﻿/*
+ * drum 的出口堵塞
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -83,7 +86,7 @@ namespace ReliefProMain.ViewModel.Drums
                     if (sr.MaxPossiblePressure >= setPress)
                     {
                         strFeeds.Add(cs.StreamName);
-                        //cs.Pressure = sr.MaxPossiblePressure;  改为使用本身的压力了。
+                        //cs.Pressure = sr.MaxPossiblePressure;  //改为使用本身的压力了。
                         mixFeeds.Add(cs);
                         if (sr.MaxPossiblePressure < minPressure)
                             minPressure = sr.MaxPossiblePressure;
@@ -91,7 +94,7 @@ namespace ReliefProMain.ViewModel.Drums
                 }
                 if (strFeeds.Count==0)
                 {
-                    IsHasBlockedOutlet = 1;
+                    IsHasBlockedOutlet = 1; //表示没有出口堵塞
                     return;
                 }
 
@@ -146,7 +149,7 @@ namespace ReliefProMain.ViewModel.Drums
                 return;
             }
 
-            outletModel = drum.ReadConvertModel(outletModel, SessionPF);
+            outletModel = drum.ReadConvertModel(outletModel, SessionPF);//转换为用户单位
             model = new DrumBlockedOutletModel(outletModel);
             model.dbmodel.DrumID = drum.GetDrumID(SessionPS);
             model.dbmodel.ScenarioID = ScenarioID;
@@ -157,8 +160,6 @@ namespace ReliefProMain.ViewModel.Drums
             model.StreamRateUnit = uomEnum.UserMassRate;
             model.FlashingDutyUnit = uomEnum.UserEnthalpyDuty;
             model.ReliefConditionUnit = uomEnum.UserEnthalpyDuty;
-
-            
 
             model.ReliefloadUnit = uomEnum.UserMassRate;
             model.ReliefTempUnit = uomEnum.UserTemperature;
@@ -310,6 +311,7 @@ namespace ReliefProMain.ViewModel.Drums
                     model.ReliefMW = 0;
                     model.ReliefCpCv = 0;
                     model.ReliefZ = 0;
+                    model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, reliefPressure);
                     MessageBox.Show("Source Pressure is less than set pressure,no relief occurs.","Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
                 }
                 SplashScreenManager.SentMsgToScreen("Calculation finished");
@@ -334,7 +336,18 @@ namespace ReliefProMain.ViewModel.Drums
 
         private void Save(object obj)
         {
-            if (!model.CheckData()) return;
+            //if (!model.CheckData()) return;
+            if (model.MaxPressure == 0)
+            {
+                MessageBox.Show("Max source pressure must be greater than zero", "Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
+                return;
+            }
+            if (model.MaxStreamRate == 0)
+            {
+                MessageBox.Show("Max source stream rate must be greater than zero", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             WriteConvertModel();
             reliefLoad = model.ReliefLoad;
             reliefMW = model.ReliefMW;

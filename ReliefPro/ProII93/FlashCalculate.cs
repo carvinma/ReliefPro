@@ -19,7 +19,7 @@ namespace ProII93
         /// <param name="fileContent"></param>
         /// <param name="iFirst">1:Pressure 2:Temperature</param>
         /// <param name="firstValue">表示压力或温度值</param>
-        /// <param name="iSecond">1：压力 2：温度 3：泡点 4：露点 5 duty</param>
+        /// <param name="iSecond">1：温度 2：压力 3：泡点 4：露点 5 duty</param>
         /// <param name="secondValue">表示iSecond 的对应的值</param>
         /// <param name="stream"></param>
         /// <param name="vapor"></param>
@@ -28,7 +28,7 @@ namespace ProII93
         /// <returns></returns>
         public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, string heatMethod, CustomStream stream, string vapor, string liquid, string dir, ref int ImportResult, ref int RunResult)
         {
-            string streamData = getStreamData(stream);
+            string streamData = getStreamData(iFirst, firstValue, iSecond, secondValue, stream);
             string flashData = getFlashData(iFirst, firstValue, iSecond, secondValue, heatMethod, stream, vapor, liquid);
             StringBuilder sb = new StringBuilder();
             string[] arrfileContent = fileContent.Split(new string[] { "STREAM DATA" }, StringSplitOptions.None);
@@ -51,7 +51,7 @@ namespace ProII93
 
             return przFile;
         }
-        private string getStreamData(CustomStream stream)
+        private string getStreamData(int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream)
         {
             StringBuilder data1 = new StringBuilder();
             string streamName = stream.StreamName;
@@ -96,13 +96,19 @@ namespace ProII93
 
             data2.Append("\tFLASH UID=").Append(FlashName).Append("\n");
             data2.Append("\t FEED ").Append(streamName.ToUpper()).Append("\n");
-            data2.Append("\t PRODUCT V=").Append(vapor).Append(",&\n");
-            data2.Append("\t L=").Append(liquid).Append("\n");
+            if (string.IsNullOrEmpty(liquid))
+            {
+                data2.Append("\t PRODUCT V=").Append(vapor).Append("\n");
+            }
+            else
+            {
+                data2.Append("\t PRODUCT V=").Append(vapor).Append(",&\n");
+                data2.Append("\t L=").Append(liquid).Append("\n");
+            }
             if (!string.IsNullOrEmpty(heatMethod))
             {
                 data2.Append("\t ").Append(heatMethod).Append("\n");
             }
-
             StringBuilder sbPT = new StringBuilder();
             if (iFirst == 1)
                 sbPT.Append("PRESSURE(MPAG)=").Append(firstValue).Append("\n");
@@ -163,14 +169,19 @@ namespace ProII93
 
             data2.Append("\tFLASH UID=").Append(FlashName).Append("\n");
             data2.Append("\t FEED ").Append(feeds.ToUpper()).Append("\n");
-            data2.Append("\t PRODUCT V=").Append(vapor).Append(",&\n");
-            data2.Append("\t L=").Append(liquid).Append("\n");
+            if (string.IsNullOrEmpty(liquid))
+            {
+                data2.Append("\t PRODUCT V=").Append(vapor).Append("\n");
+            }
+            else
+            {
+                data2.Append("\t PRODUCT V=").Append(vapor).Append(",&\n");
+                data2.Append("\t L=").Append(liquid).Append("\n");
+            }
             if (!string.IsNullOrEmpty(heatMethod))
             {
                 data2.Append("\t ").Append(heatMethod).Append("\n");
             }
-
-
             StringBuilder sbPT = new StringBuilder();
             if (iFirst == 1)
                 sbPT.Append("PRESSURE(MPAG)=").Append(firstValue).Append("\n");
@@ -226,7 +237,7 @@ namespace ProII93
             sb.Append(arrfileContent[0]).Append("\nSTREAM DATA\n");
             foreach (CustomStream stream in streams)
             {
-                string streamData = getStreamData(stream);
+                string streamData = getStreamData(iFirst, firstValue, iSecond, secondValue, stream);
                 sb.Append(streamData).Append("\n"); ;
             }
 

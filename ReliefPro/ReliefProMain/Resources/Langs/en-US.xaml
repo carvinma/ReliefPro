@@ -710,5 +710,22 @@
     <s:String x:Key="HXBlockedOutletViewTitle">HX BlockedOutlet</s:String>
   
     <s:String x:Key="HXBlockedOutletViewStatusBar">Exist the window after saving all data</s:String>
+    
+    
+    <!--warning list-->
+    <s:String x:Key="WarningTray1LiquidZero">Tray 1 Pressure is zero,Please Rerun this ProII file and save it.</s:String>
+    <s:String x:Key="WarningPSVTower1">Critical point NOT determined, please check result carefully.</s:String>
+    <s:String x:Key="WarningPSVTower2">Calculated latent heat is less than bound value and default  value is used.</s:String>
+    <s:String x:Key="WarningPSVTower3">Flash for latent heat failed and default 46 KJ/Kg is used as latent heat.</s:String>
+    <s:String x:Key="WarningPSVTower4">Relief Condition is near critical , Latent heat is set to default value.</s:String>
+
+    <s:String x:Key="WarningDrum1">Tray 1 Pressure is zero,Please Rerun this ProII file and save it.</s:String>
+    <s:String x:Key="WarningDrum2">Tray 1 Pressure is zero,Please Rerun this ProII file and save it.</s:String>
+    <s:String x:Key="WarningDrum3">Tray 1 Pressure is zero,Please Rerun this ProII file and save it.</s:String>
+    <s:String x:Key="WarningDrum4">Tray 1 Pressure is zero,Please Rerun this ProII file and save it.</s:String>
+
+
+
+
 
 </ResourceDictionary>

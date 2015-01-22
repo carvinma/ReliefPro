@@ -1,4 +1,7 @@
-﻿using System;
+﻿/*
+drum size界面  单位转换都已经有了
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

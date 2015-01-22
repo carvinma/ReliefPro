@@ -52,6 +52,23 @@ namespace ReliefProMain.ViewModel.TowerFires
                 OnPropertyChanged("EqList");
             }
         }
+
+        private bool _IsExist;
+        public bool IsExist
+        {
+            get
+            {
+                return this._IsExist;
+            }
+            set
+            {
+                this._IsExist = value;
+                UpdateALLEqReliefLoad();
+                OnPropertyChanged("IsExist");
+            }
+        }
+        
+        
         public UOMLib.UOMEnum uomEnum { set; get; }
         Tower TowerInfo;
         string HeatMethod;
@@ -86,12 +103,10 @@ namespace ReliefProMain.ViewModel.TowerFires
                 TowerFireEqModel eqm = new TowerFireEqModel(eq);
                 EqList.Add(eqm);
             }
-
-            TowerDAL towerdal = new TowerDAL();
-            TowerInfo = towerdal.GetModel(SessionProtectedSystem);
-
             SplashScreenManager.Show();
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
+            TowerDAL towerdal = new TowerDAL();
+            TowerInfo = towerdal.GetModel(SessionProtectedSystem);
             if (TowerInfo.TowerType == "Distillation")
             {
                 LatentDAL dblatent = new LatentDAL();
@@ -107,6 +122,12 @@ namespace ReliefProMain.ViewModel.TowerFires
             }
             SplashScreenManager.SentMsgToScreen("Calculation finished");
             SplashScreenManager.Close();
+
+
+            IsExist = MainModel.IsExist;
+           
+
+            
         }
 
         private ICommand _SaveCommand;
@@ -137,7 +158,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             TowerFireDAL towerFireDAL = new TowerFireDAL();
             WriteConvert();
             MainModel.dbmodel.HeatInputModel = MainModel.HeatInputModel;
-            MainModel.dbmodel.IsExist = MainModel.IsExist;
+            MainModel.dbmodel.IsExist = IsExist;
             MainModel.dbmodel.ReliefCpCv = MainModel.ReliefCpCv;
             MainModel.dbmodel.ReliefZ = MainModel.ReliefZ;
             MainModel.dbmodel.ReliefMW = MainModel.ReliefMW;
@@ -301,9 +322,23 @@ namespace ReliefProMain.ViewModel.TowerFires
 
 
         private void CalReliefLoad(object obj)
+        {          
+            int id = int.Parse(obj.ToString());
+            CalSingleReliefEqLoad(id);          
+        }
+
+        private void UpdateALLEqReliefLoad()
+        {
+            for (int i = 0; i < EqList.Count; i++)
+            {
+                CalSingleReliefEqLoad2(EqList[i].ID);
+            }
+        }
+
+        private void CalSingleReliefEqLoad2(int id)
         {
             double C1 = 0;
-            if (MainModel.IsExist)
+            if (IsExist)
             {
                 C1 = 43200;
             }
@@ -311,11 +346,36 @@ namespace ReliefProMain.ViewModel.TowerFires
             {
                 C1 = 70900;
             }
-            int id = int.Parse(obj.ToString());
+            var query = from s in EqList
+                        where s.ID == id
+                        select s;
 
-            var query=from s in EqList
-                                  where s.ID == id
-                                  select s;
+            TowerFireEqModel eqm = query.ToList()[0];
+
+            double latentEnthalpy = latent.LatentEnthalpy;
+
+            eqm.HeatInput = Algorithm.GetQ(C1, eqm.FFactor, eqm.WettedArea);
+            eqm.ReliefLoad = (eqm.HeatInput / latentEnthalpy);
+
+            fireEqDal.Update(eqm.dbmodel, SessionProtectedSystem);
+
+        }
+
+
+        private void CalSingleReliefEqLoad(int id)
+        {
+            double C1 = 0;
+            if (IsExist)
+            {
+                C1 = 43200;
+            }
+            else
+            {
+                C1 = 70900;
+            }
+            var query = from s in EqList
+                        where s.ID == id
+                        select s;
 
             TowerFireEqModel eqm = query.ToList()[0];
 
@@ -341,8 +401,8 @@ namespace ReliefProMain.ViewModel.TowerFires
                     eqm.dbmodel.Elevation = eqm.Elevation;
                     fireEqDal.Update(eqm.dbmodel, SessionProtectedSystem);
                     SessionProtectedSystem.Flush();
-                    
-                   
+
+
                 }
             }
             else if (eqm.Type == "Drum")
@@ -366,7 +426,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                     eqm.dbmodel.Elevation = eqm.Elevation;
                     fireEqDal.Update(eqm.dbmodel, SessionProtectedSystem);
                     SessionProtectedSystem.Flush();
-                    
+
                 }
             }
             else if (eqm.Type == "Shell-Tube HX")
@@ -403,7 +463,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                     eqm.WettedArea = vm.Area;
                     eqm.HeatInput = Algorithm.GetQ(C1, eqm.FFactor, eqm.WettedArea);
                     eqm.ReliefLoad = (eqm.HeatInput / latentEnthalpy);
-                    
+
                     eqm.dbmodel.WettedArea = eqm.WettedArea;
                     eqm.dbmodel.HeatInput = eqm.HeatInput;
                     eqm.dbmodel.ReliefLoad = eqm.ReliefLoad;
@@ -411,30 +471,9 @@ namespace ReliefProMain.ViewModel.TowerFires
                     eqm.dbmodel.FireZone = eqm.FireZone;
                     fireEqDal.Update(eqm.dbmodel, SessionProtectedSystem);
                     SessionProtectedSystem.Flush();
-                    
+
                 }
             }
-            //else if (eq.Type == "Other HX")
-            //{
-            //TowerFireOtherView v = new TowerFireOtherView();
-            //TowerFireOtherVM vm = new TowerFireOtherVM(eq.ID, SessionPlant, SessionProtectedSystem);
-            //v.DataContext = vm;
-            //v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-            //if (v.ShowDialog() == true)
-            //{
-            //    EqList.Clear();
-            //    eq.WettedArea = vm.Area.ToString();
-            //    eq.HeatInput = Algorithm.GetQ(C1, double.Parse(eq.FFactor), double.Parse(eq.WettedArea)).ToString();
-            //    eq.ReliefLoad = (double.Parse(eq.HeatInput) / latentEnthalpy).ToString();
-            //    db.Update(eq, SessionProtectedSystem);
-            //    IList<TowerFireEq> list = db.GetAllList(SessionProtectedSystem, MainModel.ID);
-            //    foreach (TowerFireEq q in list)
-            //    {
-            //        EqList.Add(q);
-            //    }
-            //    SessionProtectedSystem.Flush();
-            //}
-            // }
         }
 
         private void CalDisReliefOther()

@@ -105,7 +105,8 @@ namespace ReliefProMain.View
                 {
                     //version = ProIIFactory.GetProIIVerison(curprzFile, dir);
                     version = ProIIFactory.GetProIIhs2Verison(curprzFile, dir);
-                    if (version != "9.1" && version != "9.2")
+                    if (version != "9.1" && version != "9.2" && version != "9.0" && version != "9.3" && version != "8.3")
+                    //if (version != "9.1" && version != "9.2" )
                     {
                         MessageBox.Show("This version is not supported!", "Message Box");
                         return;

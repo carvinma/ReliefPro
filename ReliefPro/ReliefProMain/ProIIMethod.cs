@@ -210,12 +210,12 @@ namespace ReliefProMain
             for (i = start; i < length; i++)
             {
                 string line = lines[i].Trim();
-                if (line.Substring(0,6)=="METHOD")
+                if (line.Length>7&&line.Substring(0,6)=="METHOD")
                 {
                     result = line ;
                     break;
                 }
-                if (line.Contains("UID=") || line.Contains("END")) //新的Unit或Unit结束符，退出。 说明没有Method
+                if (line.Contains("UID=") || line=="END") //新的Unit或Unit结束符，退出。 说明没有Method
                 {                    
                     break;
                 }

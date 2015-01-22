@@ -970,7 +970,7 @@ namespace ReliefProMain.ViewModel
             }
 
             bool isAddOffGas = false;
-            if(condenserCalc!=null && condenserCalc.Flooding || offGasStream!=null && (offGasStream.FlowStop==false || offGasStream.FlowCalcFactor==0))
+            if(condenserCalc!=null && condenserCalc.Flooding || (offGasStream!=null && (offGasStream.FlowStop || offGasStream.FlowCalcFactor==0)))
             {
                 isAddOffGas = true;
             }

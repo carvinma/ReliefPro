@@ -12,27 +12,6 @@ namespace ReliefProMain
 {
     public  class ProIIFactory
     {
-        public static string GetProIIVerison(string przFile, string rootDir)
-        {
-            PROIIFileOperator.DecompressProIIFile(przFile, rootDir);
-            //string inpFile = przFile.Substring(0, przFile.Length - 4) + "_backup.inp";
-            string[] files = Directory.GetFiles(rootDir,"*.inp");
-            string inpFile = string.Empty;
-            if (files.Length == 1)
-                inpFile = files[0];
-            else
-            {
-                foreach (string f in files)
-                {
-                    if (f.Length > 11 || f.Contains("_backup.inp"))
-                    {
-                        inpFile = files[0];
-                    }
-                }
-            }
-            string version = PROIIFileOperator.CheckProIIVersion(inpFile);
-            return version;
-        }
         public static string GetProIIhs2Verison(string przFile, string rootDir)
         {
             PROIIFileOperator.DecompressProIIFile(przFile, rootDir);
@@ -42,23 +21,18 @@ namespace ReliefProMain
             string version = PROIIFileOperator.CheckProIIhs2Version(hs2file);
             return version;
         }
-        public static IProIIRunCalcSave CreateRunCalcSave(string version)
-        {
-            IProIIRunCalcSave r = null;
-            if (version == "9.1")
-            {
-                //r = new ProII91.();
-            }
-            else if (version == "9.2")
-            {
-                //r = new ProII92.ProIIRunCalcSave();
-            }
-            return r;
-        }
         public static IProIIReader CreateReader(string version)
         {
             IProIIReader reader = null;
-            if (version == "9.1")
+            if (version == "8.3")
+            {
+                reader = new ProII83.ProIIReader();
+            }
+            else if (version == "9.0")
+            {
+                reader = new ProII90.ProIIReader();
+            }
+            else if (version == "9.1")
             {
                 reader= new ProII91.ProIIReader();
             }
@@ -75,7 +49,15 @@ namespace ReliefProMain
         public static IMixCalculate CreateMixCalculate(string version)
         {
             IMixCalculate calc = null;
-            if (version == "9.1")
+            if (version == "8.3")
+            {
+                calc = new ProII83.MixCalculate();
+            }
+            else if (version == "9.0")
+            {
+                calc = new ProII90.MixCalculate();
+            }
+            else if (version == "9.1")
             {
                 calc = new ProII91.MixCalculate();
             }
@@ -85,14 +67,22 @@ namespace ReliefProMain
             }
             else if (version == "9.3")
             {
-                //calc = new ProII93.MixCalculate();
+                calc = new ProII93.MixCalculate();
             }
             return calc;
         }
         public static IFlashCalculate CreateFlashCalculate(string version)
         {
-            IFlashCalculate calc = null;            
-            if (version == "9.1")
+            IFlashCalculate calc = null;
+            if (version == "8.3")
+            {
+                calc = new ProII83.FlashCalculate();
+            }
+            else if (version == "9.0")
+            {
+                calc = new ProII90.FlashCalculate();
+            }
+            else if (version == "9.1")
             {
                 calc = new ProII91.FlashCalculate();
             }
@@ -122,7 +112,15 @@ namespace ReliefProMain
         public static IPHASECalculate CreatePHASECalculate(string version)
         {
             IPHASECalculate calc = null;
-            if (version == "9.1")
+            if (version == "8.3")
+            {
+                calc = new ProII83.PHASECalculate();
+            }
+            else if (version == "9.0")
+            {
+                calc = new ProII90.PHASECalculate();
+            }
+            else if (version == "9.1")
             {
                 calc = new ProII91.PHASECalculate();
             }
@@ -140,7 +138,15 @@ namespace ReliefProMain
         public static IProIIImport CreateProIIImport(string version)
         {
             IProIIImport impt = null;
-            if (version == "9.1")
+            if (version == "8.3")
+            {
+                impt = new ProII83.ProIIImport();
+            }
+            else if (version == "9.0")
+            {
+                impt = new ProII90.ProIIImport();
+            }
+            else if (version == "9.1")
             {
                 impt = new ProII92.ProIIImport();
             }

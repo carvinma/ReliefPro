@@ -92,8 +92,6 @@ namespace ReliefProMain.ViewModel.HXs
                 return;
             }
 
-
-
             int errorType = 0;
             SplashScreenManager.Show(10);
             
@@ -264,10 +262,6 @@ namespace ReliefProMain.ViewModel.HXs
                         proIILiquid = reader.GetSteamInfo(liquid);
                         reader.ReleaseProIIReader();
                     }
-
-
-
-
                     csVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
                     csLiquid = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
                     SplashScreenManager.SentMsgToScreen("Calculation in progress......  30%");
@@ -495,12 +489,12 @@ namespace ReliefProMain.ViewModel.HXs
 
                             else
                             {
-                                MessageBox.Show("Prz file is error", "Message Box");
+                                //MessageBox.Show("Prz file is error", "Message Box");
                             }
                         }
                         else
                         {
-                            MessageBox.Show("inp file is error", "Message Box");
+                            //MessageBox.Show("inp file is error", "Message Box");
 
                         }
                     }
@@ -809,13 +803,13 @@ namespace ReliefProMain.ViewModel.HXs
                 }
                 else
                 {
-                    MessageBox.Show("inp file is error", "Message Box");
+                    //MessageBox.Show("inp file is error", "Message Box");
                     return null;
                 }
             }
             else
             {
-                MessageBox.Show("Prz file is error", "Message Box");
+                //MessageBox.Show("Prz file is error", "Message Box");
                 return null;
             }
 

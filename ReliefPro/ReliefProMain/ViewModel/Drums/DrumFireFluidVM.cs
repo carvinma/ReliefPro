@@ -10,6 +10,7 @@ using ReliefProMain.Commands;
 using ReliefProMain.Models;
 using UOMLib;
 using ReliefProDAL.Drums;
+using System.Windows;
 
 namespace ReliefProMain.ViewModel.Drums
 {
@@ -55,7 +56,23 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void Save(object obj)
         {
-            if (!CheckData()) return;
+            //if (!CheckData()) return;
+            if (model.VaporMW == 0)
+            {
+                MessageBox.Show("Vapor MW must be greater than zero", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (model.NormalCpCv == 0)
+            {
+                MessageBox.Show("CpCv must be greater than zero", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (model.TW == 0)
+            {
+                MessageBox.Show("TW must be greater than zero", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;

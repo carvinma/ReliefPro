@@ -69,9 +69,9 @@ namespace ReliefProBLL
             }
             PistonBlockedOutlet Model = new PistonBlockedOutlet();
             Model = model;
-            Model.Reliefload = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, Model.Reliefload);
-            Model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), uomEnum.UserTemperature, Model.ReliefTemperature);
-            Model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), uomEnum.UserPressure, Model.ReliefPressure);
+            Model.Reliefload = UnitConvert.Convert(UOMEnum.MassRate, uomEnum.UserMassRate, Model.Reliefload);
+            Model.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, uomEnum.UserTemperature, Model.ReliefTemperature);
+            Model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, uomEnum.UserPressure, Model.ReliefPressure);
             return Model;
         }
 

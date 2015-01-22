@@ -75,7 +75,7 @@
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Height,Mode=TwoWay,StringFormat='{}{0:F4}',UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                <TextBox Text="{Binding Height,Mode=TwoWay,StringFormat='{}{0:F4}'}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -93,7 +93,7 @@
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox Text="{Binding Diameter,Mode=TwoWay,StringFormat='{}{0:F4}',UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                <TextBox Text="{Binding Diameter,Mode=TwoWay,StringFormat='{}{0:F4}'}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

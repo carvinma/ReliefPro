@@ -263,7 +263,7 @@ namespace ReliefProMain.ViewModel
                 dicFeeds.Add(arrFeeds[i]);
             }
             for (int i = 0; i < arrProducts.Length; i++)
-            {
+            {                
                 dicProducts.Add(arrProducts[i]);
             }
             for (int i = 0; i < arrProductTypes.Length; i++)

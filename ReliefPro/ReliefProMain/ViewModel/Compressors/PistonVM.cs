@@ -32,7 +32,7 @@ namespace ReliefProMain.ViewModel.Compressors
 
             blockBLL = new CompressorBlockedBLL(SessionPS, SessionPF);
             var pistonModel = blockBLL.GetPistonModel(ScenarioID);
-            pistonModel = blockBLL.ReadConvertPistonModel(pistonModel);
+            pistonModel = blockBLL.ReadConvertPistonModel(pistonModel);//已经转换为用户单位
 
             model = new PistonBlockedOutletModel(pistonModel);
             model.dbmodel.ScenarioID = ScenarioID;
@@ -52,16 +52,25 @@ namespace ReliefProMain.ViewModel.Compressors
             //model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressureUnit, model.dbmodel.ReliefPressure);
             
         }
+        
+        /// <summary>
+        /// 写入数据库时转换单位
+        /// </summary>
         private void WriteConvert()
         {
             model.dbmodel.RatedCapacity = model.RatedCapacity;
             model.dbmodel.ReliefMW = model.ReliefMW;
             model.dbmodel.ReliefCpCv = model.ReliefCpCv;
             model.dbmodel.ReliefZ = model.ReliefZ;
-            model.dbmodel.Reliefload = UnitConvert.Convert(model.ReliefloadUnit, UOMLib.UOMEnum.MassRate.ToString(), model.Reliefload);
-            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTempUnit, UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTemperature);
-            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressure);
+            model.dbmodel.Reliefload = UnitConvert.Convert(model.ReliefloadUnit,UOMEnum.MassRate, model.Reliefload);
+            model.dbmodel.ReliefTemperature = UnitConvert.Convert(model.ReliefTempUnit, UOMEnum.Temperature, model.ReliefTemperature);
+            model.dbmodel.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMEnum.Pressure, model.ReliefPressure);
         }
+
+        /// <summary>
+        /// 计算函数。 注意是，计算完成后，转换成用户单位
+        /// </summary>
+        /// <param name="obj"></param>
         private void CalcResult(object obj)
         {
             PSVDAL psvDAL = new PSVDAL();
@@ -77,6 +86,12 @@ namespace ReliefProMain.ViewModel.Compressors
                 model.ReliefTemperature = cs.Temperature;
                 if (model.Reliefload < 0)
                     model.Reliefload = 0;
+
+                model.Reliefload = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefloadUnit, model.Reliefload);
+                model.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, model.ReliefTempUnit, model.ReliefTemperature);
+                model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, model.ReliefPressure);
+
+
                 model.ReliefCpCv = cs.BulkCPCVRatio;
                 model.ReliefZ = cs.VaporZFmKVal;
             }

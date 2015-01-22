@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*  压缩机  数据页面
+ * 主要是导入compressor页面
+ * pstype=3 表示是压缩机
+ * 
+ * 
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -73,7 +79,7 @@ namespace ReliefProMain.ViewModel
                 SourceFileInfo = sfdal.GetModel(compressor.SourceFile, SessionPlant);
                 FileName = compressor.SourceFile;
                 ColorImport = ColorBorder.blue.ToString();
-                op = 1;
+                op = 1; //表示执行修改操作
             }
             else
             {
@@ -87,7 +93,7 @@ namespace ReliefProMain.ViewModel
                 model = new CompressorModel(compressor, Feeds, Products);
                 model.CompressorType_Color = ColorBorder.green.ToString();
                 model.Driver_Color = ColorBorder.green.ToString();
-                op = 0;
+                op = 0;//插入操作
             }
         }
         private ICommand _ImportCommand;

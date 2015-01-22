@@ -1198,6 +1198,14 @@
       <Project>{bf7b294a-541b-4de7-be79-1e5c7455b940}</Project>
       <Name>ExportLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ProII83\ProII83.csproj">
+      <Project>{30540a96-5fe5-411c-a1f5-e8f923cd1972}</Project>
+      <Name>ProII83</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProII90\ProII90.csproj">
+      <Project>{1b01d9b2-7029-41bc-9c09-489daef66c40}</Project>
+      <Name>ProII90</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProII93\ProII93.csproj">
       <Project>{e093a9f6-9256-48fa-b701-cb4279fbe032}</Project>
       <Name>ProII93</Name>

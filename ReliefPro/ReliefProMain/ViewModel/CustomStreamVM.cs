@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * 该文件是物流线信息页面的viewmodel
+ * 
+ * 单位制都ok,目前无bug
+ * */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

@@ -23,7 +23,7 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Column="1"  Grid.Row="1" Text="{DynamicResource HeatInputModel}"/>
         <ComboBox ItemsSource="{Binding Path=HeatInputModels,Mode=TwoWay}" SelectedItem="{Binding MainModel.HeatInputModel,Mode=TwoWay}" Grid.Column="2"  Grid.Row="1" />
-        <CheckBox Content="{DynamicResource Adequatedrainageandfirefightingequipmentexist}" IsChecked="{Binding MainModel.IsExist}" Grid.Column="3"  Grid.Row="1"  />
+        <CheckBox Content="{DynamicResource Adequatedrainageandfirefightingequipmentexist}" IsChecked="{Binding IsExist}" Grid.Column="3"  Grid.Row="1"  />
         
         <ListView Grid.Column="1" HorizontalAlignment="Stretch" Height="163"  Grid.Row="2"  ItemsSource="{Binding EqList,Mode=TwoWay}" Grid.ColumnSpan="4" >
             <ListView.View>
@@ -60,7 +60,7 @@
                             </StackPanel>
                         </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=HeatInput,Mode=TwoWay}">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=HeatInput,Mode=TwoWay,StringFormat='{}{0:F4}'}">
                         <GridViewColumn.Header>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{DynamicResource HeatInputKJ_hr}"/>

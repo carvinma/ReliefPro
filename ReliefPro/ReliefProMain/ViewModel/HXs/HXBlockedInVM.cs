@@ -166,7 +166,22 @@ namespace ReliefProMain.ViewModel.HXs
             model.ReliefLoadUnit = uomEnum.UserMassRate;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
             model.ReliefPressureUnit = uomEnum.UserPressure;
+            ReadConvertModel();
         }
+
+        private void ReadConvertModel()
+        {
+            model.ColdStream = model.ColdStream;
+            model.NormalDuty = UnitConvert.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(),model.NormalDutyUnit,  model.NormalDuty);
+            model.NormalHotTemperature = UnitConvert.Convert( UOMLib.UOMEnum.Temperature.ToString(),model.NormalHotTemperatureUnit, model.NormalHotTemperature);
+            model.NormalColdInletTemperature = UnitConvert.Convert( UOMLib.UOMEnum.Temperature.ToString(), model.NormalColdInletTemperatureUnit,model.NormalColdInletTemperature);
+            model.NormalColdOutletTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(),model.NormalColdOutletTemperatureUnit,  model.NormalColdOutletTemperature);
+            model.LatentPoint = UnitConvert.Convert(UOMLib.UOMEnum.SpecificEnthalpy.ToString(),model.LatentPointUnit,  model.LatentPoint);
+            model.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(),model.ReliefLoadUnit,  model.ReliefLoad);
+            model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(),model.ReliefTemperatureUnit,  model.ReliefTemperature);
+            model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(),model.ReliefPressureUnit,  model.ReliefPressure);
+        }
+
         private void WriteConvertModel()
         {
             model.dbmodel.ColdStream = model.ColdStream;
@@ -182,6 +197,7 @@ namespace ReliefProMain.ViewModel.HXs
             model.dbmodel.ReliefCpCv = model.ReliefCpCv;
             model.dbmodel.ReliefZ = model.ReliefZ;
         }
+        
         private void CalcResult(object obj)
         {
             //if (!model.CheckData()) return; 
@@ -597,7 +613,6 @@ namespace ReliefProMain.ViewModel.HXs
             }
         }
 
-
         private int CalcBlockedInCriticalPressure(List<string> lstFeeds)
         {
             int result = 0;
@@ -658,6 +673,7 @@ namespace ReliefProMain.ViewModel.HXs
             }
             return result;
         }
+       
         private int CalcCriticalPressure(string content, double ReliefPressure, CustomStream stream, string dirPhase)
         {
             int ImportResult = 0;
@@ -700,20 +716,17 @@ namespace ReliefProMain.ViewModel.HXs
                 }
                 else
                 {
-                    MessageBox.Show("The simulation unsolved!", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    //MessageBox.Show("The simulation unsolved!", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return 3;
                 }
             }
             else
             {
-                MessageBox.Show("There is some errors in keyword file.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
+                //MessageBox.Show("There is some errors in keyword file.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
                 return 4;
             }
 
         }
-
-
-
 
         private void Save(object obj)
         {

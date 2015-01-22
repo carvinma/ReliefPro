@@ -29,8 +29,8 @@ namespace ProII93
         string[] arrFlashAttributes = { "FeedData", "ProductData", "PressCalc", "TempCalc", "DutyCalc", "Type", "ProductStoreData" };
         string[] arrHxAttributes = { "FeedData", "ProductData", "DutyCalc", "ProductStoreData", "LmtdCalc", "LmtdFactorCalc", "FirstFeed", "FirstProduct", "LastFeed", "LastProduct", };
         string[] arrCompressorAttributes = { "FeedData", "ProductData", "ProductStoreData" };
-        string[] arrMixerAttributes = { "FeedData", "ProductData"};
-        string[] arrSplitterAttributes = { "FeedData", "ProductData"};
+        string[] arrMixerAttributes = { "FeedData", "ProductData" };
+        string[] arrSplitterAttributes = { "FeedData", "ProductData" };
 
         string przFileName;
         CP2File cp2File;
@@ -152,7 +152,7 @@ namespace ProII93
         public ProIIStreamData CopyStream(string columnName, int tray, int phase, int trayFlow)
         {
             string pressure1 = "0";
-            
+
             ProIIStreamData proIIStream = new ProIIStreamData();
             string streamName = "temp" + Guid.NewGuid().ToString().Substring(0, 5).ToUpper();
             CP2Object tempStream = (CP2Object)cp2File.CreateObject("Stream", streamName);
@@ -283,7 +283,7 @@ namespace ProII93
                     }
                 }
             }
-            else if (otype == "Hx" )
+            else if (otype == "Hx")
             {
                 foreach (string s in arrHxAttributes)
                 {
@@ -358,7 +358,7 @@ namespace ProII93
                         case "ProductData":
                             data.ProductData = value;
                             break;
-                       
+
                     }
                 }
             }
@@ -435,7 +435,8 @@ namespace ProII93
             }
             Marshal.FinalReleaseComObject(objStream);
             GC.ReRegisterForFinalize(objStream);
-            if (bCalulate)
+            //if (bCalulate)
+            try
             {
                 CP2Object objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
                 foreach (string s in arrBulkPropAttributes)
@@ -470,6 +471,10 @@ namespace ProII93
                             break;
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
             }
 
             return data;

@@ -64,7 +64,7 @@ namespace ReliefProMain.ViewModel.Compressors
                     BlockedModel.ReliefCpCv = outletList[0].BulkCPCVRatio;
                 }
             }
-            BlockedModel = blockBLL.ReadConvertCentrifugalModel(BlockedModel);
+            BlockedModel = blockBLL.ReadConvertCentrifugalModel(BlockedModel);//读取并转换为用户单位
             model = new CentrifugalBlockedOutletModel(BlockedModel);
             model.dbmodel.ScenarioID = ScenarioID;
 
@@ -109,7 +109,7 @@ namespace ReliefProMain.ViewModel.Compressors
             CustomStreamDAL csdal = new CustomStreamDAL();
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionPS);
-            double PDesign = UnitConvert.Convert("Mpag", "Mpa", psv.Pressure);
+            double PDesign = UnitConvert.Convert(UOMEnum.Pressure, "Mpa", psv.Pressure);
             double QNormal = UnitConvert.Convert(model.InletLoadUnit, UOMLib.UOMEnum.VolumeRate.ToString(), model.InletLoad);
             double PressureNormal = UnitConvert.Convert(model.OutletPressureUnit, "Mpa", model.OutletPressure);
             double QSurgeNormal = UnitConvert.Convert(model.SurgeLoadUnit, UOMLib.UOMEnum.VolumeRate.ToString(), model.SurgeLoad);
@@ -144,6 +144,7 @@ namespace ReliefProMain.ViewModel.Compressors
                 model.ReliefPressure = psv.Pressure * psv.ReliefPressureFactor; ;
                 model.ReliefCpCv = 0;
                 model.ReliefZ = 0;
+                model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, model.ReliefPressure);
                 MessageBox.Show("Surge Load must be greater than zero.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -155,6 +156,7 @@ namespace ReliefProMain.ViewModel.Compressors
                 model.ReliefPressure = psv.Pressure * psv.ReliefPressureFactor; ;
                 model.ReliefCpCv = 0;
                 model.ReliefZ = 0;
+                model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, model.ReliefPressure);
                 MessageBox.Show("PSV set pressure must be greater than outlet pressure.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -167,6 +169,7 @@ namespace ReliefProMain.ViewModel.Compressors
                 model.ReliefPressure = psv.Pressure * psv.ReliefPressureFactor; ;
                 model.ReliefCpCv = 0;
                 model.ReliefZ = 0;
+                model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, model.ReliefPressure);
                 MessageBox.Show("Error: Max speed/Normal speed ratio is not within range of 1.0 to 2.0 ", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);                  
                 return;
             }
@@ -178,6 +181,7 @@ namespace ReliefProMain.ViewModel.Compressors
                 model.ReliefPressure = psv.Pressure * psv.ReliefPressureFactor; 
                 model.ReliefCpCv = 0;
                 model.ReliefZ = 0;
+                model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, model.ReliefPressure);
                 MessageBox.Show(" Error: Nornal flow rate/Surge flow rate is less than 1.1.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -208,6 +212,7 @@ namespace ReliefProMain.ViewModel.Compressors
                 model.ReliefPressure = psv.Pressure * psv.ReliefPressureFactor; 
                 model.ReliefCpCv = 0;
                 model.ReliefZ = 0;
+                model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, model.ReliefPressure);
                 MessageBox.Show("Design pressure is larger than Max discharge pressure, no relief will occur.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -229,6 +234,7 @@ namespace ReliefProMain.ViewModel.Compressors
                 model.ReliefCpCv = 0;
                 model.ReliefZ = 0;
                 v = 0;
+                model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, model.ReliefPressure);
                 MessageBox.Show("Design pressure is larger than Max discharge pressure, no relief will occur.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -245,7 +251,11 @@ namespace ReliefProMain.ViewModel.Compressors
                 model.ReliefCpCv = cs.BulkCPCVRatio;
                 model.ReliefZ = cs.VaporZFmKVal;
                 if (model.Reliefload < 0)
-                    model.Reliefload = 0;                
+                    model.Reliefload = 0;
+
+                model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, model.ReliefPressure);
+                model.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, model.ReliefTempUnit, model.ReliefTemperature);
+                model.Reliefload = UnitConvert.Convert(UOMEnum.MassRate, model.ReliefloadUnit, model.Reliefload);
             }
 
 

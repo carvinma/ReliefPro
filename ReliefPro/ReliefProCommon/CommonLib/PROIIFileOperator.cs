@@ -57,7 +57,15 @@ namespace ReliefProCommon.CommonLib
                 string firstLineText = file.ReadLine();
                 string secondLineText = file.ReadLine();
                 string thirdLineText = file.ReadLine();
-                if (thirdLineText.Contains("VERSION 9.1"))
+                if (thirdLineText.Contains("VERSION 8.3"))
+                {
+                    version = "8.3";
+                }
+                else if (thirdLineText.Contains("VERSION 9.0"))
+                {
+                    version = "9.0";
+                }
+                else if (thirdLineText.Contains("VERSION 9.1"))
                 {
                     version = "9.1";
                 }

@@ -2089,7 +2089,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         else
                         {
                             // do Mixer
-                            t1 = GetMixerTemperature(hotFeeds);
+                            t1 = GetMixerTemperature(coldFeeds);
                         }
                         ProIIStreamData streamT2 = streamDAL.GetModel(SessionPF, hotProduct, SourceFileInfo.FileName);
                         T2 = double.Parse(streamT2.Temperature);
@@ -2112,7 +2112,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         {
                             errorHx = hx;
                             return false;
-                            break;
+                            
                         }
 
                     }
