@@ -4,6 +4,7 @@
     <id name="ID" column="ID" type="Int32" unsaved-value="0">
       <generator class="identity" />
     </id>
+    <property name="ScenarioID" column="ScenarioID" type="Int32"  />
     <property name="VesselName" column="VesselName" type="String" length="255" />    
     <property name="UpStreamName" column="UpStreamName" type="String" length="255" />
     <property name="OperatingPhase" column="OperatingPhase" type="String" length="255" />

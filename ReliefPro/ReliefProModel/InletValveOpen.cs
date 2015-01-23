@@ -9,6 +9,7 @@ namespace ReliefProModel
     public  class InletValveOpen
     {
         public virtual int ID { get; set; }
+        public virtual int ScenarioID { get; set; }
         public virtual string VesselName { get; set; }
         public virtual string UpStreamName { get; set; }
         public virtual string OperatingPhase { get; set; }
