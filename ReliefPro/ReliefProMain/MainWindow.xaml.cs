@@ -485,7 +485,7 @@ namespace ReliefProMain
             if (!string.IsNullOrEmpty(PlantPath))
             {
                 FormatUnitsMeasure view = new FormatUnitsMeasure();
-                FormatUnitsMeasureVM vm = new FormatUnitsMeasureVM(UOMLib.UOMSingle.UomEnums.First(p => p.SessionDBPath.Contains(PlantPath)).SessionPlant);
+                FormatUnitsMeasureVM vm = new FormatUnitsMeasureVM(UOMLib.UOMSingle.UomEnums.First(p => p.SessionDBPath.Contains(PlantPath)).SessionPlant, PlantPath);
                 view.DataContext = vm;
                 view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 view.ShowDialog();

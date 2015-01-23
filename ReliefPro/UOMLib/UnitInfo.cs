@@ -84,6 +84,8 @@ namespace UOMLib
             query2.SetInt32("ID", model.ID);
             var rows2 = query2.ExecuteUpdate();
             db.Delete(model, SessionPlan);
+            templateSession.Clear();
+            SessionPlan.Clear();
         }
         public int BasicUnitSetDefault(int id)
         {

@@ -35,12 +35,15 @@ namespace ReliefProMain.ViewModel
         private ISession SessionPlant;
 
         private UOMEnum uomEnum;
-        public FormatUnitsMeasureVM(ISession SessionPT)
+        private string plantPath;
+        public FormatUnitsMeasureVM(ISession SessionPT,string plantPath)
         {
             SessionPlant = SessionPT;
+            this.plantPath = plantPath;
+            uomEnum = UOMSingle.UomEnums.First();
             foreach (UOMEnum uom in UOMSingle.UomEnums)
             {
-                if (uom.SessionDBPath == SessionPT.Connection.ConnectionString)
+                if (uom.SessionDBPath.Contains(plantPath))
                 {
                     uomEnum = uom;
                 }
@@ -77,6 +80,7 @@ namespace ReliefProMain.ViewModel
             if (MessageBox.Show("Are you sure you want to delete?", "Delete Bassic Unit", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
                 unitInfo.BasicUnitDel(model.BasicUnitselectLocation, UOMSingle.Session, SessionPlant);
+                model.ObBasicUnit.Remove(model.BasicUnitselectLocation);
                 MessageBox.Show("Delete Successful!");
             }
         }
@@ -290,7 +294,7 @@ namespace ReliefProMain.ViewModel
             {
                 foreach (var uom in UOMSingle.UomEnums)
                 {
-                    if (uom.SessionDBPath == this.SessionPlant.Connection.ConnectionString)
+                    if (uom.SessionDBPath.Contains(this.plantPath))
                     {
                         uom.UnitFromFlag = true;
                         break;
@@ -309,7 +313,7 @@ namespace ReliefProMain.ViewModel
                     {
                         foreach (var uom in UOMSingle.UomEnums)
                         {
-                            if (uom.SessionDBPath == this.SessionPlant.Connection.ConnectionString)
+                            if (uom.SessionDBPath.Contains(this.plantPath))
                             {
                                 uom.UnitFromFlag = true;
                                 break;
