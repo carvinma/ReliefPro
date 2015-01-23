@@ -13,6 +13,7 @@ namespace UOMLib
         private static readonly string dbConnectPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"Template\plant.mdb";
 
         public static ISession Session { get; private set; }
+        public static int BaseUnitSelectedID { get; set; }
         public static List<UOMEnum> UomEnums;
         static UOMSingle()
         {

@@ -174,6 +174,7 @@ namespace ReliefProMain.ViewModel
             {
                 var selectedBasicUnit = SelectDefaultUnit as BasicUnit;
                 int basicid = selectedBasicUnit.ID;
+                UOMSingle.BaseUnitSelectedID = basicid;
                 model.TemperatureSelectLocation = model.ObcTemperature.Where(p => p.ID == GetUnit(1, basicid)).FirstOrDefault();
                 model.PressureSelectLocation = model.ObcPressure.Where(p => p.ID == GetUnit(2, basicid)).FirstOrDefault();
                 model.WeightSelectLocation = model.ObcWeight.Where(p => p.ID == GetUnit(3, basicid)).FirstOrDefault();
@@ -237,13 +238,14 @@ namespace ReliefProMain.ViewModel
             model.ObcSpecificEnthalpy = new ObservableCollection<SystemUnit>(uomEnum.lstSystemUnit.Where(p => p.UnitType == 22));
             model.ObcEnthalpy = new ObservableCollection<SystemUnit>(uomEnum.lstSystemUnit.Where(p => p.UnitType == 24));
             model.ObcFineLength = new ObservableCollection<SystemUnit>(uomEnum.lstSystemUnit.Where(p => p.UnitType == 23));
-            //if (uomEnum.UnitFromFlag && uomEnum.lstBasicUnitCurrent != null && uomEnum.lstBasicUnitCurrent.Count > 0)
-            //{
-            //    model.BasicUnitselectLocation = lstBasicUnit.Where(p => p.ID == uomEnum.lstBasicUnitCurrent.First().BasicUnitID).First();
-
-            //    model.BasicUnitselectLocation = new BasicUnit();
-            //}
-            //else
+            if (uomEnum.UnitFromFlag && uomEnum.lstBasicUnitCurrent != null && uomEnum.lstBasicUnitCurrent.Count > 0)
+            {
+                //model.BasicUnitselectLocation = lstBasicUnit.Where(p => p.ID == uomEnum.lstBasicUnitCurrent.First().BasicUnitID).First();
+                model.BasicUnitselectLocation = lstBasicUnit.Where(p => p.ID == UOMSingle.BaseUnitSelectedID).First();
+                     
+               // model.BasicUnitselectLocation = new BasicUnit();
+            }
+            else
                 model.BasicUnitselectLocation = lstBasicUnit[lstBasicUnit.ToList().FindIndex(p => p.IsDefault == 1)];
 
 
