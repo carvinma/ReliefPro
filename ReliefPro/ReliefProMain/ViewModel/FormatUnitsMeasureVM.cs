@@ -165,6 +165,7 @@ namespace ReliefProMain.ViewModel
                 else
                 {
                     SelectedCurrent.Remove(findThisUnit);
+                    findThisUnit.BasicUnitID = model.BasicUnitselectLocation.ID;
                     findThisUnit.SystemUnitID = changeSystemUnit.ID;
                     SelectedCurrent.Add(findThisUnit);
                 }
@@ -174,6 +175,7 @@ namespace ReliefProMain.ViewModel
         {
             try
             {
+                this.SelectedCurrent.Clear();
                 var selectedBasicUnit = SelectDefaultUnit as BasicUnit;
                 int basicid = selectedBasicUnit.ID;
                 UOMSingle.BaseUnitSelectedID = basicid;
