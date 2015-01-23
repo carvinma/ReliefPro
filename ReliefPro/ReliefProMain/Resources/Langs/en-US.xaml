@@ -206,6 +206,7 @@
     <s:String x:Key="TotalVolume_m3">Total Volume,m3</s:String>
     <s:String x:Key="m3">m3</s:String>
     <s:String x:Key="m2">m2</s:String>
+    <s:String x:Key="WireHeight_m">Wire Height,</s:String>
     <s:String x:Key="DEPRDetailViewStatusBar">Exist the window after saving all data</s:String>
 
     <!--DrumDepressureView.xaml-->

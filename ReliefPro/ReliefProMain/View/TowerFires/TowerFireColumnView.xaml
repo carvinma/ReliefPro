@@ -67,7 +67,7 @@
                                                           ChangeUnitEvent="{Binding changeUnit}">
                                 <CustomControl:GVColumnHeader.Content>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{DynamicResource Height_m}"/>
+                                        <TextBlock Text="{DynamicResource WireHeight_m}"/>
                                         <TextBlock Text="{Binding ElementName=colHeight,Path=UOrigin}"/>
                                      </StackPanel>
                                 </CustomControl:GVColumnHeader.Content>

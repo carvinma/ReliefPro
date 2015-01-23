@@ -25,7 +25,34 @@ namespace ReliefProMain.ViewModel.TowerFires
         public double Area { get; set; }
         public TowerFireHXModel model { get; set; }
         public List<string> ExposedToFires { get; set; }
-        public List<string> Types { get; set; }
+
+        public List<string> _Types;
+        public List<string> Types {
+            get { return _Types; }
+            set
+            {
+                _Types = value;
+                this.OnPropertyChanged("Types");
+            } 
+        
+        
+        
+        }
+        private string selectedExposedToFire;
+        public string SelectedExposedToFire
+        {
+            get { return selectedExposedToFire; }
+            set
+            {
+                selectedExposedToFire = value;
+                Types = GetTypes(selectedExposedToFire);
+                this.OnPropertyChanged("SelectedExposedToFire");
+            }
+        }
+
+
+
+
         public UOMLib.UOMEnum uomEnum { get; set; }
         public TowerFireHXVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
@@ -34,8 +61,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
             InitUnit();
             ExposedToFires = GetExposedToFires();
-            Types = GetTypes();
-
+            
             TowerFireHXDAL db = new TowerFireHXDAL();
             TowerFireHX sizemodel = db.GetModel(SessionProtectedSystem, EqID);
             if (sizemodel == null)
@@ -50,6 +76,7 @@ namespace ReliefProMain.ViewModel.TowerFires
                 sizemodel.PipingContingency = 10;
                 db.Add(sizemodel, SessionProtectedSystem);
             }
+            SelectedExposedToFire = sizemodel.ExposedToFire;
             model = new TowerFireHXModel(sizemodel);
             ReadConvert();
             
@@ -74,7 +101,7 @@ namespace ReliefProMain.ViewModel.TowerFires
 
             TowerFireHXDAL db = new TowerFireHXDAL();
             WriteConvert();
-            
+            model.dbmodel.ExposedToFire = selectedExposedToFire;
             db.Update(model.dbmodel, SessionProtectedSystem);
             SessionProtectedSystem.Flush();
 
@@ -101,12 +128,16 @@ namespace ReliefProMain.ViewModel.TowerFires
             list.Add("Tube");
             return list;
         }
-        public List<string> GetTypes()
+        public List<string> GetTypes(string hxType)
         {
             List<string> list = new List<string>();
             list.Add("Fixed");
             list.Add("U-Tube");
-            list.Add("Floating head");
+            if (hxType == "Shell")
+            {
+                list.Add("Floating head");
+                list.Add("Kettle type");
+            }
             return list;
         }
         private void ReadConvert()

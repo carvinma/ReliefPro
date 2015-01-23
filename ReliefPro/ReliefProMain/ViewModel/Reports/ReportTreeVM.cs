@@ -17,6 +17,7 @@ using NHibernate;
 using ReliefProDAL;
 using ReliefProModel;
 using Microsoft.Win32;
+using System.Runtime.InteropServices;
 
 
 namespace ReliefProMain.ViewModel.Reports
@@ -292,11 +293,12 @@ namespace ReliefProMain.ViewModel.Reports
 
                 }
                 string Compressibility = string.Empty;
+                int ct = 0;
                 for (int i = 1; i <= list.Count; i++)
                 {
                     Scenario sc = list[i - 1];
-                    int col = count % 5;
-                    if (count <= 4)
+                    int col = ct % 5;
+                    if (ct <= 4)
                     {
                         xlWorkSheet.Cells[5 + col * 2][row1] = sc.ScenarioName;
                         xlWorkSheet.Cells[5 + col * 2][row1 + 1] = 16;
@@ -310,11 +312,11 @@ namespace ReliefProMain.ViewModel.Reports
                         xlWorkSheet.Cells[5 + col * 2][row1 + 5] = sc.ReliefMW;
                         xlWorkSheet.Cells[5 + col * 2][row1 + 6] = sc.ReliefZ;
                         xlWorkSheet.Cells[5 + col * 2][row1 + 7] = sc.ReliefCpCv;
-                        xlWorkSheet.Cells[3][note1 + count] = "";
-                        xlWorkSheet.Cells[3][note2 + count] = "";
-                        xlWorkSheet.Cells[3][note3 + count] = "";
+                        xlWorkSheet.Cells[3][note1 + ct] = "";
+                        xlWorkSheet.Cells[3][note2 + ct] = "";
+                        xlWorkSheet.Cells[3][note3 + ct] = "";
                     }
-                    else if (count >= 5 && count <= 9)
+                    else if (ct >= 5 && ct <= 9)
                     {
                         xlWorkSheet.Cells[5 + col * 2][row2] = sc.ScenarioName.ToString();
                         xlWorkSheet.Cells[5 + col * 2][row2 + 1] = 16;
@@ -328,9 +330,9 @@ namespace ReliefProMain.ViewModel.Reports
                         xlWorkSheet.Cells[5 + col * 2][row2 + 5] = sc.ReliefMW;
                         xlWorkSheet.Cells[5 + col * 2][row2 + 6] = sc.ReliefZ;
                         xlWorkSheet.Cells[5 + col * 2][row2 + 7] = sc.ReliefCpCv;
-                        xlWorkSheet.Cells[3][note1 + count] = "";
-                        xlWorkSheet.Cells[3][note2 + count] = "";
-                        xlWorkSheet.Cells[3][note3 + count] = "";
+                        xlWorkSheet.Cells[3][note1 + ct] = "";
+                        xlWorkSheet.Cells[3][note2 + ct] = "";
+                        xlWorkSheet.Cells[3][note3 + ct] = "";
                     }
                     else
                     {
@@ -346,12 +348,12 @@ namespace ReliefProMain.ViewModel.Reports
                         xlWorkSheet.Cells[5 + col * 2][row3 + 5] = sc.ReliefMW;
                         xlWorkSheet.Cells[5 + col * 2][row3 + 6] = sc.ReliefZ;
                         xlWorkSheet.Cells[5 + col * 2][row3 + 7] = sc.ReliefCpCv;
-                        xlWorkSheet.Cells[3][note1 + count] = "";
-                        xlWorkSheet.Cells[3][note2 + count] = "";
-                        xlWorkSheet.Cells[3][note3 + count] = "";
+                        xlWorkSheet.Cells[3][note1 + ct] = "";
+                        xlWorkSheet.Cells[3][note2 + ct] = "";
+                        xlWorkSheet.Cells[3][note3 + ct] = "";
                     }
 
-                    count++;
+                    ct++;
 
                 }
                 if (count <= 5)
@@ -396,6 +398,7 @@ namespace ReliefProMain.ViewModel.Reports
                 releaseObject(xlWorkSheet);
                 releaseObject(xlWorkBook);
                 releaseObject(xlApp);
+                KillExcel(xlApp);
 
                 System.Diagnostics.Process.Start(filePath);
             }
@@ -415,6 +418,31 @@ namespace ReliefProMain.ViewModel.Reports
             finally
             {
                 GC.Collect();
+            }
+        }
+
+
+        //调用底层函数获取进程标示 
+        [DllImport("User32.dll")]
+        public static extern int GetWindowThreadProcessId(IntPtr hWnd, out int ProcessId);
+        private static void KillExcel(Microsoft.Office.Interop.Excel.Application theApp)
+        {
+            int id = 0;
+            IntPtr intptr = new IntPtr(theApp.Hwnd);
+            System.Diagnostics.Process p = null;
+            try
+            {
+                GetWindowThreadProcessId(intptr, out id);
+                p = System.Diagnostics.Process.GetProcessById(id);
+                if (p != null)
+                {
+                    p.Kill();
+                    p.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 

@@ -89,6 +89,17 @@
         <Setter Property="FontSize" Value="12px" />
         <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
+
+    <Style TargetType="{x:Type CustomControl:UCIntegerTextBox}">
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Height" Value="18"/>
+        <Setter Property="Width" Value="125"/>
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="FontSize" Value="12px" />
+        <Setter Property="FontFamily" Value="Calibri"/>
+    </Style>
+
     <Style x:Key="UCTextBoxReadOnly" TargetType="{x:Type CustomControl:UnitConvertTextBox}" >
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>

@@ -7,12 +7,12 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="140"/>
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="135"/>
+            <ColumnDefinition/>
             <ColumnDefinition Width="35"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="18"/>
+            <RowDefinition Height="18*"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
@@ -21,26 +21,26 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="23"/>
-            <RowDefinition Height="1*"/>
+           
         </Grid.RowDefinitions>
-        <Label Grid.Column="1" Grid.Row="1"  Content="{DynamicResource ExposedtoFire}" />
-        <Label Grid.Column="1"  Grid.Row="2" Content="{DynamicResource DecType}" />
-        <Label Grid.Column="1"  Grid.Row="3" Content="{DynamicResource OD}" />
-        <Label Grid.Column="1"  Grid.Row="4" Content="{DynamicResource Length}" />
-        <Label Grid.Column="1"  Grid.Row="6" Content="{DynamicResource PipingContingency}" />
-        <Label Content="{DynamicResource Elevation}" Grid.Column="1" Grid.Row="5" />
+        <Label Grid.Column="1" Grid.Row="1"  Content="{DynamicResource ExposedtoFire}" Margin="0,2" Height="26" Width="88" />
+        <Label Grid.Column="1"  Grid.Row="2" Content="{DynamicResource DecType}" Margin="0,2" Height="26" Width="36" />
+        <Label Grid.Column="1"  Grid.Row="3" Content="{DynamicResource OD}" Margin="0,2" Height="26" Width="55" />
+        <Label Grid.Column="1"  Grid.Row="4" Content="{DynamicResource Length1}" Height="26" Width="24"  />
+        <Label Grid.Column="1"  Grid.Row="6" Content="{DynamicResource PipingContingency}" Margin="0,2" Height="26" Width="103" />
+        <Label Content="{DynamicResource Length2}" Grid.Column="1" Grid.Row="5" Margin="0,2" Height="26" Width="58" />
 
-        <CustomControl:UnitConvertTextBox BorderBrush="{Binding model.OD_Color}" UnitOrigin="{Binding ElementName=lblOD,Path=Content,Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2" Grid.Row="3" Text="{Binding Path=model.OD}" />
-        <CustomControl:UnitConvertTextBox BorderBrush="{Binding model.Length_Color}" UnitOrigin="{Binding ElementName=lblLength,Path=Content,Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2" Grid.Row="4" Text="{Binding model.Length}" />
-        <CustomControl:UnitConvertTextBox BorderBrush="{Binding model.Elevation_Color}" UnitOrigin="{Binding ElementName=lblElevation,Path=Content,Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2" Grid.Row="5" Text="{Binding model.Elevation}" />
-        <TextBox Grid.Column="2" Grid.Row="6" Text="{Binding Path=model.PipingContingency,Mode=TwoWay,StringFormat='{}{0:F4}'}" />
+        <CustomControl:UnitConvertTextBox BorderBrush="{Binding model.OD_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblOD,Path=Content,Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2" Grid.Row="3" Text="{Binding Path=model.OD,Mode=TwoWay}"  />
+        <CustomControl:UnitConvertTextBox BorderBrush="{Binding model.Length_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblLength,Path=Content,Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2" Grid.Row="4" Text="{Binding model.Length,Mode=TwoWay}"  />
+        <CustomControl:UnitConvertTextBox BorderBrush="{Binding model.Elevation_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblElevation,Path=Content,Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2" Grid.Row="5" Text="{Binding model.Elevation,Mode=TwoWay}" />
+        <TextBox Grid.Column="2" Grid.Row="6" Text="{Binding Path=model.PipingContingency,Mode=TwoWay,StringFormat='{}{0:F4}'}" Margin="0,6" />
 
-        <Label x:Name="lblOD" Grid.Column="3" HorizontalAlignment="Left"  Margin="5,0,0,0" Grid.Row="3" Content="{Binding ODUnit,Mode=TwoWay}"/>
-        <Label x:Name="lblLength" Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0"  Grid.Row="4" Content="{Binding LengthUnit,Mode=TwoWay}"/>
-        <Label x:Name="lblElevation" Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0"  Grid.Row="5" Content="{Binding ElevationUnit,Mode=TwoWay}"/>
-        <Label Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0"  Grid.Row="6" Content="%"/>
-        <ComboBox ItemsSource="{Binding ExposedToFires}" SelectedItem="{Binding model.ExposedToFire}" Grid.Column="2"   Grid.Row="1"  Width="120" Height="22"/>
-        <ComboBox ItemsSource="{Binding Types}" SelectedItem="{Binding model.Type}" Grid.Column="2"   Grid.Row="2"   Width="120" Height="22"/>
+        <Label x:Name="lblOD" Grid.Column="3" HorizontalAlignment="Left"   Grid.Row="3" Content="{Binding ODUnit,Mode=TwoWay}" />
+        <Label x:Name="lblLength" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="4" Content="{Binding LengthUnit,Mode=TwoWay}" />
+        <Label x:Name="lblElevation" Grid.Column="3" HorizontalAlignment="Left"   Grid.Row="5" Content="{Binding ElevationUnit,Mode=TwoWay}" />
+        <Label Grid.Column="3" HorizontalAlignment="Left" Margin="5,2,0,2"  Grid.Row="6" Content="%" Height="26" Width="19"/>
+        <ComboBox ItemsSource="{Binding ExposedToFires,Mode=TwoWay}" SelectedItem="{Binding SelectedExposedToFire,Mode=TwoWay}" Grid.Column="2"   Grid.Row="1"  />
+        <ComboBox ItemsSource="{Binding Types,Mode=TwoWay}" SelectedItem="{Binding model.Type,Mode=TwoWay}" Grid.Column="2"   Grid.Row="2"   Width="120" Height="22" />
 
         <Grid HorizontalAlignment="Stretch"  Grid.Row="7" VerticalAlignment="Stretch" Grid.ColumnSpan="5" Margin="0,5,0,0">
             <Grid.ColumnDefinitions>
@@ -53,7 +53,7 @@
             <Button Content="{DynamicResource Cancel}" IsCancel="True"   Grid.Column="2" Grid.Row="0"/>
         </Grid>
 
-        <StatusBar HorizontalAlignment="Stretch" Height="23"  Grid.Row="8" Grid.ColumnSpan="5">
+        <StatusBar HorizontalAlignment="Stretch" Height="Auto"  Grid.Row="8" Grid.ColumnSpan="5">
             <StatusBarItem>
                 <TextBlock Text="{DynamicResource TowerFireHXViewStatusBar}"></TextBlock>
             </StatusBarItem>
