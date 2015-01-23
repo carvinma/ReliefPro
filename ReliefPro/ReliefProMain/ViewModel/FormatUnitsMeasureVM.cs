@@ -46,6 +46,8 @@ namespace ReliefProMain.ViewModel
                 }
             }
 
+            if (uomEnum.lstBasicUnitCurrent != null && uomEnum.lstBasicUnitCurrent.Count() > 0)
+                UOMSingle.BaseUnitSelectedID = uomEnum.lstBasicUnitCurrent[0].BasicUnitID;
             this.model = new FormatUnitsMeasureModel();
             model.handler += new FormatUnitsMeasureModel.SelectDefaultUnitDelegate(InitCboSelected);
             model.handlerChange += new FormatUnitsMeasureModel.ChangeDefaultUnitDelegate(InitBasicUnitDefalut);
@@ -101,8 +103,8 @@ namespace ReliefProMain.ViewModel
                 item.ID = 0;
                 item.UnitName = basicUnitInfo.BasicNewName;
                 item.IsDefault = 0;
-                int basicUnitID = unitInfo.BasicUnitAdd(item, SessionPlant);    
-                 basicUnitID = unitInfo.BasicUnitAdd(item, UOMSingle.Session); 
+                int basicUnitID = unitInfo.BasicUnitAdd(item, SessionPlant);
+                basicUnitID = unitInfo.BasicUnitAdd(item, UOMSingle.Session);
                 if (basicUnitID > 0)
                 {
                     model.ObBasicUnit.Add(item);
@@ -242,8 +244,8 @@ namespace ReliefProMain.ViewModel
             {
                 //model.BasicUnitselectLocation = lstBasicUnit.Where(p => p.ID == uomEnum.lstBasicUnitCurrent.First().BasicUnitID).First();
                 model.BasicUnitselectLocation = lstBasicUnit.Where(p => p.ID == UOMSingle.BaseUnitSelectedID).First();
-                     
-               // model.BasicUnitselectLocation = new BasicUnit();
+
+                // model.BasicUnitselectLocation = new BasicUnit();
             }
             else
                 model.BasicUnitselectLocation = lstBasicUnit[lstBasicUnit.ToList().FindIndex(p => p.IsDefault == 1)];
