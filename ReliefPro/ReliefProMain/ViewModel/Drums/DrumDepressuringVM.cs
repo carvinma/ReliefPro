@@ -93,7 +93,7 @@ namespace ReliefProMain.ViewModel.Drums
             DetailedCMD = new DelegateCommand<object>(CalcDetailed);
             DepressuringCurveCMD = new DelegateCommand<object>(DepressuringCurve);
 
-            lstShortCut = new List<string>(new[] { "Shortcut", "PROII DEPR Unit" });
+            lstShortCut = new List<string>(new[] { "Shortcut" });//, "PROII DEPR Unit"
             lstDeprRqe = new List<string>{
                 "21bar/min","7bar/min","15min to 50% Design pressure","15min to 7barg","Specify"};
             lstHeatInput = new List<string>(new[] { "API 521", "API 521 Scale", "API 2000", "API 2000 Scale" });

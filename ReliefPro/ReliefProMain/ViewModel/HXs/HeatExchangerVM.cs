@@ -18,6 +18,7 @@ using ReliefProDAL.HXs;
 using ReliefProBLL;
 using ReliefProCommon.Enum;
 using System.IO;
+using ReliefProCommon.CommonLib;
 
 namespace ReliefProMain.ViewModel
 {
@@ -414,6 +415,8 @@ namespace ReliefProMain.ViewModel
                 ColorImport = ColorBorder.red.ToString();
                 return;
             }
+            SourceFileDAL sfdal = new SourceFileDAL();
+            SourceFileInfo = sfdal.GetModel(FileName, SessionPlant);
             if (HXType == "Shell-Tube")
             {
                 if (Feeds.Count == 1)
@@ -466,12 +469,18 @@ namespace ReliefProMain.ViewModel
                         lstFeed.Add(cs);
                     }
 
-                    int ErrorType = 0; 
-                    string sourceDir = DirProtectedSystem + @"\temp";
-
+                    int ErrorType = 0;
+                    string tempdir = DirProtectedSystem + @"\temp";
+                    if (Directory.Exists(tempdir))
+                    {
+                        Directory.Delete(tempdir, true);
+                    }
+                    Directory.CreateDirectory(tempdir);
+                    string FileFullPath = DirPlant + @"\" + SourceFileInfo.FileNameNoExt + @"\" + SourceFileInfo.FileName;
+                    PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
                     string mixDir = DirProtectedSystem + @"\temp\ColdMixed";
-                    CustomStream mixCS = ProIIMethod.MixStream(SourceFileInfo.FileVersion, lstFeedName, lstFeed, sourceDir, mixDir, ref ErrorType);
-
+                    CustomStream mixCS = ProIIMethod.MixStream(SourceFileInfo.FileVersion, lstFeedName, lstFeed, tempdir, mixDir, ref ErrorType);
+                    
                     if (mixCS.Temperature < Products[0].Temperature)
                     {
                         MessageBox.Show("Air Cooled feed temperature must be greater than product temperature.", "Message Box");
