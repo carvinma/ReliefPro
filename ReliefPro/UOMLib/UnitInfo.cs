@@ -68,6 +68,23 @@ namespace UOMLib
             int.TryParse(o.ToString(), out tmpID);
             return tmpID;
         }
+        public void BasicUnitDel(BasicUnit model, ISession templateSession,ISession SessionPlan)
+        {
+            BasicUnitDAL db = new BasicUnitDAL();
+
+            string sql = "delete from tbBasicUnitDefault where BasicUnitID=:ID";
+            var query = templateSession.CreateSQLQuery(sql);
+            query.SetInt32("ID", model.ID);
+            var rows = query.ExecuteUpdate();
+            db.Delete(model, templateSession);
+
+            model= db.GetModel(SessionPlan,model.UnitName);
+            string sql2 = "delete from tbBasicUnitDefault where BasicUnitID=:ID";
+            var query2 = SessionPlan.CreateSQLQuery(sql2);
+            query2.SetInt32("ID", model.ID);
+            var rows2 = query2.ExecuteUpdate();
+            db.Delete(model, SessionPlan);
+        }
         public int BasicUnitSetDefault(int id)
         {
             BasicUnitDAL db = new BasicUnitDAL();
@@ -112,6 +129,7 @@ namespace UOMLib
         }
         public void Save(IList<BasicUnitDefault> lst, ISession SessionPlan)
         {
+            SessionPlan.Clear();
             using (ITransaction tx = SessionPlan.BeginTransaction())
             {
                 try

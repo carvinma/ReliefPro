@@ -300,6 +300,7 @@
     <!--FormatUnitsMeasure.xaml-->
     <s:String x:Key="FormatUnitsMeasureTitle">ReliefPro - Default  Units of Measure</s:String>
     <s:String x:Key="SetThisBasicToDefalut">Set This Basic To Defalut</s:String>
+    <s:String x:Key="DelThisBasic">Delete This Basic</s:String>
     <s:String x:Key="UOM">UOM</s:String>
     <s:String x:Key="CopyfromthisBasicandAddNewBasic">Copy From This Basic and Add NewBasic</s:String>
     <s:String x:Key="Basic">Basic:</s:String>

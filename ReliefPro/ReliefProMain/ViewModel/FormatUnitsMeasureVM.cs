@@ -24,6 +24,7 @@ namespace ReliefProMain.ViewModel
         public ICommand SaveCommand { get; set; }
         public ICommand NewBasicCommand { get; set; }
         public ICommand BasicUnitDefaultCommand { get; set; }
+        public ICommand DelBasicUnitCommand { get; set; }
         public ICommand CancleCommand { get; set; }
 
         public FormatUnitsMeasureModel model { get; set; }
@@ -65,16 +66,22 @@ namespace ReliefProMain.ViewModel
             SaveCommand = new DelegateCommand<object>(Save);
             NewBasicCommand = new DelegateCommand<object>(OpenAddWin);
             BasicUnitDefaultCommand = new DelegateCommand<object>(SetBasicUnitDefault);
+            DelBasicUnitCommand = new DelegateCommand<object>(DelBasicUnit);
             CancleCommand = new DelegateCommand<object>(Cancle);
         }
 
+        private void DelBasicUnit(object obj)
+        {
+            unitInfo.BasicUnitDel(model.BasicUnitselectLocation, UOMSingle.Session, SessionPlant);
+            MessageBox.Show("Delete Successful!");
+        }
         private void SetBasicUnitDefault(object obj)
         {
             try
             {
                 int id = model.BasicUnitselectLocation.ID;
                 //unitInfo.BasicUnitSetDefault(id);
-                unitInfo.BasicUnitSetDefault(id, SessionPlant);
+                unitInfo.BasicUnitSetDefault(id, UOMSingle.Session);
                 MessageBox.Show("Set Successful!");
             }
             catch (Exception ex)
@@ -91,13 +98,18 @@ namespace ReliefProMain.ViewModel
                 item.ID = 0;
                 item.UnitName = basicUnitInfo.BasicNewName;
                 item.IsDefault = 0;
-                int basicUnitID = unitInfo.BasicUnitAdd(item, SessionPlant);
+                int basicUnitID = unitInfo.BasicUnitAdd(item, SessionPlant);    
+                 basicUnitID = unitInfo.BasicUnitAdd(item, UOMSingle.Session); 
                 if (basicUnitID > 0)
                 {
                     model.ObBasicUnit.Add(item);
                     var listCopy = uomEnum.lstBasicUnitDefault.Where(p => p.BasicUnitID == model.BasicUnitselectLocation.ID)
                    .Select(p => { p.ID = 0; p.BasicUnitID = basicUnitID; return p; }).ToList();
                     unitInfo.Save(listCopy, SessionPlant);
+                    listCopy = uomEnum.lstBasicUnitDefault.Where(p => p.BasicUnitID == model.BasicUnitselectLocation.ID)
+                   .Select(p => { p.ID = 0; p.BasicUnitID = basicUnitID; return p; }).ToList();
+
+                    unitInfo.Save(listCopy, UOMSingle.Session);
                     //uomEnum.lstBasicUnitDefault = unitInfo.GetBasicUnitDefault(SessionPlant);
                     int index = model.ObBasicUnit.ToList().FindIndex(p => p.ID == basicUnitID);
                     if (index >= 0)

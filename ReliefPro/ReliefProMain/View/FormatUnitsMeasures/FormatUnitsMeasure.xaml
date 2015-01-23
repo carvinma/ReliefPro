@@ -25,7 +25,8 @@
                         <ComboBox Grid.Row="0" VerticalAlignment="Center" Grid.Column="1" ItemsSource="{Binding model.ObBasicUnit, Mode=OneWay}" 
                         SelectedValuePath="ID" DisplayMemberPath="UnitName"
 						SelectedItem="{Binding model.BasicUnitselectLocation,Mode=TwoWay}" />
-                        <Button Content="{DynamicResource CopyfromthisBasicandAddNewBasic}" VerticalContentAlignment="Top" HorizontalAlignment="Left"  Command="{Binding NewBasicCommand}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Width="246"/>
+                        <Button Content="{DynamicResource SetThisBasicToDefalut}"  VerticalAlignment="Center" HorizontalAlignment="Left" Command="{Binding BasicUnitDefaultCommand}" Width="150"  Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"  />
+                        <Button Content="{DynamicResource DelThisBasic}"  VerticalAlignment="Center" HorizontalAlignment="Right" Command="{Binding DelBasicUnitCommand}" Width="120"  Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"  />
 
                     </Grid>
                 </GroupBox>
@@ -105,10 +106,7 @@
                     <Label Content="{DynamicResource FlowConductance}" Grid.Row="9" Grid.Column="2" />
                     <Label Content="{DynamicResource SpecificEnthalpy}" Grid.Row="10" Grid.Column="2" />
                     <Label Content="{DynamicResource Enthalpy}" Grid.Row="11" Grid.Column="2" />
-                    <Button Content="{DynamicResource SetThisBasicToDefalut}"  VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding BasicUnitDefaultCommand}" Width="245"  Grid.Row="12" Grid.Column="2" Grid.ColumnSpan="2"  />
-
-
-                  
+                    <Button Content="{DynamicResource CopyfromthisBasicandAddNewBasic}" VerticalContentAlignment="Top" HorizontalAlignment="Left"  Command="{Binding NewBasicCommand}" Grid.Row="12" Grid.Column="2" Grid.ColumnSpan="2" Width="246"/>
                     <CustomControl:CustomComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding model.ObcTemperature, Mode=OneWay}" 
 						SelectedValuePath="ID" DisplayMemberPath="Name" SelectedItem="{Binding model.TemperatureSelectLocation,Mode=TwoWay}"/>
 

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using NHibernate;
+using NHibernate.Criterion;
 using ReliefProDAL.Common;
 using ReliefProModel;
 namespace ReliefProDAL
@@ -21,6 +22,11 @@ namespace ReliefProDAL
                 throw ex;
             }
             return list;
+        }
+        public BasicUnit GetModel(ISession session, string UnitName)
+        {
+            var list = session.CreateCriteria<BasicUnit>().Add(Expression.Eq("UnitName", UnitName)).List<BasicUnit>();
+            return list[0];
         }
     }
 }
