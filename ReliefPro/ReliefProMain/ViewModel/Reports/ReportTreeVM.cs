@@ -16,6 +16,8 @@ using ReliefProBLL.Common;
 using NHibernate;
 using ReliefProDAL;
 using ReliefProModel;
+using Microsoft.Win32;
+
 
 namespace ReliefProMain.ViewModel.Reports
 {
@@ -218,76 +220,81 @@ namespace ReliefProMain.ViewModel.Reports
         }
         private void PSSummary(object obj)
         {
-            PSVM psvm = GetSingleCheckedPS();
-            string dbPlantFile = CurrentPlantPath + @"\plant.mdb";
-            NHibernateHelper helperPlant = new NHibernateHelper(dbPlantFile);
-            ISession SessionPlant = helperPlant.GetCurrentSession();
-            TreePSDAL psdal=new TreePSDAL();
-            TreePS tps=psdal.GetModel(psvm.ID,SessionPlant);
-            TreeUnitDAL unitdal=new TreeUnitDAL();
-            TreeUnit tunit=unitdal.GetModel(tps.UnitID,SessionPlant);
-
-            string dbProtectedSystemFile=CurrentPlantPath+@"\"+tunit.UnitName+@"\"+tps.PSName+@"\protectedsystem.mdb";
-
-            NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystemFile);
-            ISession SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
-
-            ScenarioDAL scdal = new ScenarioDAL();
-            IList<Scenario> list = scdal.GetAllList(SessionProtectedSystem);
-
-            PSVDAL psvdal = new PSVDAL();
-            PSV psv = psvdal.GetModel(SessionProtectedSystem);
-
-            string dirPS = System.IO.Path.GetDirectoryName(dbProtectedSystemFile);
-            string filePath = dirPS + @"\ps.xlsx";
-            string vsd = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\SimTech-PRV_DataSheet_Model.xlsx";
-            System.IO.File.Copy(vsd, filePath,true);
-
-            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
-            Microsoft.Office.Interop.Excel.Workbook xlWorkBook = xlApp.Workbooks.Open(filePath, Type.Missing, false, Type.Missing,
-                Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-                Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-            Microsoft.Office.Interop.Excel.Worksheet xlWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkBook.Sheets.get_Item(1);
-            DirectoryInfo di=new DirectoryInfo(CurrentPlantPath);
-
-            xlWorkSheet.Cells[4][6] = di.Name;
-            xlWorkSheet.Cells[4][7] = tunit.UnitName;
-            xlWorkSheet.Cells[4][9] = tps.PSName;
-
-            xlWorkSheet.Cells[13][6] = psv.ValveNumber;
-            xlWorkSheet.Cells[10][11] = psv.Pressure;
-
-            int count = list.Count;
-            int row1 = 14;
-            int note1 = 42;
-            int row2 = 74;
-            int note2 = 102;
-            int row3 = 134;
-            int note3 = 162;
-            if (count >= 5 && count <= 9)
+            SaveFileDialog sfDlg = new SaveFileDialog();
+            sfDlg.Filter = "Excel Files | *.xls";
+            sfDlg.DefaultExt = "xls";
+            if (sfDlg.ShowDialog() == true)
             {
-                xlWorkSheet.Cells[4][66] = di.Name;
-                xlWorkSheet.Cells[4][67] = tunit.UnitName;
-                xlWorkSheet.Cells[4][69] = tps.PSName;
+                PSVM psvm = GetSingleCheckedPS();
+                string dbPlantFile = CurrentPlantPath + @"\plant.mdb";
+                NHibernateHelper helperPlant = new NHibernateHelper(dbPlantFile);
+                ISession SessionPlant = helperPlant.GetCurrentSession();
+                TreePSDAL psdal = new TreePSDAL();
+                TreePS tps = psdal.GetModel(psvm.ID, SessionPlant);
+                TreeUnitDAL unitdal = new TreeUnitDAL();
+                TreeUnit tunit = unitdal.GetModel(tps.UnitID, SessionPlant);
 
-                xlWorkSheet.Cells[13][66] = psv.ValveNumber;
-                xlWorkSheet.Cells[10][71] = psv.Pressure;
+                string dbProtectedSystemFile = CurrentPlantPath + @"\" + tunit.UnitName + @"\" + tps.PSName + @"\protectedsystem.mdb";
 
-            }
-            else if (count > 9)
-            {
-                xlWorkSheet.Cells[4][126] = di.Name;
-                xlWorkSheet.Cells[4][127] = tunit.UnitName;
-                xlWorkSheet.Cells[4][129] = tps.PSName;
+                NHibernateHelper helperProtectedSystem = new NHibernateHelper(dbProtectedSystemFile);
+                ISession SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
 
-                xlWorkSheet.Cells[13][126] = psv.ValveNumber;
-                xlWorkSheet.Cells[10][131] = psv.Pressure;
+                ScenarioDAL scdal = new ScenarioDAL();
+                IList<Scenario> list = scdal.GetAllList(SessionProtectedSystem);
 
-            }
-            string Compressibility = string.Empty;
-            for (int i = 1; i <=list.Count; i++)
-            {
-                Scenario sc = list[i - 1];
+                PSVDAL psvdal = new PSVDAL();
+                PSV psv = psvdal.GetModel(SessionProtectedSystem);
+
+                
+                string filePath = sfDlg.FileName;
+                string vsd = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\SimTech-PRV_DataSheet_Model.xls";
+                System.IO.File.Copy(vsd, filePath, true);
+
+                Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+                Microsoft.Office.Interop.Excel.Workbook xlWorkBook = xlApp.Workbooks.Open(filePath, Type.Missing, false, Type.Missing,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                Microsoft.Office.Interop.Excel.Worksheet xlWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)xlWorkBook.Sheets.get_Item(1);
+                DirectoryInfo di = new DirectoryInfo(CurrentPlantPath);
+
+                xlWorkSheet.Cells[4][6] = di.Name;
+                xlWorkSheet.Cells[4][7] = tunit.UnitName;
+                xlWorkSheet.Cells[4][9] = tps.PSName;
+
+                xlWorkSheet.Cells[13][6] = psv.ValveNumber;
+                xlWorkSheet.Cells[10][11] = psv.Pressure;
+
+                int count = list.Count;
+                int row1 = 14;
+                int note1 = 42;
+                int row2 = 74;
+                int note2 = 102;
+                int row3 = 134;
+                int note3 = 162;
+                if (count >= 5 && count <= 9)
+                {
+                    xlWorkSheet.Cells[4][66] = di.Name;
+                    xlWorkSheet.Cells[4][67] = tunit.UnitName;
+                    xlWorkSheet.Cells[4][69] = tps.PSName;
+
+                    xlWorkSheet.Cells[13][66] = psv.ValveNumber;
+                    xlWorkSheet.Cells[10][71] = psv.Pressure;
+
+                }
+                else if (count > 9)
+                {
+                    xlWorkSheet.Cells[4][126] = di.Name;
+                    xlWorkSheet.Cells[4][127] = tunit.UnitName;
+                    xlWorkSheet.Cells[4][129] = tps.PSName;
+
+                    xlWorkSheet.Cells[13][126] = psv.ValveNumber;
+                    xlWorkSheet.Cells[10][131] = psv.Pressure;
+
+                }
+                string Compressibility = string.Empty;
+                for (int i = 1; i <= list.Count; i++)
+                {
+                    Scenario sc = list[i - 1];
                     int col = count % 5;
                     if (count <= 4)
                     {
@@ -345,53 +352,53 @@ namespace ReliefProMain.ViewModel.Reports
                     }
 
                     count++;
-                
+
+                }
+                if (count <= 5)
+                {
+                    Microsoft.Office.Interop.Excel.Range r = xlWorkSheet.Range[xlWorkSheet.Cells[2][122], xlWorkSheet.Cells[3][181]];
+                    r.UnMerge();
+                    r = xlWorkSheet.Range[xlWorkSheet.Cells[2][122], xlWorkSheet.Cells[14][181]];
+                    r.Clear();
+
+                    Microsoft.Office.Interop.Excel.Shape pic = xlWorkSheet.Shapes.Item(3) as Microsoft.Office.Interop.Excel.Shape;
+                    pic.Delete();
+
+                    r = xlWorkSheet.Range[xlWorkSheet.Cells[2][62], xlWorkSheet.Cells[3][121]];
+                    r.UnMerge();
+                    r = xlWorkSheet.Range[xlWorkSheet.Cells[2][62], xlWorkSheet.Cells[14][121]];
+                    r.Clear();
+
+                    pic = xlWorkSheet.Shapes.Item(2) as Microsoft.Office.Interop.Excel.Shape;
+                    pic.Delete();
+
+
+                }
+                else if (count <= 10)
+                {
+                    Microsoft.Office.Interop.Excel.Range r = xlWorkSheet.Range[xlWorkSheet.Cells[2][122], xlWorkSheet.Cells[3][181]];
+                    r.UnMerge();
+                    r = xlWorkSheet.Range[xlWorkSheet.Cells[2][122], xlWorkSheet.Cells[14][181]];
+                    r.Clear();
+
+                    Microsoft.Office.Interop.Excel.Shape pic = xlWorkSheet.Shapes.Item(3) as Microsoft.Office.Interop.Excel.Shape;
+                    pic.Delete();
+                }
+                Microsoft.Office.Interop.Excel.Range rf = xlWorkSheet.Range[xlWorkSheet.Cells[1][1], xlWorkSheet.Cells[1][1]];
+                rf.Select();
+                xlWorkBook.Save();
+                xlWorkBook.Close(true, Type.Missing, Type.Missing);
+
+
+                xlApp.Quit();
+
+
+                releaseObject(xlWorkSheet);
+                releaseObject(xlWorkBook);
+                releaseObject(xlApp);
+
+                System.Diagnostics.Process.Start(filePath);
             }
-            if (count <= 5)
-            {
-                Microsoft.Office.Interop.Excel.Range r = xlWorkSheet.Range[xlWorkSheet.Cells[2][122], xlWorkSheet.Cells[3][181]];
-                r.UnMerge();
-                r = xlWorkSheet.Range[xlWorkSheet.Cells[2][122], xlWorkSheet.Cells[14][181]];
-                r.Clear();
-
-                Microsoft.Office.Interop.Excel.Shape pic = xlWorkSheet.Shapes.Item(3) as Microsoft.Office.Interop.Excel.Shape;
-                pic.Delete();
-
-                r = xlWorkSheet.Range[xlWorkSheet.Cells[2][62], xlWorkSheet.Cells[3][121]];
-                r.UnMerge();
-                r = xlWorkSheet.Range[xlWorkSheet.Cells[2][62], xlWorkSheet.Cells[14][121]];
-                r.Clear();
-
-                pic = xlWorkSheet.Shapes.Item(2) as Microsoft.Office.Interop.Excel.Shape;
-                pic.Delete();
-
-
-            }
-            else if (count <= 10)
-            {
-                Microsoft.Office.Interop.Excel.Range r = xlWorkSheet.Range[xlWorkSheet.Cells[2][122], xlWorkSheet.Cells[3][181]];
-                r.UnMerge();
-                r = xlWorkSheet.Range[xlWorkSheet.Cells[2][122], xlWorkSheet.Cells[14][181]];
-                r.Clear();
-
-                Microsoft.Office.Interop.Excel.Shape pic = xlWorkSheet.Shapes.Item(3) as Microsoft.Office.Interop.Excel.Shape;
-                pic.Delete();
-            }
-            Microsoft.Office.Interop.Excel.Range rf= xlWorkSheet.Range[xlWorkSheet.Cells[1][1],xlWorkSheet.Cells[1][1]];
-            rf.Select();
-            xlWorkBook.Save();
-            xlWorkBook.Close(true, Type.Missing, Type.Missing);
-
-
-            xlApp.Quit();
-
-
-            releaseObject(xlWorkSheet);
-            releaseObject(xlWorkBook);
-            releaseObject(xlApp);
-
-            System.Diagnostics.Process.Start(filePath); 
-
         }
         private void releaseObject(object obj)
         {

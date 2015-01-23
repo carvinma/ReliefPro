@@ -265,7 +265,8 @@
     <s:String x:Key="DrumSizeViewTitle">Drum_fire</s:String>
     <s:String x:Key="Elevation">Elevation:</s:String>
     <s:String x:Key="Diameter">Diameter:</s:String>
-    <s:String x:Key="Length">L1:</s:String>
+    <s:String x:Key="Length">Length:</s:String>
+    <s:String x:Key="Length1">L1:</s:String>
     <s:String x:Key="Length2">L2:</s:String>
     <s:String x:Key="NormalLiquidLevel">Normal Liquid Level:</s:String>
     <s:String x:Key="Headnumber">Head Number:</s:String>
@@ -347,9 +348,9 @@
     <s:String x:Key="AirCooledHXFireSizeViewStatusBar">...</s:String>
 
     <!--AirCooledHXFireView.xaml-->
-    <s:String x:Key="AirCooledHXFireViewTitle">Hx_fire</s:String>
+    <s:String x:Key="AirCooledHXFireViewTitle">Air Cooled Fire</s:String>
     <s:String x:Key="AirCooledHXFireViewStatusBar">...</s:String>
-
+    <s:String x:Key="AirCooledSize">AirCooled Size</s:String>
     <s:String x:Key="HXFireViewTitle">Hx fire</s:String>
     <s:String x:Key="HXSize">HX Size</s:String>
 
@@ -539,7 +540,7 @@
     <!--StorageTankFireView.xaml-->
     <s:String x:Key="StorageTankFireViewTitle">Storage Tank Fire</s:String>
     <s:String x:Key="DesignPressure">Design Pressure:</s:String>
-    <s:String x:Key="TankSize">Tank Size</s:String>
+    <s:String x:Key="StorageTankSize">Tank Size</s:String>
     <s:String x:Key="StorageTankFireViewStatusBar">...</s:String>
 
     <!--StorageTankSizeView.xaml-->

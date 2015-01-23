@@ -911,7 +911,7 @@ namespace ReliefProMain.ViewModel.Drums
             switch (FireType)
             {
                 case 0: CalcDrum(); break;
-                case 1: CalcTank(); break;
+                case 1: CalcDrum(); break;
                 case 2:
                 case 3: CalcHX(); break;
 

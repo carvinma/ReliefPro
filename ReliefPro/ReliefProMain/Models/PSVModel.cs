@@ -260,7 +260,7 @@ namespace ReliefProMain.Models
                 {
                     ProIIEqDataDAL proiieqdal = new ProIIEqDataDAL();
                     ProIIEqData data = proiieqdal.GetModel(SessionPlant, sourceFile, location);
-                    if (data.EqType == "Hx")
+                    if (data!=null && data.EqType == "Hx" ) //如果是tank的话，data就是null了。需要判断下
                     {
                         LocationDescriptions = GetLocationDescriptions("HX");
                         
@@ -568,6 +568,10 @@ namespace ReliefProMain.Models
             if (eqType == "HX")
             {
                 list.Add("Shell");
+                list.Add("Tube");
+            }
+            else if (eqType == "StorageTank")
+            {
                 list.Add("Tube");
             }
             else

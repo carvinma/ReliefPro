@@ -1022,6 +1022,9 @@
     <None Include="Template\protectedsystem.vsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Template\SimTech-PRV_DataSheet_Model.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Template\SimTech-PRV_DataSheet_Model.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

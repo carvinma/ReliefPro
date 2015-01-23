@@ -26,7 +26,7 @@
         <Label  Content="{DynamicResource ExposedtoFire}" Grid.Column="1" Grid.Row="1" Height="25" Width="88" />
         <Label  Content="{DynamicResource Type}" Grid.Column="1" Grid.Row="2" Height="25" Width="33" />
         <Label  Content="{DynamicResource OD}"  Grid.Column="1" Grid.Row="3" Height="26" Width="58" Margin="0,2" />
-        <Label  Content="{DynamicResource Length}"  Grid.Column="1" Grid.Row="4" Height="25" Width="46"  />
+        <Label  Content="{DynamicResource Length1}"  Grid.Column="1" Grid.Row="4" Height="25" Width="46"  />
         <Label Content="{DynamicResource Length2}" Grid.Column="1" Grid.Row="5" Height="25" Width="58" />
         <Label  Content="{DynamicResource PipingContingency}" Grid.Column="1" Grid.Row="6" Height="25" Width="103"  />
         

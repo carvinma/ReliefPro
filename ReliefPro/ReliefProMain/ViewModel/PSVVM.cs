@@ -346,21 +346,21 @@ namespace ReliefProMain.ViewModel
                     {
                         CreateCommonPSV();
                     }
-                    CurrentModel.dbmodel.PSVName = CurrentModel.PSVName;
-                    CurrentModel.dbmodel.Pressure = CurrentModel.Pressure;
-                    CurrentModel.dbmodel.ReliefPressureFactor = CurrentModel.ReliefPressureFactor;
-                    CurrentModel.dbmodel.ValveNumber = CurrentModel.ValveNumber;
-                    CurrentModel.dbmodel.ValveType = CurrentModel.ValveType;
-                    CurrentModel.dbmodel.DrumPSVName = CurrentModel.DrumPSVName;
-                    CurrentModel.dbmodel.Location = CurrentModel.Location;
-                    CurrentModel.dbmodel.DrumPressure = CurrentModel.DrumPressure;
-                    CurrentModel.dbmodel.CriticalPressure = CurrentModel.CriticalPressure;
-                    CurrentModel.dbmodel.CriticalTemperature = CurrentModel.CriticalTemperature;
-                    CurrentModel.dbmodel.CricondenbarTemp = CurrentModel.CricondenbarTemp;
-                    CurrentModel.dbmodel.CricondenbarPress = CurrentModel.CricondenbarPress;
-                    CurrentModel.dbmodel.Description = CurrentModel.Description;
-                    CurrentModel.dbmodel.LocationDescription = CurrentModel.LocationDescription;
-                    CurrentModel.dbmodel.DischargeTo = CurrentModel.DischargeTo;
+                    //CurrentModel.dbmodel.PSVName = CurrentModel.PSVName;
+                    //CurrentModel.dbmodel.Pressure = UnitConvert.Convert(CurrentModel.PSVPressureUnit,UOMEnum.Pressure, CurrentModel.Pressure);
+                    //CurrentModel.dbmodel.ReliefPressureFactor = CurrentModel.ReliefPressureFactor;
+                    //CurrentModel.dbmodel.ValveNumber = CurrentModel.ValveNumber;
+                    //CurrentModel.dbmodel.ValveType = CurrentModel.ValveType;
+                    //CurrentModel.dbmodel.DrumPSVName = CurrentModel.DrumPSVName;
+                    //CurrentModel.dbmodel.Location = CurrentModel.Location;
+                    //CurrentModel.dbmodel.DrumPressure = UnitConvert.Convert(CurrentModel.DrumPressureUnit,UOMEnum.Pressure,CurrentModel.DrumPressure);
+                    //CurrentModel.dbmodel.CriticalPressure = UnitConvert.Convert(CurrentModel.CriticalPressureUnit,UOMEnum.Pressure,CurrentModel.CriticalPressure);
+                    //CurrentModel.dbmodel.CriticalTemperature = UnitConvert.Convert(CurrentModel.CriticalTemperatureUnit,UOMEnum.Temperature,CurrentModel.CriticalTemperature);
+                    //CurrentModel.dbmodel.CricondenbarTemp = UnitConvert.Convert(CurrentModel.CricondenbarTempUnit, UOMEnum.Temperature, CurrentModel.CricondenbarTemp);
+                    //CurrentModel.dbmodel.CricondenbarPress = UnitConvert.Convert(CurrentModel.CricondenbarPressUnit,UOMEnum.Pressure,CurrentModel.CricondenbarPress);
+                    //CurrentModel.dbmodel.Description = CurrentModel.Description;
+                    //CurrentModel.dbmodel.LocationDescription = CurrentModel.LocationDescription;
+                    //CurrentModel.dbmodel.DischargeTo = CurrentModel.DischargeTo;
 
                     CurrentModel.dbmodel.PSVName_Color = CurrentModel.PSVName_Color;
                     CurrentModel.dbmodel.Pressure_Color = CurrentModel.Pressure_Color;
@@ -428,21 +428,21 @@ namespace ReliefProMain.ViewModel
                         {
                             CreateCommonPSV();
                         }
-                        CurrentModel.dbmodel.PSVName = CurrentModel.PSVName;
-                        CurrentModel.dbmodel.Pressure = CurrentModel.Pressure;
-                        CurrentModel.dbmodel.ReliefPressureFactor = CurrentModel.ReliefPressureFactor;
-                        CurrentModel.dbmodel.ValveNumber = CurrentModel.ValveNumber;
-                        CurrentModel.dbmodel.ValveType = CurrentModel.ValveType;
-                        CurrentModel.dbmodel.DrumPSVName = CurrentModel.DrumPSVName;
-                        CurrentModel.dbmodel.Location = CurrentModel.Location;
-                        CurrentModel.dbmodel.DrumPressure = CurrentModel.DrumPressure;
-                        CurrentModel.dbmodel.CriticalPressure = CurrentModel.CriticalPressure;
-                        CurrentModel.dbmodel.CriticalTemperature = CurrentModel.CriticalTemperature;
-                        CurrentModel.dbmodel.CricondenbarTemp = CurrentModel.CricondenbarTemp;
-                        CurrentModel.dbmodel.CricondenbarPress = CurrentModel.CricondenbarPress;
-                        CurrentModel.dbmodel.Description = CurrentModel.Description;
-                        CurrentModel.dbmodel.LocationDescription = CurrentModel.LocationDescription;
-                        CurrentModel.dbmodel.DischargeTo = CurrentModel.DischargeTo;
+                        //CurrentModel.dbmodel.PSVName = CurrentModel.PSVName;
+                        //CurrentModel.dbmodel.Pressure = CurrentModel.Pressure;
+                        //CurrentModel.dbmodel.ReliefPressureFactor = CurrentModel.ReliefPressureFactor;
+                        //CurrentModel.dbmodel.ValveNumber = CurrentModel.ValveNumber;
+                        //CurrentModel.dbmodel.ValveType = CurrentModel.ValveType;
+                        //CurrentModel.dbmodel.DrumPSVName = CurrentModel.DrumPSVName;
+                        //CurrentModel.dbmodel.Location = CurrentModel.Location;
+                        //CurrentModel.dbmodel.DrumPressure = CurrentModel.DrumPressure;
+                        //CurrentModel.dbmodel.CriticalPressure = CurrentModel.CriticalPressure;
+                        //CurrentModel.dbmodel.CriticalTemperature = CurrentModel.CriticalTemperature;
+                        //CurrentModel.dbmodel.CricondenbarTemp = CurrentModel.CricondenbarTemp;
+                        //CurrentModel.dbmodel.CricondenbarPress = CurrentModel.CricondenbarPress;
+                        //CurrentModel.dbmodel.Description = CurrentModel.Description;
+                        //CurrentModel.dbmodel.LocationDescription = CurrentModel.LocationDescription;
+                        //CurrentModel.dbmodel.DischargeTo = CurrentModel.DischargeTo;
 
                         CurrentModel.dbmodel.PSVName_Color = CurrentModel.PSVName_Color;
                         CurrentModel.dbmodel.Pressure_Color = CurrentModel.Pressure_Color;
@@ -864,9 +864,9 @@ namespace ReliefProMain.ViewModel
                         return;
                 }
                 CurrentModel.CriticalPressure = UnitConvert.Convert(UOMEnum.Pressure, CurrentModel.CriticalPressureUnit, criticalPressure);
-                CurrentModel.CriticalTemperature = UnitConvert.Convert(UOMEnum.Temperature, CurrentModel.CriticalPressureUnit, criticalTemperature);
+                CurrentModel.CriticalTemperature = UnitConvert.Convert(UOMEnum.Temperature, CurrentModel.CriticalTemperatureUnit, criticalTemperature);
                 CurrentModel.CricondenbarPress = UnitConvert.Convert(UOMEnum.Pressure, CurrentModel.CriticalPressureUnit, cricondenbarPressure);
-                CurrentModel.CricondenbarTemp = UnitConvert.Convert(UOMEnum.Temperature, CurrentModel.CriticalPressureUnit, cricondenbarTemperature);
+                CurrentModel.CricondenbarTemp = UnitConvert.Convert(UOMEnum.Temperature, CurrentModel.CricondenbarTempUnit, cricondenbarTemperature);
             }
         }
 

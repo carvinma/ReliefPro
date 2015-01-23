@@ -342,6 +342,14 @@ namespace ReliefProMain.ViewModel
 
             WriteConvert();
             dbsc = new ScenarioDAL();
+            Scenario sc = dbsc.GetModel(ScenarioID, SessionProtectedSystem);
+            sc.ReliefLoad = ReliefLoad;
+            sc.ReliefMW = ReliefMW;
+            sc.ReliefPressure = ReliefPressure;
+            sc.ReliefTemperature = ReliefTemperature;
+            sc.ReliefCpCv = ReliefCpCv;
+            sc.ReliefZ = ReliefZ;
+            dbsc.Update(sc, SessionProtectedSystem);
             if (model == null)
             {
                 model = new InletValveOpen();
@@ -357,6 +365,7 @@ namespace ReliefProMain.ViewModel
                 model.UpStreamCpCv = UpStreamCpCv;
                 model.ReliefCpCv = ReliefCpCv;
                 model.ReliefZ = ReliefZ;
+                model.ScenarioID = sc.ID;
                 dbinlet.Add(model, SessionProtectedSystem);
             }
             else
@@ -373,20 +382,11 @@ namespace ReliefProMain.ViewModel
                 model.UpStreamCpCv = UpStreamCpCv;
                 model.ReliefCpCv = ReliefCpCv;
                 model.ReliefZ = ReliefZ;
+                model.ScenarioID = sc.ID;
                 dbinlet.Update(model, SessionProtectedSystem);
             }
-            Scenario sc = dbsc.GetModel(ScenarioID, SessionProtectedSystem);
-            sc.ReliefLoad = ReliefLoad;
-            sc.ReliefMW = ReliefMW;
-            sc.ReliefPressure = ReliefPressure;
-            sc.ReliefTemperature = ReliefTemperature;
-            sc.ReliefCpCv = ReliefCpCv;
-            sc.ReliefZ = ReliefZ;
-            dbsc.Update(sc, SessionProtectedSystem);
-            SessionProtectedSystem.Flush();
-
-
-
+            
+            
             System.Windows.Window wd = window as System.Windows.Window;
 
             if (wd != null)

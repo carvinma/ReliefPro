@@ -438,6 +438,47 @@ namespace ReliefProMain.ViewModel
                     }
                 }
             }
+            else
+            {
+                if (Products.Count > 1)
+                {
+                    MessageBox.Show("Air Cooled Hx must be single product hx.", "Message Box");
+                    return;
+                }
+                if(Feeds.Count==1)
+                {
+                    if(Feeds[0].Temperature<Products[0].Temperature)
+                    {
+                        MessageBox.Show("Air Cooled feed temperature must be greater than product temperature.", "Message Box");
+                        return ;
+                    }
+                }
+                else
+                {
+                    CustomStreamDAL csdal=new CustomStreamDAL();
+                    List<CustomStream> lstFeed=new List<CustomStream>();
+                    List<string> lstFeedName=new List<string>();
+                    string[] hotinlets=HotInlet.Split(',');
+                    lstFeedName=hotinlets.ToList();
+                    foreach(string s in lstFeedName)
+                    {
+                        CustomStream cs=csdal.GetModel(SessionProtectedSystem,s);
+                        lstFeed.Add(cs);
+                    }
+
+                    int ErrorType = 0; 
+                    string sourceDir = DirProtectedSystem + @"\temp";
+
+                    string mixDir = DirProtectedSystem + @"\temp\ColdMixed";
+                    CustomStream mixCS = ProIIMethod.MixStream(SourceFileInfo.FileVersion, lstFeedName, lstFeed, sourceDir, mixDir, ref ErrorType);
+
+                    if (mixCS.Temperature < Products[0].Temperature)
+                    {
+                        MessageBox.Show("Air Cooled feed temperature must be greater than product temperature.", "Message Box");
+                        return;
+                    }
+                }
+            }
            
             HeatExchangerDAL dbHX = new HeatExchangerDAL();
             if (op == 0)
