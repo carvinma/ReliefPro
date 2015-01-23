@@ -81,6 +81,19 @@ namespace ReliefProMain.ViewModel
             {
                 unitInfo.BasicUnitDel(model.BasicUnitselectLocation, UOMSingle.Session, SessionPlant);
                 model.ObBasicUnit.Remove(model.BasicUnitselectLocation);
+                var findDefalut= model.ObBasicUnit.Where(p=>p.IsDefault==1);
+                if (findDefalut == null || findDefalut.Count() == 0)
+                {
+                    int id = model.ObBasicUnit.Min(p => p.ID);
+                    model.BasicUnitselectLocation = model.ObBasicUnit.First(p => p.ID == id);
+                    UOMSingle.BaseUnitSelectedID = id;
+                    unitInfo.BasicUnitSetDefault(id, UOMSingle.Session);
+                }
+                else
+                {
+                    model.BasicUnitselectLocation = findDefalut.First();
+                    UOMSingle.BaseUnitSelectedID = model.BasicUnitselectLocation.ID;
+                }
                 MessageBox.Show("Delete Successful!");
             }
         }
