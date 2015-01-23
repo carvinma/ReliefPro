@@ -733,7 +733,7 @@ namespace ReliefProMain
                     item1.IsEnabled = false;
 
                     MenuItem item4 = (MenuItem)rmenu.Items[4];
-                    item4.IsEnabled = true;
+                    item4.IsEnabled = false;
                 }
 
 
