@@ -110,6 +110,7 @@ namespace ReliefProMain.ViewModel.Drums
 
             UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
             model = new DrumDepressuringModel(drumModel);
+
             model.InitialPressureUnit = uomEnum.UserPressure;
             model.VaporDensityUnit = uomEnum.UserDensity;
             model.TotalVaporVolumeUnit = uomEnum.UserVolume;
@@ -200,9 +201,11 @@ namespace ReliefProMain.ViewModel.Drums
             }
             model.InitialDepressuringRate = wInitDepr;
             //model.Timespecify = (int)(tConstant * 60);
-            model.Timespecify = 15;//15分钟的数据
-            model.CalculatedDepressuringRate = wInitDepr * Math.Exp(-1);
-            model.CalculatedVesselPressure = model.InitialPressure * Math.Exp(-1);
+            //model.Timespecify = 15;//15分钟的数据
+
+            double currentTime = model.Timespecify / 60;
+            model.CalculatedDepressuringRate = wInitDepr * Math.Exp(-1*currentTime / tConstant);
+            model.CalculatedVesselPressure = model.InitialPressure * Math.Exp(-1 * currentTime / tConstant);
 
             //下列值需要保存到
             double reliefLoad = wInitDepr;
