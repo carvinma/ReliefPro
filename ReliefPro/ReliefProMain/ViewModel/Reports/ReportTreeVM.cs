@@ -398,8 +398,8 @@ namespace ReliefProMain.ViewModel.Reports
                 releaseObject(xlWorkSheet);
                 releaseObject(xlWorkBook);
                 releaseObject(xlApp);
-                KillExcel(xlApp);
 
+               
                 System.Diagnostics.Process.Start(filePath);
             }
         }
@@ -408,16 +408,17 @@ namespace ReliefProMain.ViewModel.Reports
             try
             {
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
-                obj = null;
+                //obj = null;
             }
             catch (Exception ex)
             {
-                obj = null;
-                MessageBox.Show("Unable to release the Object " + ex.ToString());
+                //obj = null;
+                //MessageBox.Show("Unable to release the Object " + ex.ToString());
             }
             finally
             {
-                GC.Collect();
+                GC.ReRegisterForFinalize(obj);
+                obj = null;
             }
         }
 
