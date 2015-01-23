@@ -72,8 +72,11 @@ namespace ReliefProMain.ViewModel
 
         private void DelBasicUnit(object obj)
         {
-            unitInfo.BasicUnitDel(model.BasicUnitselectLocation, UOMSingle.Session, SessionPlant);
-            MessageBox.Show("Delete Successful!");
+            if (MessageBox.Show("Are you sure you want to delete?", "Delete Bassic Unit", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            {
+                unitInfo.BasicUnitDel(model.BasicUnitselectLocation, UOMSingle.Session, SessionPlant);
+                MessageBox.Show("Delete Successful!");
+            }
         }
         private void SetBasicUnitDefault(object obj)
         {
