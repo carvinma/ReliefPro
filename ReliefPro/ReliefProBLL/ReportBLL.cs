@@ -307,7 +307,9 @@ namespace ReliefProBLL
         private void GetPSVInfo(ISession SessionPS)
         {
             var PSVInfo = psvDAL.GetAllList(SessionPS).ToList();
-            PSVInfo.ForEach(psv => { psv.dbPath = SessionPS.Connection.ConnectionString; PSVBag.Add(psv); });
+            string dbpath = SessionPS.Connection.ConnectionString;
+            PSVInfo.ForEach(psv => { psv.dbPath = dbpath; PSVBag.Add(psv); });
+            SessionPS.Flush();
         }
         private void GetScenarioInfo(ISession SessionPS)
         {
@@ -319,9 +321,11 @@ namespace ReliefProBLL
                 pback = UnitConvert.Convert(UOMEnum.Pressure, "Kpa", pback);
             }
             var ScenarioInfo = scenarioDAL.GetAllList(SessionPS).ToList();
+            string dbpath = SessionPS.Connection.ConnectionString;
+            SessionPS.Flush();
             ScenarioInfo.ForEach(p =>
             {
-                p.dbPath = SessionPS.Connection.ConnectionString;
+                p.dbPath = dbpath;
                 if (pback != 0)
                 {
                     double W, T, MW;

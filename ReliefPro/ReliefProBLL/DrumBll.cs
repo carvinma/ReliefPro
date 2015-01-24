@@ -139,7 +139,7 @@ namespace ReliefProBLL
             outletModel.MaxStreamRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), uomEnum.UserMassRate, outletModel.MaxStreamRate);
             outletModel.NormalFlashDuty = UnitConvert.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(), uomEnum.UserEnthalpyDuty, outletModel.NormalFlashDuty);
             outletModel.FDReliefCondition = UnitConvert.Convert(UOMLib.UOMEnum.EnthalpyDuty.ToString(), uomEnum.UserEnthalpyDuty, outletModel.FDReliefCondition);
-
+            SessionPT.Flush();
 
 
 

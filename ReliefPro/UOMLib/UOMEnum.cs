@@ -76,6 +76,7 @@ namespace UOMLib
         public UOMEnum(ISession SessionPlant)
         {
             SessionDBPath = SessionPlant.Connection.ConnectionString;
+            SessionPlant.Flush();
             this.SessionPlant = SessionPlant;
             initInfo(SessionPlant);
 
