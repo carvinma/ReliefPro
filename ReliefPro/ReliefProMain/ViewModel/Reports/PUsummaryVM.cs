@@ -277,7 +277,7 @@ namespace ReliefProMain.ViewModel.Reports
         private void BtnExportExcel(object obj)
         {
             ExportLib.ExportExcel export = new ExportLib.ExportExcel();
-            export.ExportToExcelPUsummary(model.listGrid, "PUsummary.xlsx");
+            export.ExportToExcelPUsummary(model.PlantName, model.ProcessUnitName, model.listGrid, "PUsummary.xls");
         }
         private void BtnNextUnit(object obj)
         {

@@ -375,7 +375,7 @@ namespace ReliefProBLL
                     {
                         string[] name = p.Split('\\');
                         if (name.Length <= 1) name = p.Split('/');
-                        this.PlantName = name[name.Length -3];
+                        this.PlantName = name[name.Length -2];
                             SessionPlant = findSession;
                             GetProcessUnitName(findSession);
                     }

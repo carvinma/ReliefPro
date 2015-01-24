@@ -18,7 +18,7 @@ namespace ExportLib
         private List<string> listScenario = new List<string> { "PowerDS", "WaterDS", "AirDS", "SteamDS", "FireDS" };
         private List<string> listProperty = new List<string> { "ReliefLoad", "Phase", "ReliefMW", "ReliefTemperature", "ReliefZ" };
 
-        public void ExportToExcelPUsummary(List<PUsummaryGridDS> ReportDs, string fileName)
+        public void ExportToExcelPUsummary(string plantname, string processunitName, List<PUsummaryGridDS> ReportDs, string fileName)
         {
             GC.Collect();//强制回收垃圾
             string saveFileName = string.Empty;
@@ -26,7 +26,7 @@ namespace ExportLib
             saveDialog.DefaultExt = "xls";
             saveDialog.Filter = "Excel(*.xlsx)|*.xlsx|Excel(*.xls)|*.xls";
             saveDialog.FileName = fileName;
-            saveDialog.DefaultExt = "xlsx";
+            saveDialog.DefaultExt = "xls";
             saveDialog.RestoreDirectory = true;
             saveDialog.ShowDialog();
             saveFileName = saveDialog.FileName;
@@ -54,14 +54,14 @@ namespace ExportLib
                 List<PUsummaryGridDS> sheetReportDs = ReportDs.Where(p => p.psv.DischargeTo == o.Key).ToList();
                 ReportBLL reportBLL = new ReportBLL();
                 sheetReportDs = reportBLL.CalcMaxSum(sheetReportDs);
-                worksheet = CreateSheet(worksheet, sheetReportDs);
+                worksheet = CreateSheet( plantname, processunitName,worksheet, sheetReportDs);
                 worksheetNum++;
             }
             xBk.Worksheets.Add();
             xSt = (_Worksheet)xBk.ActiveSheet;
             xSt.Name = "ALL";
             excel.ActiveWindow.DisplayGridlines = false;//不显示网格线 
-            xSt = CreateSheet(xSt, ReportDs);
+            xSt = CreateSheet(plantname, processunitName,xSt, ReportDs);
 
             #region  清理垃圾，回收资源
             xBk.SaveCopyAs(saveFileName);
@@ -76,7 +76,7 @@ namespace ExportLib
             GC.Collect();
             #endregion
         }
-        private _Worksheet CreateSheet(_Worksheet xSt, List<PUsummaryGridDS> ReportDs)
+        private _Worksheet CreateSheet(string plantname, string processunitName,_Worksheet xSt, List<PUsummaryGridDS> ReportDs)
         {
             #region 杂乱的标题
             Range rangePlant = xSt.get_Range("B3", "D3");
@@ -87,11 +87,11 @@ namespace ExportLib
             rangeProcess.Merge(false);
 
             Range rangePlantValue = xSt.get_Range("E3", "H3");
-            rangePlantValue.Value2 = "";
+            rangePlantValue.Value2 = plantname;
             rangePlantValue.Borders.LineStyle = 1;
             rangePlantValue.Merge(false);
             Range rangeProcessValue = xSt.get_Range("E4", "H4");
-            rangeProcessValue.Value2 = "";
+            rangeProcessValue.Value2 = processunitName;
             rangeProcessValue.Borders.LineStyle = 1;
             rangeProcessValue.Merge(false);
 
