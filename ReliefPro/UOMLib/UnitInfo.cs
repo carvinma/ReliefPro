@@ -68,7 +68,7 @@ namespace UOMLib
             int.TryParse(o.ToString(), out tmpID);
             return tmpID;
         }
-        public void BasicUnitDel(BasicUnit model, ISession templateSession,ISession SessionPlan)
+        public void BasicUnitDel(BasicUnit model, ISession templateSession)
         {
             BasicUnitDAL db = new BasicUnitDAL();
 
@@ -78,12 +78,12 @@ namespace UOMLib
             var rows = query.ExecuteUpdate();
             db.Delete(model, templateSession);
 
-            model= db.GetModel(SessionPlan,model.UnitName);
-            string sql2 = "delete from tbBasicUnitDefault where BasicUnitID=:ID";
-            var query2 = SessionPlan.CreateSQLQuery(sql2);
-            query2.SetInt32("ID", model.ID);
-            var rows2 = query2.ExecuteUpdate();
-            db.Delete(model, SessionPlan);
+            //model= db.GetModel(SessionPlan,model.UnitName);
+            //string sql2 = "delete from tbBasicUnitDefault where BasicUnitID=:ID";
+            //var query2 = SessionPlan.CreateSQLQuery(sql2);
+            //query2.SetInt32("ID", model.ID);
+            //var rows2 = query2.ExecuteUpdate();
+            //db.Delete(model, SessionPlan);
         }
         public int BasicUnitSetDefault(int id)
         {

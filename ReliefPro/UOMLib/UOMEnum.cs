@@ -139,7 +139,7 @@ namespace UOMLib
             {
                 lstSystemUnit = unitInfo.GetSystemUnit(SessionPlant);
             }
-            if (lstBasicUnitCurrent == null || lstBasicUnitCurrent.Count > 0)
+            if (lstBasicUnitCurrent == null || lstBasicUnitCurrent.Count== 0)
             {
                 lstBasicUnitCurrent = unitInfo.GetBasicUnitCurrent(SessionPlant);
             }

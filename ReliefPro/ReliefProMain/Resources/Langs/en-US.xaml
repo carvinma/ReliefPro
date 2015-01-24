@@ -303,7 +303,7 @@
     <s:String x:Key="SetThisBasicToDefalut">Set This Basic To Defalut</s:String>
     <s:String x:Key="DelThisBasic">Delete This Basic</s:String>
     <s:String x:Key="UOM">UOM</s:String>
-    <s:String x:Key="CopyfromthisBasicandAddNewBasic">Copy From This Basic and Add NewBasic</s:String>
+    <s:String x:Key="CopyfromthisBasicandAddNewBasic">Copy From This UOM and Add NewBasic</s:String>
     <s:String x:Key="Basic">Basic:</s:String>
     <s:String x:Key="Pressure">Pressure:</s:String>
     <s:String x:Key="Weight_wt">Weight(wt):</s:String>
