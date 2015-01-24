@@ -17,6 +17,20 @@ namespace ReliefProMain.Models
         public event SelectDefaultUnitDelegate handler;
         public delegate void ChangeDefaultUnitDelegate(object ChangeDefaultUnit);
         public event ChangeDefaultUnitDelegate handlerChange;
+
+        private bool _canUseDelButtn=true;
+        public bool canUseDelButtn
+        {
+            get
+            {
+                return this._canUseDelButtn;
+            }
+            set
+            {
+                this._canUseDelButtn = value;
+                NotifyPropertyChanged("canUseDelButtn");
+            }
+        }
         #region combobox数据源
         #region 选择项
         private BasicUnit _BasicUnitselectLocation;

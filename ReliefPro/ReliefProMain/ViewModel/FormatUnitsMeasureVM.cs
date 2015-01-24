@@ -211,10 +211,11 @@ namespace ReliefProMain.ViewModel
         {
             try
             {
-               // this.SelectedCurrent.Clear();
                 var selectedBasicUnit = SelectDefaultUnit as BasicUnit;
                 int basicid = selectedBasicUnit.ID;
                 UOMSingle.BaseUnitSelectedID = basicid;
+                model.canUseDelButtn= basicid<=5? false :true;
+
                 model.TemperatureSelectLocation = model.ObcTemperature.Where(p => p.ID == GetUnit(1, basicid)).FirstOrDefault();
                 model.PressureSelectLocation = model.ObcPressure.Where(p => p.ID == GetUnit(2, basicid)).FirstOrDefault();
                 model.WeightSelectLocation = model.ObcWeight.Where(p => p.ID == GetUnit(3, basicid)).FirstOrDefault();

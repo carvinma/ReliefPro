@@ -26,7 +26,10 @@
                         SelectedValuePath="ID" DisplayMemberPath="UnitName"
 						SelectedItem="{Binding model.BasicUnitselectLocation,Mode=TwoWay}" />
                         <Button Content="{DynamicResource SetThisBasicToDefalut}"  VerticalAlignment="Center" HorizontalAlignment="Left" Command="{Binding BasicUnitDefaultCommand}" Width="150"  Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"  />
-                        <Button Content="{DynamicResource DelThisBasic}"  VerticalAlignment="Center" HorizontalAlignment="Right" Command="{Binding DelBasicUnitCommand}" Width="120"  Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"  />
+                        <Button Content="{DynamicResource DelThisBasic}"  VerticalAlignment="Center" HorizontalAlignment="Right" 
+                                Command="{Binding DelBasicUnitCommand}" Width="120"  
+                                IsEnabled="{Binding model.canUseDelButtn,Mode=OneWay}"
+                                Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"  />
 
                     </Grid>
                 </GroupBox>
