@@ -239,30 +239,35 @@ namespace ReliefProMain.ViewModel.Reports
                 PowerMWorSpGr = p.PowerDS.ReliefMW,
                 PowerT = p.PowerDS.ReliefTemperature,
                 PowerZ = p.PowerDS.ReliefZ,
+                PowerCpCv=p.PowerDS.ReliefCpCv,
 
                 WaterReliefRate = p.WaterDS.ReliefLoad,
                 WaterPhase = p.WaterDS.Phase,
                 WaterMWorSpGr = p.WaterDS.ReliefMW,
                 WaterT = p.WaterDS.ReliefTemperature,
                 WaterZ = p.WaterDS.ReliefZ,
+                WaterCpCv=p.WaterDS.ReliefCpCv,
 
                 AirReliefRate = p.AirDS.ReliefLoad,
                 AirPhase = p.AirDS.Phase,
                 AirMWorSpGr = p.AirDS.ReliefMW,
                 AirT = p.AirDS.ReliefTemperature,
                 AirZ = p.AirDS.ReliefZ,
+                AirCpCv=p.AirDS.ReliefCpCv,
 
                 SteamReliefRate = p.SteamDS.ReliefLoad,
                 SteamPhase = p.SteamDS.Phase,
                 SteamMWorSpGr = p.SteamDS.ReliefMW,
                 SteamT = p.SteamDS.ReliefTemperature,
                 SteamZ = p.SteamDS.ReliefZ,
+                SteamCpCv=p.SteamDS.ReliefCpCv,
 
                 FireReliefRate = p.FireDS.ReliefLoad,
                 FirePhase = p.FireDS.Phase,
                 FireMWorSpGr = p.FireDS.ReliefMW,
                 FireT = p.FireDS.ReliefTemperature,
-                FireZ = p.FireDS.ReliefZ
+                FireZ = p.FireDS.ReliefZ,
+                FireCpCv=p.FireDS.ReliefCpCv
             }).Take(model.listGrid.Count - 2).ToList();
             return listRS;
         }
