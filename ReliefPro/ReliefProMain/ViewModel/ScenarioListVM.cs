@@ -219,52 +219,192 @@ namespace ReliefProMain.ViewModel
                 MessageBox.Show("You must select Scenario Name first.", "Message Box");
                 return;
             }
-                ScenarioDAL db = new ScenarioDAL();
-                Scenario sce = db.GetModel(ScenarioID, SessionProtectedSystem);
-                sce.ScenarioName = SelectedScenario.ScenarioName;
-                db.Update(sce, SessionProtectedSystem);
-                SessionProtectedSystem.Flush();
-                string ScenarioName = SelectedScenario.ScenarioName.Replace(" ", string.Empty);
-                if (EqType == "Tower")
+            ScenarioDAL db = new ScenarioDAL();
+            Scenario sce = db.GetModel(ScenarioID, SessionProtectedSystem);
+            sce.ScenarioName = SelectedScenario.ScenarioName;
+            db.Update(sce, SessionProtectedSystem);
+            SessionProtectedSystem.Flush();
+            string ScenarioName = SelectedScenario.ScenarioName.Replace(" ", string.Empty);
+            if (EqType == "Tower")
+            {
+                if (ScenarioName.Contains("Fire"))
                 {
-                    if (ScenarioName.Contains("Fire"))
+                    CreateTowerFire(ScenarioID, SessionProtectedSystem);
+                }
+                else if (ScenarioName.Contains("Inlet"))
+                {
+                    CreateInletValveOpen(ScenarioID);
+                }
+                else if (ScenarioName.Contains("Abnormal"))
+                {
+                    CreateAbnormalHeatInput(ScenarioID, ScenarioName, SessionProtectedSystem);
+                }
+                else if (ScenarioName.Contains("Blockedvaporoutlet"))
+                {
+                    CreateBlockedVaporOutlet(ScenarioID, 0);
+                }
+                else if (ScenarioName.Contains("AbsorbentStops"))
+                {
+                    CreateBlockedVaporOutlet(ScenarioID, 1);
+                }
+                else
+                {
+                    CreateTowerCommon(ScenarioID, ScenarioName, SessionProtectedSystem);
+                }
+            }
+            else if (EqType == "Drum")
+            {
+                if (ScenarioName.Contains("Outlet"))
+                {
+                    DrumBlockedOutletView v = new DrumBlockedOutletView();
+                    v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                    DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 0);
+                    if (vm.IsHasBlockedOutlet == 1)
                     {
-                        CreateTowerFire(ScenarioID, SessionProtectedSystem);
+                        MessageBox.Show("No blocked outlet,because no max source pressure is greater than set pressure.", "Message Box");
+                        return;
                     }
-                    else if (ScenarioName.Contains("Inlet"))
+                    v.DataContext = vm;
+                    if (v.ShowDialog() == true)
                     {
-                        CreateInletValveOpen(ScenarioID);
+                        if (vm.CalcTuple != null)
+                        {
+                            SelectedScenario.ReliefLoad = vm.CalcTuple.Item1;
+                            SelectedScenario.ReliefPressure = vm.CalcTuple.Item4;
+                            SelectedScenario.ReliefTemperature = vm.CalcTuple.Item3;
+                            SelectedScenario.ReliefMW = vm.CalcTuple.Item2;
+                        }
                     }
-                    else if (ScenarioName.Contains("Abnormal"))
+
+                }
+                else if (ScenarioName.Contains("Fire"))
+                {
+                    DrumFireView v = new DrumFireView();
+                    v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                    DrumFireVM vm = new DrumFireVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
+                    v.DataContext = vm;
+                    v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    if (v.ShowDialog() == true)
                     {
-                        CreateAbnormalHeatInput(ScenarioID, ScenarioName, SessionProtectedSystem);
+                        //需要把ReliefLoad等值传回给SelectedScenario.ReliefLoad。 参考CreateInletValveOpen
+                        SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
+                        SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                        SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                        SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                     }
-                    else if (ScenarioName.Contains("Blockedvaporoutlet"))
+
+                }
+                else if (ScenarioName.Contains("Inlet"))
+                {
+                    CreateInletValveOpen(ScenarioID);
+                }
+                else if (ScenarioName.Contains("Depressuring"))
+                {
+                    DrumDepressureView v = new DrumDepressureView();
+                    v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                    DrumDepressuringVM vm = new DrumDepressuringVM(ScenarioID, SessionProtectedSystem, SessionPlant);
+                    v.DataContext = vm;
+                    v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    v.ShowDialog();
+
+                }
+
+            }
+            else if (EqType == "Compressor")
+            {
+                if (ScenarioName.Contains("Outlet"))
+                {
+                    Compressor comp = new Compressor();
+                    CompressorDAL compDAL = new CompressorDAL();
+                    comp = compDAL.GetModel(SessionProtectedSystem);
+                    string CompresserType = comp.CompressorType;
+                    if (CompresserType == "Centrifugal")
                     {
-                        CreateBlockedVaporOutlet(ScenarioID, 0);
+                        if (comp.Driver == "Turbine")
+                        {
+                            CentrifugalBlockedView v = new CentrifugalBlockedView();
+                            v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                            CentrifugalVM vm = new CentrifugalVM(ScenarioID, SessionProtectedSystem, SessionPlant, 0);
+                            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                            v.DataContext = vm;
+                            if (v.ShowDialog() == true)
+                            {
+                                SelectedScenario.ReliefLoad = vm.model.dbmodel.Reliefload;
+                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                            }
+                        }
+                        else
+                        {
+                            CentrifugalBlocked2View v = new CentrifugalBlocked2View();
+                            v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                            CentrifugalVM vm = new CentrifugalVM(ScenarioID, SessionProtectedSystem, SessionPlant, 1);
+                            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                            v.DataContext = vm;
+                            if (v.ShowDialog() == true)
+                            {
+                                SelectedScenario.ReliefLoad = vm.model.dbmodel.Reliefload;
+                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                            }
+                        }
+
                     }
-                    else if (ScenarioName.Contains("AbsorbentStops"))
+                    else if (CompresserType == "Piston")
                     {
-                        CreateBlockedVaporOutlet(ScenarioID, 1);
-                    }
-                    else
-                    {
-                        CreateTowerCommon(ScenarioID, ScenarioName, SessionProtectedSystem);
+                        PistonBlockedView v = new PistonBlockedView();
+                        v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                        PistonVM vm = new PistonVM(ScenarioID, SessionProtectedSystem, SessionPlant);
+                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                        v.DataContext = vm;
+                        if (v.ShowDialog() == true)
+                        {
+                            SelectedScenario.ReliefLoad = vm.model.dbmodel.Reliefload;
+                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                        }
                     }
                 }
-                else if (EqType == "Drum")
+            }
+            if (EqType == "HX")
+            {
+                HeatExchangerDAL hxDAL = new HeatExchangerDAL();
+                HeatExchanger hx = hxDAL.GetModel(SessionProtectedSystem);
+                if (hx.HXType == "Shell-Tube")
                 {
-                    if (ScenarioName.Contains("Outlet"))
+                    if (ScenarioName.Contains("BlockedIn"))
                     {
-                        DrumBlockedOutletView v = new DrumBlockedOutletView();
-                        v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                        DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem,0);
-                        if (vm.IsHasBlockedOutlet == 1)
+                        HXBlockedInView v = new HXBlockedInView();
+                        HXBlockedInVM vm = new HXBlockedInVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
+                        if (!vm.IsColdIn)
                         {
-                            MessageBox.Show("No blocked outlet,because no max source pressure is greater than set pressure.", "Message Box");
+                            MessageBox.Show("this case can't be used. it is hot in", "Message Box", MessageBoxButton.OK, MessageBoxImage.Error);
                             return;
                         }
-                        v.DataContext = vm;                       
+                        v.DataContext = vm;
+                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                        if (v.ShowDialog() == true)
+                        {
+                            SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
+                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                        }
+                    }
+                    if (ScenarioName.Contains("Outlet"))
+                    {
+                        HXBlockedOutletView v = new HXBlockedOutletView();
+                        v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                        DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 1);
+                        if (vm.IsHasBlockedOutlet == 1)
+                        {
+                            MessageBox.Show("No blocked outlet,because no max source pressure is greater than set pressure.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+                        v.DataContext = vm;
                         if (v.ShowDialog() == true)
                         {
                             if (vm.CalcTuple != null)
@@ -277,296 +417,156 @@ namespace ReliefProMain.ViewModel
                         }
 
                     }
+                    if (ScenarioName.Contains("TubeRupture"))
+                    {
+                        CustomStreamDAL csdal = new CustomStreamDAL();
+                        IList<CustomStream> list = csdal.GetAllList(SessionProtectedSystem, true);
+
+                        if (list.Count == 2)
+                        {
+                            TubeRuptureView v = new TubeRuptureView();
+                            TubeRuptureVM vm = new TubeRuptureVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
+                            v.DataContext = vm;
+                            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                            if (v.ShowDialog() == true)
+                            {
+                                SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
+                                SelectedScenario.ReliefMW = vm.model.ReliefMW;
+                                SelectedScenario.ReliefPressure = vm.model.ReliefPressure;
+                                SelectedScenario.ReliefTemperature = vm.model.ReliefTemperature;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("this case can't be used. it has not 2 feed and 2 product", "Message Box");
+                            return;
+                        }
+                    }
                     else if (ScenarioName.Contains("Fire"))
                     {
-                        DrumFireView v = new DrumFireView();
-                        v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                        DrumFireVM vm = new DrumFireVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
+                        HXFireView v = new HXFireView();
+                        DrumFireVM vm = new DrumFireVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 2);
                         v.DataContext = vm;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         if (v.ShowDialog() == true)
                         {
-                            //需要把ReliefLoad等值传回给SelectedScenario.ReliefLoad。 参考CreateInletValveOpen
-                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
+                            SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
                             SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
                             SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                             SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                         }
-
-                    }
-                    else if (ScenarioName.Contains("Inlet"))
-                    {
-                        CreateInletValveOpen(ScenarioID);
-                    }
-                    else if (ScenarioName.Contains("Depressuring"))
-                    {
-                        DrumDepressureView v = new DrumDepressureView();
-                        v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                        DrumDepressuringVM vm = new DrumDepressuringVM(ScenarioID, SessionProtectedSystem, SessionPlant);
-                        v.DataContext = vm;
-                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                        v.ShowDialog();
-
-                    }
-
-                }
-                else if (EqType == "Compressor")
-                {
-                    if (ScenarioName.Contains("Outlet"))
-                    {
-                        Compressor comp = new Compressor();
-                        CompressorDAL compDAL = new CompressorDAL();
-                        comp = compDAL.GetModel(SessionProtectedSystem);
-                        string CompresserType = comp.CompressorType;
-                        if (CompresserType == "Centrifugal")
-                        {
-                            if (comp.Driver == "Turbine")
-                            {
-                                CentrifugalBlockedView v = new CentrifugalBlockedView();
-                                v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                                CentrifugalVM vm = new CentrifugalVM(ScenarioID, SessionProtectedSystem, SessionPlant,0);
-                                v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                                v.DataContext = vm;
-                                if (v.ShowDialog() == true)
-                                {
-                                    SelectedScenario.ReliefLoad = vm.model.dbmodel.Reliefload;
-                                    SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                                    SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
-                                    SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
-                                }
-                            }
-                            else
-                            {
-                                CentrifugalBlocked2View v = new CentrifugalBlocked2View();
-                                v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                                CentrifugalVM vm = new CentrifugalVM(ScenarioID, SessionProtectedSystem, SessionPlant,1);
-                                v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                                v.DataContext = vm;
-                                if (v.ShowDialog() == true)
-                                {
-                                    SelectedScenario.ReliefLoad = vm.model.dbmodel.Reliefload;
-                                    SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                                    SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
-                                    SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
-                                }
-                            }
-                            
-                        }
-                        else if (CompresserType == "Piston")
-                        {
-                            PistonBlockedView v = new PistonBlockedView();
-                            v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                            PistonVM vm = new PistonVM(ScenarioID, SessionProtectedSystem, SessionPlant);
-                            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                            v.DataContext = vm;
-                            if (v.ShowDialog() == true)
-                            {
-                                SelectedScenario.ReliefLoad = vm.model.dbmodel.Reliefload;
-                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
-                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
-                            }
-                        }
                     }
                 }
-                if (EqType == "HX")
-                {
-                    HeatExchangerDAL hxDAL = new HeatExchangerDAL();
-                    HeatExchanger hx = hxDAL.GetModel(SessionProtectedSystem);
-                    if (hx.HXType == "Shell-Tube")
-                    {
-                        if (ScenarioName.Contains("BlockedIn"))
-                        {
-                            HXBlockedInView v = new HXBlockedInView();
-                            HXBlockedInVM vm = new HXBlockedInVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
-                            if (!vm.IsColdIn)
-                            {
-                                MessageBox.Show("this case can't be used. it is hot in", "Message Box",MessageBoxButton.OK,MessageBoxImage.Error);
-                                return;
-                            }
-                            v.DataContext = vm;
-                            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                            if (v.ShowDialog() == true)
-                            {
-                                SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
-                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
-                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
-                            }
-                        }
-                        if (ScenarioName.Contains("Outlet"))
-                        {
-                            HXBlockedOutletView v = new HXBlockedOutletView();
-                            v.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-                            DrumBlockedOutletVM vm = new DrumBlockedOutletVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem,1);
-                            if (vm.IsHasBlockedOutlet == 1)
-                            {
-                                MessageBox.Show("No blocked outlet,because no max source pressure is greater than set pressure.", "Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
-                                return;
-                            }
-                            v.DataContext = vm;
-                            if (v.ShowDialog() == true)
-                            {
-                                if (vm.CalcTuple != null)
-                                {
-                                    SelectedScenario.ReliefLoad = vm.CalcTuple.Item1;
-                                    SelectedScenario.ReliefPressure = vm.CalcTuple.Item4;
-                                    SelectedScenario.ReliefTemperature = vm.CalcTuple.Item3;
-                                    SelectedScenario.ReliefMW = vm.CalcTuple.Item2;
-                                }
-                            }
-
-                        }
-                        if (ScenarioName.Contains("TubeRupture"))
-                        {
-                            CustomStreamDAL csdal = new CustomStreamDAL();
-                            IList<CustomStream> list = csdal.GetAllList(SessionProtectedSystem,true);
-                            
-                            if (list.Count == 2)
-                            {
-                                TubeRuptureView v = new TubeRuptureView();
-                                TubeRuptureVM vm = new TubeRuptureVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem);
-                                v.DataContext = vm;
-                                v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                                if (v.ShowDialog() == true)
-                                {
-                                    SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
-                                    SelectedScenario.ReliefMW = vm.model.ReliefMW;
-                                    SelectedScenario.ReliefPressure = vm.model.ReliefPressure;
-                                    SelectedScenario.ReliefTemperature = vm.model.ReliefTemperature;
-                                }
-                            }
-                            else
-                            {
-                                MessageBox.Show("this case can't be used. it has not 2 feed and 2 product", "Message Box");
-                                return;
-                            }
-                        }
-                        else if (ScenarioName.Contains("Fire"))
-                        {
-                            HXFireView v = new HXFireView();
-                            DrumFireVM vm = new DrumFireVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 2);
-                            v.DataContext = vm;
-                            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                            if (v.ShowDialog() == true)
-                            {
-                                SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
-                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
-                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (ScenarioName.Contains("Fire"))
-                        {
-                            AirCooledHXFireView v = new AirCooledHXFireView();
-                            DrumFireVM vm = new DrumFireVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 3);
-                            v.DataContext = vm;
-                            v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                            if (v.ShowDialog() == true)
-                            {
-                                SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
-                                SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                                SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
-                                SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
-                            }
-                        }
-                    }
-                }
-                else if (EqType == "StorageTank")
+                else
                 {
                     if (ScenarioName.Contains("Fire"))
                     {
-                        StorageTankFireView v = new StorageTankFireView();
-                        DrumFireVM vm = new DrumFireVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 1);
+                        AirCooledHXFireView v = new AirCooledHXFireView();
+                        DrumFireVM vm = new DrumFireVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 3);
                         v.DataContext = vm;
                         v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                         if (v.ShowDialog() == true)
                         {
-                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
+                            SelectedScenario.ReliefLoad = vm.model.ReliefLoad;
                             SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
                             SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                             SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                         }
                     }
                 }
-
-                else if (EqType == "ReactorLoop")
+            }
+            else if (EqType == "StorageTank")
+            {
+                if (ScenarioName.Contains("Fire"))
                 {
-                    if (ScenarioName.Contains("BlockedOutlet"))
+                    StorageTankFireView v = new StorageTankFireView();
+                    DrumFireVM vm = new DrumFireVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 1);
+                    v.DataContext = vm;
+                    v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    if (v.ShowDialog() == true)
                     {
-                        ReactorLoopBlockedOutletView v = new ReactorLoopBlockedOutletView();
-                        ReactorLoopCommonVM vm = new ReactorLoopCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 0);
-                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                        v.DataContext = vm;
-                        if (v.ShowDialog() == true)
-                        {
-                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
-                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
-                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
-                        }
-                    }
-                    else if (ScenarioName.Contains("Lossofreactorquench"))
-                    {
-                        LossOfReactorQuenchView v = new LossOfReactorQuenchView();
-                        ReactorLoopCommonVM vm = new ReactorLoopCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 1);
-                        v.DataContext = vm;
-                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                        if (v.ShowDialog() == true)
-                        {
-                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
-                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
-                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
-                        }
-                    }
-                    else if (ScenarioName.Contains("LossofLiquidFeed"))
-                    {
-                        LossOfColdFeedView v = new LossOfColdFeedView();
-                        GeneralFailureCommonVM vm = new GeneralFailureCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 2);                       
-                        v.DataContext = vm;
-                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                        if (v.ShowDialog() == true)
-                        {
-                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
-                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
-                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
-                        }
-                    }
-                    else if (ScenarioName.Contains("GeneralElectricPowerFailure"))
-                    {
-                        GeneralElectricPowerFailureView v = new GeneralElectricPowerFailureView();
-                        GeneralFailureCommonVM vm = new GeneralFailureCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 1);
-                        v.DataContext = vm;
-                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                        if (v.ShowDialog() == true)
-                        {
-                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
-                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
-                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
-                        }
-                    }
-                    else if (ScenarioName.Contains("GeneralCoolingWaterFailure"))
-                    {
-                        GeneralCoolingWaterFailureView v = new GeneralCoolingWaterFailureView();
-                        GeneralFailureCommonVM vm = new GeneralFailureCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 0);
-                        v.DataContext = vm;
-                        v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                        if (v.ShowDialog() == true)
-                        {
-                            SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
-                            SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
-                            SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
-                            SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
-                        }
+                        SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
+                        SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                        SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                        SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
                     }
                 }
-            
+            }
+
+            else if (EqType == "ReactorLoop")
+            {
+                if (ScenarioName.Contains("BlockedOutlet"))
+                {
+                    ReactorLoopBlockedOutletView v = new ReactorLoopBlockedOutletView();
+                    ReactorLoopCommonVM vm = new ReactorLoopCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 0);
+                    v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    v.DataContext = vm;
+                    if (v.ShowDialog() == true)
+                    {
+                        SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
+                        SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                        SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                        SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                    }
+                }
+                else if (ScenarioName.Contains("Lossofreactorquench"))
+                {
+                    LossOfReactorQuenchView v = new LossOfReactorQuenchView();
+                    ReactorLoopCommonVM vm = new ReactorLoopCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 1);
+                    v.DataContext = vm;
+                    v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    if (v.ShowDialog() == true)
+                    {
+                        SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
+                        SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                        SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                        SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                    }
+                }
+                else if (ScenarioName.Contains("LossofLiquidFeed"))
+                {
+                    LossOfColdFeedView v = new LossOfColdFeedView();
+                    GeneralFailureCommonVM vm = new GeneralFailureCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 2);
+                    v.DataContext = vm;
+                    v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    if (v.ShowDialog() == true)
+                    {
+                        SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
+                        SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                        SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                        SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                    }
+                }
+                else if (ScenarioName.Contains("GeneralElectricPowerFailure"))
+                {
+                    GeneralElectricPowerFailureView v = new GeneralElectricPowerFailureView();
+                    GeneralFailureCommonVM vm = new GeneralFailureCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 1);
+                    v.DataContext = vm;
+                    v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    if (v.ShowDialog() == true)
+                    {
+                        SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
+                        SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                        SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                        SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                    }
+                }
+                else if (ScenarioName.Contains("GeneralCoolingWaterFailure"))
+                {
+                    GeneralCoolingWaterFailureView v = new GeneralCoolingWaterFailureView();
+                    GeneralFailureCommonVM vm = new GeneralFailureCommonVM(ScenarioID, SourceFileInfo, SessionProtectedSystem, SessionPlant, DirPlant, DirProtectedSystem, 0);
+                    v.DataContext = vm;
+                    v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    if (v.ShowDialog() == true)
+                    {
+                        SelectedScenario.ReliefLoad = vm.model.dbmodel.ReliefLoad;
+                        SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
+                        SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
+                        SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                    }
+                }
+            }
+
         }
         private void CreateBlockedVaporOutlet(int ScenarioID, int OutletType)
         {
@@ -781,19 +781,27 @@ namespace ReliefProMain.ViewModel
                 IList<HeatSource> listHeatSource = dbhs.GetAllList(Session, s.ID);
                 foreach (HeatSource hs in listHeatSource)
                 {
-                    ScenarioHeatSource shs = scenarioHeatSourceDAL.GetModel(Session, hs.ID, ScenarioID);
+                    ScenarioHeatSource shs = scenarioHeatSourceDAL.GetModel(Session, hs.ID,false, ScenarioID);//判断当前source是否存在该表里
                     if (shs == null)
                     {
-                        //if (hs.HeatSourceType == "Feed/Bottom HX" || hs.HeatSourceType == "Fired Heater")
-                        //{
+                        shs = new ScenarioHeatSource();
+                        shs.HeatSourceID = hs.ID;
+                        shs.DutyFactor = 1;
+                        shs.ScenarioStreamID = tss.ID;
+                        shs.ScenarioID = ScenarioID;
+                        shs.HeatSourceType = hs.HeatSourceType;
+                        scenarioHeatSourceDAL.Add(shs, SessionProtectedSystem);
+                        if ( hs.HeatSourceType == "Fired Heater")
+                        {
                             shs = new ScenarioHeatSource();
                             shs.HeatSourceID = hs.ID;
                             shs.DutyFactor = 0;
                             shs.ScenarioStreamID = tss.ID;
                             shs.ScenarioID = ScenarioID;
                             shs.HeatSourceType = hs.HeatSourceType;
+                            shs.IsFired = true;
                             scenarioHeatSourceDAL.Add(shs, SessionProtectedSystem);
-                        //}
+                        }
                     }
 
                 }
@@ -1282,6 +1290,9 @@ namespace ReliefProMain.ViewModel
                     factor = model.AutomaticControlsFailure;
                     break;
             }
+            if (factor == null)
+                return 0;
+            else
             return double.Parse(factor);
         }
 

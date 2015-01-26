@@ -32,7 +32,7 @@ namespace ReliefProMain.ViewModel.Drums
             DrumSizeBLL fluidBll = new DrumSizeBLL(SessionPS, SessionPF);
 
             var sizeModel = fluidBll.GetSizeModel(DrumFireCalcID);
-            sizeModel = fluidBll.ReadConvertModel(sizeModel);
+            sizeModel = fluidBll.ReadConvertModel(sizeModel);           
             model = new DrumSizeModel(sizeModel);
             //if(string.IsNullOrEmpty(model.Orientation))
 

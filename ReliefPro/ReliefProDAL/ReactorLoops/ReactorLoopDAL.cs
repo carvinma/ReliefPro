@@ -37,7 +37,7 @@ namespace ReliefProDAL.ReactorLoops
         }
         public void Save(ISession session, ReactorLoop model, IList<ReactorLoopDetail> lstDetailModel, List<Source> lstStreamSource, List<ReactorLoopEqDiff> lstEqDiff)
         {
-                       
+            session.Clear();           
             using (ITransaction tx = session.BeginTransaction())
             {
                 try

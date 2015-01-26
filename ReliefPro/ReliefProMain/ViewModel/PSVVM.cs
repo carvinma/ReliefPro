@@ -40,6 +40,8 @@ using ReliefProBLL;
 using ReliefProDAL.HXs;
 using ReliefProModel.HXs;
 using ReliefProMain.Util;
+using ReliefProDAL.ReactorLoops;
+using ReliefProModel.ReactorLoops;
 
 namespace ReliefProMain.ViewModel
 {
@@ -158,10 +160,10 @@ namespace ReliefProMain.ViewModel
             SourceFileInfo = sourceFileInfo;
             ValveTypes = GetValveTypes();
             DischargeTos = GetDischargeTos();
-            Locations = GetLocations();
-            
+            //Locations = GetLocations();
+
             uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
-            
+
             if (eqType == "Tower")
             {
                 ReflexDrumVisible = "Visible";
@@ -188,45 +190,62 @@ namespace ReliefProMain.ViewModel
                 psv.Location_Color = ColorBorder.green.ToString();
                 psv.LocationDescription_Color = ColorBorder.red.ToString();
             }
-            CurrentModel = new PSVModel(psv,sessionPlant,sourceFileInfo.FileName);
+            CurrentModel = new PSVModel(psv, sessionPlant, sourceFileInfo.FileName);
+            CurrentModel.LocationDescriptions = GetLocationDescriptions(EqType);
             if (psv.ID == 0)
             {
                 CurrentModel.ValveType = ValveTypes[0];
+                CurrentModel.DischargeTo = DischargeTos[0];
                 if (CurrentModel.LocationDescriptions != null)
                 {
                     CurrentModel.LocationDescription = CurrentModel.LocationDescriptions[0];
                 }
-            }
-            if (DischargeTos.Count > 0)
-            {
-                if (psv.ID == 0)
+                CurrentModel.Location = eqName;
+                if (eqType == "ReactorLoop")
                 {
-                    CurrentModel.DischargeTo = DischargeTos[0];
+                    if (string.IsNullOrEmpty(eqName))
+                    {
+                        ReactorLoopDAL reactorLoopDAL = new ReactorLoopDAL();
+                        ReactorLoop reactor = reactorLoopDAL.GetModel(SessionProtectedSystem);
+                        CurrentModel.Location = reactor.ColdHighPressureSeparator;
+                        EqName = reactor.ColdHighPressureSeparator;
+                    }
+                    
                 }
             }
-
-            if (eqType == "StorageTank" || EqType=="ReactorLoop")
-            {
-                if (psv.ID == 0)
-                {
-                    CurrentModel.Location = Locations[0]; 
-                }
-            }
-            else
-            {
-                if (psv.ID == 0)
-                {
-                    CurrentModel.Location = eqName;
-                }              
-            }
- 
             CurrentModel.CriticalPressureUnit = uomEnum.UserPressure;
             CurrentModel.CriticalTemperatureUnit = uomEnum.UserTemperature;
             CurrentModel.PSVPressureUnit = uomEnum.UserPressure;
             CurrentModel.DrumPressureUnit = uomEnum.UserPressure;
             ReadConvert();
         }
-        
+
+        public ObservableCollection<string> GetLocationDescriptions(string eqType)
+        {
+            ObservableCollection<string> list = new ObservableCollection<string>();
+            if (eqType == "HX")
+            {
+                HeatExchangerDAL heatExchangerDAL = new HeatExchangerDAL();
+                HeatExchanger heatExchanger = heatExchangerDAL.GetModel(SessionProtectedSystem);
+
+                if (heatExchanger.HXType == "Shell-Tube")
+                {
+                    list.Add("Shell");
+                }
+                list.Add("Tube");
+            }
+            else if (eqType == "AirCooledHX")
+            {
+                list.Add("Tube");
+            }
+            else
+            {
+                list.Add("Top");
+                list.Add("Bottom");
+            }
+            return list;
+        }
+
         /// <summary>
         /// 读取时的单位转换
         /// </summary>
@@ -334,7 +353,7 @@ namespace ReliefProMain.ViewModel
                     {
                         TowerDAL towerdal = new TowerDAL();
                         Tower tower = towerdal.GetModel(SessionProtectedSystem);
-                        if (tower.TowerType == "Distillation")
+                        if (tower.TowerType == "Distillation" || tower.TowerType == "Absorbent Regenerator")
                         {
                             CreateTowerPSV();
                         }

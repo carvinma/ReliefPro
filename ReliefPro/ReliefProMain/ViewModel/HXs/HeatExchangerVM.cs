@@ -415,6 +415,17 @@ namespace ReliefProMain.ViewModel
                 ColorImport = ColorBorder.red.ToString();
                 return;
             }
+            if (HXType == "Air cooled")
+            {
+                if (TubeFeedStreams == string.Empty)
+                {
+                    MessageBox.Show("You must choose Tube Feed Streams.", "Message Box");
+                    return;
+                }
+            }
+
+
+
             SourceFileDAL sfdal = new SourceFileDAL();
             SourceFileInfo = sfdal.GetModel(FileName, SessionPlant);
             if (HXType == "Shell-Tube")
@@ -458,6 +469,7 @@ namespace ReliefProMain.ViewModel
                 }
                 else
                 {
+                    ProIIStreamDataDAL proiistreamdal = new ProIIStreamDataDAL();
                     CustomStreamDAL csdal=new CustomStreamDAL();
                     List<CustomStream> lstFeed=new List<CustomStream>();
                     List<string> lstFeedName=new List<string>();
@@ -465,7 +477,13 @@ namespace ReliefProMain.ViewModel
                     lstFeedName=hotinlets.ToList();
                     foreach(string s in lstFeedName)
                     {
-                        CustomStream cs=csdal.GetModel(SessionProtectedSystem,s);
+                        if (s == string.Empty)
+                        {
+                            MessageBox.Show("Air Cooled feed temperature must be greater than product temperature.", "Message Box");
+                            return;
+                        }
+                        ProIIStreamData data = proiistreamdal.GetModel(SessionPlant, s, SourceFileInfo.FileName);
+                        CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(data);
                         lstFeed.Add(cs);
                     }
 
@@ -515,7 +533,7 @@ namespace ReliefProMain.ViewModel
                     Create();
                 }
             }
-
+            SourceFileInfo = sfdal.GetModel(CurrentHX.SourceFile, SessionPlant);
             System.Windows.Window wd = obj as System.Windows.Window;
 
             if (wd != null)

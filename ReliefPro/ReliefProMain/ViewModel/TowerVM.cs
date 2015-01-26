@@ -731,10 +731,12 @@ namespace ReliefProMain.ViewModel
                         //SessionProtectedSystem.Flush();
                     }
                 }
+                SourceFileDAL sfdal = new SourceFileDAL();
+                SourceFileInfo = sfdal.GetModel(tower.SourceFile, SessionPlant);
                 System.Windows.Window wd = obj as System.Windows.Window;
                 if (wd != null)
                 {
-                    wd.DialogResult = false;
+                    wd.DialogResult = true;
                 }
             }
         }
@@ -801,7 +803,7 @@ namespace ReliefProMain.ViewModel
                 }
 
 
-
+                bool IsHasCondenser = false;
                 foreach (TowerHX hx in Condensers)
                 {
                     dbHx.Add(hx, SessionProtectedSystem);
@@ -814,6 +816,7 @@ namespace ReliefProMain.ViewModel
                     detail.Medium = "Cooling Water";
                     detail.MediumSideFlowSource = "Supply Header";
                     dbDetail.Add(detail, SessionProtectedSystem);
+                    IsHasCondenser = true;
                 }
                 foreach (TowerHX hx in HxCondensers)
                 {
@@ -855,14 +858,16 @@ namespace ReliefProMain.ViewModel
                     dbDetail.Add(detail, SessionProtectedSystem);
                 }
 
-                Accumulator ac = new Accumulator();
-                ac.AccumulatorName = "AC1";
-                ac.AccumulatorName_Color = ColorBorder.green.ToString();
-                ac.Length_Color = ColorBorder.green.ToString();
-                ac.NormalLiquidLevel_Color = ColorBorder.green.ToString();
-                ac.Diameter_Color = ColorBorder.green.ToString();
-                dbAc.Add(ac, SessionProtectedSystem);
-
+                if (IsHasCondenser)
+                {
+                    Accumulator ac = new Accumulator();
+                    ac.AccumulatorName = "AC1";
+                    ac.AccumulatorName_Color = ColorBorder.green.ToString();
+                    ac.Length_Color = ColorBorder.green.ToString();
+                    ac.NormalLiquidLevel_Color = ColorBorder.green.ToString();
+                    ac.Diameter_Color = ColorBorder.green.ToString();
+                    dbAc.Add(ac, SessionProtectedSystem);
+                }
 
                 if (SideColumns != null)
                 {

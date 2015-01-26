@@ -150,6 +150,7 @@ namespace UOMLib
         }
         public void SaveCurrent(IList<BasicUnitCurrent> lst, ISession SessionPlan)
         {
+            SessionPlan.Clear();
             using (ITransaction tx = SessionPlan.BeginTransaction())
             {
                 try

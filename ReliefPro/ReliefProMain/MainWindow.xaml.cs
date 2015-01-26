@@ -522,7 +522,7 @@ namespace ReliefProMain
             ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
             if (list.Count > 0)
             {
-                MessageBoxResult r = MessageBox.Show("Are you sure you want to close all plants?", "", MessageBoxButton.YesNoCancel);
+                MessageBoxResult r = MessageBox.Show("Are you sure you want to save all plants ?", "", MessageBoxButton.YesNoCancel);
                 if (r == MessageBoxResult.Yes)
                 {
                     var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
@@ -549,7 +549,31 @@ namespace ReliefProMain
                     itemSavePlant.IsEnabled = false;
                     itemSavePlantAs.IsEnabled = false;
                     itemUOM.IsEnabled = false;
+                }
+                else if (r == MessageBoxResult.No)
+                {
+                    var firstDocumentPane = dockManager.Layout.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+                    if (firstDocumentPane != null)
+                    {
+                        if (firstDocumentPane.Children.Count > 0)
+                        {
+                            MessageBox.Show("Please close all documents first!", "Message Box");
+                            return;
+                        }
+                    }                    
+                    list.Clear();
+                    btnReport.IsEnabled = false;
+                    btnUOM.IsEnabled = false;
+                    btnClosePlant.IsEnabled = false;
+                    btnGlobalDefault.IsEnabled = false;
+                    btnImport.IsEnabled = false;
+                    btnSavePlant.IsEnabled = false;
 
+                    itemClosePlant.IsEnabled = false;
+                    itemImport.IsEnabled = false;
+                    itemSavePlant.IsEnabled = false;
+                    itemSavePlantAs.IsEnabled = false;
+                    itemUOM.IsEnabled = false;
                 }
             }
         }

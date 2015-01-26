@@ -30,6 +30,7 @@ namespace ReliefProDAL.ReactorLoops
         }
         public void Save(ISession session, GeneralFailureCommon model, IList<GeneralFailureCommonDetail> lstDetailModel)
         {
+            session.Clear();
             using (ITransaction tx = session.BeginTransaction())
             {
                 try

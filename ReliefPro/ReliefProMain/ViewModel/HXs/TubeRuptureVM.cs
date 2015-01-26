@@ -386,7 +386,7 @@ namespace ReliefProMain.ViewModel.HXs
                                 ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
                                 ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
                                 ProIIEqData flash = reader.GetEqInfo("Flash", "F_1");
-                                reader.ReleaseProIIReader();
+                                
 
                                 string inpFile = dirLatent + @"\a.inp";
                                 string[]  lines= File.ReadAllLines(inpFile);

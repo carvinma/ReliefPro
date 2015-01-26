@@ -319,7 +319,7 @@ namespace ReliefProMain.ViewModel.HXs
             string content = PROIIFileOperator.getUsableContent(coldList, tempdir);
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
             IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 3, "0",heathx.HXName, normalColdInletList, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            string tray1_f = fcalc.Calculate(content, 1, reliefPressure.ToString(), 3, "0",HeatMethod, normalColdInletList, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)

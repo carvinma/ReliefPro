@@ -50,6 +50,7 @@ namespace ReliefProDAL.Compressors
         }
         public void Save(ISession session, Compressor model)
         {
+            session.Clear();
             using (ITransaction tx = session.BeginTransaction())
             {
                 try

@@ -17,6 +17,7 @@ namespace ReliefProDAL.GlobalDefault
         }
         public void SaveGlobalDefault(ISession session, List<FlareSystem> lstFlarem, ConditionsSettings conditionsSettings)
         {
+            session.Clear();
             using (ITransaction tx = session.BeginTransaction())
             {
                 try

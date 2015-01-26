@@ -46,6 +46,7 @@ namespace ReliefProDAL.HXs
         }
         public void Save(ISession session, TubeRupture model)
         {
+            session.Clear();
             using (ITransaction tx = session.BeginTransaction())
             {
                 try

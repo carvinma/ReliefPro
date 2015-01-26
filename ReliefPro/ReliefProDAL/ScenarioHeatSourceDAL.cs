@@ -11,27 +11,27 @@ namespace ReliefProDAL
     public class ScenarioHeatSourceDAL : IBaseDAL<ScenarioHeatSource>
     {
 
-        public IList<ScenarioHeatSource> GetScenarioStreamHeatSourceList(ISession session, int ScenarioStreamID, string HeatSourceType)
+        //public IList<ScenarioHeatSource> GetScenarioStreamHeatSourceList(ISession session, int ScenarioStreamID, string HeatSourceType)
+        //{
+        //    IList<ScenarioHeatSource> list = null;
+        //    try
+        //    {
+        //        session.Clear();
+        //        list = session.CreateCriteria<ScenarioHeatSource>().Add(Expression.Eq("ScenarioStreamID", ScenarioStreamID)).Add(Expression.Eq("HeatSourceType", HeatSourceType)).List<ScenarioHeatSource>();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return list;
+        //}
+        public IList<ScenarioHeatSource> GetScenarioStreamHeatSourceList(ISession session, int ScenarioStreamID,bool IsFired)
         {
             IList<ScenarioHeatSource> list = null;
             try
             {
                 session.Clear();
-                list = session.CreateCriteria<ScenarioHeatSource>().Add(Expression.Eq("ScenarioStreamID", ScenarioStreamID)).Add(Expression.Eq("HeatSourceType", HeatSourceType)).List<ScenarioHeatSource>();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return list;
-        }
-        public IList<ScenarioHeatSource> GetScenarioStreamHeatSourceList(ISession session, int ScenarioStreamID)
-        {
-            IList<ScenarioHeatSource> list = null;
-            try
-            {
-                session.Clear();
-                list = session.CreateCriteria<ScenarioHeatSource>().Add(Expression.Eq("ScenarioStreamID", ScenarioStreamID)).List<ScenarioHeatSource>();
+                list = session.CreateCriteria<ScenarioHeatSource>().Add(Expression.Eq("IsFired", IsFired)).Add(Expression.Eq("ScenarioStreamID", ScenarioStreamID)).List<ScenarioHeatSource>();
             }
             catch (Exception ex)
             {
@@ -68,14 +68,14 @@ namespace ReliefProDAL
             return list;
         }
 
-        public ScenarioHeatSource GetModel(ISession session, int HeatSourceID, int ScenarioID)
+        public ScenarioHeatSource GetModel(ISession session, int HeatSourceID,bool IsFired, int ScenarioID)
         {
             ScenarioHeatSource model = null;
             IList<ScenarioHeatSource> list = null;
             try
             {
                 session.Clear();
-                list = session.CreateCriteria<ScenarioHeatSource>().Add(Expression.Eq("HeatSourceID", HeatSourceID)).Add(Expression.Eq("ScenarioID", ScenarioID)).List<ScenarioHeatSource>();
+                list = session.CreateCriteria<ScenarioHeatSource>().Add(Expression.Eq("IsFired", IsFired)).Add(Expression.Eq("HeatSourceID", HeatSourceID)).Add(Expression.Eq("ScenarioID", ScenarioID)).List<ScenarioHeatSource>();
                 if (list.Count > 0)
                 {
                     model = list[0];

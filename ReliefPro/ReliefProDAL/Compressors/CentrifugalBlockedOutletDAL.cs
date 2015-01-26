@@ -36,6 +36,7 @@ namespace ReliefProDAL.Compressors
         }
         public void Save(ISession session, CentrifugalBlockedOutlet model)
         {
+            session.Clear();
             using (ITransaction tx = session.BeginTransaction())
             {
                 try

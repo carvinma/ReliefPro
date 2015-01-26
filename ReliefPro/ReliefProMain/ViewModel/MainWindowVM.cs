@@ -342,7 +342,7 @@ namespace ReliefProMain.ViewModel
             {
                 return;
             }
-            MessageBoxResult result = MessageBox.Show("Are your sure clear all plants?", "Message Box", MessageBoxButton.OKCancel);
+            MessageBoxResult result = MessageBox.Show("Are your sure close all plants?", "Message Box", MessageBoxButton.OKCancel);
             if (result == MessageBoxResult.OK)
             {
                 Plants.Clear();

@@ -969,7 +969,8 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                             Create();
                         }
                     }
-
+                    SourceFileDAL sfdal = new SourceFileDAL();
+                    SourceFileInfo = sfdal.GetModel(model.SourceFile, SessionPF);
                     wd.DialogResult = true;
                 }
             }

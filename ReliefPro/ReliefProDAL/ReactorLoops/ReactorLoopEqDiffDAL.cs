@@ -21,6 +21,7 @@ namespace ReliefProDAL.ReactorLoops
         }
         public void Save(ISession session,int ReactorLoopID, List<ReactorLoopEqDiff> lst)
         {
+            session.Clear();
             using (ITransaction tx = session.BeginTransaction())
             {
                 try

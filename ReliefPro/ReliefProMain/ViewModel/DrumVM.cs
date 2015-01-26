@@ -331,7 +331,8 @@ namespace ReliefProMain.ViewModel
                     Create();
                 }
             }
-
+            SourceFileDAL sfdal = new SourceFileDAL();
+            SourceFileInfo = sfdal.GetModel(SourceFileName, SessionPlant);
 
             System.Windows.Window wd = obj as System.Windows.Window;
 

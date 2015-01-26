@@ -37,6 +37,7 @@ namespace ReliefProDAL.HXs
         }
         public void Save(ISession session, HXBlockedIn model)
         {
+            session.Clear();
             using (ITransaction tx = session.BeginTransaction())
             {
                 try

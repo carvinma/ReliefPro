@@ -37,6 +37,7 @@ namespace ReliefProDAL.Drums
         }
         public void SaveDrumSize(ISession session, DrumSize model)
         {
+            session.Clear();
             using (ITransaction tx = session.BeginTransaction())
             {
                 try

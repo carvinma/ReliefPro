@@ -37,6 +37,7 @@ namespace ReliefProDAL.Drums
         }
         public void SaveDrumFireFluid(ISession session, DrumFireFluid model)
         {
+            session.Clear();
             using (ITransaction tx = session.BeginTransaction())
             {
                 try

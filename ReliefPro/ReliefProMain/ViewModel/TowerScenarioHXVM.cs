@@ -378,7 +378,7 @@ namespace ReliefProMain.ViewModel
                     {
                         double weightflow = s.WeightFlow;
                         double bulkdensityact = s.BulkDensityAct;
-                        if (s.ProdType == "2" || s.ProdType == "4" || s.ProdType == "6")
+                        if ((s.Tray==1 && s.ProdType == "2") || s.ProdType == "4" || s.ProdType == "6")
                         {
                             r = r + weightflow / bulkdensityact;
                         }

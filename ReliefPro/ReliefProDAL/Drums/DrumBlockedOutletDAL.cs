@@ -37,6 +37,7 @@ namespace ReliefProDAL.Drums
         }
         public void SaveDrumBlockedOutlet(ISession session, DrumBlockedOutlet model)
         {
+            session.Clear();
             using (ITransaction tx = session.BeginTransaction())
             {
                 try

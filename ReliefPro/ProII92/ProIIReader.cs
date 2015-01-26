@@ -386,7 +386,13 @@ namespace ProII92
         public ProIIStreamData GetSteamInfo(string name)
         {
             ProIIStreamData data = new ProIIStreamData();
-            bool bCalulate = cp2File.CalculateStreamProps(name);
+            try
+            {
+                bool bCalulate = cp2File.CalculateStreamProps(name);
+            }
+            catch (Exception ex)
+            {
+            }
             data.SourceFile = przFileName;
             data.StreamName = name;
             data.ProdType = "";

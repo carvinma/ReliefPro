@@ -382,11 +382,16 @@ namespace ReliefProBLL
                         this.PlantName = name[name.Length -2];
                             SessionPlant = findSession;
                             GetProcessUnitName(findSession);
+                            //findSession.Close();
+                            //findSession.Dispose();
                     }
                     else
                     {
                         GetPSVInfo(findSession);
                         GetScenarioInfo(findSession);
+                        findSession.Close();
+                        findSession.Dispose();
+                        
                     }
                 }
 
@@ -395,12 +400,45 @@ namespace ReliefProBLL
             InitInfo();
         }
 
+        private void releaseObject(object obj)
+        {
+            try
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(obj);
+                //obj = null;
+            }
+            catch (Exception ex)
+            {
+                //obj = null;
+                //MessageBox.Show("Unable to release the Object " + ex.ToString());
+            }
+            finally
+            {
+                GC.ReRegisterForFinalize(obj);
+                obj = null;
+            }
+        }
+
         public void ClearSession()
         {
-            foreach (var session in lstSession)
+            try
             {
-                session.Item2.Close();
-                session.Item2.Dispose();
+                foreach (var session in lstSession)
+                {
+                    session.Item2.Clear();
+
+                    session.Item2.Close();
+                    session.Item2.Dispose();
+
+                    if (session.Item2 != null)
+                    {
+                        releaseObject(session.Item2.Connection);
+                        releaseObject(session.Item2);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
             }
         }
         #endregion

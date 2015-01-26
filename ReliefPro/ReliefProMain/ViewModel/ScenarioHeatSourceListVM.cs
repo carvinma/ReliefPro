@@ -59,7 +59,22 @@ namespace ReliefProMain.ViewModel
         /// <param name="SessionPlant"></param>
         /// <param name="SessionProtectedSystem"></param>
         /// <param name="HeatSourceType">1:FB 2Fired Heater</param>
-        public ScenarioHeatSourceListVM(int ScenarioStreamID, SourceFile sourceFileInfo, ISession SessionPlant, ISession SessionProtectedSystem,string HeatSourceType)
+        //public ScenarioHeatSourceListVM(int ScenarioStreamID, SourceFile sourceFileInfo, ISession SessionPlant, ISession SessionProtectedSystem,string HeatSourceType)
+        //{
+        //    this.SessionPlant = SessionPlant;
+        //    uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
+        //    this.ScenarioStreamID = ScenarioStreamID;
+
+        //    this.SessionProtectedSystem = SessionProtectedSystem;
+        //    SourceFileInfo = sourceFileInfo;
+        //    db = new ScenarioHeatSourceDAL();
+        //    dbHS = new HeatSourceDAL();
+        //    HeatSources = GetHeatSources(ScenarioStreamID,HeatSourceType);
+        //    if (HeatSources.Count > 0)
+        //        SelectedHeatSource = HeatSources[0];
+        //}
+
+        public ScenarioHeatSourceListVM(int ScenarioStreamID, SourceFile sourceFileInfo, ISession SessionPlant, ISession SessionProtectedSystem,bool IsFired)
         {
             this.SessionPlant = SessionPlant;
             uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
@@ -69,25 +84,13 @@ namespace ReliefProMain.ViewModel
             SourceFileInfo = sourceFileInfo;
             db = new ScenarioHeatSourceDAL();
             dbHS = new HeatSourceDAL();
-            HeatSources = GetHeatSources(ScenarioStreamID,HeatSourceType);
+            HeatSources = GetHeatSources(ScenarioStreamID, IsFired);
             if (HeatSources.Count > 0)
                 SelectedHeatSource = HeatSources[0];
         }
 
-        public ScenarioHeatSourceListVM(int ScenarioStreamID, SourceFile sourceFileInfo, ISession SessionPlant, ISession SessionProtectedSystem)
-        {
-            this.SessionPlant = SessionPlant;
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
-            this.ScenarioStreamID = ScenarioStreamID;
 
-            this.SessionProtectedSystem = SessionProtectedSystem;
-            SourceFileInfo = sourceFileInfo;
-            db = new ScenarioHeatSourceDAL();
-            dbHS = new HeatSourceDAL();
-            HeatSources = GetHeatSources(ScenarioStreamID);
-            if (HeatSources.Count > 0)
-                SelectedHeatSource = HeatSources[0];
-        }
+       
 
         private ICommand _CalculateCommand;
         public ICommand CalculateCommand
@@ -150,26 +153,26 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private ObservableCollection<ScenarioHeatSourceModel> GetHeatSources(int ScenarioStreamID,string HeatSourceType)
-        {
-            ObservableCollection<ScenarioHeatSourceModel> list = new ObservableCollection<ScenarioHeatSourceModel>();
-            IList<ScenarioHeatSource> eqs = db.GetScenarioStreamHeatSourceList(SessionProtectedSystem, ScenarioStreamID, HeatSourceType);
-            foreach (ScenarioHeatSource eq in eqs)
-            {
-                HeatSource hs = dbHS.GetModel(eq.HeatSourceID, SessionProtectedSystem);
-                ScenarioHeatSourceModel model = new ScenarioHeatSourceModel(eq);
-                model.HeatSourceName = hs.HeatSourceName;
-                model.HeatSourceType = hs.HeatSourceType;
-                model.Duty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, hs.Duty);
-                list.Add(model);
-            }
-            return list;
-        }
+        //private ObservableCollection<ScenarioHeatSourceModel> GetHeatSources(int ScenarioStreamID,string HeatSourceType)
+        //{
+        //    ObservableCollection<ScenarioHeatSourceModel> list = new ObservableCollection<ScenarioHeatSourceModel>();
+        //    IList<ScenarioHeatSource> eqs = db.GetScenarioStreamHeatSourceList(SessionProtectedSystem, ScenarioStreamID, HeatSourceType);
+        //    foreach (ScenarioHeatSource eq in eqs)
+        //    {
+        //        HeatSource hs = dbHS.GetModel(eq.HeatSourceID, SessionProtectedSystem);
+        //        ScenarioHeatSourceModel model = new ScenarioHeatSourceModel(eq);
+        //        model.HeatSourceName = hs.HeatSourceName;
+        //        model.HeatSourceType = hs.HeatSourceType;
+        //        model.Duty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, hs.Duty);
+        //        list.Add(model);
+        //    }
+        //    return list;
+        //}
 
-        private ObservableCollection<ScenarioHeatSourceModel> GetHeatSources(int ScenarioStreamID)
+        private ObservableCollection<ScenarioHeatSourceModel> GetHeatSources(int ScenarioStreamID,bool IsFired)
         {
             ObservableCollection<ScenarioHeatSourceModel> list = new ObservableCollection<ScenarioHeatSourceModel>();
-            IList<ScenarioHeatSource> eqs = db.GetScenarioStreamHeatSourceList(SessionProtectedSystem, ScenarioStreamID);
+            IList<ScenarioHeatSource> eqs = db.GetScenarioStreamHeatSourceList(SessionProtectedSystem, ScenarioStreamID,IsFired);
             foreach (ScenarioHeatSource eq in eqs)
             {
                 HeatSource hs = dbHS.GetModel(eq.HeatSourceID, SessionProtectedSystem);

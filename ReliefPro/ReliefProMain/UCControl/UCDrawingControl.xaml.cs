@@ -1182,7 +1182,7 @@ namespace ReliefProMain.View
                                 HeatExchanger heatExchanger = heatExchangerDAL.GetModel(SessionProtectedSystem);
                                 if (heatExchanger != null)
                                 {
-                                    EqType = "HX";
+                                    EqType = "HX";                                    
                                     EqName = heatExchanger.HXName;
                                     SourceFileInfo = sfdal.GetModel(heatExchanger.SourceFile, SessionPlant);
                                 }
@@ -1203,7 +1203,7 @@ namespace ReliefProMain.View
                                 if (reactor != null)
                                 {
                                     EqType = "ReactorLoop";
-                                    EqName = "";
+                                    EqName = reactor.ColdHighPressureSeparator;//这是为了显示locaiton 名字
                                     SourceFileInfo = sfdal.GetModel(reactor.SourceFile, SessionPlant);
                                 }
                                 break;

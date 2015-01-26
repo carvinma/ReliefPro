@@ -77,6 +77,7 @@ namespace ReliefProMain.ViewModel.StorageTanks
                 InitUnit();
                 ReadConvert();
                 ColorImport = ColorBorder.blue.ToString();
+                
             }
             else
             {
@@ -198,8 +199,7 @@ namespace ReliefProMain.ViewModel.StorageTanks
                     db.Update(CurrentModel.model, SessionProtectedSystem);
                     StorageTankDAL storageTankDAL = new StorageTankDAL();
                     StorageTank tank = storageTankDAL.GetModel(SessionProtectedSystem);
-                    tank.StorageTankName = CurrentModel.model.StreamName;
-                    tank.SourceFile = FileName;
+                    tank.StorageTankName = CurrentModel.model.StreamName;                    
                     storageTankDAL.Update(tank, SessionProtectedSystem);
                     ProtectedSystemDAL psDAL = new ProtectedSystemDAL();
                     ProtectedSystem ps = psDAL.GetModel(SessionProtectedSystem);
@@ -228,6 +228,9 @@ namespace ReliefProMain.ViewModel.StorageTanks
                          ProtectedSystem ps = new ProtectedSystem();
                          ps.PSType = 5;
                          psDAL.Add(ps, SessionProtectedSystem);
+
+                         SourceFileDAL sfdal = new SourceFileDAL();
+                         SourceFileInfo = sfdal.GetModel(tank.SourceFile, SessionPlant);
 
                      }
                 }

@@ -36,6 +36,7 @@ namespace ReliefProDAL.Drums
         }
         public void SaveDrumPressuring(ISession session, DrumDepressuring model)
         {
+            session.Clear();
             using (ITransaction tx = session.BeginTransaction())
             {
                 try

@@ -37,6 +37,7 @@ namespace ReliefProDAL.ReactorLoops
         }
         public void Save(ISession session, ReactorLoopCommon model)
         {
+            session.Clear();
             using (ITransaction tx = session.BeginTransaction())
             {
                 try

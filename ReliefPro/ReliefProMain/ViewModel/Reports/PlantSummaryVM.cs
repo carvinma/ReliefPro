@@ -103,7 +103,7 @@ namespace ReliefProMain.ViewModel.Reports
                 selectedDischargeTo = listDischargeTo.First().FlareName;
                 ChangerDischargeTo(selectedDischargeTo);
             }
-            if (report != null) report.ClearSession();
+            //if (report != null) report.ClearSession();
         }
         public PlantSummaryVM(ObservableCollection<PlantVM> plantCollection)
         {
@@ -353,6 +353,6 @@ namespace ReliefProMain.ViewModel.Reports
             }
         }
 
-
+        
     }
 }

@@ -135,7 +135,7 @@ namespace ReliefProMain.ViewModel
         {
             int SCStreamID = int.Parse(obj.ToString());
             ScenarioHeatSourceListView v = new ScenarioHeatSourceListView();
-            ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SCStreamID, SourceFileInfo, SessionPlant, SessionProtectedSystem);
+            ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SCStreamID, SourceFileInfo, SessionPlant, SessionProtectedSystem,false);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             if (v.ShowDialog() == true)
@@ -173,7 +173,7 @@ namespace ReliefProMain.ViewModel
             if (scs.FlowStop || scs.FlowCalcFactor == 0)
             {
                 ScenarioResidualListView v = new ScenarioResidualListView();
-                ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SCStreamID, SourceFileInfo, SessionPlant, SessionProtectedSystem, "Fired Heater");
+                ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SCStreamID, SourceFileInfo, SessionPlant, SessionProtectedSystem, true);
                 v.DataContext = vm;
                 v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 if (v.ShowDialog() == true)
@@ -186,7 +186,7 @@ namespace ReliefProMain.ViewModel
                 if (MessageBox.Show("Are you sure to edit it?", "Message Box", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     ScenarioResidualListView v = new ScenarioResidualListView();
-                    ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SCStreamID, SourceFileInfo, SessionPlant, SessionProtectedSystem, "Fired Heater");
+                    ScenarioHeatSourceListVM vm = new ScenarioHeatSourceListVM(SCStreamID, SourceFileInfo, SessionPlant, SessionProtectedSystem, true);
                     v.DataContext = vm;
                     v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                     if (v.ShowDialog() == true)

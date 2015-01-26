@@ -25,6 +25,7 @@ namespace ReliefProDAL.Reports
 
         public void Save(ISession session, PUsummary model)
         {
+            session.Clear();
             using (ITransaction tx = session.BeginTransaction())
             {
                 try

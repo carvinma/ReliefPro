@@ -21,6 +21,7 @@ namespace ReliefProDAL.Towers
 
         public void Save(ISession session, BlockedVaporOutlet model)
         {
+            session.Clear();
             using (ITransaction tx = session.BeginTransaction())
             {
                 try

@@ -36,6 +36,7 @@ namespace ReliefProDAL.Compressors
         }
         public void Save(ISession session, PistonBlockedOutlet model)
         {
+            session.Clear();
             using (ITransaction tx = session.BeginTransaction())
             {
                 try
