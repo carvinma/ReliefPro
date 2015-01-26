@@ -18,7 +18,7 @@ namespace ExportLib
         private List<string> listScenario = new List<string> { "PowerDS", "WaterDS", "AirDS", "SteamDS", "FireDS" };
         private List<string> listProperty = new List<string> { "ReliefLoad", "Phase", "ReliefMW", "ReliefTemperature", "ReliefZ" };
 
-        public void ExportToExcelPUsummary(string plantname, string processunitName, List<PUsummaryGridDS> ReportDs, string fileName)
+        public void ExportToExcelPUsummary(string plantname, string processunitName,string desc,string remark, List<PUsummaryGridDS> ReportDs, string fileName)
         {
             GC.Collect();//强制回收垃圾
             string saveFileName = string.Empty;
@@ -54,14 +54,14 @@ namespace ExportLib
                 List<PUsummaryGridDS> sheetReportDs = ReportDs.Where(p => p.psv.DischargeTo == o.Key).ToList();
                 ReportBLL reportBLL = new ReportBLL();
                 sheetReportDs = reportBLL.CalcMaxSum(sheetReportDs);
-                worksheet = CreateSheet( plantname, processunitName,worksheet, sheetReportDs);
+                worksheet = CreateSheet( plantname, processunitName,desc,remark,worksheet, sheetReportDs);
                 worksheetNum++;
             }
             xBk.Worksheets.Add();
             xSt = (_Worksheet)xBk.ActiveSheet;
             xSt.Name = "ALL";
             excel.ActiveWindow.DisplayGridlines = false;//不显示网格线 
-            xSt = CreateSheet(plantname, processunitName,xSt, ReportDs);
+            xSt = CreateSheet(plantname, processunitName, desc, remark,xSt, ReportDs);
 
             #region  清理垃圾，回收资源
             xBk.SaveCopyAs(saveFileName);
@@ -76,7 +76,7 @@ namespace ExportLib
             GC.Collect();
             #endregion
         }
-        private _Worksheet CreateSheet(string plantname, string processunitName,_Worksheet xSt, List<PUsummaryGridDS> ReportDs)
+        private _Worksheet CreateSheet(string plantname, string processunitName,string desc,string remark,_Worksheet xSt, List<PUsummaryGridDS> ReportDs)
         {
             #region 杂乱的标题
             Range rangePlant = xSt.get_Range("B3", "D3");
@@ -95,10 +95,12 @@ namespace ExportLib
             rangeProcessValue.Borders.LineStyle = 1;
             rangeProcessValue.Merge(false);
 
-            xSt.get_Range("J3").Value2 = "Description";
+            Range rangeDesc = xSt.get_Range("J3", "J4");
+            rangeDesc.Value2 = "Description";
+            rangeDesc.Merge(false);
 
             Range rangeDescriptionValue = xSt.get_Range("K3", "N4");
-            rangeDescriptionValue.Value2 = "";
+            rangeDescriptionValue.Value2 =desc;
             rangeDescriptionValue.Borders.LineStyle = 1;
             rangeDescriptionValue.Merge(false);
             rangeDescriptionValue.HorizontalAlignment = XlHAlign.xlHAlignLeft;
@@ -200,6 +202,19 @@ namespace ExportLib
             rangeRemark.Borders.LineStyle = 1;
             rangeRemark.HorizontalAlignment = XlHAlign.xlHAlignCenter;//水平对齐
             rangeRemark.VerticalAlignment = XlVAlign.xlVAlignCenter;//垂直对齐
+
+            Range rangeRemark2 = xSt.get_Range(xSt.Cells[rowIndex + 2, 3], xSt.Cells[rowIndex + 2, 20]);
+            rangeRemark2.Borders.LineStyle = 1;
+            rangeRemark2.NumberFormatLocal = "@"; 
+            rangeRemark2.HorizontalAlignment = XlHAlign.xlHAlignCenter;//水平对齐
+            rangeRemark2.VerticalAlignment = XlVAlign.xlVAlignCenter;//垂直对齐
+            rangeRemark2.Value2 = remark;
+            rangeRemark2.Merge(false);
+           
+
+            //Range rangeRemark = xSt.get_Range(xSt.Cells[rowIndex + 2, 3], xSt.Cells[rowIndex + 2, 20]);
+            //rangeRemark.Value2 = remark;
+            //rangeRemark.Merge(false);
             #endregion
 
             #region 调整样式

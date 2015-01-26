@@ -12,5 +12,6 @@ namespace ReliefProModel.Reports
         public virtual string PlantName { get; set; }
         public virtual string ProcessUnitName { get; set; }
         public virtual string Description { get; set; }
+        public virtual string Remark { get; set; }
     }
 }

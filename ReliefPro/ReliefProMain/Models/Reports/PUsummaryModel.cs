@@ -45,5 +45,15 @@ namespace ReliefProMain.Models.Reports
                 this.NotifyPropertyChanged("Description");
             }
         }
+
+        public string Remark
+        {
+            get { return pu.Remark; }
+            set
+            {
+                pu.Remark = value;
+                this.NotifyPropertyChanged("Remark");
+            }
+        }
     }
 }

@@ -8,5 +8,6 @@
   <property name="PlantName" column="PlantName" type="String" length="255"/>
   <property name="ProcessUnitName" column="ProcessUnitName" type="String" length="255"/>
   <property name="Description" column="Description" type="String" length="255"/>
+  <property name="Remark" column="Remark" type="String" length="255"/>
 </class>
 </hibernate-mapping>

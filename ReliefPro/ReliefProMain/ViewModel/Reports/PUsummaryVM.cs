@@ -10,8 +10,8 @@ using System.Windows.Forms.Integration;
 using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Reporting.WinForms;
+using NHibernate;
 using ReliefProBLL;
-
 using ReliefProMain.Commands;
 using ReliefProMain.Models.Reports;
 using ReliefProMain.View.Reports;
@@ -157,7 +157,7 @@ namespace ReliefProMain.ViewModel.Reports
             if (PU == null) { PU = new PUsummary(); PU.UnitID = UnitID; PU.PlantName = reportBLL.PlantName; PU.ProcessUnitName = reportBLL.ProcessUnitName; }
             CreateControl(listDischargeTo);
             isHideAir =reportBLL.isHideAir();
-            reportBLL.ClearSession();
+            //reportBLL.ClearSession();
             model = new PUsummaryModel(PU);
             //model.ProcessUnitName = reportBLL.ProcessUnitName;
             model.listGrid = new List<PUsummaryGridDS>();
@@ -184,7 +184,7 @@ namespace ReliefProMain.ViewModel.Reports
             if (PU == null) { PU = new PUsummary(); PU.UnitID = UnitID; }
             CreateControl(listDischargeTo);
 
-            reportBLL.ClearSession();
+           // reportBLL.ClearSession();
             model = new PUsummaryModel(PU);
             model.listGrid = new List<PUsummaryGridDS>();
             InitModel("ALL");
@@ -193,7 +193,15 @@ namespace ReliefProMain.ViewModel.Reports
 
         private void Save(object obj)
         {
-            reportBLL.SavePUsummary(model.pu);
+            try
+            {
+                reportBLL.SavePUsummary(model.pu);
+                // reportBLL.ClearSession();
+                MessageBox.Show("saved successfully!");
+            }
+            catch
+            { }
+
         }
         private void InitModel(string ReportDischargeTo)
         {
@@ -282,7 +290,7 @@ namespace ReliefProMain.ViewModel.Reports
         private void BtnExportExcel(object obj)
         {
             ExportLib.ExportExcel export = new ExportLib.ExportExcel();
-            export.ExportToExcelPUsummary(model.PlantName, model.ProcessUnitName, model.listGrid, "PUsummary.xls");
+            export.ExportToExcelPUsummary(model.PlantName, model.ProcessUnitName,model.Description,model.Remark, model.listGrid, "PUsummary.xls");
         }
         private void BtnNextUnit(object obj)
         {
@@ -336,6 +344,20 @@ namespace ReliefProMain.ViewModel.Reports
             btnALL.Width = 50;
             btnALL.Margin = new System.Windows.Thickness(20, 0, 0, 0);
             Stackpanel.Children.Add(btnALL);
+        }
+
+        public ICommand LoadedCommand
+        {
+            get
+            {
+                return new DelegateCommand<System.Windows.Window>(win =>
+                {
+                    win.Closing += (sender, e) =>
+                    {
+                        reportBLL.ClearSession();
+                    };
+                });
+            }
         }
     }
 

@@ -22,7 +22,7 @@ namespace ReliefProBLL
     {
         private GlobalDefaultDAL globalDefaultDAL = new GlobalDefaultDAL();
         private PSVDAL psvDAL = new PSVDAL();
-        private ISession SessionPlant;
+        public ISession SessionPlant;
         private volatile List<Tuple<string, ISession>> lstSession;
         private ScenarioDAL scenarioDAL = new ScenarioDAL();
         public ConcurrentBag<PSV> PSVBag;
@@ -565,6 +565,7 @@ namespace ReliefProBLL
         public void SavePUsummary(PUsummary model)
         {
             PUsummaryDAL puSummaryDAL = new PUsummaryDAL();
+
             puSummaryDAL.Save(SessionPlant, model);
         }
         #endregion
