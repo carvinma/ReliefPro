@@ -38,7 +38,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencie
 		Dependencies\Interop.P2Wrap91.dll = Dependencies\Interop.P2Wrap91.dll
 		Dependencies\log4net.dll = Dependencies\log4net.dll
 		Dependencies\log4net.xml = Dependencies\log4net.xml
-		Dependencies\Microsoft.Office.Interop.Excel.dll = Dependencies\Microsoft.Office.Interop.Excel.dll
 		Dependencies\Microsoft.Practices.Prism.dll = Dependencies\Microsoft.Practices.Prism.dll
 		Dependencies\Microsoft.Practices.Prism.pdb = Dependencies\Microsoft.Practices.Prism.pdb
 		Dependencies\Microsoft.Practices.Prism.xml = Dependencies\Microsoft.Practices.Prism.xml
