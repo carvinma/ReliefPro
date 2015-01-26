@@ -114,7 +114,7 @@ namespace ReliefProMain.ViewModel.Reports
                 PlantCollection = plantCollection;
                 string dbPlantFile = string.Empty;
                 string unitPath = string.Empty;
-                List<string> ReportPath = new List<string>();
+                //List<string> ReportPath = new List<string>();
 
                 foreach (PlantVM plantvm in PlantCollection)
                 {
@@ -125,7 +125,7 @@ namespace ReliefProMain.ViewModel.Reports
 
                         foreach (UnitVM uvm in plantvm.UnitCollection)
                         {
-                            ReportPath.Clear();
+                            List<string> ReportPath = new List<string>();
                             unitPath = plantvm.PlantDir + @"\" + uvm.UnitName;
                             ReportPath.Add(dbPlantFile);
                             foreach (PSVM p in uvm.PSCollection)
