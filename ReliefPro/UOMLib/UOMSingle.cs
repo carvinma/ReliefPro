@@ -14,7 +14,7 @@ namespace UOMLib
 
         public static ISession Session { get; private set; }
         public static int BaseUnitSelectedID { get; set; }
-        public static List<ISession> listUnitSession { get; set; }
+        public static Dictionary<string,ISession> listUnitSession { get; set; }
         public static List<UOMEnum> UomEnums;
         static UOMSingle()
         {
@@ -23,7 +23,7 @@ namespace UOMLib
             {
                 Session = helper.GetCurrentSession();
             }
-            listUnitSession = new List<ISession>(); 
+            listUnitSession = new Dictionary<string, ISession>(); 
         }
         private static UOMSingle _instance;
 
