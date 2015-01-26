@@ -203,7 +203,15 @@ namespace ExportLib
             rangeRemark.HorizontalAlignment = XlHAlign.xlHAlignCenter;//水平对齐
             rangeRemark.VerticalAlignment = XlVAlign.xlVAlignCenter;//垂直对齐
 
-            Range rangeRemark2 = xSt.get_Range(xSt.Cells[rowIndex + 2, 3], xSt.Cells[rowIndex + 2, 20]);
+             
+            Range rangeOrder = xSt.get_Range(xSt.Cells[rowIndex + 2, 2], xSt.Cells[rowIndex + 2, 2]);
+            rangeOrder.Value2 = "1";
+            rangeOrder.Borders.LineStyle = 1;
+            rangeOrder.HorizontalAlignment = XlHAlign.xlHAlignCenter;
+            rangeOrder.VerticalAlignment = XlVAlign.xlVAlignCenter;
+            
+
+            Range rangeRemark2 = xSt.get_Range(xSt.Cells[rowIndex + 2,3], xSt.Cells[rowIndex + 2, 20]);
             rangeRemark2.Borders.LineStyle = 1;
             rangeRemark2.NumberFormatLocal = "@"; 
             rangeRemark2.HorizontalAlignment = XlHAlign.xlHAlignCenter;//水平对齐
