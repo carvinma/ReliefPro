@@ -146,6 +146,9 @@ namespace ReliefProMain.ViewModel
             }
         }
 
+        /// <summary>
+        /// 增加一个空的Scenario
+        /// </summary>
         public void Add()
         {
             ScenarioDAL db = new ScenarioDAL();
@@ -273,6 +276,7 @@ namespace ReliefProMain.ViewModel
                             SelectedScenario.ReliefPressure = vm.CalcTuple.Item4;
                             SelectedScenario.ReliefTemperature = vm.CalcTuple.Item3;
                             SelectedScenario.ReliefMW = vm.CalcTuple.Item2;
+                            ConvertSelectedScenario();
                         }
                     }
 
@@ -291,6 +295,7 @@ namespace ReliefProMain.ViewModel
                         SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
                         SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                         SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                        ConvertSelectedScenario();
                     }
 
                 }
@@ -305,7 +310,14 @@ namespace ReliefProMain.ViewModel
                     DrumDepressuringVM vm = new DrumDepressuringVM(ScenarioID, SessionProtectedSystem, SessionPlant);
                     v.DataContext = vm;
                     v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                    v.ShowDialog();
+                    if (v.ShowDialog() == true)
+                    {
+                        SelectedScenario.ReliefLoad = vm.modelSC.ReliefLoad;
+                        SelectedScenario.ReliefMW = vm.modelSC.ReliefMW;
+                        SelectedScenario.ReliefPressure = vm.modelSC.ReliefPressure;
+                        SelectedScenario.ReliefTemperature = vm.modelSC.ReliefTemperature;
+                        ConvertSelectedScenario();
+                    }
 
                 }
 
@@ -333,6 +345,7 @@ namespace ReliefProMain.ViewModel
                                 SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
                                 SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                                 SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                                ConvertSelectedScenario();
                             }
                         }
                         else
@@ -348,6 +361,7 @@ namespace ReliefProMain.ViewModel
                                 SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
                                 SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                                 SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                                ConvertSelectedScenario();
                             }
                         }
 
@@ -365,6 +379,7 @@ namespace ReliefProMain.ViewModel
                             SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
                             SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                             SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                            ConvertSelectedScenario();
                         }
                     }
                 }
@@ -392,6 +407,7 @@ namespace ReliefProMain.ViewModel
                             SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
                             SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                             SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                            ConvertSelectedScenario();
                         }
                     }
                     if (ScenarioName.Contains("Outlet"))
@@ -413,6 +429,7 @@ namespace ReliefProMain.ViewModel
                                 SelectedScenario.ReliefPressure = vm.CalcTuple.Item4;
                                 SelectedScenario.ReliefTemperature = vm.CalcTuple.Item3;
                                 SelectedScenario.ReliefMW = vm.CalcTuple.Item2;
+                                ConvertSelectedScenario();
                             }
                         }
 
@@ -434,6 +451,7 @@ namespace ReliefProMain.ViewModel
                                 SelectedScenario.ReliefMW = vm.model.ReliefMW;
                                 SelectedScenario.ReliefPressure = vm.model.ReliefPressure;
                                 SelectedScenario.ReliefTemperature = vm.model.ReliefTemperature;
+                                ConvertSelectedScenario();
                             }
                         }
                         else
@@ -454,6 +472,7 @@ namespace ReliefProMain.ViewModel
                             SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
                             SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                             SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                            ConvertSelectedScenario();
                         }
                     }
                 }
@@ -471,6 +490,7 @@ namespace ReliefProMain.ViewModel
                             SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
                             SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                             SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                            ConvertSelectedScenario();
                         }
                     }
                 }
@@ -489,6 +509,7 @@ namespace ReliefProMain.ViewModel
                         SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
                         SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                         SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                        ConvertSelectedScenario();
                     }
                 }
             }
@@ -507,6 +528,7 @@ namespace ReliefProMain.ViewModel
                         SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
                         SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                         SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                        ConvertSelectedScenario();
                     }
                 }
                 else if (ScenarioName.Contains("Lossofreactorquench"))
@@ -521,6 +543,7 @@ namespace ReliefProMain.ViewModel
                         SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
                         SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                         SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                        ConvertSelectedScenario();
                     }
                 }
                 else if (ScenarioName.Contains("LossofLiquidFeed"))
@@ -535,6 +558,7 @@ namespace ReliefProMain.ViewModel
                         SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
                         SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                         SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                        ConvertSelectedScenario();
                     }
                 }
                 else if (ScenarioName.Contains("GeneralElectricPowerFailure"))
@@ -549,6 +573,7 @@ namespace ReliefProMain.ViewModel
                         SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
                         SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                         SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                        ConvertSelectedScenario();
                     }
                 }
                 else if (ScenarioName.Contains("GeneralCoolingWaterFailure"))
@@ -563,6 +588,7 @@ namespace ReliefProMain.ViewModel
                         SelectedScenario.ReliefMW = vm.model.dbmodel.ReliefMW;
                         SelectedScenario.ReliefPressure = vm.model.dbmodel.ReliefPressure;
                         SelectedScenario.ReliefTemperature = vm.model.dbmodel.ReliefTemperature;
+                        ConvertSelectedScenario();
                     }
                 }
             }
@@ -582,6 +608,7 @@ namespace ReliefProMain.ViewModel
                     SelectedScenario.ReliefMW = vm.model.dbScenario.ReliefMW;
                     SelectedScenario.ReliefPressure = vm.model.dbScenario.ReliefPressure;
                     SelectedScenario.ReliefTemperature = vm.model.dbScenario.ReliefTemperature;
+                    ConvertSelectedScenario();
                 }
             }
             else
@@ -596,8 +623,16 @@ namespace ReliefProMain.ViewModel
                     SelectedScenario.ReliefMW = vm.model.dbScenario.ReliefMW;
                     SelectedScenario.ReliefPressure = vm.model.dbScenario.ReliefPressure;
                     SelectedScenario.ReliefTemperature = vm.model.dbScenario.ReliefTemperature;
+                    ConvertSelectedScenario();
                 }
             }
+        }
+
+        private void ConvertSelectedScenario()
+        {
+            SelectedScenario.ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, Uom.UserMassRate, SelectedScenario.ReliefLoad);
+            SelectedScenario.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, Uom.UserPressure, SelectedScenario.ReliefPressure);
+            SelectedScenario.ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, Uom.UserTemperature, SelectedScenario.ReliefTemperature);
         }
 
 
@@ -689,6 +724,7 @@ namespace ReliefProMain.ViewModel
                 SelectedScenario.ReliefMW = vm.MainModel.ReliefMW;
                 SelectedScenario.ReliefPressure = vm.MainModel.ReliefPressure;
                 SelectedScenario.ReliefTemperature = vm.MainModel.ReliefTemperature;
+                ConvertSelectedScenario();
             }
         }
 
@@ -705,6 +741,7 @@ namespace ReliefProMain.ViewModel
                 SelectedScenario.ReliefPressure = vm.ReliefPressure;
                 SelectedScenario.ReliefTemperature = vm.ReliefTemperature;
                 SelectedScenario.ReliefMW = vm.ReliefMW;
+                ConvertSelectedScenario();
             }
         }
 
@@ -720,6 +757,7 @@ namespace ReliefProMain.ViewModel
                 SelectedScenario.ReliefMW = vm.ReliefMW;
                 SelectedScenario.ReliefPressure = vm.ReliefPressure;
                 SelectedScenario.ReliefTemperature = vm.ReliefTemperature;
+                ConvertSelectedScenario();
             }
         }
 
@@ -736,6 +774,7 @@ namespace ReliefProMain.ViewModel
                 SelectedScenario.ReliefMW = vm.ReliefMW;
                 SelectedScenario.ReliefPressure = vm.ReliefPressure;
                 SelectedScenario.ReliefTemperature = vm.ReliefTemperature;
+                ConvertSelectedScenario();
             }
         }
 

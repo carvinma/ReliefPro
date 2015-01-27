@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using ReliefProDAL.HXs;
 using ReliefProModel.HXs;
 using ReliefProMain.View.HXs;
+using ReliefProModel.GlobalDefault;
 
 namespace ReliefProMain.ViewModel.HXs
 {
@@ -50,16 +51,19 @@ namespace ReliefProMain.ViewModel.HXs
         int ScenarioID;
         string HeatMethod = string.Empty;
         HeatExchanger heathx = new HeatExchanger();
+        double CriticalLatent = 0;
+
         public HXBlockedInVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
             this.ScenarioID = ScenarioID;
             DirPlant = dirPlant;
-            DirProtectedSystem = dirProtectedSystem;
-            DirPlant = dirPlant;
-            DirProtectedSystem = dirProtectedSystem;
+            DirProtectedSystem = dirProtectedSystem;            
             SourceFileInfo = sourceFileInfo;
+            GlobalDefaultBLL globalbll = new GlobalDefaultBLL(SessionPF);
+            ConditionsSettings settings = globalbll.GetConditionsSettings();
+            CriticalLatent = settings.LatentHeatSettings;
             psvDAL = new PSVDAL();
             psv = psvDAL.GetModel(SessionPS);
             FileFullPath = DirPlant + @"\" + sourceFileInfo.FileNameNoExt + @"\" + sourceFileInfo.FileName;
@@ -465,7 +469,7 @@ namespace ReliefProMain.ViewModel.HXs
             double reliefPressure = pressure * psv.ReliefPressureFactor;
             CustomStream cs = normalColdInlet;
             double reliefMW = cs.BulkMwOfPhase;
-            double latent = 116;
+            double latent = CriticalLatent;
             GlobalDefaultBLL globalbll = new GlobalDefaultBLL(SessionPF);
             latent = globalbll.GetConditionsSettings().LatentHeatSettings;
 

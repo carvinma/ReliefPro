@@ -184,6 +184,12 @@ namespace ReliefProMain.ViewModel
             return list;
         }
 
+        /// <summary>
+        /// 获取HX
+        /// </summary>
+        /// <param name="Session"></param>
+        /// <param name="HeaterType"></param>
+        /// <returns></returns>
         private ObservableCollection<TowerHX> GetHeaters(ISession Session, int HeaterType)
         {
             ObservableCollection<TowerHX> list = new ObservableCollection<TowerHX>();
@@ -384,7 +390,7 @@ namespace ReliefProMain.ViewModel
             {
                 if (!string.IsNullOrEmpty(arrHeaterNames[i]))
                 {
-                    double duty = double.Parse(arrHeaterDuties[i]) * 3600;  //KJ/hr
+                    double duty = double.Parse(arrHeaterDuties[i]) * 3600;  //KJ/hr  从proii单位转本软件默认单位
                     if (arrHeaterNames[i] == "CONDENSER")
                     {
                         TowerHX hx = new TowerHX();

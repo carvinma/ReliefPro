@@ -4,7 +4,7 @@
         xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"        
         xmlns:winformsIntegration="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
         xmlns:local="clr-namespace:ReliefProMain.ViewModel"
-        Title="MainWindow"  Height="800" Width="1200" Name="MainWindowApp" Loaded="MainWindowApp_Loaded"
+        Title="SimTech Relief"  Height="800" Width="1200" Name="MainWindowApp" Loaded="MainWindowApp_Loaded"
         xmlns:s="clr-namespace:BusyIndicatorCtrl;assembly=BusyIndicatorCtrl"
         Closing="MainWindowApp_Closing" Icon="Images/app.ico" >
 
@@ -51,8 +51,8 @@
                     </MenuItem>
 
                     <MenuItem Header="Help(H)" >
-                        <MenuItem Header="Help" />
-                        <MenuItem Header="About ReliefPro" />
+                    <MenuItem Header="Help" Click="MenuItem_Click"/>
+                    <MenuItem Header="About SimTechRelief" Click="MenuItem_Click"/>
                     </MenuItem>
                 </Menu>
             

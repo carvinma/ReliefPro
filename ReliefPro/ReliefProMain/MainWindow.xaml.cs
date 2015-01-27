@@ -304,12 +304,48 @@ namespace ReliefProMain
                     case "Import Simulation":
                         ImportExtraData();
                         break;
+                    case "Help":
+                        Help();
+                        break;
+                    case "About SimTechRelief":
+                        About();
+                        break;
                 }
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), "Action");
+            }
+        }
+
+        private void Help()
+        {
+            string helpFile=Environment.CurrentDirectory+@"\Manual\SimTech_Relief_v1_UsersGuide.pdf";
+            if (checkAdobeReader())
+            {
+                if (File.Exists(helpFile))
+                {
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("Adobe Reader XI is not installed on this machine.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+        private void About()
+        {
+            string aboutFile = Environment.CurrentDirectory + @"\Manual\About SimTech Relief.pdf";
+            if (checkAdobeReader())
+            {
+                if (File.Exists(aboutFile))
+                {
+                }
+            }
+            else
+            {
+                MessageBox.Show("Adobe Reader XI is not installed on this machine.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -399,8 +435,6 @@ namespace ReliefProMain
 
             }
         }
-
-
 
 
         private void initIcon()
@@ -642,10 +676,13 @@ namespace ReliefProMain
                     {
                         TVPlantViewModel p = list[0];
                         string currentPlantWorkFolder = p.tvPlant.FullPath;
-                        string currentPlantFile = p.tvPlant.FullRefPath;
+                        string newPlantFile = dlgSaveDiagram.FileName;
                         //ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, dlgSaveDiagram.FileName);
-                        File.Delete(currentPlantFile);
-                        ZipFile.CreateFromDirectory(currentPlantWorkFolder, currentPlantFile);
+                        if (File.Exists(newPlantFile))
+                        {
+                            File.Delete(newPlantFile);
+                        }
+                        ZipFile.CreateFromDirectory(currentPlantWorkFolder, newPlantFile);
                     }
                 }
             }
@@ -1258,6 +1295,26 @@ namespace ReliefProMain
                 MessageBox.Show(ex.ToString(), "Message Box");
             }
         }
+
+        private bool checkAdobeReader()
+        {
+            Microsoft.Win32.RegistryKey uninstallNode = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
+            foreach (string subKeyName in uninstallNode.GetSubKeyNames())
+            {
+                Microsoft.Win32.RegistryKey subKey = uninstallNode.OpenSubKey(subKeyName);
+                object displayName = subKey.GetValue("DisplayName");
+                if (displayName != null)
+                {
+                    if (displayName.ToString().Contains("Adobe Reader"))
+                    {
+                        return true;
+                        // MessageBox.Show(displayName.ToString());   
+                    }
+                }
+            }
+            return false;
+        } 
+    
     }
 
 

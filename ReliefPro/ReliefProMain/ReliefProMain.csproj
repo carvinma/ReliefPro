@@ -337,6 +337,9 @@
     <Compile Include="ViewModel\TVPSViewModel.cs" />
     <Compile Include="ViewModel\TVUnitViewModel.cs" />
     <Compile Include="ViewModel\DuplicateSimulationVM.cs" />
+    <Compile Include="View\Common\AboutUs.xaml.cs">
+      <DependentUpon>AboutUs.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Common\DuplicateSimulationView.xaml.cs">
       <DependentUpon>DuplicateSimulationView.xaml</DependentUpon>
     </Compile>
@@ -662,6 +665,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\WindowBaseStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Common\AboutUs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1011,6 +1018,10 @@
     <EmbeddedResource Include="View\Reports\PUsummaryRpt.rdlc">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="Manual\About SimTech Relief.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Manual\SimTech_Relief_v1_UsersGuide.pdf" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\ReliefProMain.Model.Reports.PlantReprotHead.datasource" />
     <None Include="Properties\DataSources\ReliefProModel.Reports.PUsummaryReportSource.datasource" />

@@ -430,7 +430,7 @@ namespace ReliefProMain.ViewModel
             SourceFileInfo = sfdal.GetModel(FileName, SessionPlant);
             if (HXType == "Shell-Tube")
             {
-                if (Feeds.Count == 1)
+                if (Products.Count == 1)
                 {
                     if (string.IsNullOrEmpty(TubeFeedStreams) && string.IsNullOrEmpty(ShellFeedStreams))
                     {
@@ -649,7 +649,7 @@ namespace ReliefProMain.ViewModel
             HX.TubeFeedStreams = TubeFeedStreams;
             HX.ShellFeedStreams = ShellFeedStreams;
             dbHX.Add(HX, SessionProtectedSystem);
-
+            CurrentHX = HX;
             ProtectedSystem ps = new ProtectedSystem();
             ps.PSType = 4;
             psDAL.Add(ps, SessionProtectedSystem);

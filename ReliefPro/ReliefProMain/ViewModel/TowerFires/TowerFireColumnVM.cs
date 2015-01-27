@@ -26,8 +26,6 @@ namespace ReliefProMain.ViewModel.TowerFires
         private ISession SessionProtectedSystem { set; get; }
         public TowerFireColumnModel model { get; set; }
         public double Area { get; set; }
-
-
         public UOMLib.UOMEnum uomEnum { get; set; }
         public TowerFireColumnVM(int EqID, ISession sessionPlant, ISession sessionProtectedSystem)
         {
@@ -77,9 +75,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             ReadConvert();
 
         }
-
-
-        
+       
         private ICommand _OKClick;
         public ICommand OKClick
         {
@@ -93,8 +89,6 @@ namespace ReliefProMain.ViewModel.TowerFires
                 return _OKClick;
             }
         }
-
-        
 
         private void Update(object window)
         {
@@ -140,10 +134,7 @@ namespace ReliefProMain.ViewModel.TowerFires
 
                 }
 
-
                 Area = Area + Area * model.PipingContingency / 100;
-
-
 
                 System.Windows.Window wd = window as System.Windows.Window;
 

@@ -230,7 +230,7 @@ namespace ReliefProMain.ViewModel.Compressors
                 model.Reliefload = 0;
                 model.ReliefMW = 0;
                 model.ReliefTemperature = 0;
-                model.ReliefPressure = PDesign * psv.ReliefPressureFactor; ;
+                model.ReliefPressure = psv.Pressure * psv.ReliefPressureFactor; ;
                 model.ReliefCpCv = 0;
                 model.ReliefZ = 0;
                 v = 0;
@@ -247,7 +247,7 @@ namespace ReliefProMain.ViewModel.Compressors
                 model.Reliefload = density * v;
                 model.ReliefMW = cs.BulkMwOfPhase;
                 model.ReliefTemperature = cs.Temperature;
-                model.ReliefPressure = PDesign * psv.ReliefPressureFactor;
+                model.ReliefPressure = psv.Pressure * psv.ReliefPressureFactor;
                 model.ReliefCpCv = cs.BulkCPCVRatio;
                 model.ReliefZ = cs.VaporZFmKVal;
                 if (model.Reliefload < 0)

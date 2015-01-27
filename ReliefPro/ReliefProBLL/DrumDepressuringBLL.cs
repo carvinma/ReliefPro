@@ -16,10 +16,12 @@ namespace ReliefProBLL
         private ISession SessionPS;
         private ISession SessionPF;
         private DrumDepressuringDAL dbdrum = new DrumDepressuringDAL();
+        public CustomStream DrumVaporStream=null;
         public DrumDepressuringBLL(ISession SessionPS, ISession SessionPF)
         {
             this.SessionPS = SessionPS;
             this.SessionPF = SessionPF;
+            DrumVaporStream = GetVaporStream();
         }
         public DrumDepressuring GetDrumPressuring(int ScenarioID)
         {
@@ -29,12 +31,14 @@ namespace ReliefProBLL
             {
                 drumModel = lstDrum.Where(p => p.ScenarioID == ScenarioID).FirstOrDefault();
             }
-            if (drumModel!=null && drumModel.ID > 0)
+            if (drumModel != null && drumModel.ID > 0)
+            {
                 return drumModel;
+            }
             else
             {
                 drumModel = new DrumDepressuring();
-                drumModel.VaporDensity = GetStreamVaporDensity();
+                drumModel.VaporDensity = DrumVaporStream.BulkDensityAct;
                 drumModel.ScenarioID = ScenarioID;
             }
             return drumModel;
@@ -68,17 +72,16 @@ namespace ReliefProBLL
             dbdrum.SaveDrumPressuring(SessionPS, model);
         }
 
-        private double GetStreamVaporDensity()
+        private CustomStream GetVaporStream()
         {
+            CustomStream cs = null;
             StreamDAL dbs = new StreamDAL();
             var lstStream = dbs.GetAllList(SessionPS).Where(p => p.IsProduct == true && p.ProdType == "1").ToList();
             if (lstStream.Count > 0)
             {
-                double s = 0;
-                s = lstStream[0].BulkDensityAct;
-                return s;
+                cs = lstStream[0];
             }
-            return 0;
+            return cs;
         }
     }
 }

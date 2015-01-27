@@ -90,7 +90,7 @@ namespace ReliefProMain.ViewModel
         string HeatMethod = string.Empty;
 
         int ErrorType = 0;//0 无错误 1 临界
-
+        double CriticalLatent = 0;
 
         public ObservableCollection<string> GetValveTypes()
         {
@@ -160,7 +160,9 @@ namespace ReliefProMain.ViewModel
             SourceFileInfo = sourceFileInfo;
             ValveTypes = GetValveTypes();
             DischargeTos = GetDischargeTos();
-            //Locations = GetLocations();
+            GlobalDefaultBLL globalbll = new GlobalDefaultBLL(SessionPlant);
+            ConditionsSettings settings = globalbll.GetConditionsSettings();
+            CriticalLatent = settings.LatentHeatSettings;
 
             uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
 
@@ -1034,24 +1036,24 @@ namespace ReliefProMain.ViewModel
                         {
                             //warning4   流程图3
                             ErrorType = 4;
-                            latent.LatentEnthalpy = 115;
+                            latent.LatentEnthalpy = CriticalLatent;
                             latent.ReliefTemperature = UnitConvert.Convert("K", UOMEnum.Temperature, double.Parse(proiiEq.TempCalc));
                         }
-                        else if(latent.LatentEnthalpy < 115)
+                        else if (latent.LatentEnthalpy < CriticalLatent)
                         {
                             //warning2   流程图5
                             ErrorType = 2;
-                            latent.LatentEnthalpy = 115;
-                            latent.LatentEnthalpy = 115;
+                            latent.LatentEnthalpy = CriticalLatent;
+                            latent.LatentEnthalpy = CriticalLatent;
                             latent.ReliefTemperature = UnitConvert.Convert("K", UOMEnum.Temperature, double.Parse(proiiEq.TempCalc));
                         }
                     }
                     else if (FluidType == 3)
                     {
-                        if (latent.LatentEnthalpy < 115)
+                        if (latent.LatentEnthalpy < CriticalLatent)
                         {
                             ErrorType = 3;
-                            latent.LatentEnthalpy = 115;
+                            latent.LatentEnthalpy = CriticalLatent;
                             latent.ReliefTemperature = UnitConvert.Convert("K", UOMEnum.Temperature, double.Parse(proiiEq.TempCalc));
                         }
                     }
@@ -1119,7 +1121,7 @@ namespace ReliefProMain.ViewModel
                     TowerFlashProductDAL dbFlashProduct = new TowerFlashProductDAL();
                     //流程图1
                     latent = new Latent();
-                    latent.LatentEnthalpy = 115;
+                    latent.LatentEnthalpy = CriticalLatent;
                     latent.ReliefTemperature = ReliefTemperature;
                     latent.ReliefOHWeightFlow = csVapor.BulkMwOfPhase;
                     latent.ReliefPressure = ReliefPressure;

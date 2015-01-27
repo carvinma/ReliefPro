@@ -25,6 +25,7 @@ using ReliefProModel.HXs;
 using ReliefProDAL.HXs;
 using ReliefProBLL;
 using ReliefProDAL.Drums;
+using ReliefProModel.GlobalDefault;
 
 namespace ReliefProMain.ViewModel.Drums
 {
@@ -105,6 +106,8 @@ namespace ReliefProMain.ViewModel.Drums
         string EqName = string.Empty;
         string HeatMethod = string.Empty;
         int ErrorType = 0;
+
+        double CriticalLatent = 0;
         /// <summary>
         /// 
         /// </summary>
@@ -126,6 +129,9 @@ namespace ReliefProMain.ViewModel.Drums
             DirPlant = dirPlant;
             DirProtectedSystem = dirProtectedSystem;
             FileFullPath = DirPlant + @"\" + sourceFileInfo.FileNameNoExt + @"\" + sourceFileInfo.FileName;
+            GlobalDefaultBLL globalbll = new GlobalDefaultBLL(SessionPlant);
+            ConditionsSettings settings = globalbll.GetConditionsSettings();
+            CriticalLatent = settings.LatentHeatSettings;
             InputDataCMD = new DelegateCommand<object>(OpenFluidWin);
             CalcCMD = new DelegateCommand<object>(Calc);
             OKCMD = new DelegateCommand<object>(Save);
@@ -537,15 +543,15 @@ namespace ReliefProMain.ViewModel.Drums
                     {
                         model.LatentHeat = molLatent;
                         //MessageBox.Show("Relief Condition is near critical , Latent heat is set to default or user defined value.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        model.LatentHeat2 = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, model.LatentHeatUnit, 115);
+                        model.LatentHeat2 = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, model.LatentHeatUnit, CriticalLatent);
                         model.IsCalc = false;
                     }
                     else
                     {
-                        if (molLatent < 115)
+                        if (molLatent < CriticalLatent)
                         {
                             //MessageBox.Show("Calculated latent heat is less than bound value and default  or user defined value is used.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
-                            model.LatentHeat2 = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, model.LatentHeatUnit, 115);
+                            model.LatentHeat2 = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, model.LatentHeatUnit, CriticalLatent);
                             model.IsCalc = false;
                         } 
                         else
@@ -559,14 +565,14 @@ namespace ReliefProMain.ViewModel.Drums
                 }
                 else if (model.FluidType == 4)
                 {
-                    if (molLatent < 115)
+                    if (molLatent < CriticalLatent)
                     {
                         //MessageBox.Show("Calculated latent heat is less than bound value and default  or user defined value is used.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        model.LatentHeat2 = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, model.LatentHeatUnit, 115);
+                        model.LatentHeat2 = UnitConvert.Convert(UOMEnum.SpecificEnthalpy, model.LatentHeatUnit, CriticalLatent);
                         model.IsCalc = false;
                     }
                     model.LatentHeat = molLatent;
-                    if (molLatent >= 115)
+                    if (molLatent >= CriticalLatent)
                     {
                         model.IsCalc = true;
                     }

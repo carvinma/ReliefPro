@@ -79,7 +79,7 @@ namespace ReliefProMain.View
                 TVFileViewModel data = this.Tag as TVFileViewModel;
                 AxDrawingControl dc = host.Child as AxDrawingControl;
                 visioControl = dc;
-                visioControl.Window.Zoom = 1;
+                visioControl.Window.Zoom = 1.2;
                 visioControl.Window.ShowGrid = 0;
                 visioControl.Window.ShowRulers = 0;
                 visioControl.Window.ShowConnectPoints = -1;

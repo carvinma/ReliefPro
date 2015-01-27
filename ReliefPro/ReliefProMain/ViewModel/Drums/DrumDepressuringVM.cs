@@ -12,6 +12,8 @@ using ReliefProMain.Models;
 using UOMLib;
 using ReliefProMain.View.DrumDepressures;
 using ReliefProBLL;
+using ReliefProModel;
+using ReliefProDAL;
 
 namespace ReliefProMain.ViewModel.Drums
 {
@@ -82,6 +84,7 @@ namespace ReliefProMain.ViewModel.Drums
         private ISession SessionPS;
         private ISession SessionPF;
         public DrumDepressuringModel model { get; set; }
+        public Scenario modelSC { get; set; }
         private DrumDepressuringBLL drumBLL;
         private bool isCalc = false;
         public DrumDepressuringVM(int ScenarioID, ISession SessionPS, ISession SessionPF)
@@ -107,6 +110,10 @@ namespace ReliefProMain.ViewModel.Drums
                 selectedDeprRqe = drumModel.DepressuringRequirements;
             if (!string.IsNullOrEmpty(drumModel.HeatInputModel))
                 selectedShotCut = drumModel.ShortCut;
+            
+            ScenarioDAL scdal=new ScenarioDAL();
+            modelSC = scdal.GetModel(ScenarioID, SessionPS);
+
 
             UOMLib.UOMEnum uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
             model = new DrumDepressuringModel(drumModel);
@@ -208,11 +215,9 @@ namespace ReliefProMain.ViewModel.Drums
             model.CalculatedVesselPressure = model.InitialPressure * Math.Exp(-1 * currentTime / tConstant);
 
             //下列值需要保存到
-            double reliefLoad = wInitDepr;
-            double reliefPressure = model.InitialPressure;
-            double reliefMW = 0;
-            double reliefTemperature = 0;
-
+            modelSC.ReliefLoad = wInitDepr;
+            modelSC.ReliefPressure = model.InitialPressure;
+           
         }
         private void CalcDetailed(object obj)
         {
@@ -236,6 +241,15 @@ namespace ReliefProMain.ViewModel.Drums
         {
             WriteConvertModel();
             drumBLL.SaveData(model.dbmodel, SessionPS);
+            modelSC.ReliefMW = drumBLL.DrumVaporStream.BulkMwOfPhase;
+            modelSC.ReliefTemperature = drumBLL.DrumVaporStream.Temperature;
+            modelSC.ReliefCpCv = drumBLL.DrumVaporStream.BulkCPCVRatio;
+            modelSC.ReliefZ = drumBLL.DrumVaporStream.VaporZFmKVal;
+
+            ScenarioDAL scdal = new ScenarioDAL();
+            scdal.Update(modelSC, SessionPS);
+
+            
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;
