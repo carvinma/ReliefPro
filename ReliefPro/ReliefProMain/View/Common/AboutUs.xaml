@@ -1,0 +1,47 @@
+﻿<Window x:Class="ReliefProMain.View.Common.AboutUs"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="About SimTech Relief" Height="300" Width="500" Name="myWindow" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
+    <Grid Style="{DynamicResource WinGrid}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="21.138"/>
+            <ColumnDefinition Width="572.862"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="72"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Grid  Grid.Row="6" Grid.ColumnSpan="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Button Content="{DynamicResource OK}" IsCancel="True" Grid.Column="3" Grid.Row="2"  />
+
+        </Grid>
+
+
+        <StatusBar  HorizontalAlignment="Stretch" Height="Auto" Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
+            <StatusBarItem HorizontalAlignment="Stretch">
+                <TextBlock Text="{DynamicResource CreateUnitViewStatusBar}"></TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+        <Grid HorizontalAlignment="Left"  VerticalAlignment="Top" Height="0" Width="0" >
+            
+        </Grid>
+        <TextBlock HorizontalAlignment="Left"  Grid.Row="1"  Text="{DynamicResource AppName}"  VerticalAlignment="Stretch" Grid.Column="1"/>
+        <TextBlock HorizontalAlignment="Left"  Grid.Row="2"  Text="{DynamicResource AppVersion}" VerticalAlignment="Stretch" Grid.Column="1"/>
+        <TextBlock HorizontalAlignment="Left"  Grid.Row="3"  Text="{DynamicResource AppComp}" VerticalAlignment="Stretch" Grid.Column="1"/>
+        <TextBlock HorizontalAlignment="Left"  Grid.Row="4"  Text="{DynamicResource AppRight}" VerticalAlignment="Stretch" Grid.Column="1"/>
+    </Grid>
+</Window>
+
