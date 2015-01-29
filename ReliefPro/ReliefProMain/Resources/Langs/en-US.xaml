@@ -728,7 +728,7 @@
     <s:String x:Key="WarningDrum4">Tray 1 Pressure is zero,Please Rerun this ProII file and save it.</s:String>
 
     <s:String x:Key="AppName">SimTech Relief </s:String>
-    <s:String x:Key="AppVersion">Version 1.1897</s:String>
+    <s:String x:Key="AppVersion">Version 1.1898</s:String>
     <s:String x:Key="AppComp">(C)2013 SimTech Company</s:String>
     <s:String x:Key="AppRight">Copy Right.</s:String>
 </ResourceDictionary>

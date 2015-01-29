@@ -98,7 +98,7 @@ namespace ReliefProMain.ViewModel.Drums
 
             lstShortCut = new List<string>(new[] { "Shortcut" });//, "PROII DEPR Unit"
             lstDeprRqe = new List<string>{
-                "21bar/min","7bar/min","15min to 50% Design pressure","15min to 7barg","Specify"};
+                "21bar/min","7bar/min","15min to 50% Design pressure","15min to 7barg"};   //,"Specify" 暂时去掉
             lstHeatInput = new List<string>(new[] { "API 521", "API 521 Scale", "API 2000", "API 2000 Scale" });
 
             drumBLL = new DrumDepressuringBLL(SessionPS, SessionPF);

@@ -1343,7 +1343,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>g/hr</Value>
+                              <Value>kg/hr</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
                               </Style>
@@ -1520,7 +1520,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>g/hr</Value>
+                              <Value>kg/hr</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
                               </Style>
@@ -1697,7 +1697,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>g/hr</Value>
+                              <Value>kg/hr</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
                               </Style>
@@ -2661,6 +2661,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>

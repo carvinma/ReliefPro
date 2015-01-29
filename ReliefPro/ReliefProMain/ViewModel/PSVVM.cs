@@ -1009,6 +1009,7 @@ namespace ReliefProMain.ViewModel
                     reader.InitProIIReader(tray1_f);
                     ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
                     ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                    ProIIStreamData proIIStream= reader.GetSteamInfo(stream.StreamName);
                     ProIIEqData proiiEq=reader.GetEqInfo("Flash","F_1");
                     reader.ReleaseProIIReader();
                     latentVapor = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIIVapor);
@@ -1016,7 +1017,8 @@ namespace ReliefProMain.ViewModel
                     latentLiquid = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIILiquid);
                     latentLiquid.ProdType = "2";
 
-                    LatentProduct latentStream = ProIIToDefault.ConvertCustomStreamToLatentProduct(stream);
+                    CustomStream csStream = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIStream);
+                    LatentProduct latentStream = ProIIToDefault.ConvertCustomStreamToLatentProduct(csStream);
                     latentStream.ProdType = "-1";
                     dblp.Add(latentStream, SessionProtectedSystem);
                     dblp.Add(latentVapor, SessionProtectedSystem);

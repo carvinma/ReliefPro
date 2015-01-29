@@ -1,6 +1,7 @@
 ﻿<Window x:Class="ReliefProMain.View.TowerScenarioHXView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:CustomControl="clr-namespace:ReliefProMain.CustomControl"
         Title="{DynamicResource TowerScenarioHXViewTitle}" Name="myWindow" Height="400" Width="900" Loaded="Window_Loaded_1" Style="{DynamicResource WinStyle}" Icon="/ReliefProMain;component/Images/app.ico"  >
 
     <Grid Style="{DynamicResource WinGrid}">
@@ -73,7 +74,7 @@
         <TextBlock  Grid.Row="2" TextWrapping="Wrap" />
         <CheckBox IsEnabled="{Binding IsEnableFlooding,Mode=TwoWay}" IsChecked="{Binding IsFlooding,Mode=TwoWay}"  Content="{DynamicResource Flooding}" Visibility="{Binding IsDisplay}"  Grid.Row="2" Grid.Column="1"/>
         <CheckBox IsEnabled="{Binding IsEnableSurgeTime,Mode=TwoWay}" IsChecked="{Binding IsSurgeTime,Mode=TwoWay}" Visibility="{Binding IsDisplay}" Content="" Grid.Row="2" Grid.Column="2"/>
-        <TextBox  IsEnabled="{Binding IsSurgeTime,Mode=TwoWay}" Visibility="{Binding IsDisplay}" Grid.Row="2" TextWrapping="Wrap" Text="{Binding SurgeTime,Mode=TwoWay,StringFormat='{}{0:F4}'}" VerticalAlignment="Center"  Grid.Column="4"/>
+        <CustomControl:UnitConvertTextBox  IsEnabled="{Binding IsSurgeTime,Mode=TwoWay,StringFormat='{}{0:F4}'}" Visibility="{Binding IsDisplay}" Grid.Row="2" TextWrapping="Wrap" Text="{Binding SurgeTime,Mode=TwoWay,StringFormat='{}{0:F4}'}" VerticalAlignment="Center"  Grid.Column="4"/>
         <Label Visibility="{Binding IsDisplay}"  Content="{DynamicResource min}" VerticalAlignment="Center"  Grid.Row="2"  Grid.Column="5"/>
 
         

@@ -25,6 +25,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <AutorunEnabled>true</AutorunEnabled>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
@@ -73,8 +74,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>app.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
@@ -337,8 +337,9 @@
     <Compile Include="ViewModel\TVPSViewModel.cs" />
     <Compile Include="ViewModel\TVUnitViewModel.cs" />
     <Compile Include="ViewModel\DuplicateSimulationVM.cs" />
-    <Compile Include="View\Common\AboutUs.xaml.cs">
-      <DependentUpon>AboutUs.xaml</DependentUpon>
+    <Compile Include="ViewModel\AboutUsVM.cs" />
+    <Compile Include="View\Common\AboutUsView.xaml.cs">
+      <DependentUpon>AboutUsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Common\DuplicateSimulationView.xaml.cs">
       <DependentUpon>DuplicateSimulationView.xaml</DependentUpon>
@@ -607,6 +608,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Resource Include="app.ico" />
     <Content Include="Images\report.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -668,7 +670,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Common\AboutUs.xaml">
+    <Page Include="View\Common\AboutUsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1021,7 +1023,9 @@
     <None Include="Manual\About SimTech Relief.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Manual\SimTech_Relief_v1_UsersGuide.pdf" />
+    <Content Include="Manual\SimTech_Relief_v1_UsersGuide.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\ReliefProMain.Model.Reports.PlantReprotHead.datasource" />
     <None Include="Properties\DataSources\ReliefProModel.Reports.PUsummaryReportSource.datasource" />

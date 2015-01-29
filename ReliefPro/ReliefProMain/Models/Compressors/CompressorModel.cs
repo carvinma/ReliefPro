@@ -47,7 +47,7 @@ namespace ReliefProMain.Models.Compressors
             set
             {
                 this._Driver = value;
-                dbmodel.Driver = value;
+                //dbmodel.Driver = value;
                 this.Driver_Color = ColorBorder.blue.ToString();
                 
                 OnPropertyChanged("Driver");
@@ -92,7 +92,7 @@ namespace ReliefProMain.Models.Compressors
             set
             {
                 this._CompressorType = value;
-                dbmodel.CompressorType = value;
+                //dbmodel.CompressorType = value;
                 this.CompressorType_Color = ColorBorder.blue.ToString();
                 OnPropertyChanged("CompressorType");
             }

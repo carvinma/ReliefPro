@@ -226,12 +226,23 @@ namespace ReliefProMain.ViewModel
                     reimportbll.DeleteAllData();
                 }
             }
+            else if (op == 1)
+            {
+                if (model.CompressorType != model.dbmodel.CompressorType || model.Driver != model.dbmodel.Driver)
+                {
+                    ScenarioBLL scbll = new ScenarioBLL(SessionProtectedSystem);
+                    scbll.DeleteScenario();
+                    scbll.DeleteSCOther();
+                    model.dbmodel.Driver = model.Driver;
+                    model.dbmodel.CompressorType = model.CompressorType;
+                }
+            }
 
 
             ProtectedSystem ps = new ProtectedSystem();
             ps.PSType = 3;           
             compressorbll.Save(model.dbmodel, model.Feeds, model.Products, ps);
-            SourceFileInfo = sourcebll.GetSourceFileInfo(model.SourceFile);
+            SourceFileInfo = sourcebll.GetSourceFileInfo(model.dbmodel.SourceFile);
 
             System.Windows.Window wd = obj as System.Windows.Window;
 

@@ -27,20 +27,20 @@
         <Label Content="{DynamicResource DecStreamName}" Grid.Column="1" Grid.Row="1"/>
         <TextBox Style="{DynamicResource TextBoxReadOnly}" Name="txtName"  TextWrapping="Wrap" Text="{Binding CurrentModel.StreamName}"   Grid.Row="1"  Grid.Column="2"/>
         <Label Content="{DynamicResource Description}"  Grid.Column="1"  Grid.Row="2"/>
-        <TextBox Name="txtDescription" Style="{DynamicResource TextBoxReadOnly}"  TextWrapping="Wrap" Text="{Binding CurrentModel.Description}"  Width="200" Grid.Row="2"  Grid.Column="2" Grid.ColumnSpan="2"/>
+        <TextBox Name="txtDescription"   TextWrapping="Wrap" Text="{Binding CurrentModel.Description}"  Width="200" Grid.Row="2"  Grid.Column="2" Grid.ColumnSpan="2"/>
 
 
 
         <Label Content="{DynamicResource VabFrac}"  Grid.Row="3" Grid.Column="1"/>
-        <TextBox Name="txtVabFrac" Style="{DynamicResource TextBoxReadOnly}"  TextWrapping="Wrap" Text="{Binding CurrentModel.VaporFraction}"  Grid.Row="3"  Grid.Column="2"/>
+        <TextBox Name="txtVabFrac" Style="{DynamicResource TextBoxReadOnly}"  TextWrapping="Wrap" Text="{Binding CurrentModel.VaporFraction,Mode=TwoWay, StringFormat='{}{0:F4}'}"  Grid.Row="3"  Grid.Column="2"/>
         <Label Content="{DynamicResource Temperature}" Grid.Column="1"  Grid.Row="4"   />
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblTemperature,Path=Content,Mode=TwoWay}" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding CurrentModel.Temperature,Mode=TwoWay}"  Grid.Row="4"  Grid.Column="2"/>
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblTemperature,Path=Content,Mode=TwoWay}"  TextWrapping="Wrap" Text="{Binding CurrentModel.Temperature,Mode=TwoWay, StringFormat='{}{0:F4}'}"  Grid.Row="4"  Grid.Column="2"/>
         <Label Content="{DynamicResource Presressure_Mpag}"  Grid.Column="1"  Grid.Row="5"   />
         <Label Content="{DynamicResource WorkflowKghr}"   Grid.Row="6"  Grid.Column="1" />
         <Label Content="{DynamicResource SpH_KJ_Kg}"   Grid.Row="7" Grid.Column="1"/>
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}"   IsReadOnly="True" TextWrapping="Wrap" Text="{Binding CurrentModel.Pressure,Mode=TwoWay}"   Grid.Row="5"  Grid.Column="2" />
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblWeightFlow,Path=Content,Mode=TwoWay}"   IsReadOnly="True"  TextWrapping="Wrap" Text="{Binding CurrentModel.WeightFlow,Mode=TwoWay}"   Grid.Row="6"  Grid.Column="2" />
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblSpEnthalpy,Path=Content,Mode=TwoWay}"   IsReadOnly="True"    TextWrapping="Wrap" Text="{Binding CurrentModel.SpEnthalpy,Mode=TwoWay}"  Grid.Row="7"  Grid.Column="2" />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}"    TextWrapping="Wrap" Text="{Binding CurrentModel.Pressure,Mode=TwoWay, StringFormat='{}{0:F4}'}"   Grid.Row="5"  Grid.Column="2" />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblWeightFlow,Path=Content,Mode=TwoWay}"  TextWrapping="Wrap" Text="{Binding CurrentModel.WeightFlow,Mode=TwoWay, StringFormat='{}{0:F4}'}"   Grid.Row="6"  Grid.Column="2" />
+        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}" UnitOrigin="{Binding ElementName=lblSpEnthalpy,Path=Content,Mode=TwoWay}"  TextWrapping="Wrap" Text="{Binding CurrentModel.SpEnthalpy,Mode=TwoWay, StringFormat='{}{0:F4}'}"  Grid.Row="7"  Grid.Column="2" />
 
 
         

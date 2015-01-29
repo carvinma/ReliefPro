@@ -13,6 +13,7 @@ using ReliefProMain.Models;
 using UOMLib;
 using ReliefProBLL;
 using ReliefProDAL.Drums;
+using System.Windows;
 
 namespace ReliefProMain.ViewModel.Drums
 {
@@ -60,13 +61,30 @@ namespace ReliefProMain.ViewModel.Drums
         }
         private void Save(object obj)
         {
-            if (!model.CheckData()) return;
+            //if (!model.CheckData()) return;           
             if (obj != null)
             {
                 System.Windows.Window wd = obj as System.Windows.Window;
                 if (wd != null)
                 {
                     WriteConvertModel();
+                    if (model.dbmodel.Orientation == "Vertical")
+                    {
+                        if (model.dbmodel.NormalLiquidLevel > model.dbmodel.Length)
+                        {
+                            MessageBox.Show("Normal Liquid Level could not higher than length", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (model.dbmodel.NormalLiquidLevel > model.dbmodel.Diameter)
+                        {
+                            MessageBox.Show("Normal Liquid Level could not higher than diameter", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+                    }
+
                     if (model.dbmodel.ID > 0)
                     {
                         DrumSizeDAL dal = new DrumSizeDAL();

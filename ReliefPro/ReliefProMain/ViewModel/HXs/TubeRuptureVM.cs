@@ -45,6 +45,8 @@ namespace ReliefProMain.ViewModel.HXs
         double k = 0;
         int ScenarioID;
         string HeatMethod = string.Empty;
+        public bool IsLowPressure=true;
+
         public TubeRuptureVM(int ScenarioID, SourceFile sourceFileInfo, ISession SessionPS, ISession SessionPF, string dirPlant, string dirProtectedSystem)
         {
             this.SessionPS = SessionPS;

@@ -484,7 +484,9 @@ namespace ReliefProMain.ViewModel
 
             IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
             reader.InitProIIReader(FileFullPath);
-            ProIIStreamData vapor = reader.CopyStream(data.EqName, int.Parse(data.NumberOfTrays), 1, 1);
+            int trayNumber=int.Parse(data.NumberOfTrays);
+
+            ProIIStreamData vapor = reader.CopyStream(data.EqName, trayNumber, 1, 1);
             list.Add(vapor.StreamName);
             UpStreamVaporData = ProIIToDefault.ConvertProIIStreamToCustomStream(vapor);
 

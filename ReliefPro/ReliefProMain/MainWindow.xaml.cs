@@ -46,6 +46,7 @@ using NHibernate;
 using System.Threading.Tasks;
 using System.Threading;
 using ReliefProCommon.Logging;
+using ReliefProMain.View.Common;
 
 namespace ReliefProMain
 {
@@ -321,32 +322,16 @@ namespace ReliefProMain
 
         private void Help()
         {
-            string helpFile=Environment.CurrentDirectory+@"\Manual\SimTech_Relief_v1_UsersGuide.pdf";
-            if (checkAdobeReader())
-            {
-                if (File.Exists(helpFile))
-                {
-
-                }
-            }
-            else
-            {
-                MessageBox.Show("Adobe Reader XI is not installed on this machine.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+            string helpPath=Environment.CurrentDirectory+@"\Manual\";
+            System.Diagnostics.Process.Start(helpPath);
         }
         private void About()
         {
-            string aboutFile = Environment.CurrentDirectory + @"\Manual\About SimTech Relief.pdf";
-            if (checkAdobeReader())
-            {
-                if (File.Exists(aboutFile))
-                {
-                }
-            }
-            else
-            {
-                MessageBox.Show("Adobe Reader XI is not installed on this machine.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+            AboutUsView view = new AboutUsView();
+            AboutUsVM vm = new AboutUsVM();
+            view.DataContext = vm;
+            view.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            view.ShowDialog();
         }
 
         private void lvGeneral_MouseMove(object sender, MouseEventArgs e)
@@ -631,12 +616,33 @@ namespace ReliefProMain
 
                 ObservableCollection<TVPlantViewModel> list = NavigationTreeView.ItemsSource as ObservableCollection<TVPlantViewModel>;
                 foreach (TVPlantViewModel p in list)
-                {                    
+                {
                     string currentPlantWorkFolder = p.tvPlant.FullPath;
                     string currentPlantFile = p.tvPlant.FullRefPath;
-                    //ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
-                    File.Delete(currentPlantFile);
-                    ZipFile.CreateFromDirectory(currentPlantWorkFolder, currentPlantFile);
+                    string winTempDir = Environment.GetEnvironmentVariable("Temp") +@"\" +Guid.NewGuid().ToString();
+
+                    try
+                    {
+                        if (Directory.Exists(winTempDir))
+                        {
+                            Directory.Delete(winTempDir, true);
+                        }
+                        Directory.CreateDirectory(winTempDir);
+                        string winTempFile = winTempDir + @"\" + p.Name + ".ref";
+                        //ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
+                        ZipFile.CreateFromDirectory(currentPlantWorkFolder, winTempFile);
+                        File.Copy(winTempFile, currentPlantFile, true);
+                    }
+                    catch (Exception ex2)
+                    {
+                    }
+                    finally
+                    {
+                        if (Directory.Exists(winTempDir))
+                        {
+                            Directory.Delete(winTempDir, true);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -693,7 +699,14 @@ namespace ReliefProMain
 
         private void MainWindowApp_Loaded(object sender, RoutedEventArgs e)
         {
-            initIcon();
+            try
+            {
+                initIcon();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
         private static ManualResetEvent BusinessDone = new ManualResetEvent(false);
         private void NavigationTreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -1116,13 +1129,27 @@ namespace ReliefProMain
                 {
                     MessageBoxResult r = MessageBox.Show("Are you sure you want to save all plants?", "", MessageBoxButton.YesNoCancel);
                     if (r == MessageBoxResult.Yes)
-                    {                        
-                        SavePlant();
+                    {
+                        try
+                        {
+                            SavePlant();
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+                        finally
+                        {
+                            System.Diagnostics.Process.GetCurrentProcess().Kill();
+                        }
                     }
-                    else if (r == MessageBoxResult.Cancel) 
+                    else if (r == MessageBoxResult.Cancel)
                     {
                         e.Cancel = true;
                         return;
+                    }
+                    else
+                    {
+                        System.Diagnostics.Process.GetCurrentProcess().Kill();
                     }
                 }
                 
@@ -1134,7 +1161,7 @@ namespace ReliefProMain
             }
             finally
             {
-                System.Diagnostics.Process.GetCurrentProcess().Kill();
+               
                 //Application.Current.Shutdown(-1);    
                 //Environment.Exit(0);
             }
