@@ -98,6 +98,7 @@ namespace ReliefProMain.Models
             {
                 this._Medium = value;
                 this.MediumSideFlowSources = GetMediumSideFlowSources(_Medium);
+                this.MediumSideFlowSource = MediumSideFlowSources[0];
                 NotifyPropertyChanged("Medium");                
             }
         }
@@ -184,6 +185,7 @@ namespace ReliefProMain.Models
             set
             {
                 this._Mediums = value;
+                this.Medium = this._Mediums[0];
                 NotifyPropertyChanged("Mediums");
             }
         }
@@ -198,6 +200,7 @@ namespace ReliefProMain.Models
             set
             {
                 this._MediumSideFlowSources = value;
+                this._MediumSideFlowSource = this._MediumSideFlowSources[0];
                 NotifyPropertyChanged("MediumSideFlowSources");
             }
         }

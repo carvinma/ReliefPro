@@ -867,6 +867,7 @@ namespace ReliefProMain.ViewModel
                 if (IsHasCondenser)
                 {
                     Accumulator ac = new Accumulator();
+                    ac.Orientation = true;
                     ac.AccumulatorName = "AC1";
                     ac.AccumulatorName_Color = ColorBorder.green.ToString();
                     ac.Length_Color = ColorBorder.green.ToString();

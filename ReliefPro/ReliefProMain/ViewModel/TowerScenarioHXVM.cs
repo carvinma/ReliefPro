@@ -61,6 +61,7 @@ namespace ReliefProMain.ViewModel
             set
             {
                 this._SurgeTime = value;
+
                 OnPropertyChanged("SurgeTime");
             }
         }

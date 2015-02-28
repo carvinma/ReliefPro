@@ -74,7 +74,7 @@
         <TextBlock  Grid.Row="2" TextWrapping="Wrap" />
         <CheckBox IsEnabled="{Binding IsEnableFlooding,Mode=TwoWay}" IsChecked="{Binding IsFlooding,Mode=TwoWay}"  Content="{DynamicResource Flooding}" Visibility="{Binding IsDisplay}"  Grid.Row="2" Grid.Column="1"/>
         <CheckBox IsEnabled="{Binding IsEnableSurgeTime,Mode=TwoWay}" IsChecked="{Binding IsSurgeTime,Mode=TwoWay}" Visibility="{Binding IsDisplay}" Content="" Grid.Row="2" Grid.Column="2"/>
-        <CustomControl:UnitConvertTextBox  IsEnabled="{Binding IsSurgeTime,Mode=TwoWay,StringFormat='{}{0:F4}'}" Visibility="{Binding IsDisplay}" Grid.Row="2" TextWrapping="Wrap" Text="{Binding SurgeTime,Mode=TwoWay,StringFormat='{}{0:F4}'}" VerticalAlignment="Center"  Grid.Column="4"/>
+        <TextBox  IsEnabled="{Binding IsSurgeTime,Mode=TwoWay}" Visibility="{Binding IsDisplay}" Grid.Row="2" TextWrapping="Wrap" Text="{Binding SurgeTime,Mode=TwoWay,StringFormat='{}{0:F4}'}" VerticalAlignment="Center"  Grid.Column="4"/>
         <Label Visibility="{Binding IsDisplay}"  Content="{DynamicResource min}" VerticalAlignment="Center"  Grid.Row="2"  Grid.Column="5"/>
 
         

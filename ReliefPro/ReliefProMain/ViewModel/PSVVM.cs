@@ -273,7 +273,7 @@ namespace ReliefProMain.ViewModel
             CurrentModel.dbmodel.CriticalTemperature = UnitConvert.Convert(CurrentModel.CriticalTemperatureUnit,UOMEnum.Temperature,  CurrentModel.CriticalTemperature);
             CurrentModel.dbmodel.CricondenbarPress = UnitConvert.Convert(CurrentModel.CricondenbarPressUnit, UOMEnum.Pressure, CurrentModel.CricondenbarPress);
             CurrentModel.dbmodel.CricondenbarTemp = UnitConvert.Convert(CurrentModel.CricondenbarTempUnit, UOMEnum.Temperature, CurrentModel.CricondenbarTemp);
-
+            CurrentModel.dbmodel.ValveNumber = CurrentModel.ValveNumber;
             CurrentModel.dbmodel.Description = CurrentModel.Description;
             CurrentModel.dbmodel.LocationDescription = CurrentModel.LocationDescription;
             CurrentModel.dbmodel.Location = CurrentModel.Location;

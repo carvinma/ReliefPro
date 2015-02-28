@@ -265,6 +265,7 @@ namespace ReliefProMain.ViewModel
             }
             if (bEdit)
             {
+                bool isUpdate = true;
                 ScenarioDAL scdal = new ScenarioDAL();
                 IList<Scenario> scList = scdal.GetAllList(SessionProtectedSystem);
                 if (scList.Count > 0)
@@ -278,6 +279,13 @@ namespace ReliefProMain.ViewModel
 
                         //SessionProtectedSystem.Flush();
                     }
+                    else
+                    {
+                        isUpdate = false;
+                    }
+                }
+                if (isUpdate)
+                {
                     WriteConvert();
                     AccumulatorDAL db = new AccumulatorDAL();
 
@@ -296,7 +304,7 @@ namespace ReliefProMain.ViewModel
                         CurrentAccumulator.Orientation = false;
                     db.Update(CurrentAccumulator, SessionProtectedSystem);
                 }
-                
+
             }
 
             System.Windows.Window wd = window as System.Windows.Window;
