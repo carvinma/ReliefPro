@@ -12,6 +12,7 @@ namespace ReliefProMain
         private static AutoResetEvent ManualRestEvent = new AutoResetEvent(false);
         private static SplashScreen splashScreen;
         private static object sslock = new object();
+        public static double SplashValue;
         /// <summary>
         /// 显示启动界面
         /// </summary>
@@ -56,6 +57,7 @@ namespace ReliefProMain
                 {
                     splashScreen.Message = msg;
                     splashScreen.ProgressValue += 1;
+                    SplashValue = splashScreen.ProgressValue;
                 }));
             }
         }
