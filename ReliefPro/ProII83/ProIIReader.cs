@@ -451,9 +451,6 @@ namespace ProII83
                         case "BulkDensityAct":
                             data.BulkDensityAct = value;
                             break;
-                        case "VaporFraction":
-                            data.Pressure = value;
-                            break;
                         case "BulkViscosity":
                             data.BulkViscosity = value;
                             break;

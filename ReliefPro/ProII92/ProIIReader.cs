@@ -57,6 +57,7 @@ namespace ProII92
             ComponentIds = ConvertExt.ObjectToString(ComponentId);
             object CompIn = cp2File.GetObjectNames("CompIn");
             CompIns = ConvertExt.ObjectToString(CompIn);
+            
         }
 
 
@@ -402,7 +403,8 @@ namespace ProII92
             data.Componentid = ComponentIds;
             data.PrintNumber = PrintNumbers;
             CP2Object objStream = (CP2Object)cp2File.ActivateObject("Stream", name);
-
+            object ooo= objStream.get_ActualObject();
+            
             foreach (string s in arrStreamAttributes)
             {
                 object v = objStream.GetAttribute(s);
@@ -456,10 +458,7 @@ namespace ProII92
                             break;
                         case "BulkDensityAct":
                             data.BulkDensityAct = value;
-                            break;
-                        case "VaporFraction":
-                            data.Pressure = value;
-                            break;
+                            break;                        
                         case "BulkViscosity":
                             data.BulkViscosity = value;
                             break;
