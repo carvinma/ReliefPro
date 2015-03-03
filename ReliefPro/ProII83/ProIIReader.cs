@@ -386,7 +386,7 @@ namespace ProII83
         public ProIIStreamData GetSteamInfo(string name)
         {
             ProIIStreamData data = new ProIIStreamData();
-            //bool bCalulate = cp2File.CalculateStreamProps(name);
+
             data.SourceFile = przFileName;
             data.StreamName = name;
             data.ProdType = "";
@@ -396,6 +396,7 @@ namespace ProII83
             data.Componentid = ComponentIds;
             data.PrintNumber = PrintNumbers;
             CP2Object objStream = (CP2Object)cp2File.ActivateObject("Stream", name);
+            object ooo = objStream.get_ActualObject();
 
             foreach (string s in arrStreamAttributes)
             {
@@ -439,9 +440,19 @@ namespace ProII83
             {
                 return data;
             }
+
             try
             {
-                CP2Object objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
+                CP2Object objBulkDrop = null;
+                try
+                {
+                    objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
+                }
+                catch (Exception ex)
+                {
+                    cp2File.CalculateStreamProps(name);
+                    objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
+                }
                 foreach (string s in arrBulkPropAttributes)
                 {
                     object v = objBulkDrop.GetAttribute(s);
@@ -449,12 +460,6 @@ namespace ProII83
                     switch (s)
                     {
                         case "BulkMwOfPhase":
-                            if (string.IsNullOrEmpty(value))
-                            {
-                                objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
-                            }
-                            v = objBulkDrop.GetAttribute(s);
-                            value = ConvertExt.ObjectToString(v);
                             data.BulkMwOfPhase = value;
                             break;
                         case "BulkDensityAct":
