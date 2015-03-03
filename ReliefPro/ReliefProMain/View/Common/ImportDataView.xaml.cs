@@ -222,18 +222,22 @@ namespace ReliefProMain.View
                         }
 
                         ProIIStreamDataDAL dbStream = new ProIIStreamDataDAL();
-                        streamListData.Union(streamListData1);
-                        streamListData.Union(streamListData2);
-                        streamListData.Union(streamListData3);
-                        streamListData.Union(streamListData4);
+                        
+                        streamListData = streamListData.Union(streamListData1).ToList();
+                        streamListData = streamListData.Union(streamListData2).ToList();
+                        streamListData = streamListData.Union(streamListData3).ToList();
+                        streamListData = streamListData.Union(streamListData4).ToList();
                         foreach (ProIIStreamData data in streamListData)
                         {
+                            data.SourceFile = selectedFileName.ToLower();
                             dbStream.Add(data, SessionPlant);
                         }
                         isImportSucess = true;
                         SplashScreenManager.SentMsgToScreen("Importing data finished.");
+                        SplashScreenManager.Close();
                         MessageBox.Show("Importing data sucessfully.", "Message Box");
-                        this.Close();
+                        this.Close(); 
+                        
 
                     }
                     catch (Exception ex)
