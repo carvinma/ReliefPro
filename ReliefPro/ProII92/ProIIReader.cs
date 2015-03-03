@@ -387,13 +387,7 @@ namespace ProII92
         public ProIIStreamData GetSteamInfo(string name)
         {
             ProIIStreamData data = new ProIIStreamData();
-            try
-            {
-                bool bCalulate = cp2File.CalculateStreamProps(name);
-            }
-            catch (Exception ex)
-            {
-            }
+           
             data.SourceFile = przFileName;
             data.StreamName = name;
             data.ProdType = "";
@@ -443,6 +437,17 @@ namespace ProII92
             }
             Marshal.FinalReleaseComObject(objStream);
             GC.ReRegisterForFinalize(objStream);
+            if (IsEmptyComposition(data.TotalComposition))
+            {
+                return data;
+            }
+            try
+            {
+                //bool bCalulate = cp2File.CalculateStreamProps(name);
+            }
+            catch (Exception ex)
+            {
+            }
             //if (bCalulate)
             try
             {
@@ -454,6 +459,12 @@ namespace ProII92
                     switch (s)
                     {
                         case "BulkMwOfPhase":
+                            if (string.IsNullOrEmpty(value))
+                            {
+                                objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
+                            }
+                            v = objBulkDrop.GetAttribute(s);
+                            value = ConvertExt.ObjectToString(v);
                             data.BulkMwOfPhase = value;
                             break;
                         case "BulkDensityAct":
@@ -555,5 +566,19 @@ namespace ProII92
             data[0] = d1;
             return data;
         }
+        public static bool IsEmptyComposition(string TotalComposition)
+        {
+            bool b = true;
+            string[] comps = TotalComposition.Split(',');
+            foreach (string comp in comps)
+            {
+                if (comp != "" && comp != "0")
+                {
+                    b = false;
+                    break;
+                }
+            }
+            return b;
+        } 
     }
 }

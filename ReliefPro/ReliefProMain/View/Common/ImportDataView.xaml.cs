@@ -193,14 +193,14 @@ namespace ReliefProMain.View
 
                         Task task1 = new Task(delegate() { Run(reader1, streamList1,streamListData1, 1, test); });
                         Task task2 = new Task(delegate() { Run(reader2, streamList2,streamListData2, test + 1, 2 * test); });
-                        //Task task3 = new Task(delegate() { Run(reader3, streamList3, streamListData3, 2 * test + 1, 3 * test); });
-                        //Task task4 = new Task(delegate() { Run(reader4, streamList4, streamListData4, 3 * test + 1, StreamCount); });
+                        Task task3 = new Task(delegate() { Run(reader3, streamList3, streamListData3, 2 * test + 1, 3 * test); });
+                        Task task4 = new Task(delegate() { Run(reader4, streamList4, streamListData4, 3 * test + 1, StreamCount); });
                         task1.Start();
                         task2.Start();
-                        //task3.Start();
-                        //task4.Start();
-                        //Task.WaitAll(task1, task2,task3,task4);
-                        Task.WaitAll(task1,task2);
+                        task3.Start();
+                        task4.Start();
+                        Task.WaitAll(task1, task2,task3,task4);
+                        //Task.WaitAll(task1,task2);
                         reader1.ReleaseProIIReader();
                         reader2.ReleaseProIIReader();
                         reader3.ReleaseProIIReader();
@@ -231,7 +231,7 @@ namespace ReliefProMain.View
                             dbStream.Add(data, SessionPlant);
                         }
                         isImportSucess = true;
-                        SplashScreenManager.SentMsgToScreen("Importing data finishing.");
+                        SplashScreenManager.SentMsgToScreen("Importing data finished.");
                         MessageBox.Show("Importing data sucessfully.", "Message Box");
                         this.Close();
 
@@ -304,7 +304,7 @@ namespace ReliefProMain.View
                 {
                     string name = strList[i - 1].ToString();
                     r.GetSteamInfo(name, ref list);
-                    //SplashScreenManager.SentMsgToScreen("Importing " + (100 * ( SplashScreenManager.SplashValue + 1) / total).ToString("0") + "%");
+                    SplashScreenManager.SentMsgToScreen("Importing " + (100 * ( SplashScreenManager.SplashValue + 1) / total).ToString("0") + "%");
                     //streamCountIndex++;                    
                 }
                 //if (streamCountIndex>=StreamCount )

@@ -386,7 +386,7 @@ namespace ProII90
         public ProIIStreamData GetSteamInfo(string name)
         {
             ProIIStreamData data = new ProIIStreamData();
-            bool bCalulate = cp2File.CalculateStreamProps(name);
+            //bool bCalulate = cp2File.CalculateStreamProps(name);
             data.SourceFile = przFileName;
             data.StreamName = name;
             data.ProdType = "";
@@ -435,7 +435,10 @@ namespace ProII90
             }
             Marshal.FinalReleaseComObject(objStream);
             GC.ReRegisterForFinalize(objStream);
-            //if (bCalulate)
+            if (IsEmptyComposition(data.TotalComposition))
+            {
+                return data;
+            }
             try
             {
                 CP2Object objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
@@ -446,6 +449,12 @@ namespace ProII90
                     switch (s)
                     {
                         case "BulkMwOfPhase":
+                            if (string.IsNullOrEmpty(value))
+                            {
+                                objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
+                            }
+                            v = objBulkDrop.GetAttribute(s);
+                            value = ConvertExt.ObjectToString(v);
                             data.BulkMwOfPhase = value;
                             break;
                         case "BulkDensityAct":
@@ -547,5 +556,19 @@ namespace ProII90
             data[0] = d1;
             return data;
         }
+        public static bool IsEmptyComposition(string TotalComposition)
+        {
+            bool b = true;
+            string[] comps = TotalComposition.Split(',');
+            foreach (string comp in comps)
+            {
+                if (comp != "" && comp != "0")
+                {
+                    b = false;
+                    break;
+                }
+            }
+            return b;
+        } 
     }
 }
