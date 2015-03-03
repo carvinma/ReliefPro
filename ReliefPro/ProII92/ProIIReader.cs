@@ -441,30 +441,26 @@ namespace ProII92
             {
                 return data;
             }
+            
             try
             {
-                //bool bCalulate = cp2File.CalculateStreamProps(name);
-            }
-            catch (Exception ex)
-            {
-            }
-            //if (bCalulate)
-            try
-            {
-                CP2Object objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
+                CP2Object objBulkDrop = null;
+                try
+                {
+                    objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
+                }
+                catch (Exception ex)
+                {
+                    cp2File.CalculateStreamProps(name);
+                    objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
+                } 
                 foreach (string s in arrBulkPropAttributes)
                 {
                     object v = objBulkDrop.GetAttribute(s);
                     string value = ConvertExt.ObjectToString(v);
                     switch (s)
                     {
-                        case "BulkMwOfPhase":
-                            if (string.IsNullOrEmpty(value))
-                            {
-                                objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
-                            }
-                            v = objBulkDrop.GetAttribute(s);
-                            value = ConvertExt.ObjectToString(v);
+                        case "BulkMwOfPhase":                            
                             data.BulkMwOfPhase = value;
                             break;
                         case "BulkDensityAct":

@@ -104,6 +104,36 @@ namespace ReliefProMain.View
                     Directory.Delete(dir, true);
                 }
                 Directory.CreateDirectory(dir);
+
+                string dir1 = dirInfo + @"\a" + FileNameNoExt;
+                if (Directory.Exists(dir1))
+                {
+                    Directory.Delete(dir1, true);
+                }
+                Directory.CreateDirectory(dir1);
+
+                string dir2 = dirInfo + @"\b" + FileNameNoExt;
+                if (Directory.Exists(dir2))
+                {
+                    Directory.Delete(dir2, true);
+                }
+                Directory.CreateDirectory(dir2);
+
+                string dir3 = dirInfo + @"\c" + FileNameNoExt;
+                if (Directory.Exists(dir3))
+                {
+                    Directory.Delete(dir3, true);
+                }
+                Directory.CreateDirectory(dir3);
+
+                string dir4 = dirInfo + @"\d" + FileNameNoExt;
+                if (Directory.Exists(dir4))
+                {
+                    Directory.Delete(dir4, true);
+                }
+                Directory.CreateDirectory(dir4);
+
+
                 curprzFile = dir + @"\" + selectedFileName;
                 System.IO.File.Copy(selectedFile, curprzFile, true);
                 if (System.IO.File.Exists(dbPlantFile) == true)
@@ -154,10 +184,10 @@ namespace ReliefProMain.View
                         //threadTwo = new Thread(delegate() { Run(test + 1, StreamCount); }); ;//两个线程共同做一件事情 
                         //threadOne.Start();
                         //threadTwo.Start();
-                        string curprzFile1 = curprzFile.Substring(0, curprzFile.Length - 4) + "1.prz";
-                        string curprzFile2 = curprzFile.Substring(0, curprzFile.Length - 4) + "2.prz";
-                        string curprzFile3 = curprzFile.Substring(0, curprzFile.Length - 4) + "3.prz";
-                        string curprzFile4 = curprzFile.Substring(0, curprzFile.Length - 4) + "4.prz";
+                        string curprzFile1 = dir1 + @"\" + selectedFileName;
+                        string curprzFile2 = dir2 + @"\" + selectedFileName;
+                        string curprzFile3 = dir3 + @"\" + selectedFileName;
+                        string curprzFile4 = dir4 + @"\" + selectedFileName;
                         System.IO.File.Copy(selectedFile, curprzFile1, true);
                         System.IO.File.Copy(selectedFile, curprzFile2, true);
                         System.IO.File.Copy(selectedFile, curprzFile3, true);
@@ -205,6 +235,11 @@ namespace ReliefProMain.View
                         reader2.ReleaseProIIReader();
                         reader3.ReleaseProIIReader();
                         reader4.ReleaseProIIReader();
+
+                        Directory.Delete(dir1, true);
+                        Directory.Delete(dir2, true);
+                        Directory.Delete(dir3, true);
+                        Directory.Delete(dir4, true);
                         //threadTwo.Abort();
                         //threadOne.Abort();
                         SourceFile df = new SourceFile();
@@ -229,7 +264,6 @@ namespace ReliefProMain.View
                         streamListData = streamListData.Union(streamListData4).ToList();
                         foreach (ProIIStreamData data in streamListData)
                         {
-                            data.SourceFile = selectedFileName.ToLower();
                             dbStream.Add(data, SessionPlant);
                         }
                         isImportSucess = true;
@@ -308,7 +342,10 @@ namespace ReliefProMain.View
                 {
                     string name = strList[i - 1].ToString();
                     r.GetSteamInfo(name, ref list);
-                    SplashScreenManager.SentMsgToScreen("Importing " + (100 * ( SplashScreenManager.SplashValue + 1) / total).ToString("0") + "%");
+                    if (SplashScreenManager.SplashValue < total)
+                    {
+                        SplashScreenManager.SentMsgToScreen("Importing " + (100 * (SplashScreenManager.SplashValue + 1) / total).ToString("0") + "%");
+                    }
                     //streamCountIndex++;                    
                 }
                 //if (streamCountIndex>=StreamCount )
