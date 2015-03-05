@@ -26,8 +26,8 @@ namespace ReliefProModel.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=E:\\CodePro\\trunk\\ReliefPro\\ReliefPro" +
-            "Main\\Template\\plant.mdb")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=|DataDirectory|\\\\Template\\\\plant.mdb" +
+            "")]
         public string plantConnectionString {
             get {
                 return ((string)(this["plantConnectionString"]));
