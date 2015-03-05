@@ -14,16 +14,15 @@ namespace ReliefProBLL
     {
         private ORDesignerPlantDataContext plantContext = new ORDesignerPlantDataContext();
 
-        public tbDevice GetModel(int deviceType)
+        public tbDevice GetModel(int deviceType,string deviceName)
         {
-            return plantContext.tbDevice.First(p => p.DeviceType == deviceType);
+            return plantContext.tbDevice.FirstOrDefault(p => p.DeviceType == deviceType && p.DeviceName==deviceName);
         }
-        public void SaveCompressor(tbDevice dbmodel, ObservableCollection<tbStream> Feeds, ObservableCollection<tbStream> Products, tbTreePS ps)
+        public void SaveCompressor(tbDevice dbmodel, ObservableCollection<tbStream> Feeds, ObservableCollection<tbStream> Products)
         {
             if (dbmodel.Id == 0)
             {
                 plantContext.tbDevice.Insert(dbmodel);
-                plantContext.tbTreePS.Insert(ps);
                 plantContext.tbStream.InsertAllOnSubmit(Feeds);
                 plantContext.tbStream.InsertAllOnSubmit(Products);
                 ConcurrentBag<tbSource> sourceBag = new ConcurrentBag<tbSource>();
