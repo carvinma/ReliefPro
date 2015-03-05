@@ -33,6 +33,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ALinq">
+      <HintPath>C:\Program Files (x86)\ALinq3\bin\ALinq.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\Dependencies\NHibernate.dll</HintPath>
     </Reference>
@@ -59,10 +62,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ReliefProDAL\ReliefProDAL.csproj">
-      <Project>{80d9c6df-a3ca-4c0c-93f4-8071b72470bd}</Project>
-      <Name>ReliefProDAL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ReliefProModel\ReliefProModel.csproj">
       <Project>{33484ecd-0474-4110-aaf0-c551b57087c7}</Project>
       <Name>ReliefProModel</Name>

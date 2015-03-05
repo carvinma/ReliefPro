@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NHibernate;
-using ReliefProDAL;
 using ReliefProModel;
 using System.ComponentModel;
+using ALinq;
 
 namespace UOMLib
 {
@@ -14,162 +13,105 @@ namespace UOMLib
     {
         private readonly string dbConnectPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\plant.mdb";
 
-        public IList<BasicUnit> GetBasicUnit(ISession SessionPlan)
+        private ORDesignerPlantDataContext plantContext = new ORDesignerPlantDataContext();
+        public IList<systbBasicUnit> GetBasicUnit()
         {
-            IList<BasicUnit> lstBasicUnit;
-            BasicUnitDAL db = new BasicUnitDAL();
-            //using (var helper = new UOMLNHibernateHelper(dbConnectPath))
-            //{
-            //    lstBasicUnit = db.GetAllList(helper.GetCurrentSession());
-            //}
-            lstBasicUnit = db.GetAllList(SessionPlan);
-            return lstBasicUnit;
+            var query = from q in plantContext.systbBasicUnit select q;
+            return query.ToList();
         }
-        public BasicUnit GetBasicUnitUOM(ISession SessionPlan)
+        public systbBasicUnit GetBasicUnitUOM()
         {
-            BasicUnitDAL db = new BasicUnitDAL();
-            var lstBasicUnit = db.GetAllList(SessionPlan);
-            return lstBasicUnit.Where(p => p.IsDefault == 1).First();
+            return plantContext.systbBasicUnit.First(p => p.IsDefault == 1);
         }
-        public IList<BasicUnitDefault> GetBasicUnitDefault(ISession SessionPlan)
+        public IList<systbBasicUnitDefault> GetBasicUnitDefault()
         {
-            BasicUnitDefaultDAL db = new BasicUnitDefaultDAL();
-            var lstBasicUnitDefault = db.GetAllList(SessionPlan);
-            return lstBasicUnitDefault;
+            var query = from q in plantContext.systbBasicUnitDefault select q;
+            return query.ToList();
         }
 
-        public IList<BasicUnitCurrent> GetBasicUnitCurrent(ISession SessionPlan)
+        public IList<systbBasicUnitCurrent> GetBasicUnitCurrent()
         {
-            BasicUnitCurrentDAL db = new BasicUnitCurrentDAL();
-            var lstBasicUnitCurrent = db.GetAllList(SessionPlan);
-            return lstBasicUnitCurrent;
+            var query = from q in plantContext.systbBasicUnitCurrent select q;
+            return query.ToList();
         }
 
-        public IList<SystemUnit> GetSystemUnit(ISession SessionPlan)
+        public IList<systbSystemUnit> GetSystemUnit()
         {
-            IList<SystemUnit> lstSystemUnit;
-            SystemUnitDAL db = new SystemUnitDAL();
-
-            lstSystemUnit = db.GetAllList(SessionPlan);
-            return lstSystemUnit;
+            var query = from q in plantContext.systbSystemUnit select q;
+            return query.ToList();
         }
-        public IList<UnitType> GetUnitType(ISession SessionPlan)
+        public IList<systbUnitType> GetUnitType()
         {
-            UnitTypeDAL db = new UnitTypeDAL();
-
-            var lstUnitType = db.GetAllList(SessionPlan);
-            return lstUnitType;
+            var query = from q in plantContext.systbUnitType select q;
+            return query.ToList();
         }
-        public int BasicUnitAdd(BasicUnit model, ISession SessionPlan)
+        public int BasicUnitAdd(systbBasicUnit model)
         {
-            int tmpID = 0;
-            BasicUnitDAL db = new BasicUnitDAL();
-            object o = db.Add(model, SessionPlan);
-            int.TryParse(o.ToString(), out tmpID);
-            return tmpID;
+            //对于Insert方法，如果成功插入数据，如果主键是自增长的整数，则返回主键的值，否则返回1，如果失败则返回0。
+            int id = plantContext.systbBasicUnit.Insert(model);
+            return id;
         }
-        public void BasicUnitDel(BasicUnit model, ISession templateSession)
+        public void BasicUnitDel(systbBasicUnit model)
         {
-            BasicUnitDAL db = new BasicUnitDAL();
-
-            string sql = "delete from tbBasicUnitDefault where BasicUnitID=:ID";
-            var query = templateSession.CreateSQLQuery(sql);
-            query.SetInt32("ID", model.ID);
-            var rows = query.ExecuteUpdate();
-            db.Delete(model, templateSession);
-
-            //model= db.GetModel(SessionPlan,model.UnitName);
-            //string sql2 = "delete from tbBasicUnitDefault where BasicUnitID=:ID";
-            //var query2 = SessionPlan.CreateSQLQuery(sql2);
-            //query2.SetInt32("ID", model.ID);
-            //var rows2 = query2.ExecuteUpdate();
-            //db.Delete(model, SessionPlan);
+            plantContext.systbBasicUnitDefault.Delete(p => p.BasicUnitID == model.Id);
+            plantContext.systbBasicUnit.Delete(p => p.Id == model.Id);
         }
         public int BasicUnitSetDefault(int id)
         {
-            BasicUnitDAL db = new BasicUnitDAL();
-
-            string sql = "update tbBasicUnit a set IsDefault=0 where a.ID<>:ID";
+            string sql = "update tbBasicUnit a set IsDefault=0 where a.ID<>{0}";
             string sql2 = "update tbBasicUnit a set IsDefault=1 where a.ID=:ID";
-            var query = UOMSingle.Session.CreateSQLQuery(sql);
-            var query2 = UOMSingle.Session.CreateSQLQuery(sql2);
-            query.SetInt32("ID", id);
-            query2.SetInt32("ID", id);
             try
             {
-                var rows = query.ExecuteUpdate();
-                rows = query2.ExecuteUpdate();
-                return rows;
+                int i = plantContext.ExecuteCommand(sql, new object[] { id });
+                i = plantContext.ExecuteCommand(sql2, new object[] { id });
+                return i;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public int BasicUnitSetDefault(int id,ISession SessionPlan)
-        {
-            BasicUnitDAL db = new BasicUnitDAL();
+        //public int BasicUnitSetDefault(int id)
+        //{
+        //    string sql = "update tbBasicUnit a set IsDefault=0 where a.ID<>:ID";
+        //    string sql2 = "update tbBasicUnit a set IsDefault=1 where a.ID=:ID";
 
-            string sql = "update tbBasicUnit a set IsDefault=0 where a.ID<>:ID";
-            string sql2 = "update tbBasicUnit a set IsDefault=1 where a.ID=:ID";
-            var query = SessionPlan.CreateSQLQuery(sql);
-            var query2 = SessionPlan.CreateSQLQuery(sql2);
-            query.SetInt32("ID", id);
-            query2.SetInt32("ID", id);
+        //    try
+        //    {
+        //        int i = plantContext.ExecuteCommand(sql, new object[] { id });
+        //        i = plantContext.ExecuteCommand(sql2, new object[] { id });
+        //        return i;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+        public void Save(IList<systbBasicUnitDefault> lst)
+        {
             try
             {
-                var rows = query.ExecuteUpdate();
-                rows = query2.ExecuteUpdate();
-                return rows;
+                plantContext.systbBasicUnitDefault.InsertAllOnSubmit(lst);
+                plantContext.SubmitChanges();
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
-        public void Save(IList<BasicUnitDefault> lst, ISession SessionPlan)
+        public void SaveCurrent(IList<systbBasicUnitCurrent> lst)
         {
-            SessionPlan.Clear();
-            using (ITransaction tx = SessionPlan.BeginTransaction())
+            try
             {
-                try
-                {
-                    foreach (var basicUnitDefault in lst)
-                    {
-                        SessionPlan.SaveOrUpdate(basicUnitDefault);
-                    }
-                    SessionPlan.Flush();
-                    tx.Commit();
-                }
-                catch (HibernateException)
-                {
-                    tx.Rollback();
-                    throw;
-                }
+                plantContext.systbBasicUnitCurrent.Delete(p => p.Id > 0);
+                plantContext.systbBasicUnitCurrent.InsertAllOnSubmit(lst);
+                plantContext.SubmitChanges();
             }
-        }
-        public void SaveCurrent(IList<BasicUnitCurrent> lst, ISession SessionPlan)
-        {
-            SessionPlan.Clear();
-            using (ITransaction tx = SessionPlan.BeginTransaction())
+            catch (Exception ex)
             {
-                try
-                {
-                    string sql = "from ReliefProModel.BasicUnitCurrent";
-                    SessionPlan.Delete(sql);
-                    foreach (var basicCurrent in lst)
-                    {
-                        SessionPlan.Save(basicCurrent);
-                    }
-                    SessionPlan.Flush();
-                    tx.Commit();
-                }
-                catch (HibernateException)
-                {
-                    tx.Rollback();
-                    throw;
-                }
+                throw;
             }
+
         }
     }
 }

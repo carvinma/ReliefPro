@@ -67,9 +67,9 @@ namespace UOMLib
         
         public string SessionDBPath;
 
-        public IList<BasicUnitDefault> lstBasicUnitDefault;
-        public IList<BasicUnitCurrent> lstBasicUnitCurrent;
-        public IList<SystemUnit> lstSystemUnit;
+        public IList<systbBasicUnitDefault> lstBasicUnitDefault;
+        public IList<systbBasicUnitCurrent> lstBasicUnitCurrent;
+        public IList<systbSystemUnit> lstSystemUnit;
         public int BasicUnitID;
         public bool UnitFromFlag = true;//true 从Current赋值下拉框，否则是原来系统默认值
         public ISession SessionPlant;
@@ -122,32 +122,32 @@ namespace UOMLib
         {
             var currentUnit = lstBasicUnitCurrent.FirstOrDefault(p => p.UnitTypeID == int.Parse(unitTypeEnum.ToString("d")));
             if (currentUnit != null)
-                return lstSystemUnit.FirstOrDefault(p => p.ID == currentUnit.SystemUnitID).Name;
+                return lstSystemUnit.FirstOrDefault(p => p.Id == currentUnit.SystemUnitID).Name;
             return "";
         }
         private void initInfo(ISession SessionPlant)
         {
             UnitInfo unitInfo = new UnitInfo();
-            var basicUnit = unitInfo.GetBasicUnitUOM(SessionPlant);
-            BasicUnitID = basicUnit.ID;
+            var basicUnit = unitInfo.GetBasicUnitUOM();
+            BasicUnitID = basicUnit.Id;
 
             if (lstBasicUnitDefault == null || lstBasicUnitDefault.Count == 0)
             {
-                lstBasicUnitDefault = unitInfo.GetBasicUnitDefault(SessionPlant);
+                lstBasicUnitDefault = unitInfo.GetBasicUnitDefault();
             }
             if (lstSystemUnit == null || lstSystemUnit.Count == 0)
             {
-                lstSystemUnit = unitInfo.GetSystemUnit(SessionPlant);
+                lstSystemUnit = unitInfo.GetSystemUnit();
             }
             if (lstBasicUnitCurrent == null || lstBasicUnitCurrent.Count== 0)
             {
-                lstBasicUnitCurrent = unitInfo.GetBasicUnitCurrent(SessionPlant);
+                lstBasicUnitCurrent = unitInfo.GetBasicUnitCurrent();
             }
         }
         private string GetDefalutUnit(UnitTypeEnum unitTypeEnum)
         {
             var basicUnitDefault = lstBasicUnitDefault.FirstOrDefault(p => p.BasicUnitID == BasicUnitID && p.UnitTypeID == int.Parse(unitTypeEnum.ToString("d")));
-            return lstSystemUnit.FirstOrDefault(p => p.ID == basicUnitDefault.SystemUnitID).Name;
+            return lstSystemUnit.FirstOrDefault(p => p.Id == basicUnitDefault.SystemUnitID).Name;
         }
         public enum UnitTypeEnum
         {

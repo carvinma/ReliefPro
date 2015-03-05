@@ -9,10 +9,10 @@ namespace UOMLib
 {
     public class UnitConvert
     {
-        public static ILookup<string, SystemUnit> lkpSystemUnit;
-        public static ILookup<int, SystemUnit> lkpSystemUnitByUnitType;
+        public static ILookup<string, systbSystemUnit> lkpSystemUnit;
+        public static ILookup<int, systbSystemUnit> lkpSystemUnitByUnitType;
 
-        public static ILookup<string, UnitType> lkpUnitType;
+        public static ILookup<string, systbUnitType> lkpUnitType;
 
         public static double Convert(string UnitType, string OriginUnit, string TargetUnit, double value)
         {
@@ -37,10 +37,10 @@ namespace UOMLib
             if (originUnitModel.First().UnitType != targetUnitModel.First().UnitType)
                 throw new Exception("the Origin Unit Translate to Target Unit is error!");
 
-            double innerValue = (value.Value + originUnitModel.First().Constant) * originUnitModel.First().ScaleFactor;
+            double? innerValue = (value.Value + originUnitModel.First().Constant) * originUnitModel.First().ScaleFactor;
             if (targetUnitModel.First().ScaleFactor != 0)
             {
-                double resultValue = innerValue / targetUnitModel.First().ScaleFactor - targetUnitModel.First().Constant;
+                double? resultValue = innerValue / targetUnitModel.First().ScaleFactor - targetUnitModel.First().Constant;
                 return resultValue;
             }
             return value;
@@ -61,10 +61,10 @@ namespace UOMLib
             if (originUnitModel.First().UnitType != targetUnitModel.First().UnitType)
                 throw new Exception("the Origin Unit Translate to Target Unit is error!");
 
-            double innerValue = (value + originUnitModel.First().Constant) * originUnitModel.First().ScaleFactor;
+            double innerValue = (value + originUnitModel.First().Constant.Value) * originUnitModel.First().ScaleFactor.Value;
             if (targetUnitModel.First().ScaleFactor != 0)
             {
-                double resultValue = innerValue / targetUnitModel.First().ScaleFactor - targetUnitModel.First().Constant;
+                double resultValue = innerValue / targetUnitModel.First().ScaleFactor.Value - targetUnitModel.First().Constant.Value;
                 return resultValue;
             }
             return value;
