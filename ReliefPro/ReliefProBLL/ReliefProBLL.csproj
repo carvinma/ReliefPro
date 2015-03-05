@@ -53,6 +53,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ALinq">
+      <HintPath>C:\Program Files (x86)\ALinq3\bin\ALinq.dll</HintPath>
+    </Reference>
     <Reference Include="Autofac">
       <HintPath>..\Dependencies\Autofac.dll</HintPath>
     </Reference>
@@ -74,6 +77,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="aDeviceBLL.cs" />
     <Compile Include="BlockedVaporOutletBLL.cs" />
     <Compile Include="CompressorBLL.cs" />
     <Compile Include="CompressorBlockedBLL.cs" />

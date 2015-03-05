@@ -6,7 +6,6 @@ using NHibernate;
 using ReliefProDAL;
 using ReliefProDAL.Towers;
 using ReliefProModel;
-using ReliefProModel.Towers;
 using UOMLib;
 
 namespace ReliefProBLL
