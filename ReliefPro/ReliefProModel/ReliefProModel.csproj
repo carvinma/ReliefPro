@@ -53,6 +53,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ALinq">
+      <HintPath>C:\Program Files (x86)\ALinq3\bin\ALinq.dll</HintPath>
+    </Reference>
+    <Reference Include="ALinq.Access">
+      <HintPath>C:\Program Files (x86)\ALinq3\bin\ALinq.Access.dll</HintPath>
+    </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\Dependencies\Iesi.Collections.dll</HintPath>
     </Reference>
@@ -68,225 +74,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accumulator.cs" />
-    <Compile Include="BasicUnit.cs" />
-    <Compile Include="BasicUnitDefault.cs" />
-    <Compile Include="Compressor.cs" />
-    <Compile Include="Compressors\CentrifugalBlockedOutlet.cs">
-      <SubType>Code</SubType>
+    <Compile Include="ORDesignerPlant.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ORDesignerPlant.admf</DependentUpon>
     </Compile>
-    <Compile Include="Compressors\PistonBlockedOutlet.cs" />
-    <Compile Include="CondenserCalc.cs" />
-    <Compile Include="GlobalDefault\ConditionsSettings.cs" />
-    <Compile Include="GlobalDefault\FlareSystem.cs" />
-    <Compile Include="HXs\HeatExchanger.cs" />
-    <Compile Include="HXs\TubeRupture.cs" />
-    <Compile Include="ReactorLoops\ReactorLoopEqDiff.cs" />
-    <Compile Include="Reports\PlantSummaryGridDS.cs" />
-    <Compile Include="Reports\PUsummary.cs" />
-    <Compile Include="Reports\PUsummaryGridDS.cs" />
-    <Compile Include="Reports\PUsummaryNote.cs" />
-    <Compile Include="Reports\PUsummaryReportSource.cs" />
-    <Compile Include="StorageTank.cs" />
-    <Compile Include="Drums\Drum.cs" />
-    <Compile Include="Drums\DrumBlockedOutlet.cs" />
-    <Compile Include="Drums\DrumFireFluid.cs" />
-    <Compile Include="Drums\DrumFireCalc.cs" />
-    <Compile Include="Drums\DrumDepressuring.cs" />
-    <Compile Include="Drums\DrumSize.cs" />
-    <Compile Include="FeedBottomHX.cs" />
-    <Compile Include="HXs\AirCooledHXFireSize.cs" />
-    <Compile Include="HXs\HXBlockedIn.cs" />
-    <Compile Include="HXs\HXFireSize.cs" />
-    <Compile Include="InletValveOpen.cs" />
-    <Compile Include="IScenario.cs" />
-    <Compile Include="Latent.cs" />
-    <Compile Include="LatentProduct.cs" />
-    <Compile Include="ProIIEqData.cs" />
-    <Compile Include="ProIIEqType.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PSV.cs" />
-    <Compile Include="ReactorLoops\GeneralFailureCommon.cs" />
-    <Compile Include="ReactorLoops\GeneralFailureCommonDetail.cs" />
-    <Compile Include="ReactorLoops\ReactorLoopCommon.cs" />
-    <Compile Include="ReactorLoops\ReactorLoop.cs" />
-    <Compile Include="ReactorLoops\ReactorLoopDetail.cs" />
-    <Compile Include="ReboilerPinch.cs" />
-    <Compile Include="Source.cs" />
-    <Compile Include="SystemScenarioFactor.cs" />
-    <Compile Include="SystemUnit.cs" />
-    <Compile Include="ProtectedSystem.cs" />
-    <Compile Include="Towers\BlockedVaporOutlet.cs" />
-    <Compile Include="TreeUnit.cs" />
-    <Compile Include="TowerFire.cs" />
-    <Compile Include="TowerFireColumn.cs" />
-    <Compile Include="TowerFireColumnDetail.cs" />
-    <Compile Include="TowerFireCooler.cs" />
-    <Compile Include="TowerFireEq.cs" />
-    <Compile Include="TowerFireDrum.cs" />
-    <Compile Include="TowerFireHX.cs" />
-    <Compile Include="TowerFireOther.cs" />
-    <Compile Include="TowerFlashProduct.cs" />
-    <Compile Include="TowerHXDetail.cs" />
-    <Compile Include="TowerHX.cs" />
-    <Compile Include="Tower.cs" />
-    <Compile Include="TowerScenarioHX.cs" />
-    <Compile Include="Scenario.cs" />
-    <Compile Include="TowerScenarioStream.cs" />
-    <Compile Include="UnitType.cs" />
-    <Compile Include="CustomStream.cs" />
-    <Compile Include="SystemScenarioSource.cs" />
-    <Compile Include="SideColumn.cs" />
-    <Compile Include="ProIIStreamData.cs" />
-    <Compile Include="FlashResult.cs" />
-    <Compile Include="HeatSource.cs" />
-    <Compile Include="ScenarioHeatSource.cs" />
-    <Compile Include="Sink.cs" />
-    <Compile Include="AbnormalHeaterDetail.cs" />
-    <Compile Include="Critical.cs" />
-    <Compile Include="FlashCalcResult.cs" />
-    <Compile Include="TreePS.cs" />
-    <Compile Include="SourceFile.cs" />
-    <Compile Include="BasicUnitCurrent.cs" />
-    <EmbeddedResource Include="Compressors\CentrifugalBlockedOutlet.hbm.xml" />
-    <EmbeddedResource Include="Compressors\PistonBlockedOutlet.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TowerHXDetail.hbm.xml" />
-    <EmbeddedResource Include="Scenario.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TowerScenarioHX.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TowerScenarioStream.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Tower.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ReactorLoops\ReactorLoopEqDiff.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BasicUnitCurrent.hbm.xml" />
-    <EmbeddedResource Include="SourceFile.hbm.xml" />
-    <EmbeddedResource Include="Towers\BlockedVaporOutlet.hbm.xml" />
-    <EmbeddedResource Include="TreePS.hbm.xml" />
-    <EmbeddedResource Include="Reports\PUsummaryNote.hbm.xml" />
-    <EmbeddedResource Include="Reports\PUsummary.hbm.xml" />
-    <EmbeddedResource Include="FlashCalcResult.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Critical.hbm.xml" />
-    <EmbeddedResource Include="AbnormalHeaterDetail.hbm.xml" />
-    <EmbeddedResource Include="ReactorLoops\GeneralFailureCommonDetail.hbm.xml" />
-    <EmbeddedResource Include="ReactorLoops\GeneralFailureCommon.hbm.xml" />
-    <EmbeddedResource Include="ReactorLoops\ReactorLoopDetail.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ReactorLoops\ReactorLoop.hbm.xml" />
-    <EmbeddedResource Include="Sink.hbm.xml" />
-    <EmbeddedResource Include="ReactorLoops\ReactorLoopCommon.hbm.xml" />
-    <EmbeddedResource Include="ScenarioHeatSource.hbm.xml" />
-    <EmbeddedResource Include="HeatSource.hbm.xml" />
-    <EmbeddedResource Include="FlashResult.hbm.xml" />
-    <EmbeddedResource Include="CondenserCalc.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FeedBottomHX.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="InletValveOpen.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ReboilerPinch.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProIIStreamData.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProIIEqData.hbm.xml" />
-    <EmbeddedResource Include="ProIIEqType.hbm.xml" />
-    <EmbeddedResource Include="StorageTank.hbm.xml" />
-    <EmbeddedResource Include="SideColumn.hbm.xml" />
-    <EmbeddedResource Include="TowerFireHX.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TowerFireEq.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TowerFireDrum.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TowerFireOther.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TowerFireCooler.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TowerFireColumnDetail.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TowerFireColumn.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TowerFire.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LatentProduct.hbm.xml" />
-    <EmbeddedResource Include="Latent.hbm.xml" />
-    <EmbeddedResource Include="Accumulator.hbm.xml" />
-    <EmbeddedResource Include="BasicUnit.hbm.xml" />
-    <EmbeddedResource Include="BasicUnitDefault.hbm.xml" />
-    <EmbeddedResource Include="Drums\DrumBlockedOutlet.hbm.xml" />
-    <EmbeddedResource Include="Drums\DrumFireCalc.hbm.xml" />
-    <EmbeddedResource Include="Drums\DrumSize.hbm.xml" />
-    <EmbeddedResource Include="Drums\DrumFireFluid.hbm.xml" />
-    <EmbeddedResource Include="Drums\Drum.hbm.xml" />
-    <EmbeddedResource Include="Drums\DrumDepressuring.hbm.xml" />
-    <EmbeddedResource Include="Compressor.hbm.xml" />
-    <EmbeddedResource Include="HXs\HXBlockedIn.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HXs\AirCooledHXFireSize.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HXs\HXFireSize.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HXs\HeatExchanger.hbm.xml" />
-    <EmbeddedResource Include="GlobalDefault\FlareSystem.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GlobalDefault\ConditionsSettings.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HXs\TubeRupture.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Content Include="license.txt" />
-    <EmbeddedResource Include="TowerFlashProduct.hbm.xml" />
-    <EmbeddedResource Include="SystemScenarioSource.hbm.xml" />
-    <EmbeddedResource Include="SystemScenarioFactor.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CustomStream.hbm.xml" />
-    <EmbeddedResource Include="TowerHX.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SystemUnit.hbm.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PSV.hbm.xml" />
-    <EmbeddedResource Include="Source.hbm.xml" />
-    <EmbeddedResource Include="ProtectedSystem.hbm.xml" />
-    <EmbeddedResource Include="TreeUnit.hbm.xml" />
-    <EmbeddedResource Include="UnitType.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="app.config" />
+    <None Include="ORDesignerPlant.admf">
+      <Generator>ALinqCodeGenerator</Generator>
+      <LastGenOutput>ORDesignerPlant.designer.cs</LastGenOutput>
+    </None>
+    <None Include="ORDesignerPlant.admf.diagram">
+      <DependentUpon>ORDesignerPlant.admf</DependentUpon>
+    </None>
+    <None Include="ORDesignerPlant.designer.view">
+      <DependentUpon>ORDesignerPlant.admf</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="Properties\ALinq.lic" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

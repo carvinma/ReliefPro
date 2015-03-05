@@ -1,0 +1,1317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Provider="ALinq.Access.AccessDbProvider" Class="ORDesignerPlantDataContext" Name="plant" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=E:\CodePro\trunk\ReliefPro\ReliefProMain\Template\plant.mdb" Provider="System.Data.OleDb" Mode="AppSettings" SettingsPropertyName="plantConnectionString" SettingsObjectName="ReliefProModel.Properties.Settings" />
+  <Table Name="systbBasicUnit" Member="systbBasicUnit">
+    <Type Name="systbBasicUnit">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IsDefault" Name="IsDefault" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="UnitName" Name="UnitName" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="systbBasicUnitCurrent" Member="systbBasicUnitCurrent">
+    <Type Name="systbBasicUnitCurrent">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BasicUnitID" Name="BasicUnitID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SystemUnitID" Name="SystemUnitID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="UnitTypeID" Name="UnitTypeID" Type="System.Int32" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="systbBasicUnitDefault" Member="systbBasicUnitDefault">
+    <Type Name="systbBasicUnitDefault">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BasicUnitID" Name="BasicUnitID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SystemUnitID" Name="SystemUnitID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="UnitTypeID" Name="UnitTypeID" Type="System.Int32" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="systbGlossary" Member="systbGlossary">
+    <Type Name="systbGlossary">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="true" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="GName" Name="GName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="GType" Name="GType" Type="System.Int32" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="systbProIIEqType" Member="systbProIIEqType">
+    <Type Name="systbProIIEqType">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="id" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Description" Name="description" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Eqtypename" Name="eqtypename" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="systbScenarioFactor" Member="systbScenarioFactor">
+    <Type Name="systbScenarioFactor">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="AbnormalHeatInput" Name="AbnormalHeatInput" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="AutomaticControlsFailure" Name="AutomaticControlsFailure" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BlockedOutlet" Name="BlockedOutlet" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Category" Name="category" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Categoryvalue" Name="categoryvalue" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColdFeedStops" Name="ColdFeedStops" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CoolingWaterFailure" Name="CoolingWaterFailure" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Fire" Name="Fire" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="GeneralElectricPowerFailure" Name="GeneralElectricPowerFailure" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InletValveFailsOpen" Name="InletValveFailsOpen" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PumpAroundFailure" Name="PumpAroundFailure" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="refluxFailure" Name="refluxFailure" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="RefrigerantFailure" Name="RefrigerantFailure" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SteamFailure" Name="SteamFailure" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="systbSystemUnit" Member="systbSystemUnit">
+    <Type Name="systbSystemUnit">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="true" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Constant" Name="Constant" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Description" Name="Description" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Name" Name="Name" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScaleFactor" Name="ScaleFactor" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="UnitType" Name="UnitType" Type="System.Double" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="systbUnitType" Member="systbUnitType">
+    <Type Name="systbUnitType">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="true" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Description" Name="Description" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="isCalc" Name="isCalc" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Name" Name="Name" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ShortName" Name="ShortName" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbAbnormalHeaterDetail" Member="tbAbnormalHeaterDetail">
+    <Type Name="tbAbnormalHeaterDetail">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="AbnormalType" Name="AbnormalType" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Duty" Name="Duty" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DutyFactor" Name="DutyFactor" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeaterID" Name="HeaterID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeaterName" Name="HeaterName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeaterType" Name="HeaterType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbAirCooledHXFireSize" Member="tbAirCooledHXFireSize">
+    <Type Name="tbAirCooledHXFireSize">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PipingContingency" Name="PipingContingency" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PipingcontingencyColor" Name="PipingContingency_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioidColor" Name="ScenarioID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="WettedBundle" Name="WettedBundle" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="WettedbundleColor" Name="WettedBundle_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbBlockedVaporOutlet" Member="tbBlockedVaporOutlet">
+    <Type Name="tbBlockedVaporOutlet">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InletAbsorbentUpstreamMaxPressure" Name="InletAbsorbentUpstreamMaxPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InletabsorbentupstreammaxpressureColor" Name="InletAbsorbentUpstreamMaxPressure_Color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InletGasUpstreamMaxPressure" Name="InletGasUpstreamMaxPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InletgasupstreammaxpressureColor" Name="InletGasUpstreamMaxPressure_Color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalGasFeedWeightRate" Name="NormalGasFeedWeightRate" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalgasfeedweightrateColor" Name="NormalGasFeedWeightRate_Color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalGasProductWeightRate" Name="NormalGasProductWeightRate" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalgasproductweightrateColor" Name="NormalGasProductWeightRate_Color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="OutletType" Name="OutletType" Type="System.Int16" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int16" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbCompressorBlockedOutlet" Member="tbCompressorBlockedOutlet">
+    <Type Name="tbCompressorBlockedOutlet">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeltPowY" Name="DeltPowY" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeltpowyColor" Name="DeltPowY_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InletLoad" Name="InletLoad" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InletloadColor" Name="InletLoad_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="KNormal" Name="KNormal" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="KnormalColor" Name="KNormal_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="OutletPressure" Name="OutletPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="OutletpressureColor" Name="OutletPressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="RatedCapacity" Name="RatedCapacity" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="RatedcapacityColor" Name="RatedCapacity_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Scale" Name="Scale" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScaleColor" Name="Scale_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioidColor" Name="ScenarioID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SurgeLoad" Name="SurgeLoad" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SurgeloadColor" Name="SurgeLoad_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbCondenserCalc" Member="tbCondenserCalc">
+    <Type Name="tbCondenserCalc">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="Flooding" Name="Flooding" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FloodingColor" Name="Flooding_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsSurgeTime" Name="IsSurgeTime" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IssurgetimeColor" Name="IsSurgeTime_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SurgeTime" Name="SurgeTime" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SurgetimeColor" Name="SurgeTime_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbDevice" Member="tbDevice">
+    <Type Name="tbDevice">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColdHighPressureSeparator" Name="ColdHighPressureSeparator" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColdhighpressureseparatorColor" Name="ColdHighPressureSeparator_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColdInlet" Name="ColdInlet" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColdOutlet" Name="ColdOutlet" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColdReactorFeedStream" Name="ColdReactorFeedStream" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColdreactorfeedstreamColor" Name="ColdReactorFeedStream_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColdReactorFeedStream2" Name="ColdReactorFeedStream2" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Coldreactorfeedstream2Color" Name="ColdReactorFeedStream2_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CompressorH2Stream" Name="CompressorH2Stream" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Compressorh2streamColor" Name="CompressorH2Stream_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CompressorType" Name="CompressorType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CompressortypeColor" Name="CompressorType_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Description" Name="Description" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DescriptionColor" Name="Description_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeviceName" Name="DeviceName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeviceType" Name="DeviceType" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Driver" Name="Driver" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DriverColor" Name="Driver_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DrumType" Name="DrumType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DrumtypeColor" Name="DrumType_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Duty" Name="Duty" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DutyColor" Name="Duty_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EffluentStream" Name="EffluentStream" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EffluentstreamColor" Name="EffluentStream_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EffluentStream2" Name="EffluentStream2" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Effluentstream2Color" Name="EffluentStream2_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FirstFeed" Name="FirstFeed" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FirstProduct" Name="FirstProduct" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HotHighPressureSeparator" Name="HotHighPressureSeparator" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HothighpressureseparatorColor" Name="HotHighPressureSeparator_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HotInlet" Name="HotInlet" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HotOutlet" Name="HotOutlet" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HXNetworkColdStream" Name="HXNetworkColdStream" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HxnetworkcoldstreamColor" Name="HXNetworkColdStream_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HxType" Name="HxType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HxtypeColor" Name="HxType_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InjectionWaterStream" Name="InjectionWaterStream" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InjectionwaterstreamColor" Name="InjectionWaterStream_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsMatched" Name="IsMatched" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IsmatchedColor" Name="IsMatched_Color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsSolved" Name="IsSolved" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IssolvedColor" Name="IsSolved_Color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LastFeed" Name="LastFeed" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LastProduct" Name="LastProduct" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Pressure" Name="Pressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PressureColor" Name="Pressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ShellFeedStreams" Name="ShellFeedStreams" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ShellfeedstreamsColor" Name="ShellFeedStreams_Color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SourceFile" Name="SourceFile" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SourcefileColor" Name="SourceFile_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="StageNumber" Name="StageNumber" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="StagenumberColor" Name="Stagenumber_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Temperature" Name="Temperature" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TemperatureColor" Name="Temperature_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TowerType" Name="TowerType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TowertypeColor" Name="TowerType_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TubeFeedStreams" Name="TubeFeedStreams" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TubefeedstreamsColor" Name="TubeFeedStreams_Color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Version" Name="Version" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbDrumBlockedOutlet" Member="tbDrumBlockedOutlet">
+    <Type Name="tbDrumBlockedOutlet">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DrumidColor" Name="DrumID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DrumType" Name="DrumType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DrumtypeColor" Name="DrumType_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FDReliefCondition" Name="FDReliefCondition" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FdreliefconditionColor" Name="FDReliefCondition_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="Feed" Name="Feed" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FeedColor" Name="Feed_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="MaxPressure" Name="MaxPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="MaxpressureColor" Name="MaxPressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="MaxStreamRate" Name="MaxStreamRate" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="MaxstreamrateColor" Name="MaxStreamRate_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="MixProductName" Name="MixProductName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalFlashDuty" Name="NormalFlashDuty" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalflashdutyColor" Name="NormalFlashDuty_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="ReboilerPinch" Name="ReboilerPinch" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReboilerpinchColor" Name="ReboilerPinch_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioidColor" Name="ScenarioID_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbDrumDepressuring" Member="tbDrumDepressuring">
+    <Type Name="tbDrumDepressuring">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CalculatedDepressuringRate" Name="CalculatedDepressuringRate" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CalculateddepressuringrateColor" Name="CalculatedDepressuringRate_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CalculatedVesselPressure" Name="CalculatedVesselPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CalculatedvesselpressureColor" Name="CalculatedVesselPressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeltaP" Name="DeltaP" Type="System.Single" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeltapColor" Name="DeltaP_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeltaPTime" Name="DeltaPTime" Type="System.Single" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeltaptimeColor" Name="DeltaPTime_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DepressuringRequirements" Name="DepressuringRequirements" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DepressuringrequirementsColor" Name="DepressuringRequirements_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="FireHeatInput" Name="FireHeatInput" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FireheatinputColor" Name="FireHeatInput_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatInputModel" Name="HeatInputModel" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatinputmodelColor" Name="HeatInputModel_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InitialDepressuringRate" Name="InitialDepressuringRate" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InitialdepressuringrateColor" Name="InitialDepressuringRate_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InitialPressure" Name="InitialPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InitialpressureColor" Name="InitialPressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioidColor" Name="ScenarioID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ShortCut" Name="ShortCut" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ShortcutColor" Name="ShortCut_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Timespecify" Name="Timespecify" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TimespecifyColor" Name="Timespecify_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TimeStep" Name="TimeStep" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TimestepColor" Name="TimeStep_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalVaporVolume" Name="TotalVaporVolume" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalvaporvolumeColor" Name="TotalVaporVolume_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalWettedArea" Name="TotalWettedArea" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalwettedareaColor" Name="TotalWettedArea_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ValveConstantforSonicFlow" Name="ValveConstantforSonicFlow" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ValveconstantforsonicflowColor" Name="ValveConstantforSonicFlow_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="VaporDensity" Name="VaporDensity" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="VapordensityColor" Name="VaporDensity_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Vesseldesignpressure" Name="Vesseldesignpressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="VesseldesignpressureColor" Name="Vesseldesignpressure_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbDrumFireAllGas" Member="tbDrumFireAllGas">
+    <Type Name="tbDrumFireAllGas">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DrumfirecalcidColor" Name="DrumFireCalcID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ExposedVesse" Name="ExposedVesse" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ExposedvesseColor" Name="ExposedVesse_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="GasVaporMW" Name="GasVaporMW" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="GasvapormwColor" Name="GasVaporMW_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalCpCv" Name="NormalCpCv" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalcpcvColor" Name="NormalCpCv_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalPressure" Name="NormalPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalpressureColor" Name="NormalPressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormaTemperature" Name="NormaTemperature" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormatemperatureColor" Name="NormaTemperature_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PSVPressure" Name="PSVPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PsvpressureColor" Name="PSVPressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Tw" Name="TW" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TwColor" Name="TW_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbDrumFireSize" Member="tbDrumFireSize">
+    <Type Name="tbDrumFireSize">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BootDiameter" Name="BootDiameter" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BootdiameterColor" Name="BootDiameter_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BootHeight" Name="BootHeight" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BootheightColor" Name="BootHeight_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Diameter" Name="Diameter" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DiameterColor" Name="Diameter_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DrumfirecalcidColor" Name="DrumFireCalcID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Elevation" Name="Elevation" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ElevationColor" Name="Elevation_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeadNumber" Name="HeadNumber" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeadnumberColor" Name="HeadNumber_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeadType" Name="HeadType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeadtypeColor" Name="HeadType_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Length" Name="Length" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LengthColor" Name="Length_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalLiquidLevel" Name="NormalLiquidLevel" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalliquidlevelColor" Name="NormalLiquidLevel_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Orientation" Name="Orientation" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="OrientationColor" Name="Orientation_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbFeedBottomHX" Member="tbFeedBottomHX">
+    <Type Name="tbFeedBottomHX">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BottomMassRate" Name="BottomMassRate" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BottommassrateColor" Name="BottomMassRate_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BottomReliefTin" Name="BottomReliefTin" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BottomrelieftinColor" Name="BottomReliefTin_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BottomTin" Name="BottomTin" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BottomtinColor" Name="BottomTin_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BottomTout" Name="BottomTout" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BottomtoutColor" Name="BottomTout_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Duty" Name="Duty" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DutyColor" Name="Duty_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Factor" Name="Factor" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FactorColor" Name="Factor_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FeedMassRate" Name="FeedMassRate" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FeedmassrateColor" Name="FeedMassRate_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FeedReliefSpEout" Name="FeedReliefSpEout" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FeedreliefspeoutColor" Name="FeedReliefSpEout_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FeedReliefTout" Name="FeedReliefTout" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FeedrelieftoutColor" Name="FeedReliefTout_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FeedSpEin" Name="FeedSpEin" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FeedspeinColor" Name="FeedSpEin_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FeedSpEout" Name="FeedSpEout" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FeedspeoutColor" Name="FeedSpEout_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FeedTin" Name="FeedTin" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FeedtinColor" Name="FeedTin_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FeedTout" Name="FeedTout" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FeedtoutColor" Name="FeedTout_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatSourceID" Name="HeatSourceID" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatsourceidColor" Name="HeatSourceID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Streamname" Name="Streamname" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="StreamnameColor" Name="Streamname_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbFlashCalcResult" Member="tbFlashCalcResult">
+    <Type Name="tbFlashCalcResult">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Latent" Name="Latent" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LatentColor" Name="Latent_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefCpCv" Name="ReliefCpCv" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefcpcvColor" Name="ReliefCpCv_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefMW" Name="ReliefMW" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefmwColor" Name="ReliefMW_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefPressure" Name="ReliefPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefpressureColor" Name="ReliefPressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefTemperature" Name="ReliefTemperature" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="RelieftemperatureColor" Name="ReliefTemperature_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefZ" Name="ReliefZ" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefzColor" Name="ReliefZ_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioidColor" Name="ScenarioID_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbFlashResult" Member="tbFlashResult">
+    <Type Name="tbFlashResult">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeviceID" Name="DeviceID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Liquidname" Name="liquidname" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LiquidnameColor" Name="liquidname_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Prodtype" Name="prodtype" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ProdtypeColor" Name="prodtype_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Przfile" Name="przfile" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PrzfileColor" Name="przfile_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="streamName" Name="streamName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="StreamnameColor" Name="streamName_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Tray" Name="tray" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TrayColor" Name="tray_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Vaporname" Name="vaporname" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="VapornameColor" Name="vaporname_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbGeneralFailureCommon" Member="tbGeneralFailureCommon">
+    <Type Name="tbGeneralFailureCommon">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="CalcHXNetworkColdStream" Name="CalcHXNetworkColdStream" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CalchxnetworkcoldstreamColor" Name="CalcHXNetworkColdStream_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="CalcInjectionWaterStream" Name="CalcInjectionWaterStream" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CalcinjectionwaterstreamColor" Name="CalcInjectionWaterStream_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="GeneralType" Name="GeneralType" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="GeneraltypeColor" Name="GeneralType_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HXNetworkColdStream" Name="HXNetworkColdStream" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HxnetworkcoldstreamColor" Name="HXNetworkColdStream_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InjectionWaterStream" Name="InjectionWaterStream" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InjectionwaterstreamColor" Name="InjectionWaterStream_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsSolved" Name="IsSolved" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IssolvedColor" Name="IsSolved_Color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="RecycleCompressorFailure" Name="RecycleCompressorFailure" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="RecyclecompressorfailureColor" Name="RecycleCompressorFailure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbGeneralFailureCommonDetail" Member="tbGeneralFailureCommonDetail">
+    <Type Name="tbGeneralFailureCommonDetail">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DutyFactor" Name="DutyFactor" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DutyfactorColor" Name="DutyFactor_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="GeneralFailureCommonID" Name="GeneralFailureCommonID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="GeneralfailurecommonidColor" Name="GeneralFailureCommonID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HXName" Name="HXName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HxnameColor" Name="HXName_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReactorType" Name="ReactorType" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="Stop" Name="Stop" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="StopColor" Name="Stop_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbGlobalConditionsSettings" Member="tbGlobalConditionsSettings">
+    <Type Name="tbGlobalConditionsSettings">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="AirCondition" Name="AirCondition" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="CoolingWaterCondition" Name="CoolingWaterCondition" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DrumSurgeTimeSettings" Name="DrumSurgeTimeSettings" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LatentHeatSettings" Name="LatentHeatSettings" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="SteamCondition" Name="SteamCondition" Type="System.Boolean" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbGlobalFlareSystem" Member="tbGlobalFlareSystem">
+    <Type Name="tbGlobalFlareSystem">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DesignBackPressure" Name="DesignBackPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FlareName" Name="FlareName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="isDel" Name="isDel" Type="System.Boolean" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbHeatSource" Member="tbHeatSource">
+    <Type Name="tbHeatSource">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Duty" Name="Duty" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DutyColor" Name="Duty_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatSourceName" Name="HeatSourceName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatsourcenameColor" Name="HeatSourceName_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatSourceType" Name="HeatSourceType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatsourcetypeColor" Name="HeatSourceType_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SourceID" Name="SourceID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SourceidColor" Name="SourceID_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbHXBlockedIn" Member="tbHXBlockedIn">
+    <Type Name="tbHXBlockedIn">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColdStream" Name="ColdStream" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColdstreamColor" Name="ColdStream_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LatentPoint" Name="LatentPoint" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LatentpointColor" Name="LatentPoint_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalColdInletTemperature" Name="NormalColdInletTemperature" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalcoldinlettemperatureColor" Name="NormalColdInletTemperature_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalColdOutletTemperature" Name="NormalColdOutletTemperature" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalcoldoutlettemperatureColor" Name="NormalColdOutletTemperature_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalDuty" Name="NormalDuty" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormaldutyColor" Name="NormalDuty_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalHotTemperature" Name="NormalHotTemperature" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalhottemperatureColor" Name="NormalHotTemperature_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioidColor" Name="ScenarioID_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbHXFireSize" Member="tbHXFireSize">
+    <Type Name="tbHXFireSize">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Elevation" Name="Elevation" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ElevationColor" Name="Elevation_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqID" Name="EqID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ExposedToFire" Name="ExposedToFire" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ExposedtofireColor" Name="ExposedToFire_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Length" Name="Length" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LengthColor" Name="Length_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Od" Name="OD" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="OdColor" Name="OD_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PipingContingency" Name="PipingContingency" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PipingcontingencyColor" Name="PipingContingency_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Type" Name="Type" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TypeColor" Name="Type_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbInletValveOpen" Member="tbInletValveOpen">
+    <Type Name="tbInletValveOpen">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Cv" Name="CV" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CvColor" Name="CV_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DownStreamName" Name="DownStreamName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DownstreamnameColor" Name="DownStreamName_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="MaxOperatingPressure" Name="MaxOperatingPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="MaxoperatingpressureColor" Name="MaxOperatingPressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="OperatingPhase" Name="OperatingPhase" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="OperatingphaseColor" Name="OperatingPhase_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefCpCv" Name="ReliefCpCv" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefcpcvColor" Name="ReliefCpCv_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefLoad" Name="ReliefLoad" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefloadColor" Name="ReliefLoad_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefMW" Name="ReliefMW" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefmwColor" Name="ReliefMW_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefPressure" Name="ReliefPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefpressureColor" Name="ReliefPressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefTemperature" Name="ReliefTemperature" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="RelieftemperatureColor" Name="ReliefTemperature_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefZ" Name="ReliefZ" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefzColor" Name="ReliefZ_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="UpStreamCpCv" Name="UpStreamCpCv" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="UpStreamName" Name="UpStreamName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="UpstreamnameColor" Name="UpStreamName_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="VesselName" Name="VesselName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="VesselnameColor" Name="VesselName_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Xt" Name="XT" Type="System.Double" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbLatent" Member="tbLatent">
+    <Type Name="tbLatent">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeviceID" Name="DeviceID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LatentEnthalpy" Name="LatentEnthalpy" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LatententhalpyColor" Name="LatentEnthalpy_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefCpCv" Name="ReliefCpCv" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefOHWeightFlow" Name="ReliefOHWeightFlow" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefohweightflowColor" Name="ReliefOHWeightFlow_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefPressure" Name="ReliefPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefpressureColor" Name="ReliefPressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefTemperature" Name="ReliefTemperature" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="RelieftemperatureColor" Name="ReliefTemperature_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefZ" Name="ReliefZ" Type="System.Double" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbLatentProduct" Member="tbLatentProduct">
+    <Type Name="tbLatentProduct">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkCP" Name="BulkCP" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkcpColor" Name="BulkCP_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkCPCVRatio" Name="BulkCPCVRatio" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkcpcvratioColor" Name="BulkCPCVRatio_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkDensityAct" Name="BulkDensityAct" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkdensityactColor" Name="BulkDensityAct_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkMwOfPhase" Name="BulkMwOfPhase" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkmwofphaseColor" Name="BulkMwOfPhase_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkSurfTension" Name="BulkSurfTension" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulksurftensionColor" Name="BulkSurfTension_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkThermalCond" Name="BulkThermalCond" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkthermalcondColor" Name="BulkThermalCond_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkViscosity" Name="BulkViscosity" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkviscosityColor" Name="BulkViscosity_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CompIn" Name="CompIn" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CompinColor" Name="CompIn_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ComponentId" Name="ComponentId" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ComponentidColor" Name="ComponentId_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Description" Name="description" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DescriptionColor" Name="description_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeviceID" Name="DeviceID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Enthalpy" Name="enthalpy" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EnthalpyColor" Name="enthalpy_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InertWeightEnthalpy" Name="InertWeightEnthalpy" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InertweightenthalpyColor" Name="InertWeightEnthalpy_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InertWeightRate" Name="InertWeightRate" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InertweightrateColor" Name="InertWeightRate_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsProduct" Name="IsProduct" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IsproductColor" Name="IsProduct_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Pressure" Name="pressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PressureColor" Name="pressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PrintNumber" Name="PrintNumber" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PrintnumberColor" Name="PrintNumber_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Prodtype" Name="prodtype" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ProdtypeColor" Name="prodtype_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Spenthalpy" Name="spenthalpy" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SpenthalpyColor" Name="spenthalpy_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Streamname" Name="streamname" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="StreamnameColor" Name="streamname_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Temperature" Name="temperature" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TemperatureColor" Name="temperature_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalComposition" Name="TotalComposition" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalcompositionColor" Name="TotalComposition_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalMolarEnthalpy" Name="TotalMolarEnthalpy" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalmolarenthalpyColor" Name="TotalMolarEnthalpy_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalMolarRate" Name="TotalMolarRate" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalmolarrateColor" Name="TotalMolarRate_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Tray" Name="Tray" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TrayColor" Name="Tray_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Type" Name="type" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TypeColor" Name="type_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Vaporfraction" Name="vaporfraction" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="VaporfractionColor" Name="vaporfraction_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="VaporZFmKVal" Name="VaporZFmKVal" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="VaporzfmkvalColor" Name="VaporZFmKVal_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Weightflow" Name="weightflow" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="WeightflowColor" Name="weightflow_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbProIIEqData" Member="tbProIIEqData">
+    <Type Name="tbProIIEqData">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Area" Name="Area" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColdsidePressureDrop" Name="ColdsidePressureDrop" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColdsideTemperature" Name="ColdsideTemperature" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CondenserDuty" Name="CondenserDuty" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Diameter" Name="Diameter" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DrumType" Name="DrumType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Duty" Name="Duty" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DutyCalc" Name="DutyCalc" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Efficiency" Name="Efficiency" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqName" Name="EqName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqType" Name="EqType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqWork" Name="EqWork" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FeedData" Name="FeedData" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FeedTrays" Name="FeedTrays" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FirstFeed" Name="FirstFeed" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FirstProduct" Name="FirstProduct" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="GasVolumeFlow" Name="GasVolumeFlow" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Head" Name="Head" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeaterDuties" Name="HeaterDuties" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeaterNames" Name="HeaterNames" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeaterNumber" Name="HeaterNumber" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeaterPANumberfo" Name="HeaterPANumberfo" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeaterRegOrPAFlag" Name="HeaterRegOrPAFlag" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeaterTrayLoc" Name="HeaterTrayLoc" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeaterTrayNumber" Name="HeaterTrayNumber" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HotsidePressureDrop" Name="HotsidePressureDrop" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HotsideTemperature" Name="HotsideTemperature" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LastFeed" Name="LastFeed" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LastProduct" Name="LastProduct" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LiquidVolumeFlow" Name="LiquidVolumeFlow" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LmtdCalc" Name="LmtdCalc" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LmtdFactorCalc" Name="LmtdFactorCalc" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="MolarFlow" Name="MolarFlow" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NumberOfTrays" Name="NumberOfTrays" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PressCalc" Name="PressCalc" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PressureDrop" Name="PressureDrop" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ProdTrays" Name="ProdTrays" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ProdType" Name="ProdType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ProductData" Name="ProductData" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ProductStoreData" Name="ProductStoreData" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReboilerDuty" Name="ReboilerDuty" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SourceFile" Name="SourceFile" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TempCalc" Name="TempCalc" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="WorkActualCalc" Name="WorkActualCalc" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbProIIStreamData" Member="tbProIIStreamData">
+    <Type Name="tbProIIStreamData">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkCP" Name="BulkCP" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkCPCVRatio" Name="BulkCPCVRatio" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkDensityAct" Name="BulkDensityAct" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkMwOfPhase" Name="BulkMwOfPhase" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkSurfTension" Name="BulkSurfTension" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkThermalCond" Name="BulkThermalCond" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkViscosity" Name="BulkViscosity" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CompIn" Name="CompIn" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ComponentId" Name="ComponentId" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InertWeightEnthalpy" Name="InertWeightEnthalpy" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InertWeightRate" Name="InertWeightRate" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Pressure" Name="Pressure" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PrintNumber" Name="PrintNumber" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ProdType" Name="ProdType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SourceFile" Name="SourceFile" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="StreamName" Name="StreamName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Temperature" Name="Temperature" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalComposition" Name="TotalComposition" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalMolarEnthalpy" Name="TotalMolarEnthalpy" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalMolarRate" Name="TotalMolarRate" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Tray" Name="Tray" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="VaporFraction" Name="VaporFraction" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="VaporZFmKVal" Name="VaporZFmKVal" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbPSV" Member="tbPSV">
+    <Type Name="tbPSV">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CricondenbarPress" Name="CricondenbarPress" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CricondenbarpressColor" Name="CricondenbarPress_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CricondenbarTemp" Name="CricondenbarTemp" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CricondenbartempColor" Name="CricondenbarTemp_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CriticalPressure" Name="CriticalPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CriticalpressureColor" Name="CriticalPressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CriticalTemperature" Name="CriticalTemperature" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CriticaltemperatureColor" Name="CriticalTemperature_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Description" Name="description" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DescriptionColor" Name="description_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeviceID" Name="DeviceID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DischargeTo" Name="DischargeTo" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DischargetoColor" Name="DischargeTo_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DrumPressure" Name="DrumPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DrumpressureColor" Name="DrumPressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DrumPSVName" Name="DrumPSVName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DrumpsvnameColor" Name="DrumPSVName_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LatestEnthalpy" Name="LatestEnthalpy" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LatestenthalpyColor" Name="LatestEnthalpy_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Location" Name="location" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LocationColor" Name="location_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Locationdescription" Name="locationdescription" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LocationdescriptionColor" Name="locationdescription_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Mwap" Name="MWAP" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="MwapColor" Name="MWAP_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Pressure" Name="pressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PressureColor" Name="pressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Psvname" Name="psvname" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PsvnameColor" Name="psvname_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefOHLiquidEnthalpy" Name="ReliefOHLiquidEnthalpy" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefohliquidenthalpyColor" Name="ReliefOHLiquidEnthalpy_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefOHVaporEnthalpy" Name="ReliefOHVaporEnthalpy" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefohvaporenthalpyColor" Name="ReliefOHVaporEnthalpy_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefOHWeightFlow" Name="ReliefOHWeightFlow" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefohweightflowColor" Name="ReliefOHWeightFlow_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Reliefpressurefactor" Name="reliefpressurefactor" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefpressurefactorColor" Name="reliefpressurefactor_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefTemperature" Name="ReliefTemperature" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="RelieftemperatureColor" Name="ReliefTemperature_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Valvenumber" Name="valvenumber" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ValvenumberColor" Name="valvenumber_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Valvetype" Name="valvetype" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ValvetypeColor" Name="valvetype_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbPUsummary" Member="tbPUsummary">
+    <Type Name="tbPUsummary">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Description" Name="Description" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PlantName" Name="PlantName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ProcessUnitName" Name="ProcessUnitName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Remark" Name="Remark" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="UnitID" Name="UnitID" Type="System.Int32" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbReactorLoopCommon" Member="tbReactorLoopCommon">
+    <Type Name="tbReactorLoopCommon">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EffluentTemperature" Name="EffluentTemperature" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EffluenttemperatureColor" Name="EffluentTemperature_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EffluentTemperature2" Name="EffluentTemperature2" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Effluenttemperature2Color" Name="EffluentTemperature2_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsSolved" Name="IsSolved" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IssolvedColor" Name="IsSolved_Color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="MaxGasRate" Name="MaxGasRate" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="MaxgasrateColor" Name="MaxGasRate_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReactorType" Name="ReactorType" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReactortypeColor" Name="ReactorType_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefCpCv" Name="ReliefCpCv" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefcpcvColor" Name="ReliefCpCv_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefLoad" Name="ReliefLoad" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefloadColor" Name="ReliefLoad_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefMW" Name="ReliefMW" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefmwColor" Name="ReliefMW_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefPressure" Name="ReliefPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefpressureColor" Name="ReliefPressure_Color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefTemperature" Name="ReliefTemperature" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="RelieftemperatureColor" Name="ReliefTemperature_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefZ" Name="ReliefZ" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefzColor" Name="ReliefZ_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioidColor" Name="ScenarioID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalPurgeRate" Name="TotalPurgeRate" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalpurgerateColor" Name="TotalPurgeRate_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbReactorLoopDetail" Member="tbReactorLoopDetail">
+    <Type Name="tbReactorLoopDetail">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DetailInfo" Name="DetailInfo" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DetailinfoColor" Name="DetailInfo_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DetailType" Name="DetailType" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReactorLoopID" Name="ReactorLoopID" Type="System.Int16" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReactorloopidColor" Name="ReactorLoopID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReactorType" Name="ReactorType" Type="System.Int16" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReactortypeColor" Name="ReactorType_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbReactorLoopEqDiff" Member="tbReactorLoopEqDiff">
+    <Type Name="tbReactorLoopEqDiff">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CurrentDuty" Name="CurrentDuty" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Diff" Name="Diff" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqName" Name="EqName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqType" Name="EqType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="OrginDuty" Name="OrginDuty" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReactorLoopID" Name="ReactorLoopID" Type="System.Int32" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbReboilerPinch" Member="tbReboilerPinch">
+    <Type Name="tbReboilerPinch">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Area" Name="Area" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="AreaColor" Name="Area_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColdTIn" Name="ColdTIn" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColdtinColor" Name="ColdTIn_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColdTout" Name="ColdTout" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColdtoutColor" Name="ColdTout_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DetailID" Name="DetailID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DetailidColor" Name="DetailID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Duty" Name="Duty" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DutyColor" Name="Duty_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Factor" Name="Factor" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FactorColor" Name="Factor_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatTin" Name="HeatTin" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeattinColor" Name="HeatTin_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatTout" Name="HeatTout" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeattoutColor" Name="HeatTout_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsHotStreamInProII" Name="IsHotStreamInProII" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IshotstreaminproiiColor" Name="IsHotStreamInProII_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsPinch" Name="IsPinch" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IspinchColor" Name="IsPinch_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsUseFlowStop" Name="IsUseFlowStop" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IsuseflowstopColor" Name="IsUseFlowStop_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Qrqn" Name="QRQN" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="QrqnColor" Name="QRQN_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefColdtout" Name="ReliefColdtout" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefcoldtoutColor" Name="ReliefColdtout_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefDuty" Name="ReliefDuty" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefdutyColor" Name="ReliefDuty_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefHeatTin" Name="ReliefHeatTin" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefheattinColor" Name="ReliefHeatTin_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SourceType" Name="SourceType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SourcetypeColor" Name="SourceType_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="StreamName" Name="StreamName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="StreamnameColor" Name="StreamName_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SupplyHeadPressure" Name="SupplyHeadPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SupplyheadpressureColor" Name="SupplyHeadPressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalCount" Name="TotalCount" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalcountColor" Name="TotalCount_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TowerScenarioHXID" Name="TowerScenarioHXID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TowerscenariohxidColor" Name="TowerScenarioHXID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="UClean" Name="UClean" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="UcleanColor" Name="UClean_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="UDesign" Name="UDesign" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="UdesignColor" Name="UDesign_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbScenario" Member="tbScenario">
+    <Type Name="tbScenario">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeviceID" Name="DeviceID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatInputModel" Name="HeatInputModel" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatinputmodelColor" Name="HeatInputModel_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsExist" Name="IsExist" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IsexistColor" Name="IsExist_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Od" Name="OD" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="OdColor" Name="OD_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefCpCv" Name="ReliefCpCv" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefcpcvColor" Name="ReliefCpCv_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefCpCv2" Name="ReliefCpCv2" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Reliefcpcv2Color" Name="ReliefCpCv2_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefLoad" Name="ReliefLoad" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefloadColor" Name="ReliefLoad_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefLoad2" Name="ReliefLoad2" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Reliefload2Color" Name="ReliefLoad2_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefMW" Name="ReliefMW" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefmwColor" Name="ReliefMW_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefMW2" Name="ReliefMW2" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Reliefmw2Color" Name="ReliefMW2_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefPressure" Name="ReliefPressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefpressureColor" Name="ReliefPressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefPressure2" Name="ReliefPressure2" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Reliefpressure2Color" Name="ReliefPressure2_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefTemperature" Name="ReliefTemperature" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="RelieftemperatureColor" Name="ReliefTemperature_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefTemperature2" Name="ReliefTemperature2" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Relieftemperature2Color" Name="ReliefTemperature2_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefZ" Name="ReliefZ" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefzColor" Name="ReliefZ_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefZ2" Name="ReliefZ2" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Reliefz2Color" Name="ReliefZ2_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioName" Name="ScenarioName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarionameColor" Name="ScenarioName_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Scenarioname2Color" Name="ScenarioName2_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbScenarioHeatSource" Member="tbScenarioHeatSource">
+    <Type Name="tbScenarioHeatSource">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DutyFactor" Name="DutyFactor" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DutyfactorColor" Name="DutyFactor_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatSourceID" Name="HeatSourceID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatsourceidColor" Name="HeatSourceID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatSourceType" Name="HeatSourceType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsFB" Name="IsFB" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IsfbColor" Name="IsFB_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsFired" Name="IsFired" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioidColor" Name="ScenarioID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioStreamID" Name="ScenarioStreamID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenariostreamidColor" Name="ScenarioStreamID_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbSink" Member="tbSink">
+    <Type Name="tbSink">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Description" Name="description" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DescriptionColor" Name="description_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeviceID" Name="DeviceID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="Ismaintained" Name="ismaintained" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IsmaintainedColor" Name="ismaintained_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Maxpossiblepressure" Name="maxpossiblepressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="MaxpossiblepressureColor" Name="maxpossiblepressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Sinkname" Name="sinkname" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SinknameColor" Name="sinkname_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Sinktype" Name="sinktype" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SinktypeColor" Name="sinktype_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Streamname" Name="streamname" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="StreamnameColor" Name="streamname_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbSource" Member="tbSource">
+    <Type Name="tbSource">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Description" Name="description" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DescriptionColor" Name="description_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeviceID" Name="DeviceID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsHeatSource" Name="IsHeatSource" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IsheatsourceColor" Name="IsHeatSource_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="Ismaintained" Name="ismaintained" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IsmaintainedColor" Name="ismaintained_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsSteam" Name="IsSteam" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IssteamColor" Name="IsSteam_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Maxpossiblepressure" Name="maxpossiblepressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="MaxpossiblepressureColor" Name="maxpossiblepressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Sourcename" Name="sourcename" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SourcenameColor" Name="sourcename_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Sourcetype" Name="sourcetype" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SourcetypeColor" Name="sourcetype_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Streamname" Name="streamname" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="StreamnameColor" Name="streamname_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbSourceFile" Member="tbSourceFile">
+    <Type Name="tbSourceFile">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FileName" Name="FileName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FileNameNoExt" Name="FileNameNoExt" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FileType" Name="FileType" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FileVersion" Name="FileVersion" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbStream" Member="tbStream">
+    <Type Name="tbStream">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkCP" Name="BulkCP" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkcpColor" Name="BulkCP_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkCPCVRatio" Name="BulkCPCVRatio" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkcpcvratioColor" Name="BulkCPCVRatio_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkDensityAct" Name="BulkDensityAct" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkdensityactColor" Name="BulkDensityAct_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkMwOfPhase" Name="BulkMwOfPhase" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkmwofphaseColor" Name="BulkMwOfPhase_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkSurfTension" Name="BulkSurfTension" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulksurftensionColor" Name="BulkSurfTension_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkThermalCond" Name="BulkThermalCond" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkthermalcondColor" Name="BulkThermalCond_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkViscosity" Name="BulkViscosity" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkviscosityColor" Name="BulkViscosity_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CompIn" Name="CompIn" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CompinColor" Name="CompIn_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ComponentId" Name="ComponentId" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ComponentidColor" Name="ComponentId_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Description" Name="description" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DescriptionColor" Name="description_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeviceID" Name="DeviceID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Enthalpy" Name="enthalpy" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EnthalpyColor" Name="enthalpy_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InertWeightEnthalpy" Name="InertWeightEnthalpy" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InertweightenthalpyColor" Name="InertWeightEnthalpy_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InertWeightRate" Name="InertWeightRate" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InertweightrateColor" Name="InertWeightRate_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsProduct" Name="IsProduct" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IsproductColor" Name="IsProduct_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Pressure" Name="pressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PressureColor" Name="pressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PrintNumber" Name="PrintNumber" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PrintnumberColor" Name="PrintNumber_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Prodtype" Name="prodtype" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ProdtypeColor" Name="prodtype_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Spenthalpy" Name="spenthalpy" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SpenthalpyColor" Name="spenthalpy_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Streamname" Name="streamname" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="StreamnameColor" Name="streamname_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Temperature" Name="temperature" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TemperatureColor" Name="temperature_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalComposition" Name="TotalComposition" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalcompositionColor" Name="TotalComposition_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalMolarEnthalpy" Name="TotalMolarEnthalpy" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalmolarenthalpyColor" Name="TotalMolarEnthalpy_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalMolarRate" Name="TotalMolarRate" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalmolarrateColor" Name="TotalMolarRate_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Tray" Name="Tray" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TrayColor" Name="Tray_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Type" Name="type" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TypeColor" Name="type_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Vaporfraction" Name="vaporfraction" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="VaporfractionColor" Name="vaporfraction_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="VaporZFmKVal" Name="VaporZFmKVal" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="VaporzfmkvalColor" Name="VaporZFmKVal_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Weightflow" Name="weightflow" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="WeightflowColor" Name="weightflow_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbTowerAccumulator" Member="tbTowerAccumulator">
+    <Type Name="tbTowerAccumulator">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Accumulatorname" Name="accumulatorname" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="AccumulatornameColor" Name="accumulatorname_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeviceID" Name="DeviceID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Diameter" Name="diameter" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DiameterColor" Name="diameter_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Length" Name="length" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LengthColor" Name="length_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalLiquidLevel" Name="NormalLiquidLevel" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalliquidlevelColor" Name="NormalLiquidLevel_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="Orientation" Name="orientation" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="OrientationColor" Name="orientation_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbTowerFireColumn" Member="tbTowerFireColumn">
+    <Type Name="tbTowerFireColumn">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Bnll" Name="BNLL" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BnllColor" Name="BNLL_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Elevation" Name="Elevation" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ElevationColor" Name="Elevation_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqID" Name="EqID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqidColor" Name="EqID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LiquidHoldup" Name="LiquidHoldup" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LiquidholdupColor" Name="LiquidHoldup_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NumberOfSegment" Name="NumberOfSegment" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NumberofsegmentColor" Name="NumberOfSegment_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PipingContingency" Name="PipingContingency" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PipingcontingencyColor" Name="PipingContingency_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbTowerFireColumnDetail" Member="tbTowerFireColumnDetail">
+    <Type Name="tbTowerFireColumnDetail">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColumnID" Name="ColumnID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ColumnidColor" Name="ColumnID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Diameter" Name="Diameter" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DiameterColor" Name="Diameter_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Height" Name="Height" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeightColor" Name="Height_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Internal" Name="Internal" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InternalColor" Name="Internal_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Segment" Name="Segment" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SegmentColor" Name="Segment_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Trays" Name="trays" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TraysColor" Name="trays_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbTowerFireCooler" Member="tbTowerFireCooler">
+    <Type Name="tbTowerFireCooler">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Elevation" Name="Elevation" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ElevationColor" Name="Elevation_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqID" Name="EqID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqidColor" Name="EqID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PipingContingency" Name="PipingContingency" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PipingcontingencyColor" Name="PipingContingency_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="WettedArea" Name="WettedArea" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="WettedareaColor" Name="WettedArea_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbTowerFireDrum" Member="tbTowerFireDrum">
+    <Type Name="tbTowerFireDrum">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BootDiameter" Name="BootDiameter" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BootdiameterColor" Name="BootDiameter_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BootHeight" Name="BootHeight" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BootheightColor" Name="BootHeight_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Diameter" Name="Diameter" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DiameterColor" Name="Diameter_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Elevation" Name="Elevation" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ElevationColor" Name="Elevation_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqID" Name="EqID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqidColor" Name="EqID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeadNumber" Name="HeadNumber" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeadnumberColor" Name="HeadNumber_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeadType" Name="HeadType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeadtypeColor" Name="HeadType_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Length" Name="Length" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LengthColor" Name="Length_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalLiquidLevel" Name="NormalLiquidLevel" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="NormalliquidlevelColor" Name="NormalLiquidLevel_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Orientation" Name="Orientation" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="OrientationColor" Name="Orientation_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PipingContingency" Name="PipingContingency" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PipingcontingencyColor" Name="PipingContingency_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbTowerFireEq" Member="tbTowerFireEq">
+    <Type Name="tbTowerFireEq">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Elevation" Name="Elevation" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ElevationColor" Name="Elevation_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqName" Name="EqName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqnameColor" Name="EqName_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqType" Name="EqType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FFactor" Name="FFactor" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FfactorColor" Name="FFactor_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FireidColor" Name="FireID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="FireZone" Name="FireZone" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FirezoneColor" Name="FireZone_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatInput" Name="HeatInput" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatinputColor" Name="HeatInput_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefLoad" Name="ReliefLoad" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefloadColor" Name="ReliefLoad_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TypeColor" Name="Type_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="WettedArea" Name="WettedArea" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="WettedareaColor" Name="WettedArea_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbTowerFireHX" Member="tbTowerFireHX">
+    <Type Name="tbTowerFireHX">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Elevation" Name="Elevation" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ElevationColor" Name="Elevation_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqID" Name="EqID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqidColor" Name="EqID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ExposedToFire" Name="ExposedToFire" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ExposedtofireColor" Name="ExposedToFire_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Length" Name="Length" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="LengthColor" Name="Length_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Od" Name="OD" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="OdColor" Name="OD_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PipingContingency" Name="PipingContingency" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PipingcontingencyColor" Name="PipingContingency_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Type" Name="Type" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TypeColor" Name="Type_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbTowerFireOther" Member="tbTowerFireOther">
+    <Type Name="tbTowerFireOther">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqID" Name="EqID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqidColor" Name="EqID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PipingContingency" Name="PipingContingency" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PipingcontingencyColor" Name="PipingContingency_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="WettedArea" Name="WettedArea" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="WettedareaColor" Name="WettedArea_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbTowerFlashProduct" Member="tbTowerFlashProduct">
+    <Type Name="tbTowerFlashProduct">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkCP" Name="BulkCP" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkcpColor" Name="BulkCP_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkCPCVRatio" Name="BulkCPCVRatio" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkcpcvratioColor" Name="BulkCPCVRatio_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkDensityAct" Name="BulkDensityAct" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkdensityactColor" Name="BulkDensityAct_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkMwOfPhase" Name="BulkMwOfPhase" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkmwofphaseColor" Name="BulkMwOfPhase_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkSurfTension" Name="BulkSurfTension" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulksurftensionColor" Name="BulkSurfTension_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkThermalCond" Name="BulkThermalCond" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkthermalcondColor" Name="BulkThermalCond_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkViscosity" Name="BulkViscosity" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="BulkviscosityColor" Name="BulkViscosity_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CompIn" Name="CompIn" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="CompinColor" Name="CompIn_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ComponentId" Name="ComponentId" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ComponentidColor" Name="ComponentId_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Description" Name="description" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DescriptionColor" Name="description_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeviceID" Name="DeviceID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Enthalpy" Name="enthalpy" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EnthalpyColor" Name="enthalpy_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InertWeightEnthalpy" Name="InertWeightEnthalpy" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InertweightenthalpyColor" Name="InertWeightEnthalpy_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InertWeightRate" Name="InertWeightRate" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="InertweightrateColor" Name="InertWeightRate_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Pressure" Name="pressure" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PressureColor" Name="pressure_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Prodtype" Name="prodtype" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ProdtypeColor" Name="prodtype_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Sourcetype" Name="sourcetype" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SourcetypeColor" Name="sourcetype_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Spenthalpy" Name="spenthalpy" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SpenthalpyColor" Name="spenthalpy_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Streamname" Name="streamname" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="StreamnameColor" Name="streamname_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Temperature" Name="temperature" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TemperatureColor" Name="temperature_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalComposition" Name="TotalComposition" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalcompositionColor" Name="TotalComposition_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalMolarEnthalpy" Name="TotalMolarEnthalpy" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalmolarenthalpyColor" Name="TotalMolarEnthalpy_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalMolarRate" Name="TotalMolarRate" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TotalmolarrateColor" Name="TotalMolarRate_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Tray" Name="Tray" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TrayColor" Name="Tray_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Type" Name="type" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TypeColor" Name="type_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Vaporfraction" Name="vaporfraction" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="VaporfractionColor" Name="vaporfraction_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="VaporZFmKVal" Name="VaporZFmKVal" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="VaporzfmkvalColor" Name="VaporZFmKVal_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Weightflow" Name="weightflow" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="WeightflowColor" Name="weightflow_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbTowerHX" Member="tbTowerHX">
+    <Type Name="tbTowerHX">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Description" Name="description" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DescriptionColor" Name="description_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeviceID" Name="DeviceID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Heaterduty" Name="heaterduty" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeaterdutyColor" Name="heaterduty_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Heatername" Name="heatername" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeaternameColor" Name="heatername_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeaterType" Name="HeaterType" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatertypeColor" Name="HeaterType_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbTowerHXDetail" Member="tbTowerHXDetail">
+    <Type Name="tbTowerHXDetail">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DetailName" Name="DetailName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DetailnameColor" Name="DetailName_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Duty" Name="Duty" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DutyColor" Name="Duty_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DutyPercentage" Name="DutyPercentage" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DutypercentageColor" Name="DutyPercentage_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HxidColor" Name="HXID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Medium" Name="Medium" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="MediumColor" Name="Medium_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="MediumSideFlowSource" Name="MediumSideFlowSource" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="MediumsideflowsourceColor" Name="MediumSideFlowSource_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ProcessSideFlowSource" Name="ProcessSideFlowSource" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ProcesssideflowsourceColor" Name="ProcessSideFlowSource_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="TowerHXID" Name="TowerHXID" Type="System.Int32" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbTowerScenarioHX" Member="tbTowerScenarioHX">
+    <Type Name="tbTowerScenarioHX">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DetailID" Name="DetailID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DetailidColor" Name="DetailID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DetailName" Name="DetailName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DetailnameColor" Name="DetailName_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Dutycalcfactor" Name="dutycalcfactor" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DutycalcfactorColor" Name="dutycalcfactor_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="Dutylost" Name="dutylost" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DutylostColor" Name="dutylost_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeaterType" Name="HeaterType" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="HeatertypeColor" Name="HeaterType_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsPinch" Name="IsPinch" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IspinchColor" Name="IsPinch_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Medium" Name="Medium" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="MediumColor" Name="Medium_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PinchFactor" Name="PinchFactor" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PinchfactorColor" Name="PinchFactor_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioidColor" Name="ScenarioID_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbTowerScenarioStream" Member="tbTowerScenarioStream">
+    <Type Name="tbTowerScenarioStream">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="Flowcalcfactor" Name="flowcalcfactor" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FlowcalcfactorColor" Name="flowcalcfactor_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="Flowstop" Name="flowstop" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="FlowstopColor" Name="flowstop_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsNormal" Name="IsNormal" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="false" DbType="" Member="IsProduct" Name="IsProduct" Type="System.Boolean" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="IsproductColor" Name="IsProduct_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ReliefNormalFactor" Name="ReliefNormalFactor" Type="System.Double" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioID" Name="ScenarioID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="ScenarioidColor" Name="ScenarioID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SourceID" Name="SourceID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SourceidColor" Name="SourceID_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SourceType" Name="SourceType" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="SourcetypeColor" Name="SourceType_color" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="StreamName" Name="StreamName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="StreamnameColor" Name="StreamName_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbTowerSideColumn" Member="tbTowerSideColumn">
+    <Type Name="tbTowerSideColumn">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="DeviceID" Name="DeviceID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqName" Name="EqName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="EqnameColor" Name="EqName_color" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbTreePS" Member="tbTreePS">
+    <Type Name="tbTreePS">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PSName" Name="PSName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="UnitID" Name="UnitID" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="tbTreeUnit" Member="tbTreeUnit">
+    <Type Name="tbTreeUnit">
+      <Column IsDbGenerated="true" AutoSync="Never" CanBeNull="false" DbType="" IsPrimaryKey="true" Member="Id" Name="ID" Type="System.Int32" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PlantName" Name="PlantName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="PUName" Name="PUName" Type="System.String" UpdateCheck="Never" />
+      <Column AutoSync="Never" CanBeNull="true" DbType="" Member="UnitName" Name="UnitName" Type="System.String" UpdateCheck="Never" />
+    </Type>
+  </Table>
+</Database>
