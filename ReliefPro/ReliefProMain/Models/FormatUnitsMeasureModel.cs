@@ -33,8 +33,8 @@ namespace ReliefProMain.Models
         }
         #region combobox数据源
         #region 选择项
-        private BasicUnit _BasicUnitselectLocation;
-        public BasicUnit BasicUnitselectLocation
+        private systbBasicUnit _BasicUnitselectLocation;
+        public systbBasicUnit BasicUnitselectLocation
         {
             get
             {
@@ -52,13 +52,13 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _selectLocation;
-        public SystemUnit TemperatureSelectLocation
+        private systbSystemUnit _selectLocation;
+        public systbSystemUnit TemperatureSelectLocation
         {
             get
             {
                 if (null == this._selectLocation)
-                    _selectLocation = new SystemUnit();
+                    _selectLocation = new systbSystemUnit();
                 return this._selectLocation;
             }
             set
@@ -72,8 +72,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _PressureselectLocation;
-        public SystemUnit PressureSelectLocation
+        private systbSystemUnit _PressureselectLocation;
+        public systbSystemUnit PressureSelectLocation
         {
             get
             {
@@ -90,13 +90,13 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _WeightselectLocation;
-        public SystemUnit WeightSelectLocation
+        private systbSystemUnit _WeightselectLocation;
+        public systbSystemUnit WeightSelectLocation
         {
             get
             {
                 if (null == _WeightselectLocation)
-                    _WeightselectLocation = new SystemUnit();
+                    _WeightselectLocation = new systbSystemUnit();
                 return this._WeightselectLocation;
             }
             set
@@ -110,8 +110,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _MolarLocation;
-        public SystemUnit MolarSelectLocation
+        private systbSystemUnit _MolarLocation;
+        public systbSystemUnit MolarSelectLocation
         {
             get
             {
@@ -128,8 +128,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _StandardVolumeRateselectLocation;
-        public SystemUnit StandardVolumeRateSelectLocation
+        private systbSystemUnit _StandardVolumeRateselectLocation;
+        public systbSystemUnit StandardVolumeRateSelectLocation
         {
             get
             {
@@ -146,8 +146,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _ViscosityselectLocation;
-        public SystemUnit ViscositySelectLocation
+        private systbSystemUnit _ViscosityselectLocation;
+        public systbSystemUnit ViscositySelectLocation
         {
             get
             {
@@ -164,8 +164,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _HeatCapacityselectLocation;
-        public SystemUnit HeatCapacitySelectLocation
+        private systbSystemUnit _HeatCapacityselectLocation;
+        public systbSystemUnit HeatCapacitySelectLocation
         {
             get
             {
@@ -182,8 +182,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _ThermalConductivityselectLocation;
-        public SystemUnit ThermalConductivitySelectLocation
+        private systbSystemUnit _ThermalConductivityselectLocation;
+        public systbSystemUnit ThermalConductivitySelectLocation
         {
             get
             {
@@ -200,8 +200,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _HeatTransCoeffcientselectLocation;
-        public SystemUnit HeatTransCoeffcientSelectLocation
+        private systbSystemUnit _HeatTransCoeffcientselectLocation;
+        public systbSystemUnit HeatTransCoeffcientSelectLocation
         {
             get
             {
@@ -218,8 +218,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _SurfaceTensionselectLocation;
-        public SystemUnit SurfaceTensionSelectLocation
+        private systbSystemUnit _SurfaceTensionselectLocation;
+        public systbSystemUnit SurfaceTensionSelectLocation
         {
             get
             {
@@ -236,26 +236,9 @@ namespace ReliefProMain.Models
             }
         }
 
-        //private SystemUnit _CompositionselectLocation;
-        //public SystemUnit CompositionSelectLocation
-        //{
-        //    get
-        //    {
-        //        return this._CompositionselectLocation;
-        //    }
-        //    set
-        //    {
-        //        this._CompositionselectLocation = value;
-        //        if (handlerChange != null)
-        //        {
-        //            handlerChange(value);
-        //        }
-        //        NotifyPropertyChanged("CompositionSelectLocation");
-        //    }
-        //}
 
-        private SystemUnit _MachineSpeedselectLocation;
-        public SystemUnit MachineSpeedSelectLocation
+        private systbSystemUnit _MachineSpeedselectLocation;
+        public systbSystemUnit MachineSpeedSelectLocation
         {
             get
             {
@@ -272,8 +255,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _VolumeselectLocation;
-        public SystemUnit VolumeSelectLocation
+        private systbSystemUnit _VolumeselectLocation;
+        public systbSystemUnit VolumeSelectLocation
         {
             get
             {
@@ -290,8 +273,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _LengthselectLocation;
-        public SystemUnit LengthSelectLocation
+        private systbSystemUnit _LengthselectLocation;
+        public systbSystemUnit LengthSelectLocation
         {
             get
             {
@@ -308,8 +291,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _AeraselectLocation;
-        public SystemUnit AeraSelectLocation
+        private systbSystemUnit _AeraselectLocation;
+        public systbSystemUnit AeraSelectLocation
         {
             get
             {
@@ -326,8 +309,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _EnergyselectLocation;
-        public SystemUnit EnergySelectLocation
+        private systbSystemUnit _EnergyselectLocation;
+        public systbSystemUnit EnergySelectLocation
         {
             get
             {
@@ -344,8 +327,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _TimeselectLocation;
-        public SystemUnit TimeSelectLocation
+        private systbSystemUnit _TimeselectLocation;
+        public systbSystemUnit TimeSelectLocation
         {
             get
             {
@@ -362,8 +345,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _FlowConductanceselectLocation;
-        public SystemUnit FlowConductanceSelectLocation
+        private systbSystemUnit _FlowConductanceselectLocation;
+        public systbSystemUnit FlowConductanceSelectLocation
         {
             get
             {
@@ -380,8 +363,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _MassRateselectLocation;
-        public SystemUnit MassRateSelectLocation
+        private systbSystemUnit _MassRateselectLocation;
+        public systbSystemUnit MassRateSelectLocation
         {
             get
             {
@@ -397,8 +380,8 @@ namespace ReliefProMain.Models
                 NotifyPropertyChanged("MassRateSelectLocation");
             }
         }
-        private SystemUnit _VolumeRateselectLocation;
-        public SystemUnit VolumeRateSelectLocation
+        private systbSystemUnit _VolumeRateselectLocation;
+        public systbSystemUnit VolumeRateSelectLocation
         {
             get
             {
@@ -415,8 +398,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _DensityselectLocation;
-        public SystemUnit DensitySelectLocation
+        private systbSystemUnit _DensityselectLocation;
+        public systbSystemUnit DensitySelectLocation
         {
             get
             {
@@ -433,8 +416,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _SpecificEnthalpyselectLocation;
-        public SystemUnit SpecificEnthalpySelectLocation
+        private systbSystemUnit _SpecificEnthalpyselectLocation;
+        public systbSystemUnit SpecificEnthalpySelectLocation
         {
             get
             {
@@ -451,8 +434,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _EnthalpyselectLocation;
-        public SystemUnit EnthalpySelectLocation
+        private systbSystemUnit _EnthalpyselectLocation;
+        public systbSystemUnit EnthalpySelectLocation
         {
             get
             {
@@ -469,8 +452,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private SystemUnit _FineLenthselectLocation;
-        public SystemUnit FineLenthSelectLocation
+        private systbSystemUnit _FineLenthselectLocation;
+        public systbSystemUnit FineLenthSelectLocation
         {
             get
             {
@@ -489,11 +472,11 @@ namespace ReliefProMain.Models
 
         #endregion
 
-        public ObservableCollection<BasicUnit> ObBasicUnit
+        public ObservableCollection<systbBasicUnit> ObBasicUnit
         { get; set; }
 
-        private ObservableCollection<SystemUnit> obcTemperature;
-        public ObservableCollection<SystemUnit> ObcTemperature
+        private ObservableCollection<systbSystemUnit> obcTemperature;
+        public ObservableCollection<systbSystemUnit> ObcTemperature
         {
             get { return obcTemperature; }
             set
@@ -503,8 +486,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private ObservableCollection<SystemUnit> obcPressure;
-        public ObservableCollection<SystemUnit> ObcPressure
+        private ObservableCollection<systbSystemUnit> obcPressure;
+        public ObservableCollection<systbSystemUnit> ObcPressure
         {
             get { return obcPressure; }
             set
@@ -514,8 +497,8 @@ namespace ReliefProMain.Models
             }
         }
 
-        private ObservableCollection<SystemUnit> obcWeight;
-        public ObservableCollection<SystemUnit> ObcWeight
+        private ObservableCollection<systbSystemUnit> obcWeight;
+        public ObservableCollection<systbSystemUnit> ObcWeight
         {
             get { return obcWeight; }
             set
@@ -525,53 +508,53 @@ namespace ReliefProMain.Models
             }
         }
 
-        public ObservableCollection<SystemUnit> ObcMolar
+        public ObservableCollection<systbSystemUnit> ObcMolar
         { get; set; }
-        public ObservableCollection<SystemUnit> ObcStandardVolumeRate
+        public ObservableCollection<systbSystemUnit> ObcStandardVolumeRate
         { get; set; }
-        public ObservableCollection<SystemUnit> ObcViscosity
+        public ObservableCollection<systbSystemUnit> ObcViscosity
         { get; set; }
-        public ObservableCollection<SystemUnit> ObcHeatCapacity
+        public ObservableCollection<systbSystemUnit> ObcHeatCapacity
         { get; set; }
-        public ObservableCollection<SystemUnit> ObcThermalConductivity
+        public ObservableCollection<systbSystemUnit> ObcThermalConductivity
         { get; set; }
-        public ObservableCollection<SystemUnit> ObcHeatTransCoeffcient
+        public ObservableCollection<systbSystemUnit> ObcHeatTransCoeffcient
         { get; set; }
-        public ObservableCollection<SystemUnit> ObcSurfaceTension
+        public ObservableCollection<systbSystemUnit> ObcSurfaceTension
         { get; set; }
         //public ObservableCollection<SystemUnit> ObcComposition
         //{ get; set; }
-        public ObservableCollection<SystemUnit> ObcMachineSpeed
+        public ObservableCollection<systbSystemUnit> ObcMachineSpeed
         { get; set; }
-        public ObservableCollection<SystemUnit> ObcVolume
+        public ObservableCollection<systbSystemUnit> ObcVolume
         { get; set; }
-        public ObservableCollection<SystemUnit> ObcLength
+        public ObservableCollection<systbSystemUnit> ObcLength
         { get; set; }
-        public ObservableCollection<SystemUnit> ObcAera
+        public ObservableCollection<systbSystemUnit> ObcAera
         { get; set; }
-        public ObservableCollection<SystemUnit> ObcEnergy
+        public ObservableCollection<systbSystemUnit> ObcEnergy
         { get; set; }
-        public ObservableCollection<SystemUnit> ObcTime
+        public ObservableCollection<systbSystemUnit> ObcTime
         { get; set; }
-        public ObservableCollection<SystemUnit> ObcFlowConductance
-        { get; set; }
-
-        public ObservableCollection<SystemUnit> ObcMassRate
+        public ObservableCollection<systbSystemUnit> ObcFlowConductance
         { get; set; }
 
-        public ObservableCollection<SystemUnit> ObcVolumeRate
+        public ObservableCollection<systbSystemUnit> ObcMassRate
         { get; set; }
 
-        public ObservableCollection<SystemUnit> ObcDensity
+        public ObservableCollection<systbSystemUnit> ObcVolumeRate
         { get; set; }
 
-        public ObservableCollection<SystemUnit> ObcSpecificEnthalpy
+        public ObservableCollection<systbSystemUnit> ObcDensity
         { get; set; }
 
-        public ObservableCollection<SystemUnit> ObcEnthalpy
+        public ObservableCollection<systbSystemUnit> ObcSpecificEnthalpy
         { get; set; }
 
-        public ObservableCollection<SystemUnit> ObcFineLength
+        public ObservableCollection<systbSystemUnit> ObcEnthalpy
+        { get; set; }
+
+        public ObservableCollection<systbSystemUnit> ObcFineLength
         { get; set; }
 
         #endregion
