@@ -7,24 +7,24 @@ using ReliefProModel;
 using ALinq;
 using System.Collections.ObjectModel;
 using System.Collections.Concurrent;
+using UOMLib;
 
 namespace ReliefProBLL
 {
     public class aDeviceBLL
     {
-        private ORDesignerPlantDataContext plantContext = new ORDesignerPlantDataContext();
 
         public tbDevice GetModel(int deviceType,string deviceName)
         {
-            return plantContext.tbDevice.FirstOrDefault(p => p.DeviceType == deviceType && p.DeviceName==deviceName);
+            return UOMSingle.currentPlantContext.tbDevice.FirstOrDefault(p => p.DeviceType == deviceType && p.DeviceName == deviceName);
         }
         public void SaveCompressor(tbDevice dbmodel, ObservableCollection<tbStream> Feeds, ObservableCollection<tbStream> Products)
         {
             if (dbmodel.Id == 0)
             {
-                plantContext.tbDevice.Insert(dbmodel);
-                plantContext.tbStream.InsertAllOnSubmit(Feeds);
-                plantContext.tbStream.InsertAllOnSubmit(Products);
+                UOMSingle.currentPlantContext.tbDevice.Insert(dbmodel);
+                UOMSingle.currentPlantContext.tbStream.InsertAllOnSubmit(Feeds);
+                UOMSingle.currentPlantContext.tbStream.InsertAllOnSubmit(Products);
                 ConcurrentBag<tbSource> sourceBag = new ConcurrentBag<tbSource>();
                 ConcurrentBag<tbSink> sinkBag = new ConcurrentBag<tbSink>();
                 Feeds.AsParallel().ForAll(p => {
@@ -44,13 +44,13 @@ namespace ReliefProBLL
                     sink.Sinktype = "Pump(Motor)";
                     sinkBag.Add(sink);
                 });
-                plantContext.tbSource.InsertAllOnSubmit(sourceBag);
-                plantContext.tbSink.InsertAllOnSubmit(sinkBag);
-                plantContext.SubmitChanges();
+                UOMSingle.currentPlantContext.tbSource.InsertAllOnSubmit(sourceBag);
+                UOMSingle.currentPlantContext.tbSink.InsertAllOnSubmit(sinkBag);
+                UOMSingle.currentPlantContext.SubmitChanges();
             }
             else
             {
-                plantContext.tbDevice.Update(p=>dbmodel,p=>p.Id==dbmodel.Id);
+                UOMSingle.currentPlantContext.tbDevice.Update(p => dbmodel, p => p.Id == dbmodel.Id);
             }
         }
     }
