@@ -15,8 +15,9 @@ namespace UOMLib
 
         public IList<systbBasicUnit> GetBasicUnit()
         {
-            var query = from q in UOMSingle.currentPlantContext.systbBasicUnit select q;
-            return query.ToList();
+            return UOMSingle.currentPlantContext.systbBasicUnit.ToList<systbBasicUnit>();
+           // var query = from q in UOMSingle.currentPlantContext.systbBasicUnit select q;
+            //return query.ToList();
         }
         public systbBasicUnit GetBasicUnitUOM()
         {
