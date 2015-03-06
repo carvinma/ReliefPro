@@ -87,7 +87,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ORDesigner1.admf.diagram">
+      <DependentUpon>ORDesigner1.admf</DependentUpon>
+    </None>
+    <None Include="ORDesigner1.designer.view">
+      <DependentUpon>ORDesigner1.admf</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ORDesignerPlant.admf">
       <Generator>ALinqCodeGenerator</Generator>
       <LastGenOutput>ORDesignerPlant.designer.cs</LastGenOutput>
