@@ -48,9 +48,20 @@ namespace ReliefProMain
         }
         private void InitData()
         {
-            UnitInfo unitInfo = new UnitInfo();
-            var SystemUnits = unitInfo.GetSystemUnit(UOMSingle.Session);
-            var UnitTypes = unitInfo.GetUnitType(UOMSingle.Session);
+            PlantInfo plant = new PlantInfo();
+            plant.Id = 0;
+            plant.Name = "";
+            plant.DataContext = UOMSingle.templatePlantContext;
+            plant.UnitInfo = new UOMEnum();//模板单位制信息
+            UOMSingle.plantsInfo.Add(plant);
+
+            //UnitInfo unitInfo = new UnitInfo();
+            //var SystemUnits = unitInfo.GetSystemUnit();
+            //var UnitTypes = unitInfo.GetUnitType();
+
+            var SystemUnits = plant.UnitInfo.lstSystemUnit;
+            var UnitTypes = plant.UnitInfo.lstUnitType;
+
             if (null != SystemUnits)
             {
                 UnitConvert.lkpSystemUnit = SystemUnits.ToLookup(p => p.Name.ToLower());
