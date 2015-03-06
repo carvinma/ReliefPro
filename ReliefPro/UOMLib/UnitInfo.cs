@@ -13,48 +13,47 @@ namespace UOMLib
     {
         private readonly string dbConnectPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\plant.mdb";
 
-        private ORDesignerPlantDataContext plantContext = new ORDesignerPlantDataContext();
         public IList<systbBasicUnit> GetBasicUnit()
         {
-            var query = from q in plantContext.systbBasicUnit select q;
+            var query = from q in UOMSingle.currentPlantContext.systbBasicUnit select q;
             return query.ToList();
         }
         public systbBasicUnit GetBasicUnitUOM()
         {
-            return plantContext.systbBasicUnit.First(p => p.IsDefault == 1);
+            return UOMSingle.currentPlantContext.systbBasicUnit.First(p => p.IsDefault == 1);
         }
         public IList<systbBasicUnitDefault> GetBasicUnitDefault()
         {
-            var query = from q in plantContext.systbBasicUnitDefault select q;
+            var query = from q in UOMSingle.currentPlantContext.systbBasicUnitDefault select q;
             return query.ToList();
         }
 
         public IList<systbBasicUnitCurrent> GetBasicUnitCurrent()
         {
-            var query = from q in plantContext.systbBasicUnitCurrent select q;
+            var query = from q in UOMSingle.currentPlantContext.systbBasicUnitCurrent select q;
             return query.ToList();
         }
 
         public IList<systbSystemUnit> GetSystemUnit()
         {
-            var query = from q in plantContext.systbSystemUnit select q;
+            var query = from q in UOMSingle.currentPlantContext.systbSystemUnit select q;
             return query.ToList();
         }
         public IList<systbUnitType> GetUnitType()
         {
-            var query = from q in plantContext.systbUnitType select q;
+            var query = from q in UOMSingle.currentPlantContext.systbUnitType select q;
             return query.ToList();
         }
         public int BasicUnitAdd(systbBasicUnit model)
         {
             //对于Insert方法，如果成功插入数据，如果主键是自增长的整数，则返回主键的值，否则返回1，如果失败则返回0。
-            int id = plantContext.systbBasicUnit.Insert(model);
+            int id = UOMSingle.currentPlantContext.systbBasicUnit.Insert(model);
             return id;
         }
         public void BasicUnitDel(systbBasicUnit model)
         {
-            plantContext.systbBasicUnitDefault.Delete(p => p.BasicUnitID == model.Id);
-            plantContext.systbBasicUnit.Delete(p => p.Id == model.Id);
+            UOMSingle.currentPlantContext.systbBasicUnitDefault.Delete(p => p.BasicUnitID == model.Id);
+            UOMSingle.currentPlantContext.systbBasicUnit.Delete(p => p.Id == model.Id);
         }
         public int BasicUnitSetDefault(int id)
         {
@@ -62,8 +61,8 @@ namespace UOMLib
             string sql2 = "update tbBasicUnit a set IsDefault=1 where a.ID=:ID";
             try
             {
-                int i = plantContext.ExecuteCommand(sql, new object[] { id });
-                i = plantContext.ExecuteCommand(sql2, new object[] { id });
+                int i = UOMSingle.currentPlantContext.ExecuteCommand(sql, new object[] { id });
+                i = UOMSingle.currentPlantContext.ExecuteCommand(sql2, new object[] { id });
                 return i;
             }
             catch (Exception ex)
@@ -91,8 +90,8 @@ namespace UOMLib
         {
             try
             {
-                plantContext.systbBasicUnitDefault.InsertAllOnSubmit(lst);
-                plantContext.SubmitChanges();
+                UOMSingle.currentPlantContext.systbBasicUnitDefault.InsertAllOnSubmit(lst);
+                UOMSingle.currentPlantContext.SubmitChanges();
             }
             catch (Exception ex)
             {
@@ -103,9 +102,9 @@ namespace UOMLib
         {
             try
             {
-                plantContext.systbBasicUnitCurrent.Delete(p => p.Id > 0);
-                plantContext.systbBasicUnitCurrent.InsertAllOnSubmit(lst);
-                plantContext.SubmitChanges();
+                UOMSingle.currentPlantContext.systbBasicUnitCurrent.Delete(p => p.Id > 0);
+                UOMSingle.currentPlantContext.systbBasicUnitCurrent.InsertAllOnSubmit(lst);
+                UOMSingle.currentPlantContext.SubmitChanges();
             }
             catch (Exception ex)
             {
