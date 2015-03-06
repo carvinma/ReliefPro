@@ -38,7 +38,7 @@ namespace ReliefProMain.View
             if (!string.IsNullOrEmpty(this.BasicNewName))
             {
                 UnitInfo unitInfo = new UnitInfo();
-                int iCount = unitInfo.GetBasicUnit(SessionPlant).Where(p => p.UnitName.ToLower() == this.BasicNewName.ToLower()).ToList().Count();
+                int iCount = unitInfo.GetBasicUnit().Where(p => p.UnitName.ToLower() == this.BasicNewName.ToLower()).Count();
                 if (iCount > 0)
                 {
                     this.lblWarning.Visibility = Visibility.Visible;
