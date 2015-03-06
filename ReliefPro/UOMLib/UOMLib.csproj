@@ -50,7 +50,6 @@
   <ItemGroup>
     <Compile Include="UOMSingle.cs" />
     <Compile Include="UOMEnum.cs" />
-    <Compile Include="UOMLNHibernateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitConvert.cs" />
     <Compile Include="UnitInfo.cs" />
