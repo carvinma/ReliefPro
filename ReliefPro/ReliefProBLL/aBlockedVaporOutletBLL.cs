@@ -10,7 +10,6 @@ namespace ReliefProBLL
 {
     public class aBlockedVaporOutletBLL
     {
-        private ORDesignerPlantDataContext plantContext = new ORDesignerPlantDataContext();
         private UOMLib.UOMEnum uomEnum;
 
         public aBlockedVaporOutletBLL()
@@ -19,11 +18,11 @@ namespace ReliefProBLL
         }
         public tbBlockedVaporOutlet GeModel(int scenarioID, int outletType)
         {
-            return plantContext.tbBlockedVaporOutlet.FirstOrDefault(p => p.ScenarioID == scenarioID && p.OutletType == outletType);
+            return UOMSingle.currentPlantContext.tbBlockedVaporOutlet.FirstOrDefault(p => p.ScenarioID == scenarioID && p.OutletType == outletType);
         }
         public tbScenario GetScenarioModel(int scenarioID)
         {
-            return plantContext.tbScenario.FirstOrDefault(p => p.Id == scenarioID);
+            return UOMSingle.currentPlantContext.tbScenario.FirstOrDefault(p => p.Id == scenarioID);
         }
         public tbBlockedVaporOutlet ReadConvertBlockedVaporOutletModel(tbBlockedVaporOutlet model)
         {
