@@ -17,7 +17,7 @@ namespace UOMLib
         public const string Molar = "kg-mol";
         public const string StandardVolumeRate = "nm3";
         public const string Viscosity = "cP";
-       
+
         public const string HeatCapacity = "kJ/kg-K";
         public const string ThermalConductivity = "W/m-K";
         public const string HeatTransCoeffcient = "W/m2-C";
@@ -61,24 +61,21 @@ namespace UOMLib
 
         public string UserEnergy { get; private set; }
         public string UserTime { get; private set; }
-        public string UserFlowConductance { get;private set; }
+        public string UserFlowConductance { get; private set; }
         public string UserSpecificEnthalpy { get; private set; }
         public string UserEnthalpyDuty { get; private set; }
-        
-        public string SessionDBPath;
 
         public IList<systbBasicUnitDefault> lstBasicUnitDefault;
         public IList<systbBasicUnitCurrent> lstBasicUnitCurrent;
-        public IList<systbSystemUnit> lstSystemUnit;
-        public int BasicUnitID;
+        public IList<systbSystemUnit> lstSystemUnit;//K Kelvin (UnitType)1
+        public IList<systbUnitType> lstUnitType;//Temperature Pressure Weight
+        public IList<systbBasicUnit> lstBasicUnit; //1-StInternal 2-p2Internal 3-SI 4-Metric
+
+        private int BasicUnitID;
         public bool UnitFromFlag = true;//true 从Current赋值下拉框，否则是原来系统默认值
-        public ISession SessionPlant;
-        public UOMEnum(ISession SessionPlant)
+        public UOMEnum()
         {
-            SessionDBPath = SessionPlant.Connection.ConnectionString;
-            SessionPlant.Flush();
-            this.SessionPlant = SessionPlant;
-            initInfo(SessionPlant);
+            initInfo();
 
             UserTemperature = GetUnit(UnitTypeEnum.Temperature);
             UserPressure = GetUnit(UnitTypeEnum.Pressure);
@@ -125,7 +122,7 @@ namespace UOMLib
                 return lstSystemUnit.FirstOrDefault(p => p.Id == currentUnit.SystemUnitID).Name;
             return "";
         }
-        private void initInfo(ISession SessionPlant)
+        private void initInfo()
         {
             UnitInfo unitInfo = new UnitInfo();
             var basicUnit = unitInfo.GetBasicUnitUOM();
@@ -139,9 +136,18 @@ namespace UOMLib
             {
                 lstSystemUnit = unitInfo.GetSystemUnit();
             }
-            if (lstBasicUnitCurrent == null || lstBasicUnitCurrent.Count== 0)
+            if (lstBasicUnitCurrent == null || lstBasicUnitCurrent.Count == 0)
             {
                 lstBasicUnitCurrent = unitInfo.GetBasicUnitCurrent();
+            }
+
+            if (lstUnitType == null || lstUnitType.Count == 0)
+            {
+                lstUnitType = unitInfo.GetUnitType();
+            }
+            if (lstBasicUnit == null || lstBasicUnit.Count == 0)
+            {
+                lstBasicUnit = unitInfo.GetBasicUnit();
             }
         }
         private string GetDefalutUnit(UnitTypeEnum unitTypeEnum)

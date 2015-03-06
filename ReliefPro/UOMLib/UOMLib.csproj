@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PlantInfo.cs" />
     <Compile Include="UOMSingle.cs" />
     <Compile Include="UOMEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
