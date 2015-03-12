@@ -157,7 +157,10 @@ namespace ReliefProMain
             {
                 cs.BulkCP = double.Parse(s.BulkCP);
             }
-            cs.BulkCPCVRatio = cs.BulkCPCVRatio;
+            if (!string.IsNullOrEmpty(s.BulkCPCVRatio))
+            {
+                cs.BulkCPCVRatio = double.Parse(s.BulkCPCVRatio);
+            }
             if (!string.IsNullOrEmpty(s.BulkDensityAct))
             {
                 cs.BulkDensityAct = double.Parse(s.BulkDensityAct);
@@ -288,7 +291,7 @@ namespace ReliefProMain
             LatentProduct cs = new LatentProduct();
             cs.StreamName = s.StreamName;
             cs.BulkCP = s.BulkCP;            
-            cs.BulkCPCVRatio = cs.BulkCPCVRatio;
+            cs.BulkCPCVRatio = s.BulkCPCVRatio;
             cs.BulkDensityAct = s.BulkDensityAct;
             cs.BulkMwOfPhase = s.BulkMwOfPhase;
             cs.BulkSurfTension = s.BulkSurfTension;

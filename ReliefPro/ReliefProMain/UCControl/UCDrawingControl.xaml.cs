@@ -534,9 +534,9 @@ namespace ReliefProMain.View
                     }
 
                 }
-                else if (tray == stagenumber)
+                else if (tray == stagenumber || tray==stagenumber-1)
                 {
-                    if (vm.Reboilers.Count == 0)
+                    if (vm.Reboilers.Count == 0 && tray == stagenumber)
                     {
                         Visio.Shape connector = visioControl.Window.Application.ActivePage.Drop(streamMaster, 5, 5);
                         ConnectShapes(shape, 9, connector, 1);

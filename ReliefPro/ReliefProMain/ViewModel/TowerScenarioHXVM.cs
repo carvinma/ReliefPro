@@ -310,7 +310,7 @@ namespace ReliefProMain.ViewModel
             if (totalVolumeticFlowRate > 0)
             {
                 double dSurgeTime = surgeVolume * 60 / totalVolumeticFlowRate;
-                SurgeTime = dSurgeTime.ToString();
+                SurgeTime = dSurgeTime.ToString("0.0000");
                 if (dSurgeTime <=condition.DrumSurgeTimeSettings)
                 {
                     IsFlooding = true;

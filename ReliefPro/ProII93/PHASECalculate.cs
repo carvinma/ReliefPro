@@ -29,8 +29,8 @@ namespace ProII93
         /// <returns></returns>
         public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string PH, string dir, ref int ImportResult, ref int RunResult)
         {
-            CP2ServerClass cp2Srv = new CP2ServerClass();
-            cp2Srv.Initialize();
+            //CP2ServerClass cp2Srv = new CP2ServerClass();
+            //cp2Srv.Initialize();
 
             string streamData = getStreamData(iFirst, firstValue, iSecond, secondValue, stream);
             string flashData = getPHASEData(iFirst, firstValue, iSecond, secondValue, stream, PH);
@@ -40,17 +40,30 @@ namespace ProII93
             string onlyFileName = dir + @"\a";
             string inpFile = onlyFileName + ".inp";
             File.WriteAllText(inpFile, sb.ToString());
-            ImportResult = cp2Srv.Import(inpFile);
+            //ImportResult = cp2Srv.Import(inpFile);
             string przFile = string.Empty;
-            if (ImportResult == 1 || ImportResult == 2)
-            {
-                przFile = onlyFileName + ".prz";
-                CP2File cp2File = (CP2File)cp2Srv.OpenDatabase(przFile);
-                RunResult = cp2Srv.RunCalcs(przFile);
-            }
-            Marshal.FinalReleaseComObject(cp2Srv);
-            GC.ReRegisterForFinalize(cp2Srv);
+            //if (ImportResult == 1 || ImportResult == 2)
+            //{
+            //    przFile = onlyFileName + ".prz";
+            //    CP2File cp2File = (CP2File)cp2Srv.OpenDatabase(przFile);
+            //    RunResult = cp2Srv.RunCalcs(przFile);
+            //}
+            //Marshal.FinalReleaseComObject(cp2Srv);
+            //GC.ReRegisterForFinalize(cp2Srv);
 
+            object objRtn = new object();
+            ExcelMacroHelper.RunExcelMacro(AppDomain.CurrentDomain.BaseDirectory + "/template/macro.xls", "ImportProIIKeyWordFile",
+                                                        new Object[] { "9.3", inpFile },
+                                                         out objRtn,
+                                                         false
+                                                    );
+
+            int result = int.Parse(objRtn.ToString());
+            if (result == 1 || result == 2)
+            {
+                string path = inpFile.Substring(0, inpFile.Length - 4);
+                przFile = path + ".prz";
+            }
             return przFile;
         }
         private string getStreamData(int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream)

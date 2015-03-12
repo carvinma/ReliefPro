@@ -29,8 +29,8 @@ namespace ProII92
         string[] arrFlashAttributes = { "FeedData", "ProductData", "PressCalc", "TempCalc", "DutyCalc", "Type", "ProductStoreData" };
         string[] arrHxAttributes = { "FeedData", "ProductData", "DutyCalc", "ProductStoreData", "LmtdCalc", "LmtdFactorCalc", "FirstFeed", "FirstProduct", "LastFeed", "LastProduct", };
         string[] arrCompressorAttributes = { "FeedData", "ProductData", "ProductStoreData" };
-        string[] arrMixerAttributes = { "FeedData", "ProductData"};
-        string[] arrSplitterAttributes = { "FeedData", "ProductData"};
+        string[] arrMixerAttributes = { "FeedData", "ProductData" };
+        string[] arrSplitterAttributes = { "FeedData", "ProductData" };
 
         string przFileName;
         CP2File cp2File;
@@ -57,7 +57,7 @@ namespace ProII92
             ComponentIds = ConvertExt.ObjectToString(ComponentId);
             object CompIn = cp2File.GetObjectNames("CompIn");
             CompIns = ConvertExt.ObjectToString(CompIn);
-            
+
         }
 
 
@@ -153,7 +153,7 @@ namespace ProII92
         public ProIIStreamData CopyStream(string columnName, int tray, int phase, int trayFlow)
         {
             string pressure1 = "0";
-            
+
             ProIIStreamData proIIStream = new ProIIStreamData();
             string streamName = "temp" + Guid.NewGuid().ToString().Substring(0, 5).ToUpper();
             CP2Object tempStream = (CP2Object)cp2File.CreateObject("Stream", streamName);
@@ -284,7 +284,7 @@ namespace ProII92
                     }
                 }
             }
-            else if (otype == "Hx" )
+            else if (otype == "Hx")
             {
                 foreach (string s in arrHxAttributes)
                 {
@@ -359,7 +359,7 @@ namespace ProII92
                         case "ProductData":
                             data.ProductData = value;
                             break;
-                       
+
                     }
                 }
             }
@@ -387,7 +387,7 @@ namespace ProII92
         public ProIIStreamData GetSteamInfo(string name)
         {
             ProIIStreamData data = new ProIIStreamData();
-           
+
             data.SourceFile = przFileName;
             data.StreamName = name;
             data.ProdType = "";
@@ -397,8 +397,8 @@ namespace ProII92
             data.Componentid = ComponentIds;
             data.PrintNumber = PrintNumbers;
             CP2Object objStream = (CP2Object)cp2File.ActivateObject("Stream", name);
-            object ooo= objStream.get_ActualObject();
-            
+            object ooo = objStream.get_ActualObject();
+
             foreach (string s in arrStreamAttributes)
             {
                 object v = objStream.GetAttribute(s);
@@ -441,17 +441,19 @@ namespace ProII92
             {
                 return data;
             }
+
             try
             {
-                //bool bCalulate = cp2File.CalculateStreamProps(name);
-            }
-            catch (Exception ex)
-            {
-            }
-            //if (bCalulate)
-            try
-            {
-                CP2Object objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
+                CP2Object objBulkDrop = null;
+                try
+                {
+                    objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
+                }
+                catch (Exception ex)
+                {
+                    cp2File.CalculateStreamProps(name);
+                    objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
+                }
                 foreach (string s in arrBulkPropAttributes)
                 {
                     object v = objBulkDrop.GetAttribute(s);
@@ -459,17 +461,11 @@ namespace ProII92
                     switch (s)
                     {
                         case "BulkMwOfPhase":
-                            if (string.IsNullOrEmpty(value))
-                            {
-                                objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
-                            }
-                            v = objBulkDrop.GetAttribute(s);
-                            value = ConvertExt.ObjectToString(v);
                             data.BulkMwOfPhase = value;
                             break;
                         case "BulkDensityAct":
                             data.BulkDensityAct = value;
-                            break;                        
+                            break;
                         case "BulkViscosity":
                             data.BulkViscosity = value;
                             break;
@@ -488,7 +484,7 @@ namespace ProII92
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -579,6 +575,6 @@ namespace ProII92
                 }
             }
             return b;
-        } 
+        }
     }
 }

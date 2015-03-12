@@ -963,7 +963,9 @@ namespace ReliefProMain.ViewModel
                     criticalPressure = UnitConvert.Convert("KPA", UOMEnum.Pressure, double.Parse(criticalPress));
                     criticalTemperature = UnitConvert.Convert("K", UOMEnum.Temperature, double.Parse(criticalTemp));
                     cricondenbarPressure = UnitConvert.Convert("KPA", UOMEnum.Pressure, double.Parse(cricondenbarPress));
-                    cricondenbarTemperature = UnitConvert.Convert("K", UOMEnum.Temperature, double.Parse(cricondenbarTemp));                   
+                    cricondenbarTemperature = UnitConvert.Convert("K", UOMEnum.Temperature, double.Parse(cricondenbarTemp));
+                    if (double.Parse(criticalPress) == 0)
+                        return false;
                     return true;
                 }
                 else
@@ -1034,7 +1036,8 @@ namespace ReliefProMain.ViewModel
                     latent.ReliefZ = latentVapor.VaporZFmKVal;
                     if (FluidType == 2)
                     {
-                        if (latent.ReliefCpCv > 0.9)
+                        //if (latent.ReliefCpCv > 0.9)
+                        if (latent.ReliefPressure/criticalPressure > 0.9)
                         {
                             //warning4   流程图3
                             ErrorType = 4;

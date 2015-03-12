@@ -1034,6 +1034,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Template\macro.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Template\protectedsystem.vsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

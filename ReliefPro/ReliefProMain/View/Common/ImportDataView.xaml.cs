@@ -44,15 +44,15 @@ namespace ReliefProMain.View
         IList<ProIIStreamData> streamListData4 = new List<ProIIStreamData>();
         string version;
         //BackgroundWorker backgroundWorker = new BackgroundWorker();
-       
+
         public ImportDataView()
         {
-            InitializeComponent();                       
+            InitializeComponent();
         }
         public string dirInfo = string.Empty;
         string dbPlantFile = string.Empty;
         string selectedFile = string.Empty;
-        string selectedFileName = string.Empty;       
+        string selectedFileName = string.Empty;
         string curprzFile = string.Empty;
         string FileNameNoExt = string.Empty;
         bool isCanImport = false;
@@ -60,7 +60,7 @@ namespace ReliefProMain.View
         private void btnImport_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlgOpenDiagram = new Microsoft.Win32.OpenFileDialog();
-            if (r1.IsChecked==true)
+            if (r1.IsChecked == true)
             {
                 dlgOpenDiagram.Filter = "PRO/II(*.prz) |*.prz";
                 if (dlgOpenDiagram.ShowDialog() == true)
@@ -75,11 +75,11 @@ namespace ReliefProMain.View
                     }
                     else
                     {
-                        MessageBox.Show("this file was imported !","Message Box");
+                        MessageBox.Show("this file was imported !", "Message Box");
                     }
                 }
             }
-            
+
         }
 
         private void btnOK_Click(object sender, RoutedEventArgs e)
@@ -104,6 +104,36 @@ namespace ReliefProMain.View
                     Directory.Delete(dir, true);
                 }
                 Directory.CreateDirectory(dir);
+
+                string dir1 = dirInfo + @"\a" + FileNameNoExt;
+                if (Directory.Exists(dir1))
+                {
+                    Directory.Delete(dir1, true);
+                }
+                Directory.CreateDirectory(dir1);
+
+                string dir2 = dirInfo + @"\b" + FileNameNoExt;
+                if (Directory.Exists(dir2))
+                {
+                    Directory.Delete(dir2, true);
+                }
+                Directory.CreateDirectory(dir2);
+
+                string dir3 = dirInfo + @"\c" + FileNameNoExt;
+                if (Directory.Exists(dir3))
+                {
+                    Directory.Delete(dir3, true);
+                }
+                Directory.CreateDirectory(dir3);
+
+                string dir4 = dirInfo + @"\d" + FileNameNoExt;
+                if (Directory.Exists(dir4))
+                {
+                    Directory.Delete(dir4, true);
+                }
+                Directory.CreateDirectory(dir4);
+
+
                 curprzFile = dir + @"\" + selectedFileName;
                 System.IO.File.Copy(selectedFile, curprzFile, true);
                 if (System.IO.File.Exists(dbPlantFile) == true)
@@ -154,18 +184,18 @@ namespace ReliefProMain.View
                         //threadTwo = new Thread(delegate() { Run(test + 1, StreamCount); }); ;//两个线程共同做一件事情 
                         //threadOne.Start();
                         //threadTwo.Start();
-                        string curprzFile1 = curprzFile.Substring(0, curprzFile.Length - 4) + "1.prz";
-                        string curprzFile2 = curprzFile.Substring(0, curprzFile.Length - 4) + "2.prz";
-                        string curprzFile3 = curprzFile.Substring(0, curprzFile.Length - 4) + "3.prz";
-                        string curprzFile4 = curprzFile.Substring(0, curprzFile.Length - 4) + "4.prz";
+                        string curprzFile1 = dir1 + @"\" + selectedFileName;
+                        string curprzFile2 = dir2 + @"\" + selectedFileName;
+                        string curprzFile3 = dir3 + @"\" + selectedFileName;
+                        string curprzFile4 = dir4 + @"\" + selectedFileName;
                         System.IO.File.Copy(selectedFile, curprzFile1, true);
                         System.IO.File.Copy(selectedFile, curprzFile2, true);
                         System.IO.File.Copy(selectedFile, curprzFile3, true);
                         System.IO.File.Copy(selectedFile, curprzFile4, true);
 
                         IProIIReader reader1 = ProIIFactory.CreateReader(version);
-                       
-                        
+
+
                         reader1.InitProIIReader(curprzFile1);
                         IProIIReader reader2 = ProIIFactory.CreateReader(version);
                         reader2.InitProIIReader(curprzFile2);
@@ -176,35 +206,46 @@ namespace ReliefProMain.View
 
                         for (int i = 1; i <= test; i++)
                         {
-                            streamList1.Add(streamList[i-1]);
+                            streamList1.Add(streamList[i - 1]);
                         }
-                        for (int i = test + 1; i <= 2*test; i++)
+                        for (int i = test + 1; i <= 2 * test; i++)
                         {
-                            streamList2.Add(streamList[i-1]);
+                            streamList2.Add(streamList[i - 1]);
                         }
                         for (int i = 2 * test + 1; i <= 3 * test; i++)
                         {
-                            streamList3.Add(streamList[i-1]);
+                            streamList3.Add(streamList[i - 1]);
                         }
                         for (int i = 3 * test + 1; i <= StreamCount; i++)
                         {
-                            streamList4.Add(streamList[i-1]);
+                            streamList4.Add(streamList[i - 1]);
                         }
 
-                        Task task1 = new Task(delegate() { Run(reader1, streamList1,streamListData1, 1, test); });
-                        Task task2 = new Task(delegate() { Run(reader2, streamList2,streamListData2, test + 1, 2 * test); });
+                        Task task1 = new Task(delegate() { Run(reader1, streamList1, streamListData1, 1, test); });
+                        Task task2 = new Task(delegate() { Run(reader2, streamList2, streamListData2, test + 1, 2 * test); });
                         Task task3 = new Task(delegate() { Run(reader3, streamList3, streamListData3, 2 * test + 1, 3 * test); });
                         Task task4 = new Task(delegate() { Run(reader4, streamList4, streamListData4, 3 * test + 1, StreamCount); });
                         task1.Start();
                         task2.Start();
                         task3.Start();
                         task4.Start();
-                        Task.WaitAll(task1, task2,task3,task4);
+                        Task.WaitAll(task1, task2, task3, task4);
                         //Task.WaitAll(task1,task2);
                         reader1.ReleaseProIIReader();
                         reader2.ReleaseProIIReader();
                         reader3.ReleaseProIIReader();
                         reader4.ReleaseProIIReader();
+
+                        File.Delete(curprzFile1);
+                        File.Delete(curprzFile2);
+                        File.Delete(curprzFile3);
+                        File.Delete(curprzFile4);
+
+
+                        Directory.Delete(dir1, true);
+                        Directory.Delete(dir2, true);
+                        Directory.Delete(dir3, true);
+                        Directory.Delete(dir4, true);
                         //threadTwo.Abort();
                         //threadOne.Abort();
                         SourceFile df = new SourceFile();
@@ -222,18 +263,21 @@ namespace ReliefProMain.View
                         }
 
                         ProIIStreamDataDAL dbStream = new ProIIStreamDataDAL();
-                        streamListData.Union(streamListData1);
-                        streamListData.Union(streamListData2);
-                        streamListData.Union(streamListData3);
-                        streamListData.Union(streamListData4);
+
+                        streamListData = streamListData.Union(streamListData1).ToList();
+                        streamListData = streamListData.Union(streamListData2).ToList();
+                        streamListData = streamListData.Union(streamListData3).ToList();
+                        streamListData = streamListData.Union(streamListData4).ToList();
                         foreach (ProIIStreamData data in streamListData)
                         {
                             dbStream.Add(data, SessionPlant);
                         }
                         isImportSucess = true;
                         SplashScreenManager.SentMsgToScreen("Importing data finished.");
+                        SplashScreenManager.Close();
                         MessageBox.Show("Importing data sucessfully.", "Message Box");
                         this.Close();
+
 
                     }
                     catch (Exception ex)
@@ -263,8 +307,8 @@ namespace ReliefProMain.View
             {
                 SplashScreenManager.Close();
             }
-            
-            
+
+
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -272,7 +316,7 @@ namespace ReliefProMain.View
             this.Close();
         }
 
-        
+
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
             dbPlantFile = dirInfo + @"\plant.mdb";
@@ -294,25 +338,28 @@ namespace ReliefProMain.View
         IList<string> streamList4 = new List<string>();
         IProIIReader reader;
         private event EventHandler OnNumberClear;
-        
+
         /// <summary>     /// 共同做的工作     /// </summary>     
-        private void Run(IProIIReader r,IList<string>strList, IList<ProIIStreamData> list, int start,int end)
+        private void Run(IProIIReader r, IList<string> strList, IList<ProIIStreamData> list, int start, int end)
         {
-            
-                //Monitor.Enter(this);//锁定，保持同步             
-                for (int i = 1; i <= end-start+1; i++)
+
+            //Monitor.Enter(this);//锁定，保持同步             
+            for (int i = 1; i <= end - start + 1; i++)
+            {
+                string name = strList[i - 1].ToString();
+                r.GetSteamInfo(name, ref list);
+                if (SplashScreenManager.SplashValue < total)
                 {
-                    string name = strList[i - 1].ToString();
-                    r.GetSteamInfo(name, ref list);
-                    SplashScreenManager.SentMsgToScreen("Importing " + (100 * ( SplashScreenManager.SplashValue + 1) / total).ToString("0") + "%");
-                    //streamCountIndex++;                    
+                    SplashScreenManager.SentMsgToScreen("Importing " + (100 * (SplashScreenManager.SplashValue + 1) / total).ToString("0") + "%");
                 }
-                //if (streamCountIndex>=StreamCount )
-                //{
-                //    OnNumberClear(this, new EventArgs());//引发完成事件             
-                //}
-                //Monitor.Exit(this);//取消锁定 
-            
+                //streamCountIndex++;                    
+            }
+            //if (streamCountIndex>=StreamCount )
+            //{
+            //    OnNumberClear(this, new EventArgs());//引发完成事件             
+            //}
+            //Monitor.Exit(this);//取消锁定 
+
         }
 
         //执行完成之后，停止所有线程 
@@ -320,25 +367,64 @@ namespace ReliefProMain.View
         {
             try
             {
-                
-                
+
+
             }
             catch (Exception ex)
             {
             }
             finally
             {
-               
+
 
             }
         }
-
-        
-        
-
         private void MetroWindow_Closing_1(object sender, CancelEventArgs e)
         {
-            
+
+        }
+
+
+        private void Read90Data(string version,string przFile)
+        {
+            object objRtn=new object();
+            ExcelMacroHelper.RunExcelMacro(@"Template\macro.xls",
+                                                         "GetAllCount",
+                                                        new Object[] { version, przFile },
+                                                         out objRtn,
+                                                         false);
+
+            int[] counts = new int[2];
+            counts = (int[])objRtn;
+
+            SplashScreenManager.Show(counts[0]+counts[1]);
+
+            ExcelMacroHelper.RunExcelMacro(@"Template\macro.xls",
+                                                         "GetAllEqInfo",
+                                                        new Object[] { version, przFile },
+                                                         out objRtn,
+                                                         false);
+
+
+            ExcelMacroHelper.RunExcelMacro(@"Template\macro.xls",
+                                                         "GetAllCount",
+                                                        new Object[] { version, przFile },
+                                                         out objRtn,
+                                                         false);
+
+
+
+
+            ExcelMacroHelper.RunExcelMacro(@"Template\macro.xls",
+                                                         "GetStreamInfo2",
+                                                        new Object[] { version, przFile,0,counts[1] },
+                                                         out objRtn,
+                                                         false);
+
+
+
+
+            SplashScreenManager.Close();
         }
     }
 }
