@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ProII</RootNamespace>
     <AssemblyName>ProII</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProIICalculate.cs" />
     <Compile Include="ExcelMacroHelper.cs" />
     <Compile Include="IFlashCalculate.cs" />
     <Compile Include="IMixCalculate.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="IProIIImport.cs" />
     <Compile Include="IProIIReader.cs" />
     <Compile Include="IProIIRunCalcSave.cs" />
+    <Compile Include="ProIIReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
