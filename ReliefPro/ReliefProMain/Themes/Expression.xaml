@@ -71,7 +71,7 @@
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Height" Value="18"/>
+        <Setter Property="Height" Value="20"/>
         <Setter Property="Width" Value="125"/>
         <!--<Setter Property="BorderBrush" Value="#007f00"/>-->
         
@@ -83,7 +83,7 @@
     <Style TargetType="{x:Type CustomControl:UnitConvertTextBox}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Height" Value="18"/>
+        <Setter Property="Height" Value="20"/>
         <Setter Property="Width" Value="125"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
         <Setter Property="FontSize" Value="12px" />
@@ -93,7 +93,7 @@
     <Style TargetType="{x:Type CustomControl:UCIntegerTextBox}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Height" Value="18"/>
+        <Setter Property="Height" Value="20"/>
         <Setter Property="Width" Value="125"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
         <Setter Property="FontSize" Value="12px" />
@@ -103,7 +103,7 @@
     <Style x:Key="UCTextBoxReadOnly" TargetType="{x:Type CustomControl:UnitConvertTextBox}" >
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Height" Value="18"/>
+        <Setter Property="Height" Value="20"/>
         <Setter Property="Width" Value="125"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
         <Setter Property="FontSize" Value="12px" />
@@ -115,7 +115,7 @@
     <Style x:Key="TextBoxReadOnly" TargetType="TextBox" >
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Height" Value="18"/>
+        <Setter Property="Height" Value="20"/>
         <Setter Property="Width" Value="125"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
         <Setter Property="FontSize" Value="12px" />
@@ -141,7 +141,7 @@
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Width" Value="125"/>
-        <Setter Property="Height" Value="18"/>
+        <Setter Property="Height" Value="20"/>
         <Setter Property="FontSize" Value="12px" />
         <Setter Property="FontFamily" Value="Calibri"/>
         <Setter Property="BorderThickness" Value="0,1,0,0"/>
@@ -150,7 +150,7 @@
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Width" Value="125"/>
-        <Setter Property="Height" Value="18"/>
+        <Setter Property="Height" Value="20"/>
         <Setter Property="FontSize" Value="12px" />
         <Setter Property="FontFamily" Value="Calibri"/>
     </Style>
