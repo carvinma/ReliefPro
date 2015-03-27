@@ -19,13 +19,13 @@ namespace UOMLib
 
         static UOMSingle()
         {
+            plantsInfo = new List<PlantInfo>();
+            /*程序启动时，当前plant数据库默认为模板数据库，在App.cs中初始化单位转换所需基础数据
+            * 新建或打开Plant后，currentPlant Context需切换为当前路径下
+            */
             templatePlantContext = new ORDesignerPlantDataContext(dbConnectPath);
             currentPlant = new PlantInfo();
             currentPlant.DataContext = templatePlantContext;
-            /*程序启动时，当前plant数据库默认为模板数据库，在App.cs中初始化单位转换所需基础数据
-             * 新建或打开Plant后，currentPlant Context需切换为当前路径下
-             */
-            plantsInfo = new List<PlantInfo>(); 
         }
         private static UOMSingle _instance;
 
