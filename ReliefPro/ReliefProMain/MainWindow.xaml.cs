@@ -16,7 +16,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using System.IO;
-using System.IO.Compression;
+//using System.IO.Compression;
 using System.Xml;
 using System.Resources;
 using System.Collections;
@@ -47,6 +47,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using ReliefProCommon.Logging;
 using ReliefProMain.View.Common;
+using ReliefProMain.Common;
 
 namespace ReliefProMain
 {
@@ -630,7 +631,8 @@ namespace ReliefProMain
                         Directory.CreateDirectory(winTempDir);
                         string winTempFile = winTempDir + @"\" + p.Name + ".ref";
                         //ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
-                        ZipFile.CreateFromDirectory(currentPlantWorkFolder, winTempFile);
+                        //ZipFile.CreateFromDirectory(currentPlantWorkFolder, winTempFile);
+                        CustomZipFile.Zip(currentPlantWorkFolder, winTempFile);
                         File.Copy(winTempFile, currentPlantFile, true);
                     }
                     catch (Exception ex2)
@@ -688,7 +690,8 @@ namespace ReliefProMain
                         {
                             File.Delete(newPlantFile);
                         }
-                        ZipFile.CreateFromDirectory(currentPlantWorkFolder, newPlantFile);
+                        //ZipFile.CreateFromDirectory(currentPlantWorkFolder, newPlantFile);
+                        CustomZipFile.Zip(currentPlantWorkFolder, newPlantFile);
                     }
                 }
             }
