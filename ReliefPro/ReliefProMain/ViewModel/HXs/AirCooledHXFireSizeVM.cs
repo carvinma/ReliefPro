@@ -137,17 +137,28 @@ namespace ReliefProMain.ViewModel.HXs
                     int RunResult = 0;
                     PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
                     string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-                    IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-                    string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, rate,HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+                    //IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+                    //string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, rate,HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+
+                    ProIICalculate proiicalc = new ProIICalculate(SourceFileInfo.FileVersion);
+                    string tray1_f = proiicalc.FlashCalculate(content, 1, reliefFirePressure.ToString(), 6, rate, HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+                    
+                    
                     if (ImportResult == 1 || ImportResult == 2)
                     {
                         if (RunResult == 1 || RunResult == 2)
                         {
-                            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                            reader.InitProIIReader(tray1_f);
-                            ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
-                            ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
-                            reader.ReleaseProIIReader();
+                            //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                            //reader.InitProIIReader(tray1_f);
+                            //ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                            //ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                            //reader.ReleaseProIIReader();
+
+                            ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, tray1_f);
+                            List<ProIIStreamData> lst = reader.GetStreamInfo(new string[] { vapor, liquid });
+
+                            ProIIStreamData proIIVapor = lst[0];
+                            ProIIStreamData proIILiquid = lst[1];   
                             CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
                             CustomStream liquidFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
                             double latent = vaporFire.SpEnthalpy - liquidFire.SpEnthalpy;
@@ -208,17 +219,23 @@ namespace ReliefProMain.ViewModel.HXs
             int RunResult = 0;
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, "0", 5, "0",HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            //IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+            //string tray1_f = fcalc.Calculate(content, 1, "0", 5, "0",HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+
+            ProIICalculate proiicalc = new ProIICalculate(SourceFileInfo.FileVersion);
+            string tray1_f = proiicalc.FlashCalculate(content, 1, "0", 5, "0", HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(tray1_f);
-                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
-                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
-                    reader.ReleaseProIIReader();
+                    //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    //reader.InitProIIReader(tray1_f);
+                    //ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                    //ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                    //reader.ReleaseProIIReader();
+                    ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, tray1_f);
+                    ProIIStreamData proIILiquid = reader.GetStreamInfo(liquid);
                     CustomStream liquidcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
                     return liquidcs;
 
@@ -253,17 +270,23 @@ namespace ReliefProMain.ViewModel.HXs
             int RunResult = 0;
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, "0", 4, "",HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            //IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+            //string tray1_f = fcalc.Calculate(content, 1, "0", 4, "",HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+
+            ProIICalculate proiicalc = new ProIICalculate(SourceFileInfo.FileVersion);
+            string tray1_f = proiicalc.FlashCalculate(content, 1, "0", 4, "", HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(tray1_f);
-                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
-                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
-                    reader.ReleaseProIIReader();
+                    //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    //reader.InitProIIReader(tray1_f);
+                    //ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                    //ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                    //reader.ReleaseProIIReader();
+                    ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, tray1_f);
+                    ProIIStreamData proIILiquid = reader.GetStreamInfo(liquid); 
                     CustomStream liquidcs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
                     return liquidcs;
 

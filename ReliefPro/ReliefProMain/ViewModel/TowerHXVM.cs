@@ -94,8 +94,8 @@ namespace ReliefProMain.ViewModel
             model.HeaterDuty = hx.HeaterDuty;
             model.HeaterType = hx.HeaterType;
             model.HeaterName = name;
-            Details = GetTowerHXDetails();
-            ReadConvert();
+            Details = GetTowerHXDetails();//函数里面已经把detail的duty转换为用户指定单位制了。
+            ReadConvert(); //只转换model.HeaterDuty.
         }
 
 
@@ -281,7 +281,9 @@ namespace ReliefProMain.ViewModel
             d.MediumSideFlowSource = m.MediumSideFlowSource;
             d.ID = m.ID;
             d.HXID = m.HXID;
-            d.Duty = m.Duty;
+
+            double sysDuty = UnitConvert.Convert( uomEnum.UserEnthalpyDuty,UOMEnum.EnthalpyDuty, m.Duty);
+            d.Duty = sysDuty;
             d.DutyPercentage = m.DutyPercentage;
             return d;
         }

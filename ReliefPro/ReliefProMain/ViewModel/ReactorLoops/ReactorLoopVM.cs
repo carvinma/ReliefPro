@@ -2177,17 +2177,21 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
             int ImportResult = 1;
             int RunResult = 1;
-            IMixCalculate mixcalc = ProIIFactory.CreateMixCalculate(SourceFileInfo.FileVersion);
+            //IMixCalculate mixcalc = ProIIFactory.CreateMixCalculate(SourceFileInfo.FileVersion);
+            ProIICalculate mixcalc = new ProIICalculate(SourceFileInfo.FileVersion);
             string mixProduct = Guid.NewGuid().ToString().Substring(0, 6);
-            string tray1_f = mixcalc.Calculate(content.ToString(),csList , mixProduct, dirMix, ref ImportResult, ref RunResult);
+            string tray1_f = mixcalc.MixCalculate(content.ToString(),csList , mixProduct, dirMix, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(tray1_f);
-                    ProIIStreamData proIIProduct = reader.GetSteamInfo(mixProduct);                    
-                    reader.ReleaseProIIReader();
+                    //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    //reader.InitProIIReader(tray1_f);
+                    //ProIIStreamData proIIProduct = reader.GetSteamInfo(mixProduct);                    
+                    //reader.ReleaseProIIReader();
+
+                    ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, tray1_f);
+                    ProIIStreamData proIIProduct = reader.GetStreamInfo(mixProduct);
                     temperature = double.Parse(proIIProduct.Temperature);
                 }
             }

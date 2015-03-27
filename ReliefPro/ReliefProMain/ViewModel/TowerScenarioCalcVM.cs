@@ -376,6 +376,7 @@ namespace ReliefProMain.ViewModel
                     SplashScreenManager.SentMsgToScreen("Calculating Absorbent Regenerator");
                     CalcRegenerator();
                 }
+                ReadConvert();
                 SplashScreenManager.SentMsgToScreen("Calculation finished");
             }
             catch 
@@ -735,10 +736,12 @@ namespace ReliefProMain.ViewModel
             }
                 Directory.CreateDirectory(dirLatent);
 
-            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-            reader.InitProIIReader(FileFullPath);
-            ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 1, 2, 1);
-            reader.ReleaseProIIReader();
+            //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+            //reader.InitProIIReader(FileFullPath);
+            //ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 1, 2, 1);
+            //reader.ReleaseProIIReader();
+            ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, FileFullPath);
+            ProIIStreamData proIITray1StreamData = reader.CopyStreamInfo(EqName, 1, 2, 1);
             CustomStream stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
 
 
@@ -753,19 +756,29 @@ namespace ReliefProMain.ViewModel
             string[] lines = System.IO.File.ReadAllLines(sourceFile);
             HeatMethod = ProIIMethod.GetHeatMethod(lines, EqName);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+            //IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
             SplashScreenManager.SentMsgToScreen("Calculating");
             //除以10的6次方
-            string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 5, (duty / Math.Pow(10, 6)).ToString(),HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            //string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 5, (duty / Math.Pow(10, 6)).ToString(),HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            ProIICalculate proiicalc = new ProIICalculate(SourceFileInfo.FileVersion);
+            string tray1_f = proiicalc.FlashCalculate(content, 1, reliefFirePressure.ToString(), 5, (duty / Math.Pow(10, 6)).ToString(), HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(tray1_f);
-                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
-                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
-                    reader.ReleaseProIIReader();
+                    //reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    //reader.InitProIIReader(tray1_f);
+                    //ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                    //ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                    //reader.ReleaseProIIReader();
+
+                    reader = new ProIIReader(SourceFileInfo.FileVersion, tray1_f);
+                    List<ProIIStreamData> lst = reader.GetStreamInfo(new string[] { vapor, liquid });
+
+                    ProIIStreamData proIIVapor = lst[0];
+                    ProIIStreamData proIILiquid = lst[1];
+
                     CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
                     CustomStream liquidFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
                     ReliefLoad = vaporFire.WeightFlow;
@@ -1218,7 +1231,9 @@ namespace ReliefProMain.ViewModel
             ReliefCpCv = latent.ReliefCpCv;
             ReliefZ = latent.ReliefZ;
             if (reliefLoad < 0)
-                reliefLoad = 0;           
+                reliefLoad = 0;       
+    
+
         }
 
 
@@ -1270,11 +1285,11 @@ namespace ReliefProMain.ViewModel
         private void ReadConvert()
         {
             if (_ReliefLoad != null)
-                _ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, _ReliefLoadUnit, _ReliefLoad);
+                ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, _ReliefLoadUnit, _ReliefLoad);
             if (_ReliefTemperature != null)
-                _ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, _ReliefTemperatureUnit, _ReliefTemperature);
+                ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, _ReliefTemperatureUnit, _ReliefTemperature);
             if (_ReliefPressure != null)
-                _ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, _ReliefPressureUnit, _ReliefPressure);
+                ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, _ReliefPressureUnit, _ReliefPressure);
         }
         private void WriteConvert()
         {

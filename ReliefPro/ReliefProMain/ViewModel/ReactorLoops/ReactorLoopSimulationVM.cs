@@ -157,10 +157,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
 
         private void CheckData(object obj)
         {
-            IProIIImport import = ProIIFactory.CreateProIIImport(przVersion);
+            //IProIIImport import = ProIIFactory.CreateProIIImport(przVersion);
+            ProIICalculate proiicalc = new ProIICalculate(przVersion);
             int ImportResult = -1;
             int RunResult = -1;
-            newPrzFile = import.ImportProIIINP(newInpFile, ref ImportResult, ref RunResult);
+            newPrzFile = proiicalc.ImportProIIKeyWordFile(newInpFile, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 MessageBox.Show("Data is right!", "Message Box");
@@ -245,8 +246,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             double diff = 1;
             bool b = true;
             ProIIEqDataDAL dal = new ProIIEqDataDAL();
-            IProIIReader reader = ProIIFactory.CreateReader(przVersion);
-            reader.InitProIIReader(newPrzFile);
+            //IProIIReader reader = ProIIFactory.CreateReader(przVersion);
+            //reader.InitProIIReader(newPrzFile);
+
+            ProIIReader reader = new ProIIReader(przVersion, newPrzFile);
+            
             SplashScreenManager.SentMsgToScreen("Calculation finished");
             SplashScreenManager.Close();
             foreach (string s in hxs)
@@ -294,7 +298,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                 }
                 if (vapor1 != null)
                 {
-                    ProIIStreamData proiivapor = reader.GetSteamInfo(vapor1.StreamName);
+                    ProIIStreamData proiivapor = reader.GetStreamInfo(vapor1.StreamName);
                     CustomStream vapor2 = ProIIToDefault.ConvertProIIStreamToCustomStream(proiivapor);
                     d = 100 * Math.Abs(vapor1.WeightFlow - vapor2.WeightFlow) / vapor1.WeightFlow;
                     d = Math.Round(d, 10);
@@ -311,7 +315,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     b = b && (d < 1);
                 }
             }
-            reader.ReleaseProIIReader();
+            //reader.ReleaseProIIReader();
             IsMatched = b;
             GetMessage();
 

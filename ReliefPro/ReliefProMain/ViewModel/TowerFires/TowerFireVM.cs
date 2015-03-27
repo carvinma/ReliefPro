@@ -493,10 +493,14 @@ namespace ReliefProMain.ViewModel.TowerFires
             Directory.CreateDirectory(dirLatent);
 
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
-            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-            reader.InitProIIReader(FileFullPath);
-            ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 1, 2, 1);
-            reader.ReleaseProIIReader();
+            //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+            //reader.InitProIIReader(FileFullPath);
+            //ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 1, 2, 1);
+            //reader.ReleaseProIIReader();
+
+            ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion,FileFullPath);
+            ProIIStreamData proIITray1StreamData = reader.CopyStreamInfo(EqName, 1, 2, 1);
+
             CustomStream stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
 
 
@@ -512,18 +516,28 @@ namespace ReliefProMain.ViewModel.TowerFires
             string[] lines = System.IO.File.ReadAllLines(sourceFile);
             HeatMethod = ProIIMethod.GetHeatMethod(lines, EqName);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+            //IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+            //SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
+
+            ProIICalculate proiicalc = new ProIICalculate(SourceFileInfo.FileVersion);
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
-            string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 4, "",HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+
+            string tray1_f = proiicalc.FlashCalculate(content, 1, reliefFirePressure.ToString(), 4, "", HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(tray1_f);
-                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
-                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
-                    reader.ReleaseProIIReader();
+                    //reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    //reader.InitProIIReader(tray1_f);
+                    //ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                    //ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                    //reader.ReleaseProIIReader();
+
+                    reader = new ProIIReader(SourceFileInfo.FileVersion, tray1_f);
+                    List<ProIIStreamData> lst = reader.GetStreamInfo(new string[] { vapor, liquid });
+
+                    ProIIStreamData proIIVapor = lst[0];
+                    ProIIStreamData proIILiquid = lst[1];
                     CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
                     //MainModel.ReliefLoad = vaporFire.WeightFlow;
                     MainModel.ReliefMW = vaporFire.BulkMwOfPhase;
@@ -566,10 +580,14 @@ namespace ReliefProMain.ViewModel.TowerFires
             Directory.CreateDirectory(dirLatent);
 
             SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
-            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-            reader.InitProIIReader(FileFullPath);
-            ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, TowerInfo.StageNumber, 2, 1);
-            reader.ReleaseProIIReader();
+            //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+            //reader.InitProIIReader(FileFullPath);
+            //ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, TowerInfo.StageNumber, 2, 1);
+            //reader.ReleaseProIIReader();
+
+            ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, FileFullPath);
+            ProIIStreamData proIITray1StreamData = reader.CopyStreamInfo(EqName, TowerInfo.StageNumber, 2, 1);
+
             CustomStream stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
 
 
@@ -584,17 +602,27 @@ namespace ReliefProMain.ViewModel.TowerFires
             string[] lines = System.IO.File.ReadAllLines(sourceFile);
             HeatMethod = ProIIMethod.GetHeatMethod(lines, EqName);
             string content = PROIIFileOperator.getUsableContent(stream.StreamName, tempdir);
-            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, "0.05", HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            //IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+            //string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, "0.05", HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+
+            ProIICalculate proiicalc = new ProIICalculate(SourceFileInfo.FileVersion);
+            string tray1_f = proiicalc.FlashCalculate(content, 1, reliefFirePressure.ToString(), 6, "0.05", HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(tray1_f);
-                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
-                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
-                    reader.ReleaseProIIReader();
+                    //reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    //reader.InitProIIReader(tray1_f);
+                    //ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                    //ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                    //reader.ReleaseProIIReader();
+
+                    reader = new ProIIReader(SourceFileInfo.FileVersion, tray1_f);
+                    List<ProIIStreamData> lst = reader.GetStreamInfo(new string[] { vapor, liquid });
+
+                    ProIIStreamData proIIVapor = lst[0];
+                    ProIIStreamData proIILiquid = lst[1];
                     CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
                     CustomStream liquidFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
                     if (MainModel.ReliefMW == 0)
@@ -660,18 +688,28 @@ namespace ReliefProMain.ViewModel.TowerFires
                     coldList.Add(cs.StreamName);
                 }
                 string content = PROIIFileOperator.getUsableContent(coldList, tempdir);
-                IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-                string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, "0.05",HeatMethod, feedlist, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+                //IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+                //string tray1_f = fcalc.Calculate(content, 1, reliefFirePressure.ToString(), 6, "0.05",HeatMethod, feedlist, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+
+                ProIICalculate proiicalc = new ProIICalculate(SourceFileInfo.FileVersion);
+                string tray1_f = proiicalc.FlashCalculate(content, 1, reliefFirePressure.ToString(), 6, "0.05", HeatMethod, feedlist, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+                
                 if (ImportResult == 1 || ImportResult == 2)
                 {
                     if (RunResult == 1 || RunResult == 2)
                     {
-                        IProIIReader reader;
-                        reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                        reader.InitProIIReader(tray1_f);
-                        ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
-                        ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
-                        reader.ReleaseProIIReader();
+                        //IProIIReader reader;
+                        //reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                        //reader.InitProIIReader(tray1_f);
+                        //ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                        //ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                        //reader.ReleaseProIIReader();
+
+                        ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, tray1_f);
+                        List<ProIIStreamData> lst = reader.GetStreamInfo(new string[] { vapor, liquid });
+                        ProIIStreamData proIIVapor = lst[0];
+                        ProIIStreamData proIILiquid = lst[1];
+
                         CustomStream vaporFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
                         CustomStream liquidFire = ProIIToDefault.ConvertProIIStreamToCustomStream(proIILiquid);
                         //MainModel.ReliefLoad = vaporFire.WeightFlow;

@@ -154,7 +154,7 @@ namespace ReliefProMain.ViewModel
             foreach (AbnormalHeaterDetail s in list)
             {
                 AbnormalHeaterDetailModel m = new AbnormalHeaterDetailModel(s);
-                m.Duty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, s.Duty);
+                m.Duty = UnitConvert.Convert(UOMEnum.EnthalpyDuty, uomEnum.UserEnthalpyDuty, s.Duty);//转为用户指定单位了
                 m.DutyFactor = s.DutyFactor;
                 m.AbnormalType = s.AbnormalType;
                 m.HeaterID = s.HeaterID;
@@ -175,7 +175,7 @@ namespace ReliefProMain.ViewModel
             ReliefCpCv = sc.ReliefCpCv;
             ReliefZ = sc.ReliefZ;
 
-            ReadConvert();
+            ReadConvert();//读出来是系统单位，需要转换成用户指定的单位
         }
 
         private ICommand _CalculateCommand;
@@ -200,7 +200,6 @@ namespace ReliefProMain.ViewModel
             double FeedTotal = 0;
             double ProductTotal = 0;
             double HeatTotal = 0;
-
 
             PSV psv = this.psvDAL.GetModel(SessionProtectedSystem);
 
@@ -253,7 +252,9 @@ namespace ReliefProMain.ViewModel
                     HeatTotal = HeatTotal + shx.DutyCalcFactor * detail.Duty;
                 }
             }
-            double totalAbnomalDuty = GetAbnormalTotalDuty();
+
+            double totalAbnomalDuty = GetAbnormalTotalDuty(); //这里用到了页面上展示出来的异常热量。
+
             double latestH = latent.LatentEnthalpy;
             double totalH = FeedTotal - ProductTotal + HeatTotal + totalAbnomalDuty;
             double wAccumulation = totalH / latestH + overHeadWeightFlow;
@@ -270,7 +271,9 @@ namespace ReliefProMain.ViewModel
                 reliefLoad = 0;
             ReliefLoad = reliefLoad;
             ReliefMW = reliefMW;
-           
+
+            //计算结果是系统单位，需要转换为用户单位
+            ReadConvert();
         }
 
         private ICommand _ProductCommand;
@@ -445,7 +448,8 @@ namespace ReliefProMain.ViewModel
             double total = 0;
             foreach (AbnormalHeaterDetailModel m in Heaters)
             {
-                total = total + (m.DutyFactor - 1) * m.Duty;
+                double sysDuty = UnitConvert.Convert(uomEnum.UserEnthalpyDuty,UOMEnum.EnthalpyDuty,  m.Duty); //转为系统单位后再计算
+                total = total + (m.DutyFactor - 1) * sysDuty;
             }
             return total;
         }
@@ -497,21 +501,21 @@ namespace ReliefProMain.ViewModel
 
         private void ReadConvert()
         {
-            if (_ReliefLoad != null)
-                _ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, _ReliefLoadUnit, _ReliefLoad);
-            if (_ReliefTemperature != null)
-                _ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, _ReliefTemperatureUnit, _ReliefTemperature);
-            if (_ReliefPressure != null)
-                _ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, _ReliefPressureUnit, _ReliefPressure);
+            if (ReliefLoad != null)
+                ReliefLoad = UnitConvert.Convert(UOMEnum.MassRate, ReliefLoadUnit, ReliefLoad);
+            if (ReliefTemperature != null)
+                ReliefTemperature = UnitConvert.Convert(UOMEnum.Temperature, ReliefTemperatureUnit, ReliefTemperature);
+            if (ReliefPressure != null)
+                ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, ReliefPressureUnit, ReliefPressure);
         }
         private void WriteConvert()
         {
-            if (_ReliefLoad != null)
-                _ReliefLoad = UnitConvert.Convert(_ReliefLoadUnit, UOMEnum.MassRate, _ReliefLoad);
-            if (_ReliefTemperature != null)
-                _ReliefTemperature = UnitConvert.Convert(_ReliefTemperatureUnit, UOMEnum.Temperature, _ReliefTemperature);
-            if (_ReliefPressure != null)
-                _ReliefPressure = UnitConvert.Convert(_ReliefPressureUnit, UOMEnum.Pressure, _ReliefPressure);
+            if (ReliefLoad != null)
+                ReliefLoad = UnitConvert.Convert(ReliefLoadUnit, UOMEnum.MassRate, ReliefLoad);
+            if (ReliefTemperature != null)
+                ReliefTemperature = UnitConvert.Convert(ReliefTemperatureUnit, UOMEnum.Temperature, ReliefTemperature);
+            if (ReliefPressure != null)
+                ReliefPressure = UnitConvert.Convert(ReliefPressureUnit, UOMEnum.Pressure, ReliefPressure);
         }
         private void InitUnit()
         {

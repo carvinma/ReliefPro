@@ -77,9 +77,7 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double _Diameter;
-       
-        [ReliefProMain.Util.RegularExpression(ViewModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
+        private double _Diameter;       
         public double Diameter
         {
             get
@@ -98,8 +96,6 @@ namespace ReliefProMain.ViewModel
         }
 
         private double _Length;
-        
-        [ReliefProMain.Util.RegularExpression(ViewModelBase.IsNum, ErrorMessage = "GreaterThanZero")]
         public double Length
         {
             get

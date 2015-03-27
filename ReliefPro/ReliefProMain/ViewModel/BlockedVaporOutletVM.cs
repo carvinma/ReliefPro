@@ -81,6 +81,10 @@ namespace ReliefProMain.ViewModel
             model.dbmodel.ScenarioID = ScenarioID;
             model.dbmodel.OutletType = OutletType;
             InitUnit();
+
+            //将输入的值的单位制，从系统单位转为用户指定单位
+            ReadConvertModel();
+
         }
         private void InitUnit()
         {
@@ -94,6 +98,19 @@ namespace ReliefProMain.ViewModel
             model.ReliefPressureUnit = uomEnum.UserPressure;
             model.ReliefTemperatureUnit = uomEnum.UserTemperature;
         }
+
+        private void ReadConvertModel()
+        {
+            model.InletGasUpstreamMaxPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure,model.InletGasUpstreamMaxPressureUnit,  model.InletGasUpstreamMaxPressure);
+            model.InletAbsorbentUpstreamMaxPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure, model.InletAbsorbentUpstreamMaxPressureUnit, model.InletAbsorbentUpstreamMaxPressure);
+            model.NormalGasFeedWeightRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate,model.NormalGasFeedWeightRateUnit,  model.NormalGasFeedWeightRate);
+            model.NormalGasProductWeightRate = UnitConvert.Convert(UOMLib.UOMEnum.MassRate,model.NormalGasProductWeightRateUnit,  model.NormalGasProductWeightRate);
+
+            model.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate, model.ReliefLoadUnit, model.ReliefLoad);
+            model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure, model.ReliefPressureUnit,model.ReliefPressure);
+            model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature,model.ReliefTemperatureUnit,  model.ReliefTemperature);
+        }
+        
         private void WriteConvertModel()
         {
             model.dbmodel.InletGasUpstreamMaxPressure = UnitConvert.Convert(model.InletGasUpstreamMaxPressureUnit, UOMLib.UOMEnum.Pressure, model.InletGasUpstreamMaxPressure);
@@ -105,24 +122,31 @@ namespace ReliefProMain.ViewModel
             model.dbScenario.ReliefPressure = UnitConvert.Convert(model.ReliefPressureUnit, UOMLib.UOMEnum.Pressure, model.ReliefPressure);
             model.dbScenario.ReliefTemperature = UnitConvert.Convert(model.ReliefTemperatureUnit, UOMLib.UOMEnum.Temperature, model.ReliefTemperature);
         }
+       
+        
         private void Calculate(object obj)
-        {
+        {           
             if (!model.CheckData()) return;
             PSVDAL psvdal = new PSVDAL();
             PSV psv = psvdal.GetModel(SessionPS);
             double pSet = psv.Pressure ;//和定压比较。不是ReliefPressure
             model.ReliefPressure = pSet;
+
+            double sysInletGasUpstreamMaxPressure = UnitConvert.Convert(model.InletGasUpstreamMaxPressureUnit, UOMLib.UOMEnum.Pressure, model.InletGasUpstreamMaxPressure);
+            double sysInletAbsorbentUpstreamMaxPressure = UnitConvert.Convert(model.InletAbsorbentUpstreamMaxPressureUnit, UOMLib.UOMEnum.Pressure, model.InletAbsorbentUpstreamMaxPressure);
+            double sysNormalGasFeedWeightRate = UnitConvert.Convert(model.NormalGasFeedWeightRateUnit, UOMLib.UOMEnum.MassRate, model.NormalGasFeedWeightRate);
+            double sysNormalGasProductWeightRate = UnitConvert.Convert(model.NormalGasProductWeightRateUnit, UOMLib.UOMEnum.MassRate, model.NormalGasProductWeightRate);
             if (model.dbmodel.OutletType == 0)
             {
-                if (model.InletGasUpstreamMaxPressure > pSet)
+                if (sysInletGasUpstreamMaxPressure > pSet)
                 {
-                    if (model.InletAbsorbentUpstreamMaxPressure > pSet)
+                    if (sysInletAbsorbentUpstreamMaxPressure > pSet)
                     {
-                        model.ReliefLoad = model.NormalGasProductWeightRate;
+                        model.ReliefLoad = sysNormalGasProductWeightRate;
                     }
                     else
                     {
-                        model.ReliefLoad = model.NormalGasFeedWeightRate;
+                        model.ReliefLoad = sysNormalGasFeedWeightRate;
                     }
                 }
                 else
@@ -133,9 +157,9 @@ namespace ReliefProMain.ViewModel
             }
             else
             {
-                if (model.InletGasUpstreamMaxPressure > pSet)
+                if (sysInletGasUpstreamMaxPressure > pSet)
                 {
-                    model.ReliefLoad = model.NormalGasFeedWeightRate - model.NormalGasProductWeightRate;
+                    model.ReliefLoad =sysNormalGasFeedWeightRate - sysNormalGasProductWeightRate;
                 }
                 else
                 {
@@ -146,6 +170,11 @@ namespace ReliefProMain.ViewModel
             if (model.ReliefLoad < 0)
                 model.ReliefLoad = 0;
 
+            //计算出来的结果都是系统单位制，需要转换下
+            //只有泄放压力和泄放需要计算，温度和其他值都在界面加载时计算好了
+            model.ReliefLoad = UnitConvert.Convert(UOMLib.UOMEnum.MassRate, model.ReliefLoadUnit, model.ReliefLoad);
+            model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure, model.ReliefPressureUnit, model.ReliefPressure);
+           
         }
         private void Save(object obj)
         {

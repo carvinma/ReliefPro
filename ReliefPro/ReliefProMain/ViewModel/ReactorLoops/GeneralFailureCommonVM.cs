@@ -345,10 +345,11 @@ namespace ReliefProMain.ViewModel.ReactorLoops
         {                        
             ProIIEqDataDAL eqdatadal = new ProIIEqDataDAL();
             list = new List<InpPosInfo>();
-            IProIIReader r = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-            r.InitProIIReader(rpPrzFile);            
+            //IProIIReader r = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+            //r.InitProIIReader(rpPrzFile);      
+            ProIIReader r = new ProIIReader(SourceFileInfo.FileVersion, rpPrzFile);
             ProIIEqData proiiPCHPS = r.GetEqInfo("Flash", rl.ColdHighPressureSeparator);
-            ProIIStreamData effluent = r.GetSteamInfo(rl.EffluentStream);
+            ProIIStreamData effluent = r.GetStreamInfo(rl.EffluentStream);
             CustomStream csEffluent = ProIIToDefault.ConvertProIIStreamToCustomStream(effluent);
             double PCHPS_N = double.Parse(proiiPCHPS.PressCalc);
             double PHHPS_N = 0;
@@ -359,7 +360,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             }
             PCHPS_N = UnitConvert.Convert("Kpa", "MPag", PCHPS_N);
             PHHPS_N = UnitConvert.Convert("Kpa", "MPag", PHHPS_N);
-            r.ReleaseProIIReader();
+            //r.ReleaseProIIReader();
             double DeltP_Accu = reliefPressure - PCHPS_N;
             PHHPS_relief = PHHPS_N + DeltP_Accu;
             PCHPS_relief = PCHPS_N + DeltP_Accu;
@@ -421,8 +422,9 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             File.WriteAllText(caseInpFile, sb.ToString());
             SplashScreenManager.SentMsgToScreen("Simulation ...... 50%");
             //导入后，生成prz文件。
-            IProIIImport import = ProIIFactory.CreateProIIImport(SourceFileInfo.FileVersion);
-            casePrzFile = import.ImportProIIINP(caseInpFile, ref ImportResult, ref RunResult);
+            //IProIIImport import = ProIIFactory.CreateProIIImport(SourceFileInfo.FileVersion);
+            ProIICalculate proiicalc = new ProIICalculate(SourceFileInfo.FileVersion);
+            casePrzFile = proiicalc.ImportProIIKeyWordFile(caseInpFile, ref ImportResult, ref RunResult);
             SplashScreenManager.SentMsgToScreen("Simulation ...... 60%");
             return casePrzFile;
             
@@ -651,11 +653,13 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                         SplashScreenManager.Show(10);
                         SplashScreenManager.SentMsgToScreen("Simulation reading ......10%");
                         
-                        IProIIImport import = ProIIFactory.CreateProIIImport(SourceFileInfo.FileVersion);
+                        //IProIIImport import = ProIIFactory.CreateProIIImport(SourceFileInfo.FileVersion);
+                        ProIICalculate proiicalc = new ProIICalculate(SourceFileInfo.FileVersion);
                         SplashScreenManager.SentMsgToScreen("Simulation reading ......20%");
                         SplashScreenManager.SentMsgToScreen("Simulation reading ......30%");
                         
-                        RunResult = import.CheckProIISolved(casePrzFile);
+                        //RunResult = import.CheckProIISolved(casePrzFile);
+                        RunResult = proiicalc.CheckProIISolved(casePrzFile);
                         SplashScreenManager.SentMsgToScreen("Simulation reading ......40%");
                         SplashScreenManager.SentMsgToScreen("Simulation reading ......50%");
                         bool b = (RunResult == 1 || RunResult == 2);
@@ -692,10 +696,13 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(casePrzFile);
+                    //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    //reader.InitProIIReader(casePrzFile);
+
+                    ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, casePrzFile);
                     SplashScreenManager.SentMsgToScreen("Simulation reading ......70%");
-                    ProIIStreamData proiiStream = reader.GetSteamInfo(coldVaporStream);
+                    ProIIStreamData proiiStream = reader.GetStreamInfo(coldVaporStream);
+
                     SplashScreenManager.SentMsgToScreen("Simulation reading ......80%");
                     CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proiiStream);
 
@@ -710,7 +717,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
                     model.ReliefZ = cs.VaporZFmKVal;
                     if (model.ReliefLoad < 0)
                         model.ReliefLoad = 0;
-                    reader.ReleaseProIIReader();
+                    //reader.ReleaseProIIReader();
                     model.IsSolved = true;
                     SimulationResult = "Simulation resolved";
                     model.IsSolved_Color = ColorBorder.blue.ToString();

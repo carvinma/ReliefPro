@@ -32,7 +32,7 @@ namespace ReliefProMain.ViewModel.Compressors
 
             blockBLL = new CompressorBlockedBLL(SessionPS, SessionPF);
             var pistonModel = blockBLL.GetPistonModel(ScenarioID);
-            pistonModel = blockBLL.ReadConvertPistonModel(pistonModel);//已经转换为用户单位
+            pistonModel = blockBLL.ReadConvertPistonModel(pistonModel);//已经转换为用户单位制
 
             model = new PistonBlockedOutletModel(pistonModel);
             model.dbmodel.ScenarioID = ScenarioID;
@@ -45,11 +45,11 @@ namespace ReliefProMain.ViewModel.Compressors
             
         }
 
-        private void ReadConvert()
+        private void CalcConvert()
         {
-            //model.Reliefload = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), model.ReliefloadUnit, model.dbmodel.Reliefload);
-            //model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTempUnit, model.dbmodel.ReliefTemperature);
-            //model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressureUnit, model.dbmodel.ReliefPressure);
+            model.Reliefload = UnitConvert.Convert(UOMLib.UOMEnum.MassRate.ToString(), model.ReliefloadUnit, model.Reliefload);
+            model.ReliefTemperature = UnitConvert.Convert(UOMLib.UOMEnum.Temperature.ToString(), model.ReliefTempUnit, model.ReliefTemperature);
+            model.ReliefPressure = UnitConvert.Convert(UOMLib.UOMEnum.Pressure.ToString(), model.ReliefPressureUnit, model.ReliefPressure);
             
         }
         

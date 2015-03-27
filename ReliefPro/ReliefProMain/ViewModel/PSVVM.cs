@@ -298,6 +298,7 @@ namespace ReliefProMain.ViewModel
                 return _SaveCommand;
             }
         }
+        
         private void Save(object window)
         {
             if (string.IsNullOrEmpty(CurrentModel.PSVName))
@@ -348,8 +349,8 @@ namespace ReliefProMain.ViewModel
 
                 if (CurrentModel.ID == 0)
                 {
-                    SplashScreenManager.Show();
-                    SplashScreenManager.SentMsgToScreen("Creating PSV");
+                    SplashScreenManager.Show(10);
+                    SplashScreenManager.SentMsgToScreen("Creating PSV... 10%");
 
                     if (EqType == "Tower")
                     {
@@ -393,20 +394,19 @@ namespace ReliefProMain.ViewModel
                     CurrentModel.dbmodel.Location_Color = CurrentModel.Location_Color;
                     CurrentModel.dbmodel.DrumPSVName_Color = CurrentModel.DrumPSVName_Color;
 
-                    SplashScreenManager.SentMsgToScreen("Converting Unit");
+                    SplashScreenManager.SentMsgToScreen("Converting Unit... 70%");
                     WriteConvert();
-                    SplashScreenManager.SentMsgToScreen("Saving Data");
+                    SplashScreenManager.SentMsgToScreen("Saving Data... 80%");
                     dbpsv.Add(CurrentModel.dbmodel, SessionProtectedSystem);
-                    SplashScreenManager.SentMsgToScreen("Calculation finished");
+                    SplashScreenManager.SentMsgToScreen("Calculation finished...100%");
                 }
-                else if (psv.ReliefPressureFactor == CurrentModel.ReliefPressureFactor && psv.Pressure == CurrentModel.Pressure && psv.LocationDescription==CurrentModel.LocationDescription)
+                else if (psv.ReliefPressureFactor == CurrentModel.ReliefPressureFactor && psv.Pressure == UnitConvert.Convert(CurrentModel.PSVPressureUnit, UOMEnum.Pressure, CurrentModel.Pressure) && psv.LocationDescription==CurrentModel.LocationDescription)
                 {
-                    SplashScreenManager.Show();
-                    SplashScreenManager.SentMsgToScreen("Converting Unit");
+                    SplashScreenManager.Show(2);                   
                     WriteConvert();
-                    SplashScreenManager.SentMsgToScreen("Saving Data");
+                    SplashScreenManager.SentMsgToScreen("Saving Data... 50%");
                     dbpsv.Update(CurrentModel.dbmodel, SessionProtectedSystem);
-                    SplashScreenManager.SentMsgToScreen("Calculation finished");
+                    SplashScreenManager.SentMsgToScreen("Calculation finished...100%");
                     //SessionProtectedSystem.Flush();
 
                 }
@@ -423,8 +423,8 @@ namespace ReliefProMain.ViewModel
                     MessageBoxResult r = MessageBox.Show("Are you sure to edit data? ", "Message Box", MessageBoxButton.YesNo,MessageBoxImage.Information);
                     if (r == MessageBoxResult.Yes)
                     {
-                        SplashScreenManager.Show();
-                        SplashScreenManager.SentMsgToScreen("Editing data");
+                        SplashScreenManager.Show(10);
+                        SplashScreenManager.SentMsgToScreen("Editing data ... 10%");
                         ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
                         scBLL.DeleteSCOther();
                         scBLL.ClearScenario();
@@ -432,7 +432,6 @@ namespace ReliefProMain.ViewModel
                         PSVBLL psvbll = new PSVBLL(SessionProtectedSystem);
                         psvbll.DeletePSVData();
                         
-                        SplashScreenManager.SentMsgToScreen("Creating PSV");
                         if (EqType == "Tower")
                         {
                             TowerDAL towerdal = new TowerDAL();
@@ -449,8 +448,9 @@ namespace ReliefProMain.ViewModel
                         {
                             CreateCommonPSV();
                         }
+                        SplashScreenManager.SentMsgToScreen("Converting Unit... 90%");
                         CurrentModel.dbmodel.PSVName = CurrentModel.PSVName;
-                        CurrentModel.dbmodel.Pressure = CurrentModel.Pressure;
+                        CurrentModel.dbmodel.Pressure = UnitConvert.Convert(CurrentModel.PSVPressureUnit, UOMEnum.Pressure, CurrentModel.Pressure);
                         CurrentModel.dbmodel.ReliefPressureFactor = CurrentModel.ReliefPressureFactor;
                         CurrentModel.dbmodel.ValveNumber = CurrentModel.ValveNumber;
                         CurrentModel.dbmodel.ValveType = CurrentModel.ValveType;
@@ -475,11 +475,11 @@ namespace ReliefProMain.ViewModel
                         CurrentModel.dbmodel.Location_Color = CurrentModel.Location_Color;
                         CurrentModel.dbmodel.DrumPSVName_Color = CurrentModel.DrumPSVName_Color;
 
-                        SplashScreenManager.SentMsgToScreen("Converting Unit");
+                        
                         WriteConvert();
-                        SplashScreenManager.SentMsgToScreen("Saving Data");
+                        SplashScreenManager.SentMsgToScreen("Calculation finished... 100%");
                         dbpsv.Add(CurrentModel.dbmodel, SessionProtectedSystem);
-                        SplashScreenManager.SentMsgToScreen("Calculation finished");
+                        
                     }
                 }
                 //Thread.Sleep(3000);
@@ -558,10 +558,13 @@ namespace ReliefProMain.ViewModel
             }
             Directory.CreateDirectory(dirCopyStream);
 
+            SplashScreenManager.SentMsgToScreen("Creating PSV... 20%");
+
             string copyFile = dirCopyStream + @"\" + SourceFileInfo.FileName;
             File.Copy(FileFullPath, copyFile, true);
             CustomStream stream = CopyTop1Liquid(copyFile);
-            
+
+            SplashScreenManager.SentMsgToScreen("Creating PSV... 30%");
             double internPressure = UnitConvert.Convert("MPAG", "KPA", stream.Pressure);
             if (internPressure == 0)
             {
@@ -575,16 +578,17 @@ namespace ReliefProMain.ViewModel
             string sourceFile = sourceFiles[0];
             string[] lines = System.IO.File.ReadAllLines(sourceFile);
             HeatMethod = ProIIMethod.GetHeatMethod(lines, EqName);
-
             string content = PROIIFileOperator.getUsableContent(stream.StreamName,lines);
             string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
             double ReliefPressure = CurrentModel.ReliefPressureFactor * UnitConvert.Convert(CurrentModel.PSVPressureUnit,UOMEnum.Pressure, CurrentModel.Pressure);
 
+            SplashScreenManager.SentMsgToScreen("Calculating critical pressure... 40%");
             double ReliefTemperature = 0;
             LatentProduct latentVapor = new LatentProduct();
             LatentProduct latentLiquid = new LatentProduct();
 
             bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase);
+            SplashScreenManager.SentMsgToScreen("Calculating latent... 50%");
             if (b) //可以计算出临界压力
             {
                 CurrentModel.CriticalPressure = criticalPressure;
@@ -610,10 +614,9 @@ namespace ReliefProMain.ViewModel
                     if (supperResult == 1 || supperResult == 2)
                     {
                         
-                    }
-                   
-
+                    }                   
                 }
+                
             }
             else
             {
@@ -621,24 +624,104 @@ namespace ReliefProMain.ViewModel
                 //warning1 
                 ErrorType = 1;
                 CalcLatent(content, ReliefPressure, stream, dirLatent, 3, ref latentVapor, ref latentLiquid);
+                
             }
-            
+            SplashScreenManager.SentMsgToScreen("Calculating product data... 60%");
+
             ReliefTemperature = latent.ReliefTemperature;
             IList<CustomStream> products = null;
             CustomStreamDAL dbstream = new CustomStreamDAL();
             products = dbstream.GetAllList(SessionProtectedSystem, true);
             double overHeadPressure = GetTowerOverHeadPressure(products);
 
+            
+            List<FlashResult> listFlashResult = new List<FlashResult>();
+            //List<FlashResult> listFlashResult1 = new List<FlashResult>();
+            //List<FlashResult> listFlashResult2 = new List<FlashResult>();
+            //List<FlashResult> listFlashResult3 = new List<FlashResult>();
+            //List<FlashResult> listFlashResult4 = new List<FlashResult>();
+            int count = products.Count;
+            //int avgct = count / 4;
+            Task<List<FlashResult>> task1 = new Task<List<FlashResult>>(() => RunProductFlashCalc(products, 1, count, tempdir, ReliefPressure, ReliefTemperature, overHeadPressure));
+            //Task<List<FlashResult>> task2 = new Task<List<FlashResult>>(() => RunProductFlashCalc(products, avgct + 1, 2 * avgct, tempdir, ReliefPressure, ReliefTemperature, overHeadPressure));
+            //Task<List<FlashResult>> task3 = new Task<List<FlashResult>>(() => RunProductFlashCalc(products, 2 * avgct + 1, 3 * avgct, tempdir, ReliefPressure, ReliefTemperature, overHeadPressure));
+            //Task<List<FlashResult>> task4 = new Task<List<FlashResult>>(() => RunProductFlashCalc(products, 3 * avgct + 1, count, tempdir, ReliefPressure, ReliefTemperature, overHeadPressure));
+            
+            task1.Start();
+            //task2.Start();
+            //task3.Start();
+            //task4.Start();
+            //Task.WaitAll(task1, task2, task3, task4);
+            Task.WaitAll(task1);
+            listFlashResult = listFlashResult.Union(task1.Result).ToList();
+            //listFlashResult = listFlashResult.Union(task2.Result).ToList();
+            //listFlashResult = listFlashResult.Union(task3.Result).ToList();
+            //listFlashResult = listFlashResult.Union(task4.Result).ToList();
+            SplashScreenManager.SentMsgToScreen("Converting product data... 70%");
+            List<TowerFlashProduct> listFlashProduct = new List<TowerFlashProduct>();
+            count = listFlashResult.Count;
+            for (int i = 1; i <= count; i++)
+            {
+                TowerFlashProduct product = new TowerFlashProduct();
+                FlashResult fr = listFlashResult[i - 1];
+                CustomStream cs = null;
+                string prodtype = fr.ProdType;
+                int tray = fr.Tray;
+                if (fr.PrzFile == "")
+                {
+                    cs = dbstream.GetModel(SessionProtectedSystem, fr.StreamName);
+                }
+                else
+                {
+                    //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    //reader.InitProIIReader(fr.PrzFile);
+                    ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion,fr.PrzFile);
+                    if (prodtype == "4" || (prodtype == "2" && tray == 1) || prodtype == "3" || prodtype == "6")
+                    {
+                        ProIIStreamData data = reader.GetStreamInfo(fr.VaporName);
+                        cs = ProIIToDefault.ConvertProIIStreamToCustomStream(data);
+                    }
+                    else
+                    {
+                        ProIIStreamData data = reader.GetStreamInfo(fr.LiquidName);
+                        cs = ProIIToDefault.ConvertProIIStreamToCustomStream(data);
+
+                    }
+                    //reader.ReleaseProIIReader();
+                }
+
+                product.SpEnthalpy = cs.SpEnthalpy;
+                product.StreamName = fr.StreamName;
+                product.WeightFlow = cs.WeightFlow;
+                product.ProdType = fr.ProdType;
+                product.Tray = tray;
+                product.Temperature = cs.Temperature;
+
+                listFlashProduct.Add(product);
+
+            }
+            SplashScreenManager.SentMsgToScreen("Saving product data... 80%");
+            TowerFlashProductDAL dbFlashProduct = new TowerFlashProductDAL();
+            foreach (TowerFlashProduct p in listFlashProduct)
+            {
+                dbFlashProduct.Add(p, SessionProtectedSystem);
+            }
+
+
+        }
+
+        private List<FlashResult> RunProductFlashCalc(IList<CustomStream> products,int start,int end,string tempdir,double ReliefPressure,double ReliefTemperature,double overHeadPressure)
+        {
+            List<FlashResult> list = new List<FlashResult>();
             int ImportResult = 0;
             int RunResult = 0;
-            List<FlashResult> listFlashResult = new List<FlashResult>();
-            int count = products.Count;
-            for (int i = 1; i <= count; i++)
+            for (int i = start; i <= end; i++)
             {
                 CustomStream p = products[i - 1];
                 if (p.TotalMolarRate > 0)
                 {
-                    IFlashCalculate fc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+                    //IFlashCalculate fc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+                    ProIICalculate proiicalc = new ProIICalculate(SourceFileInfo.FileVersion);
                     string gd = Guid.NewGuid().ToString();
                     string vapor = "S_" + gd.Substring(0, 5).ToUpper();
                     string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
@@ -664,17 +747,17 @@ namespace ReliefProMain.ViewModel
 
                     if (prodtype == "4" || (prodtype == "2" && tray == 1)) // 2个条件是等同含义，后者是有气有液
                     {
-                        f = fc.Calculate(usablecontent, 1, ReliefPressure.ToString(), 4, "",HeatMethod, p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
+                        f = proiicalc.FlashCalculate(usablecontent, 1, ReliefPressure.ToString(), 4, "", HeatMethod, p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
                     }
 
                     else if (prodtype == "6" || prodtype == "3") //3 气相  6 沉积水 
                     {
-                        f = fc.Calculate(usablecontent, 2, ReliefTemperature.ToString(), 4, "",HeatMethod, p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
+                        f = proiicalc.FlashCalculate(usablecontent, 2, ReliefTemperature.ToString(), 4, "", HeatMethod, p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
                     }
                     else
                     {
                         double press = ReliefPressure + (p.Pressure - overHeadPressure);
-                        f = fc.Calculate(usablecontent, 1, press.ToString(), 3, "",HeatMethod, p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
+                        f = proiicalc.FlashCalculate(usablecontent, 1, press.ToString(), 3, "", HeatMethod, p, vapor, liquid, dirflash, ref ImportResult, ref RunResult);
                     }
                     if (ImportResult == 1 || ImportResult == 2)
                     {
@@ -687,7 +770,7 @@ namespace ReliefProMain.ViewModel
                             fr.PrzFile = f;
                             fr.Tray = tray;
                             fr.ProdType = prodtype;
-                            listFlashResult.Add(fr);
+                            list.Add(fr);
                         }
                         else
                         {
@@ -703,7 +786,7 @@ namespace ReliefProMain.ViewModel
                             fr.PrzFile = f;
                             fr.Tray = tray;
                             fr.ProdType = prodtype;
-                            listFlashResult.Add(fr);
+                            list.Add(fr);
                             //}
                             // return;
                         }
@@ -720,63 +803,13 @@ namespace ReliefProMain.ViewModel
                         fr.PrzFile = f;
                         fr.Tray = tray;
                         fr.ProdType = prodtype;
-                        listFlashResult.Add(fr);
+                        list.Add(fr);
                         //}
                         //return;
                     }
                 }
             }
-
-            List<TowerFlashProduct> listFlashProduct = new List<TowerFlashProduct>();
-            count = listFlashResult.Count;
-            for (int i = 1; i <= count; i++)
-            {
-                TowerFlashProduct product = new TowerFlashProduct();
-                FlashResult fr = listFlashResult[i - 1];
-                CustomStream cs = null;
-                string prodtype = fr.ProdType;
-                int tray = fr.Tray;
-                if (fr.PrzFile == "")
-                {
-                    cs = dbstream.GetModel(SessionProtectedSystem, fr.StreamName);
-                }
-                else
-                {
-                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(fr.PrzFile);
-
-                    if (prodtype == "4" || (prodtype == "2" && tray == 1) || prodtype == "3" || prodtype == "6")
-                    {
-                        ProIIStreamData data = reader.GetSteamInfo(fr.VaporName);
-                        cs = ProIIToDefault.ConvertProIIStreamToCustomStream(data);
-                    }
-                    else
-                    {
-                        ProIIStreamData data = reader.GetSteamInfo(fr.LiquidName);
-                        cs = ProIIToDefault.ConvertProIIStreamToCustomStream(data);
-
-                    }
-                    reader.ReleaseProIIReader();
-                }
-
-                product.SpEnthalpy = cs.SpEnthalpy;
-                product.StreamName = fr.StreamName;
-                product.WeightFlow = cs.WeightFlow;
-                product.ProdType = fr.ProdType;
-                product.Tray = tray;
-                product.Temperature = cs.Temperature;
-
-                listFlashProduct.Add(product);
-
-            }
-
-            TowerFlashProductDAL dbFlashProduct = new TowerFlashProductDAL();
-            foreach (TowerFlashProduct p in listFlashProduct)
-            {
-                dbFlashProduct.Add(p, SessionProtectedSystem);
-            }
-
-
+            return list;
         }
 
         public void CreateCommonPSV()
@@ -788,21 +821,22 @@ namespace ReliefProMain.ViewModel
             {
                 Directory.Delete(tempdir, true);
             }
-                Directory.CreateDirectory(tempdir);
-
+            Directory.CreateDirectory(tempdir);
+            SplashScreenManager.SentMsgToScreen("Creating PSV... 20%");
             string dirPhase = tempdir + "Phase";
             if (Directory.Exists(dirPhase))
             {
                 Directory.Delete(dirPhase, true);
             }
                 Directory.CreateDirectory(dirPhase);
-
+                SplashScreenManager.SentMsgToScreen("Creating PSV... 30%");
             List<CustomStream> arrFeeds = new List<CustomStream>();
             List<string> lstLiquidFeed = new List<string>();
             CustomStreamDAL csdal = new CustomStreamDAL();
             List<CustomStream> feedlist = csdal.GetAllList(SessionProtectedSystem, false).ToList();
             IList<CustomStream> productlist = csdal.GetAllList(SessionProtectedSystem, true);
             CustomStream stream = feedlist[0];
+            SplashScreenManager.SentMsgToScreen("Creating PSV... 40%");
             if (EqType == "HX")
             {
                 HeatExchangerDAL hxdal = new HeatExchangerDAL();
@@ -831,20 +865,24 @@ namespace ReliefProMain.ViewModel
             {
                 arrFeeds = feedlist;
             }
+            SplashScreenManager.SentMsgToScreen("Creating PSV... 50%");
             if (arrFeeds.Count > 0)
             {
                 string[] streamComps = stream.TotalComposition.Split(',');
                 int len = streamComps.Length;
                 if (len == 1)
                 {
-                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(FileFullPath);
-                    double[] compInData = reader.GetCompInInfo(streamComps[0]);                   
-                    reader.ReleaseProIIReader();
+                    //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    //reader.InitProIIReader(FileFullPath);
+                    //double[] compInData = reader.GetCompInInfo(streamComps[0]);
+                    //reader.ReleaseProIIReader();
 
-                    criticalPressure = UnitConvert.Convert("KPA", UOMEnum.Pressure, compInData[0]);
-                    criticalTemperature = UnitConvert.Convert("K", UOMEnum.Temperature, compInData[1]);
-                       
+                    ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, FileFullPath);
+                    double[] phdata = reader.GetCompInInfo(streamComps[0]);
+                    SplashScreenManager.SentMsgToScreen("Creating PSV... 60%");
+                    criticalPressure = UnitConvert.Convert("KPA", UOMEnum.Pressure, phdata[0]);
+                    criticalTemperature = UnitConvert.Convert("K", UOMEnum.Temperature, phdata[1]);
+                    SplashScreenManager.SentMsgToScreen("Creating PSV... 70%");
                 }
                 else
                 {
@@ -862,6 +900,7 @@ namespace ReliefProMain.ViewModel
                             streamCompValues[i] = streamCompValues[i] + double.Parse(comps[i]) * cs.TotalMolarRate / sumTotalMolarRate;
                         }
                     }
+                    SplashScreenManager.SentMsgToScreen("Creating PSV... 60%");
                     StringBuilder sumComposition = new StringBuilder();
                     foreach (double comp in streamCompValues)
                     {
@@ -879,15 +918,25 @@ namespace ReliefProMain.ViewModel
                     string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
                     double ReliefPressure = CurrentModel.ReliefPressureFactor * UnitConvert.Convert(uomEnum.UserPressure, UOMEnum.Pressure, CurrentModel.Pressure);
 
-
                     bool b = CalcCriticalPressure(phasecontent, ReliefPressure, stream, dirPhase);
+                    SplashScreenManager.SentMsgToScreen("Creating PSV... 70%");
                     if (b == false)
+                    {
+                        SplashScreenManager.SentMsgToScreen("Creating PSV... 80%");
                         return;
+                    }
                 }
                 CurrentModel.CriticalPressure = UnitConvert.Convert(UOMEnum.Pressure, CurrentModel.CriticalPressureUnit, criticalPressure);
                 CurrentModel.CriticalTemperature = UnitConvert.Convert(UOMEnum.Temperature, CurrentModel.CriticalTemperatureUnit, criticalTemperature);
                 CurrentModel.CricondenbarPress = UnitConvert.Convert(UOMEnum.Pressure, CurrentModel.CriticalPressureUnit, cricondenbarPressure);
                 CurrentModel.CricondenbarTemp = UnitConvert.Convert(UOMEnum.Temperature, CurrentModel.CricondenbarTempUnit, cricondenbarTemperature);
+                SplashScreenManager.SentMsgToScreen("Creating PSV... 80%");
+            }
+            else
+            {
+                SplashScreenManager.SentMsgToScreen("Creating PSV... 60%");
+                SplashScreenManager.SentMsgToScreen("Creating PSV... 70%");
+                SplashScreenManager.SentMsgToScreen("Creating PSV... 80%");
             }
         }
 
@@ -899,10 +948,12 @@ namespace ReliefProMain.ViewModel
         private CustomStream CopyTop1Liquid(string copyPrzFile)
         {
             CustomStream cs = new CustomStream();
-            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-            reader.InitProIIReader(copyPrzFile);
-            ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 1, 2, 1);
-            reader.ReleaseProIIReader();
+            //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+            //reader.InitProIIReader(copyPrzFile);
+            //ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 1, 2, 1);
+            //reader.ReleaseProIIReader();
+            ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, copyPrzFile);
+            ProIIStreamData proIITray1StreamData = reader.CopyStreamInfo(EqName, 1, 2, 1);
              cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
             return cs;
         }
@@ -941,30 +992,33 @@ namespace ReliefProMain.ViewModel
             int RunResult = 0;
             criticalPressure = 0;
             criticalTemperature = 0;
-            IPHASECalculate PhaseCalc = ProIIFactory.CreatePHASECalculate(SourceFileInfo.FileVersion);
+            //IPHASECalculate PhaseCalc = ProIIFactory.CreatePHASECalculate(SourceFileInfo.FileVersion);
             string PH = "PH" + Guid.NewGuid().ToString().Substring(0, 4);
             string criticalPress = string.Empty;
             string criticalTemp = string.Empty;
             string cricondenbarPress = string.Empty;
             string cricondenbarTemp = string.Empty;
-            string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH, dirPhase, ref ImportResult, ref RunResult);
+            //string phasef = PhaseCalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH, dirPhase, ref ImportResult, ref RunResult);
+            ProIICalculate proiicalc = new ProIICalculate(SourceFileInfo.FileVersion);
+            string phasef = proiicalc.PHASECalculate(content, 1, ReliefPressure.ToString(), 4, "", stream, PH, dirPhase, ref ImportResult, ref RunResult);
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(phasef);
-                    criticalPress = reader.GetCriticalPressure(PH);
-                    criticalTemp = reader.GetCriticalTemperature(PH);
-                    cricondenbarPress = reader.GetCricondenbarPress(PH);
-                    cricondenbarTemp = reader.GetCricondenbarTemp(PH);
-                    reader.ReleaseProIIReader();
-
-                    criticalPressure = UnitConvert.Convert("KPA", UOMEnum.Pressure, double.Parse(criticalPress));
-                    criticalTemperature = UnitConvert.Convert("K", UOMEnum.Temperature, double.Parse(criticalTemp));
-                    cricondenbarPressure = UnitConvert.Convert("KPA", UOMEnum.Pressure, double.Parse(cricondenbarPress));
-                    cricondenbarTemperature = UnitConvert.Convert("K", UOMEnum.Temperature, double.Parse(cricondenbarTemp));
-                    if (double.Parse(criticalPress) == 0)
+                    //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    //reader.InitProIIReader(phasef);
+                    //criticalPress = reader.GetCriticalPressure(PH);
+                    //criticalTemp = reader.GetCriticalTemperature(PH);
+                    //cricondenbarPress = reader.GetCricondenbarPress(PH);
+                    //cricondenbarTemp = reader.GetCricondenbarTemp(PH);
+                    //reader.ReleaseProIIReader();
+                    ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion,phasef);
+                    double[] phdata = reader.GetPHInfo(PH);
+                    criticalPressure = UnitConvert.Convert("KPA", UOMEnum.Pressure, phdata[0]);
+                    criticalTemperature = UnitConvert.Convert("K", UOMEnum.Temperature, phdata[1]);
+                    cricondenbarPressure = UnitConvert.Convert("KPA", UOMEnum.Pressure, phdata[2]);
+                    cricondenbarTemperature = UnitConvert.Convert("K", UOMEnum.Temperature, phdata[3]);
+                    if (phdata[0] <= 0)
                         return false;
                     return true;
                 }
@@ -1001,19 +1055,34 @@ namespace ReliefProMain.ViewModel
             string gd = Guid.NewGuid().ToString();
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
             string liquid = "S_" + gd.Substring(gd.Length - 5, 5).ToUpper();
-            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "",HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            //IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+            //string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 4, "",HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+
+            ProIICalculate proiicalc = new ProIICalculate(SourceFileInfo.FileVersion);
+            string tray1_f = proiicalc.FlashCalculate(content, 1, ReliefPressure.ToString(), 4, "", HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
+            
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(tray1_f);
-                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
-                    ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
-                    ProIIStreamData proIIStream= reader.GetSteamInfo(stream.StreamName);
-                    ProIIEqData proiiEq=reader.GetEqInfo("Flash","F_1");
-                    reader.ReleaseProIIReader();
+                    //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    //reader.InitProIIReader(tray1_f);
+                    //ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                    //ProIIStreamData proIILiquid = reader.GetSteamInfo(liquid);
+                    //ProIIStreamData proIIStream= reader.GetSteamInfo(stream.StreamName);
+                    //ProIIEqData proiiEq=reader.GetEqInfo("Flash","F_1");
+                    //reader.ReleaseProIIReader();
+
+
+
+                    ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, tray1_f);
+                    List<ProIIStreamData> lst = reader.GetStreamInfo(new string[] { vapor, liquid,stream.StreamName });
+
+                    ProIIStreamData proIIVapor = lst[0];
+                    ProIIStreamData proIILiquid = lst[1];
+                    ProIIStreamData proIIStream = lst[2];
+                    ProIIEqData proiiEq = reader.GetEqInfo("Flash", "F_1");
+
                     latentVapor = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIIVapor);
                     latentVapor.ProdType = "1";
                     latentLiquid = ProIIToDefault.ConvertProIIStreamToLatentProduct(proIILiquid);
@@ -1031,7 +1100,7 @@ namespace ReliefProMain.ViewModel
                     latent.LatentEnthalpy = latentVapor.SpEnthalpy - latentLiquid.SpEnthalpy; ;
                     latent.ReliefTemperature = latentVapor.Temperature ;
                     latent.ReliefOHWeightFlow = latentVapor.BulkMwOfPhase;
-                    latent.ReliefPressure = CurrentModel.Pressure * CurrentModel.ReliefPressureFactor;
+                    latent.ReliefPressure = UnitConvert.Convert(CurrentModel.PSVPressureUnit, UOMEnum.Pressure, CurrentModel.Pressure) *CurrentModel.ReliefPressureFactor;
                     latent.ReliefCpCv = latentVapor.BulkCPCVRatio;
                     latent.ReliefZ = latentVapor.VaporZFmKVal;
                     if (FluidType == 2)
@@ -1110,16 +1179,24 @@ namespace ReliefProMain.ViewModel
             string gd = Guid.NewGuid().ToString();
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();
             string liquid = string.Empty;
-            IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
-            string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 2, ReliefTemperature.ToString(), HeatMethod, stream, vapor, liquid, dirSupper, ref ImportResult, ref RunResult);
+            //IFlashCalculate fcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+            //string tray1_f = fcalc.Calculate(content, 1, ReliefPressure.ToString(), 2, ReliefTemperature.ToString(), HeatMethod, stream, vapor, liquid, dirSupper, ref ImportResult, ref RunResult);
+
+            ProIICalculate proiicalc = new ProIICalculate(SourceFileInfo.FileVersion);
+            string tray1_f = proiicalc.FlashCalculate(content, 1, ReliefPressure.ToString(), 2, ReliefTemperature.ToString(), HeatMethod, stream, vapor, liquid, dirSupper, ref ImportResult, ref RunResult);
+            
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(tray1_f);
-                    ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
-                    reader.ReleaseProIIReader();
+                    //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    //reader.InitProIIReader(tray1_f);
+                    //ProIIStreamData proIIVapor = reader.GetSteamInfo(vapor);
+                    //reader.ReleaseProIIReader();
+
+                    ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, tray1_f);
+                    ProIIStreamData proIIVapor = reader.GetStreamInfo(vapor);
+
                     CustomStream csVapor = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIVapor);
                     LatentDAL dblatent = new LatentDAL();
                     //dbLatentProduct dblatentproduct = new dbLatentProduct();

@@ -16,7 +16,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using System.IO;
-using System.IO.Compression;
+//using System.IO.Compression;
 using System.Xml;
 using System.Resources;
 using System.Collections;
@@ -28,8 +28,7 @@ using System.Runtime.InteropServices;
 using Xceed.Wpf.AvalonDock.Layout;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using Xceed.Wpf.AvalonDock;
-
-
+using ReliefProMain.Common;
 using ReliefProDAL;
 using ProII;
 using ReliefProCommon.CommonLib;
@@ -120,8 +119,8 @@ namespace ReliefProMain.ViewModel
             {
                 Directory.CreateDirectory(tempReliefProWorkDir);//这是appdata里工作目录文件夹
             }
-                
 
+            
         }
 
         private void CreatePlant(object obj)
@@ -281,7 +280,8 @@ namespace ReliefProMain.ViewModel
                                 }
 
                                 //ReliefProCommon.CommonLib.CSharpZip.ExtractZipFile(currentPlantFile, "1", currentPlantWorkFolder);
-                                ZipFile.ExtractToDirectory(currentPlantFile, currentPlantWorkFolder);
+                                //ZipFile.ExtractToDirectory(currentPlantFile, currentPlantWorkFolder);
+                                CustomZipFile.UnZip(currentPlantFile, currentPlantWorkFolder);
                                 string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
 
                                 TVPlant p = new TVPlant();
@@ -333,7 +333,8 @@ namespace ReliefProMain.ViewModel
         {
             //ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
             File.Delete(currentPlantFile);
-            ZipFile.CreateFromDirectory(currentPlantWorkFolder, currentPlantFile);
+            //ZipFile.CreateFromDirectory(currentPlantWorkFolder, currentPlantFile);
+            CustomZipFile.Zip(currentPlantWorkFolder, currentPlantFile);
         }
 
         private void ClosePlant(object obj)

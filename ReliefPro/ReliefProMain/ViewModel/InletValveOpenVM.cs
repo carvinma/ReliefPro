@@ -482,11 +482,15 @@ namespace ReliefProMain.ViewModel
             }
 
 
-            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-            reader.InitProIIReader(FileFullPath);
-            int trayNumber=int.Parse(data.NumberOfTrays);
+            //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+            //reader.InitProIIReader(FileFullPath);
+            //ProIIStreamData vapor = reader.CopyStream(data.EqName, trayNumber, 1, 1);
 
-            ProIIStreamData vapor = reader.CopyStream(data.EqName, trayNumber, 1, 1);
+            int trayNumber = int.Parse(data.NumberOfTrays);
+            ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, FileFullPath);
+            ProIIStreamData vapor = reader.CopyStreamInfo(EqName, trayNumber, 1, 1);
+
+
             list.Add(vapor.StreamName);
             UpStreamVaporData = ProIIToDefault.ConvertProIIStreamToCustomStream(vapor);
 
@@ -563,7 +567,7 @@ namespace ReliefProMain.ViewModel
             double p2 = UnitConvert.Convert(UOMEnum.Pressure, "Mpa", DownStreamPressure);
 
             double Wliquidvalve = Darcy(Rmass, Cv, p1, p2);
-            IFlashCalculate flashCalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+            //IFlashCalculate flashCalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
             string dir = DirPlant + @"\" + SourceFileInfo.FileNameNoExt;
             string content = PROIIFileOperator.getUsableContent(UpStreamLiquidData.StreamName, dir);
             string[] sourceFiles = Directory.GetFiles(dir, "*.inp");
@@ -574,16 +578,23 @@ namespace ReliefProMain.ViewModel
             int ImportResult = 0;
             int RunResult = 0;
             UpStreamLiquidData.TotalMolarRate = Wliquidvalve/UpStreamLiquidData.BulkMwOfPhase/3600; //单位是kgm/s
-            string f = flashCalc.Calculate(content, 1, DownStreamPressure.ToString(), 5, "0",HeatMethod, UpStreamLiquidData, vapor, liquid, dirInletValveOpen, ref ImportResult, ref RunResult);
+            //string f = flashCalc.Calculate(content, 1, DownStreamPressure.ToString(), 5, "0",HeatMethod, UpStreamLiquidData, vapor, liquid, dirInletValveOpen, ref ImportResult, ref RunResult);
+            
+            ProIICalculate proiicalc = new ProIICalculate(SourceFileInfo.FileVersion);
+            string f = proiicalc.FlashCalculate(content, 1, DownStreamPressure.ToString(), 5, "0", HeatMethod, UpStreamLiquidData, vapor, liquid, dirInletValveOpen, ref ImportResult, ref RunResult);
+            
             ProIIStreamData proIIStreamData;
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
                 {
-                    IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                    reader.InitProIIReader(f);
-                    proIIStreamData = reader.GetSteamInfo(vapor);
-                    reader.ReleaseProIIReader();
+                    //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                    //reader.InitProIIReader(f);
+                    //proIIStreamData = reader.GetSteamInfo(vapor);
+                    //reader.ReleaseProIIReader();
+
+                    ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, f);
+                    proIIStreamData = reader.GetStreamInfo(vapor);
                 }
 
                 else

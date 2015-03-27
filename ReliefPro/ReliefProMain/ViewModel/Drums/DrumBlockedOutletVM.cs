@@ -74,8 +74,7 @@ namespace ReliefProMain.ViewModel.Drums
             var outletModel = drum.GetBlockedOutletModel(SessionPS, ScenarioID,EqType);
             double setPress = drum.PSet(SessionPS);
             if (drum.Feeds.Count > 1 && string.IsNullOrEmpty(outletModel.MixProductName))
-            {
-                
+            {               
                 string sbcontent = string.Empty;
                 List<string> strFeeds = new List<string>();
                 SourceDAL sourcedal = new SourceDAL();
@@ -105,7 +104,7 @@ namespace ReliefProMain.ViewModel.Drums
                 string sourceFile = sourceFiles[0];
                 string[] lines = System.IO.File.ReadAllLines(sourceFile);
                 sbcontent = PROIIFileOperator.getUsableContent(strFeeds, lines);
-                IMixCalculate mixcalc = ProIIFactory.CreateMixCalculate(SourceFileInfo.FileVersion);
+                //IMixCalculate mixcalc = ProIIFactory.CreateMixCalculate(SourceFileInfo.FileVersion);
                 outletModel.MixProductName = Guid.NewGuid().ToString().Substring(0, 6);
                 
                 if (Directory.Exists(dirMix))
@@ -115,18 +114,22 @@ namespace ReliefProMain.ViewModel.Drums
                 Directory.CreateDirectory(dirMix);
                 int mixImportResult = 1;
                 int mixRunResult = 1;
-                mixPrzFile = mixcalc.Calculate(sbcontent, mixFeeds, outletModel.MixProductName, dirMix, ref mixImportResult, ref mixRunResult);
+                ProIICalculate mixcalc = new ProIICalculate(SourceFileInfo.FileVersion);
+                mixPrzFile = mixcalc.MixCalculate( sbcontent, mixFeeds, outletModel.MixProductName, dirMix, ref mixImportResult, ref mixRunResult);
 
                 if (mixImportResult == 1 || mixImportResult == 2)
                 {
                     if (mixRunResult == 1 || mixRunResult == 2)
                     {
-                        IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                        reader.InitProIIReader(mixPrzFile);
-                        ProIIStreamData proIIvapor = reader.GetSteamInfo(outletModel.MixProductName);
-                        reader.ReleaseProIIReader();
-                        mixCSProduct = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
-                        
+                        //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                        //reader.InitProIIReader(mixPrzFile);
+                        //ProIIStreamData proIIvapor = reader.GetSteamInfo(outletModel.MixProductName);
+                        //reader.ReleaseProIIReader();
+                        //mixCSProduct = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
+
+                        ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion,mixPrzFile);
+                        ProIIStreamData proIIMix = reader.GetStreamInfo(outletModel.MixProductName);
+                        mixCSProduct = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIMix);
                         //outletModel.MaxPressure = mixCSProduct.Pressure;  //2015.1.6 修改其读取方法，不再从mix里读取。而是通过和定压比较取最小的压力。
                         outletModel.MaxStreamRate = mixCSProduct.WeightFlow;
                     }
@@ -243,7 +246,8 @@ namespace ReliefProMain.ViewModel.Drums
                     }
                     
                     SplashScreenManager.SentMsgToScreen("Calculation is in progress, please wait…");
-                    IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+                    //IFlashCalculate flashcalc = ProIIFactory.CreateFlashCalculate(SourceFileInfo.FileVersion);
+                    ProIICalculate proiicalc = new ProIICalculate(SourceFileInfo.FileVersion);
                     int ImportResult = 0;
                     int RunResult = 0;
                     string f = string.Empty;
@@ -252,30 +256,41 @@ namespace ReliefProMain.ViewModel.Drums
                         //drum.Feeds[0].Pressure=UnitConvert.Convert(model.PressureUnit,"Mpag",model.MaxPressure);
                         double weightFlow=UnitConvert.Convert(model.StreamRateUnit,"Kg/hr",model.MaxStreamRate);
                         drum.Feeds[0].TotalMolarRate=weightFlow/3600/drum.Feeds[0].BulkMwOfPhase;
-                        f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, HeatMethod,drum.Feeds[0], vapor, liquid, tempdir, ref ImportResult, ref RunResult);
+                        //f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, HeatMethod,drum.Feeds[0], vapor, liquid, tempdir, ref ImportResult, ref RunResult);
+
+                        f = proiicalc.FlashCalculate(content, 1, reliefPressure.ToString(), 5, duty, HeatMethod, drum.Feeds[0], vapor, liquid, tempdir, ref ImportResult, ref RunResult);
                     }
                     else
                     {
-                        IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                        reader.InitProIIReader(mixPrzFile);
-                        ProIIStreamData proIIvapor = reader.GetSteamInfo(model.MixProductName);
-                        reader.ReleaseProIIReader();
+                        //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                        //reader.InitProIIReader(mixPrzFile);
+                        //ProIIStreamData proIIvapor = reader.GetSteamInfo(model.MixProductName);
+                        //reader.ReleaseProIIReader();
+
+                        ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, mixPrzFile);
+                        ProIIStreamData proIIvapor = reader.GetStreamInfo(model.MixProductName);
                         mixCSProduct = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
                         //mixCSProduct.Pressure = UnitConvert.Convert(model.PressureUnit, "Mpag", model.MaxPressure);
                         double weightFlow = UnitConvert.Convert(model.StreamRateUnit, "Kg/hr", model.MaxStreamRate);
                         mixCSProduct.TotalMolarRate = weightFlow / 3600 / mixCSProduct.BulkMwOfPhase;
-                        f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, HeatMethod, mixCSProduct, vapor, liquid, tempdir, ref ImportResult, ref RunResult);
+                        //f = flashcalc.Calculate(content, 1, reliefPressure.ToString(), 5, duty, HeatMethod, mixCSProduct, vapor, liquid, tempdir, ref ImportResult, ref RunResult);
+
+                        f = proiicalc.FlashCalculate(content, 1, reliefPressure.ToString(), 5, duty, HeatMethod, mixCSProduct, vapor, liquid, tempdir, ref ImportResult, ref RunResult);
+                    
                     }
 
                     if (ImportResult == 1 || ImportResult == 2)
                     {
                         if (RunResult == 1 || RunResult == 2)
                         {
-                            IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
-                            reader.InitProIIReader(f);
-                            ProIIStreamData proIIvapor = reader.GetSteamInfo(vapor);
-                            reader.ReleaseProIIReader();
-                            CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
+                            //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
+                            //reader.InitProIIReader(f);
+                            //ProIIStreamData proIIvapor = reader.GetSteamInfo(vapor);
+                            //reader.ReleaseProIIReader();
+
+                            ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, f);
+                            ProIIStreamData proiivapor = reader.GetStreamInfo(vapor);
+                            CustomStream cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proiivapor);
 
                             reliefMW = cs.BulkMwOfPhase;
                             reliefT = cs.Temperature;
@@ -306,7 +321,7 @@ namespace ReliefProMain.ViewModel.Drums
                 {
                     reliefLoad = 0;
                     model.ReliefLoad = 0;
-                    model.ReliefPressure = reliefPressure;
+                    model.ReliefPressure = UnitConvert.Convert(UOMEnum.Pressure, model.ReliefPressureUnit, reliefPressure);
                     model.ReliefTemperature = 0;
                     model.ReliefMW = 0;
                     model.ReliefCpCv = 0;
