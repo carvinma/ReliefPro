@@ -13,6 +13,7 @@ namespace ProII
         private string version;
         private string przFilePath;
         private string przFileName;
+
         public ProIIReader(string version, string przFilePath)
         {
             this.version = version;
@@ -20,6 +21,7 @@ namespace ProII
             FileInfo fi = new FileInfo(przFilePath);
             przFileName= fi.Name;
         }
+        
         public int[] GetAllCount()
         {
             string action = "GetAllCount";
@@ -139,7 +141,6 @@ namespace ProII
             return data;
 
         }
-
 
         public ProIIEqData GetEqInfo(string eqType,string eqName)
         {
@@ -272,7 +273,6 @@ namespace ProII
 
             return data;
         }
-
 
         public ProIIStreamData CopyStreamInfo(string columnName, int tray, int phase, int trayFlow)
         {
