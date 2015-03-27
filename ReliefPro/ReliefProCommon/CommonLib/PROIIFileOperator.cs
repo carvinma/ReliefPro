@@ -10,7 +10,7 @@ using SharpCompress.Common;
 namespace ReliefProCommon.CommonLib
 {
     public static class PROIIFileOperator
-    {        
+    {
         public static bool DecompressProIIFile(string przFile, string decompressDir)
         {
             bool result = false;
@@ -83,7 +83,7 @@ namespace ReliefProCommon.CommonLib
 
         public static string getUsableContent(string streamName, string[] lines)
         {
-            string PropStream = "PROPERTY STREAM=" + streamName.ToUpper()+",";
+            string PropStream = "PROPERTY STREAM=" + streamName.ToUpper() + ",";
             string[] keys = { "srk", "srkh", "srkm", "srkp", "srks", "pr", "prh", "prm", "prp" };
             StringBuilder sb = new StringBuilder();
             List<int> list = new List<int>();
@@ -246,8 +246,8 @@ namespace ReliefProCommon.CommonLib
             return sb.ToString();
         }
 
-        public static string getUsableContent(List<string>streamNames, string rootDir)
-        {            
+        public static string getUsableContent(List<string> streamNames, string rootDir)
+        {
             string[] keys = { "srk", "srkh", "srkm", "srkp", "srks", "pr", "prh", "prm", "prp" };
             StringBuilder sb = new StringBuilder();
             string[] files = Directory.GetFiles(rootDir, "*.inp");
@@ -280,7 +280,7 @@ namespace ReliefProCommon.CommonLib
                         i = i + 1;
                     }
                 }
-                else if (checkUsableStreamName(s,streamNames))
+                else if (checkUsableStreamName(s, streamNames))
                 {
                     while (lines[i].Contains("&"))
                     {
@@ -332,7 +332,7 @@ namespace ReliefProCommon.CommonLib
         public static string getUsableContent(List<string> streamNames, string[] lines)
         {
             string[] keys = { "srk", "srkh", "srkm", "srkp", "srks", "pr", "prh", "prm", "prp" };
-            StringBuilder sb = new StringBuilder();          
+            StringBuilder sb = new StringBuilder();
             List<int> list = new List<int>();
             int i = 0;
             while (i < lines.Length)
@@ -414,7 +414,7 @@ namespace ReliefProCommon.CommonLib
             bool b = false;
             foreach (string streamName in streamNames)
             {
-                string PropStream = "PROPERTY STREAM=" + streamName.ToUpper()+",";
+                string PropStream = "PROPERTY STREAM=" + streamName.ToUpper() + ",";
                 if (line.Trim().ToUpper().IndexOf(PropStream) > -1)
                 {
                     b = true;
@@ -425,7 +425,7 @@ namespace ReliefProCommon.CommonLib
         }
         public static string getUsablePhaseContent(string streamName, string rootDir)
         {
-            string PropStream = "PROPERTY STREAM=" + streamName.ToUpper();
+            string PropStream = "PROPERTY STREAM=" + streamName.ToUpper() + ",";
             string[] keys = { "srk", "srkh", "srkm", "srkp", "srks", "pr", "prh", "prm", "prp" };
             StringBuilder sb = new StringBuilder();
             string[] files = Directory.GetFiles(rootDir, "*.inp");
@@ -455,11 +455,11 @@ namespace ReliefProCommon.CommonLib
                                 sb.Append(s).Append("\r\n");
                                 i++;
                                 s = lines[i];
-                                
+
                             }
                             sb.Append(s).Append("\r\n");
                         }
-                        
+
                         ////////更改方法和名字
                         //////int st = s.IndexOf("SET=");
                         //////while (st == -1)
@@ -632,7 +632,7 @@ namespace ReliefProCommon.CommonLib
         }
 
         public static InpPosInfo GetStreamPosInfo(string[] lines, string streamName, string attr, string rewriteAttr)
-        {            
+        {
             string attr1 = attr.ToUpper();
             string attr2 = "";
             if (attr.Contains("RATE("))
@@ -771,14 +771,14 @@ namespace ReliefProCommon.CommonLib
             return spi;
         }
 
-       /// <summary>
-       /// 替换压力，温度
-       /// </summary>
-       /// <param name="lines"></param>
-       /// <param name="streamName"></param>
-       /// <param name="rewriteAttr1"></param>
-       /// <param name="rewriteAttr2"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// 替换压力，温度
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <param name="streamName"></param>
+        /// <param name="rewriteAttr1"></param>
+        /// <param name="rewriteAttr2"></param>
+        /// <returns></returns>
         public static InpPosInfo GetStreamPosInfo2(string[] lines, string streamName, string rewriteAttr1, string rewriteAttr2)
         {
             string attr1 = "PRESSURE=";
@@ -786,7 +786,7 @@ namespace ReliefProCommon.CommonLib
 
             string attr3 = "TEMPERATURE=";
             string attr4 = "TEMPERATURE(C)=";
-            
+
             if (string.IsNullOrEmpty(streamName))
             {
                 return null;
@@ -812,15 +812,15 @@ namespace ReliefProCommon.CommonLib
                 string key1 = "PROPERTY STREAM=";
                 string key2 = "UNIT OPERATIONS";
                 string key = "PROPERTY STREAM=" + streamName.ToUpper();
-                bool b1=line.Contains(attr1.ToUpper()) ||  line.Contains(attr2);
-                bool b2=line.Contains(attr3.ToUpper()) ||  line.Contains(attr4);
+                bool b1 = line.Contains(attr1.ToUpper()) || line.Contains(attr2);
+                bool b2 = line.Contains(attr3.ToUpper()) || line.Contains(attr4);
 
                 if ((line.Contains(key1) || line.Contains(key2)) && !line.Contains(key + ","))
                 {
-                    spi.end = i - 1;                    
+                    spi.end = i - 1;
                     break;
                 }
-                else if (b1&&b2)
+                else if (b1 && b2)
                 {
                     string oldValue = string.Empty;
                     string newValue = rewriteAttr1;
@@ -878,7 +878,7 @@ namespace ReliefProCommon.CommonLib
 
                 }
             }
-            
+
             for (int i = 0; i < list.Count; i++)
             {
                 sb.Append(list[i]).Append("\r\n");
@@ -918,7 +918,7 @@ namespace ReliefProCommon.CommonLib
             {
                 return false;
             }
-            
+
         }
 
     }
