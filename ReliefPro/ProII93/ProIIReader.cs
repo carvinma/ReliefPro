@@ -59,8 +59,6 @@ namespace ProII93
             CompIns = ConvertExt.ObjectToString(CompIn);
         }
 
-
-
         //获得设备和物流线的个数和名字信息
         public int GetAllEqAndStreamTotal(IList<ProIIEqType> eqTypeList, ref IList<ProIIEqData> eqList, ref IList<string> streamList)
         {
