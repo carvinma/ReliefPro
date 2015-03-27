@@ -25,5 +25,10 @@ namespace UOMLib
         /// Plant的单位制信息
         /// </summary>
         public UOMEnum UnitInfo { get; set; }
+
+        /// <summary>
+        /// 是否为当前操作的Plant
+        /// </summary>
+        public bool CurrentOp { get; set; }
     }
 }
