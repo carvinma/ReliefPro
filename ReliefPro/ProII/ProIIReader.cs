@@ -148,7 +148,7 @@ namespace ProII
             object objRtn = new object();
             ExcelMacroHelper.RunExcelMacro(macroFilePath,
                                                          action,
-                                                        new Object[] { version, przFilePath,eqType,eqName },
+                                                        new Object[] { version, przFilePath,eqType,eqName},
                                                          out objRtn,
                                                          false);
             if (objRtn is Array)
@@ -163,20 +163,90 @@ namespace ProII
         public double[] GetPHInfo( string eqName)
         {
             double[] data= new double[4];
-            string action = "GetEqInfo";
+            string action = "GetPhaseEnvelInfo";
             object objRtn = new object();
             ExcelMacroHelper.RunExcelMacro(macroFilePath,
                                                          action,
-                                                        new Object[] { version, przFilePath, "PhaseEnvel", eqName },
+                                                        new Object[] { version, przFilePath,  eqName },
                                                          out objRtn,
                                                          false);
             if (objRtn is Array)
             {
-                object[] arr = (object[])objRtn;
-                data[0] = double.Parse(arr[0].ToString());
-                data[1] = double.Parse(arr[1].ToString());
-                data[2] = double.Parse(arr[2].ToString());
-                data[3] = double.Parse(arr[3].ToString());
+                object[] arr = (object[])objRtn;                
+                if (version == "9.2")
+                {
+                    double[] arr2 = new double[arr.Length];
+                    string outFilePath = przFilePath.Substring(0, przFilePath.Length - 3) + "out";
+                    string[] lines = System.IO.File.ReadAllLines(outFilePath);
+                    int length = lines.Length;
+                    int i = 10;
+                    for (i = 10; i < length;i++ )
+                    {
+                        string line=lines[i];
+                        if (line.Contains("                              CRITICAL POINT"))
+                        {
+                            break;
+                        }
+                    }
+                    if (i < length)
+                    {
+                        string criticalinfo = lines[i].Trim();
+                        string[] arrcriticalinfo = criticalinfo.Split(' ');
+                        int j = 0;
+                        foreach (string s in arrcriticalinfo)
+                        {
+                            if (s.Trim() != string.Empty && s.Trim() != "CRITICAL" && s.Trim() != "POINT")
+                            {
+                                if (j == 0)
+                                {
+                                    string temp = s.Trim();
+                                    arr2[1]=UOMLib.UnitConvert.Convert("F","K",double.Parse(temp));
+                                    j++;
+                                }
+                                else
+                                {
+                                    string press = s.Trim();
+                                    arr2[0] = UOMLib.UnitConvert.Convert("PSIG", "KPA", double.Parse(press));
+                                }
+                            }
+                        }
+
+
+                        string criticalbarinfo = lines[i - 1];
+                        string[] arrcriticalbarinfo = criticalbarinfo.Split(' ');
+                        j = 0;
+                        foreach (string s in arrcriticalbarinfo)
+                        {
+                            if (s.Trim() != string.Empty && s.Trim() != "CRICONDENBAR")
+                            {
+                                if (j == 0)
+                                {
+                                    string temp = s.Trim();
+                                    arr2[3] = UOMLib.UnitConvert.Convert("F", "K", double.Parse(temp));
+                                    j++;
+                                }
+                                else
+                                {
+                                    string press = s.Trim();
+                                    arr2[2] = UOMLib.UnitConvert.Convert("PSIG", "KPA", double.Parse(press));
+                                }
+                            }
+                        }
+                    }
+
+                    data = arr2;
+                }
+                else
+                {
+                    if (arr[0].ToString() != string.Empty)
+                    {
+                        data[0] = double.Parse(arr[0].ToString());
+                        data[1] = double.Parse(arr[1].ToString());
+                        data[2] = double.Parse(arr[2].ToString());
+                        data[3] = double.Parse(arr[3].ToString());
+                    }
+                    
+                }
             }
 
             return data;
@@ -189,7 +259,7 @@ namespace ProII
             object objRtn = new object();
             ExcelMacroHelper.RunExcelMacro(macroFilePath,
                                                          action,
-                                                        new Object[] { version, przFilePath, "CompIn", eqName },
+                                                        new Object[] { version, przFilePath, "CompIn", eqName},
                                                          out objRtn,
                                                          false);
             if (objRtn is Array)
@@ -307,12 +377,12 @@ namespace ProII
                 data.EqType = ObjectToString(eq[0]);
                 data.EqName = ObjectToString(eq[1]);
                 data.NumberOfTrays = ObjectToString(eq[2]);
-                data.HeaterNames = ObjectToString(eq[3]);
-                data.HeaterDuties = ObjectToString(eq[4]);
-                data.HeaterNumber = ObjectToString(eq[5]);
-                data.HeaterPANumberfo = ObjectToString(eq[6]);
-                data.HeaterRegOrPAFlag = ObjectToString(eq[7]);
-                data.HeaterTrayLoc = ObjectToString(eq[8]);
+                data.HeaterNames = string.Empty;
+                data.HeaterDuties = string.Empty;
+                data.HeaterNumber = string.Empty;
+                data.HeaterPANumberfo = string.Empty;
+                data.HeaterRegOrPAFlag = string.Empty;
+                data.HeaterTrayLoc = string.Empty;
 
                 data.HeaterTrayNumber = ObjectToString(eq[9]);
                 data.ProdType = ObjectToString(eq[10]);
