@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ReliefProMain</RootNamespace>
     <AssemblyName>ReliefProMain</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -136,8 +136,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Printing" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Extensions" />
@@ -189,6 +187,7 @@
     <Compile Include="Commands\CommandReference.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Common\CriticalInfo.cs" />
+    <Compile Include="Common\CustomZipFile.cs" />
     <Compile Include="CustomControl\CustomComboBox.cs" />
     <Compile Include="CustomControl\GVColumnHeader.cs" />
     <Compile Include="CustomControl\ReportViewer.xaml.cs">
@@ -584,6 +583,7 @@
     <Compile Include="View\Towers\TowerScenarioHXView.xaml.cs">
       <DependentUpon>TowerScenarioHXView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VisioFactory.cs" />
     <Page Include="CustomControl\ReportViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1215,33 +1215,17 @@
       <Project>{aa5978ae-f64d-4288-9e5c-896c959bf3b0}</Project>
       <Name>BusyIndicatorCtrl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CustomVisio\CustomVisio.csproj">
+      <Project>{c9ea97c4-e585-4756-8ca4-6c2a5ec7cd5c}</Project>
+      <Name>CustomVisio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ExportLib\ExportLib.csproj">
       <Project>{bf7b294a-541b-4de7-be79-1e5c7455b940}</Project>
       <Name>ExportLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ProII83\ProII83.csproj">
-      <Project>{30540a96-5fe5-411c-a1f5-e8f923cd1972}</Project>
-      <Name>ProII83</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ProII90\ProII90.csproj">
-      <Project>{1b01d9b2-7029-41bc-9c09-489daef66c40}</Project>
-      <Name>ProII90</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ProII93\ProII93.csproj">
-      <Project>{e093a9f6-9256-48fa-b701-cb4279fbe032}</Project>
-      <Name>ProII93</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ReliefProCommon\ReliefProCommon.csproj">
       <Project>{5442dadc-acf1-4668-90e5-f27070b95cfd}</Project>
       <Name>ReliefProCommon</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ProII91\ProII91.csproj">
-      <Project>{b3c0f1a9-dcc0-4e0a-afdb-d51f0933eaf0}</Project>
-      <Name>ProII91</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ProII92\ProII92.csproj">
-      <Project>{91faab28-f38d-4b71-944b-f9f597dcb954}</Project>
-      <Name>ProII92</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProII\ProII.csproj">
       <Project>{a5266b4f-56fa-413b-bc59-0f84ac0d9b64}</Project>
@@ -1262,6 +1246,14 @@
     <ProjectReference Include="..\UOMLib\UOMLib.csproj">
       <Project>{9fb1af20-7585-4bb9-a0bb-810e1a0f6f30}</Project>
       <Name>UOMLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Visio2003\Visio2003.csproj">
+      <Project>{871ad1be-4f0c-45c5-bd97-4dc10fcf5ba1}</Project>
+      <Name>Visio2003</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Visio2010\Visio2010.csproj">
+      <Project>{54dc26a6-af82-4ad9-a891-4e7abf98e337}</Project>
+      <Name>Visio2010</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -1300,7 +1292,17 @@
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
+    </COMReference>
+    <COMReference Include="Shell32">
+      <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
     <COMReference Include="stdole">
       <Guid>{00020430-0000-0000-C000-000000000046}</Guid>

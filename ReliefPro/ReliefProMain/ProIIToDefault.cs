@@ -12,6 +12,8 @@ namespace ReliefProMain
     {
         public static CustomStream ConvertProIIStreamToCustomStream(ProIIStreamData s)
         {
+            if (s == null)
+                return null;
             CustomStream cs = new CustomStream();
             cs.StreamName = s.StreamName;
             if (!string.IsNullOrEmpty(s.BulkCP))
@@ -138,7 +140,7 @@ namespace ReliefProMain
 
 
             double SpEnthalpy = 0;
-            if (TotalMolarRate + InertWeightRate > 0)
+            if (TotalMassRate + InertWeightRate > 0)
             {
                 SpEnthalpy = Enthalpy / (TotalMassRate + InertWeightRate);
             }
@@ -276,7 +278,7 @@ namespace ReliefProMain
 
 
             double SpEnthalpy = 0;
-            if (TotalMolarRate + InertWeightRate > 0)
+            if (TotalMassRate + InertWeightRate > 0)
             {
                 SpEnthalpy = Enthalpy / (TotalMassRate + InertWeightRate);
             }

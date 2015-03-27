@@ -21,6 +21,8 @@ namespace ReliefProMain
             string version = PROIIFileOperator.CheckProIIhs2Version(hs2file);
             return version;
         }
+
+        /*
         public static IProIIReader CreateReader(string version)
         {
             IProIIReader reader = null;
@@ -164,6 +166,7 @@ namespace ReliefProMain
             }
             return impt;
         }
+         * */
 
     }
 }

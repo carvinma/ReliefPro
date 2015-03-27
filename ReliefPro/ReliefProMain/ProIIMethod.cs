@@ -44,7 +44,8 @@ namespace ReliefProMain
                 string sourceFile = sourceFiles[0];
                 string[] lines = System.IO.File.ReadAllLines(sourceFile);
                 string sbcontent = PROIIFileOperator.getUsableContent(strFeeds, lines);
-                IMixCalculate mixcalc = ProIIFactory.CreateMixCalculate(proIIVersion);
+                //IMixCalculate mixcalc = ProIIFactory.CreateMixCalculate(proIIVersion);
+                ProIICalculate mixcalc = new ProIICalculate(proIIVersion);
                 string mixProductName = Guid.NewGuid().ToString().Substring(0, 6);
 
                 if (Directory.Exists(dirMix))
@@ -53,16 +54,19 @@ namespace ReliefProMain
 
                 int mixImportResult = 1;
                 int mixRunResult = 1;
-                string mixPrzFile = mixcalc.Calculate(sbcontent, mixFeeds, mixProductName, dirMix, ref mixImportResult, ref mixRunResult);
+                string mixPrzFile = mixcalc.MixCalculate(  sbcontent, mixFeeds, mixProductName, dirMix, ref mixImportResult, ref mixRunResult);
 
                 if (mixImportResult == 1 || mixImportResult == 2)
                 {
                     if (mixRunResult == 1 || mixRunResult == 2)
                     {
-                        IProIIReader reader = ProIIFactory.CreateReader(proIIVersion);
-                        reader.InitProIIReader(mixPrzFile);
-                        ProIIStreamData proIIvapor = reader.GetSteamInfo(mixProductName);
-                        reader.ReleaseProIIReader();
+                        //IProIIReader reader = ProIIFactory.CreateReader(proIIVersion);
+                        //reader.InitProIIReader(mixPrzFile);
+                        //ProIIStreamData proIIvapor = reader.GetSteamInfo(mixProductName);
+                        //reader.ReleaseProIIReader();
+
+                        ProIIReader reader = new ProIIReader(proIIVersion, mixPrzFile);
+                        ProIIStreamData proIIvapor = reader.GetStreamInfo(mixProductName);
                         CustomStream mixCSProduct = ProIIToDefault.ConvertProIIStreamToCustomStream(proIIvapor);
                         return mixCSProduct;
                     }
