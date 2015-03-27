@@ -213,10 +213,18 @@ namespace ReliefProMain.ViewModel
                               Plants.Add(m1);
                               SavePlant();
                               IsOpenPlant = true;
-                              if (!UOMSingle.UomEnums.Exists(uom => uom.SessionDBPath == dbPlant_target))
+                            
+                              if (!UOMSingle.plantsInfo.Exists(o=>o.Name==currentPlantName))
                               {
-                                  UOMEnum uomEnum = new UOMEnum(SessionPlant);
-                                  UOMSingle.UomEnums.Add(uomEnum);
+                                  PlantInfo uomPlant = new PlantInfo();
+                                  uomPlant.Name = currentPlantName;
+                                  if(p.FullPath.Contains("plant.mdb"))
+                                      uomPlant.DataContext = new ORDesignerPlantDataContext(p.FullPath);
+                                  else
+                                     uomPlant.DataContext = new ORDesignerPlantDataContext(p.FullPath + @"\plant.mdb");
+                                  UOMSingle.currentPlantContext = uomPlant.DataContext;
+                                  uomPlant.UnitInfo = new UOMEnum();
+                                  UOMSingle.plantsInfo.Add(uomPlant);
                               }
                           }), null);
                        }).ContinueWith((t) =>

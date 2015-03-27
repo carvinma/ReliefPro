@@ -22,7 +22,7 @@ namespace UOMLib
             templatePlantContext = new ORDesignerPlantDataContext(dbConnectPath);
             currentPlantContext = templatePlantContext;
             /*程序启动时，当前plant数据库默认为模板数据库，在App.cs中初始化单位转换所需基础数据
-             * 新建Plant后，currentPlantContext需切换为当前路径下
+             * 新建或打开Plant后，currentPlantContext需切换为当前路径下
              */
             plantsInfo = new List<PlantInfo>(); 
         }

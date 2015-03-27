@@ -1010,8 +1010,19 @@ namespace ReliefProMain
                     ps.SessionPlant.Flush();
                 }
             }
-
-
+            //重命名时，需要改
+            if (!UOMSingle.plantsInfo.Exists(o => o.Name == currentPlantName))
+            {
+                PlantInfo uomPlant = new PlantInfo();
+                uomPlant.Name = currentPlantName;
+                if (p.FullPath.Contains("plant.mdb"))
+                    uomPlant.DataContext = new ORDesignerPlantDataContext(p.FullPath);
+                else
+                    uomPlant.DataContext = new ORDesignerPlantDataContext(p.FullPath + @"\plant.mdb");
+                UOMSingle.currentPlantContext = uomPlant.DataContext;
+                uomPlant.UnitInfo = new UOMEnum();
+                UOMSingle.plantsInfo.
+            }
 
 
 
