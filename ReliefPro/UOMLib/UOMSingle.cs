@@ -15,6 +15,7 @@ namespace UOMLib
         public static int? BaseUnitSelectedID { get; set; }//当前选中系统单位ID
         public static ORDesignerPlantDataContext templatePlantContext { get; set; }//模板数据库
         public static ORDesignerPlantDataContext currentPlantContext { get; set; }//当前plant数据库
+        public static int currentPlantId { get; set; }//当前plantID
         public static List<PlantInfo> plantsInfo { get; set; }//多个plant时，记录plantContext
 
         static UOMSingle()
