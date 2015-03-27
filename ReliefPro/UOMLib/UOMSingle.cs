@@ -12,7 +12,7 @@ namespace UOMLib
     {
         private static readonly string dbConnectPath = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"Template\plant.mdb";
 
-        public static int? BaseUnitSelectedID { get; set; }//当前选中系统单位ID
+        public static int? BaseUnitSelectedID { get; set; }//当前选中系统单位默认ID（切换单位制转换）
         public static ORDesignerPlantDataContext templatePlantContext { get; set; }//模板数据库
         public static PlantInfo currentPlant { get; set; }
         public static List<PlantInfo> plantsInfo { get; set; }//多个plant时，记录plantContext
