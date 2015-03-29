@@ -29,8 +29,8 @@ namespace ProII91
         string[] arrFlashAttributes = { "FeedData", "ProductData", "PressCalc", "TempCalc", "DutyCalc", "Type", "ProductStoreData" };
         string[] arrHxAttributes = { "FeedData", "ProductData", "DutyCalc", "ProductStoreData", "LmtdCalc", "LmtdFactorCalc", "FirstFeed", "FirstProduct", "LastFeed", "LastProduct", };
         string[] arrCompressorAttributes = { "FeedData", "ProductData", "ProductStoreData" };
-        string[] arrMixerAttributes = { "FeedData", "ProductData" };
-        string[] arrSplitterAttributes = { "FeedData", "ProductData" };
+        string[] arrMixerAttributes = { "FeedData", "ProductData"};
+        string[] arrSplitterAttributes = { "FeedData", "ProductData"};
 
         string przFileName;
         CP2File cp2File;
@@ -40,8 +40,8 @@ namespace ProII91
         string ComponentIds = string.Empty;
         string CompIns = string.Empty;
         string PrintNumbers = string.Empty;
-        Dictionary<string, ProIIStreamData> dicFeedInfo = new Dictionary<string, ProIIStreamData>();
-        Dictionary<string, ProIIStreamData> dicProductInfo = new Dictionary<string, ProIIStreamData>();
+        Dictionary<string, tbProIIStreamData> dicFeedInfo = new Dictionary<string, tbProIIStreamData>();
+        Dictionary<string, tbProIIStreamData> dicProductInfo = new Dictionary<string, tbProIIStreamData>();
 
         public void InitProIIReader(string przFileFullName)
         {
@@ -57,12 +57,13 @@ namespace ProII91
             ComponentIds = ConvertExt.ObjectToString(ComponentId);
             object CompIn = cp2File.GetObjectNames("CompIn");
             CompIns = ConvertExt.ObjectToString(CompIn);
+            
         }
 
 
 
         //获得设备和物流线的个数和名字信息
-        public int GetAllEqAndStreamTotal(IList<ProIIEqType> eqTypeList, ref IList<ProIIEqData> eqList, ref IList<string> streamList)
+        public int GetAllEqAndStreamTotal(IList<systbProIIEqType> eqTypeList, ref IList<tbProIIEqData> eqList, ref IList<string> streamList)
         {
             int total = 0;
             int eqCount = getEqTotal(eqTypeList, ref eqList);
@@ -91,12 +92,12 @@ namespace ProII91
             return streamCount;
         }
 
-        private int getEqTotal(IList<ProIIEqType> eqTypeList, ref IList<ProIIEqData> eqList)
+        private int getEqTotal(IList<systbProIIEqType> eqTypeList, ref IList<tbProIIEqData> eqList)
         {
             int eqCount = 0;
-            foreach (ProIIEqType eqType in eqTypeList)
+            foreach (systbProIIEqType eqType in eqTypeList)
             {
-                string otype = eqType.EqTypeName;
+                string otype = eqType.Eqtypename;
                 int objCount = cp2File.GetObjectCount(otype);
                 if (objCount > 0)
                 {
@@ -106,7 +107,7 @@ namespace ProII91
                         string[] oNames = (string[])objectnames;
                         foreach (string name in oNames)
                         {
-                            ProIIEqData eq = new ProIIEqData();
+                            tbProIIEqData eq = new tbProIIEqData();
                             eq.EqName = name;
                             eq.EqType = otype;
                             eqList.Add(eq);
@@ -114,7 +115,7 @@ namespace ProII91
                     }
                     else
                     {
-                        ProIIEqData eq = new ProIIEqData();
+                        tbProIIEqData eq = new tbProIIEqData();
                         eq.EqName = objectnames.ToString();
                         eq.EqType = otype;
                         eqList.Add(eq);
@@ -125,15 +126,15 @@ namespace ProII91
             return eqCount;
         }
 
-        public void GetEqInfo(string otype, string name, ref IList<ProIIEqData> eqListData)
+        public void GetEqInfo(string otype, string name, ref IList<tbProIIEqData> eqListData)
         {
-            ProIIEqData data = GetEqInfo(otype, name);
+            tbProIIEqData data = GetEqInfo(otype, name);
             eqListData.Add(data);
         }
 
-        public void GetSteamInfo(string name, ref IList<ProIIStreamData> streamListData)
+        public void GetSteamInfo(string name, ref IList<tbProIIStreamData> streamListData)
         {
-            ProIIStreamData data = GetSteamInfo(name);
+            tbProIIStreamData data = GetSteamInfo(name);
             streamListData.Add(data);
         }
 
@@ -149,11 +150,11 @@ namespace ProII91
         /// <param name="tray"></param>
         /// <param name="phase">0:liquid+vapor 1:vapor 2:liquid</param>
         /// <param name="trayFlow">1:net 2:total</param>
-        public ProIIStreamData CopyStream(string columnName, int tray, int phase, int trayFlow)
+        public tbProIIStreamData CopyStream(string columnName, int tray, int phase, int trayFlow)
         {
             string pressure1 = "0";
-
-            ProIIStreamData proIIStream = new ProIIStreamData();
+            
+            tbProIIStreamData proIIStream = new tbProIIStreamData();
             string streamName = "temp" + Guid.NewGuid().ToString().Substring(0, 5).ToUpper();
             CP2Object tempStream = (CP2Object)cp2File.CreateObject("Stream", streamName);
             bool b = cp2File.CopyTrayToStream(columnName, (short)tray, (p2Phase)phase, 0, (p2TrayFlow)trayFlow, streamName);
@@ -176,9 +177,9 @@ namespace ProII91
             return proIIStream;
         }
 
-        public ProIIEqData GetEqInfo(string otype, string name)
+        public tbProIIEqData GetEqInfo(string otype, string name)
         {
-            ProIIEqData data = new ProIIEqData();
+            tbProIIEqData data = new tbProIIEqData();
             CP2Object eq = (CP2Object)cp2File.ActivateObject(otype, name);
             data.EqType = otype;
             data.EqName = name;
@@ -275,7 +276,7 @@ namespace ProII91
                             data.DutyCalc = value;
                             break;
                         case "Type":
-                            data.Type = value;
+                            data.DrumType = value;
                             break;
                         case "ProductStoreData":
                             data.ProductStoreData = value;
@@ -283,7 +284,7 @@ namespace ProII91
                     }
                 }
             }
-            else if (otype == "Hx")
+            else if (otype == "Hx" )
             {
                 foreach (string s in arrHxAttributes)
                 {
@@ -358,7 +359,7 @@ namespace ProII91
                         case "ProductData":
                             data.ProductData = value;
                             break;
-
+                       
                     }
                 }
             }
@@ -383,21 +384,21 @@ namespace ProII91
             return data;
         }
 
-        public ProIIStreamData GetSteamInfo(string name)
+        public tbProIIStreamData GetSteamInfo(string name)
         {
-            ProIIStreamData data = new ProIIStreamData();
-
+            tbProIIStreamData data = new tbProIIStreamData();
+           
             data.SourceFile = przFileName;
             data.StreamName = name;
             data.ProdType = "";
             data.Tray = "";
 
             data.CompIn = CompIns;
-            data.Componentid = ComponentIds;
+            data.ComponentId = ComponentIds;
             data.PrintNumber = PrintNumbers;
             CP2Object objStream = (CP2Object)cp2File.ActivateObject("Stream", name);
-            object ooo = objStream.get_ActualObject();
-
+            object ooo= objStream.get_ActualObject();
+            
             foreach (string s in arrStreamAttributes)
             {
                 object v = objStream.GetAttribute(s);
@@ -440,7 +441,7 @@ namespace ProII91
             {
                 return data;
             }
-
+            
             try
             {
                 CP2Object objBulkDrop = null;
@@ -452,19 +453,19 @@ namespace ProII91
                 {
                     cp2File.CalculateStreamProps(name);
                     objBulkDrop = (CP2Object)cp2File.ActivateObject("SrBulkProp", name);
-                }
+                } 
                 foreach (string s in arrBulkPropAttributes)
                 {
                     object v = objBulkDrop.GetAttribute(s);
                     string value = ConvertExt.ObjectToString(v);
                     switch (s)
                     {
-                        case "BulkMwOfPhase":
+                        case "BulkMwOfPhase":                            
                             data.BulkMwOfPhase = value;
                             break;
                         case "BulkDensityAct":
                             data.BulkDensityAct = value;
-                            break;
+                            break;                        
                         case "BulkViscosity":
                             data.BulkViscosity = value;
                             break;
@@ -483,7 +484,7 @@ namespace ProII91
                     }
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
 
             }
@@ -491,9 +492,9 @@ namespace ProII91
             return data;
         }
 
-        public Dictionary<string, ProIIStreamData> GetTowerStreamInfoExtra(string otype, string eqname)
+        public Dictionary<string, tbProIIStreamData> GetTowerStreamInfoExtra(string otype, string eqname)
         {
-            Dictionary<string, ProIIStreamData> dic = new Dictionary<string, ProIIStreamData>();
+            Dictionary<string, tbProIIStreamData> dic = new Dictionary<string, tbProIIStreamData>();
             CP2Object eq = (CP2Object)cp2File.ActivateObject(otype, eqname);
             object pd = eq.GetAttribute("ProductData");
             string productdata = ConvertExt.ObjectToString(pd);
@@ -509,7 +510,7 @@ namespace ProII91
             int count = productdatas.Length;
             for (int i = 0; i < count; i++)
             {
-                ProIIStreamData data = new ProIIStreamData();
+                tbProIIStreamData data = new tbProIIStreamData();
                 data.Tray = prodtrays[i];
                 data.ProdType = producttypes[i];
                 dic.Add(productdatas[i], data);
@@ -561,14 +562,13 @@ namespace ProII91
             data[0] = d1;
             return data;
         }
-
         public static bool IsEmptyComposition(string TotalComposition)
         {
             bool b = true;
             string[] comps = TotalComposition.Split(',');
             foreach (string comp in comps)
             {
-                if (comp != "" && comp!="0")
+                if (comp != "" && comp != "0")
                 {
                     b = false;
                     break;
