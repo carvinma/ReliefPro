@@ -13,28 +13,28 @@ namespace ProII90
 {
     public class MixCalculate : IMixCalculate
     {
-       
-        private string getMixData(List<CustomStream> streams,string product)
+
+        private string getMixData(List<tbStream> streams, string product)
         {
             StringBuilder data2 = new StringBuilder("UNIT OPERATIONS\n");
             StringBuilder sb = new StringBuilder();
-            foreach (CustomStream cs in streams)
+            foreach (tbStream cs in streams)
             {
-                sb.Append(cs.StreamName).Append(",");
+                sb.Append(cs.Streamname).Append(",");
             }
             string feeds = sb.ToString().Substring(0, sb.Length - 1);
             Guid guid = Guid.NewGuid();
             string MixName = "Mix_1";
 
-            data2.Append("\tMix UID=").Append(MixName).Append("\n");
+            data2.Append("\tMIXER UID=").Append(MixName).Append("\n");
             data2.Append("\t FEED ").Append(feeds.ToUpper()).Append("\n");
-            data2.Append("\t PRODUCT M=").Append(product).Append(",&\n");
+            data2.Append("\t PRODUCT M=").Append(product).Append("\n");
    
             data2.Append("END");
             return data2.ToString();
         }
 
-        public string Calculate(string fileContent,  List<CustomStream> streams,string product,  string dir, ref int ImportResult, ref int RunResult)
+        public string Calculate(string fileContent, List<tbStream> streams, string product, string dir, ref int ImportResult, ref int RunResult)
         {
             StringBuilder sb = new StringBuilder();
             string[] arrfileContent = fileContent.Split(new string[] { "STREAM DATA" }, StringSplitOptions.None);
@@ -42,14 +42,14 @@ namespace ProII90
             string flashData = getMixData(streams, product);
             
             sb.Append(arrfileContent[0]).Append("\nSTREAM DATA\n");
-            foreach(CustomStream stream in streams)
+            foreach (tbStream stream in streams)
             {
                 string streamData = getStreamData(stream);
                 sb.Append(streamData).Append("\n");;
             }
 
             sb.Append(arrfileContent[1]).Append(flashData);
-            string onlyFileName = dir + @"\a";
+            string onlyFileName = dir + @"\a" ;
             string inpFile = onlyFileName + ".inp";
             File.WriteAllText(inpFile, sb.ToString());
             CP2ServerClass cp2Srv = new CP2ServerClass();
@@ -68,19 +68,19 @@ namespace ProII90
             return przFile;
         }
 
-        private string getStreamData(CustomStream stream)
+        private string getStreamData(tbStream stream)
         {
             StringBuilder data1 = new StringBuilder();
-            string streamName = stream.StreamName;
+            string streamName = stream.Streamname;
             data1.Append("\tPROPERTY STREAM=").Append(streamName.ToUpper()).Append(",&\n");
             data1.Append("\t PRESSURE(MPAG)=").Append(stream.Pressure).Append(",&\n");
             data1.Append("\t TEMPERATURE(C)=").Append(stream.Temperature).Append(",&\n");
-            double rate = stream.TotalMolarRate;
+            double rate = stream.TotalMolarRate??0;
             if (rate == 0)
                 rate = 1e-8;
             data1.Append("\t RATE(KGM/S)=").Append(rate).Append(",&\n");
             string com = stream.TotalComposition;
-            string Componentid = stream.Componentid;
+            string Componentid = stream.ComponentId;
             string CompIn = stream.CompIn;
             string PrintNumber = stream.PrintNumber;
             Dictionary<string, string> compdict = new Dictionary<string, string>();
