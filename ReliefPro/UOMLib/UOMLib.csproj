@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ALinq">
-      <HintPath>C:\Program Files (x86)\ALinq3\bin\ALinq.dll</HintPath>
+      <HintPath>..\Dependencies\ALinq.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\Dependencies\NHibernate.dll</HintPath>
