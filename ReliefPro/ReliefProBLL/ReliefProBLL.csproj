@@ -54,7 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ALinq">
-      <HintPath>C:\Program Files (x86)\ALinq3\bin\ALinq.dll</HintPath>
+      <HintPath>..\Dependencies\ALinq.dll</HintPath>
     </Reference>
     <Reference Include="Autofac">
       <HintPath>..\Dependencies\Autofac.dll</HintPath>
@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="aBlockedVaporOutletBLL.cs" />
     <Compile Include="aDeviceBLL.cs" />
+    <Compile Include="aSinkBLL.cs" />
     <Compile Include="BlockedVaporOutletBLL.cs" />
     <Compile Include="CompressorBLL.cs" />
     <Compile Include="CompressorBlockedBLL.cs" />
@@ -110,6 +111,8 @@
     <Compile Include="TowerBLL.cs" />
     <Compile Include="UnitTypeInfo.cs" />
     <Compile Include="DrumSizeBLL.cs" />
+    <Compile Include="aScenarioBLL.cs" />
+    <Compile Include="aSourceBLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReliefProCommon\ReliefProCommon.csproj">

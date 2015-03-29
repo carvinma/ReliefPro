@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ReliefProModel;
 using UOMLib;
+using Alinq;
 
 namespace ReliefProBLL
 {
@@ -12,17 +13,17 @@ namespace ReliefProBLL
     {
         private UOMLib.UOMEnum uomEnum;
 
-        public aBlockedVaporOutletBLL()
+        public aBlockedVaporOutletBLL(int plantId)
         {
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPF);
+            uomEnum = UOMSingle.plantsInfo.FirstOrDefault(p => p.Id == plantId).UnitInfo;
         }
         public tbBlockedVaporOutlet GeModel(int scenarioID, int outletType)
         {
-            return UOMSingle.currentPlantContext.tbBlockedVaporOutlet.FirstOrDefault(p => p.ScenarioID == scenarioID && p.OutletType == outletType);
+            return UOMSingle.currentPlant.DataContext.tbBlockedVaporOutlet.FirstOrDefault(p => p.ScenarioID == scenarioID && p.OutletType == outletType);
         }
         public tbScenario GetScenarioModel(int scenarioID)
         {
-            return UOMSingle.currentPlantContext.tbScenario.FirstOrDefault(p => p.Id == scenarioID);
+            return UOMSingle.currentPlant.DataContext.tbScenario.FirstOrDefault(p => p.Id == scenarioID);
         }
         public tbBlockedVaporOutlet ReadConvertBlockedVaporOutletModel(tbBlockedVaporOutlet model)
         {
@@ -57,19 +58,17 @@ namespace ReliefProBLL
         }
         public void Save(tbBlockedVaporOutlet model, tbScenario smodel)
         {
+            if (model.Id == 0)
+            {
+                UOMSingle.currentPlant.DataContext.tbBlockedVaporOutlet.Insert(model);
+            }
+            else
+            {
+                UOMSingle.currentPlant.DataContext.tbBlockedVaporOutlet.Update(p => model, p => p.Id == model.Id);
+            }
 
-            dbBlockedVaporOutlet.Save(SessionPS, model);
-            ScenarioDAL db = new ScenarioDAL();
-            var sModel = db.GetModel(model.ScenarioID, SessionPS);
-
-            sModel.ReliefLoad = smodel.ReliefLoad;
-            sModel.ReliefMW = smodel.ReliefMW;
-            sModel.ReliefTemperature = smodel.ReliefTemperature;
-            sModel.ReliefPressure = smodel.ReliefPressure;
-            sModel.ReliefCpCv = smodel.ReliefCpCv;
-            smodel.ReliefZ = smodel.ReliefZ;
-            db.Update(sModel, SessionPS);
-            SessionPS.Flush();
+            UOMSingle.currentPlant.DataContext.tbScenario.Update<tbScenario>(p => smodel, p => p.Id == smodel.Id);
+            UOMSingle.currentPlant.DataContext.SubmitChanges();
         }
     }
 }

@@ -14,9 +14,9 @@ namespace ReliefProBLL
     {
         string dbPlant = AppDomain.CurrentDomain.BaseDirectory.ToString() + @"template\plant.mdb";
              
-        public IList<UnitType> GetUnitType()
+        public IList<systbUnitType> GetUnitType()
         {
-            IList<UnitType> lstUnitType;
+            IList<systbUnitType> lstUnitType;
             UnitTypeDAL db = new UnitTypeDAL();
             using (var helper = new NHibernateHelper(dbPlant))
             {
@@ -25,7 +25,7 @@ namespace ReliefProBLL
             return lstUnitType;
         }
 
-        public void Save(IList<UnitType> lstUnitType)
+        public void Save(IList<systbUnitType> lstUnitType)
         {
             UnitTypeDAL db = new UnitTypeDAL();
             using (var helper = new NHibernateHelper(dbPlant))
@@ -37,7 +37,7 @@ namespace ReliefProBLL
                     {
                         foreach (var unitType in lstUnitType)
                         {
-                            var model = Session.Get<UnitType>(unitType.ID);
+                            var model = Session.Get<systbUnitType>(unitType.Id);
                             //model.Custom = unitType.Custom;
                             Session.Update(model);
                         }

@@ -22,7 +22,7 @@ namespace ReliefProBLL
         {
             if (dbmodel.Id == 0)
             {
-                UOMSingle.currentPlantContext.tbDevice.Insert(dbmodel);
+                UOMSingle.currentPlant.DataContext.tbDevice.Insert(dbmodel);
 
                 ConcurrentBag<tbStream> feedBag = new ConcurrentBag<tbStream>();
                 ConcurrentBag<tbStream> productBag = new ConcurrentBag<tbStream>();
@@ -56,11 +56,11 @@ namespace ReliefProBLL
                     sink.DeviceID = dbmodel.Id;
                     sinkBag.Add(sink);
                 });
-                UOMSingle.currentPlantContext.tbStream.InsertAllOnSubmit(feedBag);
-                UOMSingle.currentPlantContext.tbStream.InsertAllOnSubmit(productBag);
-                UOMSingle.currentPlantContext.tbSource.InsertAllOnSubmit(sourceBag);
-                UOMSingle.currentPlantContext.tbSink.InsertAllOnSubmit(sinkBag);
-                UOMSingle.currentPlantContext.SubmitChanges();
+                UOMSingle.currentPlant.DataContext.tbStream.InsertAllOnSubmit(feedBag);
+                UOMSingle.currentPlant.DataContext.tbStream.InsertAllOnSubmit(productBag);
+                UOMSingle.currentPlant.DataContext.tbSource.InsertAllOnSubmit(sourceBag);
+                UOMSingle.currentPlant.DataContext.tbSink.InsertAllOnSubmit(sinkBag);
+                UOMSingle.currentPlant.DataContext.SubmitChanges();
 
             }
             else
