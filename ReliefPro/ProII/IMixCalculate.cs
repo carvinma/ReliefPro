@@ -9,6 +9,6 @@ namespace ProII
 {
     public interface IMixCalculate
     {
-        string Calculate(string fileContent, List<CustomStream> streams,string product, string dir, ref int ImportResult, ref int RunResult);
+        string Calculate(string fileContent, List<tbStream> streams,string product, string dir, ref int ImportResult, ref int RunResult);
     }
 }

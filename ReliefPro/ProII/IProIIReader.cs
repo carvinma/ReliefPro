@@ -10,12 +10,12 @@ namespace ProII
     public interface IProIIReader
     {
         void InitProIIReader(string przFile);
-        int GetAllEqAndStreamTotal(IList<ProIIEqType> eqTypeList, ref IList<ProIIEqData> eqList, ref IList<string> streamList);
-        void GetSteamInfo(string name, ref IList<ProIIStreamData> streamListData);
-        void GetEqInfo(string otype, string name, ref IList<ProIIEqData> eqListData);
-        ProIIStreamData CopyStream(string columnName, int tray, int phase, int trayFlow);
-        ProIIEqData GetEqInfo(string otype, string name);
-        ProIIStreamData GetSteamInfo(string name);
+        int GetAllEqAndStreamTotal(IList<systbProIIEqType> eqTypeList, ref IList<tbProIIEqData> eqList, ref IList<string> streamList);
+        void GetSteamInfo(string name, ref IList<tbProIIStreamData> streamListData);
+        void GetEqInfo(string otype, string name, ref IList<tbProIIEqData> eqListData);
+        tbProIIStreamData CopyStream(string columnName, int tray, int phase, int trayFlow);
+        tbProIIEqData GetEqInfo(string otype, string name);
+        tbProIIStreamData GetSteamInfo(string name);
         string GetCriticalPressure(string PH);
         string GetCriticalTemperature(string PH);
         string GetCricondenbarPress(string PH);
