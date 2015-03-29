@@ -22,30 +22,20 @@ namespace ReliefProMain.ViewModel
 {
     public class SourceVM : ViewModelBase
     {
-        public ISession SessionPlant { set; get; }
-        public ISession SessionProtectedSystem { set; get; }
-        public SourceFile SourceFileInfo;
         public SourceModel model { get; set; }
-        public SourceDAL sourcedal = new SourceDAL();
-
+        public int deviceId;
         UOMLib.UOMEnum uomEnum;
-        public SourceVM(string name, SourceFile sourceFileInfo, ISession sessionPlant, ISession sessionProtectedSystem)
-        {           
-            SessionPlant = sessionPlant;
-            SessionProtectedSystem = sessionProtectedSystem;
-            SourceFileInfo = sourceFileInfo;
-            BasicUnit BU;
-            BasicUnitDAL dbBU = new BasicUnitDAL();
-            IList<BasicUnit> list = dbBU.GetAllList(sessionPlant);
-            BU = list.Where(s => s.IsDefault == 1).Single();
-           
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
-            Source source = sourcedal.GetModel(SessionProtectedSystem, name);
+        public aSourceBLL sourceBLL = new aSourceBLL();
+        aScenarioBLL scenarioBLL;
+        
+        public SourceVM(string streamName, int deviceId)
+        {
+            this.deviceId = deviceId;
+            uomEnum = UOMSingle.plantsInfo.FirstOrDefault(p => p.Id == 0).UnitInfo;
+            tbSource source = sourceBLL.GetModel(streamName, deviceId);
             model = new SourceModel(source);            
             InitUnit();
-
             ReadConvert();
-
         }
 
         private ICommand _Update;
@@ -62,30 +52,23 @@ namespace ReliefProMain.ViewModel
             {
                 throw new ArgumentException("Please type in a name for the Source.");
             }
-            BasicUnit BU;
-
-            BasicUnitDAL dbBU = new BasicUnitDAL();
-            IList<BasicUnit> list = dbBU.GetAllList(SessionPlant);
-            BU = list.Where(s => s.IsDefault == 1).Single();
-
+            
             bool bEdit = false;
-            if (model.dbmodel.IsSteam!=model.IsSteam||model.dbmodel.MaxPossiblePressure != UnitConvert.Convert(model.PressureUnit, UOMEnum.Pressure, model.MaxPossiblePressure) || model.dbmodel.SourceType != model.SourceType ||model.dbmodel.IsHeatSource!=model.IsHeatSource)
+            if (model.dbmodel.IsSteam!=model.IsSteam||model.dbmodel.Maxpossiblepressure != UnitConvert.Convert(model.PressureUnit, UOMEnum.Pressure, model.MaxPossiblePressure) || model.dbmodel.Sourcetype != model.SourceType ||model.dbmodel.IsHeatSource!=model.IsHeatSource)
             {
                 bEdit = true;
             }
             System.Windows.Window wd = window as System.Windows.Window;
             if (bEdit)
             {
-                ScenarioDAL scdal = new ScenarioDAL();
-                IList<Scenario> scList = scdal.GetAllList(SessionProtectedSystem);
+                List<tbScenario> scList = scenarioBLL.GetList(deviceId);
                 if (scList.Count > 0)
                 {
                     MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
                     if (r == MessageBoxResult.Yes)
                     {
-                        ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
-                        scBLL.DeleteSCOther();
-                        scBLL.ClearScenario();
+                        scenarioBLL.DeleteSCOther();
+                        scenarioBLL.ClearScenario();
                     }
                     else
                     {
@@ -95,20 +78,17 @@ namespace ReliefProMain.ViewModel
                             return;
                         }
                     }
-
-                    //SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction
                 }
                 WriteConvert();
-                model.dbmodel.SourceType_Color = model.SourceType_Color;
-                model.dbmodel.MaxPossiblePressure_Color = model.MaxPossiblePressure_Color;
-                model.dbmodel.SourceType = model.SourceType;
+                model.dbmodel.SourcetypeColor = model.SourceType_Color;
+                model.dbmodel.MaxpossiblepressureColor = model.MaxPossiblePressure_Color;
+                model.dbmodel.Sourcetype = model.SourceType;
                 model.dbmodel.IsSteam = model.IsSteam;
                 model.dbmodel.IsHeatSource = model.IsHeatSource;
                 model.dbmodel.Description = model.Description;
-                sourcedal.Update(model.dbmodel, SessionProtectedSystem);
+                sourceBLL.SaveSource(model.dbmodel);
             }
             
-
             if (wd != null)
             {
                 wd.Close();
@@ -132,18 +112,18 @@ namespace ReliefProMain.ViewModel
         public void ShowHeatSourceList()
         {
             HeatSourceListView v = new HeatSourceListView();
-            HeatSourceListVM vm = new HeatSourceListVM(model.ID, SourceFileInfo, SessionPlant, SessionProtectedSystem);
+            HeatSourceListVM vm = new HeatSourceListVM(model.ID);
             v.DataContext = vm;
             v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             v.ShowDialog();
         }
         private void ReadConvert()
         {
-            model.MaxPossiblePressure = UnitConvert.Convert(UOMEnum.Pressure, model.PressureUnit, model.dbmodel.MaxPossiblePressure);
+            model.MaxPossiblePressure = UnitConvert.Convert(UOMEnum.Pressure, model.PressureUnit, model.dbmodel.Maxpossiblepressure??0);
         }
         private void WriteConvert()
         {
-            model.dbmodel.MaxPossiblePressure = UnitConvert.Convert(model.PressureUnit, UOMEnum.Pressure, model.MaxPossiblePressure);
+            model.dbmodel.Maxpossiblepressure = UnitConvert.Convert(model.PressureUnit, UOMEnum.Pressure, model.MaxPossiblePressure);
         }
         private void InitUnit()
         {

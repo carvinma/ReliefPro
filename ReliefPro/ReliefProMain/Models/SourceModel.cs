@@ -10,14 +10,14 @@ namespace ReliefProMain.Models
 {
     public class SourceModel : ModelBase
     {
-        public Source dbmodel;
-        public SourceModel(Source m)
+        public tbSource dbmodel;
+        public SourceModel(tbSource m)
         {
             dbmodel = m;
-            _MaxPossiblePressure = m.MaxPossiblePressure;
-            _MaxPossiblePressure_Color = m.MaxPossiblePressure_Color;
-            _SourceType = m.SourceType;
-            _SourceType_Color = m.SourceType_Color;
+            _MaxPossiblePressure = m.Maxpossiblepressure??0;
+            _MaxPossiblePressure_Color = m.MaxpossiblepressureColor;
+            _SourceType = m.Sourcetype;
+            _SourceType_Color = m.SourcetypeColor;
             _SourceTypes = GetSourceTypes();
             _IsEnabledSourceType = !m.IsSteam;
             _IsHeatSource = m.IsHeatSource;
@@ -41,13 +41,13 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return dbmodel.ID;
+                return dbmodel.Id;
             }
             set
             {
-                if (dbmodel.ID != value)
+                if (dbmodel.Id != value)
                 {
-                    dbmodel.ID = value;
+                    dbmodel.Id = value;
                     NotifyPropertyChanged("ID");
                 }
             }
@@ -56,13 +56,13 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return dbmodel.SourceName;
+                return dbmodel.Sourcename;
             }
             set
             {
-                if (dbmodel.SourceName != value)
+                if (dbmodel.Sourcename != value)
                 {
-                    dbmodel.SourceName = value;
+                    dbmodel.Sourcename = value;
                     NotifyPropertyChanged("SourceName");
                 }
             }
@@ -77,7 +77,7 @@ namespace ReliefProMain.Models
             }
             set
             {
-                if (dbmodel.SourceType == value && dbmodel.SourceType_Color==ColorBorder.green.ToString())
+                if (dbmodel.Sourcetype == value && dbmodel.SourcetypeColor==ColorBorder.green.ToString())
                 {
                     SourceType_Color = ColorBorder.green.ToString();
                 }
@@ -116,7 +116,7 @@ namespace ReliefProMain.Models
             }
             set
             {
-                if (dbmodel.MaxPossiblePressure ==  UnitConvert.Convert(PressureUnit, UOMEnum.Pressure, value) && dbmodel.MaxPossiblePressure_Color==ColorBorder.green.ToString())
+                if (dbmodel.Maxpossiblepressure ==  UnitConvert.Convert(PressureUnit, UOMEnum.Pressure, value) && dbmodel.MaxpossiblepressureColor==ColorBorder.green.ToString())
                 {
                     MaxPossiblePressure_Color = ColorBorder.green.ToString();
                 }
@@ -132,13 +132,13 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return dbmodel.StreamName;
+                return dbmodel.Streamname;
             }
             set
             {
-                if (dbmodel.StreamName != value)
+                if (dbmodel.Streamname != value)
                 {
-                    dbmodel.StreamName = value;
+                    dbmodel.Streamname = value;
                     NotifyPropertyChanged("StreamName");
                 }
             }
@@ -207,11 +207,11 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return dbmodel.SourceName_Color;
+                return dbmodel.SourcenameColor;
             }
             set
             {
-                dbmodel.SourceName_Color = value;
+                dbmodel.SourcenameColor = value;
                 OnPropertyChanged("SourceName_Color");
             }
         }

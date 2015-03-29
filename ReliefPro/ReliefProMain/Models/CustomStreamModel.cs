@@ -8,20 +8,20 @@ namespace ReliefProMain.Models
 {
     public class CustomStreamModel : ModelBase
     {
-        public CustomStream model;
+        public tbStream model;
 
 
         public int ID
         {
             get
             {
-                return model.ID;
+                return model.Id;
             }
             set
             {
-                if (model.ID != value)
+                if (model.Id != value)
                 {
-                    model.ID = value;
+                    model.Id = value;
                     NotifyPropertyChanged("ID");
                 }
             }
@@ -31,13 +31,13 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return model.StreamName;
+                return model.Streamname;
             }
             set
             {
-                if (model.StreamName != value)
+                if (model.Streamname != value)
                 {
-                    model.StreamName = value;
+                    model.Streamname = value;
                     NotifyPropertyChanged("StreamName");
                 }
             }
@@ -48,7 +48,7 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return model.Pressure;
+                return model.Pressure??0;
             }
             set
             {
@@ -63,13 +63,13 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return model.SpEnthalpy;
+                return model.Spenthalpy??0;
             }
             set
             {
-                if (model.SpEnthalpy != value)
+                if (model.Spenthalpy != value)
                 {
-                    model.SpEnthalpy = value;
+                    model.Spenthalpy = value;
                     NotifyPropertyChanged("SpEnthalpy");
                 }
             }
@@ -79,7 +79,7 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return model.Temperature;
+                return model.Temperature??0;
             }
             set
             {
@@ -95,13 +95,13 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return model.VaporFraction;
+                return model.Vaporfraction??0;
             }
             set
             {
-                if (model.VaporFraction != value)
+                if (model.Vaporfraction != value)
                 {
-                    model.VaporFraction = value;
+                    model.Vaporfraction = value;
                     NotifyPropertyChanged("VaporFraction");
                 }
             }
@@ -111,20 +111,20 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return model.WeightFlow;
+                return model.Weightflow??0;
             }
             set
             {
-                if (model.WeightFlow != value)
+                if (model.Weightflow != value)
                 {
-                    model.WeightFlow = value;
+                    model.Weightflow = value;
                     NotifyPropertyChanged("WeightFlow");
                 }
             }
         }
 
 
-        public CustomStreamModel(CustomStream m)
+        public CustomStreamModel(tbStream m)
         {
             model = m;
         }

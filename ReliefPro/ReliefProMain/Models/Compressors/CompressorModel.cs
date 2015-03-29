@@ -131,8 +131,8 @@ namespace ReliefProMain.Models.Compressors
         }
 
 
-        private ObservableCollection<CustomStream> _Feeds;
-        public ObservableCollection<CustomStream> Feeds
+        private ObservableCollection<tbStream> _Feeds;
+        public ObservableCollection<tbStream> Feeds
         {
             get { return _Feeds; }
             set
@@ -142,8 +142,8 @@ namespace ReliefProMain.Models.Compressors
                 OnPropertyChanged("Feeds");
             }
         }
-        private ObservableCollection<CustomStream> _Products;
-        public ObservableCollection<CustomStream> Products
+        private ObservableCollection<tbStream> _Products;
+        public ObservableCollection<tbStream> Products
         {
             get { return _Products; }
             set
@@ -154,7 +154,7 @@ namespace ReliefProMain.Models.Compressors
         }
 
 
-        public CompressorModel(Compressor compressor, ObservableCollection<CustomStream> Feeds, ObservableCollection<CustomStream> Products)
+        public CompressorModel(Compressor compressor, ObservableCollection<tbStream> Feeds, ObservableCollection<tbStream> Products)
         {
             this.dbmodel = compressor;
             this.CompressorName = compressor.CompressorName;

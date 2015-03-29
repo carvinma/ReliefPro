@@ -23,15 +23,15 @@
             <ColumnDefinition Width="29*"/>
         </Grid.ColumnDefinitions>
         <Label Content="{DynamicResource SinkName}" Grid.Row="1"   Grid.Column="1"   />
-        <TextBox Name="txtName"  Style="{DynamicResource TextBoxReadOnly}"     Text="{Binding Path=MainModel.SinkName}" Grid.Row="1"  Grid.Column="2"  />
+        <TextBox Name="txtName"  Style="{DynamicResource TextBoxReadOnly}"     Text="{Binding Path=model.SinkName}" Grid.Row="1"  Grid.Column="2"  />
         <Label Content="{DynamicResource Description}"    Grid.Row="2" Grid.Column="1"   />
-        <TextBox Name="txtDescription"     Text="{Binding Path=MainModel.Description,Mode=TwoWay}"  Width="200" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"/>
+        <TextBox Name="txtDescription"     Text="{Binding Path=model.Description,Mode=TwoWay}"  Width="200" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"/>
         <Label Content="{DynamicResource SinkType}"     Grid.Column="1" Grid.Row="3" />
-        <ComboBox ItemsSource="{Binding Path=MainModel.SinkTypes,Mode=TwoWay}" SelectedItem="{Binding MainModel.SinkType,Mode=TwoWay}" BorderBrush="{Binding MainModel.SinkType_Color,Mode=TwoWay}"  Name="cbxType"  Grid.Column="2"  Grid.Row="3" />
+        <ComboBox ItemsSource="{Binding Path=model.SinkTypes,Mode=TwoWay}" SelectedItem="{Binding model.SinkType,Mode=TwoWay}" BorderBrush="{Binding model.SinkType_Color,Mode=TwoWay}"  Name="cbxType"  Grid.Column="2"  Grid.Row="3" />
 
         <Label Content="{DynamicResource MaxPossiblePressure}"    Grid.Row="4" Grid.Column="1" />
-        <CustomControl:UnitConvertTextBox BorderBrush="{Binding MainModel.MaxPossiblePressure_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblMaxPressure,Path=Content,Mode=TwoWay}"  Text="{Binding MainModel.MaxPossiblePressure,StringFormat='{}{0:F4}',Mode=TwoWay}" Grid.Row="4" Grid.Column="2"   />
-        <Label Name="lblMaxPressure"  Content="{Binding Path=MainModel.PressureUnit,Mode=TwoWay}"  Grid.Row="4" Grid.Column="3" />
+        <CustomControl:UnitConvertTextBox BorderBrush="{Binding model.MaxPossiblePressure_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblMaxPressure,Path=Content,Mode=TwoWay}"  Text="{Binding model.MaxPossiblePressure,StringFormat='{}{0:F4}',Mode=TwoWay}" Grid.Row="4" Grid.Column="2"   />
+        <Label Name="lblMaxPressure"  Content="{Binding Path=model.PressureUnit,Mode=TwoWay}"  Grid.Row="4" Grid.Column="3" />
 
        
         <Grid HorizontalAlignment="Stretch"  Grid.Row="6" VerticalAlignment="Stretch" Grid.ColumnSpan="5">

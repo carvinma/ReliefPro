@@ -10,27 +10,27 @@ namespace ReliefProMain.Models
 {
     public class SinkModel : ModelBase
     {
-        public Sink dbmodel;
-        public SinkModel(Sink m)
+        public tbSink dbmodel;
+        public SinkModel(tbSink m)
         {
             dbmodel = m;
-            _MaxPossiblePressure = m.MaxPossiblePressure;
-            _MaxPossiblePressure_Color = m.MaxPossiblePressure_Color;
-            _SinkType = m.SinkType;
-            _SinkType_Color = m.SinkType_Color;
+            _MaxPossiblePressure = m.Maxpossiblepressure??0;
+            _MaxPossiblePressure_Color = m.MaxpossiblepressureColor;
+            _SinkType = m.Sinktype;
+            _SinkType_Color = m.SinktypeColor;
             _SinkTypes = GetSinkTypes();
         }
         public int ID
         {
             get
             {
-                return dbmodel.ID;
+                return dbmodel.Id;
             }
             set
             {
-                if (dbmodel.ID != value)
+                if (dbmodel.Id != value)
                 {
-                    dbmodel.ID = value;
+                    dbmodel.Id = value;
                     NotifyPropertyChanged("ID");
                 }
             }
@@ -39,13 +39,13 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return dbmodel.SinkName;
+                return dbmodel.Sinkname;
             }
             set
             {
-                if (dbmodel.SinkName != value)
+                if (dbmodel.Sinkname != value)
                 {
-                    dbmodel.SinkName = value;
+                    dbmodel.Sinkname = value;
                     NotifyPropertyChanged("SinkName");
                 }
             }
@@ -59,7 +59,7 @@ namespace ReliefProMain.Models
             }
             set
             {
-                if (dbmodel.SinkType == value && dbmodel.SinkType_Color == ColorBorder.green.ToString())
+                if (dbmodel.Sinktype == value && dbmodel.SinktypeColor == ColorBorder.green.ToString())
                 {
                     SinkType_Color = ColorBorder.green.ToString();
                 }
@@ -105,13 +105,13 @@ namespace ReliefProMain.Models
         {
             get
             {
-                return dbmodel.StreamName;
+                return dbmodel.Streamname;
             }
             set
             {
-                if (dbmodel.StreamName != value)
+                if (dbmodel.Streamname != value)
                 {
-                    dbmodel.StreamName = value;
+                    dbmodel.Streamname = value;
                     NotifyPropertyChanged("StreamName");
                 }
             }

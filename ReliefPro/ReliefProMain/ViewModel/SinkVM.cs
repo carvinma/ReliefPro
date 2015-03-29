@@ -21,21 +21,19 @@ namespace ReliefProMain.ViewModel
 {
     public class SinkVM : ViewModelBase
     {
-        private ISession SessionPlant { set; get; }
-        private ISession SessionProtectedSystem { set; get; }
-        SinkDAL db;
-        public SinkModel MainModel { get; set; }
-        public Sink sink;
-
+        public SinkModel model { get; set; }
+        public int deviceId;
         UOMLib.UOMEnum uomEnum;
-        public SinkVM(string name, ISession sessionPlant, ISession sessionProtectedSystem)
+        aSinkBLL sinkBLL;
+        aScenarioBLL scenarioBLL;
+        public SinkVM(string streamName,int deviceId)
         {
-            SessionPlant = sessionPlant;
-            SessionProtectedSystem = sessionProtectedSystem;
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
-            db = new SinkDAL();
-            sink= db.GetModel(SessionProtectedSystem, name);
-            MainModel = new SinkModel(sink);
+            this.deviceId = deviceId;
+            uomEnum = UOMSingle.plantsInfo.FirstOrDefault(p => p.Id == 0).UnitInfo;
+            sinkBLL = new aSinkBLL();
+            scenarioBLL = new aScenarioBLL();
+            tbSink sink = sinkBLL.GetModel(streamName, deviceId);
+            model = new SinkModel(sink);
             InitUnit();
             ReadConvert();
         }
@@ -50,34 +48,27 @@ namespace ReliefProMain.ViewModel
 
         private void Save(object window)
         {
-            MainModel.SinkName.Trim();
-            if (MainModel.SinkName == "")
+            if (model.SinkName.Trim() == "")
             {
                 throw new ArgumentException("Please input a name for the Sink.");
             }
-            BasicUnit BU;
-            BasicUnitDAL dbBU = new BasicUnitDAL();
-            IList<BasicUnit> list = dbBU.GetAllList(SessionPlant);
-            BU = list.Where(s => s.IsDefault == 1).Single();
-
+            
             bool bEdit = false;
-            if (MainModel.dbmodel.MaxPossiblePressure != UnitConvert.Convert(MainModel.PressureUnit, UOMEnum.Pressure, MainModel.MaxPossiblePressure) || MainModel.dbmodel.SinkType != MainModel.SinkType)
+            if (model.dbmodel.Maxpossiblepressure != UnitConvert.Convert(model.PressureUnit, UOMEnum.Pressure, model.MaxPossiblePressure) || model.dbmodel.Sinktype != model.SinkType)
             {
                 bEdit = true;
             }
             System.Windows.Window wd = window as System.Windows.Window;
             if (bEdit)
             {
-                ScenarioDAL scdal = new ScenarioDAL();
-                IList<Scenario> scList = scdal.GetAllList(SessionProtectedSystem);
+                List<tbScenario> scList = scenarioBLL.GetList(deviceId);
                 if (scList.Count > 0)
                 {
                     MessageBoxResult r = MessageBox.Show("Are you sure to edit data? it need to rerun all Scenario", "Message Box", MessageBoxButton.YesNo);
                     if (r == MessageBoxResult.Yes)
                     {
-                        ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
-                        scBLL.DeleteSCOther();
-                        scBLL.ClearScenario();
+                        scenarioBLL.DeleteSCOther();
+                        scenarioBLL.ClearScenario();
                     }
                     else
                     {
@@ -89,12 +80,11 @@ namespace ReliefProMain.ViewModel
                     }
                 }
                 WriteConvert();
-                MainModel.dbmodel.SinkType_Color = MainModel.SinkType_Color;
-                MainModel.dbmodel.MaxPossiblePressure_Color = MainModel.MaxPossiblePressure_Color;
-                MainModel.dbmodel.SinkType = MainModel.SinkType;
-                MainModel.dbmodel.Description = MainModel.Description;
-                db.Update(MainModel.dbmodel, SessionProtectedSystem);               
-                //SessionProtectedSystem.Flush();  //update必须带着它。 之所以没写入基类，是为了日后transaction
+                model.dbmodel.SinktypeColor = model.SinkType_Color;
+                model.dbmodel.MaxpossiblepressureColor = model.MaxPossiblePressure_Color;
+                model.dbmodel.Sinktype = model.SinkType;
+                model.dbmodel.Description = model.Description;
+                sinkBLL.SaveSink(model.dbmodel);
             }
             
 
@@ -110,7 +100,7 @@ namespace ReliefProMain.ViewModel
         }
         private void WriteConvert()
         {
-            MainModel.dbmodel.MaxPossiblePressure = UnitConvert.Convert(MainModel.PressureUnit, UOMEnum.Pressure, MainModel.MaxPossiblePressure);
+            MainModel.dbmodel.Maxpossiblepressure = UnitConvert.Convert(MainModel.PressureUnit, UOMEnum.Pressure, MainModel.MaxPossiblePressure);
         }
         private void InitUnit()
         {

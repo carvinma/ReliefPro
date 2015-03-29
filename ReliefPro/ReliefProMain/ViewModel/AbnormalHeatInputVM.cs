@@ -25,7 +25,7 @@ namespace ReliefProMain.ViewModel
         public ISession SessionPlant { set; get; }
         public ISession SessionProtectedSystem { set; get; }
         private int ScenarioID;
-        public SourceFile SourceFileInfo { get; set; }
+        public tbSourceFile SourceFileInfo { get; set; }
         private AbnormalHeaterDetailDAL abnormalHeaterDetailDAL;
         private ScenarioDAL scenarioDAL;
         private PSVDAL psvDAL;
