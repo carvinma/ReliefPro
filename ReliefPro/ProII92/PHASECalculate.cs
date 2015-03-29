@@ -27,7 +27,7 @@ namespace ProII92
         /// <param name="liquid"></param>
         /// <param name="dir"></param>
         /// <returns></returns>
-        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string PH, string dir, ref int ImportResult, ref int RunResult)
+        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, tbStream stream, string PH, string dir, ref int ImportResult, ref int RunResult)
         {
             CP2ServerClass cp2Srv = new CP2ServerClass();
             cp2Srv.Initialize();
@@ -53,19 +53,19 @@ namespace ProII92
 
             return przFile;
         }
-        private string getStreamData(int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream)
+        private string getStreamData(int iFirst, string firstValue, int iSecond, string secondValue, tbStream stream)
         {
             StringBuilder data1 = new StringBuilder();
-            string streamName = stream.StreamName;
+            string streamName = stream.Streamname;
             data1.Append("\tPROPERTY STREAM=").Append(streamName.ToUpper()).Append(",&\n");
             data1.Append("\t PRESSURE(MPAG)=").Append(stream.Pressure).Append(",&\n");
             data1.Append("\t TEMPERATURE(C)=").Append(stream.Temperature).Append(",&\n");
-            double rate = stream.TotalMolarRate;
+            double rate = stream.TotalMolarRate??0;
             if (rate == 0)
                 rate = 1e-8;
             data1.Append("\t RATE(KGM/S)=").Append(rate).Append(",&\n");
             string com = stream.TotalComposition;
-            string Componentid = stream.Componentid;
+            string Componentid = stream.ComponentId;
             string CompIn = stream.CompIn;
             string PrintNumber = stream.PrintNumber;
             Dictionary<string, string> compdict = new Dictionary<string, string>();
@@ -88,10 +88,10 @@ namespace ProII92
             data1.Append("\t").Append(sbCom.Remove(0, 2)).Append("\n");
             return data1.ToString();
         }
-        private string getPHASEData(int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream, string PH)
+        private string getPHASEData(int iFirst, string firstValue, int iSecond, string secondValue, tbStream stream, string PH)
         {
             StringBuilder data2 = new StringBuilder("UNIT OPERATIONS\n");
-            string streamName = stream.StreamName;
+            string streamName = stream.Streamname;
             string FlashName = PH;
 
             data2.Append("\tPHASE UID=").Append(FlashName).Append("\n");

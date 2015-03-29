@@ -26,7 +26,7 @@ namespace ProII92
         /// <param name="liquid"></param>
         /// <param name="dir"></param>
         /// <returns></returns>
-        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, string heatMethod, CustomStream stream, string vapor, string liquid, string dir, ref int ImportResult, ref int RunResult)
+        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, string heatMethod, tbStream stream, string vapor, string liquid, string dir, ref int ImportResult, ref int RunResult)
         {
             string streamData = getStreamData(iFirst, firstValue, iSecond, secondValue, stream);
             string flashData = getFlashData(iFirst, firstValue, iSecond, secondValue,  heatMethod,stream, vapor, liquid);
@@ -51,19 +51,19 @@ namespace ProII92
 
             return przFile;
         }
-        private string getStreamData(int iFirst, string firstValue, int iSecond, string secondValue, CustomStream stream)
+        private string getStreamData(int iFirst, string firstValue, int iSecond, string secondValue, tbStream stream)
         {
             StringBuilder data1 = new StringBuilder();
-            string streamName = stream.StreamName;
+            string streamName = stream.Streamname;
             data1.Append("\tPROPERTY STREAM=").Append(streamName.ToUpper()).Append(",&\n");
             data1.Append("\t PRESSURE(MPAG)=").Append(stream.Pressure).Append(",&\n");
             data1.Append("\t TEMPERATURE(C)=").Append(stream.Temperature).Append(",&\n");
-            double rate = stream.TotalMolarRate;
+            double rate = stream.TotalMolarRate??0;
             if (rate == 0)
                 rate = 1e-8;
             data1.Append("\t RATE(KGM/S)=").Append(rate).Append(",&\n");
             string com = stream.TotalComposition;
-            string Componentid = stream.Componentid;
+            string Componentid = stream.ComponentId;
             string CompIn = stream.CompIn;
             string PrintNumber = stream.PrintNumber;
             Dictionary<string, string> compdict = new Dictionary<string, string>();
@@ -86,10 +86,10 @@ namespace ProII92
             data1.Append("\t").Append(sbCom.Remove(0, 2)).Append("\n");
             return data1.ToString();
         }
-        private string getFlashData(int iFirst, string firstValue, int iSecond, string secondValue, string heatMethod, CustomStream stream, string vapor, string liquid)
+        private string getFlashData(int iFirst, string firstValue, int iSecond, string secondValue, string heatMethod, tbStream stream, string vapor, string liquid)
         {
             StringBuilder data2 = new StringBuilder("UNIT OPERATIONS\n");
-            string streamName = stream.StreamName;
+            string streamName = stream.Streamname;
             Guid guid = Guid.NewGuid();
             Guid guid2 = Guid.NewGuid();
             string FlashName = "F_1";
@@ -154,13 +154,13 @@ namespace ProII92
             return data2.ToString();
         }
 
-        private string getFlashData(int iFirst, string firstValue, int iSecond, string secondValue, string heatMethod, List<CustomStream> streams, string vapor, string liquid)
+        private string getFlashData(int iFirst, string firstValue, int iSecond, string secondValue, string heatMethod, List<tbStream> streams, string vapor, string liquid)
         {
             StringBuilder data2 = new StringBuilder("UNIT OPERATIONS\n");
             StringBuilder sb = new StringBuilder();
-            foreach (CustomStream cs in streams)
+            foreach (tbStream cs in streams)
             {
-                sb.Append(cs.StreamName).Append(",");
+                sb.Append(cs.Streamname).Append(",");
             }
             string feeds = sb.ToString().Substring(0, sb.Length - 1);
             Guid guid = Guid.NewGuid();
@@ -227,7 +227,7 @@ namespace ProII92
             return data2.ToString();
         }
 
-        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, string heatMethod, List<CustomStream> streams, string vapor, string liquid, string dir, ref int ImportResult, ref int RunResult)
+        public string Calculate(string fileContent, int iFirst, string firstValue, int iSecond, string secondValue, string heatMethod, List<tbStream> streams, string vapor, string liquid, string dir, ref int ImportResult, ref int RunResult)
         {
             StringBuilder sb = new StringBuilder();
             string[] arrfileContent = fileContent.Split(new string[] { "STREAM DATA" }, StringSplitOptions.None);
@@ -235,7 +235,7 @@ namespace ProII92
             string flashData = getFlashData(iFirst, firstValue, iSecond, secondValue, heatMethod, streams, vapor, liquid);
 
             sb.Append(arrfileContent[0]).Append("\nSTREAM DATA\n");
-            foreach (CustomStream stream in streams)
+            foreach (tbStream stream in streams)
             {
                 string streamData = getStreamData(iFirst, firstValue, iSecond, secondValue, stream);
                 sb.Append(streamData).Append("\n"); ;
