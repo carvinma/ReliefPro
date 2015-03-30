@@ -5,163 +5,241 @@ using System.Text;
 using System.IO;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
+using ICSharpCode.SharpZipLib.Checksums;
+using ICSharpCode.SharpZipLib.GZip;
 
 namespace ReliefProCommon.CommonLib
 {
     public static class CSharpZip
     {
 
-        public static void CompressFolder(string path, ZipOutputStream zipStream, int folderOffset)
+        private static byte[] buffer = new byte[2048];
+        #region 压缩文件夹,支持递归
+
+        /// <summary>
+        ///　压缩文件夹
+        /// </summary>
+        /// <param name="dir">待压缩的文件夹</param>
+        /// <param name="targetFileName">压缩后文件路径（包括文件名）</param>
+        /// <param name="recursive">是否递归压缩</param>
+        /// <returns></returns>
+        public static bool CompressFolder(string dir, string targetFileName, bool recursive)
         {
-
-            string[] files = Directory.GetFiles(path);
-
-            foreach (string filename in files)
+            //如果已经存在目标文件，询问用户是否覆盖
+            if (File.Exists(targetFileName))
             {
-
-                FileInfo fi = new FileInfo(filename);
-
-                string entryName = filename.Substring(folderOffset); // Makes the name in zip based on the folder
-                entryName = ZipEntry.CleanName(entryName); // Removes drive from name and fixes slash direction
-                ZipEntry newEntry = new ZipEntry(entryName);
-                newEntry.DateTime = fi.LastWriteTime; // Note the zip format stores 2 second granularity
-
-                // Specifying the AESKeySize triggers AES encryption. Allowable values are 0 (off), 128 or 256.
-                // A password on the ZipOutputStream is required if using AES.
-                //   newEntry.AESKeySize = 256;
-
-                // To permit the zip to be unpacked by built-in extractor in WinXP and Server2003, WinZip 8, Java, and other older code,
-                // you need to do one of the following: Specify UseZip64.Off, or set the Size.
-                // If the file may be bigger than 4GB, or you do not need WinXP built-in compatibility, you do not need either,
-                // but the zip will be in Zip64 format which not all utilities can understand.
-                //   zipStream.UseZip64 = UseZip64.Off;
-                newEntry.Size = fi.Length;
-
-                zipStream.PutNextEntry(newEntry);
-
-                // Zip the file in buffered chunks
-                // the "using" will close the stream even if an exception occurs
-                byte[] buffer = new byte[4096];
-                using (FileStream streamReader = File.OpenRead(filename))
-                {
-                    StreamUtils.Copy(streamReader, zipStream, buffer);
-                }
-                zipStream.CloseEntry();
+                // if (!_ProcessOverwrite(targetFileName))
+                //return false;
+                File.Delete(targetFileName);
             }
-            string[] folders = Directory.GetDirectories(path);
-            foreach (string folder in folders)
+            string[] ars = new string[2];
+            if (recursive == false)
             {
-                CompressFolder(folder, zipStream, folderOffset);
+                //return Compress(dir, targetFileName);
+                ars[0] = dir;
+                ars[1] = targetFileName;
+                return ZipFileDictory(ars);
             }
+            FileStream ZipFile;
+            ZipOutputStream ZipStream;
+            //open
+            ZipFile = File.Create(targetFileName);
+            ZipStream = new ZipOutputStream(ZipFile);
+            if (dir != String.Empty)
+            {
+                _CompressFolder(dir, ZipStream, dir.Substring(3));
+                //string folderName = dir.Substring(dir.LastIndexOf(@"\") + 1);
+                //_CompressFolder(dir, ZipStream, folderName);
+            }
+            //close
+            ZipStream.Finish();
+            ZipStream.Close();
+            if (File.Exists(targetFileName))
+                return true;
+            else
+                return false;
         }
-
-        public static void ExtractZipFile(string archiveFilenameIn, string password, string outFolder)
+        /// <summary>
+        /// 压缩目录
+        /// </summary>
+        /// <param name="args">数组(数组[0]: 要压缩的目录; 数组[1]: 压缩的文件名)</param>
+        public static bool ZipFileDictory(string[] args)
         {
-            ZipFile zf = null;
+            ZipOutputStream s = null;
             try
             {
-                FileStream fs = File.OpenRead(archiveFilenameIn);
-                zf = new ZipFile(fs);
-                if (!String.IsNullOrEmpty(password))
+                string[] filenames = Directory.GetFiles(args[0]);
+                Crc32 crc = new Crc32();
+                s = new ZipOutputStream(File.Create(args[1]));
+                s.SetLevel(6);
+                foreach (string file in filenames)
                 {
-                    zf.Password = password;     // AES encrypted entries are handled automatically
+                    //打开压缩文件
+                    FileStream fs = File.OpenRead(file);
+                    byte[] buffer = new byte[fs.Length];
+                    fs.Read(buffer, 0, buffer.Length);
+                    ZipEntry entry = new ZipEntry(file);
+                    entry.DateTime = DateTime.Now;
+                    entry.Size = fs.Length;
+                    fs.Close();
+                    crc.Reset();
+                    crc.Update(buffer);
+                    entry.Crc = crc.Value;
+                    s.PutNextEntry(entry);
+                    s.Write(buffer, 0, buffer.Length);
                 }
-                foreach (ZipEntry zipEntry in zf)
-                {
-                    if (!zipEntry.IsFile)
-                    {
-                        continue;           // Ignore directories
-                    }
-                    String entryFileName = zipEntry.Name;
-                    // to remove the folder from the entry:- entryFileName = Path.GetFileName(entryFileName);
-                    // Optionally match entrynames against a selection list here to skip as desired.
-                    // The unpacked length is available in the zipEntry.Size property.
 
-                    byte[] buffer = new byte[4096];     // 4K is optimum
-                    Stream zipStream = zf.GetInputStream(zipEntry);
-
-                    // Manipulate the output filename here as desired.
-                    String fullZipToPath = Path.Combine(outFolder, entryFileName);
-                    string directoryName = Path.GetDirectoryName(fullZipToPath);
-                    if (directoryName.Length > 0)
-                        Directory.CreateDirectory(directoryName);
-
-                    // Unzip file in buffered chunks. This is just as fast as unpacking to a buffer the full size
-                    // of the file, but does not waste memory.
-                    // The "using" will close the stream even if an exception occurs.
-                    using (FileStream streamWriter = File.Create(fullZipToPath))
-                    {
-                        StreamUtils.Copy(zipStream, streamWriter, buffer);
-                    }
-                }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                //MessageBox.Show(ex.ToString());
+                return false;
             }
             finally
             {
-                if (zf != null)
+                s.Finish();
+                s.Close();
+            }
+            return true;
+        }
+        /// <summary>
+        /// 压缩某个子文件夹
+        /// </summary>
+        /// <param name="basePath"></param>
+        /// <param name="zips"></param>
+        /// <param name="zipfolername"></param>     
+        private static void _CompressFolder(string basePath, ZipOutputStream zips, string zipfolername)
+        {
+            if (File.Exists(basePath))
+            {
+                _AddFile(basePath, zips, zipfolername);
+                return;
+            }
+            string[] names = Directory.GetFiles(basePath);
+            foreach (string fileName in names)
+            {
+                _AddFile(fileName, zips, zipfolername);
+            }
+            names = Directory.GetDirectories(basePath);
+            foreach (string folderName in names)
+            {
+                _CompressFolder(folderName, zips, zipfolername);
+            }
+        }
+        /// <summary>
+        ///　压缩某个子文件
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="zips"></param>
+        /// <param name="zipfolername"></param>
+        private static void _AddFile(string fileName, ZipOutputStream zips, string zipfolername)
+        {
+            if (File.Exists(fileName))
+            {
+                _CreateZipFile(fileName, zips, zipfolername);
+            }
+        }
+        /// <summary>
+        /// 压缩单独文件
+        /// </summary>
+        /// <param name="FileToZip"></param>
+        /// <param name="zips"></param>
+        /// <param name="zipfolername"></param>
+        private static void _CreateZipFile(string FileToZip, ZipOutputStream zips, string zipfolername)
+        {
+            try
+            {
+                FileStream StreamToZip = new FileStream(FileToZip, FileMode.Open, FileAccess.Read);
+                string temp = FileToZip;
+                string temp1 = zipfolername;
+                if (temp1.Length > 0)
                 {
-                    zf.IsStreamOwner = true; // Makes close also shut the underlying stream
-                    zf.Close(); // Ensure we release resources
+                    int i = temp1.LastIndexOf("\\") + 1;
+                    int j = temp.Length - i;
+                    temp = temp.Substring(i, j);
+                }
+                ZipEntry ZipEn = new ZipEntry(temp.Substring(3));
+                zips.PutNextEntry(ZipEn);
+                byte[] buffer = new byte[16384];
+                System.Int32 size = StreamToZip.Read(buffer, 0, buffer.Length);
+                zips.Write(buffer, 0, size);
+                try
+                {
+                    while (size < StreamToZip.Length)
+                    {
+                        int sizeRead = StreamToZip.Read(buffer, 0, buffer.Length);
+                        zips.Write(buffer, 0, sizeRead);
+                        size += sizeRead;
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    throw ex;
+                }
+                StreamToZip.Close();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        #endregion
+        #region
+        /// <summary>
+        /// 解压缩目录
+        /// </summary>
+        /// <param name="zipDirectoryPath">压缩目录路径</param>
+        /// <param name="unZipDirecotyPath">解压缩目录路径</param>
+        public static void UnZipFolder(string zipDirectoryPath, string unZipDirecotyPath, string Password)
+        {
+            while (unZipDirecotyPath.LastIndexOf("\\") + 1 == unZipDirecotyPath.Length)//检查路径是否以"\"结尾
+            {
+                unZipDirecotyPath = unZipDirecotyPath.Substring(0, unZipDirecotyPath.Length - 1);//如果是则去掉末尾的"\"
+            }
+            using (ZipInputStream zipStream = new ZipInputStream(File.OpenRead(zipDirectoryPath)))
+            {
+                //判断Password
+                if (Password != null && Password.Length > 0)
+                {
+                    zipStream.Password = Password;
+                }
+                ZipEntry zipEntry = null;
+                while ((zipEntry = zipStream.GetNextEntry()) != null)
+                {
+                    string directoryName = Path.GetDirectoryName(zipEntry.Name);
+                    string fileName = Path.GetFileName(zipEntry.Name);
+                    if (!string.IsNullOrEmpty(directoryName))
+                    {
+                        Directory.CreateDirectory(unZipDirecotyPath + @"\" + directoryName);
+                    }
+                    if (!string.IsNullOrEmpty(fileName))
+                    {
+                        if (zipEntry.CompressedSize == 0)
+                            break;
+                        if (zipEntry.IsDirectory)
+                        {
+                            directoryName = Path.GetDirectoryName(unZipDirecotyPath + @"\" + zipEntry.Name);
+                            Directory.CreateDirectory(directoryName);
+                        }
+                        using (FileStream stream = File.Create(unZipDirecotyPath + @"\" + zipEntry.Name))
+                        {
+                            while (true)
+                            {
+                                int size = zipStream.Read(buffer, 0, buffer.Length);
+                                if (size > 0)
+                                {
+                                    stream.Write(buffer, 0, size);
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
 
-        public static void CompressZipFile(string folderPath, string outFilePath)
-        {
-            string outPathname = outFilePath;
-            string folderName = folderPath;
-            FileStream fsOut = File.Create(outPathname);
-            ZipOutputStream zipStream = new ZipOutputStream(fsOut);
-
-            zipStream.SetLevel(3); //0-9, 9 being the highest level of compression
-
-            zipStream.Password = "1";  // optional. Null is the same as not setting. Required if using AES.
-
-            // This setting will strip the leading part of the folder path in the entries, to
-            // make the entries relative to the starting folder.
-            // To include the full path for each entry up to the drive root, assign folderOffset = 0.
-            int folderOffset = folderName.Length + (folderName.EndsWith("\\") ? 0 : 1);
-
-            CompressFolder(folderName, zipStream, folderOffset);
-
-            zipStream.IsStreamOwner = true; // Makes the Close also Close the underlying stream
-            zipStream.Close();
-        }
-
-        /*
-         private void button1_Click(object sender, EventArgs e)
-        {
-            string outPathname = "Content1.zip";
-            string folderName = "Content";
-            FileStream fsOut = File.Create(outPathname);
-            ZipOutputStream zipStream = new ZipOutputStream(fsOut);
-
-            zipStream.SetLevel(3); //0-9, 9 being the highest level of compression
-
-            zipStream.Password = "1";  // optional. Null is the same as not setting. Required if using AES.
-
-            // This setting will strip the leading part of the folder path in the entries, to
-            // make the entries relative to the starting folder.
-            // To include the full path for each entry up to the drive root, assign folderOffset = 0.
-            int folderOffset = folderName.Length + (folderName.EndsWith("\\") ? 0 : 1);
-
-            CompressFolder(folderName, zipStream, folderOffset);
-
-            zipStream.IsStreamOwner = true; // Makes the Close also Close the underlying stream
-            zipStream.Close();
-
-
-            
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            ExtractZipFile("Content1.ref", "1", "content1");
-        }
-         */
+        #endregion
     }
 }
-
