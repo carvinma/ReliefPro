@@ -632,18 +632,19 @@ namespace ReliefProMain
                         string winTempFile = winTempDir + @"\" + p.Name + ".ref";
                         //ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
                         //ZipFile.CreateFromDirectory(currentPlantWorkFolder, winTempFile);
-                        CustomZipFile.Zip(currentPlantWorkFolder, winTempFile);
-                        File.Copy(winTempFile, currentPlantFile, true);
+                        //CustomZipFile.Zip(currentPlantWorkFolder, winTempFile,currentPlantFile);
+
+                        //CSharpZip.CompressFolder(currentPlantWorkFolder, currentPlantFile, true);
+                        ZipManager zip = new ZipManager();
+                        zip.ZipFolder(currentPlantWorkFolder, currentPlantFile);
                     }
                     catch (Exception ex2)
                     {
+                        MessageBox.Show(ex2.ToString());
                     }
                     finally
                     {
-                        if (Directory.Exists(winTempDir))
-                        {
-                            Directory.Delete(winTempDir, true);
-                        }
+                        
                     }
                 }
             }
@@ -691,7 +692,18 @@ namespace ReliefProMain
                             File.Delete(newPlantFile);
                         }
                         //ZipFile.CreateFromDirectory(currentPlantWorkFolder, newPlantFile);
-                        CustomZipFile.Zip(currentPlantWorkFolder, newPlantFile);
+                        string winTempDir = Environment.GetEnvironmentVariable("Temp") + @"\" + Guid.NewGuid().ToString();
+
+                        if (Directory.Exists(winTempDir))
+                        {
+                            Directory.Delete(winTempDir, true);
+                        }
+                        Directory.CreateDirectory(winTempDir);
+                        string winTempFile = winTempDir + @"\" + p.Name + ".ref";
+                        //CustomZipFile.Zip(currentPlantWorkFolder,winTempFile, newPlantFile);
+                        //CSharpZip.CompressFolder(currentPlantWorkFolder, newPlantFile, true);
+                        ZipManager zip = new ZipManager();
+                        zip.ZipFolder(currentPlantWorkFolder, newPlantFile);
                     }
                 }
             }

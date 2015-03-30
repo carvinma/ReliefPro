@@ -281,7 +281,10 @@ namespace ReliefProMain.ViewModel
 
                                 //ReliefProCommon.CommonLib.CSharpZip.ExtractZipFile(currentPlantFile, "1", currentPlantWorkFolder);
                                 //ZipFile.ExtractToDirectory(currentPlantFile, currentPlantWorkFolder);
-                                CustomZipFile.UnZip(currentPlantFile, currentPlantWorkFolder);
+                                //CustomZipFile.UnZip(currentPlantFile, currentPlantWorkFolder);
+                                //CSharpZip.UnZipFolder(currentPlantFile, currentPlantWorkFolder, null);
+                                ZipManager zip = new ZipManager();
+                                zip.UnZipFolder(currentPlantFile,currentPlantWorkFolder);
                                 string dbPlant_target = currentPlantWorkFolder + @"\plant.mdb";
 
                                 TVPlant p = new TVPlant();
@@ -334,7 +337,18 @@ namespace ReliefProMain.ViewModel
             //ReliefProCommon.CommonLib.CSharpZip.CompressZipFile(currentPlantWorkFolder, currentPlantFile);
             File.Delete(currentPlantFile);
             //ZipFile.CreateFromDirectory(currentPlantWorkFolder, currentPlantFile);
-            CustomZipFile.Zip(currentPlantWorkFolder, currentPlantFile);
+            string winTempDir = Environment.GetEnvironmentVariable("Temp") + @"\" + Guid.NewGuid().ToString();
+
+            if (Directory.Exists(winTempDir))
+            {
+                Directory.Delete(winTempDir, true);
+            }
+            Directory.CreateDirectory(winTempDir);
+            string winTempFile = winTempDir + @"\" + currentPlantName + ".ref";
+            //CustomZipFile.Zip(currentPlantWorkFolder,winTempFile, currentPlantFile);
+            //CSharpZip.CompressFolder(currentPlantWorkFolder, currentPlantFile, true);
+            ZipManager zip = new ZipManager();
+            zip.ZipFolder(currentPlantWorkFolder, currentPlantFile);
         }
 
         private void ClosePlant(object obj)

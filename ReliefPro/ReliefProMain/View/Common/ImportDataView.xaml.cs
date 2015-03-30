@@ -97,6 +97,7 @@ namespace ReliefProMain.View
                     btnImport.BorderThickness = new Thickness(2, 2, 2, 2);
                     return;
                 }
+                
                 FileNameNoExt = System.IO.Path.GetFileNameWithoutExtension(selectedFile);
                 string dir = dirInfo + @"\" + FileNameNoExt;
                 if (Directory.Exists(dir))
@@ -105,149 +106,42 @@ namespace ReliefProMain.View
                 }
                 Directory.CreateDirectory(dir);
 
-                string dir1 = dirInfo + @"\a" + FileNameNoExt;
-                if (Directory.Exists(dir1))
-                {
-                    Directory.Delete(dir1, true);
-                }
-                Directory.CreateDirectory(dir1);
-
-                string dir2 = dirInfo + @"\b" + FileNameNoExt;
-                if (Directory.Exists(dir2))
-                {
-                    Directory.Delete(dir2, true);
-                }
-                Directory.CreateDirectory(dir2);
-
-                string dir3 = dirInfo + @"\c" + FileNameNoExt;
-                if (Directory.Exists(dir3))
-                {
-                    Directory.Delete(dir3, true);
-                }
-                Directory.CreateDirectory(dir3);
-
-                string dir4 = dirInfo + @"\d" + FileNameNoExt;
-                if (Directory.Exists(dir4))
-                {
-                    Directory.Delete(dir4, true);
-                }
-                Directory.CreateDirectory(dir4);
-
-
                 curprzFile = dir + @"\" + selectedFileName;
                 System.IO.File.Copy(selectedFile, curprzFile, true);
                 if (System.IO.File.Exists(dbPlantFile) == true)
                 {
-                    //version = ProIIFactory.GetProIIVerison(curprzFile, dir);
                     version = ProIIFactory.GetProIIhs2Verison(curprzFile, dir);
                     if (version != "9.1" && version != "9.2" && version != "9.0" && version != "9.3" && version != "8.3")
-                    //if (version != "9.1" && version != "9.2" )
                     {
                         MessageBox.Show("This version is not supported!", "Message Box");
                         return;
                     }
-                    using (var helper = new NHibernateHelper(dbPlantFile))
-                    {
-                        ISession Session = helper.GetCurrentSession();
-                        ProIIEqTypeDAL db = new ProIIEqTypeDAL();
-                        eqTypeList = db.GetAllList(Session);
-                    }
-
+                    SplashScreenManager.Show();
                     btnCancel.IsEnabled = false;
                     btnOK.IsEnabled = false;
                     btnImport.IsEnabled = false;
-
+                    ProIIReader reader = new ProIIReader(version, curprzFile);
                     try
                     {
+                        int[] arrEqStream = reader.GetAllCount();                      
+                        total = arrEqStream[0]+arrEqStream[1];
+                        //SplashScreenManager.Show(total);
 
-                        reader = ProIIFactory.CreateReader(version);
-                        reader.InitProIIReader(curprzFile);
-                        total = reader.GetAllEqAndStreamTotal(eqTypeList, ref eqList, ref streamList);
-                        SplashScreenManager.Show(total);
-                        eqCount = eqList.Count;
-                        StreamCount = streamList.Count;
-
-                        for (int i = 1; i <= eqList.Count; i++)
-                        {
-                            ProIIEqData eq = eqList[i - 1];
-                            reader.GetEqInfo(eq.EqType, eq.EqName, ref eqListData);
-                            int percents = (i * 100) / total;
-                            SplashScreenManager.SentMsgToScreen("Importing " + percents.ToString() + "%");
-                        }
-                        reader.ReleaseProIIReader();
-
-                        int test = StreamCount / 4;
-
-                        //OnNumberClear += new EventHandler(Thread_OnNumberClear);
-
-                        //threadOne = new Thread(delegate() { Run(1, test); });//两个线程共同做一件事情         
-                        //threadTwo = new Thread(delegate() { Run(test + 1, StreamCount); }); ;//两个线程共同做一件事情 
-                        //threadOne.Start();
-                        //threadTwo.Start();
-                        string curprzFile1 = dir1 + @"\" + selectedFileName;
-                        string curprzFile2 = dir2 + @"\" + selectedFileName;
-                        string curprzFile3 = dir3 + @"\" + selectedFileName;
-                        string curprzFile4 = dir4 + @"\" + selectedFileName;
-                        System.IO.File.Copy(selectedFile, curprzFile1, true);
-                        System.IO.File.Copy(selectedFile, curprzFile2, true);
-                        System.IO.File.Copy(selectedFile, curprzFile3, true);
-                        System.IO.File.Copy(selectedFile, curprzFile4, true);
-
-                        IProIIReader reader1 = ProIIFactory.CreateReader(version);
-
-
-                        reader1.InitProIIReader(curprzFile1);
-                        IProIIReader reader2 = ProIIFactory.CreateReader(version);
-                        reader2.InitProIIReader(curprzFile2);
-                        IProIIReader reader3 = ProIIFactory.CreateReader(version);
-                        reader3.InitProIIReader(curprzFile3);
-                        IProIIReader reader4 = ProIIFactory.CreateReader(version);
-                        reader4.InitProIIReader(curprzFile4);
-
-                        for (int i = 1; i <= test; i++)
-                        {
-                            streamList1.Add(streamList[i - 1]);
-                        }
-                        for (int i = test + 1; i <= 2 * test; i++)
-                        {
-                            streamList2.Add(streamList[i - 1]);
-                        }
-                        for (int i = 2 * test + 1; i <= 3 * test; i++)
-                        {
-                            streamList3.Add(streamList[i - 1]);
-                        }
-                        for (int i = 3 * test + 1; i <= StreamCount; i++)
-                        {
-                            streamList4.Add(streamList[i - 1]);
-                        }
-
-                        Task task1 = new Task(delegate() { Run(reader1, streamList1, streamListData1, 1, test); });
-                        Task task2 = new Task(delegate() { Run(reader2, streamList2, streamListData2, test + 1, 2 * test); });
-                        Task task3 = new Task(delegate() { Run(reader3, streamList3, streamListData3, 2 * test + 1, 3 * test); });
-                        Task task4 = new Task(delegate() { Run(reader4, streamList4, streamListData4, 3 * test + 1, StreamCount); });
-                        task1.Start();
-                        task2.Start();
-                        task3.Start();
-                        task4.Start();
-                        Task.WaitAll(task1, task2, task3, task4);
-                        //Task.WaitAll(task1,task2);
-                        reader1.ReleaseProIIReader();
-                        reader2.ReleaseProIIReader();
-                        reader3.ReleaseProIIReader();
-                        reader4.ReleaseProIIReader();
-
-                        File.Delete(curprzFile1);
-                        File.Delete(curprzFile2);
-                        File.Delete(curprzFile3);
-                        File.Delete(curprzFile4);
-
-
-                        Directory.Delete(dir1, true);
-                        Directory.Delete(dir2, true);
-                        Directory.Delete(dir3, true);
-                        Directory.Delete(dir4, true);
-                        //threadTwo.Abort();
-                        //threadOne.Abort();
+                        SplashScreenManager.SentMsgToScreen("Importing data...... 20%");
+                        List<ProIIEqData> eqListData= reader.GetAllEqInfo();
+                        SplashScreenManager.SentMsgToScreen("Importing data...... 40%");
+                        List<ProIIStreamData> streamListData = reader.GetAllStreamInfo(0,arrEqStream[1]);
+                        SplashScreenManager.SentMsgToScreen("Importing data...... 60%");
+                        //for (int i = 1; i <= eqList.Count; i++)
+                        //{
+                        //    ProIIEqData eq = eqList[i - 1];
+                        //    reader.GetEqInfo(eq.EqType, eq.EqName, ref eqListData);
+                        //    int percents = (i * 100) / total;
+                        //    SplashScreenManager.SentMsgToScreen("Importing " + percents.ToString() + "%");
+                        //}
+                        
+                        //Task task1 = new Task(delegate() { Run(reader1, streamList1, streamListData1, 1, test); });
+                        //task1.Start();
                         SourceFile df = new SourceFile();
                         SourceFileDAL dal = new SourceFileDAL();
                         df.FileName = selectedFileName.ToLower();
@@ -261,13 +155,9 @@ namespace ReliefProMain.View
                         {
                             dbEq.Add(data, SessionPlant);
                         }
-
+                        SplashScreenManager.SentMsgToScreen("Importing data...... 80%");
                         ProIIStreamDataDAL dbStream = new ProIIStreamDataDAL();
 
-                        streamListData = streamListData.Union(streamListData1).ToList();
-                        streamListData = streamListData.Union(streamListData2).ToList();
-                        streamListData = streamListData.Union(streamListData3).ToList();
-                        streamListData = streamListData.Union(streamListData4).ToList();
                         foreach (ProIIStreamData data in streamListData)
                         {
                             dbStream.Add(data, SessionPlant);
@@ -323,21 +213,15 @@ namespace ReliefProMain.View
             dal = new SourceFileDAL();
         }
 
-        Thread threadOne;
-        Thread threadTwo;
+        
         int StreamCount = 0;
         int streamCountIndex = 0;
         int eqCount = 0;
         int total = 0;
         ArrayList list = new ArrayList();
         IList<ProIIEqData> eqList = new List<ProIIEqData>();
-        IList<string> streamList = new List<string>();
-        IList<string> streamList1 = new List<string>();
-        IList<string> streamList2 = new List<string>();
-        IList<string> streamList3 = new List<string>();
-        IList<string> streamList4 = new List<string>();
-        IProIIReader reader;
-        private event EventHandler OnNumberClear;
+        IList<string> streamList = new List<string>();        
+        
 
         /// <summary>     /// 共同做的工作     /// </summary>     
         private void Run(IProIIReader r, IList<string> strList, IList<ProIIStreamData> list, int start, int end)
@@ -362,30 +246,14 @@ namespace ReliefProMain.View
 
         }
 
-        //执行完成之后，停止所有线程 
-        void Thread_OnNumberClear(object sender, EventArgs e)
-        {
-            try
-            {
-
-
-            }
-            catch (Exception ex)
-            {
-            }
-            finally
-            {
-
-
-            }
-        }
+        
         private void MetroWindow_Closing_1(object sender, CancelEventArgs e)
         {
 
         }
 
 
-        private void Read90Data(string version,string przFile)
+        private void ReadData(string version,string przFile)
         {
             object objRtn=new object();
             ExcelMacroHelper.RunExcelMacro(@"Template\macro.xls",
@@ -411,9 +279,6 @@ namespace ReliefProMain.View
                                                         new Object[] { version, przFile },
                                                          out objRtn,
                                                          false);
-
-
-
 
             ExcelMacroHelper.RunExcelMacro(@"Template\macro.xls",
                                                          "GetStreamInfo2",

@@ -60,7 +60,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                   
+
                 </GridView>
             </ListView.View>
         </ListView>
@@ -72,10 +72,10 @@
         <Label x:Name="lblReliefPressure" Content="{Binding ReliefPressureUnit,Mode=TwoWay}"  Grid.Row="5" Grid.Column="3"/>
         <Label x:Name="lblReliefTemperature" Content="{Binding ReliefTemperatureUnit,Mode=TwoWay}"  Grid.Row="6" Grid.Column="3" />
 
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}"  UnitOrigin="{Binding ElementName=lblReliefLoad,Path=Content,Mode=TwoWay,StringFormat='{}{0:F0}'}"  Grid.Column="2"  Grid.Row="3"  Text="{Binding ReliefLoad,Mode=TwoWay}"   />
-        <TextBox Grid.Column="2" Style="{DynamicResource TextBoxReadOnly}"   Grid.Row="4" Text="{Binding ReliefMW,Mode=TwoWay,StringFormat='{}{0:F4}'}"  />
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}"  UnitOrigin="{Binding ElementName=lblReliefPressure,Path=Content,Mode=TwoWay,StringFormat='{}{0:F4}'}"  Grid.Column="2"  Grid.Row="5"  Text="{Binding ReliefPressure,Mode=TwoWay}"  />
-        <CustomControl:UnitConvertTextBox Style="{DynamicResource TextBoxReadOnly}"  UnitOrigin="{Binding ElementName=lblReliefTemperature,Path=Content,Mode=TwoWay,StringFormat='{}{0:F4}'}"  Grid.Column="2"  Grid.Row="6"  Text="{Binding ReliefTemperature,Mode=TwoWay}" />
+        <TextBox Style="{DynamicResource TextBoxReadOnly}"   Grid.Column="2"  Grid.Row="3"  Text="{Binding ReliefLoad,Mode=TwoWay,StringFormat='{}{0:F0}'}"   />
+        <TextBox Style="{DynamicResource TextBoxReadOnly}"   Grid.Column="2" Grid.Row="4" Text="{Binding ReliefMW,Mode=TwoWay,StringFormat='{}{0:F4}'}"  />
+        <TextBox Style="{DynamicResource TextBoxReadOnly}"   Grid.Column="2"  Grid.Row="5"  Text="{Binding ReliefPressure,Mode=TwoWay,StringFormat='{}{0:F4}'}"  />
+        <TextBox Style="{DynamicResource TextBoxReadOnly}"   Grid.Column="2"  Grid.Row="6"  Text="{Binding ReliefTemperature,Mode=TwoWay,StringFormat='{}{0:F4}'}" />
         <TextBox Visibility="Hidden"  HorizontalAlignment="Center" Text="{Binding Path=ReliefCpCv,Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2"  Grid.Row="13"/>
         <TextBox Visibility="Hidden"  HorizontalAlignment="Center" Text="{Binding Path=ReliefZ,Mode=TwoWay,StringFormat='{}{0:F4}'}" Grid.Column="2"  Grid.Row="14"/>
         <Button Content="{DynamicResource Product}" Command="{Binding ProductCommand}" Grid.Column="1"  Grid.Row="2"  />
@@ -88,10 +88,10 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Button  Content="{DynamicResource OK}" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  Grid.Column="1" Grid.Row="0"/>
+            <Button  Content="{DynamicResource OK}" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=myWindow}"  Grid.Column="1" Grid.Row="0" Margin="37,0,36,4" VerticalAlignment="Bottom"/>
             <Button Content="{DynamicResource Cancel}" IsCancel="True"  Grid.Column="2" Grid.Row="0"/>
         </Grid>
-        
+
         <StatusBar  HorizontalAlignment="Stretch" Height="23" Grid.Row="8"  Grid.ColumnSpan="6" >
             <StatusBarItem>
                 <TextBlock Text="{DynamicResource AbnormalHeatInputViewStatusBar}"></TextBlock>

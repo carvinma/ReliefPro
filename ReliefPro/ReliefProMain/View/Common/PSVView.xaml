@@ -43,7 +43,7 @@
         <TextBox Name="txtName" BorderBrush="{Binding CurrentModel.PSVName_Color,Mode=TwoWay}"  Text="{Binding CurrentModel.PSVName,Mode=TwoWay}" Grid.Row="1" Grid.Column="2" />
         <TextBox Name="txtValveNumber"  BorderBrush="{Binding CurrentModel.ValveNumber_Color,Mode=TwoWay}"  Text="{Binding CurrentModel.ValveNumber,Mode=TwoWay}"   Grid.Row="3" Grid.Column="6" />
         <ComboBox Name="cbxValueType" BorderBrush="{Binding CurrentModel.ValveType_Color,Mode=TwoWay}"  ItemsSource="{Binding ValveTypes}" SelectedItem="{Binding CurrentModel.ValveType,Mode=TwoWay}"   Grid.Row="2" Grid.Column="6"  />
-        <CustomControl:UnitConvertTextBox BorderBrush="{Binding CurrentModel.Pressure_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}"  Text="{Binding CurrentModel.Pressure,StringFormat='{}{0:F4}',Mode=TwoWay}" Grid.Row="3" Grid.Column="2" Height="18" VerticalAlignment="Top"   />
+        <CustomControl:UnitConvertTextBox BorderBrush="{Binding CurrentModel.Pressure_Color,Mode=TwoWay}" UnitOrigin="{Binding ElementName=lblPressure,Path=Content,Mode=TwoWay}"  Text="{Binding CurrentModel.Pressure,StringFormat='{}{0:F4}',Mode=TwoWay}" Grid.Row="3" Grid.Column="2" Height="18"    />
 
         <ComboBox BorderBrush="{Binding CurrentModel.LocationDescription_Color,Mode=TwoWay}"  ItemsSource="{Binding CurrentModel.LocationDescriptions,Mode=TwoWay}" SelectedItem="{Binding CurrentModel.LocationDescription,Mode=TwoWay}"   Grid.Row="5" Grid.Column="6"  />
         <TextBox Name="txtPrelief" BorderBrush="{Binding CurrentModel.ReliefPressureFactor_Color,Mode=TwoWay}"  Text="{Binding CurrentModel.ReliefPressureFactor,Mode=TwoWay,StringFormat='{}{0:F4}'}"   Grid.Row="4" Grid.Column="2"  />

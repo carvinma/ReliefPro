@@ -188,6 +188,7 @@
     <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="Common\CriticalInfo.cs" />
     <Compile Include="Common\CustomZipFile.cs" />
+    <Compile Include="Common\ZipManager.cs" />
     <Compile Include="CustomControl\CustomComboBox.cs" />
     <Compile Include="CustomControl\GVColumnHeader.cs" />
     <Compile Include="CustomControl\ReportViewer.xaml.cs">
@@ -1257,6 +1258,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="CAPEDLLLib">
+      <Guid>{CEF653CF-429F-4572-B0D2-E93328469DE2}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="Microsoft.Office.Core">
       <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
       <VersionMajor>2</VersionMajor>
