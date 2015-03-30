@@ -201,6 +201,12 @@ namespace ProII
                                 if (j == 0)
                                 {
                                     string temp = s.Trim();
+                                    if (temp == "NOT")
+                                    {
+                                        arr2[0] = 0;
+                                        arr2[1] = 0;
+                                        return data;
+                                    }
                                     arr2[1]=UOMLib.UnitConvert.Convert("F","K",double.Parse(temp));
                                     j++;
                                 }
