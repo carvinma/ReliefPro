@@ -733,4 +733,10 @@
     <s:String x:Key="AppVersion">Version 1.1898</s:String>
     <s:String x:Key="AppComp">(C)2013 SimTech Company</s:String>
     <s:String x:Key="AppRight">Copy Right.</s:String>
+
+    <!--LatentEnthalpyView.xaml-->
+    <s:String x:Key="LatentEnthalpyViewTitle">Latent enthalpy method</s:String>
+    <s:String x:Key="LatentEnthalpyViewMethodName">Method Name:</s:String>
+    <s:String x:Key="LatentEnthalpyViewStageNumber">Stage Number:</s:String>
+
 </ResourceDictionary>
