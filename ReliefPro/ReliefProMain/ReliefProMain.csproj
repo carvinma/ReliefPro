@@ -97,6 +97,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Visio, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.VisOcx, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\Dependencies\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -338,6 +344,7 @@
     <Compile Include="ViewModel\TVUnitViewModel.cs" />
     <Compile Include="ViewModel\DuplicateSimulationVM.cs" />
     <Compile Include="ViewModel\AboutUsVM.cs" />
+    <Compile Include="ViewModel\LatentEnthalpyVM.cs" />
     <Compile Include="View\Common\AboutUsView.xaml.cs">
       <DependentUpon>AboutUsView.xaml</DependentUpon>
     </Compile>
@@ -584,6 +591,9 @@
     <Compile Include="View\Towers\TowerScenarioHXView.xaml.cs">
       <DependentUpon>TowerScenarioHXView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Towers\LatentEnthalpyView.xaml.cs">
+      <DependentUpon>LatentEnthalpyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VisioFactory.cs" />
     <Page Include="CustomControl\ReportViewer.xaml">
       <SubType>Designer</SubType>
@@ -609,6 +619,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Towers\LatentEnthalpyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Resource Include="app.ico" />
     <Content Include="Images\report.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1284,26 +1298,6 @@
       <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="Microsoft.Office.Interop.Visio">
-      <Guid>{00021A98-0000-0000-C000-000000000046}</Guid>
-      <VersionMajor>4</VersionMajor>
-      <VersionMinor>14</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-      <Private>True</Private>
-    </COMReference>
-    <COMReference Include="Microsoft.Office.Interop.VisOcx">
-      <Guid>{F1A8DFE4-BC61-48BA-AFDA-96DF10247AF0}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>2</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-      <Private>True</Private>
     </COMReference>
     <COMReference Include="Shell32">
       <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
