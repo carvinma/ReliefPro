@@ -96,6 +96,8 @@
     <s:String x:Key="LocationDescription">Location Description:</s:String>
     <s:String x:Key="Dischargeto">Discharge to:</s:String>
     <s:String x:Key="PSVViewStatusBar">Exist the window after saving all data</s:String>
+    <s:String x:Key="PSVLatentEnthalpy">Latent enthalpy</s:String>
+    
 
 
     <!--ReNameView.xaml-->
