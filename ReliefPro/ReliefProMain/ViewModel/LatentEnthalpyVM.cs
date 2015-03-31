@@ -181,19 +181,12 @@ namespace ReliefProMain.ViewModel
                 TowerType = tower.TowerType;
                 Desciption = tower.Description;
                 StageNumber = tower.StageNumber;
-                if(tower.StageNumber>0)
+                if (tower.StageNumber > 0)
                 {
                     listStageNumber.AddRange(Enumerable.Range(1, tower.StageNumber));
                 }
                 TowerType = tower.TowerType;
                 TowerType_Color = tower.TowerType_Color;
-               
-                ColorImport = ColorBorder.blue.ToString();
-            }
-            else
-            {
-                TowerType_Color = ColorBorder.green.ToString();
-                ColorImport = ColorBorder.red.ToString();
             }
         }
 
@@ -215,69 +208,7 @@ namespace ReliefProMain.ViewModel
 
         public void Save(object obj)
         {
-            if (string.IsNullOrEmpty(TowerName))
-            {
-                MessageBox.Show("You must Import Data first.", "Message Box");
-                ColorImport = "red";
-                return;
-            }
-            if (Feeds.Count == 0)
-            {
-                return;
-            }
-            if (op == 0)
-            {
-                ReImportBLL reimportbll = new ReImportBLL(SessionProtectedSystem);
-                reimportbll.DeleteAllData();
-
-                AddTowerInfo();
-                System.Windows.Window wd = obj as System.Windows.Window;
-                if (wd != null)
-                {
-                    wd.DialogResult = true;
-                }
-            }
-            else if (op == 2)
-            {
-                MessageBoxResult r = MessageBox.Show("Are you sure to reimport all data?", "Message Box", MessageBoxButton.YesNo);
-                if (r == MessageBoxResult.Yes)
-                {
-                    ReImportBLL reimportbll = new ReImportBLL(SessionProtectedSystem);
-                    reimportbll.DeleteAllData();
-                    AddTowerInfo();
-                }
-                System.Windows.Window wd = obj as System.Windows.Window;
-                if (wd != null)
-                {
-                    wd.DialogResult = true;
-                }
-            }
-            else
-            {
-                Tower tower = dbtower.GetModel(SessionProtectedSystem);
-                if (tower.TowerType != TowerType)
-                {
-                    MessageBoxResult r = MessageBox.Show("Are you sure for changing tower type,it will delete all scenario?", "Message Box", MessageBoxButton.YesNo);
-                    if (r == MessageBoxResult.Yes)
-                    {
-                        ScenarioBLL scbll = new ScenarioBLL(SessionProtectedSystem);
-                        scbll.DeleteSCOther();
-                        scbll.DeleteScenario();
-                        tower.TowerType = TowerType;
-                        tower.Description = Desciption;
-                        tower.TowerType_Color = TowerType_Color;
-                        dbtower.Update(tower, SessionProtectedSystem);
-                        //SessionProtectedSystem.Flush();
-                    }
-                }
-                SourceFileDAL sfdal = new SourceFileDAL();
-                SourceFileInfo = sfdal.GetModel(tower.SourceFile, SessionPlant);
-                System.Windows.Window wd = obj as System.Windows.Window;
-                if (wd != null)
-                {
-                    wd.DialogResult = true;
-                }
-            }
+            
         }
 
         /// <summary>
