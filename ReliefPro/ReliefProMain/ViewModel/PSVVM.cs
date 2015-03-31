@@ -42,6 +42,7 @@ using ReliefProModel.HXs;
 using ReliefProMain.Util;
 using ReliefProDAL.ReactorLoops;
 using ReliefProModel.ReactorLoops;
+using ReliefProMain.View.Towers;
 
 namespace ReliefProMain.ViewModel
 {
@@ -83,7 +84,23 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("IsBusy");
             }
         }
-        public PSV psv;       
+
+        private ICommand _LatentEnthalpyCommand;
+        public ICommand LatentEnthalpyCommand
+        {
+            get
+            {
+                if (_LatentEnthalpyCommand == null)
+                {
+                    _LatentEnthalpyCommand = new RelayCommand(CalcLatentEnthalpy);
+
+                }
+                return _LatentEnthalpyCommand;
+            }
+        }
+
+
+        public PSV psv;
         UOMLib.UOMEnum uomEnum;
         PSVDAL dbpsv = new PSVDAL();
         Latent latent = new Latent();
@@ -100,8 +117,8 @@ namespace ReliefProMain.ViewModel
             list.Add("Pilot Operated");
             list.Add("Rupture Disk");
             return list;
-        }      
-        
+        }
+
         public ObservableCollection<string> GetDischargeTos()
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
@@ -114,7 +131,7 @@ namespace ReliefProMain.ViewModel
 
             return list;
         }
-        
+
         public ObservableCollection<string> GetLocations()
         {
             ObservableCollection<string> list = new ObservableCollection<string>();
@@ -138,7 +155,7 @@ namespace ReliefProMain.ViewModel
             }
             return list;
         }
-        
+
         /// <summary>
         /// 初始化函数
         /// </summary>
@@ -212,7 +229,7 @@ namespace ReliefProMain.ViewModel
                         CurrentModel.Location = reactor.ColdHighPressureSeparator;
                         EqName = reactor.ColdHighPressureSeparator;
                     }
-                    
+
                 }
             }
             CurrentModel.CriticalPressureUnit = uomEnum.UserPressure;
@@ -261,16 +278,16 @@ namespace ReliefProMain.ViewModel
             CurrentModel.CricondenbarPress = UnitConvert.Convert(UOMEnum.Pressure, CurrentModel.CricondenbarPressUnit, CurrentModel.CricondenbarPress);
             CurrentModel.CricondenbarTemp = UnitConvert.Convert(UOMEnum.Temperature, CurrentModel.CricondenbarTempUnit, CurrentModel.CricondenbarTemp);
         }
-        
+
         /// <summary>
         /// 写入数据库时的单位转换
         /// </summary>
         private void WriteConvert()
         {
             CurrentModel.dbmodel.Pressure = UnitConvert.Convert(CurrentModel.PSVPressureUnit, UOMEnum.Pressure, CurrentModel.Pressure);
-            CurrentModel.dbmodel.CriticalPressure = UnitConvert.Convert(CurrentModel.CriticalPressureUnit,UOMEnum.Pressure,  CurrentModel.CriticalPressure);
-            CurrentModel.dbmodel.DrumPressure = UnitConvert.Convert(CurrentModel.DrumPressureUnit,UOMEnum.Pressure,  CurrentModel.DrumPressure);
-            CurrentModel.dbmodel.CriticalTemperature = UnitConvert.Convert(CurrentModel.CriticalTemperatureUnit,UOMEnum.Temperature,  CurrentModel.CriticalTemperature);
+            CurrentModel.dbmodel.CriticalPressure = UnitConvert.Convert(CurrentModel.CriticalPressureUnit, UOMEnum.Pressure, CurrentModel.CriticalPressure);
+            CurrentModel.dbmodel.DrumPressure = UnitConvert.Convert(CurrentModel.DrumPressureUnit, UOMEnum.Pressure, CurrentModel.DrumPressure);
+            CurrentModel.dbmodel.CriticalTemperature = UnitConvert.Convert(CurrentModel.CriticalTemperatureUnit, UOMEnum.Temperature, CurrentModel.CriticalTemperature);
             CurrentModel.dbmodel.CricondenbarPress = UnitConvert.Convert(CurrentModel.CricondenbarPressUnit, UOMEnum.Pressure, CurrentModel.CricondenbarPress);
             CurrentModel.dbmodel.CricondenbarTemp = UnitConvert.Convert(CurrentModel.CricondenbarTempUnit, UOMEnum.Temperature, CurrentModel.CricondenbarTemp);
             CurrentModel.dbmodel.ValveNumber = CurrentModel.ValveNumber;
@@ -298,7 +315,7 @@ namespace ReliefProMain.ViewModel
                 return _SaveCommand;
             }
         }
-        
+
         private void Save(object window)
         {
             if (string.IsNullOrEmpty(CurrentModel.PSVName))
@@ -310,7 +327,7 @@ namespace ReliefProMain.ViewModel
             double pressure = UnitConvert.Convert(CurrentModel.PSVPressureUnit, "Kpa", CurrentModel.Pressure);
             if (pressure <= 0)
             {
-                MessageBox.Show("PSV Pressure can't be empty.", "Message Box",MessageBoxButton.OK,MessageBoxImage.Warning);
+                MessageBox.Show("PSV Pressure can't be empty.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                 CurrentModel.Pressure_Color = ColorBorder.red.ToString();
                 return;
             }
@@ -387,8 +404,8 @@ namespace ReliefProMain.ViewModel
                     CurrentModel.dbmodel.PSVName_Color = CurrentModel.PSVName_Color;
                     CurrentModel.dbmodel.Pressure_Color = CurrentModel.Pressure_Color;
                     CurrentModel.dbmodel.DrumPressure_Color = CurrentModel.DrumPressure_Color;
-                    CurrentModel.dbmodel.DischargeTo_Color = CurrentModel.DischargeTo_Color; 
-                    CurrentModel.dbmodel.ReliefPressureFactor_Color=CurrentModel.ReliefPressureFactor_Color;
+                    CurrentModel.dbmodel.DischargeTo_Color = CurrentModel.DischargeTo_Color;
+                    CurrentModel.dbmodel.ReliefPressureFactor_Color = CurrentModel.ReliefPressureFactor_Color;
                     CurrentModel.dbmodel.ValveNumber_Color = CurrentModel.ValveNumber_Color;
                     CurrentModel.dbmodel.ValveType_Color = CurrentModel.ValveType_Color;
                     CurrentModel.dbmodel.Location_Color = CurrentModel.Location_Color;
@@ -400,9 +417,9 @@ namespace ReliefProMain.ViewModel
                     dbpsv.Add(CurrentModel.dbmodel, SessionProtectedSystem);
                     SplashScreenManager.SentMsgToScreen("Calculation finished...100%");
                 }
-                else if (psv.ReliefPressureFactor == CurrentModel.ReliefPressureFactor && psv.Pressure == UnitConvert.Convert(CurrentModel.PSVPressureUnit, UOMEnum.Pressure, CurrentModel.Pressure) && psv.LocationDescription==CurrentModel.LocationDescription)
+                else if (psv.ReliefPressureFactor == CurrentModel.ReliefPressureFactor && psv.Pressure == UnitConvert.Convert(CurrentModel.PSVPressureUnit, UOMEnum.Pressure, CurrentModel.Pressure) && psv.LocationDescription == CurrentModel.LocationDescription)
                 {
-                    SplashScreenManager.Show(2);                   
+                    SplashScreenManager.Show(2);
                     WriteConvert();
                     SplashScreenManager.SentMsgToScreen("Saving Data... 50%");
                     dbpsv.Update(CurrentModel.dbmodel, SessionProtectedSystem);
@@ -420,7 +437,7 @@ namespace ReliefProMain.ViewModel
                     //SessionProtectedSystem = helperProtectedSystem.GetCurrentSession();
 
                     //应该是删除所有的和定压相关的表的数据
-                    MessageBoxResult r = MessageBox.Show("Are you sure to edit data? ", "Message Box", MessageBoxButton.YesNo,MessageBoxImage.Information);
+                    MessageBoxResult r = MessageBox.Show("Are you sure to edit data? ", "Message Box", MessageBoxButton.YesNo, MessageBoxImage.Information);
                     if (r == MessageBoxResult.Yes)
                     {
                         SplashScreenManager.Show(10);
@@ -428,10 +445,10 @@ namespace ReliefProMain.ViewModel
                         ScenarioBLL scBLL = new ScenarioBLL(SessionProtectedSystem);
                         scBLL.DeleteSCOther();
                         scBLL.ClearScenario();
-                        
+
                         PSVBLL psvbll = new PSVBLL(SessionProtectedSystem);
                         psvbll.DeletePSVData();
-                        
+
                         if (EqType == "Tower")
                         {
                             TowerDAL towerdal = new TowerDAL();
@@ -475,18 +492,13 @@ namespace ReliefProMain.ViewModel
                         CurrentModel.dbmodel.Location_Color = CurrentModel.Location_Color;
                         CurrentModel.dbmodel.DrumPSVName_Color = CurrentModel.DrumPSVName_Color;
 
-                        
+
                         WriteConvert();
                         SplashScreenManager.SentMsgToScreen("Calculation finished... 100%");
                         dbpsv.Add(CurrentModel.dbmodel, SessionProtectedSystem);
-                        
+
                     }
                 }
-                //Thread.Sleep(3000);
-                //}).ContinueWith((t) => { });
-
-                //Task.WaitAll(t1);
-                //this.IsBusy = false;
 
                 System.Windows.Window wd = window as System.Windows.Window;
                 if (wd != null)
@@ -519,7 +531,7 @@ namespace ReliefProMain.ViewModel
                     case 4:
                         MessageBox.Show(LanguageHelper.GetValueByKey("WarningPSVTower4"), "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
                         break;
-                  
+
 
                 }
 
@@ -527,7 +539,7 @@ namespace ReliefProMain.ViewModel
             }
 
         }
-        
+
         public void CreateTowerPSV()
         {
             //判断压力是否更改，relief pressure 是否更改。  （drum的是否修改，会影响到火灾的计算）
@@ -571,16 +583,16 @@ namespace ReliefProMain.ViewModel
                 ErrorType = -1;
                 return;
             }
-            
+
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string onlyfilenamenoext = new FileInfo(FileFullPath).Name.Replace(".prz", "");
-            string[] sourceFiles = Directory.GetFiles(tempdir, onlyfilenamenoext+"*.inp");
+            string[] sourceFiles = Directory.GetFiles(tempdir, onlyfilenamenoext + "*.inp");
             string sourceFile = sourceFiles[0];
             string[] lines = System.IO.File.ReadAllLines(sourceFile);
             HeatMethod = ProIIMethod.GetHeatMethod(lines, EqName);
-            string content = PROIIFileOperator.getUsableContent(stream.StreamName,lines);
+            string content = PROIIFileOperator.getUsableContent(stream.StreamName, lines);
             string phasecontent = PROIIFileOperator.getUsablePhaseContent(stream.StreamName, tempdir);
-            double ReliefPressure = CurrentModel.ReliefPressureFactor * UnitConvert.Convert(CurrentModel.PSVPressureUnit,UOMEnum.Pressure, CurrentModel.Pressure);
+            double ReliefPressure = CurrentModel.ReliefPressureFactor * UnitConvert.Convert(CurrentModel.PSVPressureUnit, UOMEnum.Pressure, CurrentModel.Pressure);
 
             SplashScreenManager.SentMsgToScreen("Calculating critical pressure... 40%");
             double ReliefTemperature = 0;
@@ -596,8 +608,8 @@ namespace ReliefProMain.ViewModel
                 CurrentModel.CricondenbarPress = cricondenbarPressure;
                 CurrentModel.CricondenbarTemp = cricondenbarTemperature;
 
-                if (ReliefPressure<criticalPressure)
-                { 
+                if (ReliefPressure < criticalPressure)
+                {
                     //进入3，4，5，6路径  fluidtype这是是2 
                     CalcLatent(content, ReliefPressure, stream, dirLatent, 2, ref latentVapor, ref latentLiquid);
                 }
@@ -610,13 +622,13 @@ namespace ReliefProMain.ViewModel
                         Directory.Delete(dirSupper, true);
                     }
                     Directory.CreateDirectory(dirSupper);
-                    int supperResult=CalSupperCritical(content, ReliefPressure, criticalTemperature, stream, dirSupper);
+                    int supperResult = CalSupperCritical(content, ReliefPressure, criticalTemperature, stream, dirSupper);
                     if (supperResult == 1 || supperResult == 2)
                     {
-                        
-                    }                   
+
+                    }
                 }
-                
+
             }
             else
             {
@@ -624,7 +636,7 @@ namespace ReliefProMain.ViewModel
                 //warning1 
                 ErrorType = 1;
                 CalcLatent(content, ReliefPressure, stream, dirLatent, 3, ref latentVapor, ref latentLiquid);
-                
+
             }
             SplashScreenManager.SentMsgToScreen("Calculating product data... 60%");
 
@@ -634,7 +646,7 @@ namespace ReliefProMain.ViewModel
             products = dbstream.GetAllList(SessionProtectedSystem, true);
             double overHeadPressure = GetTowerOverHeadPressure(products);
 
-            
+
             List<FlashResult> listFlashResult = new List<FlashResult>();
             //List<FlashResult> listFlashResult1 = new List<FlashResult>();
             //List<FlashResult> listFlashResult2 = new List<FlashResult>();
@@ -646,7 +658,7 @@ namespace ReliefProMain.ViewModel
             //Task<List<FlashResult>> task2 = new Task<List<FlashResult>>(() => RunProductFlashCalc(products, avgct + 1, 2 * avgct, tempdir, ReliefPressure, ReliefTemperature, overHeadPressure));
             //Task<List<FlashResult>> task3 = new Task<List<FlashResult>>(() => RunProductFlashCalc(products, 2 * avgct + 1, 3 * avgct, tempdir, ReliefPressure, ReliefTemperature, overHeadPressure));
             //Task<List<FlashResult>> task4 = new Task<List<FlashResult>>(() => RunProductFlashCalc(products, 3 * avgct + 1, count, tempdir, ReliefPressure, ReliefTemperature, overHeadPressure));
-            
+
             task1.Start();
             //task2.Start();
             //task3.Start();
@@ -675,7 +687,7 @@ namespace ReliefProMain.ViewModel
                 {
                     //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
                     //reader.InitProIIReader(fr.PrzFile);
-                    ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion,fr.PrzFile);
+                    ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, fr.PrzFile);
                     if (prodtype == "4" || (prodtype == "2" && tray == 1) || prodtype == "3" || prodtype == "6")
                     {
                         ProIIStreamData data = reader.GetStreamInfo(fr.VaporName);
@@ -710,7 +722,7 @@ namespace ReliefProMain.ViewModel
 
         }
 
-        private List<FlashResult> RunProductFlashCalc(IList<CustomStream> products,int start,int end,string tempdir,double ReliefPressure,double ReliefTemperature,double overHeadPressure)
+        private List<FlashResult> RunProductFlashCalc(IList<CustomStream> products, int start, int end, string tempdir, double ReliefPressure, double ReliefTemperature, double overHeadPressure)
         {
             List<FlashResult> list = new List<FlashResult>();
             int ImportResult = 0;
@@ -828,8 +840,8 @@ namespace ReliefProMain.ViewModel
             {
                 Directory.Delete(dirPhase, true);
             }
-                Directory.CreateDirectory(dirPhase);
-                SplashScreenManager.SentMsgToScreen("Creating PSV... 30%");
+            Directory.CreateDirectory(dirPhase);
+            SplashScreenManager.SentMsgToScreen("Creating PSV... 30%");
             List<CustomStream> arrFeeds = new List<CustomStream>();
             List<string> lstLiquidFeed = new List<string>();
             CustomStreamDAL csdal = new CustomStreamDAL();
@@ -860,7 +872,7 @@ namespace ReliefProMain.ViewModel
                     }
                 }
 
-            }          
+            }
             else
             {
                 arrFeeds = feedlist;
@@ -954,7 +966,7 @@ namespace ReliefProMain.ViewModel
             //reader.ReleaseProIIReader();
             ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, copyPrzFile);
             ProIIStreamData proIITray1StreamData = reader.CopyStreamInfo(EqName, 1, 2, 1);
-             cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
+            cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
             return cs;
         }
 
@@ -1012,7 +1024,7 @@ namespace ReliefProMain.ViewModel
                     //cricondenbarPress = reader.GetCricondenbarPress(PH);
                     //cricondenbarTemp = reader.GetCricondenbarTemp(PH);
                     //reader.ReleaseProIIReader();
-                    ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion,phasef);
+                    ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, phasef);
                     double[] phdata = reader.GetPHInfo(PH);
                     criticalPressure = UnitConvert.Convert("KPA", UOMEnum.Pressure, phdata[0]);
                     criticalTemperature = UnitConvert.Convert("K", UOMEnum.Temperature, phdata[1]);
@@ -1046,7 +1058,7 @@ namespace ReliefProMain.ViewModel
         /// <param name="FluidType"></param>
         /// <param name="latentVapor"></param>
         /// <param name="latentLiquid"></param>
-        private void CalcLatent(string content, double ReliefPressure, CustomStream stream, string dirLatent,int FluidType, ref LatentProduct latentVapor, ref LatentProduct latentLiquid)
+        private void CalcLatent(string content, double ReliefPressure, CustomStream stream, string dirLatent, int FluidType, ref LatentProduct latentVapor, ref LatentProduct latentLiquid)
         {
             int result = 0;
             LatentProductDAL dblp = new LatentProductDAL();
@@ -1060,7 +1072,7 @@ namespace ReliefProMain.ViewModel
 
             ProIICalculate proiicalc = new ProIICalculate(SourceFileInfo.FileVersion);
             string tray1_f = proiicalc.FlashCalculate(content, 1, ReliefPressure.ToString(), 4, "", HeatMethod, stream, vapor, liquid, dirLatent, ref ImportResult, ref RunResult);
-            
+
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -1076,7 +1088,7 @@ namespace ReliefProMain.ViewModel
 
 
                     ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, tray1_f);
-                    List<ProIIStreamData> lst = reader.GetStreamInfo(new string[] { vapor, liquid,stream.StreamName });
+                    List<ProIIStreamData> lst = reader.GetStreamInfo(new string[] { vapor, liquid, stream.StreamName });
 
                     ProIIStreamData proIIVapor = lst[0];
                     ProIIStreamData proIILiquid = lst[1];
@@ -1098,15 +1110,15 @@ namespace ReliefProMain.ViewModel
                     LatentDAL dblatent = new LatentDAL();
                     latent = new Latent();
                     latent.LatentEnthalpy = latentVapor.SpEnthalpy - latentLiquid.SpEnthalpy; ;
-                    latent.ReliefTemperature = latentVapor.Temperature ;
+                    latent.ReliefTemperature = latentVapor.Temperature;
                     latent.ReliefOHWeightFlow = latentVapor.BulkMwOfPhase;
-                    latent.ReliefPressure = UnitConvert.Convert(CurrentModel.PSVPressureUnit, UOMEnum.Pressure, CurrentModel.Pressure) *CurrentModel.ReliefPressureFactor;
+                    latent.ReliefPressure = UnitConvert.Convert(CurrentModel.PSVPressureUnit, UOMEnum.Pressure, CurrentModel.Pressure) * CurrentModel.ReliefPressureFactor;
                     latent.ReliefCpCv = latentVapor.BulkCPCVRatio;
                     latent.ReliefZ = latentVapor.VaporZFmKVal;
                     if (FluidType == 2)
                     {
                         //if (latent.ReliefCpCv > 0.9)
-                        if (latent.ReliefPressure/criticalPressure > 0.9)
+                        if (latent.ReliefPressure / criticalPressure > 0.9)
                         {
                             //warning4   流程图3
                             ErrorType = 4;
@@ -1132,7 +1144,7 @@ namespace ReliefProMain.ViewModel
                         }
                     }
 
-                    dblatent.Add(latent, SessionProtectedSystem);   
+                    dblatent.Add(latent, SessionProtectedSystem);
                 }
 
                 else
@@ -1171,7 +1183,7 @@ namespace ReliefProMain.ViewModel
         /// <param name="stream"></param>
         /// <param name="dirSupper"></param>
         /// <returns></returns>
-        private int CalSupperCritical(string content, double ReliefPressure,double ReliefTemperature,CustomStream stream,string dirSupper)
+        private int CalSupperCritical(string content, double ReliefPressure, double ReliefTemperature, CustomStream stream, string dirSupper)
         {
             int result = 0;
             int ImportResult = 0;
@@ -1184,7 +1196,7 @@ namespace ReliefProMain.ViewModel
 
             ProIICalculate proiicalc = new ProIICalculate(SourceFileInfo.FileVersion);
             string tray1_f = proiicalc.FlashCalculate(content, 1, ReliefPressure.ToString(), 2, ReliefTemperature.ToString(), HeatMethod, stream, vapor, liquid, dirSupper, ref ImportResult, ref RunResult);
-            
+
             if (ImportResult == 1 || ImportResult == 2)
             {
                 if (RunResult == 1 || RunResult == 2)
@@ -1211,7 +1223,7 @@ namespace ReliefProMain.ViewModel
                     latent.ReliefZ = csVapor.VaporZFmKVal;
 
                     if (csVapor.BulkCPCVRatio == 0)//流程图2
-                    {                        
+                    {
                         latent.ReliefCpCv = 1.4;
                     }
                     dblatent.Add(latent, SessionProtectedSystem);
@@ -1230,6 +1242,59 @@ namespace ReliefProMain.ViewModel
                 return 2;
             }
         }
-        
+
+
+        private void CalcLatentEnthalpy(object window)
+        {
+            try
+            {
+                LatentEnthalpyView v = new LatentEnthalpyView();
+                LatentEnthalpyVM vm = new LatentEnthalpyVM();
+                v.DataContext = vm;
+                bool? reslut = v.ShowDialog();
+                if (reslut.HasValue && reslut.Value)
+                {
+                }
+
+                System.Windows.Window wd = window as System.Windows.Window;
+                if (wd != null)
+                {
+                    wd.DialogResult = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                SplashScreenManager.Close();
+                switch (ErrorType)
+                {
+                    case -1:
+                        MessageBox.Show(LanguageHelper.GetValueByKey("WarningTray1LiquidZero"), "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        break;
+                    case 1:
+                        MessageBox.Show(LanguageHelper.GetValueByKey("WarningPSVTower1"), "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        break;
+                    case 2:
+                        MessageBox.Show(LanguageHelper.GetValueByKey("WarningPSVTower2"), "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        break;
+                    case 3:
+                        MessageBox.Show(LanguageHelper.GetValueByKey("WarningPSVTower3"), "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        break;
+                    case 4:
+                        MessageBox.Show(LanguageHelper.GetValueByKey("WarningPSVTower4"), "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        break;
+
+
+                }
+
+
+            }
+
+        }
+
     }
 }
