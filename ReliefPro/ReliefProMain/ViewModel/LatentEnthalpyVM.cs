@@ -161,8 +161,7 @@ namespace ReliefProMain.ViewModel
         public LatentEnthalpyVM(string towerName, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
         {
             listMethodName = new List<string> { "Dew point", "Bubble point", "5% mol"};
-
-            //是从１到塔的总层数。　　塔的总层数，可以从从tbtower表里获取
+          
             SessionPlant = sessionPlant;
             SessionProtectedSystem = sessionProtectedSystem;
             uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
@@ -183,6 +182,7 @@ namespace ReliefProMain.ViewModel
                 StageNumber = tower.StageNumber;
                 if (tower.StageNumber > 0)
                 {
+                    //是从１到塔的总层数。　　塔的总层数，可以从从tbtower表里获取
                     listStageNumber.AddRange(Enumerable.Range(1, tower.StageNumber));
                 }
                 TowerType = tower.TowerType;
