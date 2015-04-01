@@ -62,7 +62,7 @@ namespace ReliefProMain.Common
         }
         private void ExtractPart(PackagePart packagePart, string targetDirectory, bool overrideExisting)
         {
-            string stringPart = targetDirectory + HttpUtility.UrlDecode(packagePart.Uri.ToString().Replace('\\', '/');
+            string stringPart = targetDirectory + HttpUtility.UrlDecode(packagePart.Uri.ToString().Replace('\\', '/'));
 
             if (!Directory.Exists(Path.GetDirectoryName(stringPart)))
                 Directory.CreateDirectory(Path.GetDirectoryName(stringPart));
@@ -81,7 +81,7 @@ namespace ReliefProMain.Common
                 string relivatePath =HttpUtility.UrlEncode(fi.FullName.Replace(SourceFolderPath, string.Empty));
                 relivatePath = relivatePath.Replace("\\","/");
 
-                PackagePart part = package.CreatePart(new Uri(relivatePath, UriKind.Relative), "application/x-zip-compressed", CompressionOption.Maximum);
+                PackagePart part = package.CreatePart(new Uri(HttpUtility.UrlPathEncode(relivatePath), UriKind.Relative), "application/x-zip-compressed", CompressionOption.Maximum);
                 using (FileStream fs = fi.OpenRead())
                 {
                     CopyStream(fs, part.GetStream());
