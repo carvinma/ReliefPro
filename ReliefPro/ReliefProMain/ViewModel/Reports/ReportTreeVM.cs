@@ -11,14 +11,13 @@ using ReliefProMain.Commands;
 using ReliefProMain.View.Reports;
 using System.IO;
 using UOMLib;
-
 using ReliefProBLL.Common;
 using NHibernate;
 using ReliefProDAL;
 using ReliefProModel;
 using Microsoft.Win32;
 using System.Runtime.InteropServices;
-
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace ReliefProMain.ViewModel.Reports
 {
@@ -269,12 +268,12 @@ namespace ReliefProMain.ViewModel.Reports
 
                     DirectoryInfo di = new DirectoryInfo(CurrentPlantPath);
 
-                    xlWorkSheet.Cells[4][6] = di.Name;
-                    xlWorkSheet.Cells[4][7] = tunit.UnitName;
-                    xlWorkSheet.Cells[4][9] = tps.PSName;
+                    xlWorkSheet.Cells[4,6] = di.Name;
+                    xlWorkSheet.Cells[4,7] = tunit.UnitName;
+                    xlWorkSheet.Cells[4,9] = tps.PSName;
 
-                    xlWorkSheet.Cells[13][6] = psv.ValveNumber;
-                    xlWorkSheet.Cells[10][11] = psv.Pressure;
+                    xlWorkSheet.Cells[13,6] = psv.ValveNumber;
+                    xlWorkSheet.Cells[10,11] = psv.Pressure;
 
                     int count = list.Count;
                     int row1 = 14;
@@ -285,22 +284,22 @@ namespace ReliefProMain.ViewModel.Reports
                     int note3 = 162;
                     if (count >= 5 && count <= 9)
                     {
-                        xlWorkSheet.Cells[4][66] = di.Name;
-                        xlWorkSheet.Cells[4][67] = tunit.UnitName;
-                        xlWorkSheet.Cells[4][69] = tps.PSName;
+                        xlWorkSheet.Cells[4,66] = di.Name;
+                        xlWorkSheet.Cells[4,67] = tunit.UnitName;
+                        xlWorkSheet.Cells[4,69] = tps.PSName;
 
-                        xlWorkSheet.Cells[13][66] = psv.ValveNumber;
-                        xlWorkSheet.Cells[10][71] = psv.Pressure;
+                        xlWorkSheet.Cells[13,66] = psv.ValveNumber;
+                        xlWorkSheet.Cells[10,71] = psv.Pressure;
 
                     }
                     else if (count > 9)
                     {
-                        xlWorkSheet.Cells[4][126] = di.Name;
-                        xlWorkSheet.Cells[4][127] = tunit.UnitName;
-                        xlWorkSheet.Cells[4][129] = tps.PSName;
+                        xlWorkSheet.Cells[4,126] = di.Name;
+                        xlWorkSheet.Cells[4,127] = tunit.UnitName;
+                        xlWorkSheet.Cells[4,129] = tps.PSName;
 
-                        xlWorkSheet.Cells[13][126] = psv.ValveNumber;
-                        xlWorkSheet.Cells[10][131] = psv.Pressure;
+                        xlWorkSheet.Cells[13,126] = psv.ValveNumber;
+                        xlWorkSheet.Cells[10,131] = psv.Pressure;
 
                     }
                     string Compressibility = string.Empty;
@@ -311,57 +310,57 @@ namespace ReliefProMain.ViewModel.Reports
                         int col = ct % 5;
                         if (ct <= 4)
                         {
-                            xlWorkSheet.Cells[5 + col * 2][row1] = sc.ScenarioName;
-                            xlWorkSheet.Cells[5 + col * 2][row1 + 1] = 16;
+                            xlWorkSheet.Cells[5 + col * 2,row1] = sc.ScenarioName;
+                            xlWorkSheet.Cells[5 + col * 2,row1 + 1] = 16;
                             if (sc.ScenarioName.ToString().Contains("Fire"))
                             {
-                                xlWorkSheet.Cells[5 + col * 2][row1 + 1] = 21;
+                                xlWorkSheet.Cells[5 + col * 2,row1 + 1] = 21;
                             }
-                            xlWorkSheet.Cells[5 + col * 2][row1 + 2] = sc.ReliefPressure;
-                            xlWorkSheet.Cells[5 + col * 2][row1 + 3] = sc.ReliefTemperature;
-                            xlWorkSheet.Cells[5 + col * 2][row1 + 4] = sc.ReliefLoad;
-                            xlWorkSheet.Cells[5 + col * 2][row1 + 5] = sc.ReliefMW;
-                            xlWorkSheet.Cells[5 + col * 2][row1 + 6] = sc.ReliefZ;
-                            xlWorkSheet.Cells[5 + col * 2][row1 + 7] = sc.ReliefCpCv;
-                            xlWorkSheet.Cells[3][note1 + ct] = "";
-                            xlWorkSheet.Cells[3][note2 + ct] = "";
-                            xlWorkSheet.Cells[3][note3 + ct] = "";
+                            xlWorkSheet.Cells[5 + col * 2,row1 + 2] = sc.ReliefPressure;
+                            xlWorkSheet.Cells[5 + col * 2,row1 + 3] = sc.ReliefTemperature;
+                            xlWorkSheet.Cells[5 + col * 2,row1 + 4] = sc.ReliefLoad;
+                            xlWorkSheet.Cells[5 + col * 2,row1 + 5] = sc.ReliefMW;
+                            xlWorkSheet.Cells[5 + col * 2,row1 + 6] = sc.ReliefZ;
+                            xlWorkSheet.Cells[5 + col * 2,row1 + 7] = sc.ReliefCpCv;
+                            xlWorkSheet.Cells[3,note1 + ct] = "";
+                            xlWorkSheet.Cells[3,note2 + ct] = "";
+                            xlWorkSheet.Cells[3,note3 + ct] = "";
                         }
                         else if (ct >= 5 && ct <= 9)
                         {
-                            xlWorkSheet.Cells[5 + col * 2][row2] = sc.ScenarioName.ToString();
-                            xlWorkSheet.Cells[5 + col * 2][row2 + 1] = 16;
+                            xlWorkSheet.Cells[5 + col * 2,row2] = sc.ScenarioName.ToString();
+                            xlWorkSheet.Cells[5 + col * 2,row2 + 1] = 16;
                             if (sc.ScenarioName.ToString().Contains("Fire"))
                             {
-                                xlWorkSheet.Cells[5 + col * 2][row2 + 1] = 21;
+                                xlWorkSheet.Cells[5 + col * 2,row2 + 1] = 21;
                             }
-                            xlWorkSheet.Cells[5 + col * 2][row2 + 2] = sc.ReliefPressure;
-                            xlWorkSheet.Cells[5 + col * 2][row2 + 3] = sc.ReliefTemperature;
-                            xlWorkSheet.Cells[5 + col * 2][row2 + 4] = sc.ReliefLoad;
-                            xlWorkSheet.Cells[5 + col * 2][row2 + 5] = sc.ReliefMW;
-                            xlWorkSheet.Cells[5 + col * 2][row2 + 6] = sc.ReliefZ;
-                            xlWorkSheet.Cells[5 + col * 2][row2 + 7] = sc.ReliefCpCv;
-                            xlWorkSheet.Cells[3][note1 + ct] = "";
-                            xlWorkSheet.Cells[3][note2 + ct] = "";
-                            xlWorkSheet.Cells[3][note3 + ct] = "";
+                            xlWorkSheet.Cells[5 + col * 2,row2 + 2] = sc.ReliefPressure;
+                            xlWorkSheet.Cells[5 + col * 2,row2 + 3] = sc.ReliefTemperature;
+                            xlWorkSheet.Cells[5 + col * 2,row2 + 4] = sc.ReliefLoad;
+                            xlWorkSheet.Cells[5 + col * 2,row2 + 5] = sc.ReliefMW;
+                            xlWorkSheet.Cells[5 + col * 2,row2 + 6] = sc.ReliefZ;
+                            xlWorkSheet.Cells[5 + col * 2,row2 + 7] = sc.ReliefCpCv;
+                            xlWorkSheet.Cells[3,note1 + ct] = "";
+                            xlWorkSheet.Cells[3,note2 + ct] = "";
+                            xlWorkSheet.Cells[3,note3 + ct] = "";
                         }
                         else
                         {
-                            xlWorkSheet.Cells[5 + col * 2][row3] = sc.ScenarioName.ToString();
-                            xlWorkSheet.Cells[5 + col * 2][row3 + 1] = 16;
+                            xlWorkSheet.Cells[5 + col * 2,row3] = sc.ScenarioName.ToString();
+                            xlWorkSheet.Cells[5 + col * 2,row3 + 1] = 16;
                             if (sc.ScenarioName.ToString().Contains("Fire"))
                             {
-                                xlWorkSheet.Cells[5 + col * 2][row3 + 1] = 21;
+                                xlWorkSheet.Cells[5 + col * 2,row3 + 1] = 21;
                             }
-                            xlWorkSheet.Cells[5 + col * 2][row3 + 2] = sc.ReliefPressure;
-                            xlWorkSheet.Cells[5 + col * 2][row3 + 3] = sc.ReliefTemperature;
-                            xlWorkSheet.Cells[5 + col * 2][row3 + 4] = sc.ReliefLoad;
-                            xlWorkSheet.Cells[5 + col * 2][row3 + 5] = sc.ReliefMW;
-                            xlWorkSheet.Cells[5 + col * 2][row3 + 6] = sc.ReliefZ;
-                            xlWorkSheet.Cells[5 + col * 2][row3 + 7] = sc.ReliefCpCv;
-                            xlWorkSheet.Cells[3][note1 + ct] = "";
-                            xlWorkSheet.Cells[3][note2 + ct] = "";
-                            xlWorkSheet.Cells[3][note3 + ct] = "";
+                            xlWorkSheet.Cells[5 + col * 2,row3 + 2] = sc.ReliefPressure;
+                            xlWorkSheet.Cells[5 + col * 2,row3 + 3] = sc.ReliefTemperature;
+                            xlWorkSheet.Cells[5 + col * 2,row3 + 4] = sc.ReliefLoad;
+                            xlWorkSheet.Cells[5 + col * 2,row3 + 5] = sc.ReliefMW;
+                            xlWorkSheet.Cells[5 + col * 2,row3 + 6] = sc.ReliefZ;
+                            xlWorkSheet.Cells[5 + col * 2,row3 + 7] = sc.ReliefCpCv;
+                            xlWorkSheet.Cells[3,note1 + ct] = "";
+                            xlWorkSheet.Cells[3,note2 + ct] = "";
+                            xlWorkSheet.Cells[3,note3 + ct] = "";
                         }
 
                         ct++;
@@ -369,17 +368,17 @@ namespace ReliefProMain.ViewModel.Reports
                     }
                     if (count <= 5)
                     {
-                        Microsoft.Office.Interop.Excel.Range r = xlWorkSheet.Range[xlWorkSheet.Cells[2][122], xlWorkSheet.Cells[3][181]];
+                        Microsoft.Office.Interop.Excel.Range r = xlWorkSheet.Range[xlWorkSheet.Cells[2,122], xlWorkSheet.Cells[3,181]];
                         r.UnMerge();
-                        r = xlWorkSheet.Range[xlWorkSheet.Cells[2][122], xlWorkSheet.Cells[14][181]];
+                        r = xlWorkSheet.Range[xlWorkSheet.Cells[2,122], xlWorkSheet.Cells[14,181]];
                         r.Clear();
 
                         Microsoft.Office.Interop.Excel.Shape pic = xlWorkSheet.Shapes.Item(3) as Microsoft.Office.Interop.Excel.Shape;
                         pic.Delete();
 
-                        r = xlWorkSheet.Range[xlWorkSheet.Cells[2][62], xlWorkSheet.Cells[3][121]];
+                        r = xlWorkSheet.Range[xlWorkSheet.Cells[2,62], xlWorkSheet.Cells[3,121]];
                         r.UnMerge();
-                        r = xlWorkSheet.Range[xlWorkSheet.Cells[2][62], xlWorkSheet.Cells[14][121]];
+                        r = xlWorkSheet.Range[xlWorkSheet.Cells[2,62], xlWorkSheet.Cells[14,121]];
                         r.Clear();
 
                         pic = xlWorkSheet.Shapes.Item(2) as Microsoft.Office.Interop.Excel.Shape;
@@ -389,15 +388,15 @@ namespace ReliefProMain.ViewModel.Reports
                     }
                     else if (count <= 10)
                     {
-                        Microsoft.Office.Interop.Excel.Range r = xlWorkSheet.Range[xlWorkSheet.Cells[2][122], xlWorkSheet.Cells[3][181]];
+                        Microsoft.Office.Interop.Excel.Range r = xlWorkSheet.Range[xlWorkSheet.Cells[2,122], xlWorkSheet.Cells[3,181]];
                         r.UnMerge();
-                        r = xlWorkSheet.Range[xlWorkSheet.Cells[2][122], xlWorkSheet.Cells[14][181]];
+                        r = xlWorkSheet.Range[xlWorkSheet.Cells[2,122], xlWorkSheet.Cells[14,181]];
                         r.Clear();
 
                         Microsoft.Office.Interop.Excel.Shape pic = xlWorkSheet.Shapes.Item(3) as Microsoft.Office.Interop.Excel.Shape;
                         pic.Delete();
                     }
-                    Microsoft.Office.Interop.Excel.Range rf = xlWorkSheet.Range[xlWorkSheet.Cells[1][1], xlWorkSheet.Cells[1][1]];
+                    Microsoft.Office.Interop.Excel.Range rf = xlWorkSheet.Range[xlWorkSheet.Cells[1,1], xlWorkSheet.Cells[1,1]];
                     rf.Select();
                     
                     releaseObject(xlWorkSheet);
