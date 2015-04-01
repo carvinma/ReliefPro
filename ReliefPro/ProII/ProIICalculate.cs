@@ -293,9 +293,9 @@ namespace ProII
             Guid guid = Guid.NewGuid();
             string MixName = "Mix_1";
 
-            data2.Append("\tMix UID=").Append(MixName).Append("\n");
+            data2.Append("\tMixer UID=").Append(MixName).Append("\n");
             data2.Append("\t FEED ").Append(feeds.ToUpper()).Append("\n");
-            data2.Append("\t PRODUCT M=").Append(product).Append(",&\n");
+            data2.Append("\t PRODUCT M=").Append(product).Append("\n");
 
             data2.Append("END");
             return data2.ToString();

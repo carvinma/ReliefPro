@@ -45,25 +45,32 @@ namespace ProII
         public List<ProIIEqData> GetAllEqInfo()
         {
             List<ProIIEqData> lst = new List<ProIIEqData>();
-            string action = "GetAllEqInfo2";
-            object objRtn = new object();
-            ExcelMacroHelper.RunExcelMacro(macroFilePath,
-                                                         action,
-                                                        new Object[] { version, przFilePath },
-                                                         out objRtn,
-                                                         false);
-            if (objRtn is Array)
-            {
-                object[] arrEq = (object[])objRtn;
-                foreach (object obj in arrEq)
+            try
+            {               
+                string action = "GetAllEqInfo2";
+                object objRtn = new object();
+                ExcelMacroHelper.RunExcelMacro(macroFilePath,
+                                                             action,
+                                                            new Object[] { version, przFilePath },
+                                                             out objRtn,
+                                                             false);
+                if (objRtn is Array)
                 {
-                    if (obj is Array)
-                    {                      
-                        object[] eq = (object[])obj;
-                        ProIIEqData data = ConvertToProIIEqData(eq);
-                        lst.Add(data);
+                    object[] arrEq = (object[])objRtn;
+                    foreach (object obj in arrEq)
+                    {
+                        if (obj is Array)
+                        {
+                            object[] eq = (object[])obj;
+                            ProIIEqData data = ConvertToProIIEqData(eq);
+                            lst.Add(data);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                string test = ex.ToString();
             }
             return lst;
 
@@ -72,25 +79,32 @@ namespace ProII
         public List<ProIIStreamData> GetAllStreamInfo(int start,int end)
         {
             List<ProIIStreamData> lst = new List<ProIIStreamData>();
-            string action = "GetStreamInfo2";
-            object objRtn = new object();
-            ExcelMacroHelper.RunExcelMacro(macroFilePath,
-                                                         action,
-                                                        new Object[] { version, przFilePath,start,end },
-                                                         out objRtn,
-                                                         false);
-            if (objRtn is Array)
+            try
             {
-                object[] arrStream = (object[])objRtn;
-                foreach (object obj in arrStream)
+                string action = "GetStreamInfo2";
+                object objRtn = new object();
+                ExcelMacroHelper.RunExcelMacro(macroFilePath,
+                                                             action,
+                                                            new Object[] { version, przFilePath, start, end },
+                                                             out objRtn,
+                                                             false);
+                if (objRtn is Array)
                 {
-                    if (obj != null && obj is Array)
+                    object[] arrStream = (object[])objRtn;
+                    foreach (object obj in arrStream)
                     {
-                        object[] ps = (object[])obj;
-                        ProIIStreamData data = ConvertToProIIStreamData(ps);
-                        lst.Add(data);
+                        if (obj != null && obj is Array)
+                        {
+                            object[] ps = (object[])obj;
+                            ProIIStreamData data = ConvertToProIIStreamData(ps);
+                            lst.Add(data);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                string test = ex.ToString();
             }
             return lst;
 
@@ -191,6 +205,12 @@ namespace ProII
                     }
                     if (i < length)
                     {
+                        string criticalunit = lines[i - 3].Trim();
+                        string[] splits = new string[1];
+                        splits[0] = "          ";
+                        string[] arrcriticalunit = criticalunit.Split(splits,StringSplitOptions.None);
+                        string tempunit = arrcriticalunit[0];
+                        string pressunit = arrcriticalunit[1];
                         string criticalinfo = lines[i].Trim();
                         string[] arrcriticalinfo = criticalinfo.Split(' ');
                         int j = 0;
@@ -207,13 +227,13 @@ namespace ProII
                                         arr2[1] = 0;
                                         return data;
                                     }
-                                    arr2[1]=UOMLib.UnitConvert.Convert("F","K",double.Parse(temp));
+                                    arr2[1]=UOMLib.UnitConvert.Convert(tempunit,"K",double.Parse(temp));
                                     j++;
                                 }
                                 else
                                 {
                                     string press = s.Trim();
-                                    arr2[0] = UOMLib.UnitConvert.Convert("PSIG", "KPA", double.Parse(press));
+                                    arr2[0] = UOMLib.UnitConvert.Convert(pressunit, "KPA", double.Parse(press));
                                 }
                             }
                         }
@@ -229,13 +249,13 @@ namespace ProII
                                 if (j == 0)
                                 {
                                     string temp = s.Trim();
-                                    arr2[3] = UOMLib.UnitConvert.Convert("F", "K", double.Parse(temp));
+                                    arr2[3] = UOMLib.UnitConvert.Convert(tempunit, "K", double.Parse(temp));
                                     j++;
                                 }
                                 else
                                 {
                                     string press = s.Trim();
-                                    arr2[2] = UOMLib.UnitConvert.Convert("PSIG", "KPA", double.Parse(press));
+                                    arr2[2] = UOMLib.UnitConvert.Convert(pressunit, "KPA", double.Parse(press));
                                 }
                             }
                         }
@@ -316,7 +336,10 @@ namespace ProII
                         }
                     }
                 }
-                rs = rs.Substring(1);
+                if (rs != string.Empty)
+                {
+                    rs = rs.Substring(1);
+                }
             }
             else if (obj == null)
             {
@@ -408,7 +431,7 @@ namespace ProII
                 data.TempCalc = ObjectToString(eq[5]);
                 data.DutyCalc = ObjectToString(eq[6]);
                 data.Type = ObjectToString(eq[7]);
-                data.ProductStoreData = ObjectToString(eq[8].ToString());
+                data.ProductStoreData = ObjectToString(eq[8]);
 
             }
             else if (eq[0].ToString() == "Hx")
@@ -416,14 +439,15 @@ namespace ProII
                 data.EqType = "Hx";
                 data.EqName = ObjectToString(eq[1]);
                 data.FeedData = ObjectToString(eq[2]);
-                data.DutyCalc = ObjectToString(eq[3]);
-                data.ProductStoreData = ObjectToString(eq[4]);
-                data.LmtdCalc = ObjectToString(eq[5]);
-                data.LmtdFactorCalc = ObjectToString(eq[6]);
-                data.FirstFeed = ObjectToString(eq[7]);
-                data.FirstProduct = ObjectToString(eq[8]);
-                data.LastFeed = ObjectToString(eq[9]);
-                data.LastProduct = ObjectToString(eq[10]);
+                data.ProductData = ObjectToString(eq[3]);
+                data.DutyCalc = ObjectToString(eq[4]);
+                data.ProductStoreData = ObjectToString(eq[5]);
+                data.LmtdCalc = ObjectToString(eq[6]);
+                data.LmtdFactorCalc = ObjectToString(eq[7]);
+                data.FirstFeed = ObjectToString(eq[8]);
+                data.FirstProduct = ObjectToString(eq[9]);
+                data.LastFeed = ObjectToString(eq[10]);
+                data.LastProduct = ObjectToString(eq[11]);
 
             }
             else if (eq[0].ToString() == "Compressor")
@@ -435,7 +459,7 @@ namespace ProII
                 data.ProductStoreData = ObjectToString(eq[4]);
 
             }
-            else if (eq[0] == "Splitter")
+            else if (eq[0].ToString() == "Splitter")
             {
                 data.EqType = "Splitter";
                 data.EqName = ObjectToString(eq[1]);
@@ -443,7 +467,7 @@ namespace ProII
                 data.ProductData = ObjectToString(eq[3]);
 
             }
-            else if (eq[0] == "Mixer")
+            else if (eq[0].ToString() == "Mixer")
             {
                 data.EqType = "Mixer";
                 data.EqName = ObjectToString(eq[1]);
