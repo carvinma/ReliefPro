@@ -11,14 +11,14 @@ namespace ReliefProDAL
     public class LatentDAL : IBaseDAL<Latent>
     {
 
-        public Latent GetModel(ISession session)
+        public Latent GetModel(ISession session,int latentType)
         {
             Latent model = null;
             IList<Latent> list = null;
             try
             {
                 session.Clear();
-                list = session.CreateCriteria<Latent>().List<Latent>();
+                list = session.CreateCriteria<Latent>().Add(Expression.Eq("LatentType", latentType)).List<Latent>();
                 if (list.Count > 0)
                 {
                     model = list[0];
