@@ -406,12 +406,12 @@ namespace ProII
                 data.EqType = ObjectToString(eq[0]);
                 data.EqName = ObjectToString(eq[1]);
                 data.NumberOfTrays = ObjectToString(eq[2]);
-                data.HeaterNames = string.Empty;
-                data.HeaterDuties = string.Empty;
-                data.HeaterNumber = string.Empty;
-                data.HeaterPANumberfo = string.Empty;
-                data.HeaterRegOrPAFlag = string.Empty;
-                data.HeaterTrayLoc = string.Empty;
+                data.HeaterNames = ObjectToString(eq[3]);
+                data.HeaterDuties = ObjectToString(eq[4]);
+                data.HeaterNumber = ObjectToString(eq[5]);
+                data.HeaterPANumberfo = ObjectToString(eq[6]);
+                data.HeaterRegOrPAFlag = ObjectToString(eq[7]);
+                data.HeaterTrayLoc = ObjectToString(eq[8]);
 
                 data.HeaterTrayNumber = ObjectToString(eq[9]);
                 data.ProdType = ObjectToString(eq[10]);
