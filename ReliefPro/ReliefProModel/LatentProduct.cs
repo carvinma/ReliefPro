@@ -37,6 +37,9 @@ namespace ReliefProModel
         public virtual double InertWeightRate { get; set; }
         public virtual string Description { get; set; }
 
+        public virtual int LatentType { get; set; }
+
+
         //color
         public virtual string StreamName_Color { get; set; }
         public virtual string TotalMolarRate_Color { get; set; }
@@ -65,5 +68,8 @@ namespace ReliefProModel
         public virtual string InertWeightEnthalpy_Color { get; set; }
         public virtual string InertWeightRate_Color { get; set; }
         public virtual string Description_Color { get; set; }
+
+
+
     }
 }

@@ -10,6 +10,7 @@
     <property name="ReliefOHWeightFlow" column="ReliefOHWeightFlow" type="Double"  />
     <property name="ReliefCpCv" column="ReliefCpCv" type="Double"  />
     <property name="ReliefZ" column="ReliefZ" type="Double"  />
+    <property name="LatentType" column="LatentType" type="Int32"  />
     
     <property name="LatentEnthalpy_Color" column="LatentEnthalpy_Color" type="String" length="255" />
     <property name="ReliefTemperature_Color" column="ReliefTemperature_Color" type="String" length="255" />

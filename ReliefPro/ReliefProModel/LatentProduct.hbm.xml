@@ -34,6 +34,7 @@
     <property name="InertWeightEnthalpy" column="InertWeightEnthalpy" type="Double"  />
     <property name="InertWeightRate" column="InertWeightRate" type="Double"  />
 
+    <property name="LatentType" column="LatentType" type="Int32"  />
     <!--color-->
     <property name="StreamName_Color" column="StreamName_Color" type="String" length="255" />
     <property name="Pressure_Color" column="pressure_Color" type="String" length="255" />

@@ -25,6 +25,11 @@
     <property name="CricondenbarPress_Color" column="CricondenbarPress_Color" type="String" length="255"  />
     <property name="CricondenbarTemp" column="CricondenbarTemp" type="Double"  />
     <property name="CricondenbarTemp_Color" column="CricondenbarTemp_Color" type="String" length="255"  />
+
+    <property name="LatentMethod" column="LatentMethod" type="String" length="255"  />
+    <property name="LatentMethod_Color" column="LatentMethod_Color" type="String" length="255"  />
+    <property name="LatentStageNumber" column="LatentStageNumber" type="Int32"  />
+    <property name="LatentStageNumber_Color" column="LatentStageNumber_Color" type="String" length="255"  />
     
     <property name="PSVName_Color" column="PSVName_Color" type="String" length="255" />
     <property name="Description_Color" column="Description_Color" type="String" length="255" />

@@ -30,7 +30,12 @@ namespace ReliefProModel
         public virtual double CricondenbarPress { get; set; }
         public virtual string CricondenbarPress_Color { get; set; }
         public virtual double CricondenbarTemp { get; set; }
-        public virtual string CricondenbarTemp_Color { get; set; } 
+        public virtual string CricondenbarTemp_Color { get; set; }
+
+        public virtual string LatentMethod { get; set; }
+        public virtual string LatentMethod_Color { get; set; }
+        public virtual int LatentStageNumber { get; set; }
+        public virtual string LatentStageNumber_Color { get; set; }
 
         //color
         public virtual string PSVName_Color { get; set; }
