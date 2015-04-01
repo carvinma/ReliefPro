@@ -439,7 +439,7 @@ namespace Visio2010
                 if (!string.IsNullOrEmpty(TubeFeedStreams))
                 {
                     string[] arrTubeFeedStreams = TubeFeedStreams.Split(',');
-                    for (int i = 0; i < TubeFeedStreams.Length; i++)
+                    for (int i = 0; i < arrTubeFeedStreams.Length; i++)
                     {
                         if (arrTubeFeedStreams[i] != string.Empty)
                         {
@@ -469,7 +469,7 @@ namespace Visio2010
                 if (!string.IsNullOrEmpty(ShellFeedStreams))
                 {
                     string[] arrShellFeedStreams = ShellFeedStreams.Split(',');
-                    for (int i = 0; i < ShellFeedStreams.Length; i++)
+                    for (int i = 0; i < arrShellFeedStreams.Length; i++)
                     {
                         if (arrShellFeedStreams[i] != string.Empty)
                         {
