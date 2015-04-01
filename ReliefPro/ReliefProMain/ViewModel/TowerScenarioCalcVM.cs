@@ -693,10 +693,14 @@ namespace ReliefProMain.ViewModel
                         CondenserLost = false;
                 }
             }
-            Latent lt=ltdal.GetModel(SessionProtectedSystem);
+
+            int latentType = 0;
+            if (psv.LatentStageNumber > 1)
+                latentType = 1;
+            Latent lt=ltdal.GetModel(SessionProtectedSystem,latentType);
             if (rduty < 0)
             {
-                ReliefMW = lt.ReliefOHWeightFlow;
+                ReliefMW = lt.ReliefWeightFlow;
                 ReliefPressure = lt.ReliefPressure;
                 ReliefTemperature = lt.ReliefTemperature;
                 ReliefCpCv = lt.ReliefCpCv;
@@ -707,7 +711,7 @@ namespace ReliefProMain.ViewModel
             {
                 if (!CondenserLost)
                 {
-                    ReliefMW = lt.ReliefOHWeightFlow;
+                    ReliefMW = lt.ReliefWeightFlow;
                     ReliefPressure = lt.ReliefPressure;
                     ReliefTemperature = lt.ReliefTemperature;
                     ReliefCpCv = lt.ReliefCpCv;
@@ -822,7 +826,11 @@ namespace ReliefProMain.ViewModel
             PSV psv = dbpsv.GetModel(SessionProtectedSystem);
 
             LatentDAL dblatent = new LatentDAL();
-            Latent latent = dblatent.GetModel(SessionProtectedSystem);
+            int latentType = 0;
+            if (psv.LatentStageNumber > 1)
+                latentType = 1;
+            Latent latent = dblatent.GetModel(SessionProtectedSystem, latentType);
+            Latent ohlatent = dblatent.GetModel(SessionProtectedSystem, 0);
 
             HeatSourceDAL hsDAL=new HeatSourceDAL();
             FeedBottomHXDAL feedBottomHXDAL = new ReliefProDAL.FeedBottomHXDAL();
@@ -1002,10 +1010,10 @@ namespace ReliefProMain.ViewModel
             reliefLoad = wRelief + waterWeightFlow;
             if (isAddOffGas)
                 reliefLoad = reliefLoad + offGasWeightFlow;
-            double r= wRelief / latent.ReliefOHWeightFlow + waterWeightFlow / 18;
+            double r= wRelief / (latent.ReliefWeightFlow + waterWeightFlow / 18);
             if (r == 0)
             {
-                reliefMW = latent.ReliefOHWeightFlow;
+                reliefMW = latent.ReliefWeightFlow;
             }
             else
             {
@@ -1047,7 +1055,12 @@ namespace ReliefProMain.ViewModel
             double offGasWeightFlow = 0;// (prodtype==1 && tray==1 ) || prodtype==3; 泄放量
             TowerScenarioStream offGasStream = null;
             LatentDAL dblatent = new LatentDAL();
-            Latent latent = dblatent.GetModel(SessionProtectedSystem);
+
+            int latentType = 0;
+            if (psv.LatentStageNumber > 1)
+                latentType = 1;
+            Latent latent = dblatent.GetModel(SessionProtectedSystem,latentType);
+            Latent ohlatent = dblatent.GetModel(SessionProtectedSystem,0);
 
             CustomStreamDAL dbCS = new CustomStreamDAL();
             TowerScenarioStreamDAL db = new TowerScenarioStreamDAL();
@@ -1217,10 +1230,10 @@ namespace ReliefProMain.ViewModel
             reliefLoad = wRelief + waterWeightFlow;
             if (isAddOffGas)
                 reliefLoad = reliefLoad + offGasWeightFlow;
-            double r = wRelief / latent.ReliefOHWeightFlow + waterWeightFlow / 18;
+            double r = wRelief / (latent.ReliefWeightFlow + waterWeightFlow / 18);
             if (r == 0)
             {
-                reliefMW = latent.ReliefOHWeightFlow;
+                reliefMW = latent.ReliefWeightFlow;
             }
             else
             {

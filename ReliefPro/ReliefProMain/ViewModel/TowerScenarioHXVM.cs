@@ -229,7 +229,10 @@ namespace ReliefProMain.ViewModel
 
 
         private void CalculateSurgeTime(object win)
-        {            
+        {
+            PSVDAL psvdal = new PSVDAL();
+            PSV psv = psvdal.GetModel(SessionProtectedSystem);
+            int latentType = 0;
             AccumulatorDAL dbaccumulator = new AccumulatorDAL();
             CurrentAccumulator = dbaccumulator.GetModel(SessionProtectedSystem);
             
@@ -255,7 +258,11 @@ namespace ReliefProMain.ViewModel
              
             double density = GetLatentLiquidDensity(SessionProtectedSystem);
             double totalCondenserDuty = Math.Abs(ScenarioCondenserDuty);
-            double latent = GetLatent(SessionProtectedSystem);
+
+            
+            if (psv.LatentStageNumber > 1)
+                latentType = 1;
+            double latent = GetLatent(SessionProtectedSystem, latentType);
             double volumeflowrate = totalCondenserDuty / latent / density;
             double totalVolumeticFlowRate = volumeflowrate - refluxFlow * refluxFlowStops - ohProductFlow * ohProductFlowStops;
             double accumulatorTotalVolume = 0;
@@ -327,11 +334,11 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private double GetLatent(NHibernate.ISession Session)
+        private double GetLatent(NHibernate.ISession Session,int LatentType)
         {
             double r=0;
             LatentDAL db = new LatentDAL();
-            Latent model=db.GetModel(Session);
+            Latent model = db.GetModel(Session, LatentType);
             if (model != null)
             {
                 r = model.LatentEnthalpy;

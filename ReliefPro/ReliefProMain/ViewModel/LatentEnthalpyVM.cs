@@ -26,112 +26,11 @@ namespace ReliefProMain.ViewModel
 {
     public class LatentEnthalpyVM : ViewModelBase
     {
-        public ISession SessionPlant { set; get; }
-        public ISession SessionProtectedSystem { set; get; }
-        public string DirPlant { set; get; }
-        public string DirProtectedSystem { set; get; }
-        public SourceFile SourceFileInfo { set; get; }
-        public string SourceFileName { set; get; }
-        private string _TowerName;
-        public string TowerName
-        {
-            get
-            {
-                return this._TowerName;
-            }
-            set
-            {
-                this._TowerName = value;
-                OnPropertyChanged("TowerName");
-            }
-        }
-        private string _TowerType;
-        public string TowerType
-        {
-            get
-            {
-                return this._TowerType;
-            }
-            set
-            {
-                this._TowerType = value;
-                TowerType_Color = ColorBorder.blue.ToString();
-                OnPropertyChanged("TowerType");
-            }
-        }
-        private string _TowerType_Color;
-        public string TowerType_Color
-        {
-            get
-            {
-                return this._TowerType_Color;
-            }
-            set
-            {
-                this._TowerType_Color = value;
-                OnPropertyChanged("TowerType_Color");
-            }
-        }
-        private string _Desciption;
-        public string Desciption
-        {
-            get
-            {
-                return this._Desciption;
-            }
-            set
-            {
-                this._Desciption = value;
-                OnPropertyChanged("Desciption");
-            }
-        }
-        private int _StageNumber;
-        public int StageNumber
-        {
-            get
-            {
-                return this._StageNumber;
-            }
-            set
-            {
-                this._StageNumber = value;
-                OnPropertyChanged("StageNumber");
-            }
-        }
-        private ObservableCollection<string> _TowerTypes;
-        public ObservableCollection<string> TowerTypes
-        {
-            get
-            {
-                return this._TowerTypes;
-            }
-            set
-            {
-                this._TowerTypes = value;
-                OnPropertyChanged("TowerTypes");
-            }
-        }
+       
+        public List<string> ListMethodName { get; set; }
+        public List<int> ListStageNumber { get; set; }
 
-        private string _ColorImport;
-        public string ColorImport
-        {
-            get
-            {
-                return this._ColorImport;
-            }
-            set
-            {
-                this._ColorImport = value;
-                OnPropertyChanged("ColorImport");
-            }
-        }
-
-
-
-        public List<string> listMethodName { get; set; }
-        public List<int> listStageNumber { get; set; }
-
-        private string selectedMethodName = "100-30-30";
+        private string selectedMethodName = "Dew point";
         public string SelectedMethodName
         {
             get { return selectedMethodName; }
@@ -142,7 +41,7 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private int? selectedStageNumber;
+        private int? selectedStageNumber=1;
         public int? SelectedStageNumber
         {
             get { return selectedStageNumber; }
@@ -154,40 +53,11 @@ namespace ReliefProMain.ViewModel
         }
 
         public UOMLib.UOMEnum uomEnum { get; set; }
-
-        TowerDAL dbtower;
-        Tower tower;
-        int op = 1;
-        public LatentEnthalpyVM(string towerName, ISession sessionPlant, ISession sessionProtectedSystem, string dirPlant, string dirProtectedSystem)
+       
+        public LatentEnthalpyVM(int stageNumber)
         {
-            listMethodName = new List<string> { "Dew point", "Bubble point", "5% mol"};
-          
-            SessionPlant = sessionPlant;
-            SessionProtectedSystem = sessionProtectedSystem;
-            uomEnum = UOMSingle.UomEnums.FirstOrDefault(p => p.SessionPlant == this.SessionPlant);
-            ColorImport = "Gray";
-
-            DirPlant = dirPlant;
-            DirProtectedSystem = dirProtectedSystem;
-            TowerName = towerName;
-            TowerTypes = GetTowerTypes();
-            TowerType = TowerTypes[0];
-            if (!string.IsNullOrEmpty(TowerName))
-            {
-                dbtower = new TowerDAL();
-                tower = dbtower.GetModel(SessionProtectedSystem);
-                TowerName = tower.TowerName;
-                TowerType = tower.TowerType;
-                Desciption = tower.Description;
-                StageNumber = tower.StageNumber;
-                if (tower.StageNumber > 0)
-                {
-                    //是从１到塔的总层数。　　塔的总层数，可以从从tbtower表里获取
-                    listStageNumber.AddRange(Enumerable.Range(1, tower.StageNumber));
-                }
-                TowerType = tower.TowerType;
-                TowerType_Color = tower.TowerType_Color;
-            }
+            ListMethodName = new List<string> { "Dew point", "Bubble point", "5% mol"};
+            ListStageNumber.AddRange(Enumerable.Range(1, stageNumber));           
         }
 
          private ICommand _SaveCommand;

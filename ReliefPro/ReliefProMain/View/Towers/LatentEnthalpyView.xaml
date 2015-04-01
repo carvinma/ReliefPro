@@ -33,9 +33,9 @@
                         <Label Content="{DynamicResource LatentEnthalpyViewMethodName}" Grid.Row="1" Grid.Column="0"/>
                         <Label Content="{DynamicResource LatentEnthalpyViewStageNumber}" Grid.Row="2" Grid.Column="0"/>
 
-                        <ComboBox  ItemsSource="{Binding listMethodName, Mode=OneWay}" 
+                        <ComboBox  ItemsSource="{Binding ListMethodName, Mode=OneWay}" 
 						SelectedItem="{Binding SelectedMethodName,Mode=TwoWay}" Grid.Column="1"  Grid.Row="1" Width="120"/>
-                        <ComboBox  ItemsSource="{Binding lstHeatInputModel, Mode=OneWay}" 
+                        <ComboBox  ItemsSource="{Binding LstStageNumber, Mode=OneWay}" 
 						SelectedItem="{Binding SelectedStageNumber,Mode=TwoWay}" Grid.Column="1"  Grid.Row="2" Width="120" />
                         
                     </Grid>

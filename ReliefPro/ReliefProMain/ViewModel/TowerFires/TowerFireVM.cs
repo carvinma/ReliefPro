@@ -110,7 +110,7 @@ namespace ReliefProMain.ViewModel.TowerFires
             if (TowerInfo.TowerType == "Distillation")
             {
                 LatentDAL dblatent = new LatentDAL();
-                latent = dblatent.GetModel(SessionProtectedSystem);
+                latent = dblatent.GetModel(SessionProtectedSystem,2);
             }
             else if (TowerInfo.TowerType == "Absorber")
             {
@@ -563,8 +563,6 @@ namespace ReliefProMain.ViewModel.TowerFires
 
         private Latent GetAbsorberFireLatent()
         {
-
-
             Latent lt = new Latent();
             PSVDAL psvDAL = new PSVDAL();
             PSV psv = psvDAL.GetModel(SessionProtectedSystem);
@@ -589,7 +587,6 @@ namespace ReliefProMain.ViewModel.TowerFires
             ProIIStreamData proIITray1StreamData = reader.CopyStreamInfo(EqName, TowerInfo.StageNumber, 2, 1);
 
             CustomStream stream = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
-
 
             string gd = Guid.NewGuid().ToString();
             string vapor = "S_" + gd.Substring(0, 5).ToUpper();

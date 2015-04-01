@@ -84,7 +84,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Content="{DynamicResource PSVLatentEnthalpy}"   Command="{Binding LatentEnthalpyCommand}" CommandParameter="{Binding ElementName= myWindow}" Grid.Column="0" />
+            <Button Content="{DynamicResource PSVLatentEnthalpy}"   Command="{Binding LatentEnthalpyCommand}" CommandParameter="{Binding ElementName= myWindow}" Grid.Column="0" Visibility="{Binding BtnLatentEnthalpyVisible,Mode=TwoWay}" />
             <Button Content="{DynamicResource OK}"     Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName= myWindow}" Grid.Column="1" />
             <Button Content="{DynamicResource Cancel}" IsCancel="True"   Grid.Row="7"    Grid.Column="2" />
 

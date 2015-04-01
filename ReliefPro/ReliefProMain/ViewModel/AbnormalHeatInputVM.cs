@@ -201,10 +201,14 @@ namespace ReliefProMain.ViewModel
             double ProductTotal = 0;
             double HeatTotal = 0;
 
-            PSV psv = this.psvDAL.GetModel(SessionProtectedSystem);
-
+            PSVDAL psvdal = new PSVDAL();
+            PSV psv = psvdal.GetModel(SessionProtectedSystem);
+            int latentType = 0;
+            if (psv.LatentStageNumber > 1)
+                latentType = 1;
             LatentDAL dblatent = new LatentDAL();
-            Latent latent = dblatent.GetModel(SessionProtectedSystem);
+            Latent latent = dblatent.GetModel(SessionProtectedSystem, latentType);
+            Latent ohlatent = dblatent.GetModel(SessionProtectedSystem, 0);
 
             CustomStreamDAL dbCS = new CustomStreamDAL();
             TowerScenarioStreamDAL db = new TowerScenarioStreamDAL();
@@ -264,7 +268,7 @@ namespace ReliefProMain.ViewModel
                 wRelief = 0;
             }
             double reliefLoad = wAccumulation + waterWeightFlow;
-            double reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / latent.ReliefOHWeightFlow + waterWeightFlow / 18);
+            double reliefMW = (wAccumulation + waterWeightFlow) / (wAccumulation / latent.ReliefWeightFlow + waterWeightFlow / 18);
             ReliefTemperature = latent.ReliefTemperature;
             ReliefPressure = latent.ReliefPressure;
             if (reliefLoad < 0)

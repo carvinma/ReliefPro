@@ -70,6 +70,16 @@ namespace ReliefProMain.ViewModel
                 OnPropertyChanged("ReflexDrumVisible");
             }
         }
+        private string _BtnLatentEnthalpyVisible;
+        public string BtnLatentEnthalpyVisible
+        {
+            get { return _BtnLatentEnthalpyVisible; }
+            set
+            {
+                _BtnLatentEnthalpyVisible = value;
+                OnPropertyChanged("BtnLatentEnthalpyVisible");
+            }
+        }
         public ObservableCollection<string> ValveTypes { get; set; }
         public PSVModel CurrentModel { get; set; }
         public ObservableCollection<string> DischargeTos { get; set; }
@@ -574,7 +584,7 @@ namespace ReliefProMain.ViewModel
 
             string copyFile = dirCopyStream + @"\" + SourceFileInfo.FileName;
             File.Copy(FileFullPath, copyFile, true);
-            CustomStream stream = CopyTop1Liquid(copyFile);
+            CustomStream stream = this.CopyTowerStreamInfo(copyFile,1);
 
             SplashScreenManager.SentMsgToScreen("Creating PSV... 30%");
             double internPressure = UnitConvert.Convert("MPAG", "KPA", stream.Pressure);
@@ -957,7 +967,7 @@ namespace ReliefProMain.ViewModel
         /// </summary>
         /// <param name="copyPrzFile"></param>
         /// <returns></returns>
-        private CustomStream CopyTop1Liquid(string copyPrzFile)
+        private CustomStream CopyTowerStreamInfo(string copyPrzFile, int tray)
         {
             CustomStream cs = new CustomStream();
             //IProIIReader reader = ProIIFactory.CreateReader(SourceFileInfo.FileVersion);
@@ -965,7 +975,7 @@ namespace ReliefProMain.ViewModel
             //ProIIStreamData proIITray1StreamData = reader.CopyStream(EqName, 1, 2, 1);
             //reader.ReleaseProIIReader();
             ProIIReader reader = new ProIIReader(SourceFileInfo.FileVersion, copyPrzFile);
-            ProIIStreamData proIITray1StreamData = reader.CopyStreamInfo(EqName, 1, 2, 1);
+            ProIIStreamData proIITray1StreamData = reader.CopyStreamInfo(EqName, tray, 2, 1);
             cs = ProIIToDefault.ConvertProIIStreamToCustomStream(proIITray1StreamData);
             return cs;
         }
@@ -1111,7 +1121,7 @@ namespace ReliefProMain.ViewModel
                     latent = new Latent();
                     latent.LatentEnthalpy = latentVapor.SpEnthalpy - latentLiquid.SpEnthalpy; ;
                     latent.ReliefTemperature = latentVapor.Temperature;
-                    latent.ReliefOHWeightFlow = latentVapor.BulkMwOfPhase;
+                    latent.ReliefWeightFlow = latentVapor.BulkMwOfPhase;
                     latent.ReliefPressure = UnitConvert.Convert(CurrentModel.PSVPressureUnit, UOMEnum.Pressure, CurrentModel.Pressure) * CurrentModel.ReliefPressureFactor;
                     latent.ReliefCpCv = latentVapor.BulkCPCVRatio;
                     latent.ReliefZ = latentVapor.VaporZFmKVal;
@@ -1166,7 +1176,7 @@ namespace ReliefProMain.ViewModel
                 latent = new Latent();
                 latent.LatentEnthalpy = 46;
                 latent.ReliefTemperature = stream.Temperature;
-                latent.ReliefOHWeightFlow = stream.BulkMwOfPhase;
+                latent.ReliefWeightFlow = stream.BulkMwOfPhase;
                 latent.ReliefPressure = ReliefPressure;
                 latent.ReliefCpCv = stream.BulkCPCVRatio;
                 latent.ReliefZ = stream.VaporZFmKVal;
@@ -1217,7 +1227,7 @@ namespace ReliefProMain.ViewModel
                     latent = new Latent();
                     latent.LatentEnthalpy = CriticalLatent;
                     latent.ReliefTemperature = ReliefTemperature;
-                    latent.ReliefOHWeightFlow = csVapor.BulkMwOfPhase;
+                    latent.ReliefWeightFlow = csVapor.BulkMwOfPhase;
                     latent.ReliefPressure = ReliefPressure;
                     latent.ReliefCpCv = csVapor.BulkCPCVRatio;
                     latent.ReliefZ = csVapor.VaporZFmKVal;
@@ -1248,19 +1258,21 @@ namespace ReliefProMain.ViewModel
         {
             try
             {
-                //LatentEnthalpyView v = new LatentEnthalpyView();
-                //LatentEnthalpyVM vm = new LatentEnthalpyVM();
-                //v.DataContext = vm;
-                //bool? reslut = v.ShowDialog();
-                //if (reslut.HasValue && reslut.Value)
-                //{
-                //}
+                TowerDAL towerdal = new TowerDAL();
+                Tower tower = towerdal.GetModel(SessionProtectedSystem);
+                LatentEnthalpyView v = new LatentEnthalpyView();
+                LatentEnthalpyVM vm = new LatentEnthalpyVM(tower.StageNumber);
+                v.DataContext = vm;
+                bool? reslut = v.ShowDialog();
+                if (reslut.HasValue && reslut.Value)
+                {
+                }
 
-                //System.Windows.Window wd = window as System.Windows.Window;
-                //if (wd != null)
-                //{
-                //    wd.DialogResult = true;
-                //}
+                System.Windows.Window wd = window as System.Windows.Window;
+                if (wd != null)
+                {
+                    wd.DialogResult = true;
+                }
 
             }
             catch (Exception ex)
