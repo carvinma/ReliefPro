@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.IO.Packaging;
+using System.Web;
 
 namespace ReliefProMain.Common
 {
@@ -61,7 +62,7 @@ namespace ReliefProMain.Common
         }
         private void ExtractPart(PackagePart packagePart, string targetDirectory, bool overrideExisting)
         {
-            string stringPart = targetDirectory +packagePart.Uri.ToString().Replace('\\', '/');
+            string stringPart = targetDirectory + HttpUtility.UrlDecode(packagePart.Uri.ToString().Replace('\\', '/');
 
             if (!Directory.Exists(Path.GetDirectoryName(stringPart)))
                 Directory.CreateDirectory(Path.GetDirectoryName(stringPart));
@@ -77,7 +78,7 @@ namespace ReliefProMain.Common
         {
             foreach (FileInfo fi in di.GetFiles())
             {
-                string relivatePath = fi.FullName.Replace(SourceFolderPath, string.Empty);
+                string relivatePath =HttpUtility.UrlEncode(fi.FullName.Replace(SourceFolderPath, string.Empty));
                 relivatePath = relivatePath.Replace("\\","/");
 
                 PackagePart part = package.CreatePart(new Uri(relivatePath, UriKind.Relative), "application/x-zip-compressed", CompressionOption.Maximum);
