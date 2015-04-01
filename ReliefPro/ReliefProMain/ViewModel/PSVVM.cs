@@ -1248,19 +1248,19 @@ namespace ReliefProMain.ViewModel
         {
             try
             {
-                LatentEnthalpyView v = new LatentEnthalpyView();
-                LatentEnthalpyVM vm = new LatentEnthalpyVM();
-                v.DataContext = vm;
-                bool? reslut = v.ShowDialog();
-                if (reslut.HasValue && reslut.Value)
-                {
-                }
+                //LatentEnthalpyView v = new LatentEnthalpyView();
+                //LatentEnthalpyVM vm = new LatentEnthalpyVM();
+                //v.DataContext = vm;
+                //bool? reslut = v.ShowDialog();
+                //if (reslut.HasValue && reslut.Value)
+                //{
+                //}
 
-                System.Windows.Window wd = window as System.Windows.Window;
-                if (wd != null)
-                {
-                    wd.DialogResult = true;
-                }
+                //System.Windows.Window wd = window as System.Windows.Window;
+                //if (wd != null)
+                //{
+                //    wd.DialogResult = true;
+                //}
 
             }
             catch (Exception ex)

@@ -97,7 +97,7 @@ namespace ReliefProMain.View
                     btnImport.BorderThickness = new Thickness(2, 2, 2, 2);
                     return;
                 }
-                
+
                 FileNameNoExt = System.IO.Path.GetFileNameWithoutExtension(selectedFile);
                 string dir = dirInfo + @"\" + FileNameNoExt;
                 if (Directory.Exists(dir))
@@ -123,14 +123,14 @@ namespace ReliefProMain.View
                     ProIIReader reader = new ProIIReader(version, curprzFile);
                     try
                     {
-                        int[] arrEqStream = reader.GetAllCount();                      
-                        total = arrEqStream[0]+arrEqStream[1];
+                        int[] arrEqStream = reader.GetAllCount();
+                        total = arrEqStream[0] + arrEqStream[1];
                         //SplashScreenManager.Show(total);
 
                         SplashScreenManager.SentMsgToScreen("Importing data...... 20%");
-                        List<ProIIEqData> eqListData= reader.GetAllEqInfo();
+                        List<ProIIEqData> eqListData = reader.GetAllEqInfo();
                         SplashScreenManager.SentMsgToScreen("Importing data...... 40%");
-                        List<ProIIStreamData> streamListData = reader.GetAllStreamInfo(0,arrEqStream[1]);
+                        List<ProIIStreamData> streamListData = reader.GetAllStreamInfo(0, arrEqStream[1]);
                         SplashScreenManager.SentMsgToScreen("Importing data...... 60%");
                         //for (int i = 1; i <= eqList.Count; i++)
                         //{
@@ -139,7 +139,7 @@ namespace ReliefProMain.View
                         //    int percents = (i * 100) / total;
                         //    SplashScreenManager.SentMsgToScreen("Importing " + percents.ToString() + "%");
                         //}
-                        
+
                         //Task task1 = new Task(delegate() { Run(reader1, streamList1, streamListData1, 1, test); });
                         //task1.Start();
                         SourceFile df = new SourceFile();
@@ -213,15 +213,15 @@ namespace ReliefProMain.View
             dal = new SourceFileDAL();
         }
 
-        
+
         int StreamCount = 0;
         int streamCountIndex = 0;
         int eqCount = 0;
         int total = 0;
         ArrayList list = new ArrayList();
         IList<ProIIEqData> eqList = new List<ProIIEqData>();
-        IList<string> streamList = new List<string>();        
-        
+        IList<string> streamList = new List<string>();
+
 
         /// <summary>     /// 共同做的工作     /// </summary>     
         private void Run(IProIIReader r, IList<string> strList, IList<ProIIStreamData> list, int start, int end)
@@ -246,50 +246,12 @@ namespace ReliefProMain.View
 
         }
 
-        
+
         private void MetroWindow_Closing_1(object sender, CancelEventArgs e)
         {
 
         }
 
 
-        private void ReadData(string version,string przFile)
-        {
-            object objRtn=new object();
-            ExcelMacroHelper.RunExcelMacro(@"Template\macro.xls",
-                                                         "GetAllCount",
-                                                        new Object[] { version, przFile },
-                                                         out objRtn,
-                                                         false);
-
-            int[] counts = new int[2];
-            counts = (int[])objRtn;
-
-            SplashScreenManager.Show(counts[0]+counts[1]);
-
-            ExcelMacroHelper.RunExcelMacro(@"Template\macro.xls",
-                                                         "GetAllEqInfo",
-                                                        new Object[] { version, przFile },
-                                                         out objRtn,
-                                                         false);
-
-
-            ExcelMacroHelper.RunExcelMacro(@"Template\macro.xls",
-                                                         "GetAllCount",
-                                                        new Object[] { version, przFile },
-                                                         out objRtn,
-                                                         false);
-
-            ExcelMacroHelper.RunExcelMacro(@"Template\macro.xls",
-                                                         "GetStreamInfo2",
-                                                        new Object[] { version, przFile,0,counts[1] },
-                                                         out objRtn,
-                                                         false);
-
-
-
-
-            SplashScreenManager.Close();
-        }
     }
 }

@@ -1439,7 +1439,7 @@ namespace ReliefProMain.ViewModel.ReactorLoops
             string[] PrintNumbers = PrintNumber.Split(',');
             StringBuilder sbCom = new StringBuilder();
             string[] Componentids = Componentid.Split(',');
-            string[] CompIns = CompIn.Split(',');
+            //string[] CompIns = CompIn.Split(',');
             int comCount = coms.Length;
             for (int i = 0; i < comCount; i++)
             {
