@@ -78,7 +78,7 @@ namespace ReliefProMain.Common
         {
             foreach (FileInfo fi in di.GetFiles())
             {
-                string relivatePath =HttpUtility.UrlEncode(fi.FullName.Replace(SourceFolderPath, string.Empty));
+                string relivatePath =fi.FullName.Replace(SourceFolderPath, string.Empty);
                 relivatePath = relivatePath.Replace("\\","/");
 
                 PackagePart part = package.CreatePart(new Uri(HttpUtility.UrlPathEncode(relivatePath), UriKind.Relative), "application/x-zip-compressed", CompressionOption.Maximum);
