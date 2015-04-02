@@ -103,7 +103,7 @@ namespace ReliefProMain.ViewModel
             {
                 if (_LatentEnthalpyCommand == null)
                 {
-                    _LatentEnthalpyCommand = new RelayCommand(CalcLatentEnthalpy);
+                    _LatentEnthalpyCommand = new RelayCommand(SetLatentEnthalpyMethod);
 
                 }
                 return _LatentEnthalpyCommand;
@@ -1277,7 +1277,7 @@ namespace ReliefProMain.ViewModel
         }
 
 
-        private void CalcLatentEnthalpy(object window)
+        private void SetLatentEnthalpyMethod(object window)
         {
             try
             {
@@ -1332,6 +1332,38 @@ namespace ReliefProMain.ViewModel
 
         }
 
+
+
+
+        #region 当用户额外设置Latent Enthalpy 时，做第一层塔盘（OverHead）的临界压力和蒸发焓，以及产品的闪蒸
+
+        private void CalcFirstTrayData()
+        {
+
+        }
+        
+              
+        private CustomStream CopyTowerTrayFirstStream(string proiiFilePath,string tempdir)
+        {
+            string dirCopyStream = tempdir + "CopyStream1";
+            if (Directory.Exists(dirCopyStream))
+            {
+                Directory.Delete(dirCopyStream, true);
+            }
+            Directory.CreateDirectory(dirCopyStream);
+
+            string destFile = dirCopyStream + @"\" + SourceFileInfo.FileName;
+            File.Copy(proiiFilePath, destFile, true);
+            CustomStream stream = this.CopyTowerStreamInfo(destFile, 1);
+            return stream;
+        }
+
+
+
+
+
+
+        #endregion
 
     }
 }
