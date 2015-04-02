@@ -19,37 +19,45 @@ namespace ReliefProMain.View.Common
     public partial class PsvWaitingDlg : Window
     {
         private readonly LongTimeTaskAbc m_task;
+        private readonly List<string> m_lstCalcInfo;
         public PsvWaitingDlg()
         {
             InitializeComponent();
         }
-        public PsvWaitingDlg(LongTimeTaskAbc task)
+        public PsvWaitingDlg(LongTimeTaskAbc task, List<string> lstCalcInfo)
         {
             m_task = task;
+            m_lstCalcInfo = lstCalcInfo;
             InitializeComponent();
         }
-        public void Calc1(string str)
+        public void Show1(double value)
         {
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                this.tbPrompt1.Text = str;
+                this.progress1.Value = value;
             }));
         }
-        public void Calc2(string str)
+        public void Show2(double value)
         {
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                this.tbPrompt2.Text = str;
+                this.progress2.Value = value;
             }));
         }
-        public void Calc3(string str)
+        public void Show3(double value)
         {
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                this.tbPrompt3.Text = str;
+                this.progress3.Value = value;
             }));
         }
-       
+        public void Show4(double value)
+        {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                this.progress4.Value = value;
+            }));
+        }
 
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {

@@ -95,12 +95,16 @@ namespace ReliefProMain
 
         private void Calcing()
         {
-            m_dlgWaiting.Calc1("1000000");
+            //lll
+            m_dlgWaiting.Show1(10);
+            //222
             Thread.Sleep(2000);
-            m_dlgWaiting.Calc2("2000000");
+            m_dlgWaiting.Show2(10);
             Thread.Sleep(2000);
-            m_dlgWaiting.Calc3("3000000");
+            m_dlgWaiting.Show3(10);
             Thread.Sleep(2000);
         }
+
+
     }
 }

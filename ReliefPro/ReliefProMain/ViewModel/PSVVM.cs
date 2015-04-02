@@ -340,7 +340,8 @@ namespace ReliefProMain.ViewModel
 
         private void Save(object window)
         {
-            PsvWaitingDlg dlg = new PsvWaitingDlg(new LongTimeTaskAbc());
+            List<string> lstCalcInfo = new List<string>() { "1","2","3","4"};
+            PsvWaitingDlg dlg = new PsvWaitingDlg(new LongTimeTaskAbc(), lstCalcInfo);
             dlg.Owner = (System.Windows.Window)(window);
             dlg.ShowInTaskbar = false;
             dlg.ShowDialog();
