@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReliefProMain.View.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -76,6 +77,30 @@ namespace ReliefProMain
 
                 }));
             }
+        }
+    }
+
+
+    public class LongTimeTaskAbc 
+    {
+        private Thread m_threadWorking;
+        private PsvWaitingDlg m_dlgWaiting;
+
+        public void Start(PsvWaitingDlg dlg)
+        {
+            m_dlgWaiting = dlg;
+            m_threadWorking = new Thread(Calcing);
+            m_threadWorking.Start();
+        }
+
+        private void Calcing()
+        {
+            m_dlgWaiting.Calc1("1000000");
+            Thread.Sleep(2000);
+            m_dlgWaiting.Calc2("2000000");
+            Thread.Sleep(2000);
+            m_dlgWaiting.Calc3("3000000");
+            Thread.Sleep(2000);
         }
     }
 }

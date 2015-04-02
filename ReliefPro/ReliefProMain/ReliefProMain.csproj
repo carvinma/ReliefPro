@@ -173,6 +173,9 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WpfAnimatedGif">
+      <HintPath>D:\chromeDownload\WaitingDemo\bin\Debug\WpfAnimatedGif.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock, Version=2.0.2000.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Xceed.Wpf.AvalonDock.dll</HintPath>
@@ -361,6 +364,9 @@
     </Compile>
     <Compile Include="View\Common\HeatSourceListView.xaml.cs">
       <DependentUpon>HeatSourceListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Common\PsvWaitingDlg.xaml.cs">
+      <DependentUpon>PsvWaitingDlg.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Common\SinkView.xaml.cs">
       <DependentUpon>SinkView.xaml</DependentUpon>
@@ -624,11 +630,16 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Common\PsvWaitingDlg.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Towers\LatentEnthalpyView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Resource Include="app.ico" />
+    <Resource Include="Images\loading.gif" />
     <Content Include="Images\report.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
