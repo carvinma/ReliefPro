@@ -70,8 +70,8 @@ namespace ReliefProMain.ViewModel
         {
             if (MessageBox.Show("Are you sure you want to delete?", "Delete Bassic Unit", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
-                var tmpContext = UOMSingle.currentPlantContext;
-                UOMSingle.currentPlantContext = UOMSingle.templatePlantContext;//模板增加数据
+                var tmpContext = UOMSingle.currentPlant.DataContext;
+                UOMSingle.currentPlant.DataContext = UOMSingle.templatePlantContext;//模板增加数据
                 unitInfo.BasicUnitDel(model.BasicUnitselectLocation);
                 model.ObBasicUnit.Remove(model.BasicUnitselectLocation);
                 var findDefalut= model.ObBasicUnit.Where(p=>p.IsDefault==1);
@@ -87,7 +87,7 @@ namespace ReliefProMain.ViewModel
                     model.BasicUnitselectLocation = findDefalut.First();
                     UOMSingle.BaseUnitSelectedID = model.BasicUnitselectLocation.Id;
                 }
-                UOMSingle.currentPlantContext = tmpContext;
+                UOMSingle.currentPlant.DataContext = tmpContext;
                 MessageBox.Show("Delete Successful!");
             }
         }
@@ -102,10 +102,10 @@ namespace ReliefProMain.ViewModel
                 }
               
                 //unitInfo.BasicUnitSetDefault(id);
-                var tmpContext = UOMSingle.currentPlantContext;
-                UOMSingle.currentPlantContext = UOMSingle.templatePlantContext;//模板增加数据
+                var tmpDataContext = UOMSingle.currentPlant.DataContext;
+                UOMSingle.currentPlant.DataContext = UOMSingle.templatePlantContext;//模板增加数据
                 unitInfo.BasicUnitSetDefault(id);
-                UOMSingle.currentPlantContext = tmpContext;
+                UOMSingle.currentPlant.DataContext = tmpDataContext;
 
                 MessageBox.Show("Set Successful!");
             }
@@ -123,8 +123,8 @@ namespace ReliefProMain.ViewModel
                 item.Id = 0;
                 item.UnitName = basicUnitInfo.BasicNewName;
                 item.IsDefault = 0;
-                var tmpContext = UOMSingle.currentPlantContext;
-                UOMSingle.currentPlantContext = UOMSingle.templatePlantContext;//模板增加数据
+                var tmpContext = UOMSingle.currentPlant.DataContext;
+                UOMSingle.currentPlant.DataContext = UOMSingle.templatePlantContext;//模板增加数据
                 int basicUnitID = unitInfo.BasicUnitAdd(item);
                 if (basicUnitID > 0)
                 {
@@ -144,7 +144,7 @@ namespace ReliefProMain.ViewModel
                     uomEnumBasic = new UOMEnum();
                     UOMSingle.plantsInfo.First(p => p.Id == 0).UnitInfo = uomEnumBasic;
                 }
-                UOMSingle.currentPlantContext = tmpContext;
+                UOMSingle.currentPlant.DataContext = tmpContext;
             }
         }
         private int GetUnit(int unitTypeid, int basicid)
