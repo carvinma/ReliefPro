@@ -26,9 +26,16 @@ namespace ReliefProMain.View.Common
         }
         public PsvWaitingDlg(LongTimeTaskAbc task, List<string> lstCalcInfo)
         {
+            InitializeComponent();
             m_task = task;
             m_lstCalcInfo = lstCalcInfo;
-            InitializeComponent();
+            if (m_lstCalcInfo.Count==4)
+            {
+                this.progressInfo1.Content = m_lstCalcInfo[0];
+                this.progressInfo2.Content = m_lstCalcInfo[1];
+                this.progressInfo3.Content = m_lstCalcInfo[2];
+                this.progressInfo4.Content = m_lstCalcInfo[3];
+            }
         }
         public void Show1(double value)
         {
