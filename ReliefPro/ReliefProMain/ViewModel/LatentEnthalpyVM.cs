@@ -41,8 +41,8 @@ namespace ReliefProMain.ViewModel
             }
         }
 
-        private int? selectedStageNumber=1;
-        public int? SelectedStageNumber
+        private int selectedStageNumber=1;
+        public int SelectedStageNumber
         {
             get { return selectedStageNumber; }
             set
@@ -56,29 +56,34 @@ namespace ReliefProMain.ViewModel
        
         public LatentEnthalpyVM(int stageNumber)
         {
+            ListStageNumber = new List<int>();
             ListMethodName = new List<string> { "Dew point", "Bubble point", "5% mol"};
-            ListStageNumber.AddRange(Enumerable.Range(1, stageNumber));           
+            for (int i = 1; i <= stageNumber; i++)
+            {
+                ListStageNumber.Add(i);
+            }
         }
 
-         private ICommand _SaveCommand;
-        public ICommand SaveCommand
+        private ICommand _OKCMD;
+         public ICommand OKCMD
         {
             get
             {
-                if (_SaveCommand == null)
+                if (_OKCMD == null)
                 {
-                    _SaveCommand = new RelayCommand(Save);
+                    _OKCMD = new RelayCommand(OK);
 
                 }
-                return _SaveCommand;
+                return _OKCMD;
             }
         }
 
 
 
-        public void Save(object obj)
+        public void OK(object obj)
         {
-            
+            Window wd = (Window)obj;
+            wd.DialogResult = true;
         }
 
         /// <summary>

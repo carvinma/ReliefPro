@@ -207,7 +207,10 @@ namespace ReliefProMain.ViewModel
             {
                 psv = new PSV();
                 psv.PSVName = "";
-                psv.ValveNumber = 1;
+                psv.ValveNumber = 1; 
+                psv.LatentMethod = "Dew point";
+                psv.LatentStageNumber = 1;
+
                 psv.PSVName_Color = ColorBorder.red.ToString();
                 psv.ValveNumber_Color = ColorBorder.green.ToString();
                 psv.Pressure_Color = ColorBorder.red.ToString();
@@ -218,6 +221,9 @@ namespace ReliefProMain.ViewModel
                 psv.ValveType_Color = ColorBorder.green.ToString();
                 psv.Location_Color = ColorBorder.green.ToString();
                 psv.LocationDescription_Color = ColorBorder.red.ToString();
+                psv.LatentMethod_Color = ColorBorder.green.ToString();
+                psv.LatentStageNumber_Color = ColorBorder.green.ToString();
+                
             }
             CurrentModel = new PSVModel(psv, sessionPlant, sourceFileInfo.FileName);
             CurrentModel.LocationDescriptions = GetLocationDescriptions(EqType);
@@ -305,6 +311,11 @@ namespace ReliefProMain.ViewModel
             CurrentModel.dbmodel.LocationDescription = CurrentModel.LocationDescription;
             CurrentModel.dbmodel.Location = CurrentModel.Location;
             CurrentModel.dbmodel.DischargeTo = CurrentModel.DischargeTo;
+            CurrentModel.dbmodel.LatentMethod = CurrentModel.LatentMethod;
+            CurrentModel.dbmodel.LatentStageNumber = CurrentModel.LatentStageNumber;
+            CurrentModel.dbmodel.LatentMethod_Color = CurrentModel.LatentMethod_Color;
+            CurrentModel.dbmodel.LatentStageNumber_Color = CurrentModel.LatentStageNumber_Color;
+
             CurrentModel.dbmodel.DischargeTo_Color = CurrentModel.DischargeTo_Color;
             CurrentModel.dbmodel.ValveType = CurrentModel.ValveType;
             CurrentModel.dbmodel.ValveType_Color = CurrentModel.ValveType_Color;
@@ -567,24 +578,26 @@ namespace ReliefProMain.ViewModel
                 Directory.Delete(dirPhase, true);
             }
             Directory.CreateDirectory(dirPhase);
-            string dirLatent = tempdir + "Latent";
-            if (Directory.Exists(dirLatent))
+
+            //第一层塔盘的copy和蒸发焓计算。
+            string dirLatent1 = tempdir + "Latent1";
+            if (Directory.Exists(dirLatent1))
             {
-                Directory.Delete(dirLatent, true);
+                Directory.Delete(dirLatent1, true);
             }
-            Directory.CreateDirectory(dirLatent);
-            string dirCopyStream = tempdir + "CopyStream";
-            if (Directory.Exists(dirCopyStream))
+            Directory.CreateDirectory(dirLatent1);
+            string dirCopyStream1 = tempdir + "CopyStream1";
+            if (Directory.Exists(dirCopyStream1))
             {
-                Directory.Delete(dirCopyStream, true);
+                Directory.Delete(dirCopyStream1, true);
             }
-            Directory.CreateDirectory(dirCopyStream);
+            Directory.CreateDirectory(dirCopyStream1);
 
             SplashScreenManager.SentMsgToScreen("Creating PSV... 20%");
 
-            string copyFile = dirCopyStream + @"\" + SourceFileInfo.FileName;
+            string copyFile = dirCopyStream1 + @"\" + SourceFileInfo.FileName;
             File.Copy(FileFullPath, copyFile, true);
-            CustomStream stream = this.CopyTowerStreamInfo(copyFile,1);
+            CustomStream stream = this.CopyTowerStreamInfo(copyFile,CurrentModel.LatentStageNumber);
 
             SplashScreenManager.SentMsgToScreen("Creating PSV... 30%");
             double internPressure = UnitConvert.Convert("MPAG", "KPA", stream.Pressure);
@@ -593,6 +606,9 @@ namespace ReliefProMain.ViewModel
                 ErrorType = -1;
                 return;
             }
+
+
+
 
             PROIIFileOperator.DecompressProIIFile(FileFullPath, tempdir);
             string onlyfilenamenoext = new FileInfo(FileFullPath).Name.Replace(".prz", "");
@@ -1261,18 +1277,19 @@ namespace ReliefProMain.ViewModel
                 TowerDAL towerdal = new TowerDAL();
                 Tower tower = towerdal.GetModel(SessionProtectedSystem);
                 LatentEnthalpyView v = new LatentEnthalpyView();
+                v.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 LatentEnthalpyVM vm = new LatentEnthalpyVM(tower.StageNumber);
+                vm.SelectedMethodName = CurrentModel.LatentMethod;
+                vm.SelectedStageNumber = CurrentModel.LatentStageNumber;
                 v.DataContext = vm;
                 bool? reslut = v.ShowDialog();
                 if (reslut.HasValue && reslut.Value)
                 {
+                    CurrentModel.LatentStageNumber = vm.SelectedStageNumber;
+                    CurrentModel.LatentMethod = vm.SelectedMethodName;
                 }
 
-                System.Windows.Window wd = window as System.Windows.Window;
-                if (wd != null)
-                {
-                    wd.DialogResult = true;
-                }
+                
 
             }
             catch (Exception ex)
@@ -1307,6 +1324,7 @@ namespace ReliefProMain.ViewModel
             }
 
         }
+
 
     }
 }

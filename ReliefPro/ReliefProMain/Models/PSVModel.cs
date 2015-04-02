@@ -33,6 +33,11 @@ namespace ReliefProMain.Models
             this.LocationDescription = m.LocationDescription;
             this.DischargeTo = m.DischargeTo;
             this.CriticalPressure = m.CriticalPressure;
+            this.LatentMethod = m.LatentMethod;
+            this.LatentMethod_Color = m.LatentMethod_Color;
+            this.LatentStageNumber = m.LatentStageNumber;
+            this.LatentStageNumber_Color = m.LatentStageNumber_Color;
+
             this.PSVName_Color = m.PSVName_Color;
             this.ValveNumber_Color = m.ValveNumber_Color;
             this.DrumPSVName_Color = m.DrumPSVName_Color;
@@ -544,7 +549,56 @@ namespace ReliefProMain.Models
                 NotifyPropertyChanged("LocationDescriptions");
             }
         }
-        
+
+        private string _LatentMethod;
+        public string LatentMethod
+        {
+            get { return _LatentMethod; }
+            set
+            {
+                _LatentMethod = value;
+                if (_LatentMethod != dbmodel.LatentMethod)
+                {
+                    LatentMethod_Color = ColorBorder.blue.ToString();
+                }
+                NotifyPropertyChanged("LatentMethod");
+            }
+        }
+        private string _LatentMethod_Color;
+        public string LatentMethod_Color
+        {
+            get { return _LatentMethod_Color; }
+            set
+            {
+                _LatentMethod_Color = value;
+                NotifyPropertyChanged("LatentMethod_Color");
+            }
+        }
+
+        private int _LatentStageNumber;
+        public int LatentStageNumber
+        {
+            get { return _LatentStageNumber; }
+            set
+            {
+                _LatentStageNumber = value;
+                if (_LatentStageNumber != dbmodel.LatentStageNumber)
+                {
+                    LatentStageNumber_Color = ColorBorder.blue.ToString();
+                }
+                NotifyPropertyChanged("LatentStageNumber");
+            }
+        }
+        private string _LatentStageNumber_Color;
+        public string LatentStageNumber_Color
+        {
+            get { return _LatentStageNumber_Color; }
+            set
+            {
+                _LatentStageNumber_Color = value;
+                NotifyPropertyChanged("LatentStageNumber_Color");
+            }
+        }
 
     }
 }
