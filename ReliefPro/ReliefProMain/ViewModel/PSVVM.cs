@@ -43,6 +43,7 @@ using ReliefProMain.Util;
 using ReliefProDAL.ReactorLoops;
 using ReliefProModel.ReactorLoops;
 using ReliefProMain.View.Towers;
+using ReliefProMain.View.Common;
 
 namespace ReliefProMain.ViewModel
 {
@@ -339,6 +340,12 @@ namespace ReliefProMain.ViewModel
 
         private void Save(object window)
         {
+            PsvWaitingDlg dlg = new PsvWaitingDlg(new LongTimeTaskAbc());
+            dlg.Owner = (System.Windows.Window)(window);
+            dlg.ShowInTaskbar = false;
+            dlg.ShowDialog();
+
+
             if (string.IsNullOrEmpty(CurrentModel.PSVName))
             {
                 MessageBox.Show("PSV Name can't be empty.", "Message Box", MessageBoxButton.OK, MessageBoxImage.Warning);
