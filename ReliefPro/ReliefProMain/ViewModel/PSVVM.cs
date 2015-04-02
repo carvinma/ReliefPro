@@ -340,7 +340,7 @@ namespace ReliefProMain.ViewModel
 
         private void Save(object window)
         {
-            List<string> lstCalcInfo = new List<string>() { "1","2","3","4"};
+            List<string> lstCalcInfo = new List<string>() { "Feed Steams Preparation","Calclate Critilal Pressure","Calculate Latent Enthalpy","Calculate Product Flashing"};
             PsvWaitingDlg dlg = new PsvWaitingDlg(new LongTimeTaskAbc(), lstCalcInfo);
             dlg.Owner = (System.Windows.Window)(window);
             dlg.ShowDialog();
