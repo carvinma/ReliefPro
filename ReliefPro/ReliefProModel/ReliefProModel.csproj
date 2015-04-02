@@ -236,7 +236,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="LatentProduct.hbm.xml" />
-    <EmbeddedResource Include="Latent.hbm.xml" />
+    <EmbeddedResource Include="Latent.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Accumulator.hbm.xml" />
     <EmbeddedResource Include="BasicUnit.hbm.xml" />
     <EmbeddedResource Include="BasicUnitDefault.hbm.xml" />
