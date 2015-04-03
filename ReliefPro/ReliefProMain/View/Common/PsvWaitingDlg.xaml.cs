@@ -1,4 +1,7 @@
-﻿using System;
+﻿using NHibernate;
+using ReliefProMain.Models;
+using ReliefProModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,8 +21,29 @@ namespace ReliefProMain.View.Common
     /// </summary>
     public partial class PsvWaitingDlg : Window
     {
+        public ISession SessionPlant { set; get; }
+        public ISession SessionProtectedSystem { set; get; }
+        public string DirPlant { set; get; }
+        public string DirProtectedSystem { set; get; }
+        public SourceFile SourceFileInfo { set; get; }
+        public string EqName { get; set; }
+        public string EqType { get; set; }
+        public PSVModel CurrentModel { get; set; }
+        public PSV psv { get; set; }
+
+        public double CriticalLatent { get; set; }
+        public string FileFullPath { get; set; }
+        public string tempdir { get; set; }
+
+        public double ReliefOHVaporSph { get; set; }
+        public Latent latent = new Latent();
+        public List<LatentProduct> lstLatentProduct = new List<LatentProduct>();
+        public List<TowerFlashProduct> lstTowerFlashProduct = new List<TowerFlashProduct>();
+        public int ErrorType;
         private readonly LongTimeTaskAbc m_task;
         private readonly List<string> m_lstCalcInfo;
+
+
         public PsvWaitingDlg()
         {
             InitializeComponent();
